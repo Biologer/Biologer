@@ -28,3 +28,22 @@ $factory->define(App\Taxon::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
     ];
 });
+
+$factory->define(App\Observation::class, function (Faker\Generator $faker) {
+    $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    return [
+        'observed_at' => $faker->dateTime,
+        'location' => $faker->city,
+        'latitude' => $faker->latitude,
+        'longitude' => $faker->longitude,
+        'mgrs_field' => rand(1, 5).rand(1, 5).$letters[rand(0, count($letters)-1)].$letters[rand(0, count($letters)-1)],
+        'approved_at' => Carbon\Carbon::yesterday()
+    ];
+});
+
+$factory->state(App\Observation::class, 'unapproved', function (Faker\Generator $faker) {
+    return [
+        'approved_at' => null,
+    ];
+});
