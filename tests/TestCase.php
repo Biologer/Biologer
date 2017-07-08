@@ -48,6 +48,11 @@ abstract class TestCase extends BaseTestCase
         });
     }
 
+    /**
+     * Register collection macros.
+     *
+     * @return void
+     */
     protected function collectionMacros()
     {
         EloquentCollection::macro('assertEquals', function ($collection) {

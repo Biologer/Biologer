@@ -79,6 +79,6 @@ class TaxonTest extends TestCase
             'mgrs_field' => '13AE',
         ]);
 
-        $this->assertEquals(['54EQ', '13AE'], $taxon->mgrsFields());
+        $this->assertEquals(['54EQ', '13AE'], $taxon->mgrs());
     }
 }
