@@ -3,6 +3,7 @@
 namespace Tests;
 
 use PHPUnit\Framework\Assert;
+use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
@@ -59,6 +60,14 @@ abstract class TestCase extends BaseTestCase
             $this->zip($collection)->eachSpread(function ($a, $b) {
                 Assert::assertTrue($a->is($b));
             });
+        });
+
+        Collection::macro('assertContains', function ($item) {
+            Assert::assertTrue($this->contains($item), 'Collection does\'t contain given item.');
+        });
+
+        Collection::macro('assertNotContains', function ($item) {
+            Assert::assertFalse($this->contains($item), 'Collection should\'t contain given item.');
         });
     }
 }

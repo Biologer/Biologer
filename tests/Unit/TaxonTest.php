@@ -31,18 +31,18 @@ class TaxonTest extends TestCase
     {
         $taxon = factory(Taxon::class)->create();
 
-        $approvedObservations = factory(Observation::class, 3)->create([
+        $approvedObservations = factory(Observation::class, 2)->create([
             'taxon_id' => $taxon->id,
         ]);
-        $unapprovedObservations = factory(Observation::class, 3)->states('unapproved')->create([
+        $unapprovedObservations = factory(Observation::class, 2)->states('unapproved')->create([
             'taxon_id' => $taxon->id,
         ]);
 
         $approvedObservations->each(function ($observation) use ($taxon) {
-            $this->assertTrue($taxon->approvedObservations->contains($observation));
+            $taxon->approvedObservations->assertContains($observation);
         });
         $unapprovedObservations->each(function ($observation) use ($taxon) {
-            $this->assertFalse($taxon->approvedObservations->contains($observation));
+            $taxon->approvedObservations->assertNotContains($observation);
         });
     }
 
@@ -51,18 +51,18 @@ class TaxonTest extends TestCase
     {
         $taxon = factory(Taxon::class)->create();
 
-        $unapprovedObservations = factory(Observation::class, 3)->states('unapproved')->create([
+        $unapprovedObservations = factory(Observation::class, 2)->states('unapproved')->create([
             'taxon_id' => $taxon->id,
         ]);
-        $approvedObservations = factory(Observation::class, 3)->create([
+        $approvedObservations = factory(Observation::class, 2)->create([
             'taxon_id' => $taxon->id,
         ]);
 
         $unapprovedObservations->each(function ($observation) use ($taxon) {
-            $this->assertTrue($taxon->unapprovedObservations->contains($observation));
+            $taxon->unapprovedObservations->assertContains($observation);
         });
         $approvedObservations->each(function ($observation) use ($taxon) {
-            $this->assertFalse($taxon->unapprovedObservations->contains($observation));
+            $taxon->unapprovedObservations->assertNotContains($observation);
         });
     }
 
@@ -79,6 +79,8 @@ class TaxonTest extends TestCase
             'mgrs_field' => '13AE',
         ]);
 
-        $this->assertEquals(['54EQ', '13AE'], $taxon->mgrs());
+        $this->assertEquals(
+            ['54EQ', '13AE'], $taxon->mgrs(), 'MGRS fields do not match.'
+        );
     }
 }
