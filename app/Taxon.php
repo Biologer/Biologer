@@ -57,11 +57,21 @@ class Taxon extends Model
             ->all();
     }
 
+    /**
+     * Parent relation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function parent()
     {
         return $this->belongsTo(Taxon::class, 'parent_id');
     }
 
+    /**
+     * Ancestors relation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function ancestors()
     {
         return $this->belongsToMany(Taxon::class, 'taxon_ancestors', 'taxon_id', 'ancestor_id');
@@ -77,6 +87,12 @@ class Taxon extends Model
         return is_null($this->parent_id);
     }
 
+    /**
+     * Check if given taxon is child of this taxon.
+     *
+     * @param  Taxon|integer  $parent
+     * @return bool
+     */
     public function isChildOf($parent)
     {
         if (is_int($parent)) {
@@ -86,11 +102,22 @@ class Taxon extends Model
         return $this->parent_id === $parent->id;
     }
 
+    /**
+     * Check if given taxon is parent of this taxon.
+     *
+     * @param  Taxon  $taxon
+     * @return bool
+     */
     public function isParentOf($taxon)
     {
         return $this->id === $taxon->parent_id ;
     }
 
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
     protected static function boot()
     {
         parent::boot();
