@@ -56,4 +56,53 @@ class Taxon extends Model
             ->values()
             ->all();
     }
+
+    public function parent()
+    {
+        return $this->belongsTo(Taxon::class, 'parent_id');
+    }
+
+    public function ancestors()
+    {
+        return $this->belongsToMany(Taxon::class, 'taxon_ancestors', 'taxon_id', 'ancestor_id');
+    }
+
+    /**
+     * Check if taxon is root.
+     *
+     * @return bool
+     */
+    public function isRoot()
+    {
+        return is_null($this->parent_id);
+    }
+
+    public function isChildOf($parent)
+    {
+        if (is_int($parent)) {
+            return $this->parent_id === $parent;
+        }
+
+        return $this->parent_id === $parent->id;
+    }
+
+    public function isParentOf($taxon)
+    {
+        return $this->id === $taxon->parent_id ;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($model) {
+            if ($model->isRoot()) {
+                return;
+            }
+
+            $model->ancestors()->attach($model->parent);
+
+            $model->ancestors()->attach($model->parent->ancestors);
+        });
+    }
 }

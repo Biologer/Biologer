@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTaxaTable extends Migration
+class CreateTaxonAncestorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateTaxaTable extends Migration
      */
     public function up()
     {
-        Schema::create('taxa', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('parent_id')->nullable();
-            $table->string('name');
-            $table->timestamps();
+        Schema::create('taxon_ancestors', function (Blueprint $table) {
+            $table->unsignedInteger('taxon_id');
+            $table->unsignedInteger('ancestor_id');
+
+            $table->primary(['taxon_id', 'ancestor_id']);
         });
     }
 
@@ -28,6 +28,6 @@ class CreateTaxaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taxa');
+        Schema::dropIfExists('taxon_ancestors');
     }
 }

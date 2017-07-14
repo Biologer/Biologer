@@ -12,7 +12,7 @@ class TaxonTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    function can_have_many_observations()
+    function it_can_have_many_observations()
     {
         $taxon = factory(Taxon::class)->create();
         $this->assertCount(0, $taxon->observations);
@@ -27,7 +27,7 @@ class TaxonTest extends TestCase
     }
 
     /** @test */
-    function can_have_many_approved_observations()
+    function it_can_have_many_approved_observations()
     {
         $taxon = factory(Taxon::class)->create();
 
@@ -47,7 +47,7 @@ class TaxonTest extends TestCase
     }
 
     /** @test */
-    function can_have_many_unapproved_observations()
+    function it_can_have_many_unapproved_observations()
     {
         $taxon = factory(Taxon::class)->create();
 
@@ -67,7 +67,7 @@ class TaxonTest extends TestCase
     }
 
     /** @test */
-    function can_list_unique_mgrs_fields_of_approved_observations()
+    function it_can_list_unique_mgrs_fields_of_approved_observations()
     {
         $taxon = factory(Taxon::class)->create();
         factory(Observation::class, 2)->create([
@@ -82,5 +82,48 @@ class TaxonTest extends TestCase
         $this->assertEquals(
             ['54EQ', '13AE'], $taxon->mgrs(), 'MGRS fields do not match.'
         );
+    }
+
+    /** @test */
+    function it_can_be_root_taxon()
+    {
+        $taxon = factory(Taxon::class)->create([
+            'parent_id' => null,
+        ]);
+
+        $this->assertTrue($taxon->isRoot());
+    }
+
+    /** @test */
+    function it_can_be_child_of_another_taxon()
+    {
+        $parent = factory(Taxon::class)->create();
+        $taxon = factory(Taxon::class)->create([
+            'parent_id' => $parent->id,
+        ]);
+
+        $this->assertFalse($taxon->isRoot());
+        $this->assertTrue($taxon->isChildOf($parent));
+        $this->assertTrue($parent->isParentOf($taxon));
+    }
+
+    /** @test */
+    function the_parent_is_ancestor_as_well()
+    {
+        $parent = factory(Taxon::class)->create(['parent_id' => null]);
+        $taxon = factory(Taxon::class)->create(['parent_id' => $parent->id]);
+
+        $taxon->ancestors->assertContains($parent);
+    }
+
+    /** @test */
+    function it_can_have_many_ancestors_which_it_inherits_from_parent()
+    {
+        $root = factory(Taxon::class)->create(['parent_id' => null]);
+        $parent = factory(Taxon::class)->create(['parent_id' => $root->id]);
+        $taxon = factory(Taxon::class)->create(['parent_id' => $parent->id]);
+
+        $taxon->ancestors->assertContains($parent);
+        $taxon->ancestors->assertContains($root);
     }
 }
