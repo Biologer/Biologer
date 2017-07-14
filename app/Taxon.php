@@ -2,13 +2,12 @@
 
 namespace App;
 
-use Hamcrest\SelfDescribing;
 use Illuminate\Database\Eloquent\Model;
 
 class Taxon extends Model
 {
     use Concerns\HasAncestry;
-    
+
     /**
      * The table associated with the model.
      *
