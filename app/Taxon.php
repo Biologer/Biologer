@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Hamcrest\SelfDescribing;
 use Illuminate\Database\Eloquent\Model;
 
 class Taxon extends Model
@@ -64,7 +65,17 @@ class Taxon extends Model
      */
     public function parent()
     {
-        return $this->belongsTo(Taxon::class, 'parent_id');
+        return $this->belongsTo(self::class, 'parent_id');
+    }
+
+    /**
+     * Children relation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function children()
+    {
+        return $this->hasMany(self::class, 'parent_id');
     }
 
     /**
@@ -74,7 +85,27 @@ class Taxon extends Model
      */
     public function ancestors()
     {
-        return $this->belongsToMany(Taxon::class, 'taxon_ancestors', 'taxon_id', 'ancestor_id');
+        return $this->belongsToMany(self::class, $this->getModelNameLower().'_ancestors', 'model_id', 'ancestor_id');
+    }
+
+    /**
+     * Descendants relation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function descendants()
+    {
+        return $this->belongsToMany(self::class, $this->getModelNameLower().'_ancestors', 'ancestor_id', 'model_id');
+    }
+
+    /**
+     * Lowercased model name.
+     *
+     * @return string
+     */
+    protected function getModelNameLower()
+    {
+        return strtolower(class_basename(self::class));
     }
 
     /**
@@ -90,7 +121,7 @@ class Taxon extends Model
     /**
      * Check if given taxon is child of this taxon.
      *
-     * @param  Taxon|integer  $parent
+     * @param  self|integer  $parent
      * @return bool
      */
     public function isChildOf($parent)
@@ -105,12 +136,12 @@ class Taxon extends Model
     /**
      * Check if given taxon is parent of this taxon.
      *
-     * @param  Taxon  $taxon
+     * @param  self  $model
      * @return bool
      */
-    public function isParentOf($taxon)
+    public function isParentOf($model)
     {
-        return $this->id === $taxon->parent_id ;
+        return $this->id === $model->parent_id ;
     }
 
     /**

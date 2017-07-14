@@ -128,4 +128,29 @@ class TaxonTest extends TestCase
         $taxon->ancestors->assertContains($parent);
         $taxon->ancestors->assertContains($root);
     }
+
+    /** @test */
+    function it_can_have_many_children_taxa()
+    {
+        $taxon = factory(Taxon::class)->create();
+        $children = factory(Taxon::class, 3)->create(['parent_id' => $taxon->id]);
+
+        $taxon->children->assertEquals($children);
+        $children->each(function ($child) use ($taxon) {
+            $this->assertTrue($child->isChildOf($taxon));
+        });
+    }
+
+    /** @test */
+    function it_can_many_descendants()
+    {
+        $root = factory(Taxon::class)->create(['parent_id' => null]);
+        $parent = factory(Taxon::class)->create(['parent_id' => $root->id]);
+        $taxon = factory(Taxon::class)->create(['parent_id' => $parent->id]);
+
+        $root->descendants->assertContains($parent);
+        $root->descendants->assertContains($taxon);
+        $parent->descendants->assertContains($taxon);
+        $parent->descendants->assertNotContains($root);
+    }
 }

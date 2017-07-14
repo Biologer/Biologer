@@ -14,10 +14,10 @@ class CreateTaxonAncestorsTable extends Migration
     public function up()
     {
         Schema::create('taxon_ancestors', function (Blueprint $table) {
-            $table->unsignedInteger('taxon_id');
+            $table->unsignedInteger('model_id');
             $table->unsignedInteger('ancestor_id');
 
-            $table->primary(['taxon_id', 'ancestor_id']);
+            $table->primary(['model_id', 'ancestor_id']);
         });
     }
 
