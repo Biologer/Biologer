@@ -104,7 +104,9 @@ class TaxonTest extends TestCase
 
         $this->assertFalse($taxon->isRoot());
         $this->assertTrue($taxon->isChildOf($parent));
+        $this->assertFalse($parent->isChildOf($taxon));
         $this->assertTrue($parent->isParentOf($taxon));
+        $this->assertFalse($taxon->isParentOf($parent));
     }
 
     /** @test */
