@@ -72,19 +72,19 @@ class TaxonTest extends TestCase
         $taxon = factory(Taxon::class)->create();
         factory(Observation::class, 2)->create([
             'taxon_id' => $taxon->id,
-            'mgrs_field' => '54EQ',
+            'mgrs_field' => 'EQ54',
         ]);
         factory(Observation::class)->states('unapproved')->create([
             'taxon_id' => $taxon->id,
-            'mgrs_field' => '38SA',
+            'mgrs_field' => 'SA38',
         ]);
         factory(Observation::class)->create([
             'taxon_id' => $taxon->id,
-            'mgrs_field' => '13AE',
+            'mgrs_field' => 'AE13',
         ]);
 
         $this->assertEquals(
-            ['54EQ', '13AE'], $taxon->mgrs(), 'MGRS fields do not match.'
+            ['EQ54', 'AE13'], $taxon->mgrs(), 'MGRS fields do not match.'
         );
     }
 
