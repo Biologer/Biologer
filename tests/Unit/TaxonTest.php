@@ -74,6 +74,10 @@ class TaxonTest extends TestCase
             'taxon_id' => $taxon->id,
             'mgrs_field' => '54EQ',
         ]);
+        factory(Observation::class)->states('unapproved')->create([
+            'taxon_id' => $taxon->id,
+            'mgrs_field' => '38SA',
+        ]);
         factory(Observation::class)->create([
             'taxon_id' => $taxon->id,
             'mgrs_field' => '13AE',
@@ -105,6 +109,16 @@ class TaxonTest extends TestCase
         $this->assertFalse($taxon->isRoot());
         $this->assertTrue($taxon->isChildOf($parent));
         $this->assertFalse($parent->isChildOf($taxon));
+    }
+
+    /** @test */
+    function it_can_be_parent_of_another_taxon()
+    {
+        $parent = factory(Taxon::class)->create();
+        $taxon = factory(Taxon::class)->create([
+            'parent_id' => $parent->id,
+        ]);
+
         $this->assertTrue($parent->isParentOf($taxon));
         $this->assertFalse($taxon->isParentOf($parent));
     }
