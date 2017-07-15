@@ -31,14 +31,18 @@ $factory->define(App\Taxon::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Observation::class, function (Faker\Generator $faker) {
     $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    static $userId;
 
     return [
-        'observed_at' => $faker->dateTime,
+        'year' => date('Y'),
+        'month' => date('m'),
+        'day' => date('d'),
         'location' => $faker->city,
         'latitude' => $faker->latitude,
         'longitude' => $faker->longitude,
-        'mgrs_field' => rand(1, 5).rand(1, 5).$letters[rand(0, count($letters)-1)].$letters[rand(0, count($letters)-1)],
-        'approved_at' => Carbon\Carbon::yesterday()
+        'mgrs_field' => 'EQ43',
+        'approved_at' => Carbon\Carbon::yesterday(),
+        'created_by_id' => $userId ?: $userId = factory(App\User::class)->create()->id,
     ];
 });
 

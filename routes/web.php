@@ -12,3 +12,9 @@
 */
 
 Route::get('taxa/{taxon}', 'TaxaController@show');
+
+Route::post('contributor/field-observations', 'Contributor\ObservationsController@store');
+
+Route::get('login', function () {
+
+})->name('login');

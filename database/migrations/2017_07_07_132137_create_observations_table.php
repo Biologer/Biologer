@@ -14,14 +14,19 @@ class CreateObservationsTable extends Migration
     public function up()
     {
         Schema::create('observations', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('taxon_id');
-            $table->dateTime('observed_at');
+            $table->bigIncrements('id');
+            $table->unsignedInteger('taxon_id')->nullable();
+            $table->string('year');
+            $table->char('month', 2)->nullable();
+            $table->char('day', 2)->nullable();
             $table->string('location');
             $table->float('latitude');
             $table->float('longitude');
-            $table->string('mgrs_field');
+            $table->unsignedInteger('accuracy')->default(1);
+            $table->string('mgrs_field')->nullable();
+            $table->smallInteger('altitude')->default(0);
             $table->dateTime('approved_at')->nullable();
+            $table->unsignedInteger('created_by_id');
             $table->timestamps();
         });
     }
