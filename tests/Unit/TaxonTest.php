@@ -72,15 +72,15 @@ class TaxonTest extends TestCase
         $taxon = factory(Taxon::class)->create();
         factory(Observation::class, 2)->create([
             'taxon_id' => $taxon->id,
-            'mgrs_field' => 'EQ54',
+            'mgrs10k' => 'EQ54',
         ]);
         factory(Observation::class)->states('unapproved')->create([
             'taxon_id' => $taxon->id,
-            'mgrs_field' => 'SA38',
+            'mgrs10k' => 'SA38',
         ]);
         factory(Observation::class)->create([
             'taxon_id' => $taxon->id,
-            'mgrs_field' => 'AE13',
+            'mgrs10k' => 'AE13',
         ]);
 
         $this->assertEquals(

@@ -38,9 +38,9 @@ $factory->define(App\Observation::class, function (Faker\Generator $faker) {
         'month' => date('m'),
         'day' => date('d'),
         'location' => $faker->city,
-        'latitude' => $faker->latitude,
-        'longitude' => $faker->longitude,
-        'mgrs_field' => 'EQ43',
+        'latitude' => 21.11111,
+        'longitude' => 44.44444,
+        'mgrs10k' => '38QMJ43',
         'approved_at' => Carbon\Carbon::yesterday(),
         'created_by_id' => $userId ?: $userId = factory(App\User::class)->create()->id,
     ];

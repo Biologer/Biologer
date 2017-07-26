@@ -53,7 +53,7 @@ class Taxon extends Model
     public function mgrs()
     {
         return $this->approvedObservations()
-            ->pluck('mgrs_field')
+            ->pluck('mgrs10k')
             ->unique()
             ->values()
             ->all();

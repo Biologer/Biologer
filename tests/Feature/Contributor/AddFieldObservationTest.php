@@ -24,10 +24,11 @@ class AddFieldObservationTest extends TestCase
             'month' => '07',
             'day' => '15',
             'location' => 'Novi Sad',
-            'latitude' => 45.251667,
-            'longitude' => 19.836944,
-            'accuracy' => 100,
-            'altitude' => 80,
+            'latitude' => '45.251667',
+            'longitude' => '19.836944',
+            'accuracy' => '100',
+            'altitude' => '80',
+            'source' => 'John Doe',
         ], $overrides);
     }
     /** @test */
@@ -74,15 +75,15 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     function mgrs_field_is_calculated_automaticaly()
     {
-        $user = factory(User::class)->create();
-
-        $response = $this->actingAs($user)->post(
-            '/contributor/field-observations', $this->validParams()
+        $response = $this->actingAs(factory(User::class)->create())->post(
+            '/contributor/field-observations', $this->validParams([
+                'latitude' => '43.60599592',
+                'longitude' => '21.30373179',
+            ])
         );
 
         tap(Observation::first(), function ($observation) {
-            // TODO: Calculate MGRS
-            // $this->assertSame('SOME MGRS', $observation->mgrs_field);
+            $this->assertSame('34TEP22', $observation->mgrs10k);
         });
     }
 }

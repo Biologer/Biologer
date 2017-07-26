@@ -23,7 +23,7 @@ class CreateObservationsTable extends Migration
             $table->float('latitude');
             $table->float('longitude');
             $table->unsignedInteger('accuracy')->default(1);
-            $table->string('mgrs_field')->nullable();
+            $table->string('mgrs10k')->nullable();
             $table->smallInteger('altitude')->default(0);
             $table->dateTime('approved_at')->nullable();
             $table->unsignedInteger('created_by_id');

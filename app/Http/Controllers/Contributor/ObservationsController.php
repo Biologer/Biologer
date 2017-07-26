@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Contributor;
 
+use App\Mgrs;
 use App\Observation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -40,6 +41,7 @@ class ObservationsController extends Controller
             'location' => $data['location'],
             'latitude' => $data['latitude'],
             'longitude' => $data['longitude'],
+            'mgrs10k' => mgrs10k($data['latitude'], $data['longitude']),
             'accuracy' => $data['accuracy'],
             'altitude' => $data['altitude'],
             'created_by_id' => auth()->user()->id,

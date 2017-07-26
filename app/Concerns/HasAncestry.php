@@ -2,6 +2,9 @@
 
 namespace App\Concerns;
 
+/**
+ * Provides ancestry related functionality to the model.
+ */
 trait HasAncestry
 {
     /**
