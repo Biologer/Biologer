@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Support;
 
 use PHPCoord\LatLng;
 use PHPCoord\UTMRef;
@@ -15,27 +15,27 @@ class Mgrs
 
     /**
      * Letters' groups for 100k easting.
-     * 
+     *
      * @var array
      */
     protected static $e100kLetters = [ 'ABCDEFGH', 'JKLMNPQR', 'STUVWXYZ' ];
 
     /**
      * Letters' groups for 100k northing.
-     * 
+     *
      * @var array
      */
     protected static $n100kLetters = ['ABCDEFGHJKLMNPQRSTUV', 'FGHJKLMNPQRSTUVABCDE'];
 
     /**
-     * @var \PHPCoord\UTMRef
+     * @var UTMRef
      */
     protected $utm;
 
     /**
      * Create instance.
-     * 
-     * @param  \PHPCoord\UTMRef  $utm
+     *
+     * @param  UTMRef  $utm
      */
     protected function __construct(UTMRef $utm)
     {
@@ -44,7 +44,7 @@ class Mgrs
 
     /**
      * Make instance by using latitude and longitude.
-     * 
+     *
      * @param  float  $latitude
      * @param  float  $longitude
      * @return self
@@ -58,7 +58,7 @@ class Mgrs
 
     /**
      * Format to 10k precision.
-     * 
+     *
      * @return string
      */
     public function to10k()
@@ -68,7 +68,7 @@ class Mgrs
 
     /**
      * Convert UTM to MGRS with given precision.
-     * 
+     *
      * @param  int  $precision
      * @return string
      */
@@ -86,7 +86,7 @@ class Mgrs
 
     /**
      * Zone number.
-     * 
+     *
      * @return int
      */
     protected function zone()
@@ -96,7 +96,7 @@ class Mgrs
 
     /**
      * Zone letter.
-     * 
+     *
      * @return string
      */
     protected function band()
@@ -106,7 +106,7 @@ class Mgrs
 
     /**
      * UTM easting.
-     * 
+     *
      * @return int|float
      */
     protected function utmEasting()
@@ -116,7 +116,7 @@ class Mgrs
 
     /**
      * UTM northing.
-     * 
+     *
      * @return int|float
      */
     protected function utmNorthing()
@@ -126,7 +126,7 @@ class Mgrs
 
     /**
      * 100k letter for easting.
-     * 
+     *
      * @return string
      */
     public function e100k()
@@ -136,7 +136,7 @@ class Mgrs
 
     /**
      * 100k letter for northing.
-     * 
+     *
      * @return string
      */
     public function n100k()
@@ -146,7 +146,7 @@ class Mgrs
 
     /**
      * Calculate column.
-     * 
+     *
      * @return int
      */
     protected function col()
@@ -156,7 +156,7 @@ class Mgrs
 
     /**
      * Calculate row.
-     * 
+     *
      * @return int
      */
     protected function row()
@@ -166,7 +166,7 @@ class Mgrs
 
     /**
      * MGRS easting with given precision.
-     * 
+     *
      * @param  int  $precision
      * @return string
      */
@@ -177,7 +177,7 @@ class Mgrs
 
     /**
      * MGRS northing with give precision.
-     * 
+     *
      * @param  int  $precision
      * @return string
      */
@@ -188,7 +188,7 @@ class Mgrs
 
     /**
      * Modify given easting or northing to comply with format for given precision.
-     * 
+     *
      * @param  mixed  $value
      * @param  int  $precision
      * @return string
@@ -199,7 +199,7 @@ class Mgrs
         $val = floor((round($value) % self::BLOCK_SIZE) / pow(10, (5 - (int) $precision)));
 
         for ($i = strlen(strval($val)); $i < $precision; ++$i) {
-            $result .= '0';   
+            $result .= '0';
         }
         $result .= $val;
 
