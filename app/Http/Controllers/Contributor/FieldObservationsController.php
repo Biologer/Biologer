@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Contributor;
 
-use App\Mgrs;
+use App\Comment;
 use App\Observation;
+use App\FieldObservation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ObservationsController extends Controller
+class FieldObservationsController extends Controller
 {
     public function __construct()
     {
@@ -21,7 +22,13 @@ class ObservationsController extends Controller
      */
     public function store(Request $request)
     {
-        $this->createObservation($request->all());
+        $observation = $this->createObservation($request->all());
+
+        if ($request->input('comment')) {
+            $observation->addComment(Comment::make([
+                'body' => $request->input('comment'),
+            ]));
+        }
 
         return redirect('/contributor/field-observations');
     }
@@ -34,7 +41,9 @@ class ObservationsController extends Controller
      */
     protected function createObservation($data)
     {
-        return Observation::create([
+        return FieldObservation::create([
+            'source' => $data['source'],
+        ])->observation()->create([
             'year' => $data['year'],
             'month' => $data['month'],
             'day' => $data['day'],

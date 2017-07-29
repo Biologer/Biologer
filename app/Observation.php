@@ -2,17 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Observation extends Model
 {
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
     /**
      * Get only approved observations.
      *
@@ -46,6 +37,21 @@ class Observation extends Model
         return $query->whereNotNull('year')
             ->whereNotNull('month')
             ->whereNotNull('day');
+    }
+
+    public function details()
+    {
+        return $this->morphTo();
+    }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function addComment(Comment $comment)
+    {
+        return $this->comments()->save($comment);
     }
 
     /**

@@ -14,7 +14,7 @@ class FileUploadTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    function authenticated_use_can_upload_file()
+    function authenticated_user_can_upload_file()
     {
         Storage::fake('local');
         Passport::actingAs(factory(User::class)->make());

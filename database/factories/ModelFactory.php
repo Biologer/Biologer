@@ -29,9 +29,17 @@ $factory->define(App\Taxon::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\FieldObservation::class, function (Faker\Generator $faker) {
+    return [
+        'source' => $faker->name,
+    ];
+});
+
 $factory->define(App\Observation::class, function (Faker\Generator $faker) {
     $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     static $userId;
+
+    $field = factory(App\FieldObservation::class)->create();
 
     return [
         'year' => date('Y'),
@@ -43,6 +51,8 @@ $factory->define(App\Observation::class, function (Faker\Generator $faker) {
         'mgrs10k' => '38QMJ43',
         'approved_at' => Carbon\Carbon::yesterday(),
         'created_by_id' => $userId ?: $userId = factory(App\User::class)->create()->id,
+        'details_type' => get_class($field),
+        'details_id' => $field->id,
     ];
 });
 

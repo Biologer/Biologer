@@ -13,7 +13,7 @@
 
 Route::get('taxa/{taxon}', 'TaxaController@show');
 
-Route::post('contributor/field-observations', 'Contributor\ObservationsController@store');
+Route::post('contributor/field-observations', 'Contributor\FieldObservationsController@store');
 
 Route::get('login', function () {
 

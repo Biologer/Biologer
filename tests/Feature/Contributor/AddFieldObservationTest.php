@@ -5,6 +5,7 @@ namespace Tests\Feature\Contributor;
 use App\User;
 use Tests\TestCase;
 use App\Observation;
+use App\FieldObservation;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class AddFieldObservationTest extends TestCase
@@ -31,12 +32,29 @@ class AddFieldObservationTest extends TestCase
             'source' => 'John Doe',
         ], $overrides);
     }
+
+    /** @test */
+    function guests_cannot_add_new_field_observations()
+    {
+        $this->withExceptionHandling();
+        $fieldObservationsCount = FieldObservation::count();
+        $observationsCount = Observation::count();
+
+        $response = $this->post(
+            '/contributor/field-observations', $this->validParams()
+        );
+
+        $response->assertRedirect('/login');
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+        $this->assertEquals($observationsCount, Observation::count());
+    }
+
     /** @test */
     function authenticated_user_can_add_field_observation()
     {
         $user = factory(User::class)->create();
 
-        $this->assertSame(0, Observation::count());
+        $fieldObservationsCount = FieldObservation::count();
 
         $response = $this->actingAs($user)->post(
             '/contributor/field-observations', $this->validParams()
@@ -44,8 +62,12 @@ class AddFieldObservationTest extends TestCase
 
         $response->assertRedirect('/contributor/field-observations');
 
-        $this->assertCount(1, $observations = Observation::all());
-        tap($observations->first(), function ($observation) use ($user) {
+        $this->assertEquals($fieldObservationsCount + 1, FieldObservation::count());
+
+        $fieldObservation = FieldObservation::latest()->first();
+        $this->assertEquals('John Doe', $fieldObservation->source);
+
+        tap($fieldObservation->observation, function ($observation) use ($user) {
             $this->assertEquals('2017', $observation->year);
             $this->assertEquals('07', $observation->month);
             $this->assertEquals('15', $observation->day);
@@ -60,30 +82,32 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function guests_cannot_add_new_field_observations()
-    {
-        $this->withExceptionHandling();
-
-        $response = $this->post(
-            '/contributor/field-observations', $this->validParams()
-        );
-
-        $response->assertRedirect('/login');
-        $this->assertEquals(0, Observation::count());
-    }
-
-    /** @test */
     function mgrs_field_is_calculated_automaticaly()
     {
-        $response = $this->actingAs(factory(User::class)->create())->post(
+        $this->actingAs(factory(User::class)->create())->post(
             '/contributor/field-observations', $this->validParams([
                 'latitude' => '43.60599592',
                 'longitude' => '21.30373179',
             ])
         );
 
-        tap(Observation::first(), function ($observation) {
-            $this->assertSame('34TEP22', $observation->mgrs10k);
+        tap(FieldObservation::first()->observation, function ($observation) {
+            $this->assertEquals('34TEP22', $observation->mgrs10k);
+        });
+    }
+
+    /** @test */
+    function add_comment_along_with_observation()
+    {
+        $this->actingAs(factory(User::class)->create())->post(
+            '/contributor/field-observations', $this->validParams([
+                'comment' => 'Some comment',
+            ])
+        );
+
+        tap(FieldObservation::first()->comments, function ($comments) {
+            $this->assertCount(1, $comments);
+            $this->assertEquals('Some comment', $comments->first()->body);
         });
     }
 }

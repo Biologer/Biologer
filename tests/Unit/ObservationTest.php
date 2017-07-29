@@ -11,7 +11,7 @@ class ObservationTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    function it_can_check_if_full_date_is_present()
+    function can_check_if_full_date_is_present()
     {
         list(
             $observation1, $observation2, $observation3, $observation4
