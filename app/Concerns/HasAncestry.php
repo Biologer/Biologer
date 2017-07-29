@@ -14,7 +14,7 @@ trait HasAncestry
      */
     public function parent()
     {
-        return $this->belongsTo(self::class, 'parent_id');
+        return $this->belongsTo(static::class, 'parent_id');
     }
 
     /**
@@ -24,7 +24,7 @@ trait HasAncestry
      */
     public function children()
     {
-        return $this->hasMany(self::class, 'parent_id');
+        return $this->hasMany(static::class, 'parent_id');
     }
 
     /**
@@ -34,7 +34,7 @@ trait HasAncestry
      */
     public function ancestors()
     {
-        return $this->belongsToMany(self::class, $this->getModelNameLower().'_ancestors', 'model_id', 'ancestor_id');
+        return $this->belongsToMany(static::class, $this->getModelNameLower().'_ancestors', 'model_id', 'ancestor_id');
     }
 
     /**
@@ -44,7 +44,7 @@ trait HasAncestry
      */
     public function descendants()
     {
-        return $this->belongsToMany(self::class, $this->getModelNameLower().'_ancestors', 'ancestor_id', 'model_id');
+        return $this->belongsToMany(static::class, $this->getModelNameLower().'_ancestors', 'ancestor_id', 'model_id');
     }
 
     /**
@@ -54,7 +54,7 @@ trait HasAncestry
      */
     protected function getModelNameLower()
     {
-        return strtolower(class_basename(self::class));
+        return strtolower(class_basename(static::class));
     }
 
     /**
@@ -70,7 +70,7 @@ trait HasAncestry
     /**
      * Check if given taxon is child of this taxon.
      *
-     * @param  self|integer  $parent
+     * @param  static|integer  $parent
      * @return bool
      */
     public function isChildOf($parent)
@@ -85,7 +85,7 @@ trait HasAncestry
     /**
      * Check if given taxon is parent of this taxon.
      *
-     * @param  self  $model
+     * @param  static  $model
      * @return bool
      */
     public function isParentOf($model)
