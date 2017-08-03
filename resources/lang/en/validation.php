@@ -88,6 +88,8 @@ return [
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
 
+    'count_max'            => 'The :attribute doesn\'t have correct count or is not array', 
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

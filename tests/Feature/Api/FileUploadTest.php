@@ -16,16 +16,17 @@ class FileUploadTest extends TestCase
     /** @test */
     function authenticated_user_can_upload_file()
     {
-        Storage::fake('local');
-        Passport::actingAs(factory(User::class)->make());
+        Storage::fake('public');
+        Passport::actingAs($user = factory(User::class)->create());
 
         $response = $this->json('POST', '/api/uploads', [
-            'file' => File::image('test-image.jpg', 800, 600)->size(200),
+            'file' => $file = File::image('test-image.jpg', 800, 600)->size(200),
         ]);
 
         $response->assertStatus(200);
         $this->assertArrayHasKey('path', $response->json());
-        Storage::disk('local')->assertExists($response->json()['path']);
+        $this->assertEquals("uploads/{$user->id}/{$file->hashName()}", $response->json()['path']);
+        Storage::disk('public')->assertExists($response->json()['path']);
     }
 
     /** @test */

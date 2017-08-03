@@ -3,6 +3,9 @@
 namespace Tests\Feature\Contributor;
 
 use App\User;
+use App\Photo;
+use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 use App\Observation;
 use App\FieldObservation;
@@ -82,6 +85,124 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
+    function year_is_required_when_adding_field_observation()
+    {
+        $fieldObservationsCount = FieldObservation::count();
+
+        $response = $this->actingAs(factory(User::class)->make())
+            ->withExceptionHandling()->post(
+            '/contributor/field-observations', $this->validParams([
+                'year' => '',
+            ])
+        );
+
+        $response->assertRedirect();
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+
+        $response->assertSessionHasErrors('year');
+    }
+
+    /** @test */
+    function year_must_be_valid_year()
+    {
+        $response = $this->actingAs(factory(User::class)->make())
+            ->withExceptionHandling()->post(
+            '/contributor/field-observations', $this->validParams([
+                'year' => '1aa2',
+            ])
+        );
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors('year');
+    }
+
+    /** @test */
+    function year_cannot_be_in_the_future()
+    {
+        $response = $this->actingAs(factory(User::class)->make())
+            ->withExceptionHandling()->post(
+            '/contributor/field-observations', $this->validParams([
+                'year' => date('Y') + 1,
+            ])
+        );
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors('year');
+    }
+
+    /** @test */
+    function latitude_is_required_when_adding_field_observation()
+    {
+        $fieldObservationsCount = FieldObservation::count();
+
+        $response = $this->actingAs(factory(User::class)->make())
+            ->withExceptionHandling()->post(
+            '/contributor/field-observations', $this->validParams([
+                'latitude' => '',
+            ])
+        );
+
+        $response->assertRedirect();
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+
+        $response->assertSessionHasErrors('latitude');
+    }
+
+    /** @test */
+    function longitude_is_required_when_adding_field_observation()
+    {
+        $fieldObservationsCount = FieldObservation::count();
+
+        $response = $this->actingAs(factory(User::class)->make())
+            ->withExceptionHandling()->post(
+            '/contributor/field-observations', $this->validParams([
+                'longitude' => '',
+            ])
+        );
+
+        $response->assertRedirect();
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+
+        $response->assertSessionHasErrors('longitude');
+    }
+
+    /** @test */
+    function altitude_is_required_when_adding_field_observation()
+    {
+        $fieldObservationsCount = FieldObservation::count();
+
+        $response = $this->actingAs(factory(User::class)->make())
+            ->withExceptionHandling()->post(
+            '/contributor/field-observations', $this->validParams([
+                'altitude' => '',
+            ])
+        );
+
+        $response->assertRedirect();
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+
+        $response->assertSessionHasErrors('altitude');
+    }
+
+    /** @test */
+    function accuracy_is_required_when_adding_field_observation()
+    {
+        $fieldObservationsCount = FieldObservation::count();
+
+        $response = $this->actingAs(factory(User::class)->make())
+            ->withExceptionHandling()->post(
+            '/contributor/field-observations', $this->validParams([
+                'accuracy' => '',
+            ])
+        );
+
+        $response->assertRedirect();
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+
+        $response->assertSessionHasErrors('accuracy');
+    }
+
+    /** @test */
     function mgrs_field_is_calculated_automaticaly()
     {
         $this->actingAs(factory(User::class)->create())->post(
@@ -109,5 +230,65 @@ class AddFieldObservationTest extends TestCase
             $this->assertCount(1, $comments);
             $this->assertEquals('Some comment', $comments->first()->body);
         });
+    }
+
+    /** @test */
+    function photo_can_be_saved_with_observation()
+    {
+        config(['alciphron.photos_per_observation' => 3]);
+
+        Storage::fake('public');
+        $photosCount = Photo::count();
+
+        $request = $this->actingAs(factory(User::class)->create())->post(
+            '/contributor/field-observations', $this->validParams([
+                'source' => 'John Doe',
+                'photos' => [
+                    File::image('test-image.jpg')->storeAs("uploads", 'test-image.jpg', 'public'),
+                ],
+            ])
+        );
+
+        $photo = Photo::latest()->first();
+        $this->assertEquals($photosCount + 1, Photo::count());
+        $this->assertEquals("photos/{$photo->id}/test-image.jpg", $photo->path);
+        $this->assertNotEmpty($photo->url);
+        $this->assertTrue(Storage::disk('public')->exists($photo->path));
+        $this->assertEquals('John Doe', $photo->author);
+    }
+
+    /** @test */
+    function maximum_number_of_photos_that_can_be_saved_with_observation_can_be_set()
+    {
+        config(['alciphron.photos_per_observation' => 3]);
+
+        Storage::fake('public');
+        $photosCount = Photo::count();
+
+        $response = $this->withExceptionHandling()->actingAs(factory(User::class)->create())->post(
+            '/contributor/field-observations', $this->validParams([
+                'photos' => [
+                    File::image('test-image1.jpg')->storeAs("uploads", 'test-image1.jpg', 'public'),
+                    File::image('test-image2.jpg')->storeAs("uploads", 'test-image2.jpg', 'public'),
+                    File::image('test-image3.jpg')->storeAs("uploads", 'test-image3.jpg', 'public'),
+                    File::image('test-image4.jpg')->storeAs("uploads", 'test-image4.jpg', 'public'),
+                ],
+            ])
+        );
+
+        $response->assertRedirect();
+        $this->assertEquals($photosCount, Photo::count());
+    }
+
+    /** @test */
+    function photos_can_be_null()
+    {
+        $response = $this->withExceptionHandling()->actingAs(factory(User::class)->create())->post(
+            '/contributor/field-observations', $this->validParams([
+                'photos' => null,
+            ])
+        );
+
+        $response->assertRedirect('/contributor/field-observations');
     }
 }

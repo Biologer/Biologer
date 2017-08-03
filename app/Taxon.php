@@ -2,8 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Taxon extends Model
 {
     use Concerns\HasAncestry;

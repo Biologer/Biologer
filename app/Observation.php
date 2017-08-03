@@ -39,19 +39,35 @@ class Observation extends Model
             ->whereNotNull('day');
     }
 
+    /**
+     * Details of different observation types.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
     public function details()
     {
         return $this->morphTo();
     }
 
+    /**
+     * Comments about the observation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function addComment(Comment $comment)
+    /**
+     * Add a comment to the observation.
+     *
+     * @param  string  $comment
+     * @return Comment
+     */
+    public function addNewComment($comment)
     {
-        return $this->comments()->save($comment);
+        return $this->comments()->save(Comment::make(['body' => $comment]));
     }
 
     /**
@@ -61,6 +77,8 @@ class Observation extends Model
      */
     public function isDateComplete()
     {
-        return ! (is_null($this->year) || is_null($this->month) || is_null($this->day));
+        return ! (is_null($this->year)
+            || is_null($this->month)
+            || is_null($this->day));
     }
 }

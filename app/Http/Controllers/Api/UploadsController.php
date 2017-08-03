@@ -14,7 +14,7 @@ class UploadsController extends Controller
         ]);
 
         return response()->json([
-            'path' => request()->file('file')->store('uploads'),
+            'path' => request()->file('file')->store('uploads/'.auth()->user()->id, 'public'),
         ]);
     }
 }

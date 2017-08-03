@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Contributor;
 
 use App\Comment;
-use App\Observation;
 use App\FieldObservation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -22,13 +21,23 @@ class FieldObservationsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'year' => 'required|date_format:Y|before_or_equal:now',
+            'latitude' => 'required',
+            'longitude'=> 'required',
+            'altitude'=> 'required',
+            'accuracy' => 'required',
+            'source' => 'nullable',
+            'photos' => 'nullable|array|max:'.config('alciphron.photos_per_observation'),
+        ]);
+
         $observation = $this->createObservation($request->all());
 
-        if ($request->input('comment')) {
-            $observation->addComment(Comment::make([
-                'body' => $request->input('comment'),
-            ]));
+        if ($comment = trim($request->input('comment'))) {
+            $observation->addNewComment($comment);
         }
+
+        $observation->details->addPhotos($request->input('photos', []));
 
         return redirect('/contributor/field-observations');
     }
@@ -37,7 +46,7 @@ class FieldObservationsController extends Controller
      * Create observation.
      *
      * @param  array  $data
-     * @return Observation
+     * @return \App\Observation
      */
     protected function createObservation($data)
     {
