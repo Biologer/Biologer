@@ -67,7 +67,10 @@ class Observation extends Model
      */
     public function addNewComment($comment)
     {
-        return $this->comments()->save(Comment::make(['body' => $comment]));
+        return $this->comments()->save(Comment::make([
+            'body' => $comment,
+            'user_id' => auth()->user()->id, 
+        ]));
     }
 
     /**

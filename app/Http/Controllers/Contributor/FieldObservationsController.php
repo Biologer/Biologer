@@ -23,11 +23,11 @@ class FieldObservationsController extends Controller
     {
         $this->validate($request, [
             'year' => 'required|date_format:Y|before_or_equal:now',
-            'latitude' => 'required',
-            'longitude'=> 'required',
-            'altitude'=> 'required',
-            'accuracy' => 'required',
-            'source' => 'nullable',
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude'=> 'required|numeric|between:-180,180',
+            'altitude'=> 'required|numeric',
+            'accuracy' => 'required|numeric',
+            'source' => 'nullable|string',
             'photos' => 'nullable|array|max:'.config('alciphron.photos_per_observation'),
         ]);
 

@@ -53,7 +53,11 @@ class Mgrs
     {
         $latLong = new LatLng($latitude, $longitude, 0, RefEll::wgs84());
 
-        return new static($latLong->toUTMRef());
+        try {
+            return new static($latLong->toUTMRef());
+        } catch (\Exception $e) {
+            return new NullMgrs;
+        }
     }
 
     /**

@@ -97,9 +97,8 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertRedirect();
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
-
         $response->assertSessionHasErrors('year');
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
     /** @test */
@@ -143,9 +142,42 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertRedirect();
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
-
         $response->assertSessionHasErrors('latitude');
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+    }
+
+    /** @test */
+    function latitude_must_be_number_less_than_90()
+    {
+        $fieldObservationsCount = FieldObservation::count();
+
+        $response = $this->actingAs(factory(User::class)->make())
+            ->withExceptionHandling()->post(
+            '/contributor/field-observations', $this->validParams([
+                'latitude' => '91',
+            ])
+        );
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors('latitude');
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+    }
+
+    /** @test */
+    function latitude_must_be_number_breate_than_negative_90()
+    {
+        $fieldObservationsCount = FieldObservation::count();
+
+        $response = $this->actingAs(factory(User::class)->make())
+            ->withExceptionHandling()->post(
+            '/contributor/field-observations', $this->validParams([
+                'latitude' => '-91',
+            ])
+        );
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors('latitude');
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
     /** @test */
@@ -161,9 +193,42 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertRedirect();
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
-
         $response->assertSessionHasErrors('longitude');
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+    }
+
+    /** @test */
+    function longitude_must_be_number_less_than_180()
+    {
+        $fieldObservationsCount = FieldObservation::count();
+
+        $response = $this->actingAs(factory(User::class)->make())
+            ->withExceptionHandling()->post(
+            '/contributor/field-observations', $this->validParams([
+                'longitude' => '181',
+            ])
+        );
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors('longitude');
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+    }
+
+    /** @test */
+    function longitude_must_be_number_greater_than_negative_180()
+    {
+        $fieldObservationsCount = FieldObservation::count();
+
+        $response = $this->actingAs(factory(User::class)->make())
+            ->withExceptionHandling()->post(
+            '/contributor/field-observations', $this->validParams([
+                'longitude' => '-181',
+            ])
+        );
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors('longitude');
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
     /** @test */
@@ -179,9 +244,25 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertRedirect();
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
-
         $response->assertSessionHasErrors('altitude');
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+    }
+
+    /** @test */
+    function altitude_must_be_number()
+    {
+        $fieldObservationsCount = FieldObservation::count();
+
+        $response = $this->actingAs(factory(User::class)->make())
+            ->withExceptionHandling()->post(
+            '/contributor/field-observations', $this->validParams([
+                'altitude' => 'aaa',
+            ])
+        );
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors('altitude');
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
     /** @test */
@@ -197,9 +278,25 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertRedirect();
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
-
         $response->assertSessionHasErrors('accuracy');
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+    }
+
+    /** @test */
+    function accuracy_must_be_number()
+    {
+        $fieldObservationsCount = FieldObservation::count();
+
+        $response = $this->actingAs(factory(User::class)->make())
+            ->withExceptionHandling()->post(
+            '/contributor/field-observations', $this->validParams([
+                'accuracy' => 'aaa',
+            ])
+        );
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors('accuracy');
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
     /** @test */
@@ -218,17 +315,33 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function add_comment_along_with_observation()
+    function mgrs_field_cannot_be_calculated_in_polar_region()
     {
         $this->actingAs(factory(User::class)->create())->post(
+            '/contributor/field-observations', $this->validParams([
+                'latitude' => '85.0',
+                'longitude' => '21.30373179',
+            ])
+        );
+
+        tap(FieldObservation::first()->observation, function ($observation) {
+            $this->assertNull($observation->mgrs10k);
+        });
+    }
+
+    /** @test */
+    function add_comment_along_with_observation()
+    {
+        $this->actingAs($user = factory(User::class)->create())->post(
             '/contributor/field-observations', $this->validParams([
                 'comment' => 'Some comment',
             ])
         );
 
-        tap(FieldObservation::first()->comments, function ($comments) {
+        tap(FieldObservation::first()->comments, function ($comments) use ($user) {
             $this->assertCount(1, $comments);
             $this->assertEquals('Some comment', $comments->first()->body);
+            $this->assertEquals($user->id, $comments->first()->user_id);
         });
     }
 
