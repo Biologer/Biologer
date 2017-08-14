@@ -3,6 +3,7 @@
 namespace App\Http\Forms;
 
 use App\FieldObservation;
+use App\DynamicFields\DynamicField;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NewFieldObservationForm extends FormRequest
@@ -24,6 +25,8 @@ class NewFieldObservationForm extends FormRequest
      */
     public function rules()
     {
+        $dynamicFields = implode(',', FieldObservation::availableDynamicFieldsNames());
+
         return [
             'year' => 'required|date_format:Y|before_or_equal:now',
             'latitude' => 'required|numeric|between:-90,90',
@@ -32,6 +35,7 @@ class NewFieldObservationForm extends FormRequest
             'accuracy' => 'required|numeric',
             'source' => 'nullable|string',
             'photos' => 'nullable|array|max:'.config('alciphron.photos_per_observation'),
+            'dynamic.*' => 'bail|nullable|df_supported:'.$dynamicFields.'|df_valid'
         ];
     }
 
@@ -49,6 +53,8 @@ class NewFieldObservationForm extends FormRequest
         }
 
         $observation->details->addPhotos($this->input('photos', []));
+
+        $observation->details->saveDynamicFields($this->input('dynamic', []));
 
         return $observation;
     }

@@ -88,7 +88,8 @@ return [
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
 
-    'count_max'            => 'The :attribute doesn\'t have correct count or is not array', 
+    'df_supported' => 'This field is not supported.',
+    'df_valid' => 'Invalid value for this field.',
 
     /*
     |--------------------------------------------------------------------------

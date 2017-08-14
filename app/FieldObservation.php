@@ -6,6 +6,27 @@ use Illuminate\Support\Facades\Storage;
 
 class FieldObservation extends Model
 {
+    use Concerns\HasDynamicFields;
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = ['dynamic_fields' => 'collection'];
+
+    /**
+     * Available dynamic fields.
+     *
+     * @return array
+     */
+    public static function availableDynamicFields()
+    {
+        return [
+            \App\DynamicFields\Gender::class,
+        ];
+    }
+
     /**
      * Main observation data.
      *

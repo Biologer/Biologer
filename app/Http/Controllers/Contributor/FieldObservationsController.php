@@ -12,7 +12,7 @@ class FieldObservationsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['create']);
     }
 
     /**
@@ -25,5 +25,15 @@ class FieldObservationsController extends Controller
         $form->save();
 
         return redirect('/contributor/field-observations');
+    }
+
+    /**
+     * 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('field-observations.create');
     }
 }

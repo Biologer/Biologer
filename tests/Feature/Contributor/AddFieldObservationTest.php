@@ -404,4 +404,56 @@ class AddFieldObservationTest extends TestCase
 
         $response->assertRedirect('/contributor/field-observations');
     }
+
+    /** @test */
+    function additional_fields_are_not_stored_if_not_provided()
+    {
+        $this->withExceptionHandling()->actingAs(factory(User::class)->create())->post(
+            '/contributor/field-observations', $this->validParams([
+                'dynamic' => null,
+            ])
+        );
+
+        tap(FieldObservation::latest()->first(), function ($observation) {
+            $this->assertEmpty($observation->dynamicFieldValues);
+        });
+    }
+
+    /** @test */
+    function gender_can_be_submitted_and_stored_as_dynamic_field()
+    {
+        $this->withExceptionHandling()->actingAs(factory(User::class)->create())->post(
+            '/contributor/field-observations', $this->validParams([
+                'dynamic' => [
+                    'gender' => 'male',
+                ],
+            ])
+        );
+
+        tap(FieldObservation::latest()->first(), function ($observation) {
+            $this->assertArrayHasKey(
+                'gender',
+                $observation->mappedDynamicFields(),
+                'Maybe the field wasn\'t stored?'
+            );
+        });
+    }
+
+    /** @test */
+    function validation_fails_if_invalid_value_is_provided_for_gender()
+    {
+        $fieldObservationsCount = FieldObservation::count();
+
+        $response = $this->withExceptionHandling()->actingAs(factory(User::class)->create())->post(
+            '/contributor/field-observations', $this->validParams([
+                'dynamic' => [
+                    'gender' => 'invalid',
+                ],
+            ])
+        );
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors('dynamic.gender');
+        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+    }
 }

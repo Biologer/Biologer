@@ -16,6 +16,7 @@ class CreateFieldObservationsTable extends Migration
         Schema::create('field_observations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('source', 255)->nullable();
+            $table->json('dynamic_fields')->nullable();
             $table->timestamps();
         });
     }

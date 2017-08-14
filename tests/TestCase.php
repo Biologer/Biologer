@@ -70,4 +70,17 @@ abstract class TestCase extends BaseTestCase
             Assert::assertFalse($this->contains($item), 'Failed asserting that the collection does not contain the specified value.');
         });
     }
+
+    /**
+     * Set previous URL.
+     *
+     * @param  string  $url
+     * @return $this
+     */
+    protected function from($url)
+    {
+        session()->setPreviousUrl(url($url));
+
+        return $this;
+    }
 }
