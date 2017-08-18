@@ -10,25 +10,8 @@ use App\Http\Forms\NewFieldObservationForm;
 
 class FieldObservationsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth')->except(['create']);
-    }
-
     /**
-     * Add new observation.
      *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(NewFieldObservationForm $form)
-    {
-        $form->save();
-
-        return redirect('/contributor/field-observations');
-    }
-
-    /**
-     * 
      *
      * @return \Illuminate\Http\Response
      */
