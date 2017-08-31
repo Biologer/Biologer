@@ -21,3 +21,4 @@ Route::middleware('auth:api')->group(function() {
     Route::post('uploads', 'UploadsController@store');
     Route::post('field-observations', 'FieldObservationsController@store')->name('api.field-observations.store');
 });
+Route::get('taxa', 'TaxaController@index')->name('api.taxa.index');
