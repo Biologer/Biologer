@@ -11,11 +11,11 @@ use App\FieldObservation;
 use Laravel\Passport\Passport;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AddFieldObservationTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /**
      * Valid observation data.
@@ -117,7 +117,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('year', $response->json());
+        $this->assertArrayHasKey('year', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -133,7 +133,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('year', $response->json());
+        $this->assertArrayHasKey('year', $response->json()['errors']);
     }
 
     /** @test */
@@ -148,7 +148,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('year', $response->json());
+        $this->assertArrayHasKey('year', $response->json()['errors']);
     }
 
     /** @test */
@@ -164,7 +164,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('latitude', $response->json());
+        $this->assertArrayHasKey('latitude', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -181,7 +181,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('latitude', $response->json());
+        $this->assertArrayHasKey('latitude', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -198,7 +198,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('latitude', $response->json());
+        $this->assertArrayHasKey('latitude', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -215,7 +215,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('longitude', $response->json());
+        $this->assertArrayHasKey('longitude', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -232,7 +232,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('longitude', $response->json());
+        $this->assertArrayHasKey('longitude', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -249,7 +249,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('longitude', $response->json());
+        $this->assertArrayHasKey('longitude', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -266,7 +266,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('altitude', $response->json());
+        $this->assertArrayHasKey('altitude', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -283,7 +283,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('altitude', $response->json());
+        $this->assertArrayHasKey('altitude', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -300,7 +300,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('accuracy', $response->json());
+        $this->assertArrayHasKey('accuracy', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -317,7 +317,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('accuracy', $response->json());
+        $this->assertArrayHasKey('accuracy', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -350,7 +350,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('taxon_id', $response->json());
+        $this->assertArrayHasKey('taxon_id', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -472,7 +472,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('photos', $response->json());
+        $this->assertArrayHasKey('photos', $response->json()['errors']);
         $this->assertEquals($photosCount, Photo::count());
     }
 
@@ -545,7 +545,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('dynamic.gender', $response->json());
+        $this->assertArrayHasKey('dynamic.gender', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 }

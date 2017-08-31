@@ -5,11 +5,11 @@ namespace Tests\Unit;
 use App\Taxon;
 use Tests\TestCase;
 use App\Observation;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TaxonTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /** @test */
     function it_can_have_many_observations()

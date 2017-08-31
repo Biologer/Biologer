@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, InteractsWithExceptionHandling;
+    use CreatesApplication;
 
     /**
      * Setup the test environment.
@@ -57,8 +57,8 @@ abstract class TestCase extends BaseTestCase
     protected function collectionMacros()
     {
         EloquentCollection::macro('assertEquals', function ($collection) {
-            $this->zip($collection)->eachSpread(function ($a, $b) {
-                Assert::assertTrue($a->is($b));
+            $this->sortBy('id')->zip($collection->sortBy('id'))->each(function ($chunk) {
+                Assert::assertTrue($chunk[0]->is($chunk[1]));
             });
         });
 

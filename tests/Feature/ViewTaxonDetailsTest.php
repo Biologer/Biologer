@@ -4,11 +4,11 @@ namespace Tests\Feature;
 
 use App\Taxon;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ViewTaxonDetailsTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /** @test */
     function can_see_basic_taxon_information()
