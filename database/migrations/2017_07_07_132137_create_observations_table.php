@@ -20,8 +20,8 @@ class CreateObservationsTable extends Migration
             $table->char('month', 2)->nullable();
             $table->char('day', 2)->nullable();
             $table->string('location');
-            $table->float('latitude');
-            $table->float('longitude');
+            $table->double('latitude', 15, 12);
+            $table->double('longitude', 15, 12);
             $table->unsignedInteger('accuracy')->default(1);
             $table->string('mgrs10k')->nullable();
             $table->smallInteger('altitude')->default(0);
