@@ -24,9 +24,9 @@ class FileUploadTest extends TestCase
         ]);
 
         $response->assertStatus(200);
-        $this->assertArrayHasKey('path', $response->json());
-        $this->assertEquals("uploads/{$user->id}/{$file->hashName()}", $response->json()['path']);
-        Storage::disk('public')->assertExists($response->json()['path']);
+        $this->assertArrayHasKey('file', $response->json());
+        $this->assertEquals($file->hashName(), $response->json()['file']);
+        Storage::disk('public')->assertExists("uploads/{$user->id}/{$response->json()['file']}");
     }
 
     /** @test */
@@ -84,4 +84,46 @@ class FileUploadTest extends TestCase
 
         $response->assertStatus(422);
     }
+
+    /** @test */
+    function authenticated_user_can_remove_own_files()
+    {
+        Storage::fake('public');
+        Passport::actingAs($user = factory(User::class)->make());
+        Storage::disk('public')->putFileAs(
+            'uploads/'.$user->id,
+            File::image('test-image.jpg', 800, 600)->size(200),
+            'test-image.jpg'
+        );
+
+        Storage::disk('public')->assertExists("uploads/{$user->id}/test-image.jpg");
+
+        $response = $this->withExceptionHandling()->json('DELETE', '/api/uploads', [
+            'file' => 'test-image.jpg',
+        ]);
+
+        $response->assertStatus(204);
+        Storage::disk('public')->assertMissing("uploads/{$user->id}/test-image.jpg");
+    }
+
+    /** @test */
+    function user_cannot_remove_files_owned_by_others()
+    {
+        Storage::fake('public');
+        $owner = factory(User::class)->create();
+        Storage::disk('public')->putFileAs(
+            'uploads/'.$owner->id,
+            File::image('test-image.jpg', 800, 600)->size(200),
+            'test-image.jpg'
+        );
+
+        Passport::actingAs(factory(User::class)->make());
+        $response = $this->withExceptionHandling()->json('DELETE', '/api/uploads', [
+            'file' => 'test-image.jpg',
+        ]);
+
+        $response->assertStatus(204);
+        Storage::disk('public')->assertExists("uploads/{$owner->id}/test-image.jpg");
+    }
+
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class UploadsController extends Controller
 {
@@ -14,7 +15,16 @@ class UploadsController extends Controller
         ]);
 
         return response()->json([
-            'path' => request()->file('file')->store('uploads/'.auth()->user()->id, 'public'),
+            'file' => basename(request()->file('file')->store('uploads/'.auth()->user()->id, 'public')),
         ]);
+    }
+
+    public function destroy()
+    {
+        if (request()->has('file')) {
+            Storage::disk('public')->delete('uploads/'.auth()->user()->id.'/'.request('file'));
+        }
+
+        return response()->json(null, 204);
     }
 }
