@@ -17,10 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::get('contributor/field-observations/new', 'Contributor\FieldObservationsController@create')->name('field-observations.create');
 });
 
-Route::get('login', function () {
-
-})->name('login');
+Route::auth();
 
 Route::get('/', function () {
-    return 'OK';
 });
