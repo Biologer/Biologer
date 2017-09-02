@@ -27,6 +27,8 @@ import moment from 'moment';
 import { range } from 'lodash-es';
 
 export default {
+  name: 'nz-date-input',
+
   props: {
     label: {
       type: String,

@@ -12,27 +12,36 @@
                         <form action="{{ url('/login') }}" method="POST" class="box">
                             {{ csrf_field() }}
 
-                            <b-field label="Email"
-                                message="{{ $errors->first('email') }}"
-                                type="{{ $errors->has('email') ? 'is-danger' : '' }}">
-                                <b-input type="email"
-                                    placeholder="Email"
-                                    value="{{ old('email') }}"
-                                    name="email">
-                                </b-input>
-                            </b-field>
-
-                            <b-field label="Password"
-                                message="{{ $errors->first('password') }}"
-                                type="{{ $errors->has('password') ? 'is-danger' : '' }}">
-                                <b-input type="password"
-                                    placeholder="Password"
-                                    name="password">
-                                </b-input>
-                            </b-field>
+                            <div class="field">
+                                <label class="label">Email</label>
+                                <div class="control">
+                                    <input type="email"
+                                        name="email"
+                                        class="input{{ $errors->has('email') ? ' is-danger' : '' }}"
+                                        placeholder="Email"
+                                        value="{{ old('email') }}">
+                                </div>
+                                <p class="help{{ $errors->has('email') ? ' is-danger' : '' }}">{{ $errors->first('email') }}</p>
+                            </div>
 
                             <div class="field">
-                                <b-checkbox name="remember">Remember me</b-checkbox>
+                                <label class="label">Password</label>
+                                <div class="control">
+                                    <input type="password"
+                                        name="password"
+                                        class="input{{ $errors->has('password') ? ' is-danger' : '' }}"
+                                        placeholder="Password">
+                                </div>
+                                <p class="help{{ $errors->has('password') ? ' is-danger' : '' }}">{{ $errors->first('password') }}</p>
+                            </div>
+
+                            <div class="field">
+                                <label class="checkbox is-not-custom">
+                                    <input type="checkbox"
+                                        name="remember"
+                                        {{ old('remember') ? ' checked' : '' }}>
+                                    Remember me
+                                </label>
                             </div>
 
                             <div class="field">

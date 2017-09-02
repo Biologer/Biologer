@@ -11,13 +11,12 @@
 |
 */
 
+Route::auth();
+
+Route::view('/', 'home');
 Route::get('taxa/{taxon}', 'TaxaController@show');
 
 Route::middleware('auth')->group(function () {
     Route::get('contributor/field-observations/new', 'Contributor\FieldObservationsController@create')->name('field-observations.create');
-});
-
-Route::auth();
-
-Route::get('/', function () {
+    Route::view('contributor', 'contributor.index')->name('contributor.index');
 });

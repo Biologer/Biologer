@@ -35,6 +35,8 @@ import axios from 'axios';
 import { debounce } from 'lodash-es';
 
 export default {
+  name: 'nz-taxon-autocomplete',
+
   props: {
     label: {
       type: String,

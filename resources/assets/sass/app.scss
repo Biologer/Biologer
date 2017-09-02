@@ -2,29 +2,16 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 
 // Font Awesome
-@import 'node_modules/font-awesome/scss/font-awesome';
+@import "~font-awesome/scss/font-awesome";
 
 // Variables
 @import "variables";
 
 // Bulma
-@import 'node_modules/bulma/bulma';
-@import 'fixes';
-@import 'node_modules/buefy/src/scss/buefy';
+@import "~bulma/bulma";
+// Buefy
+@import "~buefy/src/scss/buefy";
 
-.is-full-height {
-    height: 100vh;
-}
-
-.is-fullwidth {
-    width: 100%
-}
-
-.is-flex-center {
-    align-items: center;
-    justify-content: center;
-}
-
-.bg-light {
-    background-color: $light;
-}
+@import "input";
+@import "color";
+@import "utils";

@@ -12,53 +12,63 @@
                         <form action="{{ url('/register') }}" method="POST" class="box">
                             {{ csrf_field() }}
 
-                            <b-field label="First Name"
-                                message="{{ $errors->first('first_name') }}"
-                                type="{{ $errors->has('first_name') ? 'is-danger' : '' }}">
-                                <b-input type="text"
-                                    placeholder="First Name"
-                                    value="{{ old('first_name') }}"
-                                    name="first_name">
-                                </b-input>
-                            </b-field>
+                            <div class="field">
+                                <label class="label">First Name</label>
+                                <div class="control">
+                                    <input type="ext"
+                                        name="first_name"
+                                        class="input{{ $errors->has('first_name') ? ' is-danger' : '' }}"
+                                        placeholder="First Name"
+                                        value="{{ old('first_name') }}">
+                                </div>
+                                <p class="help{{ $errors->has('first_name') ? ' is-danger' : '' }}">{{ $errors->first('first_name') }}</p>
+                            </div>
 
-                            <b-field label="Last Name"
-                                message="{{ $errors->first('last_name') }}"
-                                type="{{ $errors->has('last_name') ? 'is-danger' : '' }}">
-                                <b-input type="text"
-                                    placeholder="Last Name"
-                                    value="{{ old('last_name') }}"
-                                    name="last_name">
-                                </b-input>
-                            </b-field>
+                            <div class="field">
+                                <label class="label">Last Name</label>
+                                <div class="control">
+                                    <input type="ext"
+                                        name="last_name"
+                                        class="input{{ $errors->has('last_name') ? ' is-danger' : '' }}"
+                                        placeholder="Last Name"
+                                        value="{{ old('last_name') }}">
+                                </div>
+                                <p class="help{{ $errors->has('last_name') ? ' is-danger' : '' }}">{{ $errors->first('last_name') }}</p>
+                            </div>
 
-                            <b-field label="Email"
-                                message="{{ $errors->first('email') }}"
-                                type="{{ $errors->has('email') ? 'is-danger' : '' }}">
-                                <b-input type="email"
-                                    placeholder="Email"
-                                    value="{{ old('email') }}"
-                                    name="email">
-                                </b-input>
-                            </b-field>
+                            <div class="field">
+                                <label class="label">Email</label>
+                                <div class="control">
+                                    <input type="email"
+                                        name="email"
+                                        class="input{{ $errors->has('email') ? ' is-danger' : '' }}"
+                                        placeholder="Email"
+                                        value="{{ old('email') }}">
+                                </div>
+                                <p class="help{{ $errors->has('email') ? ' is-danger' : '' }}">{{ $errors->first('email') }}</p>
+                            </div>
 
-                            <b-field label="Password"
-                                message="{{ $errors->first('password') }}"
-                                type="{{ $errors->has('password') ? 'is-danger' : '' }}">
-                                <b-input type="password"
-                                    placeholder="Password"
-                                    name="password">
-                                </b-input>
-                            </b-field>
+                            <div class="field">
+                                <label class="label">Password</label>
+                                <div class="control">
+                                    <input type="password"
+                                        name="password"
+                                        class="input{{ $errors->has('password') ? ' is-danger' : '' }}"
+                                        placeholder="Password">
+                                </div>
+                                <p class="help{{ $errors->has('password') ? ' is-danger' : '' }}">{{ $errors->first('password') }}</p>
+                            </div>
 
-                            <b-field label="Repeat password"
-                                message="{{ $errors->first('password_confirmation') }}"
-                                type="{{ $errors->has('password_confirmation') ? 'is-danger' : '' }}">
-                                <b-input type="password"
-                                    placeholder="Password"
-                                    name="password_confirmation">
-                                </b-input>
-                            </b-field>
+                            <div class="field">
+                                <label class="label">Repeat Password</label>
+                                <div class="control">
+                                    <input type="password"
+                                        name="password_confirmation"
+                                        class="input{{ $errors->has('password_confirmation') ? ' is-danger' : '' }}"
+                                        placeholder="Password">
+                                </div>
+                                <p class="help{{ $errors->has('password_confirmation') ? ' is-danger' : '' }}">{{ $errors->first('password_confirmation') }}</p>
+                            </div>
 
                             <div class="field">
                                 <div class="control">
