@@ -66,7 +66,7 @@ class NewFieldObservationForm extends FormRequest
     protected function createObservation()
     {
         return FieldObservation::create([
-            'source' => $this->input('source', null) ?: auth()->user()->full_name,
+            'source' => $this->input('source') ?: auth()->user()->full_name,
         ])->observation()->create([
             'taxon_id' => $this->input('taxon_id', null),
             'year' => $this->input('year'),
