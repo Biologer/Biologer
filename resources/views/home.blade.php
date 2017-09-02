@@ -34,6 +34,7 @@
                                     <div class="navbar-item is-hidden-touch">
                                         <b class="is-size-6">{{ auth()->user()->full_name }}</b>
                                     </div>
+                                    <hr class="navbar-divider">
                                     <a class="navbar-item" href="{{ route('contributor.index') }}">
                                         @include('components.icon', ['icon' => 'dashboard'])
                                         &nbsp;Contributor Area

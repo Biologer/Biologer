@@ -9,11 +9,6 @@
                         <b class="is-size-4">{{ config('app.name') }}</b>
                     </a>
 
-                    <a class="navbar-item" href="{{ route('contributor.index') }}">
-                        @include('components.icon', ['icon' => 'dashboard'])
-                        <span class="is-hidden-touch">&nbsp;Contributor Area</span>
-                    </a>
-
                     <div class="navbar-burger" @click="toggle">
                         <span></span>
                         <span></span>
@@ -38,6 +33,11 @@
                                 <div class="navbar-item is-hidden-touch">
                                     <b class="is-size-6">{{ auth()->user()->full_name }}</b>
                                 </div>
+                                <hr class="navbar-divider">
+                                <a class="navbar-item" href="{{ route('contributor.index') }}">
+                                    @include('components.icon', ['icon' => 'dashboard'])
+                                    <span>&nbsp;Contributor Area</span>
+                                </a>
                                 <hr class="navbar-divider">
                                 <a href="{{ route('logout') }}"
                                     class="navbar-item"
