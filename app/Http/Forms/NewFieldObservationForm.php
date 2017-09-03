@@ -2,7 +2,9 @@
 
 namespace App\Http\Forms;
 
+use App\Rules\Day;
 use App\Observation;
+use App\Rules\Month;
 use App\FieldObservation;
 use App\DynamicFields\DynamicField;
 use Illuminate\Foundation\Http\FormRequest;
@@ -30,7 +32,17 @@ class NewFieldObservationForm extends FormRequest
 
         return [
             'taxon_id' => 'nullable|exists:taxa,id',
-            'year' => 'required|date_format:Y|before_or_equal:now',
+            'year' => 'bail|required|date_format:Y|before_or_equal:now',
+            'month' => [
+                'bail',
+                'nullable',
+                new Month($this->year),
+            ],
+            'day' => [
+                'bail',
+                'nullable',
+                new Day($this->year, $this->month),
+            ],
             'latitude' => 'required|numeric|between:-90,90',
             'longitude'=> 'required|numeric|between:-180,180',
             'altitude'=> 'required|numeric',

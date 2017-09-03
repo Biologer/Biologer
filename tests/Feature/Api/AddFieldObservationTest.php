@@ -5,6 +5,7 @@ namespace Tests\Feature\Api;
 use App\User;
 use App\Photo;
 use App\Taxon;
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Observation;
 use App\FieldObservation;
@@ -26,8 +27,9 @@ class AddFieldObservationTest extends TestCase
     protected function validParams($overrides = [])
     {
         return array_merge([
+            'taxon_id' => '',
             'year' => '2017',
-            'month' => '07',
+            'month' => '7',
             'day' => '15',
             'location' => 'Novi Sad',
             'latitude' => '45.251667',
@@ -149,6 +151,57 @@ class AddFieldObservationTest extends TestCase
 
         $response->assertStatus(422);
         $this->assertArrayHasKey('year', $response->json()['errors']);
+    }
+
+    /** @test */
+    function month_cannot_be_in_the_future()
+    {
+        Passport::actingAs(factory(User::class)->make());
+
+        $response = $this->withExceptionHandling()->json(
+            'POST', 'api/field-observations', $this->validParams([
+                'year' => date('Y'),
+                'month' => date('m') + 1,
+            ])
+        );
+
+        $response->assertStatus(422);
+        $this->assertArrayHasKey('month', $response->json()['errors']);
+    }
+
+    /** @test */
+    function month_cannot_be_negative_number()
+    {
+        Passport::actingAs(factory(User::class)->make());
+
+        $response = $this->withExceptionHandling()->json(
+            'POST', 'api/field-observations', $this->validParams([
+                'year' => date('Y'),
+                'month' => '-1',
+            ])
+        );
+
+        $response->assertStatus(422);
+        $this->assertArrayHasKey('month', $response->json()['errors']);
+    }
+
+    /** @test */
+    function day_cannot_be_in_the_future()
+    {
+        Passport::actingAs(factory(User::class)->make());
+
+        $now = Carbon::now();
+
+        $response = $this->withExceptionHandling()->json(
+            'POST', 'api/field-observations', $this->validParams([
+                'year' => $now->year,
+                'month' => $now->month,
+                'day' => $now->day + 1,
+            ])
+        );
+
+        $response->assertStatus(422);
+        $this->assertArrayHasKey('day', $response->json()['errors']);
     }
 
     /** @test */
