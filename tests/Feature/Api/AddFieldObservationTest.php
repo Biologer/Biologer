@@ -480,6 +480,23 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
+    function taxon_suggestion_is_stored()
+    {
+        Passport::actingAs(factory(User::class)->create());
+        $fieldObservationsCount = FieldObservation::count();
+
+        $response = $this->withExceptionHandling()->json(
+            'POST', '/api/field-observations', $this->validParams([
+                'taxon_suggestion' => 'Cerambyx cerdo',
+            ])
+        );
+
+        $response->assertStatus(201);
+        $this->assertEquals($fieldObservationsCount + 1, FieldObservation::count());
+        $this->assertEquals('Cerambyx cerdo', FieldObservation::latest()->first()->taxon_suggestion);
+    }
+
+    /** @test */
     function mgrs_field_is_calculated_automaticaly()
     {
         Passport::actingAs(factory(User::class)->create());
