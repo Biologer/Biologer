@@ -567,14 +567,18 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         Storage::fake('public');
         $photosCount = Photo::count();
+        File::image('test-image1.jpg')->storeAs("uploads", 'test-image1.jpg', 'public');
+        File::image('test-image2.jpg')->storeAs("uploads", 'test-image2.jpg', 'public');
+        File::image('test-image3.jpg')->storeAs("uploads", 'test-image3.jpg', 'public');
+        File::image('test-image4.jpg')->storeAs("uploads", 'test-image4.jpg', 'public');
 
         $response = $this->withExceptionHandling()->json(
             'POST', '/api/field-observations', $this->validParams([
                 'photos' => [
-                    File::image('test-image1.jpg')->storeAs("uploads", 'test-image1.jpg', 'public'),
-                    File::image('test-image2.jpg')->storeAs("uploads", 'test-image2.jpg', 'public'),
-                    File::image('test-image3.jpg')->storeAs("uploads", 'test-image3.jpg', 'public'),
-                    File::image('test-image4.jpg')->storeAs("uploads", 'test-image4.jpg', 'public'),
+                    'test-image1.jpg',
+                    'test-image2.jpg',
+                    'test-image3.jpg',
+                    'test-image4.jpg',
                 ],
             ])
         );
