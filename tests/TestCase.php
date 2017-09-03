@@ -57,8 +57,8 @@ abstract class TestCase extends BaseTestCase
     protected function collectionMacros()
     {
         EloquentCollection::macro('assertEquals', function ($collection) {
-            $this->sortBy('id')->zip($collection->sortBy('id'))->each(function ($chunk) {
-                Assert::assertTrue($chunk[0]->is($chunk[1]));
+            $this->zip($collection)->each(function ($pair) {
+                Assert::assertTrue($pair[0]->is($pair[1]));
             });
         });
 
