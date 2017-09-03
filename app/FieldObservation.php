@@ -65,7 +65,9 @@ class FieldObservation extends Model
     public function addPhotos($photos)
     {
         return $this->photos()->saveMany(
-            collect($photos)->filter(function ($path) {
+            collect($photos)->map(function ($name) {
+                return 'uploads/'.auth()->user()->id.'/'.$name;
+            })->filter(function ($path) {
                 return Storage::disk('public')->exists($path);
             })->map(function ($path) {
                 return Photo::store($path, [
