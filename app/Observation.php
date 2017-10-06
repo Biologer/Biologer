@@ -4,6 +4,8 @@ namespace App;
 
 class Observation extends Model
 {
+    protected $with = ['taxon'];
+
     /**
      * Get only approved observations.
      *
@@ -37,6 +39,11 @@ class Observation extends Model
         return $query->whereNotNull('year')
             ->whereNotNull('month')
             ->whereNotNull('day');
+    }
+
+    public function taxon()
+    {
+        return $this->belongsTo(Taxon::class);
     }
 
     /**

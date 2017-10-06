@@ -10,8 +10,10 @@
 
         @stack('styles')
         <link rel="stylesheet" href="/css/app.css">
+
+        @routes()
     </head>
-    <body>
+    <body style="background-color: #FBFFFD; min-height: 100vh">
         <div id="app">
             @yield('content')
         </div>

@@ -18,5 +18,6 @@ Route::get('taxa/{taxon}', 'TaxaController@show');
 
 Route::middleware('auth')->group(function () {
     Route::get('contributor/field-observations/new', 'Contributor\FieldObservationsController@create')->name('field-observations.create');
+    Route::get('contributor/field-observations', 'Contributor\FieldObservationsController@index')->name('field-observations.index');
     Route::view('contributor', 'contributor.index')->name('contributor.index');
 });

@@ -32,7 +32,6 @@
 
 <script>
 import axios from 'axios';
-import { debounce } from 'lodash-es';
 
 export default {
   name: 'nz-taxon-autocomplete',
@@ -76,7 +75,7 @@ export default {
   },
 
   methods: {
-    fetchData: debounce(function() {
+    fetchData: _.debounce(function() {
       if (!this.name) return;
 
       this.data = [];

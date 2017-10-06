@@ -9,6 +9,13 @@ class FieldObservation extends Model
     use Concerns\HasDynamicFields;
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['observation'];
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -75,5 +82,32 @@ class FieldObservation extends Model
                 ]);
             })
         );
+    }
+
+    /**
+     * Convert the model instance to an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'taxon' => $this->observation->taxon,
+            'taxon_suggestion' => $this->taxon_suggestion,
+            'day' => $this->observation->day,
+            'month' => $this->observation->month,
+            'year' => $this->observation->year,
+            'location' => $this->observation->location,
+            'latitude' => $this->observation->latitude,
+            'longitude' => $this->observation->longitude,
+            'accuracy' => $this->observation->accuracy,
+            'altitude' => $this->observation->altitude,
+            'photos' => $this->photos->map(function ($photo) {
+                return $photo->url;
+            }),
+            'source' => $this->source,
+            'dynamic' => $this->mappedDynamicFields(),
+        ];
     }
 }

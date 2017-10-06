@@ -12,6 +12,18 @@ class FieldObservationsController extends Controller
 {
     /**
      *
+     */
+    public function index()
+    {
+        $observations = FieldObservation::paginate();
+
+        return view('field-observations.index', [
+            'observations' => $observations,
+        ]);
+    }
+
+    /**
+     *
      *
      * @return \Illuminate\Http\Response
      */

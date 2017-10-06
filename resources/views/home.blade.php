@@ -2,11 +2,11 @@
 
 @section('content')
     <nz-navbar inline-template>
-        <nav class="navbar has-shadow">
+        <nav class="navbar has-shadow hero-border-top">
             <div class="container">
                 <div class="navbar-brand">
                     <a class="navbar-item is-hidden-desktop" href="{{ url('/') }}">
-                        <b class="is-size-4">{{ config('app.name') }}</b>
+                        <h4 class="is-size-4 has-text-bold">{{ config('app.name') }}</h4>
                     </a>
 
                     <div class="navbar-burger" @click="toggle">
@@ -62,7 +62,7 @@
                                     </div>
 
                                     <div class="control">
-                                        <a href="{{ route('register') }}" class="button is-default">
+                                        <a href="{{ route('register') }}" class="button is-outlined is-secondary">
                                             Register
                                         </a>
                                     </div>
@@ -75,13 +75,48 @@
         </nav>
     </nz-navbar>
 
-    <section class="hero">
-        <div class="hero-body has-text-centered">
-            <div class="container">
-                <h1 class="title">
-                    {{ config('app.name') }}
-                </h1>
-            </div>
+    <section class="section is-hidden-touch bg-light">
+        <div class="container has-text-centered">
+            <img src="{{ asset('img/banner.png') }}" class="image" usemap="bannermap">
+            <map name="bannermap">
+                <area shape="rect" coords="935,40,1140,115" href="http://www.habiprot.org.rs" alt="Habiprot">
+            </map>
         </div>
     </section>
+
+    <b-tabs type="is-boxed bg-light" position="is-centered">
+        <b-tab-item label="Reptiles">
+            <section class="section">
+                <div class="container">
+                    <div class="columns is-centered">
+                        <div class="column">
+                            <div class="bg-light" style="height: 150px">
+                                sds
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="bg-light" style="height: 150px">
+                                sds
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="bg-light" style="height: 150px">
+                                sds
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </b-tab-item>
+        <b-tab-item label="Amphibians">
+            <section class="section">
+                <div class="container"></div>
+            </section>
+        </b-tab-item>
+        <b-tab-item label="Insects">
+            <section class="section">
+                <div class="container"></div>
+            </section>
+        </b-tab-item>
+    </b-tabs>
 @endsection

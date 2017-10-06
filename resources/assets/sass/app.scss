@@ -1,17 +1,13 @@
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
 // Font Awesome
 @import "~font-awesome/scss/font-awesome";
 
-// Variables
-@import "variables";
-
 // Bulma
-@import "~bulma/bulma";
+@import "bulma";
 // Buefy
 @import "~buefy/src/scss/buefy";
 
+@import "fonts";
+@import "typography";
 @import "input";
 @import "color";
 @import "utils";

@@ -2,11 +2,11 @@
 
 @section('content')
     <nz-navbar inline-template>
-        <nav class="navbar has-shadow">
+        <nav class="navbar has-shadow hero-border-top">
             <div class="container">
                 <div class="navbar-brand">
                     <a class="navbar-item" href="{{ url('/') }}">
-                        <b class="is-size-4">{{ config('app.name') }}</b>
+                        <h4 class="is-size-4 has-text-bold">{{ config('app.name') }}</h4>
                     </a>
 
                     <div class="navbar-burger" @click="toggle">

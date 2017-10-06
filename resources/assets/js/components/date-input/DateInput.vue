@@ -24,7 +24,6 @@
 
 <script>
 import moment from 'moment';
-import { range } from 'lodash-es';
 
 export default {
   name: 'nz-date-input',
@@ -110,7 +109,7 @@ export default {
 
       if (isThisMonth) days = moment().date();
 
-      return range(1, days + 1);
+      return _.range(1, days + 1);
     }
   },
 
@@ -138,19 +137,19 @@ export default {
     onYearInput(value) {
       this.year = +value || null;
 
-      this.$emit('yearInput', this.year);
+      this.$emit('year-input', this.year);
     },
 
     onMonthInput(value) {
       this.month = value;
 
-      this.$emit('monthInput', this.month);
+      this.$emit('month-input', this.month);
     },
 
     onDayInput(value) {
       this.day = value;
 
-      this.$emit('dayInput', this.day);
+      this.$emit('day-input', this.day);
     }
   }
 }

@@ -14,3 +14,11 @@
 .is-underlined {
   text-decoration: underline;
 }
+
+.hero-border-top {
+  border-top: 4px solid $primary;
+}
+
+.hero-border-left {
+  border-left: 4px solid $primary;
+}
