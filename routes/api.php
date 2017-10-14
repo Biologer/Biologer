@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->group(function() {
     Route::post('uploads', 'UploadsController@store')->name('api.uploads.store');
-    Route::delete('uploads', 'UploadsController@destroy');
+    Route::delete('uploads', 'UploadsController@destroy')->name('api.uploads.destroy');
     Route::post('field-observations', 'FieldObservationsController@store')->name('api.field-observations.store');
 });
 Route::get('taxa', 'TaxaController@index')->name('api.taxa.index');

@@ -6,11 +6,10 @@ use App\Rules\Day;
 use App\Observation;
 use App\Rules\Month;
 use App\FieldObservation;
-use Illuminate\Support\Facades\DB;
 use App\DynamicFields\DynamicField;
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewFieldObservationForm extends FormRequest
+class FieldObservationUpdateForm extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -37,12 +36,12 @@ class NewFieldObservationForm extends FormRequest
             'month' => [
                 'bail',
                 'nullable',
-                new Month($this->year),
+                new Month($this->input('year')),
             ],
             'day' => [
                 'bail',
                 'nullable',
-                new Day($this->year, $this->month),
+                new Day($this->input('year'), $this->input('month')),
             ],
             'latitude' => 'required|numeric|between:-90,90',
             'longitude'=> 'required|numeric|between:-180,180',
@@ -64,14 +63,11 @@ class NewFieldObservationForm extends FormRequest
      *
      * @return \App\Observation
      */
-    public function save()
+    public function save($observation)
     {
-        return tap($this->createObservation(), function ($observation) {
-            if ($comment = trim($this->input('comment'))) {
-                $observation->observation->addNewComment($comment);
-            }
-
-            $observation->addPhotos($this->input('photos', []));
+        return tap($this->updateObservation($observation), function ($observation) {
+            // TODO: Find a way to update photos.
+            // $observation->details->addPhotos($this->input('photos', []));
             $observation->saveDynamicFields($this->input('dynamic', []));
         });
     }
@@ -81,27 +77,25 @@ class NewFieldObservationForm extends FormRequest
      *
      * @return \App\Observation
      */
-    protected function createObservation()
+    protected function updateObservation($fieldObservation)
     {
-        $fieldObservation = FieldObservation::create([
-            'source' => $this->input('source') ?: auth()->user()->full_name,
-            'taxon_suggestion' => $this->input('taxon_suggestion', null),
-        ]);
-
-        $fieldObservation->observation()->create([
-            'taxon_id' => $this->input('taxon_id', null),
-            'year' => $this->input('year'),
-            'month' => $this->input('month', null),
-            'day' => $this->input('day', null),
-            'location' => $this->input('location'),
-            'latitude' => $this->input('latitude'),
-            'longitude' => $this->input('longitude'),
-            'mgrs10k' => mgrs10k($this->input('latitude'), $this->input('longitude')),
-            'accuracy' => $this->input('accuracy'),
-            'altitude' => $this->input('altitude'),
-            'created_by_id' => auth()->user()->id,
-        ]);
-
-        return $fieldObservation;
+        return tap($fieldObservation, function ($observation) {
+            $observation->update([
+                'source' => $this->input('source') ?: auth()->user()->full_name,
+                'taxon_suggestion' => $this->input('taxon_suggestion', null),
+            ]);
+            $observation->observation()->update([
+                'taxon_id' => $this->input('taxon_id'),
+                'year' => $this->input('year'),
+                'month' => $this->input('month', null),
+                'day' => $this->input('day', null),
+                'location' => $this->input('location'),
+                'latitude' => $this->input('latitude'),
+                'longitude' => $this->input('longitude'),
+                'mgrs10k' => mgrs10k($this->input('latitude'), $this->input('longitude')),
+                'accuracy' => $this->input('accuracy'),
+                'altitude' => $this->input('altitude'),
+            ]);
+        });
     }
 }

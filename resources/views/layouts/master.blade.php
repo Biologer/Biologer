@@ -9,11 +9,15 @@
         <title>{{ config('app.name') }}</title>
 
         @stack('styles')
-        <link rel="stylesheet" href="/css/app.css">
+        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+
+        @include('script.app')
 
         @routes()
+
+        @stack('headerScripts')
     </head>
-    <body style="background-color: #FBFFFD; min-height: 100vh">
+    <body>
         <div id="app">
             @yield('content')
         </div>

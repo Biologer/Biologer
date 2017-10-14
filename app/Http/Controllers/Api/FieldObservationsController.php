@@ -10,7 +10,7 @@ class FieldObservationsController extends Controller
     /**
      * Add new field observation.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(NewFieldObservationForm $form)
     {

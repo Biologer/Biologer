@@ -8,7 +8,9 @@
             </b-select>
             <b-input :value="field.value" @input="onInput" expanded v-else></b-input>
 
-            <button type="button" class="button" @click="$emit('remove')">&times;</button>
+            <div class="control">
+                <button type="button" class="button has-text-danger" @click="$emit('remove')">&times;</button>
+            </div>
         </b-field>
     </b-field>
 </template>

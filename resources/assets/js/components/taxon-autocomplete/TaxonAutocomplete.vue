@@ -3,7 +3,7 @@
     <b-field grouped>
       <img width="32" :src="this.selected.thumbnail_url" v-if="haveThumbnail">
 
-      <b-autocomplete :value="name"
+      <b-autocomplete :value="value"
                       :data="data"
                       field="name"
                       :loading="loading"
@@ -52,6 +52,10 @@ export default {
     url: {
       type: String,
       default: '/api/taxa'
+    },
+    value: {
+        type: String,
+        default: ''
     }
   },
 
@@ -59,8 +63,7 @@ export default {
     return {
       data: [],
       selected: this.taxon || null,
-      loading: false,
-      name: null
+      loading: false
     };
   },
 
@@ -76,12 +79,12 @@ export default {
 
   methods: {
     fetchData: _.debounce(function() {
-      if (!this.name) return;
+      if (!this.value) return;
 
       this.data = [];
       this.loading = true;
 
-      axios.get(`${this.url}?name=${this.name}`).then(({ data }) => {
+      axios.get(`${this.url}?name=${this.value}`).then(({ data }) => {
         data.data.forEach((item) => this.data.push(item))
         this.loading = false
       }, response => {
@@ -96,8 +99,6 @@ export default {
     },
 
     onInput(value) {
-      this.name = value;
-
       this.$emit('input', value);
 
       this.fetchData()

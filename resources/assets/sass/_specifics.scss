@@ -1,0 +1,16 @@
+.btn-remove {
+    display: none;
+}
+
+.image:hover .btn-remove {
+    display: flex;
+}
+
+.delete.is-danger {
+    background-color: $danger;
+}
+
+body {
+    min-height: 100vh;
+    background-color: $light;
+}

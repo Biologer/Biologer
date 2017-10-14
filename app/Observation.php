@@ -4,7 +4,27 @@ namespace App;
 
 class Observation extends Model
 {
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
     protected $with = ['taxon'];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'latitude' => 'float',
+        'longitude' => 'float',
+        'accuracy' => 'integer',
+        'altitude' => 'integer',
+        'year' => 'integer',
+        'month' => 'integer',
+        'day' => 'integer',
+    ];
 
     /**
      * Get only approved observations.

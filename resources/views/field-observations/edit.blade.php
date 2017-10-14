@@ -4,13 +4,19 @@
     <div class="container">
         <section class="section">
             <div class="box">
-                <field-observation-form action="{{ route('field-observations.store') }}" method="post" inline-template
-                    :data-available-dynamic-fields="{{ App\FieldObservation::mappedAvailableDynamicFields() }}">
+                <field-observation-form action="{{ route('field-observations.update', $observation) }}" method="put" inline-template
+                     :data-available-dynamic-fields="{{ App\FieldObservation::mappedAvailableDynamicFields() }}"
+                     :data-dynamic-fields="{{ $observation->mappedDynamicFields()->isEmpty() ? '{}' : $observation->mappedDynamicFields() }}"
+                     :observation="{{ $observation }}">
                     <div class="">
                         <div class="columns">
                             <div class="column is-half">
-                                <nz-taxon-autocomplete v-model="form.taxon_suggestion" @select="onTaxonSelect" :errors="form.errors"></nz-taxon-autocomplete>
-                                <nz-date-input .data-year="form.year"
+                                <nz-taxon-autocomplete v-model="form.taxon_suggestion"
+                                                       @select="onTaxonSelect"
+                                                       :errors="form.errors"
+                                                       :taxon="{{ $observation->observation->taxon or 'null' }}">
+                                </nz-taxon-autocomplete>
+                                <nz-date-input :data-year="form.year"
                                                :data-month="form.month"
                                                :data-day="form.day"
                                                v-on:year-input="onYearInput"

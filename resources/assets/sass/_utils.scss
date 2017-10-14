@@ -22,3 +22,29 @@
 .hero-border-left {
   border-left: 4px solid $primary;
 }
+
+.mx-2 {
+    margin-left: .5em;
+    margin-right: .5em;
+}
+
+.my-2 {
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+.my-4 {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.m-2 {
+    margin: .5em;
+}
+
+.bg-primary-lightest {
+    background-color: $primary-lightest;
+}
+
+.bg-white {
+    background-color: $white;
+}

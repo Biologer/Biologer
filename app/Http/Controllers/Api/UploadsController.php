@@ -10,7 +10,7 @@ class UploadsController extends Controller
 {
     public function store()
     {
-        $this->validate(request(), [
+        request()->validate([
             'file' => 'required|image|dimensions:max_width=800,max_height=800',
         ]);
 

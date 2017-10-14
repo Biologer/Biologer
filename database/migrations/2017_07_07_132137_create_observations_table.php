@@ -19,7 +19,7 @@ class CreateObservationsTable extends Migration
             $table->string('year');
             $table->char('month', 2)->nullable();
             $table->char('day', 2)->nullable();
-            $table->string('location');
+            $table->string('location')->nullable();
             $table->double('latitude', 15, 12);
             $table->double('longitude', 15, 12);
             $table->unsignedInteger('accuracy')->default(1);

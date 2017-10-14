@@ -20,7 +20,9 @@ class FieldObservation extends Model
      *
      * @var array
      */
-    protected $casts = ['dynamic_fields' => 'collection'];
+    protected $casts = [
+        'dynamic_fields' => 'collection',
+    ];
 
     /**
      * Available dynamic fields.
@@ -94,6 +96,7 @@ class FieldObservation extends Model
         return [
             'id' => $this->id,
             'taxon' => $this->observation->taxon,
+            'taxon_id' => $this->taxon_id,
             'taxon_suggestion' => $this->taxon_suggestion,
             'day' => $this->observation->day,
             'month' => $this->observation->month,

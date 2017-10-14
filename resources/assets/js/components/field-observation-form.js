@@ -14,6 +14,12 @@ export default {
             type: String,
             default: 'post'
         },
+        redirect: {
+            type: String,
+            default () {
+                return route('field-observations.index');
+            }
+        },
         dataDynamicFields: {
             type: Object,
             default () {
@@ -37,7 +43,7 @@ export default {
                     day: moment().date(),
                     latitude: null,
                     longitude: null,
-                    accuracy: 1,
+                    accuracy: 10,
                     altitude: null,
                     location: null,
                     photos: [],
@@ -53,12 +59,13 @@ export default {
                 ...this.observation
             }),
             dynamicFields: [],
-            chosenField: null
+            chosenField: null,
+            submitting: false
         };
     },
 
     created() {
-        this.updateFields()
+        this.updateFields();
     },
 
     methods: {
@@ -78,10 +85,20 @@ export default {
             delete this.form.dynamic[field.name];
             this.updateFields();
         },
-
+        /**
+         * Submit the form.
+         */
         submit() {
+            if (this.submitting) {
+                return;
+            }
+
+            this.sumitting = true
             this.form[this.method.toLowerCase()](this.action).then(() => {
-                window.location.href = route('field-observations.index')
+                this.submitting = false
+                window.location.href = this.redirect;
+            }).catch(() => {
+                this.submitting = false
             });
         },
 
@@ -108,6 +125,14 @@ export default {
 
         onTaxonSelect(taxon) {
             this.form.taxon_id = taxon ? taxon.id : null;
+        },
+
+        onPhotoUploaded(file) {
+            this.form.photos.push(file);
+        },
+
+        onPhotoRemoved(file) {
+            this.form.photos.splice(this.form.photos.indexOf(file), 1);
         }
     },
 

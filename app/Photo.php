@@ -3,16 +3,41 @@
 namespace App;
 
 use Illuminate\Support\Facades\Storage;
+use PhpParser\Node\Scalar\String_;
 
 class Photo extends Model
 {
-    public static function store($path, $data)
+    /**
+     * Accessor for url.
+     *
+     * @return string
+     */
+    public function getUrlAttribute()
     {
-        return tap(static::create($data), function ($photo) use ($path) {
-            $photo->path = "photos/{$photo->id}/".basename($path);
-            Storage::disk('public')->move($path, $photo->path);
-            $photo->url = Storage::disk('public')->url($photo->path);
-            $photo->save();
-        });
+        return $this->attribute['url'] ?: Storage::disk('public')->url($this->path);
+    }
+
+    /**
+     * Store photo and save path and url.
+     *
+     * @param  string  $path
+     * @param  array  $data
+     * @param  bool  $withUrl If the url should be stored
+     * @return self
+     */
+    public static function store($path, $data, $withUrl = false)
+    {
+        $photo = static::create($data);
+
+        $photo->path = "photos/{$photo->id}/".basename($path);
+        Storage::disk('public')->move($path, $photo->path);
+
+        if ($withUrl) {
+            $photo->url = Storage::disk('public')->url($this->path);
+        }
+
+        $photo->save();
+
+        return $photo;
     }
 }

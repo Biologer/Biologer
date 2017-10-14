@@ -84,24 +84,21 @@
         </div>
     </section>
 
-    <b-tabs type="is-boxed bg-light" position="is-centered">
+    <b-tabs type="is-boxed bg-light" position="is-centered" class="bg-white">
         <b-tab-item label="Reptiles">
             <section class="section">
                 <div class="container">
                     <div class="columns is-centered">
                         <div class="column">
                             <div class="bg-light" style="height: 150px">
-                                sds
                             </div>
                         </div>
                         <div class="column">
                             <div class="bg-light" style="height: 150px">
-                                sds
                             </div>
                         </div>
                         <div class="column">
                             <div class="bg-light" style="height: 150px">
-                                sds
                             </div>
                         </div>
                     </div>
