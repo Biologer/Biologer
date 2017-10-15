@@ -5,12 +5,12 @@
         <section class="section">
             <div class="box">
                 <field-observation-form action="{{ route('field-observations.store') }}" method="post" inline-template
-                    :data-available-dynamic-fields="{{ App\FieldObservation::mappedAvailableDynamicFields() }}">
+                    :data-dynamic-fields="{{ App\FieldObservation::availableDynamicFields() }}">
                     <div class="">
                         <div class="columns">
                             <div class="column is-half">
                                 <nz-taxon-autocomplete v-model="form.taxon_suggestion" @select="onTaxonSelect" :errors="form.errors"></nz-taxon-autocomplete>
-                                <nz-date-input .data-year="form.year"
+                                <nz-date-input :data-year="form.year"
                                                :data-month="form.month"
                                                :data-day="form.day"
                                                v-on:year-input="onYearInput"

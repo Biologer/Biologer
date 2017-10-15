@@ -29,10 +29,10 @@ class FieldObservation extends Model
      *
      * @return array
      */
-    public static function availableDynamicFields()
+    public static function dynamicFields()
     {
         return [
-            \App\DynamicFields\Gender::class,
+            'gender' => \App\DynamicFields\Gender::class,
         ];
     }
 
@@ -110,7 +110,7 @@ class FieldObservation extends Model
                 return $photo->url;
             }),
             'source' => $this->source,
-            'dynamic' => $this->mappedDynamicFields(),
+            'dynamic_fields' => $this->dynamic_fields,
         ];
     }
 }

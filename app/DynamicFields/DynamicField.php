@@ -14,32 +14,40 @@ class DynamicField
      */
     protected $value;
 
-    public function __construct($value = null)
+    /**
+     * Field name.
+     *
+     * @var string
+     */
+    protected $name;
+
+    public function __construct($name, $value = null)
     {
+        $this->name = $name;
         $this->value = $value;
     }
 
-    /**
-     * Get field class from name.
-     *
-     * @param  string  $name
-     * @return string
-     */
-    public static function classFromName($name)
-    {
-        return 'App\DynamicFields\\'.ucfirst(camel_case($name));
-    }
+    // /**
+    //  * Get field class from name.
+    //  *
+    //  * @param  string  $name
+    //  * @return string
+    //  */
+    // public static function classFromName($name)
+    // {
+    //     return 'App\DynamicFields\\'.ucfirst(camel_case($name));
+    // }
 
-    /**
-     * Get the name for the field.
-     *
-     * @param  string  $class
-     * @return string
-     */
-    public static function classToName($class)
-    {
-        return snake_case(class_basename($class));
-    }
+    // /**
+    //  * Get the name for the field.
+    //  *
+    //  * @param  string  $class
+    //  * @return string
+    //  */
+    // public static function classToName($class)
+    // {
+    //     return snake_case(class_basename($class));
+    // }
 
     /**
      * Label.
@@ -109,7 +117,7 @@ class DynamicField
     public function toArray()
     {
         return [
-            'name' => static::classToName(static::class),
+            'name' => $this->name,
             'value' => $this->value,
             'label' => $this->label(),
             'placeholder' => $this->placeholder(),

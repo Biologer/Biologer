@@ -9,6 +9,7 @@ use App\FieldObservation;
 use Illuminate\Support\Facades\DB;
 use App\DynamicFields\DynamicField;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\DynamicField as DynamicFieldValidation;
 
 class NewFieldObservationForm extends FormRequest
 {
@@ -29,32 +30,33 @@ class NewFieldObservationForm extends FormRequest
      */
     public function rules()
     {
-        $dynamicFields = implode(',', FieldObservation::availableDynamicFieldsNames());
-
         return [
             'taxon_id' => 'nullable|exists:taxa,id',
             'year' => 'bail|required|date_format:Y|before_or_equal:now',
             'month' => [
                 'bail',
                 'nullable',
-                new Month($this->year),
+                new Month($this->input('year')),
             ],
             'day' => [
                 'bail',
                 'nullable',
-                new Day($this->year, $this->month),
+                new Day($this->input('year'), $this->input('month')),
             ],
             'latitude' => 'required|numeric|between:-90,90',
             'longitude'=> 'required|numeric|between:-180,180',
             'altitude'=> 'required|numeric',
             'accuracy' => 'required|numeric',
             'source' => 'nullable|string',
-            'photos' => 'nullable|array|max:'.config('alciphron.photos_per_observation'),
-            'dynamic.*' => [
+            'photos' => [
+                'nullable',
+                'array',
+                'max:'.config('alciphron.photos_per_observation'),
+            ],
+            'dynamic_fields.*' => [
                 'bail',
                 'nullable',
-                'df_supported:'.$dynamicFields,
-                'df_valid',
+                new DynamicFieldValidation(FieldObservation::dynamicFields())
             ],
         ];
     }
@@ -72,7 +74,6 @@ class NewFieldObservationForm extends FormRequest
             }
 
             $observation->addPhotos($this->input('photos', []));
-            $observation->saveDynamicFields($this->input('dynamic', []));
         });
     }
 
@@ -86,6 +87,7 @@ class NewFieldObservationForm extends FormRequest
         $fieldObservation = FieldObservation::create([
             'source' => $this->input('source') ?: auth()->user()->full_name,
             'taxon_suggestion' => $this->input('taxon_suggestion', null),
+            'dynamic_fields' => $this->input('dynamic_fields', []),
         ]);
 
         $fieldObservation->observation()->create([

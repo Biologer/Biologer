@@ -21,12 +21,6 @@ export default {
             }
         },
         dataDynamicFields: {
-            type: Object,
-            default () {
-                return {};
-            }
-        },
-        dataAvailableDynamicFields: {
             type: Array,
             default () {
                 return [];
@@ -47,7 +41,7 @@ export default {
                     altitude: null,
                     location: null,
                     photos: [],
-                    dynamic: {}
+                    dynamic_fields: []
                 };
             }
         }
@@ -73,7 +67,10 @@ export default {
          * Add field to the form.
          */
         addField() {
-            this.form.dynamic[this.chosenField.name] = this.chosenField.value || this.chosenField.default;
+            this.form.dynamic_fields.push({
+                name: this.chosenField.name,
+                value: this.chosenField.value || this.chosenField.default
+            });
             this.chosenField = null;
             this.updateFields();
         },
@@ -82,7 +79,7 @@ export default {
          * @param  {Object} field
          */
         removeField(field) {
-            delete this.form.dynamic[field.name];
+            _.remove(this.form.dynamic_fields, (item) => item.name === field.name);
             this.updateFields();
         },
         /**
@@ -103,10 +100,13 @@ export default {
         },
 
         updateFields() {
-            this.dynamicFields = this.dataAvailableDynamicFields.filter((field) => {
-                return collect(Object.keys(this.form.dynamic)).contains(field.name);
+            this.dynamicFields = this.dataDynamicFields.filter((field) => {
+                return collect(this.form.dynamic_fields).contains((item) => item.name === field.name);
             }).map((field) => {
-                field.value = this.form.dynamic[field.name] || field.value || field.default;
+                field.value = _.find(this.form.dynamic_fields, (item) => item.name === field.name).value ||
+                    field.value ||
+                    field.default;
+
                 return field;
             });
         },
@@ -142,7 +142,7 @@ export default {
          * @return {Array} of field data
          */
         availableDynamicFields() {
-            return this.dataAvailableDynamicFields.filter((availableField) => {
+            return this.dataDynamicFields.filter((availableField) => {
                 return !collect(this.dynamicFields).contains((field) => {
                     return availableField.name === field.name;
                 });

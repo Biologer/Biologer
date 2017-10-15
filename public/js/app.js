@@ -57607,12 +57607,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             }
         },
         dataDynamicFields: {
-            type: Object,
-            default: function _default() {
-                return {};
-            }
-        },
-        dataAvailableDynamicFields: {
             type: Array,
             default: function _default() {
                 return [];
@@ -57633,7 +57627,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     altitude: null,
                     location: null,
                     photos: [],
-                    dynamic: {}
+                    dynamic_fields: []
                 };
             }
         }
@@ -57657,7 +57651,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
          * Add field to the form.
          */
         addField: function addField() {
-            this.form.dynamic[this.chosenField.name] = this.chosenField.value || this.chosenField.default;
+            this.form.dynamic_fields.push({
+                name: this.chosenField.name,
+                value: this.chosenField.value || this.chosenField.default
+            });
             this.chosenField = null;
             this.updateFields();
         },
@@ -57667,7 +57664,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
          * @param  {Object} field
          */
         removeField: function removeField(field) {
-            delete this.form.dynamic[field.name];
+            _.remove(this.form.dynamic_fields, function (item) {
+                return item.name === field.name;
+            });
             this.updateFields();
         },
 
@@ -57692,10 +57691,15 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         updateFields: function updateFields() {
             var _this2 = this;
 
-            this.dynamicFields = this.dataAvailableDynamicFields.filter(function (field) {
-                return __WEBPACK_IMPORTED_MODULE_1_collect_js___default()(Object.keys(_this2.form.dynamic)).contains(field.name);
+            this.dynamicFields = this.dataDynamicFields.filter(function (field) {
+                return __WEBPACK_IMPORTED_MODULE_1_collect_js___default()(_this2.form.dynamic_fields).contains(function (item) {
+                    return item.name === field.name;
+                });
             }).map(function (field) {
-                field.value = _this2.form.dynamic[field.name] || field.value || field.default;
+                field.value = _.find(_this2.form.dynamic_fields, function (item) {
+                    return item.name === field.name;
+                }).value || field.value || field.default;
+
                 return field;
             });
         },
@@ -57727,7 +57731,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         availableDynamicFields: function availableDynamicFields() {
             var _this3 = this;
 
-            return this.dataAvailableDynamicFields.filter(function (availableField) {
+            return this.dataDynamicFields.filter(function (availableField) {
                 return !__WEBPACK_IMPORTED_MODULE_1_collect_js___default()(_this3.dynamicFields).contains(function (field) {
                     return availableField.name === field.name;
                 });

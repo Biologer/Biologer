@@ -626,7 +626,7 @@ class AddFieldObservationTest extends TestCase
 
         $response = $this->withExceptionHandling()->json(
             'POST', '/api/field-observations', $this->validParams([
-                'dynamic' => null,
+                'dynamic_fields' => null,
             ])
         );
 
@@ -643,38 +643,42 @@ class AddFieldObservationTest extends TestCase
 
         $response = $this->withExceptionHandling()->json(
             'POST', '/api/field-observations', $this->validParams([
-                'dynamic' => [
-                    'gender' => 'male',
+                'dynamic_fields' => [
+                    [
+                        'name' => 'gender',
+                        'value' => 'male',
+                    ]
                 ],
             ])
         );
 
         $response->assertStatus(201);
         tap(FieldObservation::latest()->first(), function ($observation) {
-            $this->assertArrayHasKey(
-                'gender',
-                $observation->mappedDynamicFields(),
-                'Maybe the field wasn\'t stored?'
-            );
+            $observation->dynamic_fields->assertContains(function ($item) {
+                return $item['name'] === 'gender';
+            });
         });
     }
 
     /** @test */
     function validation_fails_if_invalid_value_is_provided_for_gender()
     {
-        Passport::actingAs(factory(User::class)->make());
+        Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
 
         $response = $this->withExceptionHandling()->json(
             'POST', '/api/field-observations', $this->validParams([
-                'dynamic' => [
-                    'gender' => 'invalid',
+                'dynamic_fields' => [
+                    [
+                        'name' => 'gender',
+                        'value' => 'invalid',
+                    ]
                 ],
             ])
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('dynamic.gender', $response->json()['errors']);
+        $this->assertArrayHasKey('dynamic_fields.0', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 }

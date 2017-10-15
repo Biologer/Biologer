@@ -5,8 +5,7 @@
         <section class="section">
             <div class="box">
                 <field-observation-form action="{{ route('field-observations.update', $observation) }}" method="put" inline-template
-                     :data-available-dynamic-fields="{{ App\FieldObservation::mappedAvailableDynamicFields() }}"
-                     :data-dynamic-fields="{{ $observation->mappedDynamicFields()->isEmpty() ? '{}' : $observation->mappedDynamicFields() }}"
+                     :data-dynamic-fields="{{ App\FieldObservation::availableDynamicFields() }}"
                      :observation="{{ $observation }}">
                     <div class="">
                         <div class="columns">
@@ -70,8 +69,8 @@
                             </div>
                         </div>
 
-                        <div v-for="field in dynamicFields" :key="field.name">
-                            <nz-dynamic-input :field="field" v-model="form.dynamic[field.name]" @remove="removeField(field)" :errors="form.errors"></nz-dynamic-input>
+                        <div v-for="(field, index) in dynamicFields" :key="field.name">
+                            <nz-dynamic-input :field="field" v-model="form.dynamic_fields[index].value" @remove="removeField(field)" :errors="form.errors"></nz-dynamic-input>
                         </div>
 
                         <b-field label="Additional input" v-if="availableDynamicFields.length" >

@@ -8,6 +8,7 @@ use App\Rules\Month;
 use App\FieldObservation;
 use App\DynamicFields\DynamicField;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\DynamicField as DynamicFieldValidation;
 
 class FieldObservationUpdateForm extends FormRequest
 {
@@ -26,37 +27,38 @@ class FieldObservationUpdateForm extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
-        $dynamicFields = implode(',', FieldObservation::availableDynamicFieldsNames());
-
-        return [
-            'taxon_id' => 'nullable|exists:taxa,id',
-            'year' => 'bail|required|date_format:Y|before_or_equal:now',
-            'month' => [
-                'bail',
-                'nullable',
-                new Month($this->input('year')),
-            ],
-            'day' => [
-                'bail',
-                'nullable',
-                new Day($this->input('year'), $this->input('month')),
-            ],
-            'latitude' => 'required|numeric|between:-90,90',
-            'longitude'=> 'required|numeric|between:-180,180',
-            'altitude'=> 'required|numeric',
-            'accuracy' => 'required|numeric',
-            'source' => 'nullable|string',
-            'photos' => 'nullable|array|max:'.config('alciphron.photos_per_observation'),
-            'dynamic.*' => [
-                'bail',
-                'nullable',
-                'df_supported:'.$dynamicFields,
-                'df_valid',
-            ],
-        ];
-    }
+     public function rules()
+     {
+         return [
+             'taxon_id' => 'nullable|exists:taxa,id',
+             'year' => 'bail|required|date_format:Y|before_or_equal:now',
+             'month' => [
+                 'bail',
+                 'nullable',
+                 new Month($this->input('year')),
+             ],
+             'day' => [
+                 'bail',
+                 'nullable',
+                 new Day($this->input('year'), $this->input('month')),
+             ],
+             'latitude' => 'required|numeric|between:-90,90',
+             'longitude'=> 'required|numeric|between:-180,180',
+             'altitude'=> 'required|numeric',
+             'accuracy' => 'required|numeric',
+             'source' => 'nullable|string',
+             'photos' => [
+                 'nullable',
+                 'array',
+                 'max:'.config('alciphron.photos_per_observation'),
+             ],
+             'dynamic_fields' => 'nullable|array',
+             'dynamic_fields.*' => [
+                 'nullable',
+                 new DynamicFieldValidation(FieldObservation::dynamicFields())
+             ],
+         ];
+     }
 
     /**
      * Store observation and related data.
@@ -68,7 +70,6 @@ class FieldObservationUpdateForm extends FormRequest
         return tap($this->updateObservation($observation), function ($observation) {
             // TODO: Find a way to update photos.
             // $observation->details->addPhotos($this->input('photos', []));
-            $observation->saveDynamicFields($this->input('dynamic', []));
         });
     }
 
@@ -83,7 +84,9 @@ class FieldObservationUpdateForm extends FormRequest
             $observation->update([
                 'source' => $this->input('source') ?: auth()->user()->full_name,
                 'taxon_suggestion' => $this->input('taxon_suggestion', null),
+                'dynamic_fields' => $this->input('dynamic_fields', []),
             ]);
+
             $observation->observation()->update([
                 'taxon_id' => $this->input('taxon_id'),
                 'year' => $this->input('year'),
