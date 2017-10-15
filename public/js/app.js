@@ -57696,9 +57696,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     return item.name === field.name;
                 });
             }).map(function (field) {
-                field.value = _.find(_this2.form.dynamic_fields, function (item) {
+                var value = _.find(_this2.form.dynamic_fields, function (item) {
                     return item.name === field.name;
-                }).value || field.value || field.default;
+                }).value;
+                field.value = value || field.value || field.default;
 
                 return field;
             });

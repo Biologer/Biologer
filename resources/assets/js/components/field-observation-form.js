@@ -103,9 +103,8 @@ export default {
             this.dynamicFields = this.dataDynamicFields.filter((field) => {
                 return collect(this.form.dynamic_fields).contains((item) => item.name === field.name);
             }).map((field) => {
-                field.value = _.find(this.form.dynamic_fields, (item) => item.name === field.name).value ||
-                    field.value ||
-                    field.default;
+                let value = _.find(this.form.dynamic_fields, (item) => item.name === field.name).value;
+                field.value =  value || field.value || field.default;
 
                 return field;
             });
