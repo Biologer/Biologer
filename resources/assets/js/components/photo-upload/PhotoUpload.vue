@@ -49,6 +49,7 @@ export default {
 			reader: null,
 			uploading: false,
 			progress: 0,
+			hasExisting: !!this.imageUrl
     	};
     },
 
@@ -127,6 +128,11 @@ export default {
 		},
 
 		remove() {
+			if (this.hasExisting) {
+				this.hasExisting = false;
+				return this.clearPhoto();
+			}
+
 			axios({
 				method: 'DELETE',
 				data: {
@@ -134,13 +140,17 @@ export default {
 				},
 				url: this.removeUrl
 			}).then(() => {
-				this.$emit('removed', this.image.file);
-
-				this.image.file = null;
-				this.image.url = null;
+				this.clearPhoto();
 
 				this.$refs.input.value='';
 			})
+		},
+
+		clearPhoto() {
+			this.$emit('removed', this.image.file);
+
+			this.image.file = null;
+			this.image.url = null;
 		}
 	}
 }

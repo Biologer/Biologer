@@ -56526,7 +56526,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			},
 			reader: null,
 			uploading: false,
-			progress: 0
+			progress: 0,
+			hasExisting: !!this.imageUrl
 		};
 	},
 	created: function created() {
@@ -56607,6 +56608,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		remove: function remove() {
 			var _this4 = this;
 
+			if (this.hasExisting) {
+				this.hasExisting = false;
+				return this.clearPhoto();
+			}
+
 			axios({
 				method: 'DELETE',
 				data: {
@@ -56614,13 +56620,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				},
 				url: this.removeUrl
 			}).then(function () {
-				_this4.$emit('removed', _this4.image.file);
-
-				_this4.image.file = null;
-				_this4.image.url = null;
+				_this4.clearPhoto();
 
 				_this4.$refs.input.value = '';
 			});
+		},
+		clearPhoto: function clearPhoto() {
+			this.$emit('removed', this.image.file);
+
+			this.image.file = null;
+			this.image.url = null;
 		}
 	}
 });

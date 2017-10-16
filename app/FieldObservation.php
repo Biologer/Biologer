@@ -69,7 +69,8 @@ class FieldObservation extends Model
     /**
      * Add photos to the observation, using photos' paths.
      *
-     * @param array $photos Paths
+     * @param  array $photos Paths
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function addPhotos($photos)
     {
@@ -84,6 +85,21 @@ class FieldObservation extends Model
                 ]);
             })
         );
+    }
+
+    /**
+     * Remove unused photos and and add new ones.
+     *
+     * @param  array $photos
+     * @return void
+     */
+    public function syncPhotos($photos)
+    {
+        $current = $this->photos()->get();
+
+        $current->whereNotIn('path', $photos)->each->delete();
+
+        $this->addPhotos(array_diff($photos, $current->pluck('path')->all()));
     }
 
     /**
@@ -112,5 +128,21 @@ class FieldObservation extends Model
             'source' => $this->source,
             'dynamic_fields' => $this->dynamic_fields,
         ];
+    }
+
+    /**
+     * Return mapped as array with photos' path instead of URLs.
+     *
+     * @return array
+     */
+    public function toArrayForEdit()
+    {
+        $data = $this->toArray();
+
+        $data['photos'] = $this->photos->map(function ($photo) {
+            return $photo->path;
+        });
+
+        return $data;
     }
 }

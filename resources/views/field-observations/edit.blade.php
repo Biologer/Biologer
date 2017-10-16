@@ -6,7 +6,7 @@
             <div class="box">
                 <field-observation-form action="{{ route('field-observations.update', $observation) }}" method="put" inline-template
                      :data-dynamic-fields="{{ App\FieldObservation::availableDynamicFields() }}"
-                     :observation="{{ $observation }}">
+                     :observation="{{ json_encode($observation->toArrayForEdit()) }}">
                     <div class="">
                         <div class="columns">
                             <div class="column is-half">
@@ -28,6 +28,8 @@
                                         <div class="column is-one-third">
                                             <nz-photo-upload upload-url="{{ route('api.uploads.store') }}"
                                                 remove-url="{{ route('api.uploads.destroy') }}"
+                                                image-url="{{ isset($observation->photos[0]) ? $observation->photos[0]->url : '' }}"
+                                                image-path="{{ isset($observation->photos[0]) ? $observation->photos[0]->path : '' }}"
                                                 text="Upload"
                                                 icon="upload"
                                                 @uploaded="onPhotoUploaded"
@@ -38,6 +40,8 @@
                                        <div class="column is-one-third">
                                             <nz-photo-upload upload-url="{{ route('api.uploads.store') }}"
                                                 remove-url="{{ route('api.uploads.destroy') }}"
+                                                image-url="{{ isset($observation->photos[1]) ? $observation->photos[1]->url : '' }}"
+                                                image-path="{{ isset($observation->photos[1]) ? $observation->photos[1]->path : '' }}"
                                                 text="Upload"
                                                 icon="upload"
                                                 @uploaded="onPhotoUploaded"
@@ -48,6 +52,8 @@
                                         <div class="column is-one-third">
                                             <nz-photo-upload upload-url="{{ route('api.uploads.store') }}"
                                                 remove-url="{{ route('api.uploads.destroy') }}"
+                                                image-url="{{ isset($observation->photos[2]) ? $observation->photos[2]->url : '' }}"
+                                                image-path="{{ isset($observation->photos[2]) ? $observation->photos[2]->path : '' }}"
                                                 text="Upload"
                                                 icon="upload"
                                                 @uploaded="onPhotoUploaded"
