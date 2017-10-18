@@ -56512,6 +56512,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'nz-photo-upload',
@@ -56527,7 +56529,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			reader: null,
 			uploading: false,
 			progress: 0,
-			hasExisting: !!this.imageUrl
+			hasExisting: !!this.imageUrl,
+			error: null
 		};
 	},
 	created: function created() {
@@ -56563,7 +56566,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.$refs.input.click();
 		},
 		onInput: function onInput(files) {
-			var _this2 = this;
+			this.error = null;
 
 			var file = files[0];
 
@@ -56571,12 +56574,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				return;
 			}
 
-			this.upload(file).then(function () {
-				_this2.reader.readAsDataURL(file);
-			});
+			this.upload(file);
 		},
 		upload: function upload(file) {
-			var _this3 = this;
+			var _this2 = this;
 
 			this.uploading = true;
 			return axios.post(this.uploadUrl, this.makeForm(file), {
@@ -56585,17 +56586,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					Accept: 'application/json'
 				},
 				onUploadProgress: function onUploadProgress(progressEvent) {
-					_this3.progress = Math.floor(progressEvent.loaded * 100 / progressEvent.total);
+					_this2.progress = Math.floor(progressEvent.loaded * 100 / progressEvent.total);
 				}
 			}).then(function (response) {
-				_this3.image.file = response.data.file = response.data.file;
-				_this3.uploading = false;
-				_this3.progress = 0;
+				_this2.image.file = response.data.file;
+				_this2.uploading = false;
+				_this2.progress = 0;
 
-				_this3.$emit('uploaded', _this3.image.file);
+				_this2.$emit('uploaded', _this2.image.file);
+
+				_this2.reader.readAsDataURL(file);
 			}).catch(function (error) {
-				_this3.uploading = false;
-				_this3.progress = 0;
+				_this2.handleError(error);
+				_this2.uploading = false;
+				_this2.progress = 0;
 			});
 		},
 		makeForm: function makeForm(file) {
@@ -56606,7 +56610,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return form;
 		},
 		remove: function remove() {
-			var _this4 = this;
+			var _this3 = this;
 
 			if (this.hasExisting) {
 				this.hasExisting = false;
@@ -56620,9 +56624,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				},
 				url: this.removeUrl
 			}).then(function () {
-				_this4.clearPhoto();
-
-				_this4.$refs.input.value = '';
+				_this3.clearPhoto();
 			});
 		},
 		clearPhoto: function clearPhoto() {
@@ -56630,6 +56632,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			this.image.file = null;
 			this.image.url = null;
+		},
+		handleError: function handleError(error) {
+			if (!error.response) {
+				return this.$toast.open({
+					duration: 5000,
+					message: error.message,
+					position: 'is-top',
+					type: 'is-danger'
+				});
+			}
+
+			this.error = error.response.data.errors.file[0];
 		}
 	}
 });
@@ -56644,36 +56658,51 @@ var render = function() {
   var _c = _vm._self._c || _h
   return !_vm.haveImage
     ? _c(
-        "b-upload",
+        "b-field",
         {
-          attrs: { "drag-drop": "", type: "is-fullwidth" },
-          on: { input: _vm.onInput }
+          attrs: {
+            message: _vm.error || null,
+            type: _vm.error ? "is-danger" : null,
+            expanded: ""
+          }
         },
         [
-          _c("section", { staticClass: "section" }, [
-            _c("div", { staticClass: "has-text-centered" }, [
-              _c(
-                "div",
-                [
-                  _c("b-icon", { attrs: { icon: _vm.icon, size: "is-medium" } })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _vm.uploading
-                ? _c(
-                    "progress",
-                    {
-                      staticClass: "progress is-primary is-small",
-                      attrs: { max: "100" },
-                      domProps: { value: _vm.progress }
-                    },
-                    [_vm._v(_vm._s(_vm.progress) + "%")]
-                  )
-                : _c("div", [_vm._v(_vm._s(_vm.text))])
-            ])
-          ])
-        ]
+          _c(
+            "b-upload",
+            {
+              attrs: { "drag-drop": "", type: "is-fullwidth" },
+              on: { input: _vm.onInput }
+            },
+            [
+              _c("section", { staticClass: "section" }, [
+                _c("div", { staticClass: "has-text-centered" }, [
+                  _c(
+                    "div",
+                    [
+                      _c("b-icon", {
+                        attrs: { icon: _vm.icon, size: "is-medium" }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm.uploading
+                    ? _c(
+                        "progress",
+                        {
+                          staticClass: "progress is-primary is-small",
+                          attrs: { max: "100" },
+                          domProps: { value: _vm.progress }
+                        },
+                        [_vm._v(_vm._s(_vm.progress) + "%")]
+                      )
+                    : _c("div", [_vm._v(_vm._s(_vm.text))])
+                ])
+              ])
+            ]
+          )
+        ],
+        1
       )
     : _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-image" }, [

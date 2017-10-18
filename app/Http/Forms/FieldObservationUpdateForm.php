@@ -68,7 +68,6 @@ class FieldObservationUpdateForm extends FormRequest
     public function save($observation)
     {
         return tap($this->updateObservation($observation), function ($observation) {
-            // TODO: Find a way to update photos.
             $observation->syncPhotos($this->input('photos', []));
         });
     }

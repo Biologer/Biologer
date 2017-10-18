@@ -1,18 +1,20 @@
 <template>
-	<b-upload @input="onInput" drag-drop v-if="!haveImage" type="is-fullwidth">
-		<section class="section">
-			<div class="has-text-centered">
-				<div>
-					<b-icon
-						:icon="icon"
-						size="is-medium">
-					</b-icon>
+	<b-field v-if="!haveImage" :message="error || null" :type="error ? 'is-danger' : null" expanded>
+		<b-upload @input="onInput" drag-drop type="is-fullwidth">
+			<section class="section">
+				<div class="has-text-centered">
+					<div>
+						<b-icon
+							:icon="icon"
+							size="is-medium">
+						</b-icon>
+					</div>
+					<progress class="progress is-primary is-small" :value="progress" max="100" v-if="uploading">{{ progress }}%</progress>
+					<div v-else>{{ text }}</div>
 				</div>
-				<progress class="progress is-primary is-small" :value="progress" max="100" v-if="uploading">{{ progress }}%</progress>
-				<div v-else>{{ text }}</div>
-			</div>
-		</section>
-	</b-upload>
+			</section>
+		</b-upload>
+	</b-field>
 	<div class="card" v-else>
 		<div class="card-image">
 			<figure class="image is-4by3">
@@ -49,7 +51,8 @@ export default {
 			reader: null,
 			uploading: false,
 			progress: 0,
-			hasExisting: !!this.imageUrl
+			hasExisting: !!this.imageUrl,
+			error: null
     	};
     },
 
@@ -86,15 +89,15 @@ export default {
 		},
 
 		onInput(files) {
+			this.error = null;
+
 			let file = files[0];
 
 			if (!file) {
 				return;
 			}
 
-			this.upload(file).then(() => {
-				this.reader.readAsDataURL(file)
-			})
+			this.upload(file)
 		},
 
 		upload(file) {
@@ -108,12 +111,15 @@ export default {
 				   this.progress = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
 				}
 			}).then(response => {
-				this.image.file = response.data.file = response.data.file;
+				this.image.file = response.data.file;
 				this.uploading = false;
 				this.progress = 0;
 
 				this.$emit('uploaded', this.image.file);
+
+				this.reader.readAsDataURL(file)
 			}).catch((error) => {
+				this.handleError(error)
 				this.uploading = false;
 				this.progress = 0;
 			})
@@ -141,8 +147,6 @@ export default {
 				url: this.removeUrl
 			}).then(() => {
 				this.clearPhoto();
-
-				this.$refs.input.value='';
 			})
 		},
 
@@ -151,6 +155,19 @@ export default {
 
 			this.image.file = null;
 			this.image.url = null;
+		},
+
+		handleError(error) {
+			if (!error.response) {
+				return this.$toast.open({
+					duration: 5000,
+					message: error.message,
+					position: 'is-top',
+					type: 'is-danger'
+				})
+			}
+
+			this.error = error.response.data.errors.file[0];
 		}
 	}
 }
