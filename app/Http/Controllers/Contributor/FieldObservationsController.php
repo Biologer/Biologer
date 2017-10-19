@@ -18,7 +18,7 @@ class FieldObservationsController extends Controller
     {
         $observations = FieldObservation::paginate();
 
-        return view('field-observations.index', [
+        return view('contributor.field-observations.index', [
             'observations' => $observations,
         ]);
     }
@@ -30,7 +30,7 @@ class FieldObservationsController extends Controller
      */
     public function create()
     {
-        return view('field-observations.create');
+        return view('contributor.field-observations.create');
     }
 
     /**
@@ -46,14 +46,17 @@ class FieldObservationsController extends Controller
             return response()->json($observation, 201);
         }
 
-        return redirect()->route('field-observations.index');
+        return redirect()->route('contributor.field-observations.index');
     }
 
+    /**
+     * Show form to edit field observation.
+     */
     public function edit($id)
     {
         $observation = FieldObservation::findOrFail($id);
 
-        return view('field-observations.edit', [
+        return view('contributor.field-observations.edit', [
             'observation' => $observation,
         ]);
     }
@@ -68,6 +71,6 @@ class FieldObservationsController extends Controller
             return response()->json($observation, 200);
         }
 
-        return redirect()->route('field-observations.index');
+        return redirect()->route('contributor.field-observations.index');
     }
 }

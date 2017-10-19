@@ -1,5 +1,5 @@
 <template>
-  <b-field :label="label" class="nz-taxon-autocomplete">
+  <b-field :label="label" class="nz-taxon-autocomplete" :type="error ? 'is-danger' : null" :message="message">
     <b-field grouped>
       <img width="32" :src="this.selected.thumbnail_url" v-if="haveThumbnail">
 
@@ -56,6 +56,14 @@ export default {
     value: {
         type: String,
         default: ''
+    },
+    error: {
+        type: Boolean,
+        default: false
+    },
+    message: {
+        type: String,
+        default: null
     }
   },
 

@@ -4,16 +4,14 @@
     <div class="container">
         <section class="section">
             <div class="box">
-                <field-observation-form action="{{ route('field-observations.update', $observation) }}" method="put" inline-template
-                     :data-dynamic-fields="{{ App\FieldObservation::availableDynamicFields() }}"
-                     :observation="{{ json_encode($observation->toArrayForEdit()) }}">
+                <field-observation-form action="{{ route('contributor.field-observations.store') }}" method="post" inline-template
+                    :data-dynamic-fields="{{ App\FieldObservation::availableDynamicFields() }}">
                     <div class="">
                         <div class="columns">
                             <div class="column is-half">
-                                <nz-taxon-autocomplete v-model="form.taxon_suggestion"
-                                                       @select="onTaxonSelect"
-                                                       :errors="form.errors"
-                                                       :taxon="{{ $observation->observation->taxon or 'null' }}">
+                                <nz-taxon-autocomplete v-model="form.taxon_suggestion" @select="onTaxonSelect"
+                                    :error="form.errors.has('taxon_id')"
+                                    :message="form.errors.has('taxon_id') ? form.errors.first('taxon_id') : null">
                                 </nz-taxon-autocomplete>
                                 <nz-date-input :data-year="form.year"
                                                :data-month="form.month"
@@ -28,8 +26,6 @@
                                         <div class="column is-one-third">
                                             <nz-photo-upload upload-url="{{ route('api.uploads.store') }}"
                                                 remove-url="{{ route('api.uploads.destroy') }}"
-                                                image-url="{{ isset($observation->photos[0]) ? $observation->photos[0]->url : '' }}"
-                                                image-path="{{ isset($observation->photos[0]) ? $observation->photos[0]->path : '' }}"
                                                 text="Upload"
                                                 icon="upload"
                                                 @uploaded="onPhotoUploaded"
@@ -40,8 +36,6 @@
                                        <div class="column is-one-third">
                                             <nz-photo-upload upload-url="{{ route('api.uploads.store') }}"
                                                 remove-url="{{ route('api.uploads.destroy') }}"
-                                                image-url="{{ isset($observation->photos[1]) ? $observation->photos[1]->url : '' }}"
-                                                image-path="{{ isset($observation->photos[1]) ? $observation->photos[1]->path : '' }}"
                                                 text="Upload"
                                                 icon="upload"
                                                 @uploaded="onPhotoUploaded"
@@ -52,8 +46,6 @@
                                         <div class="column is-one-third">
                                             <nz-photo-upload upload-url="{{ route('api.uploads.store') }}"
                                                 remove-url="{{ route('api.uploads.destroy') }}"
-                                                image-url="{{ isset($observation->photos[2]) ? $observation->photos[2]->url : '' }}"
-                                                image-path="{{ isset($observation->photos[2]) ? $observation->photos[2]->path : '' }}"
                                                 text="Upload"
                                                 icon="upload"
                                                 @uploaded="onPhotoUploaded"
@@ -76,7 +68,7 @@
                         </div>
 
                         <div v-for="(field, index) in dynamicFields" :key="field.name">
-                            <nz-dynamic-input :field="field" v-model="form.dynamic_fields[index].value" @remove="removeField(field)" :errors="form.errors"></nz-dynamic-input>
+                            <nz-dynamic-input :field="field" v-model="_.find(form.dynamic_fields, {name:field.name}).value" @remove="removeField(field)" :errors="form.errors" :index="index"></nz-dynamic-input>
                         </div>
 
                         <b-field label="Additional input" v-if="availableDynamicFields.length" >

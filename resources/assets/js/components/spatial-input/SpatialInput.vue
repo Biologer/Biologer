@@ -26,9 +26,10 @@
             </gmap-map>
         </b-field>
         <div class="has-text-right">
+            <span v-if="mapHasErrors" class="has-text-danger is-size-7">Some fields have errors</span>
             <button type="button" class="button is-white is-small is-text" :class="{'has-text-danger': mapHasErrors}" @click="showDetails = !showDetails">Details</button>
         </div>
-        <b-collapse :open="showDetails">
+        <div v-show="showDetails">
             <div class="field is-grouped">
                 <div class="field is-expanded">
                     <label class="label is-small">Latitude</label>
@@ -61,7 +62,7 @@
                     <p class="help is-danger" v-if="errors.has('altitude')" v-text="errors.first('altitude')"></p>
                 </div>
             </div>
-        </b-collapse>
+        </div>
     </div>
 </template>
 

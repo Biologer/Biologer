@@ -19,7 +19,7 @@
                     <div class="navbar-end">
                         @auth
                             <div class="navbar-item">
-                                <a href="{{ route('field-observations.create') }}" class="button is-primary">
+                                <a href="{{ route('contributor.field-observations.create') }}" class="button is-primary">
                                     @include('components.icon', ['icon' => 'plus'])
                                     <span>New Observation</span>
                                 </a>

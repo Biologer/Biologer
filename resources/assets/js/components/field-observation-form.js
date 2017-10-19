@@ -17,7 +17,7 @@ export default {
         redirect: {
             type: String,
             default () {
-                return route('field-observations.index');
+                return route('contributor.field-observations.index');
             }
         },
         dataDynamicFields: {

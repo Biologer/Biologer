@@ -1,5 +1,7 @@
 <template>
-    <b-field :label="field.label" expanded>
+    <b-field :label="field.label" expanded
+        :type="errors.has('dynamic_fields.'+index) ? 'is-danger' : null"
+        :message="errors.has('dynamic_fields.'+index) ? errors.first('dynamic_fields.'+index) : null">
         <b-field>
             <b-select :value="field.value" @input="onInput" v-if="'select' === field.type" expanded>
                 <option v-for="option in field.options" :value="option.value" :key="option.value">
@@ -19,7 +21,7 @@
 export default {
     name: 'nz-dynamic-input',
 
-    props: ['field'],
+    props: ['field', 'errors', 'index'],
 
     methods: {
         onInput(value) {

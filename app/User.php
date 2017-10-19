@@ -32,4 +32,14 @@ class User extends Authenticatable
     {
         return $this->first_name.' '.$this->last_name;
     }
+
+    public function observations()
+    {
+        return $this->hasMany(Observation::class, 'created_by_id');
+    }
+
+    public function fieldObservations()
+    {
+        return $this->observations()->where('details_type', FieldObservation::class);
+    }
 }

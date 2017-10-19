@@ -56805,11 +56805,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'nz-dynamic-input',
 
-    props: ['field'],
+    props: ['field', 'errors', 'index'],
 
     methods: {
         onInput: function onInput(value) {
@@ -56828,7 +56830,18 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "b-field",
-    { attrs: { label: _vm.field.label, expanded: "" } },
+    {
+      attrs: {
+        label: _vm.field.label,
+        expanded: "",
+        type: _vm.errors.has("dynamic_fields." + _vm.index)
+          ? "is-danger"
+          : null,
+        message: _vm.errors.has("dynamic_fields." + _vm.index)
+          ? _vm.errors.first("dynamic_fields." + _vm.index)
+          : null
+      }
+    },
     [
       _c(
         "b-field",
@@ -56956,6 +56969,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -57215,6 +57229,12 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("div", { staticClass: "has-text-right" }, [
+        _vm.mapHasErrors
+          ? _c("span", { staticClass: "has-text-danger is-size-7" }, [
+              _vm._v("Some fields have errors")
+            ])
+          : _vm._e(),
+        _vm._v(" "),
         _c(
           "button",
           {
@@ -57231,109 +57251,122 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("b-collapse", { attrs: { open: _vm.showDetails } }, [
-        _c("div", { staticClass: "field is-grouped" }, [
-          _c("div", { staticClass: "field is-expanded" }, [
-            _c("label", { staticClass: "label is-small" }, [
-              _vm._v("Latitude")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "control is-fullwidth" }, [
-              _c("input", {
-                staticClass: "input is-small",
-                class: { "is-danger": _vm.errors.has("latitude") },
-                attrs: { placeholder: "f.e. 19.5234" },
-                domProps: { value: _vm.latitude },
-                on: { input: _vm.updateLatitudeDebounced }
-              })
-            ]),
-            _vm._v(" "),
-            _vm.errors.has("latitude")
-              ? _c("p", {
-                  staticClass: "help is-danger",
-                  domProps: {
-                    textContent: _vm._s(_vm.errors.first("latitude"))
-                  }
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.showDetails,
+              expression: "showDetails"
+            }
+          ]
+        },
+        [
+          _c("div", { staticClass: "field is-grouped" }, [
+            _c("div", { staticClass: "field is-expanded" }, [
+              _c("label", { staticClass: "label is-small" }, [
+                _vm._v("Latitude")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "control is-fullwidth" }, [
+                _c("input", {
+                  staticClass: "input is-small",
+                  class: { "is-danger": _vm.errors.has("latitude") },
+                  attrs: { placeholder: "f.e. 19.5234" },
+                  domProps: { value: _vm.latitude },
+                  on: { input: _vm.updateLatitudeDebounced }
                 })
-              : _vm._e()
+              ]),
+              _vm._v(" "),
+              _vm.errors.has("latitude")
+                ? _c("p", {
+                    staticClass: "help is-danger",
+                    domProps: {
+                      textContent: _vm._s(_vm.errors.first("latitude"))
+                    }
+                  })
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field is-expanded" }, [
+              _c("label", { staticClass: "label is-small" }, [
+                _vm._v("Longitude")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "control is-fullwidth" }, [
+                _c("input", {
+                  staticClass: "input is-small",
+                  class: { "is-danger": _vm.errors.has("longitude") },
+                  attrs: { placeholder: "f.e. 40.1234" },
+                  domProps: { value: _vm.longitude },
+                  on: { input: _vm.updateLongitudeDebounced }
+                })
+              ]),
+              _vm._v(" "),
+              _vm.errors.has("longitude")
+                ? _c("p", {
+                    staticClass: "help is-danger",
+                    domProps: {
+                      textContent: _vm._s(_vm.errors.first("longitude"))
+                    }
+                  })
+                : _vm._e()
+            ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "field is-expanded" }, [
-            _c("label", { staticClass: "label is-small" }, [
-              _vm._v("Longitude")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "control is-fullwidth" }, [
-              _c("input", {
-                staticClass: "input is-small",
-                class: { "is-danger": _vm.errors.has("longitude") },
-                attrs: { placeholder: "f.e. 40.1234" },
-                domProps: { value: _vm.longitude },
-                on: { input: _vm.updateLongitudeDebounced }
-              })
-            ]),
-            _vm._v(" "),
-            _vm.errors.has("longitude")
-              ? _c("p", {
-                  staticClass: "help is-danger",
-                  domProps: {
-                    textContent: _vm._s(_vm.errors.first("longitude"))
-                  }
+          _c("div", { staticClass: "field is-grouped" }, [
+            _c("div", { staticClass: "field is-expanded" }, [
+              _c("label", { staticClass: "label is-small" }, [
+                _vm._v("Accuracy/Radius (m)")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "control is-fullwidth" }, [
+                _c("input", {
+                  staticClass: "input is-small",
+                  attrs: { placeholder: "f.e. 100" },
+                  domProps: { value: _vm.accuracy },
+                  on: { input: _vm.updateAccuracyDebounced }
                 })
-              : _vm._e()
+              ]),
+              _vm._v(" "),
+              _vm.errors.has("accuracy")
+                ? _c("p", {
+                    staticClass: "help is-danger",
+                    domProps: {
+                      textContent: _vm._s(_vm.errors.first("accuracy"))
+                    }
+                  })
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field is-expanded" }, [
+              _c("label", { staticClass: "label is-small" }, [
+                _vm._v("Altitude (m)")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "control is-fullwidth" }, [
+                _c("input", {
+                  staticClass: "input is-small",
+                  attrs: { placeholder: "f.e. 500" },
+                  domProps: { value: _vm.altitude },
+                  on: { input: _vm.updateAltitude }
+                })
+              ]),
+              _vm._v(" "),
+              _vm.errors.has("altitude")
+                ? _c("p", {
+                    staticClass: "help is-danger",
+                    domProps: {
+                      textContent: _vm._s(_vm.errors.first("altitude"))
+                    }
+                  })
+                : _vm._e()
+            ])
           ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field is-grouped" }, [
-          _c("div", { staticClass: "field is-expanded" }, [
-            _c("label", { staticClass: "label is-small" }, [
-              _vm._v("Accuracy/Radius (m)")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "control is-fullwidth" }, [
-              _c("input", {
-                staticClass: "input is-small",
-                attrs: { placeholder: "f.e. 100" },
-                domProps: { value: _vm.accuracy },
-                on: { input: _vm.updateAccuracyDebounced }
-              })
-            ]),
-            _vm._v(" "),
-            _vm.errors.has("accuracy")
-              ? _c("p", {
-                  staticClass: "help is-danger",
-                  domProps: {
-                    textContent: _vm._s(_vm.errors.first("accuracy"))
-                  }
-                })
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "field is-expanded" }, [
-            _c("label", { staticClass: "label is-small" }, [
-              _vm._v("Altitude (m)")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "control is-fullwidth" }, [
-              _c("input", {
-                staticClass: "input is-small",
-                attrs: { placeholder: "f.e. 500" },
-                domProps: { value: _vm.altitude },
-                on: { input: _vm.updateAltitude }
-              })
-            ]),
-            _vm._v(" "),
-            _vm.errors.has("altitude")
-              ? _c("p", {
-                  staticClass: "help is-danger",
-                  domProps: {
-                    textContent: _vm._s(_vm.errors.first("altitude"))
-                  }
-                })
-              : _vm._e()
-          ])
-        ])
-      ])
+        ]
+      )
     ],
     1
   )
@@ -57473,6 +57506,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     value: {
       type: String,
       default: ''
+    },
+    error: {
+      type: Boolean,
+      default: false
+    },
+    message: {
+      type: String,
+      default: null
     }
   },
 
@@ -57538,7 +57579,14 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "b-field",
-    { staticClass: "nz-taxon-autocomplete", attrs: { label: _vm.label } },
+    {
+      staticClass: "nz-taxon-autocomplete",
+      attrs: {
+        label: _vm.label,
+        type: _vm.error ? "is-danger" : null,
+        message: _vm.message
+      }
+    },
     [
       _c(
         "b-field",
@@ -57641,7 +57689,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         redirect: {
             type: String,
             default: function _default() {
-                return route('field-observations.index');
+                return route('contributor.field-observations.index');
             }
         },
         dataDynamicFields: {
