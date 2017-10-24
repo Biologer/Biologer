@@ -22,5 +22,6 @@ Route::middleware('auth')->group(function () {
     Route::get('contributor/field-observations', 'Contributor\FieldObservationsController@index')->name('contributor.field-observations.index');
     Route::post('contributor/field-observations', 'Contributor\FieldObservationsController@store')->name('contributor.field-observations.store');
     Route::put('contributor/field-observations/{id}', 'Contributor\FieldObservationsController@update')->name('contributor.field-observations.update');
+
     Route::get('contributor', 'Contributor\DashboardController@index')->name('contributor.index');
 });

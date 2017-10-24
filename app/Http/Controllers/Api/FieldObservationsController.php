@@ -10,6 +10,22 @@ use App\Http\Forms\FieldObservationUpdateForm;
 class FieldObservationsController extends Controller
 {
     /**
+     * Get field observations.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        if (request('all')) {
+            return FieldObservation::with('observation')->get();
+        }
+
+        return FieldObservation::with('observation')->paginate(
+            request('per_page', 15)
+        );
+    }
+
+    /**
      * Add new field observation.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -26,10 +42,26 @@ class FieldObservationsController extends Controller
      */
     public function update($id, FieldObservationUpdateForm $form)
     {
-        $observation = FieldObservation::findOrFail($id);
+        $fieldObservation = FieldObservation::with('observation')->findOrFail($id);
 
-        $form->save($observation);
+        $form->save($fieldObservation);
 
-        return response()->json($observation, 200);
+        return response()->json($fieldObservation, 200);
+    }
+
+    /**
+     * Delete field observation.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id)
+    {
+        $fieldObservation = FieldObservation::with('observation')->findOrFail($id);
+
+        $fieldObservation->observation->delete();
+        $fieldObservation->delete();
+
+        return response()->json(null, 204);
     }
 }

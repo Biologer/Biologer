@@ -66,6 +66,13 @@ class FieldObservation extends Model
         return $this->belongsToMany(Photo::class);
     }
 
+    public function scopeCreatedBy($query, User $user)
+    {
+        return $query->whereHas('observation', function ($q) use ($user) {
+            return $q->createdBy($user);
+        });
+    }
+
     /**
      * Add photos to the observation, using photos' paths.
      *

@@ -14,7 +14,7 @@
                       :placeholder="placeholder"
                       expanded>
 
-        <template scope="props">
+        <template slot-scope="props">
           <div class="media">
             <div class="media-left">
               <img width="32" :src="props.option.thumbnail_url" v-if="props.option.thumbnail_url">

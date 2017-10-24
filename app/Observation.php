@@ -27,6 +27,18 @@ class Observation extends Model
     ];
 
     /**
+     * Get observations created by given user.
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \App\User  $user  [description]
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCreatedBy($query, User $user)
+    {
+        return $query->where('created_by_id', $user->id);
+    }
+
+    /**
      * Get only approved observations.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query

@@ -47,6 +47,11 @@ trait HasAncestry
         return $this->belongsToMany(static::class, $this->getModelNameLower().'_ancestors', 'ancestor_id', 'model_id');
     }
 
+    public function scopeSpecies($query)
+    {
+        return $query->where('category_level', 10);
+    }
+
     /**
      * Lowercased model name.
      *
@@ -94,13 +99,73 @@ trait HasAncestry
     }
 
     /**
+     * Get taxon categories.
+     *
+     * @return array
+     */
+    public static function getCategories()
+    {
+        return [
+//            100 => 'root',
+//            70  => 'kingdom',
+           60  => 'phylum',
+//            57  => 'subphylum',
+//            53  => 'superclass',
+           50  => 'class',
+//            47  => 'subclass',
+//            43  => 'superorder',
+           40  => 'order',
+//            37  => 'suborder',
+//            35  => 'infraorder',
+//            33  => 'superfamily',
+//            32  => 'epifamily',
+            30  => 'family',
+//            27  => 'subfamily',
+//            26  => 'supertribe',
+//            25  => 'tribe',
+//            24  => 'subtribe',
+            20  => 'genus',
+//            20  => 'genushybrid',
+            10  => 'species',
+//            10  => 'hybrid',
+//            5   => 'subspecies',
+//            5   => 'variety',
+//            5   => 'form',
+        ];
+    }
+
+    /**
+     * Build up ordered ancestry list.
+     *
+     * @return string
+     */
+    public function generateAncestryBasedOnParentsAncestry()
+    {
+        if (! $this->parent) {
+            return;
+        }
+
+        if ($this->parent->isRoot()) {
+            return $this->parent->id;
+        }
+
+        return $this->parent->ancestry.'/'.$this->parent->id;
+    }
+
+    /**
      * The "booting" method of the trait.
      *
      * @return void
      */
     protected static function bootHasAncestry()
     {
-        static::created(function ($model) {
+        // Cache ancestry.
+        static::saving(function ($model) {
+            $model->ancestry = $model->generateAncestryBasedOnParentsAncestry();
+        });
+
+        // Store links
+        static::saved(function ($model) {
             if ($model->isRoot()) {
                 return;
             }
@@ -109,5 +174,29 @@ trait HasAncestry
 
             $model->ancestors()->attach($model->parent->ancestors);
         });
+    }
+
+    /**
+     * Descendants of category species.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function descendingSpecies()
+    {
+        return $this->descendants()->species();
+    }
+
+    /**
+     * Get self and descending species.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function selfAndDescendingSpecies()
+    {
+        if ($this->category_level !== 10) {
+            return $this->descendingSpecies;
+        }
+
+        return $this->descendingSpecies->prepend($this);
     }
 }

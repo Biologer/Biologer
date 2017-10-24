@@ -1,0 +1,202 @@
+<template>
+    <div class="">
+        <b-table
+            :data="data"
+            :loading="loading"
+
+            paginated
+            backend-pagination
+            :total="total"
+            :per-page="perPage"
+            @page-change="onPageChange"
+
+            backend-sorting
+            :default-sort-direction="defaultSortOrder"
+            :default-sort="[sortField, sortOrder]"
+            @sort="onSort"
+
+            detailed
+            :checkable="!!data.length"
+            :checked-rows.sync="checkedRows"
+            :mobile-cards="true">
+
+            <template slot-scope="props">
+                <b-table-column field="id" label="ID" width="40" numeric sortable>
+                    {{ props.row.id }}
+                </b-table-column>
+
+                <b-table-column field="taxon.name" label="Taxon" sortable>
+                    {{ props.row.taxon ? props.row.taxon.name : '' }}
+                </b-table-column>
+
+                <b-table-column field="year" label="Year" sortable>
+                    {{ props.row.year }}
+                </b-table-column>
+
+                <b-table-column field="month" label="Month" sortable>
+                    {{ props.row.month }}
+                </b-table-column>
+
+                <b-table-column field="day" label="Day" sortable>
+                    {{ props.row.day }}
+                </b-table-column>
+
+                <b-table-column field="source" label="Source" sortable>
+                    {{ props.row.source }}
+                </b-table-column>
+
+                <b-table-column label="Actions">
+                    <a :href="editLink(props.row)"><b-icon icon="edit"></b-icon></a>
+                    <a @click="confirmRemove(props.row)"><b-icon icon="trash"></b-icon></a>
+                </b-table-column>
+            </template>
+
+            <template slot="empty">
+                <section class="section">
+                    <div class="content has-text-grey has-text-centered">
+                        <p>{{ empty }}</p>
+                    </div>
+                </section>
+            </template>
+
+            <template slot="detail" slot-scope="props">
+                <article class="media">
+                    <figure class="media-left">
+                        <p class="image is-64x64" v-for="photo in props.row.photos">
+                            <img :src="photo" @click="openImageModal(photo)">
+                        </p>
+                    </figure>
+                    <div class="media-content">
+                        <div class="content">
+                            <strong>{{ props.row.location }}</strong>
+                            <small>{{ props.row.latitude }}, {{ props.row.longitude }}</small><br>
+                            <small>Elevation: {{ props.row.altitude}}m</small><br>
+                            <small>Accuracy: {{ props.row.accuracy}}m</small>
+                        </div>
+                    </div>
+                </article>
+            </template>
+        </b-table>
+
+        <b-modal :active.sync="isImageModalActive">
+            <div class="image is-4by3">
+                <img :src="modalImage">
+            </div>
+        </b-modal>
+    </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+    name: 'nzFieldObservationsTable',
+
+    props: {
+        listRoute: String,
+        editRoute: String,
+        deleteRoute: String,
+        empty: {
+            type: String,
+            default: 'Nothing here.'
+        }
+    },
+
+    data() {
+        return {
+            data: [],
+            total: 0,
+            loading: false,
+            sortField: 'id',
+            sortOrder: 'desc',
+            defaultSortOrder: 'desc',
+            page: 1,
+            perPage: 20,
+            checkedRows: [],
+            isImageModalActive: false
+        };
+    },
+
+    created() {
+
+    },
+
+    methods: {
+        loadAsyncData() {
+            this.loading = true;
+            return axios.get(route(this.listRoute, {
+                sort_by: `${this.sortField}.${this.sortOrder}`,
+                page: this.page,
+                per_page:this.perPage
+            })).then(({ data }) => {
+                this.data = [];
+                this.total = data.total;
+                data.data.forEach((item) => this.data.push(item));
+                this.loading = false;
+            }, response => {
+                this.data = [];
+                this.total = 0;
+                this.loading = false;
+            });
+        },
+
+        /*
+         * Handle page-change event
+         */
+        onPageChange(page) {
+            this.page = page
+            this.loadAsyncData()
+        },
+
+        /*
+         * Handle sort event
+         */
+        onSort(field, order) {
+            this.sortField = field
+            this.sortOrder = order
+            this.loadAsyncData()
+        },
+
+        confirmRemove(row) {
+            this.$dialog.confirm({
+                message: 'Are you sure you want to delete this record?',
+                confirmText: 'Remove',
+                type: 'is-danger',
+                onConfirm: () => { this.remove(row) }
+            })
+        },
+
+        remove (row) {
+            return axios.delete(route(this.deleteRoute, row)).then(response => {
+                this.$toast.open('Record deleted!');
+                this.loadAsyncData();
+            }).catch(error => { console.error(error) })
+        },
+
+        editLink (row) {
+            return route(this.editRoute, row.id);
+        },
+
+        openImageModal(imageUrl) {
+            this.modalImage = imageUrl;
+
+            this.isImageModalActive = true;
+        }
+    },
+
+    filters: {
+        /**
+         * Filter to truncate string, accepts a length parameter
+         */
+        truncate(value, length) {
+            return value.length > length
+                ? value.substr(0, length) + '...'
+                : value
+        }
+    },
+
+    mounted() {
+        this.loadAsyncData()
+    }
+}
+</script>

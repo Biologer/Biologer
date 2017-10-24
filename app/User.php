@@ -37,9 +37,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Observation::class, 'created_by_id');
     }
-
-    public function fieldObservations()
-    {
-        return $this->observations()->where('details_type', FieldObservation::class);
-    }
 }

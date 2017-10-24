@@ -18,6 +18,16 @@ class CreateFieldObservationPhotoTable extends Migration
             $table->unsignedBigInteger('photo_id');
 
             $table->primary(['field_observation_id', 'photo_id']);
+
+            $table->foreign('field_observation_id')
+                ->references('id')
+                ->on('field_observations')
+                ->onDelete('cascade');
+
+            $table->foreign('photo_id')
+                ->references('id')
+                ->on('photos')
+                ->onDelete('cascade');
         });
     }
 
