@@ -2,18 +2,20 @@
 
 namespace App;
 
+use Sofa\Eloquence\Mappable;
+use Sofa\Eloquence\Eloquence;
 use Illuminate\Support\Facades\Storage;
 
 class FieldObservation extends Model
 {
-    use Concerns\HasDynamicFields;
+    use Concerns\HasDynamicFields, Eloquence, Mappable;
 
     /**
      * The relations to eager load on every query.
      *
      * @var array
      */
-    protected $with = ['observation'];
+    protected $with = ['observation.taxon'];
 
     /**
      * The attributes that should be cast to native types.
@@ -22,6 +24,15 @@ class FieldObservation extends Model
      */
     protected $casts = [
         'dynamic_fields' => 'collection',
+    ];
+
+    protected $maps = [
+      'taxon_name' => 'observation.taxon.name',
+      'latitude' => 'observation.latitude',
+      'longitude' => 'observation.longitude',
+      'year' => 'observation.year',
+      'month' => 'observation.month',
+      'day' => 'observation.day',
     ];
 
     /**

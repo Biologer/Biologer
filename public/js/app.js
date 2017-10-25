@@ -63340,7 +63340,7 @@ var render = function() {
                     "b-table-column",
                     {
                       attrs: {
-                        field: "taxon.name",
+                        field: "taxon_name",
                         label: "Taxon",
                         sortable: ""
                       }

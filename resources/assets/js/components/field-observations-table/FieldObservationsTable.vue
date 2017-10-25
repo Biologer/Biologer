@@ -25,7 +25,7 @@
                     {{ props.row.id }}
                 </b-table-column>
 
-                <b-table-column field="taxon.name" label="Taxon" sortable>
+                <b-table-column field="taxon_name" label="Taxon" sortable>
                     {{ props.row.taxon ? props.row.taxon.name : '' }}
                 </b-table-column>
 

@@ -1050,6 +1050,10 @@ bulma-badge@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/bulma-badge/-/bulma-badge-0.0.3.tgz#19de4689741a859c551cda18760ba578571ffaa5"
 
+bulma-quickview@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/bulma-quickview/-/bulma-quickview-0.0.1.tgz#03ab307260ef979597a13c1946dba2c4966c1ea1"
+
 bulma@^0.5.3:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.5.3.tgz#be93afb6246192505c30df3f9c1c29a97d319a13"

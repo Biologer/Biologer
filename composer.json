@@ -11,6 +11,7 @@
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
         "php-coord/php-coord": "^2.1",
+        "sofa/eloquence-mappable": "^5.5",
         "tightenco/ziggy": "^0.4.1"
     },
     "require-dev": {

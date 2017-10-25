@@ -17,10 +17,10 @@ class FieldObservationsController extends Controller
     public function index()
     {
         if (request('all')) {
-            return FieldObservation::with('observation')->get();
+            return FieldObservation::all();
         }
 
-        return FieldObservation::with('observation')->paginate(
+        return FieldObservation::paginate(
             request('per_page', 15)
         );
     }

@@ -19,11 +19,13 @@ class FieldObservationsController extends Controller
         $fieldObservations = FieldObservation::createdBy(auth()->user())
             ->with('observation');
 
+        list($sortField, $sortOrder) = explode('.', request('sort_by', 'id.desc'));
+
         if (request('all')) {
-            return $fieldObservations->get();
+            return $fieldObservations->orderBy($sortField, $sortOrder)->orderBy('id')->get();
         }
 
-        return $fieldObservations->paginate(
+        return $fieldObservations->orderBy($sortField, $sortOrder)->orderBy('id')->paginate(
             request('per_page', 15)
         );
     }
