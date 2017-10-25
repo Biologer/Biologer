@@ -16,16 +16,16 @@ class FieldObservationsController extends Controller
      */
     public function index()
     {
-        $fieldObservations = FieldObservation::createdBy(auth()->user())
-            ->with('observation');
-
         list($sortField, $sortOrder) = explode('.', request('sort_by', 'id.desc'));
 
+        $fieldObservations = FieldObservation::createdBy(auth()->user())
+            ->orderBy($sortField, $sortOrder)->orderBy('id');
+
         if (request('all')) {
-            return $fieldObservations->orderBy($sortField, $sortOrder)->orderBy('id')->get();
+            return $fieldObservations->get();
         }
 
-        return $fieldObservations->orderBy($sortField, $sortOrder)->orderBy('id')->paginate(
+        return $fieldObservations->paginate(
             request('per_page', 15)
         );
     }
