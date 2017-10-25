@@ -14,6 +14,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "buefy": "^0.5.2",
     "bulma": "^0.6.0",
+    "bulma-badge": "^0.0.3",
     "collect.js": "^3.0.49",
     "cross-env": "^5.0.5",
     "font-awesome": "^4.7.0",

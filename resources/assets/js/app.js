@@ -13,9 +13,7 @@ import FieldObservationsTable from './components/field-observations-table';
 
 window.Vue = Vue;
 
-Vue.use(Buefy, {
-    defaultIconPack: 'fa'
-})
+Vue.use(Buefy, { defaultIconPack: 'fa' });
 
 // Config Google Maps
 let gmapsConfig = {};

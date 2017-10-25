@@ -24,6 +24,14 @@
                             </a>
                         </div>
 
+                        <div class="navbar-item">
+                            <a class="has-text-dark" @click="$root.showSidebar = !$root.showSidebar">
+                                <span class="badge is-badge-info is-badge-small" data-badge="">
+                                    @include('components.icon', ['icon' => 'bell'])
+                                </span>
+                            </a>
+                        </div>
+
                         <div class="navbar-item has-dropdown is-hoverable">
                             <a class="navbar-link is-hidden-touch">
                                 @include('components.icon', ['icon' => 'user'])
