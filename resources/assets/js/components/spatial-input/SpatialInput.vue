@@ -34,14 +34,14 @@
                 <div class="field is-expanded">
                     <label class="label is-small">Latitude</label>
                     <div class="control is-fullwidth">
-                        <input class="input is-small" :class="{'is-danger': errors.has('latitude')}" :value="latitude" @input="updateLatitudeDebounced" placeholder="f.e. 19.5234">
+                        <input class="input is-small" :class="{'is-danger': errors.has('latitude')}" :value="latitude" @input="updateLatitudeDebounced" placeholder="f.e. 42.5234">
                     </div>
                     <p class="help is-danger" v-if="errors.has('latitude')" v-text="errors.first('latitude')"></p>
                 </div>
                 <div class="field is-expanded">
                     <label class="label is-small">Longitude</label>
                     <div class="control is-fullwidth">
-                        <input class="input is-small" :class="{'is-danger': errors.has('longitude')}" :value="longitude" @input="updateLongitudeDebounced" placeholder="f.e. 40.1234">
+                        <input class="input is-small" :class="{'is-danger': errors.has('longitude')}" :value="longitude" @input="updateLongitudeDebounced" placeholder="f.e. 19.1234">
                     </div>
                     <p class="help is-danger" v-if="errors.has('longitude')" v-text="errors.first('longitude')"></p>
                 </div>
@@ -134,17 +134,17 @@ export default {
         castNumber(value) {
             return isNaN(Number(value)) ? null : Number(value);
         },
-        updateLocation(value) {
-            this.$emit('update:location', value);
+        updateLocation(event) {
+            this.$emit('update:location', event.target.value);
         },
-        updateLongitudeDebounced: _.debounce(function (value) {
-            this.updateLongitude(value);
+        updateLongitudeDebounced: _.debounce(function (event) {
+            this.updateLongitude(event.target.value);
         }, 1000),
         updateLongitude(value) {
             this.$emit('update:longitude', this.castNumber(value));
         },
-        updateLatitudeDebounced: _.debounce(function (value) {
-            this.updateLatitude(value);
+        updateLatitudeDebounced: _.debounce(function (event) {
+            this.updateLatitude(event.target.value);
         }, 1000),
         updateLatitude(value) {
             this.$emit('update:latitude', this.castNumber(value));
@@ -152,8 +152,8 @@ export default {
         updateAccuracy(value) {
             this.$emit('update:accuracy', this.castNumber(value));
         },
-        updateAccuracyDebounced: _.debounce(function (value) {
-            this.updateAccuracy(value);
+        updateAccuracyDebounced: _.debounce(function (event) {
+            this.updateAccuracy(event.target.value);
         }, 1000),
         updateAltitude(value) {
             this.$emit('update:altitude', this.castNumber(value));

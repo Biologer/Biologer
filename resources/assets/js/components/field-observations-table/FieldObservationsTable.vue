@@ -63,7 +63,7 @@
                 <article class="media">
                     <figure class="media-left">
                         <p class="image is-64x64" v-for="photo in props.row.photos">
-                            <img :src="photo" @click="openImageModal(photo)">
+                            <img class="is-clickable" :src="photo" @click="openImageModal(photo)">
                         </p>
                     </figure>
                     <div class="media-content">
@@ -78,7 +78,7 @@
             </template>
         </b-table>
 
-        <b-modal :active.sync="isImageModalActive">
+        <b-modal :active.sync="isImageModalActive" :can-cancel="['escape', 'x']">
             <div class="image is-4by3">
                 <img :src="modalImage">
             </div>
@@ -113,7 +113,8 @@ export default {
             page: 1,
             perPage: 20,
             checkedRows: [],
-            isImageModalActive: false
+            isImageModalActive: false,
+            modalImage: null
         };
     },
 

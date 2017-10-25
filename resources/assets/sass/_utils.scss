@@ -48,3 +48,8 @@
 .bg-white {
     background-color: $white;
 }
+
+.is-clickable {
+    pointer-events: auto;
+    cursor: pointer;
+}
