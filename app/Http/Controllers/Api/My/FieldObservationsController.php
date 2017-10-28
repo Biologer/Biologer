@@ -19,7 +19,7 @@ class FieldObservationsController extends Controller
         list($sortField, $sortOrder) = explode('.', request('sort_by', 'id.desc'));
 
         $fieldObservations = FieldObservation::createdBy(auth()->user())
-            ->orderBy($sortField, $sortOrder)->orderBy('id');
+            ->with('photos')->orderBy($sortField, $sortOrder)->orderBy('id');
 
         if (request('all')) {
             return $fieldObservations->get();

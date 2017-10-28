@@ -76,6 +76,19 @@
                     </div>
                 </article>
             </template>
+
+            <template slot="bottom-left">
+                <b-field>
+                    <b-select :value="perPage" @input="onPerPageChange" placeholder="Per page">
+                        <option
+                            v-for="(option, index) in perPageOptions"
+                            :value="option"
+                            :key="index">
+                            {{ option }}
+                        </option>
+                    </b-select>
+                </b-field>
+            </template>
         </b-table>
 
         <b-modal :active.sync="isImageModalActive" :can-cancel="['escape', 'x']">
@@ -93,6 +106,13 @@ export default {
     name: 'nzFieldObservationsTable',
 
     props: {
+        perPageOptions: {
+            type: Array,
+            default() {
+                return [15, 30, 50, 100];
+            },
+            validator: value => value.length
+        },
         listRoute: String,
         editRoute: String,
         deleteRoute: String,
@@ -111,7 +131,7 @@ export default {
             sortOrder: 'desc',
             defaultSortOrder: 'desc',
             page: 1,
-            perPage: 20,
+            perPage: this.perPageOptions[0],
             checkedRows: [],
             isImageModalActive: false,
             modalImage: null
@@ -158,6 +178,13 @@ export default {
             this.loadAsyncData()
         },
 
+        onPerPageChange(perPage) {
+            if (perPage === this.perPage) return;
+
+            this.perPage = perPage;
+            this.loadAsyncData();
+        },
+
         confirmRemove(row) {
             this.$dialog.confirm({
                 message: 'Are you sure you want to delete this record?',
@@ -169,7 +196,10 @@ export default {
 
         remove (row) {
             return axios.delete(route(this.deleteRoute, row)).then(response => {
-                this.$toast.open('Record deleted!');
+                this.$toast.open({
+                    message: 'Record deleted',
+                    type: 'is-success'
+                });
                 this.loadAsyncData();
             }).catch(error => { console.error(error) })
         },

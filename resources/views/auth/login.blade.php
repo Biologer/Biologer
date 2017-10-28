@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
-@section('content')
-    <section class="hero is-fullheight bg-light is-bold">
+@section('body')
+    <section class="hero is-screen-height bg-light is-bold">
         <div class="hero-body">
             <div class="container">
                 <div class="columns is-vcentered">

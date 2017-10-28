@@ -1,6 +1,6 @@
 @extends('layouts.contributor')
 
-@section('main')
+@section('content')
     <div class="container">
         <section class="section">
             <h1 class="is-size-4">Field Observations</h1>

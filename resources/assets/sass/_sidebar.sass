@@ -1,0 +1,77 @@
+$sidebar-shadow: 5px 0px 13px 3px rgba( 0, 0, 0, 0.1 ) !default
+$sidebar-divider: 1px solid $grey-lighter !default
+$sidebar-z: 19 !default
+
+.sidebar
+  display: flex
+  flex-direction: column
+  background-color: $white
+  max-width: calc( 100% - 50px )
+  position: fixed
+  top: 0
+  bottom: 0
+  z-index: $sidebar-z
+  transform: translateZ( 0 )
+  transition: .3s ease
+  backface-visibility: hidden
+  perspective: 1000
+  will-change: transform
+  +mobile
+    width: 100%
+    right: -100%
+  +tablet
+    width: 50%
+    right: -50%
+  +desktop
+    width: 35%
+    right: -35%
+  +widescreen
+    width: 30%
+    right: -30%
+  +fullhd
+    width: 25%
+    right: -25%
+  &.is-left
+    +mobile
+      left: -100%
+    +tablet
+      left: -50%
+    +desktop
+      left: -35%
+    +widescreen
+      left: -30%
+    +fullhd
+      left: -25%
+  &.is-active
+    right: 0
+    box-shadow: $sidebar-shadow
+    &.is-left
+      left: 0
+
+.sidebar-header
+  display: flex
+  justify-content: center
+  align-items: center
+  padding: 0 1rem
+  min-height: 64px !important
+  border-bottom: $sidebar-divider
+  .title
+    margin-bottom: 0
+
+.sidebar-body
+  -webkit-box-flex: 1
+  flex: 1 1 0%
+  overflow-y: auto
+
+.sidebar-block
+  display: block
+  padding: .5rem 1rem
+
+.sidebar-footer
+  display: flex
+  justify-content: flex-end
+  align-items: center
+  padding: 0 1rem
+  min-height: 4rem
+  background-color: $white
+  border-top: $sidebar-divider

@@ -1,7 +1,9 @@
 import './bootstrap';
 import Vue from 'vue';
 import Buefy from 'buefy';
+import PortalVue from 'portal-vue'
 import Navbar from './components/navbar';
+import Sidebar from './components/sidebar';
 import DateInput from './components/date-input';
 import * as VueGoogleMaps from 'vue2-google-maps';
 import PhotoUpload from './components/photo-upload';
@@ -13,6 +15,7 @@ import FieldObservationsTable from './components/field-observations-table';
 
 window.Vue = Vue;
 
+Vue.use(PortalVue)
 Vue.use(Buefy, { defaultIconPack: 'fa' });
 
 // Config Google Maps
@@ -30,6 +33,7 @@ if (window.route) {
 }
 
 Vue.component(Navbar.name, Navbar);
+Vue.component(Sidebar.name, Sidebar);
 Vue.component(DateInput.name, DateInput);
 Vue.component(PhotoUpload.name, PhotoUpload);
 Vue.component(DynamicField.name, DynamicField);
@@ -40,5 +44,9 @@ Vue.component(FieldObservationForm.name, FieldObservationForm);
 Vue.component(FieldObservationsTable.name, FieldObservationsTable);
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+
+    data: {
+        showSidebar: false
+    }
 });

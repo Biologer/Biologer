@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('content')
+@section('body')
     <nz-navbar inline-template>
         <nav class="navbar has-shadow hero-border-top">
             <div class="container">
@@ -25,7 +25,7 @@
                         </div>
 
                         <div class="navbar-item">
-                            <a class="has-text-dark" @click="$root.showSidebar = !$root.showSidebar">
+                            <a class="has-text-dark" @click="toggleSidebar">
                                 <span class="badge is-badge-info is-badge-small" data-badge="">
                                     @include('components.icon', ['icon' => 'bell'])
                                 </span>
@@ -62,9 +62,10 @@
                     </div>
                 </div>
             </div>
+            <nz-sidebar :active="showSidebar" @close="showSidebar = false"></nz-sidebar>
         </nav>
     </nz-navbar>
 
-    @yield('main')
+    @yield('content')
 
 @endsection

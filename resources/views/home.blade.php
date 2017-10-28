@@ -84,7 +84,7 @@
         </div>
     </section>
 
-    <b-tabs type="is-boxed bg-light" position="is-centered" class="bg-white">
+    <b-tabs type="is-boxed bg-light" position="is-centered" class="bg-white" :animated="false">
         <b-tab-item label="Reptiles">
             <section class="section">
                 <div class="container">

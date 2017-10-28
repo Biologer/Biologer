@@ -1,6 +1,6 @@
 @extends('layouts.contributor')
 
-@section('main')
+@section('content')
     <div class="container">
         <section class="section">
             <div class="box">
