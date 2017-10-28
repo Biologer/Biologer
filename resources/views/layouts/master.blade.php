@@ -19,7 +19,7 @@
     </head>
     <body>
         <div id="app">
-            @yield('content')
+            @yield('body')
         </div>
 
         @stack('beforeScripts')

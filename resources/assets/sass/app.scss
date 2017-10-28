@@ -3,10 +3,11 @@
 
 // Bulma
 @import "bulma";
-@import "~bulma-badge/badge";
-@import "~bulma-quickview/quickview";
 // Buefy
 @import "~buefy/src/scss/buefy";
+
+@import "badge";
+@import "sidebar";
 
 @import "fonts";
 @import "specifics";
