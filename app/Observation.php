@@ -20,7 +20,7 @@ class Observation extends Model
         'latitude' => 'float',
         'longitude' => 'float',
         'accuracy' => 'integer',
-        'altitude' => 'integer',
+        'elevation' => 'integer',
         'year' => 'integer',
         'month' => 'integer',
         'day' => 'integer',
@@ -28,7 +28,7 @@ class Observation extends Model
 
     /**
      * Get observations created by given user.
-     * 
+     *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  \App\User  $user  [description]
      * @return \Illuminate\Database\Eloquent\Builder

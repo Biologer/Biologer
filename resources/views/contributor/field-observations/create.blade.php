@@ -4,7 +4,7 @@
     <div class="container">
         <section class="section">
             <div class="box">
-                <field-observation-form action="{{ route('contributor.field-observations.store') }}" method="post" inline-template
+                <field-observation-form action="{{ route('api.field-observations.store') }}" method="post" inline-template
                     :data-dynamic-fields="{{ App\FieldObservation::availableDynamicFields() }}">
                     <div class="">
                         <div class="columns">
@@ -61,7 +61,7 @@
                                     :longitude.sync="form.longitude"
                                     :location.sync="form.location"
                                     :accuracy.sync="form.accuracy"
-                                    :altitude.sync="form.altitude"
+                                    :elevation.sync="form.elevation"
                                     :errors="form.errors">
                                 </nz-spatial-input>
                             </div>

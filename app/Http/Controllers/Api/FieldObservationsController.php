@@ -42,7 +42,7 @@ class FieldObservationsController extends Controller
      */
     public function update($id, FieldObservationUpdateForm $form)
     {
-        $fieldObservation = FieldObservation::with('observation')->findOrFail($id);
+        $fieldObservation = FieldObservation::findOrFail($id);
 
         $form->save($fieldObservation);
 
@@ -57,7 +57,7 @@ class FieldObservationsController extends Controller
      */
     public function destroy($id)
     {
-        $fieldObservation = FieldObservation::with('observation')->findOrFail($id);
+        $fieldObservation = FieldObservation::findOrFail($id);
 
         $fieldObservation->observation->delete();
         $fieldObservation->delete();

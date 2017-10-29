@@ -1,10 +1,10 @@
 @extends('layouts.master')
 
 @section('body')
-    <section class="hero is-screen-height bg-light is-bold">
+    <section class="hero min-screen-height bg-light is-bold">
         <div class="hero-body">
             <div class="container">
-                <div class="columns is-vcentered">
+                <div class="columns">
                     <div class="column is-4 is-offset-4">
                         <h1 class="title">
                           Login

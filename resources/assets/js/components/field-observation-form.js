@@ -38,7 +38,7 @@ export default {
                     latitude: null,
                     longitude: null,
                     accuracy: 10,
-                    altitude: null,
+                    elevation: null,
                     location: null,
                     photos: [],
                     dynamic_fields: []
@@ -51,6 +51,8 @@ export default {
         return {
             form: new Form({
                 ...this.observation
+            }, {
+                http: window.axios
             }),
             dynamicFields: [],
             chosenField: null,
@@ -91,11 +93,31 @@ export default {
             }
 
             this.sumitting = true
-            this.form[this.method.toLowerCase()](this.action).then(() => {
-                this.submitting = false
+            this.form[this.method.toLowerCase()](this.action)
+                .then(this.onSuccessfulSubmit)
+                .catch(this.onFailedSubmit);
+        },
+
+        onSuccessfulSubmit() {
+            this.submitting = false;
+
+            this.$toast.open({
+                message: 'Saved successfully',
+                type: 'is-success'
+            });
+
+            setTimeout(() => {
                 window.location.href = this.redirect;
-            }).catch(() => {
-                this.submitting = false
+            }, 500);
+        },
+
+        onFailedSubmit(error) {
+            this.submitting = false
+
+            this.$toast.open({
+                duration: 2500,
+                message: error.response.data.message,
+                type: 'is-danger'
             });
         },
 

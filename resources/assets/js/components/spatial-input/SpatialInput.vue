@@ -55,11 +55,11 @@
                     <p class="help is-danger" v-if="errors.has('accuracy')" v-text="errors.first('accuracy')"></p>
                 </div>
                 <div class="field is-expanded">
-                    <label class="label is-small">Altitude (m)</label>
+                    <label class="label is-small">Elevation (m)</label>
                     <div class="control is-fullwidth">
-                        <input class="input is-small" :value="altitude" @input="updateAltitude" placeholder="f.e. 500">
+                        <input class="input is-small" :value="elevation" @input="onElevationInput" placeholder="f.e. 500">
                     </div>
-                    <p class="help is-danger" v-if="errors.has('altitude')" v-text="errors.first('altitude')"></p>
+                    <p class="help is-danger" v-if="errors.has('elevation')" v-text="errors.first('elevation')"></p>
                 </div>
             </div>
         </div>
@@ -75,7 +75,7 @@ export default {
             type: Number,
             default: 5
         },
-        altitude: {
+        elevation: {
             type: Number,
             default: 100
         },
@@ -125,9 +125,17 @@ export default {
         mapHasErrors() {
             return this.errors.has('latitude') ||
                 this.errors.has('longitude') ||
-                this.errors.has('altitude') ||
+                this.errors.has('elevation') ||
                 this.errors.has('accuracy');
         }
+    },
+
+    watch: {
+        position() {
+            if (this.coordinatesSet) {
+                this.getElevation(this.position);
+            }
+        },
     },
 
     methods: {
@@ -155,8 +163,11 @@ export default {
         updateAccuracyDebounced: _.debounce(function (event) {
             this.updateAccuracy(event.target.value);
         }, 1000),
-        updateAltitude(value) {
-            this.$emit('update:altitude', this.castNumber(value));
+        onElevationInput(event) {
+            this.updateElevation(event.target.value);
+        },
+        updateElevation(value) {
+            this.$emit('update:elevation', this.castNumber(value));
         },
         setMarker(position) {
             let lat = position.latLng.lat();
@@ -164,8 +175,6 @@ export default {
 
             this.updateLatitude(lat);
             this.updateLongitude(lng);
-
-            this.getElevation({ lat, lng });
         },
         updateRadius(value) {
             this.updateAccuracy(parseInt(value));
@@ -183,7 +192,7 @@ export default {
                     return;
                 }
 
-                this.updateAltitude(parseInt(results[0].elevation));
+                this.updateElevation(parseInt(results[0].elevation));
             })
         }
     }

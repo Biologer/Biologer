@@ -70,7 +70,7 @@
                         <div class="content">
                             <strong>{{ props.row.location }}</strong>
                             <small>{{ props.row.latitude }}, {{ props.row.longitude }}</small><br>
-                            <small>Elevation: {{ props.row.altitude}}m</small><br>
+                            <small>Elevation: {{ props.row.elevation}}m</small><br>
                             <small>Accuracy: {{ props.row.accuracy}}m</small>
                         </div>
                     </div>

@@ -1,7 +1,6 @@
 import './bootstrap';
 import Vue from 'vue';
 import Buefy from 'buefy';
-import PortalVue from 'portal-vue'
 import Navbar from './components/navbar';
 import Sidebar from './components/sidebar';
 import DateInput from './components/date-input';
@@ -15,7 +14,6 @@ import FieldObservationsTable from './components/field-observations-table';
 
 window.Vue = Vue;
 
-Vue.use(PortalVue)
 Vue.use(Buefy, { defaultIconPack: 'fa' });
 
 // Config Google Maps

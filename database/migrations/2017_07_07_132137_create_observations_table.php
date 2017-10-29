@@ -24,7 +24,7 @@ class CreateObservationsTable extends Migration
             $table->double('longitude', 15, 12);
             $table->unsignedInteger('accuracy')->default(1);
             $table->string('mgrs10k')->nullable();
-            $table->smallInteger('altitude')->default(0);
+            $table->smallInteger('elevation')->default(0);
             $table->morphs('details');
             $table->dateTime('approved_at')->nullable();
             $table->unsignedInteger('created_by_id');

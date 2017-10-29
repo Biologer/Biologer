@@ -45,8 +45,8 @@ class NewFieldObservationForm extends FormRequest
             ],
             'latitude' => 'required|numeric|between:-90,90',
             'longitude'=> 'required|numeric|between:-180,180',
-            'altitude'=> 'required|numeric',
-            'accuracy' => 'required|numeric',
+            'elevation'=> 'required|integer|max:10000',
+            'accuracy' => 'required|integer',
             'source' => 'nullable|string',
             'photos' => [
                 'nullable',
@@ -100,7 +100,7 @@ class NewFieldObservationForm extends FormRequest
             'longitude' => $this->input('longitude'),
             'mgrs10k' => mgrs10k($this->input('latitude'), $this->input('longitude')),
             'accuracy' => $this->input('accuracy'),
-            'altitude' => $this->input('altitude'),
+            'elevation' => $this->input('elevation'),
             'created_by_id' => auth()->user()->id,
         ]);
 

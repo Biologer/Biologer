@@ -77,7 +77,7 @@ abstract class TestCase extends BaseTestCase
      * @param  string  $url
      * @return $this
      */
-    protected function from($url)
+    protected function comingFrom($url)
     {
         session()->setPreviousUrl(url($url));
 

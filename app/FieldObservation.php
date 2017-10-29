@@ -139,7 +139,7 @@ class FieldObservation extends Model
             'latitude' => $this->observation->latitude,
             'longitude' => $this->observation->longitude,
             'accuracy' => $this->observation->accuracy,
-            'altitude' => $this->observation->altitude,
+            'elevation' => $this->observation->elevation,
             'photos' => $this->photos->map(function ($photo) {
                 return $photo->url;
             }),

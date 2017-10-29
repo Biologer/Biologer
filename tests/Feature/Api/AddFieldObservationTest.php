@@ -35,7 +35,7 @@ class AddFieldObservationTest extends TestCase
             'latitude' => 45.251667,
             'longitude' => 19.836944,
             'accuracy' => 100,
-            'altitude' => 80,
+            'elevation' => 80,
             'source' => 'John Doe',
         ], $overrides);
     }
@@ -82,7 +82,7 @@ class AddFieldObservationTest extends TestCase
             $this->assertEquals(45.251667, $observation->latitude);
             $this->assertEquals(19.836944, $observation->longitude);
             $this->assertEquals(100, $observation->accuracy);
-            $this->assertEquals(80, $observation->altitude);
+            $this->assertEquals(80, $observation->elevation);
             $this->assertNull($observation->approved_at);
             $this->assertEquals($user->id, $observation->created_by_id);
         });
@@ -361,36 +361,36 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function altitude_is_required_when_adding_field_observation()
+    function elevation_is_required_when_adding_field_observation()
     {
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
         $response = $this->withExceptionHandling()->json(
             'POST', '/api/field-observations', $this->validParams([
-                'altitude' => null,
+                'elevation' => null,
             ])
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('altitude', $response->json()['errors']);
+        $this->assertArrayHasKey('elevation', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
     /** @test */
-    function altitude_must_be_number()
+    function elevation_must_be_number()
     {
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
         $response = $this->withExceptionHandling()->json(
             'POST', '/api/field-observations', $this->validParams([
-                'altitude' => 'aaa',
+                'elevation' => 'aaa',
             ])
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('altitude', $response->json()['errors']);
+        $this->assertArrayHasKey('elevation', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 

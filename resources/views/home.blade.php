@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('content')
+@section('body')
     <nz-navbar inline-template>
         <nav class="navbar has-shadow hero-border-top">
             <div class="container">
