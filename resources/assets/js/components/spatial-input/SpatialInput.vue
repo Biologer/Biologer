@@ -3,7 +3,7 @@
         <div class="field is-expanded">
             <label class="label">Location</label>
             <div class="control is-fullwidth">
-                <input class="input" :class="{'is-danger': errors.has('location')}" :value="location" @input="updateLocation" placeholder="Location">
+                <input class="input" :class="{'is-danger': errors.has('location')}" :value="location" @input="onLocationInput" placeholder="Location">
             </div>
             <p class="help is-danger" v-if="errors.has('location')" v-text="errors.first('location')"></p>
         </div>

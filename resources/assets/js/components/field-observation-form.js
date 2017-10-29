@@ -97,12 +97,18 @@ export default {
         },
 
         onSuccessfulSubmit() {
+            this.form.processing = true
+
             this.$toast.open({
                 message: 'Saved successfully',
                 type: 'is-success'
             });
 
+            // We want to wait a bit before we send the user to redirect route
+            // so we can show the message that the action was successful.
             setTimeout(() => {
+                this.form.processing = false;
+
                 window.location.href = this.redirect;
             }, 500);
         },

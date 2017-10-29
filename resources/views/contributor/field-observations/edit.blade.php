@@ -92,7 +92,14 @@
 
                         <hr>
 
-                        <button type="button" class="button is-primary" @click="submit">Save</button>
+                        <button type="button"
+                            class="button is-primary"
+                            :class="{
+                                'is-loading': form.processing
+                            }"
+                            @click="submit">
+                            Save
+                        </button>
                         <a :href="redirect" class="button is-text">Cancel</a>
                     </div>
                 </fild-observation-form>
