@@ -65412,7 +65412,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             default: function _default() {
                 return [15, 30, 50, 100];
             },
-
             validator: function validator(value) {
                 return value.length;
             }

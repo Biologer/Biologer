@@ -111,7 +111,9 @@ export default {
             default() {
                 return [15, 30, 50, 100];
             },
-            validator: value => value.length
+            validator(value) {
+                return value.length;
+            }
         },
         listRoute: String,
         editRoute: String,
