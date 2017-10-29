@@ -58639,6 +58639,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
     computed: {
+        /**
+         * Position object from coordinates.
+         *
+         * @return {Object}
+         */
         position: function position() {
             if (!this.coordinatesSet) {
                 return null;
@@ -58646,56 +58651,152 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             return { lat: this.latitude, lng: this.longitude };
         },
+
+
+        /**
+         * Check if coordinate are set.
+         *
+         * @return {Boolean}
+         */
         coordinatesSet: function coordinatesSet() {
             return !(isNaN(this.latitude) || this.latitude === null || isNaN(this.longitude) || this.longitude === null);
         },
+
+
+        /**
+         * Check if any of the fields has an error.
+         *
+         * @return {Boolean}
+         */
         mapHasErrors: function mapHasErrors() {
             return this.errors.has('latitude') || this.errors.has('longitude') || this.errors.has('elevation') || this.errors.has('accuracy');
         }
     },
 
     watch: {
-        position: function position() {
+        /**
+         * Get elevation when coordinates change.
+         */
+        position: function position(value) {
             if (this.coordinatesSet) {
-                this.getElevation(this.position);
+                this.getElevation(value);
             }
         }
     },
 
     methods: {
+        /**
+         * Cast to number or null.
+         *
+         * @param  {any} value
+         * @return {Number}
+         */
         castNumber: function castNumber(value) {
             return isNaN(Number(value)) ? null : Number(value);
         },
-        updateLocation: function updateLocation(event) {
-            this.$emit('update:location', event.target.value);
+
+
+        /**
+         * Handle location input.
+         * @param {Object} event
+         */
+        onLocationInput: function onLocationInput(event) {
+            this.updateLocation(event.target.value);
         },
 
-        updateLongitudeDebounced: _.debounce(function (event) {
+
+        /**
+         * Sync location property.
+         *
+         * @param {String} value
+         */
+        updateLocation: function updateLocation(value) {
+            this.$emit('update:location', value);
+        },
+
+
+        /**
+         * Handle longitude input.
+         * @param  {[type]} event [description]
+         * @return {[type]}       [description]
+         */
+        onLongitudeInput: _.debounce(function (event) {
             this.updateLongitude(event.target.value);
         }, 1000),
+
+        /**
+         * Sync longitude property.
+         *
+         * @param {Number} value
+         */
         updateLongitude: function updateLongitude(value) {
             this.$emit('update:longitude', this.castNumber(value));
         },
 
-        updateLatitudeDebounced: _.debounce(function (event) {
+
+        /**
+         * Handle latitude input.
+         *
+         * @param {Object} event
+         */
+        onLatitudeInput: _.debounce(function (event) {
             this.updateLatitude(event.target.value);
         }, 1000),
+
+        /**
+         * Sync latitude property.
+         *
+         * @param {Number} value
+         */
         updateLatitude: function updateLatitude(value) {
             this.$emit('update:latitude', this.castNumber(value));
         },
+
+
+        /**
+         * Sync accuracy property.
+         *
+         * @param {Number} value
+         */
         updateAccuracy: function updateAccuracy(value) {
             this.$emit('update:accuracy', this.castNumber(value));
         },
 
-        updateAccuracyDebounced: _.debounce(function (event) {
+
+        /**
+         * Handle accuracy input.
+         *
+         * @param {Object} event
+         */
+        onAccuracyInput: _.debounce(function (event) {
             this.updateAccuracy(event.target.value);
         }, 1000),
+
+        /**
+         * Handle elevation input.
+         *
+         * @param {Object} event
+         */
         onElevationInput: function onElevationInput(event) {
             this.updateElevation(event.target.value);
         },
+
+
+        /**
+         * Sync elevation property.
+         *
+         * @param {Number} value
+         */
         updateElevation: function updateElevation(value) {
             this.$emit('update:elevation', this.castNumber(value));
         },
+
+
+        /**
+         * Update coordinates from marker position.
+         *
+         * @param {Object} position
+         */
         setMarker: function setMarker(position) {
             var lat = position.latLng.lat();
             var lng = position.latLng.lng();
@@ -58703,12 +58804,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.updateLatitude(lat);
             this.updateLongitude(lng);
         },
+
+
+        /**
+         * Update accuracy from circle radius on gmaps.
+         *
+         * @param  {Number} value
+         */
         updateRadius: function updateRadius(value) {
             this.updateAccuracy(parseInt(value));
         },
+
+
+        /**
+         * Get elevation using Google's service.
+         *
+         * @param  {Object} position
+         */
         getElevation: function getElevation(position) {
             var _this = this;
 
+            // Do nothing if we still don't have gmaps library loaded.
+            if (!google || !google.maps || !google.maps.ElevationService) {
+                return;
+            }
+
+            // We don't initialize service when component is created
+            // because Gmap library probably isn't loaded yet,
+            // so we do it on first use of this method.
             if (!this.elevationService) {
                 this.elevationService = new google.maps.ElevationService();
             }
@@ -58845,7 +58968,7 @@ var render = function() {
                   class: { "is-danger": _vm.errors.has("latitude") },
                   attrs: { placeholder: "f.e. 42.5234" },
                   domProps: { value: _vm.latitude },
-                  on: { input: _vm.updateLatitudeDebounced }
+                  on: { input: _vm.onLatitudeInput }
                 })
               ]),
               _vm._v(" "),
@@ -58870,7 +58993,7 @@ var render = function() {
                   class: { "is-danger": _vm.errors.has("longitude") },
                   attrs: { placeholder: "f.e. 19.1234" },
                   domProps: { value: _vm.longitude },
-                  on: { input: _vm.updateLongitudeDebounced }
+                  on: { input: _vm.onLongitudeInput }
                 })
               ]),
               _vm._v(" "),
@@ -58896,7 +59019,7 @@ var render = function() {
                   staticClass: "input is-small",
                   attrs: { placeholder: "f.e. 100" },
                   domProps: { value: _vm.accuracy },
-                  on: { input: _vm.updateAccuracyDebounced }
+                  on: { input: _vm.onAccuracyInput }
                 })
               ]),
               _vm._v(" "),
