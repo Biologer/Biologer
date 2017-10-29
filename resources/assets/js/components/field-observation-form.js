@@ -55,8 +55,7 @@ export default {
                 http: window.axios
             }),
             dynamicFields: [],
-            chosenField: null,
-            submitting: false
+            chosenField: null
         };
     },
 
@@ -88,19 +87,16 @@ export default {
          * Submit the form.
          */
         submit() {
-            if (this.submitting) {
+            if (this.form.processing) {
                 return;
             }
 
-            this.sumitting = true
             this.form[this.method.toLowerCase()](this.action)
                 .then(this.onSuccessfulSubmit)
                 .catch(this.onFailedSubmit);
         },
 
         onSuccessfulSubmit() {
-            this.submitting = false;
-
             this.$toast.open({
                 message: 'Saved successfully',
                 type: 'is-success'
@@ -112,8 +108,6 @@ export default {
         },
 
         onFailedSubmit(error) {
-            this.submitting = false
-
             this.$toast.open({
                 duration: 2500,
                 message: error.response.data.message,

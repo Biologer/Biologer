@@ -8,9 +8,9 @@
             <p class="help is-danger" v-if="errors.has('location')" v-text="errors.first('location')"></p>
         </div>
         <b-field label="Map">
-            <gmap-map  style="width: 100%; min-height: 400px"
-                :center="{lat: 45.0, lng: 20.0}"
-                :zoom="8"
+            <gmap-map style="width: 100%; min-height: 400px"
+                :center="{lat: center.latitude, lng: center.longitude}"
+                :zoom="center.zoom"
                 @click="setMarker">
                 <gmap-marker :position="position"
                              :clickable="true"
@@ -102,7 +102,8 @@ export default {
     data() {
         return {
             showDetails: false,
-            elevationService: null
+            elevationService: null,
+            center: window.App.gmaps.center
         };
     },
 
@@ -164,7 +165,7 @@ export default {
          * @return {Number}
          */
         castNumber(value) {
-            return isNaN(Number(value)) ? null : Number(value);
+            return isNaN(value) || value === '' ? null : Number(value);
         },
 
         /**
@@ -221,6 +222,15 @@ export default {
         },
 
         /**
+        * Handle accuracy input.
+        *
+        * @param {Object} event
+        */
+        onAccuracyInput: _.debounce(function (event) {
+            this.updateAccuracy(event.target.value);
+        }, 1000),
+
+        /**
          * Sync accuracy property.
          *
          * @param {Number} value
@@ -228,15 +238,6 @@ export default {
         updateAccuracy(value) {
             this.$emit('update:accuracy', this.castNumber(value));
         },
-
-        /**
-         * Handle accuracy input.
-         *
-         * @param {Object} event
-         */
-        onAccuracyInput: _.debounce(function (event) {
-            this.updateAccuracy(event.target.value);
-        }, 1000),
 
         /**
          * Handle elevation input.

@@ -18,8 +18,8 @@ $factory->define(App\Observation::class, function (Faker $faker) {
         'month' => date('m'),
         'day' => date('d'),
         'location' => $faker->city,
-        'latitude' => 21.11111,
-        'longitude' => 44.44444,
+        'latitude' => 44.44444,
+        'longitude' => 21.11111,
         'mgrs10k' => '38QMJ43',
         'approved_at' => Carbon\Carbon::yesterday(),
         'created_by_id' => function () use ($userId) {

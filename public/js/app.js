@@ -58633,7 +58633,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             showDetails: false,
-            elevationService: null
+            elevationService: null,
+            center: window.App.gmaps.center
         };
     },
 
@@ -58692,7 +58693,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          * @return {Number}
          */
         castNumber: function castNumber(value) {
-            return isNaN(Number(value)) ? null : Number(value);
+            return isNaN(value) || value === '' ? null : Number(value);
         },
 
 
@@ -58754,6 +58755,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
         /**
+        * Handle accuracy input.
+        *
+        * @param {Object} event
+        */
+        onAccuracyInput: _.debounce(function (event) {
+            this.updateAccuracy(event.target.value);
+        }, 1000),
+
+        /**
          * Sync accuracy property.
          *
          * @param {Number} value
@@ -58762,15 +58772,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$emit('update:accuracy', this.castNumber(value));
         },
 
-
-        /**
-         * Handle accuracy input.
-         *
-         * @param {Object} event
-         */
-        onAccuracyInput: _.debounce(function (event) {
-            this.updateAccuracy(event.target.value);
-        }, 1000),
 
         /**
          * Handle elevation input.
@@ -58890,7 +58891,10 @@ var render = function() {
             "gmap-map",
             {
               staticStyle: { width: "100%", "min-height": "400px" },
-              attrs: { center: { lat: 45.0, lng: 20.0 }, zoom: 8 },
+              attrs: {
+                center: { lat: _vm.center.latitude, lng: _vm.center.longitude },
+                zoom: _vm.center.zoom
+              },
               on: { click: _vm.setMarker }
             },
             [
@@ -59417,8 +59421,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 http: window.axios
             }),
             dynamicFields: [],
-            chosenField: null,
-            submitting: false
+            chosenField: null
         };
     },
     created: function created() {
@@ -59454,17 +59457,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
          * Submit the form.
          */
         submit: function submit() {
-            if (this.submitting) {
+            if (this.form.processing) {
                 return;
             }
 
-            this.sumitting = true;
             this.form[this.method.toLowerCase()](this.action).then(this.onSuccessfulSubmit).catch(this.onFailedSubmit);
         },
         onSuccessfulSubmit: function onSuccessfulSubmit() {
             var _this = this;
-
-            this.submitting = false;
 
             this.$toast.open({
                 message: 'Saved successfully',
@@ -59476,8 +59476,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             }, 500);
         },
         onFailedSubmit: function onFailedSubmit(error) {
-            this.submitting = false;
-
             this.$toast.open({
                 duration: 2500,
                 message: error.response.data.message,
