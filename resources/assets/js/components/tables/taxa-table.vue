@@ -151,7 +151,7 @@ export default {
         },
 
         remove (row) {
-            return axios.delete(route(this.deleteRoute, row)).then(response => {
+            return axios.delete(route(this.deleteRoute, row.id)).then(response => {
                 this.$toast.open({
                     message: 'Record deleted',
                     type: 'is-success'
@@ -163,23 +163,6 @@ export default {
 
         editLink (row) {
             return route(this.editRoute, row.id);
-        },
-
-        openImageModal(imageUrl) {
-            this.modalImage = imageUrl;
-
-            this.isImageModalActive = true;
-        }
-    },
-
-    filters: {
-        /**
-         * Filter to truncate string, accepts a length parameter
-         */
-        truncate(value, length) {
-            return value.length > length
-                ? value.substr(0, length) + '...'
-                : value
         }
     },
 

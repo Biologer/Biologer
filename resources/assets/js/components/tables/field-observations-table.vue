@@ -143,7 +143,7 @@ export default {
     methods: {
         loadAsyncData() {
             this.loading = true;
-            
+
             return axios.get(route(this.listRoute, {
                 sort_by: `${this.sortField}.${this.sortOrder}`,
                 page: this.page,
@@ -196,7 +196,7 @@ export default {
         },
 
         remove (row) {
-            return axios.delete(route(this.deleteRoute, row)).then(response => {
+            return axios.delete(route(this.deleteRoute, row.id)).then(response => {
                 this.$toast.open({
                     message: 'Record deleted',
                     type: 'is-success'
