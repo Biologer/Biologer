@@ -1,17 +1,22 @@
 import './bootstrap';
 import Vue from 'vue';
 import Buefy from 'buefy';
+import * as VueGoogleMaps from 'vue2-google-maps';
+
 import Navbar from './components/navbar';
 import Sidebar from './components/sidebar';
-import * as VueGoogleMaps from 'vue2-google-maps';
+
 import DateInput from './components/inputs/date-input';
-import TaxaTable from './components/tables/taxa-table';
 import PhotoUpload from './components/inputs/photo-upload';
 import DynamicField from './components/inputs/dynamic-input';
 import SpatialInput from './components/inputs/spatial-input';
 import TaxonAutocomplete from './components/inputs/taxon-autocomplete';
-import FieldObservationForm from './components/forms/field-observation-form';
+
+import TaxaTable from './components/tables/taxa-table';
 import FieldObservationsTable from './components/tables/field-observations-table';
+
+import TaxonForm from './components/forms/taxon-form';
+import FieldObservationForm from './components/forms/field-observation-form';
 
 window.Vue = Vue;
 
@@ -41,6 +46,7 @@ Vue.component(DynamicField.name, DynamicField);
 Vue.component(SpatialInput.name, SpatialInput);
 Vue.component(TaxonAutocomplete.name, TaxonAutocomplete);
 Vue.component(FieldObservationForm.name, FieldObservationForm);
+Vue.component(TaxonForm.name, TaxonForm);
 Vue.component(FieldObservationsTable.name, FieldObservationsTable);
 
 const app = new Vue({

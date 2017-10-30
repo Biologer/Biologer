@@ -14,6 +14,13 @@ class Taxon extends Model
     protected $table = 'taxa';
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    // protected $with = ['parent'];
+
+    /**
      * Observations relation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

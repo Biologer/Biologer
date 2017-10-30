@@ -24,5 +24,6 @@ Route::middleware('auth')->group(function () {
     Route::get('contributor/field-observations/{id}/edit', 'Contributor\FieldObservationsController@edit')->name('contributor.field-observations.edit');
 
     Route::get('admin/taxa', 'Admin\TaxaController@index')->name('admin.taxa.index');
-    Route::get('admin/taxa/{id}/edit', 'Admin\TaxaController@edit')->name('admin.taxa.edit');
+    Route::get('admin/taxa/{taxon}/edit', 'Admin\TaxaController@edit')->name('admin.taxa.edit');
+    Route::get('admin/taxa/new', 'Admin\TaxaController@create')->name('admin.taxa.create');
 });

@@ -167,12 +167,12 @@ trait HasAncestry
         // Store links
         static::saved(function ($model) {
             if ($model->isRoot()) {
-                return;
+                return $model->ancestors()->detach();
             }
 
-            $model->ancestors()->attach($model->parent);
+            $model->ancestors()->sync($model->parent->ancestors);
 
-            $model->ancestors()->attach($model->parent->ancestors);
+            $model->ancestors()->attach($model->parent);
         });
     }
 

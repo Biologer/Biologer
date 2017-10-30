@@ -22,7 +22,9 @@ Route::middleware('auth:api')->group(function() {
     Route::delete('field-observations/{id}', 'FieldObservationsController@destroy')->name('api.field-observations.destroy');
 
     Route::get('taxa', 'TaxaController@index')->name('api.taxa.index');
-    Route::delete('taxa/{id}', 'TaxaController@destroy')->name('api.taxa.destroy');
+    Route::post('taxa', 'TaxaController@store')->name('api.taxa.store');
+    Route::put('taxa/{taxon}', 'TaxaController@update')->name('api.taxa.update');
+    Route::delete('taxa/{taxon}', 'TaxaController@destroy')->name('api.taxa.destroy');
 
     Route::group(['prefix' => 'my'], function () {
         Route::get('field-observations', 'My\FieldObservationsController@index')->name('api.my.field-observations.index');

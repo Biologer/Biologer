@@ -34,83 +34,84 @@
 import axios from 'axios';
 
 export default {
-  name: 'nz-taxon-autocomplete',
+    name: 'nz-taxon-autocomplete',
 
-  props: {
-    label: {
-      type: String,
-      default: 'Taxon'
+    props: {
+        label: {
+            type: String,
+            default: 'Taxon'
+        },
+        placeholder: {
+            type: String,
+            default: 'Search for taxon...'
+        },
+        taxon: {
+            type: Object,
+            default: null
+        },
+        path: {
+            type: String,
+            default: 'api.taxa.index'
+        },
+        value: {
+            type: String,
+            default: ''
+        },
+        error: Boolean,
+        message: {
+            type: String,
+            default: null
+        },
+        except: {}
     },
-    placeholder: {
-      type: String,
-      default: 'Search for taxon...'
+
+    data() {
+        return {
+            data: [],
+            selected: this.taxon || null,
+            loading: false
+        };
     },
-    taxon: {
-      type: Object,
-      default: null
+
+    computed: {
+        haveThumbnail() {
+            return this.selected && this.selected.thumbnail_url;
+        },
+
+        icon() {
+            return this.selected ? 'check' : 'search';
+        }
     },
-    url: {
-      type: String,
-      default: '/api/taxa'
-    },
-    value: {
-        type: String,
-        default: ''
-    },
-    error: {
-        type: Boolean,
-        default: false
-    },
-    message: {
-        type: String,
-        default: null
+
+    methods: {
+        fetchData: _.debounce(function() {
+            if (!this.value) return;
+
+            this.data = [];
+            this.loading = true;
+
+            axios.get(route('api.taxa.index', {
+                name: this.value,
+                except: this.except
+            })).then(({ data }) => {
+                data.data.forEach((item) => this.data.push(item))
+                this.loading = false
+            }, response => {
+                this.loading = false
+            });
+        }, 500),
+
+        onSelect(taxon) {
+            this.selected = taxon;
+
+            this.$emit('select', taxon);
+        },
+
+        onInput(value) {
+            this.$emit('input', value);
+
+            this.fetchData()
+        }
     }
-  },
-
-  data() {
-    return {
-      data: [],
-      selected: this.taxon || null,
-      loading: false
-    };
-  },
-
-  computed: {
-    haveThumbnail() {
-      return this.selected && this.selected.thumbnail_url;
-    },
-
-    icon() {
-      return this.selected ? 'check' : 'search';
-    }
-  },
-
-  methods: {
-    fetchData: _.debounce(function() {
-      if (!this.value) return;
-
-      this.data = [];
-      this.loading = true;
-
-      axios.get(`${this.url}?name=${this.value}`).then(({ data }) => {
-        data.data.forEach((item) => this.data.push(item))
-        this.loading = false
-      }, response => {
-        this.loading = false
-      });
-    }, 500),
-
-    onSelect(taxon) {
-      this.selected = taxon;
-
-      this.$emit('select', taxon);
-    },
-
-    onInput(value) {
-      this.$emit('input', value);
-
-      this.fetchData()
-    }
-  }
 }
 </script>

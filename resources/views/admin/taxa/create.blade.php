@@ -5,9 +5,7 @@
         <section class="section">
             <div class="box">
                 <nz-taxon-form inline-template
-                    action="{{ route('api.taxa.update', $taxon) }}"
-                    method="put"
-                    :taxon="{{ $taxon }}">
+                    action="{{ route('api.taxa.store') }}">
                     <div class="">
                         <div class="columns">
                             <div class="column is-half">
@@ -22,10 +20,7 @@
                                 <nz-taxon-autocomplete label="Parent"
                                     v-model="parentName"
                                     @select="onTaxonSelect"
-                                    :error="form.errors.has('parent_id')"
-                                    :message="form.errors.first('parent_id')"
-                                    :taxon="{{ $taxon->parent or 'null' }}"
-                                    except="{{ $taxon->id }}">
+                                    :errors="form.errors">
                                 </nz-taxon-autocomplete>
                             </div>
                         </div>
