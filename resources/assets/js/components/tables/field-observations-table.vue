@@ -140,13 +140,10 @@ export default {
         };
     },
 
-    created() {
-
-    },
-
     methods: {
         loadAsyncData() {
             this.loading = true;
+            
             return axios.get(route(this.listRoute, {
                 sort_by: `${this.sortField}.${this.sortOrder}`,
                 page: this.page,
@@ -177,6 +174,7 @@ export default {
         onSort(field, order) {
             this.sortField = field
             this.sortOrder = order
+
             this.loadAsyncData()
         },
 
@@ -184,6 +182,7 @@ export default {
             if (perPage === this.perPage) return;
 
             this.perPage = perPage;
+
             this.loadAsyncData();
         },
 
@@ -202,6 +201,7 @@ export default {
                     message: 'Record deleted',
                     type: 'is-success'
                 });
+
                 this.loadAsyncData();
             }).catch(error => { console.error(error) })
         },

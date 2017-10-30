@@ -21028,16 +21028,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_navbar__ = __webpack_require__(242);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_sidebar__ = __webpack_require__(243);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_sidebar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_sidebar__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_date_input__ = __webpack_require__(246);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_vue2_google_maps__ = __webpack_require__(251);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_vue2_google_maps___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_vue2_google_maps__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_photo_upload__ = __webpack_require__(388);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_dynamic_input__ = __webpack_require__(392);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_dynamic_input___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_dynamic_input__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_spatial_input__ = __webpack_require__(395);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_taxon_autocomplete__ = __webpack_require__(399);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_field_observation_form__ = __webpack_require__(403);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_field_observations_table__ = __webpack_require__(513);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue2_google_maps__ = __webpack_require__(251);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue2_google_maps___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_vue2_google_maps__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_inputs_date_input__ = __webpack_require__(537);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_inputs_date_input___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_inputs_date_input__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_tables_taxa_table__ = __webpack_require__(552);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_tables_taxa_table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_tables_taxa_table__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_inputs_photo_upload__ = __webpack_require__(540);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_inputs_photo_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_inputs_photo_upload__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_inputs_dynamic_input__ = __webpack_require__(534);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_inputs_dynamic_input___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_inputs_dynamic_input__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_inputs_spatial_input__ = __webpack_require__(543);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_inputs_spatial_input___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__components_inputs_spatial_input__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_inputs_taxon_autocomplete__ = __webpack_require__(546);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_inputs_taxon_autocomplete___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__components_inputs_taxon_autocomplete__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_forms_field_observation_form__ = __webpack_require__(533);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_tables_field_observations_table__ = __webpack_require__(549);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_tables_field_observations_table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__components_tables_field_observations_table__);
+
 
 
 
@@ -21064,7 +21072,7 @@ if (window.App && window.App.gmaps && window.App.gmaps.load) {
         libraries: 'drawing'
     };
 }
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_6_vue2_google_maps__, gmapsConfig);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_5_vue2_google_maps__, gmapsConfig);
 
 if (window.route) {
     __WEBPACK_IMPORTED_MODULE_1_vue___default.a.prototype.$ziggy = window.route;
@@ -21072,21 +21080,18 @@ if (window.route) {
 
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_3__components_navbar__["a" /* default */].name, __WEBPACK_IMPORTED_MODULE_3__components_navbar__["a" /* default */]);
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_4__components_sidebar___default.a.name, __WEBPACK_IMPORTED_MODULE_4__components_sidebar___default.a);
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_5__components_date_input__["a" /* default */].name, __WEBPACK_IMPORTED_MODULE_5__components_date_input__["a" /* default */]);
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_7__components_photo_upload__["a" /* default */].name, __WEBPACK_IMPORTED_MODULE_7__components_photo_upload__["a" /* default */]);
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_8__components_dynamic_input___default.a.name, __WEBPACK_IMPORTED_MODULE_8__components_dynamic_input___default.a);
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_8__components_dynamic_input___default.a.name, __WEBPACK_IMPORTED_MODULE_8__components_dynamic_input___default.a);
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_9__components_spatial_input__["a" /* default */].name, __WEBPACK_IMPORTED_MODULE_9__components_spatial_input__["a" /* default */]);
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_10__components_taxon_autocomplete__["a" /* default */].name, __WEBPACK_IMPORTED_MODULE_10__components_taxon_autocomplete__["a" /* default */]);
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_11__components_field_observation_form__["a" /* default */].name, __WEBPACK_IMPORTED_MODULE_11__components_field_observation_form__["a" /* default */]);
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_12__components_field_observations_table__["a" /* default */].name, __WEBPACK_IMPORTED_MODULE_12__components_field_observations_table__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_6__components_inputs_date_input___default.a.name, __WEBPACK_IMPORTED_MODULE_6__components_inputs_date_input___default.a);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_7__components_tables_taxa_table___default.a.name, __WEBPACK_IMPORTED_MODULE_7__components_tables_taxa_table___default.a);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_8__components_inputs_photo_upload___default.a.name, __WEBPACK_IMPORTED_MODULE_8__components_inputs_photo_upload___default.a);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_9__components_inputs_dynamic_input___default.a.name, __WEBPACK_IMPORTED_MODULE_9__components_inputs_dynamic_input___default.a);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_9__components_inputs_dynamic_input___default.a.name, __WEBPACK_IMPORTED_MODULE_9__components_inputs_dynamic_input___default.a);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_10__components_inputs_spatial_input___default.a.name, __WEBPACK_IMPORTED_MODULE_10__components_inputs_spatial_input___default.a);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_11__components_inputs_taxon_autocomplete___default.a.name, __WEBPACK_IMPORTED_MODULE_11__components_inputs_taxon_autocomplete___default.a);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_12__components_forms_field_observation_form__["a" /* default */].name, __WEBPACK_IMPORTED_MODULE_12__components_forms_field_observation_form__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_13__components_tables_field_observations_table___default.a.name, __WEBPACK_IMPORTED_MODULE_13__components_tables_field_observations_table___default.a);
 
 var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
-    el: '#app',
-
-    data: {
-        showSidebar: false
-    }
+    el: '#app'
 });
 
 /***/ }),
@@ -50161,218 +50166,9 @@ if (false) {
 }
 
 /***/ }),
-/* 246 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DateInput__ = __webpack_require__(247);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DateInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__DateInput__);
-
-
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__DateInput___default.a);
-
-/***/ }),
-/* 247 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = __webpack_require__(248)
-/* template */
-var __vue_template__ = __webpack_require__(250)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/date-input/DateInput.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2ee4e708", Component.options)
-  } else {
-    hotAPI.reload("data-v-2ee4e708", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 248 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'nz-date-input',
-
-  props: {
-    label: {
-      type: String,
-      default: 'Date'
-    },
-
-    dataYear: {
-      type: Number,
-      default: __WEBPACK_IMPORTED_MODULE_0_moment___default()().year()
-    },
-
-    dataMonth: {
-      type: Number,
-      default: __WEBPACK_IMPORTED_MODULE_0_moment___default()().month() + 1
-    },
-
-    dataDay: {
-      type: Number,
-      default: __WEBPACK_IMPORTED_MODULE_0_moment___default()().date()
-    },
-
-    placeholders: {
-      type: Object,
-      default: function _default() {
-        return {
-          year: 'Year',
-          month: 'Month',
-          day: 'Day'
-        };
-      }
-    },
-
-    errors: Object
-  },
-
-  data: function data() {
-    return {
-      year: this.dataYear,
-      month: this.dataMonth,
-      day: this.dataDay
-    };
-  },
-
-
-  computed: {
-    now: function now() {
-      return __WEBPACK_IMPORTED_MODULE_0_moment___default()();
-    },
-    months: function months() {
-      if (!this.year || this.year > __WEBPACK_IMPORTED_MODULE_0_moment___default()().year()) return [];
-
-      var isThisYear = this.year === __WEBPACK_IMPORTED_MODULE_0_moment___default()().year();
-
-      var months = __WEBPACK_IMPORTED_MODULE_0_moment___default.a.months();
-
-      if (isThisYear) months.splice(__WEBPACK_IMPORTED_MODULE_0_moment___default()().month() + 1);
-
-      return months;
-    },
-    days: function days() {
-      var haveDate = this.year && this.month;
-
-      if (!haveDate) return [];
-
-      var isThisMonth = this.year === __WEBPACK_IMPORTED_MODULE_0_moment___default()().year() && this.month - 1 === __WEBPACK_IMPORTED_MODULE_0_moment___default()().month();
-
-      var days = __WEBPACK_IMPORTED_MODULE_0_moment___default()({
-        year: this.year,
-        month: this.month - 1
-      }).daysInMonth();
-
-      if (isThisMonth) days = __WEBPACK_IMPORTED_MODULE_0_moment___default()().date();
-
-      return _.range(1, days + 1);
-    }
-  },
-
-  watch: {
-    year: function year() {
-      if (this.year > __WEBPACK_IMPORTED_MODULE_0_moment___default()().year() || this.months.length < this.month - 1) {
-        this.month = null;
-      }
-
-      this.truncateDay();
-    },
-    month: function month() {
-      this.truncateDay();
-    }
-  },
-
-  methods: {
-    truncateDay: function truncateDay() {
-      if (this.days.length < this.day) {
-        this.day = null;
-      }
-    },
-    onYearInput: function onYearInput(value) {
-      this.year = +value || null;
-
-      this.$emit('year-input', this.year);
-    },
-    onMonthInput: function onMonthInput(value) {
-      this.month = value;
-
-      this.$emit('month-input', this.month);
-    },
-    onDayInput: function onDayInput(value) {
-      this.day = value;
-
-      this.$emit('day-input', this.day);
-    }
-  }
-});
-
-/***/ }),
+/* 246 */,
+/* 247 */,
+/* 248 */,
 /* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -50631,128 +50427,7 @@ module.exports = webpackContext;
 webpackContext.id = 249;
 
 /***/ }),
-/* 250 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "b-field",
-    { attrs: { label: _vm.label } },
-    [
-      _c(
-        "b-field",
-        { attrs: { expanded: "", grouped: "" } },
-        [
-          _c(
-            "b-field",
-            {
-              attrs: {
-                expanded: "",
-                type: _vm.errors.has("year") ? "is-danger" : "",
-                message: _vm.errors.has("year") ? _vm.errors.first("year") : ""
-              }
-            },
-            [
-              _c("b-input", {
-                attrs: { placeholder: _vm.placeholders.year, value: _vm.year },
-                on: { input: _vm.onYearInput }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-field",
-            {
-              attrs: {
-                expanded: "",
-                type: _vm.errors.has("month") ? "is-danger" : "",
-                message: _vm.errors.has("month")
-                  ? _vm.errors.first("month")
-                  : ""
-              }
-            },
-            [
-              _c(
-                "b-select",
-                {
-                  attrs: {
-                    placeholder: _vm.placeholders.month,
-                    value: _vm.month,
-                    expanded: ""
-                  },
-                  on: { input: _vm.onMonthInput }
-                },
-                [
-                  _c("option", { domProps: { value: null } }),
-                  _vm._v(" "),
-                  _vm._l(_vm.months, function(month, index) {
-                    return _c("option", {
-                      domProps: { value: index + 1, textContent: _vm._s(month) }
-                    })
-                  })
-                ],
-                2
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-field",
-            {
-              attrs: {
-                expanded: "",
-                type: _vm.errors.has("day") ? "is-danger" : "",
-                message: _vm.errors.has("day") ? _vm.errors.first("day") : ""
-              }
-            },
-            [
-              _c(
-                "b-select",
-                {
-                  attrs: {
-                    placeholder: _vm.placeholders.day,
-                    value: _vm.day,
-                    expanded: ""
-                  },
-                  on: { input: _vm.onDayInput }
-                },
-                [
-                  _c("option", { domProps: { value: null } }),
-                  _vm._v(" "),
-                  _vm._l(_vm.days, function(day) {
-                    return _c("option", {
-                      domProps: { value: day, textContent: _vm._s(day) }
-                    })
-                  })
-                ],
-                2
-              )
-            ],
-            1
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-2ee4e708", module.exports)
-  }
-}
-
-/***/ }),
+/* 250 */,
 /* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -57978,1572 +57653,22 @@ if (false) {
 }
 
 /***/ }),
-/* 388 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PhotoUpload__ = __webpack_require__(389);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PhotoUpload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__PhotoUpload__);
-
-
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__PhotoUpload___default.a);
-
-/***/ }),
-/* 389 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = __webpack_require__(390)
-/* template */
-var __vue_template__ = __webpack_require__(391)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/photo-upload/PhotoUpload.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b1b2cca0", Component.options)
-  } else {
-    hotAPI.reload("data-v-b1b2cca0", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 390 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	name: 'nz-photo-upload',
-
-	props: ['uploadUrl', 'removeUrl', 'imageUrl', 'imagePath', 'text', 'icon'],
-
-	data: function data() {
-		return {
-			image: {
-				url: this.imageUrl,
-				file: this.imagePath
-			},
-			reader: null,
-			uploading: false,
-			progress: 0,
-			hasExisting: !!this.imageUrl,
-			error: null
-		};
-	},
-	created: function created() {
-		this.initFileReader();
-	},
-
-
-	computed: {
-		haveImage: function haveImage() {
-			return !!this.image.url;
-		},
-		imageStyles: function imageStyles() {
-			return {
-				backgroundImage: 'url(\'' + this.image.url + '\')',
-				backgroundSize: 'cover',
-				backgroundRepeat: 'no-repeat',
-				backgroundPosition: 'center center'
-			};
-		}
-	},
-
-	methods: {
-		initFileReader: function initFileReader() {
-			var _this = this;
-
-			this.reader = new FileReader();
-
-			this.reader.addEventListener('load', function () {
-				_this.image.url = _this.reader.result;
-			});
-		},
-		selectImage: function selectImage() {
-			this.$refs.input.click();
-		},
-		onInput: function onInput(files) {
-			this.error = null;
-
-			var file = files[0];
-
-			if (!file) {
-				return;
-			}
-
-			this.upload(file);
-		},
-		upload: function upload(file) {
-			var _this2 = this;
-
-			this.uploading = true;
-			return axios.post(this.uploadUrl, this.makeForm(file), {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-					Accept: 'application/json'
-				},
-				onUploadProgress: function onUploadProgress(progressEvent) {
-					_this2.progress = Math.floor(progressEvent.loaded * 100 / progressEvent.total);
-				}
-			}).then(function (response) {
-				_this2.image.file = response.data.file;
-				_this2.uploading = false;
-				_this2.progress = 0;
-
-				_this2.$emit('uploaded', _this2.image.file);
-
-				_this2.reader.readAsDataURL(file);
-			}).catch(function (error) {
-				_this2.handleError(error);
-				_this2.uploading = false;
-				_this2.progress = 0;
-			});
-		},
-		makeForm: function makeForm(file) {
-			var form = new FormData();
-
-			form.append('file', file);
-
-			return form;
-		},
-		remove: function remove() {
-			var _this3 = this;
-
-			if (this.hasExisting) {
-				this.hasExisting = false;
-				return this.clearPhoto();
-			}
-
-			axios({
-				method: 'DELETE',
-				data: {
-					file: this.image.file
-				},
-				url: this.removeUrl
-			}).then(function () {
-				_this3.clearPhoto();
-			});
-		},
-		clearPhoto: function clearPhoto() {
-			this.$emit('removed', this.image.file);
-
-			this.image.file = null;
-			this.image.url = null;
-		},
-		handleError: function handleError(error) {
-			if (!error.response) {
-				return this.$toast.open({
-					duration: 5000,
-					message: error.message,
-					position: 'is-top',
-					type: 'is-danger'
-				});
-			}
-
-			this.error = error.response.data.errors.file[0];
-		}
-	}
-});
-
-/***/ }),
-/* 391 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return !_vm.haveImage
-    ? _c(
-        "b-field",
-        {
-          attrs: {
-            message: _vm.error || null,
-            type: _vm.error ? "is-danger" : null,
-            expanded: ""
-          }
-        },
-        [
-          _c(
-            "b-upload",
-            {
-              attrs: { "drag-drop": "", type: "is-fullwidth" },
-              on: { input: _vm.onInput }
-            },
-            [
-              _c("section", { staticClass: "section" }, [
-                _c("div", { staticClass: "has-text-centered" }, [
-                  _c(
-                    "div",
-                    [
-                      _c("b-icon", {
-                        attrs: { icon: _vm.icon, size: "is-medium" }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _vm.uploading
-                    ? _c(
-                        "progress",
-                        {
-                          staticClass: "progress is-primary is-small",
-                          attrs: { max: "100" },
-                          domProps: { value: _vm.progress }
-                        },
-                        [_vm._v(_vm._s(_vm.progress) + "%")]
-                      )
-                    : _c("div", [_vm._v(_vm._s(_vm.text))])
-                ])
-              ])
-            ]
-          )
-        ],
-        1
-      )
-    : _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-image" }, [
-          _c("figure", { staticClass: "image is-4by3" }, [
-            _c("img", { attrs: { src: _vm.image.url, alt: "Photo" } })
-          ])
-        ]),
-        _vm._v(" "),
-        _vm.image.file
-          ? _c("footer", { staticClass: "card-footer" }, [
-              _c("p", { staticClass: "card-footer-item" }, [
-                _c("button", {
-                  staticClass: "delete is-danger is-medium",
-                  attrs: { type: "button" },
-                  on: { click: _vm.remove }
-                })
-              ])
-            ])
-          : _vm._e()
-      ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-b1b2cca0", module.exports)
-  }
-}
-
-/***/ }),
-/* 392 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = __webpack_require__(393)
-/* template */
-var __vue_template__ = __webpack_require__(394)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/dynamic-input.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-8cf5c748", Component.options)
-  } else {
-    hotAPI.reload("data-v-8cf5c748", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 393 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'nz-dynamic-input',
-
-    props: ['field', 'errors', 'index'],
-
-    methods: {
-        onInput: function onInput(value) {
-            this.$emit('input', value);
-        }
-    }
-});
-
-/***/ }),
-/* 394 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "b-field",
-    {
-      attrs: {
-        label: _vm.field.label,
-        expanded: "",
-        type: _vm.errors.has("dynamic_fields." + _vm.index)
-          ? "is-danger"
-          : null,
-        message: _vm.errors.has("dynamic_fields." + _vm.index)
-          ? _vm.errors.first("dynamic_fields." + _vm.index)
-          : null
-      }
-    },
-    [
-      _c(
-        "b-field",
-        [
-          "select" === _vm.field.type
-            ? _c(
-                "b-select",
-                {
-                  attrs: { value: _vm.field.value, expanded: "" },
-                  on: { input: _vm.onInput }
-                },
-                _vm._l(_vm.field.options, function(option) {
-                  return _c(
-                    "option",
-                    { key: option.value, domProps: { value: option.value } },
-                    [
-                      _vm._v(
-                        "\n                " +
-                          _vm._s(option.text) +
-                          "\n            "
-                      )
-                    ]
-                  )
-                })
-              )
-            : _c("b-input", {
-                attrs: { value: _vm.field.value, expanded: "" },
-                on: { input: _vm.onInput }
-              }),
-          _vm._v(" "),
-          _c("div", { staticClass: "control" }, [
-            _c(
-              "button",
-              {
-                staticClass: "button has-text-danger",
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    _vm.$emit("remove")
-                  }
-                }
-              },
-              [_vm._v("×")]
-            )
-          ])
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-8cf5c748", module.exports)
-  }
-}
-
-/***/ }),
-/* 395 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SpatialInput__ = __webpack_require__(396);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SpatialInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__SpatialInput__);
-
-
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__SpatialInput___default.a);
-
-/***/ }),
-/* 396 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = __webpack_require__(397)
-/* template */
-var __vue_template__ = __webpack_require__(398)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/spatial-input/SpatialInput.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-272fcd64", Component.options)
-  } else {
-    hotAPI.reload("data-v-272fcd64", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 397 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'nz-spatial-input',
-
-    props: {
-        accuracy: {
-            type: Number,
-            default: 5
-        },
-        elevation: {
-            type: Number,
-            default: 100
-        },
-        latitude: {
-            type: Number,
-            default: 41.0
-        },
-        longitude: {
-            type: Number,
-            default: 19.0
-        },
-        location: {
-            type: [String, Number],
-            default: ''
-        },
-        errors: {
-            type: Object,
-            default: function _default() {
-                return {};
-            }
-        }
-    },
-
-    data: function data() {
-        return {
-            showDetails: false,
-            elevationService: null,
-            center: window.App.gmaps.center
-        };
-    },
-
-
-    computed: {
-        /**
-         * Position object from coordinates.
-         *
-         * @return {Object}
-         */
-        position: function position() {
-            if (!this.coordinatesSet) {
-                return null;
-            }
-
-            return { lat: this.latitude, lng: this.longitude };
-        },
-
-
-        /**
-         * Check if coordinate are set.
-         *
-         * @return {Boolean}
-         */
-        coordinatesSet: function coordinatesSet() {
-            return !(isNaN(this.latitude) || this.latitude === null || isNaN(this.longitude) || this.longitude === null);
-        },
-
-
-        /**
-         * Check if any of the fields has an error.
-         *
-         * @return {Boolean}
-         */
-        mapHasErrors: function mapHasErrors() {
-            return this.errors.has('latitude') || this.errors.has('longitude') || this.errors.has('elevation') || this.errors.has('accuracy');
-        }
-    },
-
-    watch: {
-        /**
-         * Get elevation when coordinates change.
-         */
-        position: function position(value) {
-            if (this.coordinatesSet) {
-                this.getElevation(value);
-            }
-        }
-    },
-
-    methods: {
-        /**
-         * Cast to number or null.
-         *
-         * @param  {any} value
-         * @return {Number}
-         */
-        castNumber: function castNumber(value) {
-            return isNaN(value) || value === '' ? null : Number(value);
-        },
-
-
-        /**
-         * Handle location input.
-         * @param {Object} event
-         */
-        onLocationInput: function onLocationInput(event) {
-            this.updateLocation(event.target.value);
-        },
-
-
-        /**
-         * Sync location property.
-         *
-         * @param {String} value
-         */
-        updateLocation: function updateLocation(value) {
-            this.$emit('update:location', value);
-        },
-
-
-        /**
-         * Handle longitude input.
-         * @param  {[type]} event [description]
-         * @return {[type]}       [description]
-         */
-        onLongitudeInput: _.debounce(function (event) {
-            this.updateLongitude(event.target.value);
-        }, 1000),
-
-        /**
-         * Sync longitude property.
-         *
-         * @param {Number} value
-         */
-        updateLongitude: function updateLongitude(value) {
-            this.$emit('update:longitude', this.castNumber(value));
-        },
-
-
-        /**
-         * Handle latitude input.
-         *
-         * @param {Object} event
-         */
-        onLatitudeInput: _.debounce(function (event) {
-            this.updateLatitude(event.target.value);
-        }, 1000),
-
-        /**
-         * Sync latitude property.
-         *
-         * @param {Number} value
-         */
-        updateLatitude: function updateLatitude(value) {
-            this.$emit('update:latitude', this.castNumber(value));
-        },
-
-
-        /**
-        * Handle accuracy input.
-        *
-        * @param {Object} event
-        */
-        onAccuracyInput: _.debounce(function (event) {
-            this.updateAccuracy(event.target.value);
-        }, 1000),
-
-        /**
-         * Sync accuracy property.
-         *
-         * @param {Number} value
-         */
-        updateAccuracy: function updateAccuracy(value) {
-            this.$emit('update:accuracy', this.castNumber(value));
-        },
-
-
-        /**
-         * Handle elevation input.
-         *
-         * @param {Object} event
-         */
-        onElevationInput: function onElevationInput(event) {
-            this.updateElevation(event.target.value);
-        },
-
-
-        /**
-         * Sync elevation property.
-         *
-         * @param {Number} value
-         */
-        updateElevation: function updateElevation(value) {
-            this.$emit('update:elevation', this.castNumber(value));
-        },
-
-
-        /**
-         * Update coordinates from marker position.
-         *
-         * @param {Object} position
-         */
-        setMarker: function setMarker(position) {
-            var lat = position.latLng.lat();
-            var lng = position.latLng.lng();
-
-            this.updateLatitude(lat);
-            this.updateLongitude(lng);
-        },
-
-
-        /**
-         * Update accuracy from circle radius on gmaps.
-         *
-         * @param  {Number} value
-         */
-        updateRadius: function updateRadius(value) {
-            this.updateAccuracy(parseInt(value));
-        },
-
-
-        /**
-         * Get elevation using Google's service.
-         *
-         * @param  {Object} position
-         */
-        getElevation: function getElevation(position) {
-            var _this = this;
-
-            // Do nothing if we still don't have gmaps library loaded.
-            if (!google || !google.maps || !google.maps.ElevationService) {
-                return;
-            }
-
-            // We don't initialize service when component is created
-            // because Gmap library probably isn't loaded yet,
-            // so we do it on first use of this method.
-            if (!this.elevationService) {
-                this.elevationService = new google.maps.ElevationService();
-            }
-
-            this.elevationService.getElevationForLocations({
-                locations: [position]
-            }, function (results, status) {
-                if (status != google.maps.ElevationStatus.OK || !results.length) {
-                    return;
-                }
-
-                _this.updateElevation(parseInt(results[0].elevation));
-            });
-        }
-    }
-});
-
-/***/ }),
-/* 398 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {},
-    [
-      _c("div", { staticClass: "field is-expanded" }, [
-        _c("label", { staticClass: "label" }, [_vm._v("Location")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "control is-fullwidth" }, [
-          _c("input", {
-            staticClass: "input",
-            class: { "is-danger": _vm.errors.has("location") },
-            attrs: { placeholder: "Location" },
-            domProps: { value: _vm.location },
-            on: { input: _vm.onLocationInput }
-          })
-        ]),
-        _vm._v(" "),
-        _vm.errors.has("location")
-          ? _c("p", {
-              staticClass: "help is-danger",
-              domProps: { textContent: _vm._s(_vm.errors.first("location")) }
-            })
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c(
-        "b-field",
-        { attrs: { label: "Map" } },
-        [
-          _c(
-            "gmap-map",
-            {
-              staticStyle: { width: "100%", "min-height": "400px" },
-              attrs: {
-                center: { lat: _vm.center.latitude, lng: _vm.center.longitude },
-                zoom: _vm.center.zoom
-              },
-              on: { click: _vm.setMarker }
-            },
-            [
-              _c("gmap-marker", {
-                attrs: {
-                  position: _vm.position,
-                  clickable: true,
-                  draggable: true
-                },
-                on: { dragend: _vm.setMarker }
-              }),
-              _vm._v(" "),
-              _vm.position && _vm.accuracy
-                ? _c("gmap-circle", {
-                    attrs: {
-                      center: _vm.position,
-                      radius: _vm.accuracy,
-                      editable: true
-                    },
-                    on: { radius_changed: _vm.updateRadius }
-                  })
-                : _vm._e()
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "has-text-right" }, [
-        _vm.mapHasErrors
-          ? _c("span", { staticClass: "has-text-danger is-size-7" }, [
-              _vm._v("Some fields have errors")
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "button is-white is-small is-text",
-            class: { "has-text-danger": _vm.mapHasErrors },
-            attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                _vm.showDetails = !_vm.showDetails
-              }
-            }
-          },
-          [_vm._v("Details")]
-        )
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.showDetails,
-              expression: "showDetails"
-            }
-          ]
-        },
-        [
-          _c("div", { staticClass: "field is-grouped" }, [
-            _c("div", { staticClass: "field is-expanded" }, [
-              _c("label", { staticClass: "label is-small" }, [
-                _vm._v("Latitude")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "control is-fullwidth" }, [
-                _c("input", {
-                  staticClass: "input is-small",
-                  class: { "is-danger": _vm.errors.has("latitude") },
-                  attrs: { placeholder: "f.e. 42.5234" },
-                  domProps: { value: _vm.latitude },
-                  on: { input: _vm.onLatitudeInput }
-                })
-              ]),
-              _vm._v(" "),
-              _vm.errors.has("latitude")
-                ? _c("p", {
-                    staticClass: "help is-danger",
-                    domProps: {
-                      textContent: _vm._s(_vm.errors.first("latitude"))
-                    }
-                  })
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "field is-expanded" }, [
-              _c("label", { staticClass: "label is-small" }, [
-                _vm._v("Longitude")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "control is-fullwidth" }, [
-                _c("input", {
-                  staticClass: "input is-small",
-                  class: { "is-danger": _vm.errors.has("longitude") },
-                  attrs: { placeholder: "f.e. 19.1234" },
-                  domProps: { value: _vm.longitude },
-                  on: { input: _vm.onLongitudeInput }
-                })
-              ]),
-              _vm._v(" "),
-              _vm.errors.has("longitude")
-                ? _c("p", {
-                    staticClass: "help is-danger",
-                    domProps: {
-                      textContent: _vm._s(_vm.errors.first("longitude"))
-                    }
-                  })
-                : _vm._e()
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "field is-grouped" }, [
-            _c("div", { staticClass: "field is-expanded" }, [
-              _c("label", { staticClass: "label is-small" }, [
-                _vm._v("Accuracy/Radius (m)")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "control is-fullwidth" }, [
-                _c("input", {
-                  staticClass: "input is-small",
-                  attrs: { placeholder: "f.e. 100" },
-                  domProps: { value: _vm.accuracy },
-                  on: { input: _vm.onAccuracyInput }
-                })
-              ]),
-              _vm._v(" "),
-              _vm.errors.has("accuracy")
-                ? _c("p", {
-                    staticClass: "help is-danger",
-                    domProps: {
-                      textContent: _vm._s(_vm.errors.first("accuracy"))
-                    }
-                  })
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "field is-expanded" }, [
-              _c("label", { staticClass: "label is-small" }, [
-                _vm._v("Elevation (m)")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "control is-fullwidth" }, [
-                _c("input", {
-                  staticClass: "input is-small",
-                  attrs: { placeholder: "f.e. 500" },
-                  domProps: { value: _vm.elevation },
-                  on: { input: _vm.onElevationInput }
-                })
-              ]),
-              _vm._v(" "),
-              _vm.errors.has("elevation")
-                ? _c("p", {
-                    staticClass: "help is-danger",
-                    domProps: {
-                      textContent: _vm._s(_vm.errors.first("elevation"))
-                    }
-                  })
-                : _vm._e()
-            ])
-          ])
-        ]
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-272fcd64", module.exports)
-  }
-}
-
-/***/ }),
-/* 399 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__TaxonAutocomplete__ = __webpack_require__(400);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__TaxonAutocomplete___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__TaxonAutocomplete__);
-
-
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__TaxonAutocomplete___default.a);
-
-/***/ }),
-/* 400 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = __webpack_require__(401)
-/* template */
-var __vue_template__ = __webpack_require__(402)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/taxon-autocomplete/TaxonAutocomplete.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-d3db7784", Component.options)
-  } else {
-    hotAPI.reload("data-v-d3db7784", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 401 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'nz-taxon-autocomplete',
-
-  props: {
-    label: {
-      type: String,
-      default: 'Taxon'
-    },
-    placeholder: {
-      type: String,
-      default: 'Search for taxon...'
-    },
-    taxon: {
-      type: Object,
-      default: null
-    },
-    url: {
-      type: String,
-      default: '/api/taxa'
-    },
-    value: {
-      type: String,
-      default: ''
-    },
-    error: {
-      type: Boolean,
-      default: false
-    },
-    message: {
-      type: String,
-      default: null
-    }
-  },
-
-  data: function data() {
-    return {
-      data: [],
-      selected: this.taxon || null,
-      loading: false
-    };
-  },
-
-
-  computed: {
-    haveThumbnail: function haveThumbnail() {
-      return this.selected && this.selected.thumbnail_url;
-    },
-    icon: function icon() {
-      return this.selected ? 'check' : 'search';
-    }
-  },
-
-  methods: {
-    fetchData: _.debounce(function () {
-      var _this = this;
-
-      if (!this.value) return;
-
-      this.data = [];
-      this.loading = true;
-
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(this.url + '?name=' + this.value).then(function (_ref) {
-        var data = _ref.data;
-
-        data.data.forEach(function (item) {
-          return _this.data.push(item);
-        });
-        _this.loading = false;
-      }, function (response) {
-        _this.loading = false;
-      });
-    }, 500),
-
-    onSelect: function onSelect(taxon) {
-      this.selected = taxon;
-
-      this.$emit('select', taxon);
-    },
-    onInput: function onInput(value) {
-      this.$emit('input', value);
-
-      this.fetchData();
-    }
-  }
-});
-
-/***/ }),
-/* 402 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "b-field",
-    {
-      staticClass: "nz-taxon-autocomplete",
-      attrs: {
-        label: _vm.label,
-        type: _vm.error ? "is-danger" : null,
-        message: _vm.message
-      }
-    },
-    [
-      _c(
-        "b-field",
-        { attrs: { grouped: "" } },
-        [
-          _vm.haveThumbnail
-            ? _c("img", {
-                attrs: { width: "32", src: this.selected.thumbnail_url }
-              })
-            : _vm._e(),
-          _vm._v(" "),
-          _c("b-autocomplete", {
-            attrs: {
-              value: _vm.value,
-              data: _vm.data,
-              field: "name",
-              loading: _vm.loading,
-              "keep-first": true,
-              icon: _vm.icon,
-              placeholder: _vm.placeholder,
-              expanded: ""
-            },
-            on: { input: _vm.onInput, select: _vm.onSelect },
-            scopedSlots: _vm._u([
-              {
-                key: "default",
-                fn: function(props) {
-                  return [
-                    _c("div", { staticClass: "media" }, [
-                      _c("div", { staticClass: "media-left" }, [
-                        props.option.thumbnail_url
-                          ? _c("img", {
-                              attrs: {
-                                width: "32",
-                                src: props.option.thumbnail_url
-                              }
-                            })
-                          : _vm._e()
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "media-content" }, [
-                        _vm._v(
-                          "\n            " +
-                            _vm._s(props.option.name) +
-                            "\n          "
-                        )
-                      ])
-                    ])
-                  ]
-                }
-              }
-            ])
-          })
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-d3db7784", module.exports)
-  }
-}
-
-/***/ }),
-/* 403 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_collect_js__ = __webpack_require__(404);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_collect_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_collect_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_form_backend_validation__ = __webpack_require__(491);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_form_backend_validation___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_form_backend_validation__);
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    name: 'field-observation-form',
-
-    props: {
-        action: {
-            type: String,
-            required: true
-        },
-        method: {
-            type: String,
-            default: 'post'
-        },
-        redirect: {
-            type: String,
-            default: function _default() {
-                return route('contributor.field-observations.index');
-            }
-        },
-        dataDynamicFields: {
-            type: Array,
-            default: function _default() {
-                return [];
-            }
-        },
-        observation: {
-            type: Object,
-            default: function _default() {
-                return {
-                    taxon_id: null,
-                    taxon_suggestion: null,
-                    year: __WEBPACK_IMPORTED_MODULE_0_moment___default()().year(),
-                    month: __WEBPACK_IMPORTED_MODULE_0_moment___default()().month() + 1,
-                    day: __WEBPACK_IMPORTED_MODULE_0_moment___default()().date(),
-                    latitude: null,
-                    longitude: null,
-                    accuracy: 10,
-                    elevation: null,
-                    location: null,
-                    photos: [],
-                    dynamic_fields: []
-                };
-            }
-        }
-    },
-
-    data: function data() {
-        return {
-            form: new __WEBPACK_IMPORTED_MODULE_2_form_backend_validation___default.a(_extends({}, this.observation), {
-                http: window.axios
-            }),
-            dynamicFields: [],
-            chosenField: null
-        };
-    },
-    created: function created() {
-        this.updateFields();
-    },
-
-
-    methods: {
-        /**
-         * Add field to the form.
-         */
-        addField: function addField() {
-            this.form.dynamic_fields.push({
-                name: this.chosenField.name,
-                value: this.chosenField.value || this.chosenField.default
-            });
-            this.chosenField = null;
-            this.updateFields();
-        },
-
-        /**
-         * Don't use the field any more.
-         * @param  {Object} field
-         */
-        removeField: function removeField(field) {
-            _.remove(this.form.dynamic_fields, function (item) {
-                return item.name === field.name;
-            });
-            this.updateFields();
-        },
-
-        /**
-         * Submit the form.
-         */
-        submit: function submit() {
-            if (this.form.processing) {
-                return;
-            }
-
-            this.form[this.method.toLowerCase()](this.action).then(this.onSuccessfulSubmit).catch(this.onFailedSubmit);
-        },
-        onSuccessfulSubmit: function onSuccessfulSubmit() {
-            var _this = this;
-
-            this.form.processing = true;
-
-            this.$toast.open({
-                message: 'Saved successfully',
-                type: 'is-success'
-            });
-
-            // We want to wait a bit before we send the user to redirect route
-            // so we can show the message that the action was successful.
-            setTimeout(function () {
-                _this.form.processing = false;
-
-                window.location.href = _this.redirect;
-            }, 500);
-        },
-        onFailedSubmit: function onFailedSubmit(error) {
-            this.$toast.open({
-                duration: 2500,
-                message: error.response.data.message,
-                type: 'is-danger'
-            });
-        },
-        updateFields: function updateFields() {
-            var _this2 = this;
-
-            this.dynamicFields = this.dataDynamicFields.filter(function (field) {
-                return __WEBPACK_IMPORTED_MODULE_1_collect_js___default()(_this2.form.dynamic_fields).contains(function (item) {
-                    return item.name === field.name;
-                });
-            }).map(function (field) {
-                var value = _.find(_this2.form.dynamic_fields, function (item) {
-                    return item.name === field.name;
-                }).value;
-                field.value = value || field.value || field.default;
-
-                return field;
-            });
-        },
-        onYearInput: function onYearInput(value) {
-            this.form.year = value;
-        },
-        onMonthInput: function onMonthInput(value) {
-            this.form.month = value;
-        },
-        onDayInput: function onDayInput(value) {
-            this.form.day = value;
-        },
-        onTaxonSelect: function onTaxonSelect(taxon) {
-            this.form.taxon_id = taxon ? taxon.id : null;
-        },
-        onPhotoUploaded: function onPhotoUploaded(file) {
-            this.form.photos.push(file);
-        },
-        onPhotoRemoved: function onPhotoRemoved(file) {
-            this.form.photos.splice(this.form.photos.indexOf(file), 1);
-        }
-    },
-
-    computed: {
-        /**
-         * Fields that have not been used yet.
-         * @return {Array} of field data
-         */
-        availableDynamicFields: function availableDynamicFields() {
-            var _this3 = this;
-
-            return this.dataDynamicFields.filter(function (availableField) {
-                return !__WEBPACK_IMPORTED_MODULE_1_collect_js___default()(_this3.dynamicFields).contains(function (field) {
-                    return availableField.name === field.name;
-                });
-            }).map(function (field) {
-                field.value = field.value || field.default;
-                return field;
-            });
-        }
-    }
-});
-
-/***/ }),
+/* 388 */,
+/* 389 */,
+/* 390 */,
+/* 391 */,
+/* 392 */,
+/* 393 */,
+/* 394 */,
+/* 395 */,
+/* 396 */,
+/* 397 */,
+/* 398 */,
+/* 399 */,
+/* 400 */,
+/* 401 */,
+/* 402 */,
+/* 403 */,
 /* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -64944,26 +63069,231 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 513 */
+/* 513 */,
+/* 514 */,
+/* 515 */,
+/* 516 */,
+/* 517 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 518 */,
+/* 519 */,
+/* 520 */,
+/* 521 */,
+/* 522 */,
+/* 523 */,
+/* 524 */,
+/* 525 */,
+/* 526 */,
+/* 527 */,
+/* 528 */,
+/* 529 */,
+/* 530 */,
+/* 531 */,
+/* 532 */,
+/* 533 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FieldObservationsTable__ = __webpack_require__(514);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FieldObservationsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FieldObservationsTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_collect_js__ = __webpack_require__(404);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_collect_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_collect_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_form_backend_validation__ = __webpack_require__(491);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_form_backend_validation___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_form_backend_validation__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__FieldObservationsTable___default.a);
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    name: 'field-observation-form',
+
+    props: {
+        action: {
+            type: String,
+            required: true
+        },
+        method: {
+            type: String,
+            default: 'post'
+        },
+        redirect: {
+            type: String,
+            default: function _default() {
+                return route('contributor.field-observations.index');
+            }
+        },
+        dataDynamicFields: {
+            type: Array,
+            default: function _default() {
+                return [];
+            }
+        },
+        observation: {
+            type: Object,
+            default: function _default() {
+                return {
+                    taxon_id: null,
+                    taxon_suggestion: null,
+                    year: __WEBPACK_IMPORTED_MODULE_0_moment___default()().year(),
+                    month: __WEBPACK_IMPORTED_MODULE_0_moment___default()().month() + 1,
+                    day: __WEBPACK_IMPORTED_MODULE_0_moment___default()().date(),
+                    latitude: null,
+                    longitude: null,
+                    accuracy: 10,
+                    elevation: null,
+                    location: null,
+                    photos: [],
+                    dynamic_fields: []
+                };
+            }
+        }
+    },
+
+    data: function data() {
+        return {
+            form: new __WEBPACK_IMPORTED_MODULE_2_form_backend_validation___default.a(_extends({}, this.observation), {
+                http: window.axios
+            }),
+            dynamicFields: [],
+            chosenField: null
+        };
+    },
+    created: function created() {
+        this.updateFields();
+    },
+
+
+    methods: {
+        /**
+         * Add field to the form.
+         */
+        addField: function addField() {
+            this.form.dynamic_fields.push({
+                name: this.chosenField.name,
+                value: this.chosenField.value || this.chosenField.default
+            });
+            this.chosenField = null;
+            this.updateFields();
+        },
+
+        /**
+         * Don't use the field any more.
+         * @param  {Object} field
+         */
+        removeField: function removeField(field) {
+            _.remove(this.form.dynamic_fields, function (item) {
+                return item.name === field.name;
+            });
+            this.updateFields();
+        },
+
+        /**
+         * Submit the form.
+         */
+        submit: function submit() {
+            if (this.form.processing) {
+                return;
+            }
+
+            this.form[this.method.toLowerCase()](this.action).then(this.onSuccessfulSubmit).catch(this.onFailedSubmit);
+        },
+        onSuccessfulSubmit: function onSuccessfulSubmit() {
+            var _this = this;
+
+            this.form.processing = true;
+
+            this.$toast.open({
+                message: 'Saved successfully',
+                type: 'is-success'
+            });
+
+            // We want to wait a bit before we send the user to redirect route
+            // so we can show the message that the action was successful.
+            setTimeout(function () {
+                _this.form.processing = false;
+
+                window.location.href = _this.redirect;
+            }, 500);
+        },
+        onFailedSubmit: function onFailedSubmit(error) {
+            this.$toast.open({
+                duration: 2500,
+                message: error.response.data.message,
+                type: 'is-danger'
+            });
+        },
+        updateFields: function updateFields() {
+            var _this2 = this;
+
+            this.dynamicFields = this.dataDynamicFields.filter(function (field) {
+                return __WEBPACK_IMPORTED_MODULE_1_collect_js___default()(_this2.form.dynamic_fields).contains(function (item) {
+                    return item.name === field.name;
+                });
+            }).map(function (field) {
+                var value = _.find(_this2.form.dynamic_fields, function (item) {
+                    return item.name === field.name;
+                }).value;
+                field.value = value || field.value || field.default;
+
+                return field;
+            });
+        },
+        onYearInput: function onYearInput(value) {
+            this.form.year = value;
+        },
+        onMonthInput: function onMonthInput(value) {
+            this.form.month = value;
+        },
+        onDayInput: function onDayInput(value) {
+            this.form.day = value;
+        },
+        onTaxonSelect: function onTaxonSelect(taxon) {
+            this.form.taxon_id = taxon ? taxon.id : null;
+        },
+        onPhotoUploaded: function onPhotoUploaded(file) {
+            this.form.photos.push(file);
+        },
+        onPhotoRemoved: function onPhotoRemoved(file) {
+            this.form.photos.splice(this.form.photos.indexOf(file), 1);
+        }
+    },
+
+    computed: {
+        /**
+         * Fields that have not been used yet.
+         * @return {Array} of field data
+         */
+        availableDynamicFields: function availableDynamicFields() {
+            var _this3 = this;
+
+            return this.dataDynamicFields.filter(function (availableField) {
+                return !__WEBPACK_IMPORTED_MODULE_1_collect_js___default()(_this3.dynamicFields).contains(function (field) {
+                    return availableField.name === field.name;
+                });
+            }).map(function (field) {
+                field.value = field.value || field.default;
+                return field;
+            });
+        }
+    }
+});
 
 /***/ }),
-/* 514 */
+/* 534 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(515)
+var __vue_script__ = __webpack_require__(535)
 /* template */
-var __vue_template__ = __webpack_require__(516)
+var __vue_template__ = __webpack_require__(536)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -64980,7 +63310,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/field-observations-table/FieldObservationsTable.vue"
+Component.options.__file = "resources/assets/js/components/inputs/dynamic-input.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -64990,9 +63320,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-fb8bb77e", Component.options)
+    hotAPI.createRecord("data-v-483c1ab4", Component.options)
   } else {
-    hotAPI.reload("data-v-fb8bb77e", Component.options)
+    hotAPI.reload("data-v-483c1ab4", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -65003,7 +63333,1672 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 515 */
+/* 535 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'nz-dynamic-input',
+
+    props: ['field', 'errors', 'index'],
+
+    methods: {
+        onInput: function onInput(value) {
+            this.$emit('input', value);
+        }
+    }
+});
+
+/***/ }),
+/* 536 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "b-field",
+    {
+      attrs: {
+        label: _vm.field.label,
+        expanded: "",
+        type: _vm.errors.has("dynamic_fields." + _vm.index)
+          ? "is-danger"
+          : null,
+        message: _vm.errors.has("dynamic_fields." + _vm.index)
+          ? _vm.errors.first("dynamic_fields." + _vm.index)
+          : null
+      }
+    },
+    [
+      _c(
+        "b-field",
+        [
+          "select" === _vm.field.type
+            ? _c(
+                "b-select",
+                {
+                  attrs: { value: _vm.field.value, expanded: "" },
+                  on: { input: _vm.onInput }
+                },
+                _vm._l(_vm.field.options, function(option) {
+                  return _c(
+                    "option",
+                    { key: option.value, domProps: { value: option.value } },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(option.text) +
+                          "\n            "
+                      )
+                    ]
+                  )
+                })
+              )
+            : _c("b-input", {
+                attrs: { value: _vm.field.value, expanded: "" },
+                on: { input: _vm.onInput }
+              }),
+          _vm._v(" "),
+          _c("div", { staticClass: "control" }, [
+            _c(
+              "button",
+              {
+                staticClass: "button has-text-danger",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    _vm.$emit("remove")
+                  }
+                }
+              },
+              [_vm._v("×")]
+            )
+          ])
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-483c1ab4", module.exports)
+  }
+}
+
+/***/ }),
+/* 537 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(538)
+/* template */
+var __vue_template__ = __webpack_require__(539)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/inputs/date-input.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-f1674c1e", Component.options)
+  } else {
+    hotAPI.reload("data-v-f1674c1e", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 538 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'nz-date-input',
+
+  props: {
+    label: {
+      type: String,
+      default: 'Date'
+    },
+
+    dataYear: {
+      type: Number,
+      default: __WEBPACK_IMPORTED_MODULE_0_moment___default()().year()
+    },
+
+    dataMonth: {
+      type: Number,
+      default: __WEBPACK_IMPORTED_MODULE_0_moment___default()().month() + 1
+    },
+
+    dataDay: {
+      type: Number,
+      default: __WEBPACK_IMPORTED_MODULE_0_moment___default()().date()
+    },
+
+    placeholders: {
+      type: Object,
+      default: function _default() {
+        return {
+          year: 'Year',
+          month: 'Month',
+          day: 'Day'
+        };
+      }
+    },
+
+    errors: Object
+  },
+
+  data: function data() {
+    return {
+      year: this.dataYear,
+      month: this.dataMonth,
+      day: this.dataDay
+    };
+  },
+
+
+  computed: {
+    now: function now() {
+      return __WEBPACK_IMPORTED_MODULE_0_moment___default()();
+    },
+    months: function months() {
+      if (!this.year || this.year > __WEBPACK_IMPORTED_MODULE_0_moment___default()().year()) return [];
+
+      var isThisYear = this.year === __WEBPACK_IMPORTED_MODULE_0_moment___default()().year();
+
+      var months = __WEBPACK_IMPORTED_MODULE_0_moment___default.a.months();
+
+      if (isThisYear) months.splice(__WEBPACK_IMPORTED_MODULE_0_moment___default()().month() + 1);
+
+      return months;
+    },
+    days: function days() {
+      var haveDate = this.year && this.month;
+
+      if (!haveDate) return [];
+
+      var isThisMonth = this.year === __WEBPACK_IMPORTED_MODULE_0_moment___default()().year() && this.month - 1 === __WEBPACK_IMPORTED_MODULE_0_moment___default()().month();
+
+      var days = __WEBPACK_IMPORTED_MODULE_0_moment___default()({
+        year: this.year,
+        month: this.month - 1
+      }).daysInMonth();
+
+      if (isThisMonth) days = __WEBPACK_IMPORTED_MODULE_0_moment___default()().date();
+
+      return _.range(1, days + 1);
+    }
+  },
+
+  watch: {
+    year: function year() {
+      if (this.year > __WEBPACK_IMPORTED_MODULE_0_moment___default()().year() || this.months.length < this.month - 1) {
+        this.month = null;
+      }
+
+      this.truncateDay();
+    },
+    month: function month() {
+      this.truncateDay();
+    }
+  },
+
+  methods: {
+    truncateDay: function truncateDay() {
+      if (this.days.length < this.day) {
+        this.day = null;
+      }
+    },
+    onYearInput: function onYearInput(value) {
+      this.year = +value || null;
+
+      this.$emit('year-input', this.year);
+    },
+    onMonthInput: function onMonthInput(value) {
+      this.month = value;
+
+      this.$emit('month-input', this.month);
+    },
+    onDayInput: function onDayInput(value) {
+      this.day = value;
+
+      this.$emit('day-input', this.day);
+    }
+  }
+});
+
+/***/ }),
+/* 539 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "b-field",
+    { attrs: { label: _vm.label } },
+    [
+      _c(
+        "b-field",
+        { attrs: { expanded: "", grouped: "" } },
+        [
+          _c(
+            "b-field",
+            {
+              attrs: {
+                expanded: "",
+                type: _vm.errors.has("year") ? "is-danger" : "",
+                message: _vm.errors.has("year") ? _vm.errors.first("year") : ""
+              }
+            },
+            [
+              _c("b-input", {
+                attrs: { placeholder: _vm.placeholders.year, value: _vm.year },
+                on: { input: _vm.onYearInput }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-field",
+            {
+              attrs: {
+                expanded: "",
+                type: _vm.errors.has("month") ? "is-danger" : "",
+                message: _vm.errors.has("month")
+                  ? _vm.errors.first("month")
+                  : ""
+              }
+            },
+            [
+              _c(
+                "b-select",
+                {
+                  attrs: {
+                    placeholder: _vm.placeholders.month,
+                    value: _vm.month,
+                    expanded: ""
+                  },
+                  on: { input: _vm.onMonthInput }
+                },
+                [
+                  _c("option", { domProps: { value: null } }),
+                  _vm._v(" "),
+                  _vm._l(_vm.months, function(month, index) {
+                    return _c("option", {
+                      domProps: { value: index + 1, textContent: _vm._s(month) }
+                    })
+                  })
+                ],
+                2
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-field",
+            {
+              attrs: {
+                expanded: "",
+                type: _vm.errors.has("day") ? "is-danger" : "",
+                message: _vm.errors.has("day") ? _vm.errors.first("day") : ""
+              }
+            },
+            [
+              _c(
+                "b-select",
+                {
+                  attrs: {
+                    placeholder: _vm.placeholders.day,
+                    value: _vm.day,
+                    expanded: ""
+                  },
+                  on: { input: _vm.onDayInput }
+                },
+                [
+                  _c("option", { domProps: { value: null } }),
+                  _vm._v(" "),
+                  _vm._l(_vm.days, function(day) {
+                    return _c("option", {
+                      domProps: { value: day, textContent: _vm._s(day) }
+                    })
+                  })
+                ],
+                2
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-f1674c1e", module.exports)
+  }
+}
+
+/***/ }),
+/* 540 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(541)
+/* template */
+var __vue_template__ = __webpack_require__(542)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/inputs/photo-upload.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2efdf9fc", Component.options)
+  } else {
+    hotAPI.reload("data-v-2efdf9fc", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 541 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	name: 'nz-photo-upload',
+
+	props: ['uploadUrl', 'removeUrl', 'imageUrl', 'imagePath', 'text', 'icon'],
+
+	data: function data() {
+		return {
+			image: {
+				url: this.imageUrl,
+				file: this.imagePath
+			},
+			reader: null,
+			uploading: false,
+			progress: 0,
+			hasExisting: !!this.imageUrl,
+			error: null
+		};
+	},
+	created: function created() {
+		this.initFileReader();
+	},
+
+
+	computed: {
+		haveImage: function haveImage() {
+			return !!this.image.url;
+		},
+		imageStyles: function imageStyles() {
+			return {
+				backgroundImage: 'url(\'' + this.image.url + '\')',
+				backgroundSize: 'cover',
+				backgroundRepeat: 'no-repeat',
+				backgroundPosition: 'center center'
+			};
+		}
+	},
+
+	methods: {
+		initFileReader: function initFileReader() {
+			var _this = this;
+
+			this.reader = new FileReader();
+
+			this.reader.addEventListener('load', function () {
+				_this.image.url = _this.reader.result;
+			});
+		},
+		selectImage: function selectImage() {
+			this.$refs.input.click();
+		},
+		onInput: function onInput(files) {
+			this.error = null;
+
+			var file = files[0];
+
+			if (!file) {
+				return;
+			}
+
+			this.upload(file);
+		},
+		upload: function upload(file) {
+			var _this2 = this;
+
+			this.uploading = true;
+			return axios.post(this.uploadUrl, this.makeForm(file), {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					Accept: 'application/json'
+				},
+				onUploadProgress: function onUploadProgress(progressEvent) {
+					_this2.progress = Math.floor(progressEvent.loaded * 100 / progressEvent.total);
+				}
+			}).then(function (response) {
+				_this2.image.file = response.data.file;
+				_this2.uploading = false;
+				_this2.progress = 0;
+
+				_this2.$emit('uploaded', _this2.image.file);
+
+				_this2.reader.readAsDataURL(file);
+			}).catch(function (error) {
+				_this2.handleError(error);
+				_this2.uploading = false;
+				_this2.progress = 0;
+			});
+		},
+		makeForm: function makeForm(file) {
+			var form = new FormData();
+
+			form.append('file', file);
+
+			return form;
+		},
+		remove: function remove() {
+			var _this3 = this;
+
+			if (this.hasExisting) {
+				this.hasExisting = false;
+				return this.clearPhoto();
+			}
+
+			axios({
+				method: 'DELETE',
+				data: {
+					file: this.image.file
+				},
+				url: this.removeUrl
+			}).then(function () {
+				_this3.clearPhoto();
+			});
+		},
+		clearPhoto: function clearPhoto() {
+			this.$emit('removed', this.image.file);
+
+			this.image.file = null;
+			this.image.url = null;
+		},
+		handleError: function handleError(error) {
+			if (!error.response) {
+				return this.$toast.open({
+					duration: 5000,
+					message: error.message,
+					position: 'is-top',
+					type: 'is-danger'
+				});
+			}
+
+			this.error = error.response.data.errors.file[0];
+		}
+	}
+});
+
+/***/ }),
+/* 542 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return !_vm.haveImage
+    ? _c(
+        "b-field",
+        {
+          attrs: {
+            message: _vm.error || null,
+            type: _vm.error ? "is-danger" : null,
+            expanded: ""
+          }
+        },
+        [
+          _c(
+            "b-upload",
+            {
+              attrs: { "drag-drop": "", type: "is-fullwidth" },
+              on: { input: _vm.onInput }
+            },
+            [
+              _c("section", { staticClass: "section" }, [
+                _c("div", { staticClass: "has-text-centered" }, [
+                  _c(
+                    "div",
+                    [
+                      _c("b-icon", {
+                        attrs: { icon: _vm.icon, size: "is-medium" }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm.uploading
+                    ? _c(
+                        "progress",
+                        {
+                          staticClass: "progress is-primary is-small",
+                          attrs: { max: "100" },
+                          domProps: { value: _vm.progress }
+                        },
+                        [_vm._v(_vm._s(_vm.progress) + "%")]
+                      )
+                    : _c("div", [_vm._v(_vm._s(_vm.text))])
+                ])
+              ])
+            ]
+          )
+        ],
+        1
+      )
+    : _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-image" }, [
+          _c("figure", { staticClass: "image is-4by3" }, [
+            _c("img", { attrs: { src: _vm.image.url, alt: "Photo" } })
+          ])
+        ]),
+        _vm._v(" "),
+        _vm.image.file
+          ? _c("footer", { staticClass: "card-footer" }, [
+              _c("p", { staticClass: "card-footer-item" }, [
+                _c("button", {
+                  staticClass: "delete is-danger is-medium",
+                  attrs: { type: "button" },
+                  on: { click: _vm.remove }
+                })
+              ])
+            ])
+          : _vm._e()
+      ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2efdf9fc", module.exports)
+  }
+}
+
+/***/ }),
+/* 543 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(544)
+/* template */
+var __vue_template__ = __webpack_require__(545)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/inputs/spatial-input.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1f77bd2b", Component.options)
+  } else {
+    hotAPI.reload("data-v-1f77bd2b", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 544 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'nz-spatial-input',
+
+    props: {
+        accuracy: {
+            type: Number,
+            default: 5
+        },
+        elevation: {
+            type: Number,
+            default: 100
+        },
+        latitude: {
+            type: Number,
+            default: 41.0
+        },
+        longitude: {
+            type: Number,
+            default: 19.0
+        },
+        location: {
+            type: [String, Number],
+            default: ''
+        },
+        errors: {
+            type: Object,
+            default: function _default() {
+                return {};
+            }
+        }
+    },
+
+    data: function data() {
+        return {
+            showDetails: false,
+            elevationService: null,
+            center: window.App.gmaps.center
+        };
+    },
+
+
+    computed: {
+        /**
+         * Position object from coordinates.
+         *
+         * @return {Object}
+         */
+        position: function position() {
+            if (!this.coordinatesSet) {
+                return null;
+            }
+
+            return { lat: this.latitude, lng: this.longitude };
+        },
+
+
+        /**
+         * Check if coordinate are set.
+         *
+         * @return {Boolean}
+         */
+        coordinatesSet: function coordinatesSet() {
+            return !(isNaN(this.latitude) || this.latitude === null || isNaN(this.longitude) || this.longitude === null);
+        },
+
+
+        /**
+         * Check if any of the fields has an error.
+         *
+         * @return {Boolean}
+         */
+        mapHasErrors: function mapHasErrors() {
+            return this.errors.has('latitude') || this.errors.has('longitude') || this.errors.has('elevation') || this.errors.has('accuracy');
+        }
+    },
+
+    watch: {
+        /**
+         * Get elevation when coordinates change.
+         */
+        position: function position(value) {
+            if (this.coordinatesSet) {
+                this.getElevation(value);
+            }
+        }
+    },
+
+    methods: {
+        /**
+         * Cast to number or null.
+         *
+         * @param  {any} value
+         * @return {Number}
+         */
+        castNumber: function castNumber(value) {
+            return isNaN(value) || value === '' ? null : Number(value);
+        },
+
+
+        /**
+         * Handle location input.
+         * @param {Object} event
+         */
+        onLocationInput: function onLocationInput(event) {
+            this.updateLocation(event.target.value);
+        },
+
+
+        /**
+         * Sync location property.
+         *
+         * @param {String} value
+         */
+        updateLocation: function updateLocation(value) {
+            this.$emit('update:location', value);
+        },
+
+
+        /**
+         * Handle longitude input.
+         * @param  {[type]} event [description]
+         * @return {[type]}       [description]
+         */
+        onLongitudeInput: _.debounce(function (event) {
+            this.updateLongitude(event.target.value);
+        }, 1000),
+
+        /**
+         * Sync longitude property.
+         *
+         * @param {Number} value
+         */
+        updateLongitude: function updateLongitude(value) {
+            this.$emit('update:longitude', this.castNumber(value));
+        },
+
+
+        /**
+         * Handle latitude input.
+         *
+         * @param {Object} event
+         */
+        onLatitudeInput: _.debounce(function (event) {
+            this.updateLatitude(event.target.value);
+        }, 1000),
+
+        /**
+         * Sync latitude property.
+         *
+         * @param {Number} value
+         */
+        updateLatitude: function updateLatitude(value) {
+            this.$emit('update:latitude', this.castNumber(value));
+        },
+
+
+        /**
+        * Handle accuracy input.
+        *
+        * @param {Object} event
+        */
+        onAccuracyInput: _.debounce(function (event) {
+            this.updateAccuracy(event.target.value);
+        }, 1000),
+
+        /**
+         * Sync accuracy property.
+         *
+         * @param {Number} value
+         */
+        updateAccuracy: function updateAccuracy(value) {
+            this.$emit('update:accuracy', this.castNumber(value));
+        },
+
+
+        /**
+         * Handle elevation input.
+         *
+         * @param {Object} event
+         */
+        onElevationInput: function onElevationInput(event) {
+            this.updateElevation(event.target.value);
+        },
+
+
+        /**
+         * Sync elevation property.
+         *
+         * @param {Number} value
+         */
+        updateElevation: function updateElevation(value) {
+            this.$emit('update:elevation', this.castNumber(value));
+        },
+
+
+        /**
+         * Update coordinates from marker position.
+         *
+         * @param {Object} position
+         */
+        setMarker: function setMarker(position) {
+            var lat = position.latLng.lat();
+            var lng = position.latLng.lng();
+
+            this.updateLatitude(lat);
+            this.updateLongitude(lng);
+        },
+
+
+        /**
+         * Update accuracy from circle radius on gmaps.
+         *
+         * @param  {Number} value
+         */
+        updateRadius: function updateRadius(value) {
+            this.updateAccuracy(parseInt(value));
+        },
+
+
+        /**
+         * Get elevation using Google's service.
+         *
+         * @param  {Object} position
+         */
+        getElevation: function getElevation(position) {
+            var _this = this;
+
+            // Do nothing if we still don't have gmaps library loaded.
+            if (!google || !google.maps || !google.maps.ElevationService) {
+                return;
+            }
+
+            // We don't initialize service when component is created
+            // because Gmap library probably isn't loaded yet,
+            // so we do it on first use of this method.
+            if (!this.elevationService) {
+                this.elevationService = new google.maps.ElevationService();
+            }
+
+            this.elevationService.getElevationForLocations({
+                locations: [position]
+            }, function (results, status) {
+                if (status != google.maps.ElevationStatus.OK || !results.length) {
+                    return;
+                }
+
+                _this.updateElevation(parseInt(results[0].elevation));
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 545 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {},
+    [
+      _c("div", { staticClass: "field is-expanded" }, [
+        _c("label", { staticClass: "label" }, [_vm._v("Location")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "control is-fullwidth" }, [
+          _c("input", {
+            staticClass: "input",
+            class: { "is-danger": _vm.errors.has("location") },
+            attrs: { placeholder: "Location" },
+            domProps: { value: _vm.location },
+            on: { input: _vm.onLocationInput }
+          })
+        ]),
+        _vm._v(" "),
+        _vm.errors.has("location")
+          ? _c("p", {
+              staticClass: "help is-danger",
+              domProps: { textContent: _vm._s(_vm.errors.first("location")) }
+            })
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-field",
+        { attrs: { label: "Map" } },
+        [
+          _c(
+            "gmap-map",
+            {
+              staticStyle: { width: "100%", "min-height": "400px" },
+              attrs: {
+                center: { lat: _vm.center.latitude, lng: _vm.center.longitude },
+                zoom: _vm.center.zoom
+              },
+              on: { click: _vm.setMarker }
+            },
+            [
+              _c("gmap-marker", {
+                attrs: {
+                  position: _vm.position,
+                  clickable: true,
+                  draggable: true
+                },
+                on: { dragend: _vm.setMarker }
+              }),
+              _vm._v(" "),
+              _vm.position && _vm.accuracy
+                ? _c("gmap-circle", {
+                    attrs: {
+                      center: _vm.position,
+                      radius: _vm.accuracy,
+                      editable: true
+                    },
+                    on: { radius_changed: _vm.updateRadius }
+                  })
+                : _vm._e()
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "has-text-right" }, [
+        _vm.mapHasErrors
+          ? _c("span", { staticClass: "has-text-danger is-size-7" }, [
+              _vm._v("Some fields have errors")
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "button is-white is-small is-text",
+            class: { "has-text-danger": _vm.mapHasErrors },
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                _vm.showDetails = !_vm.showDetails
+              }
+            }
+          },
+          [_vm._v("Details")]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.showDetails,
+              expression: "showDetails"
+            }
+          ]
+        },
+        [
+          _c("div", { staticClass: "field is-grouped" }, [
+            _c("div", { staticClass: "field is-expanded" }, [
+              _c("label", { staticClass: "label is-small" }, [
+                _vm._v("Latitude")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "control is-fullwidth" }, [
+                _c("input", {
+                  staticClass: "input is-small",
+                  class: { "is-danger": _vm.errors.has("latitude") },
+                  attrs: { placeholder: "f.e. 42.5234" },
+                  domProps: { value: _vm.latitude },
+                  on: { input: _vm.onLatitudeInput }
+                })
+              ]),
+              _vm._v(" "),
+              _vm.errors.has("latitude")
+                ? _c("p", {
+                    staticClass: "help is-danger",
+                    domProps: {
+                      textContent: _vm._s(_vm.errors.first("latitude"))
+                    }
+                  })
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field is-expanded" }, [
+              _c("label", { staticClass: "label is-small" }, [
+                _vm._v("Longitude")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "control is-fullwidth" }, [
+                _c("input", {
+                  staticClass: "input is-small",
+                  class: { "is-danger": _vm.errors.has("longitude") },
+                  attrs: { placeholder: "f.e. 19.1234" },
+                  domProps: { value: _vm.longitude },
+                  on: { input: _vm.onLongitudeInput }
+                })
+              ]),
+              _vm._v(" "),
+              _vm.errors.has("longitude")
+                ? _c("p", {
+                    staticClass: "help is-danger",
+                    domProps: {
+                      textContent: _vm._s(_vm.errors.first("longitude"))
+                    }
+                  })
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field is-grouped" }, [
+            _c("div", { staticClass: "field is-expanded" }, [
+              _c("label", { staticClass: "label is-small" }, [
+                _vm._v("Accuracy/Radius (m)")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "control is-fullwidth" }, [
+                _c("input", {
+                  staticClass: "input is-small",
+                  attrs: { placeholder: "f.e. 100" },
+                  domProps: { value: _vm.accuracy },
+                  on: { input: _vm.onAccuracyInput }
+                })
+              ]),
+              _vm._v(" "),
+              _vm.errors.has("accuracy")
+                ? _c("p", {
+                    staticClass: "help is-danger",
+                    domProps: {
+                      textContent: _vm._s(_vm.errors.first("accuracy"))
+                    }
+                  })
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field is-expanded" }, [
+              _c("label", { staticClass: "label is-small" }, [
+                _vm._v("Elevation (m)")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "control is-fullwidth" }, [
+                _c("input", {
+                  staticClass: "input is-small",
+                  attrs: { placeholder: "f.e. 500" },
+                  domProps: { value: _vm.elevation },
+                  on: { input: _vm.onElevationInput }
+                })
+              ]),
+              _vm._v(" "),
+              _vm.errors.has("elevation")
+                ? _c("p", {
+                    staticClass: "help is-danger",
+                    domProps: {
+                      textContent: _vm._s(_vm.errors.first("elevation"))
+                    }
+                  })
+                : _vm._e()
+            ])
+          ])
+        ]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1f77bd2b", module.exports)
+  }
+}
+
+/***/ }),
+/* 546 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(547)
+/* template */
+var __vue_template__ = __webpack_require__(548)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/inputs/taxon-autocomplete.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6d20f911", Component.options)
+  } else {
+    hotAPI.reload("data-v-6d20f911", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 547 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'nz-taxon-autocomplete',
+
+  props: {
+    label: {
+      type: String,
+      default: 'Taxon'
+    },
+    placeholder: {
+      type: String,
+      default: 'Search for taxon...'
+    },
+    taxon: {
+      type: Object,
+      default: null
+    },
+    url: {
+      type: String,
+      default: '/api/taxa'
+    },
+    value: {
+      type: String,
+      default: ''
+    },
+    error: {
+      type: Boolean,
+      default: false
+    },
+    message: {
+      type: String,
+      default: null
+    }
+  },
+
+  data: function data() {
+    return {
+      data: [],
+      selected: this.taxon || null,
+      loading: false
+    };
+  },
+
+
+  computed: {
+    haveThumbnail: function haveThumbnail() {
+      return this.selected && this.selected.thumbnail_url;
+    },
+    icon: function icon() {
+      return this.selected ? 'check' : 'search';
+    }
+  },
+
+  methods: {
+    fetchData: _.debounce(function () {
+      var _this = this;
+
+      if (!this.value) return;
+
+      this.data = [];
+      this.loading = true;
+
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(this.url + '?name=' + this.value).then(function (_ref) {
+        var data = _ref.data;
+
+        data.data.forEach(function (item) {
+          return _this.data.push(item);
+        });
+        _this.loading = false;
+      }, function (response) {
+        _this.loading = false;
+      });
+    }, 500),
+
+    onSelect: function onSelect(taxon) {
+      this.selected = taxon;
+
+      this.$emit('select', taxon);
+    },
+    onInput: function onInput(value) {
+      this.$emit('input', value);
+
+      this.fetchData();
+    }
+  }
+});
+
+/***/ }),
+/* 548 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "b-field",
+    {
+      staticClass: "nz-taxon-autocomplete",
+      attrs: {
+        label: _vm.label,
+        type: _vm.error ? "is-danger" : null,
+        message: _vm.message
+      }
+    },
+    [
+      _c(
+        "b-field",
+        { attrs: { grouped: "" } },
+        [
+          _vm.haveThumbnail
+            ? _c("img", {
+                attrs: { width: "32", src: this.selected.thumbnail_url }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _c("b-autocomplete", {
+            attrs: {
+              value: _vm.value,
+              data: _vm.data,
+              field: "name",
+              loading: _vm.loading,
+              "keep-first": true,
+              icon: _vm.icon,
+              placeholder: _vm.placeholder,
+              expanded: ""
+            },
+            on: { input: _vm.onInput, select: _vm.onSelect },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(props) {
+                  return [
+                    _c("div", { staticClass: "media" }, [
+                      _c("div", { staticClass: "media-left" }, [
+                        props.option.thumbnail_url
+                          ? _c("img", {
+                              attrs: {
+                                width: "32",
+                                src: props.option.thumbnail_url
+                              }
+                            })
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "media-content" }, [
+                        _vm._v(
+                          "\n            " +
+                            _vm._s(props.option.name) +
+                            "\n          "
+                        )
+                      ])
+                    ])
+                  ]
+                }
+              }
+            ])
+          })
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6d20f911", module.exports)
+  }
+}
+
+/***/ }),
+/* 549 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(550)
+/* template */
+var __vue_template__ = __webpack_require__(551)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/tables/field-observations-table.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c9c79cf6", Component.options)
+  } else {
+    hotAPI.reload("data-v-c9c79cf6", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 550 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -65151,7 +65146,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             modalImage: null
         };
     },
-    created: function created() {},
 
 
     methods: {
@@ -65159,6 +65153,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             this.loading = true;
+
             return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(route(this.listRoute, {
                 sort_by: this.sortField + '.' + this.sortOrder,
                 page: this.page,
@@ -65195,12 +65190,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         onSort: function onSort(field, order) {
             this.sortField = field;
             this.sortOrder = order;
+
             this.loadAsyncData();
         },
         onPerPageChange: function onPerPageChange(perPage) {
             if (perPage === this.perPage) return;
 
             this.perPage = perPage;
+
             this.loadAsyncData();
         },
         confirmRemove: function confirmRemove(row) {
@@ -65223,6 +65220,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     message: 'Record deleted',
                     type: 'is-success'
                 });
+
                 _this3.loadAsyncData();
             }).catch(function (error) {
                 console.error(error);
@@ -65253,7 +65251,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 516 */
+/* 551 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -65539,15 +65537,417 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-fb8bb77e", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-c9c79cf6", module.exports)
   }
 }
 
 /***/ }),
-/* 517 */
-/***/ (function(module, exports) {
+/* 552 */
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(553)
+/* template */
+var __vue_template__ = __webpack_require__(554)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/tables/taxa-table.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-790c5c61", Component.options)
+  } else {
+    hotAPI.reload("data-v-790c5c61", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 553 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'nzTaxaTable',
+
+    props: {
+        perPageOptions: {
+            type: Array,
+            default: function _default() {
+                return [15, 30, 50, 100];
+            },
+            validator: function validator(value) {
+                return value.length;
+            }
+        },
+        listRoute: String,
+        editRoute: String,
+        deleteRoute: String,
+        empty: {
+            type: String,
+            default: 'Nothing here.'
+        }
+    },
+
+    data: function data() {
+        return {
+            data: [],
+            total: 0,
+            loading: false,
+            sortField: 'name',
+            sortOrder: 'asc',
+            defaultSortOrder: 'asc',
+            page: 1,
+            perPage: this.perPageOptions[0],
+            checkedRows: []
+        };
+    },
+
+
+    methods: {
+        loadAsyncData: function loadAsyncData() {
+            var _this = this;
+
+            this.loading = true;
+
+            return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(route(this.listRoute, {
+                sort_by: this.sortField + '.' + this.sortOrder,
+                page: this.page,
+                per_page: this.perPage
+            })).then(function (_ref) {
+                var data = _ref.data;
+
+                _this.data = [];
+                _this.total = data.total;
+                data.data.forEach(function (item) {
+                    return _this.data.push(item);
+                });
+                _this.loading = false;
+            }, function (response) {
+                _this.data = [];
+                _this.total = 0;
+                _this.loading = false;
+            });
+        },
+
+
+        /*
+         * Handle page-change event
+         */
+        onPageChange: function onPageChange(page) {
+            this.page = page;
+            this.loadAsyncData();
+        },
+
+
+        /*
+         * Handle sort event
+         */
+        onSort: function onSort(field, order) {
+            this.sortField = field;
+            this.sortOrder = order;
+
+            this.loadAsyncData();
+        },
+        onPerPageChange: function onPerPageChange(perPage) {
+            if (perPage === this.perPage) return;
+
+            this.perPage = perPage;
+
+            this.loadAsyncData();
+        },
+        confirmRemove: function confirmRemove(row) {
+            var _this2 = this;
+
+            this.$dialog.confirm({
+                message: 'Are you sure you want to delete this record?',
+                confirmText: 'Remove',
+                type: 'is-danger',
+                onConfirm: function onConfirm() {
+                    _this2.remove(row);
+                }
+            });
+        },
+        remove: function remove(row) {
+            var _this3 = this;
+
+            return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete(route(this.deleteRoute, row)).then(function (response) {
+                _this3.$toast.open({
+                    message: 'Record deleted',
+                    type: 'is-success'
+                });
+
+                _this3.loadAsyncData();
+            }).catch(function (error) {
+                console.error(error);
+            });
+        },
+        editLink: function editLink(row) {
+            return route(this.editRoute, row.id);
+        },
+        openImageModal: function openImageModal(imageUrl) {
+            this.modalImage = imageUrl;
+
+            this.isImageModalActive = true;
+        }
+    },
+
+    filters: {
+        /**
+         * Filter to truncate string, accepts a length parameter
+         */
+        truncate: function truncate(value, length) {
+            return value.length > length ? value.substr(0, length) + '...' : value;
+        }
+    },
+
+    mounted: function mounted() {
+        this.loadAsyncData();
+    }
+});
+
+/***/ }),
+/* 554 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {},
+    [
+      _c(
+        "b-table",
+        {
+          attrs: {
+            data: _vm.data,
+            loading: _vm.loading,
+            paginated: "",
+            "backend-pagination": "",
+            total: _vm.total,
+            "per-page": _vm.perPage,
+            "backend-sorting": "",
+            "default-sort-direction": _vm.defaultSortOrder,
+            "default-sort": [_vm.sortField, _vm.sortOrder],
+            "mobile-cards": true
+          },
+          on: { "page-change": _vm.onPageChange, sort: _vm.onSort },
+          scopedSlots: _vm._u([
+            {
+              key: "default",
+              fn: function(props) {
+                return [
+                  _c(
+                    "b-table-column",
+                    {
+                      attrs: {
+                        field: "id",
+                        label: "ID",
+                        width: "40",
+                        numeric: "",
+                        sortable: ""
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(props.row.id) +
+                          "\n            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-table-column",
+                    { attrs: { field: "name", label: "Name", sortable: "" } },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(props.row.name) +
+                          "\n            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("b-table-column", { attrs: { label: "Actions" } }, [
+                    _c(
+                      "a",
+                      { attrs: { href: _vm.editLink(props.row) } },
+                      [_c("b-icon", { attrs: { icon: "edit" } })],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        on: {
+                          click: function($event) {
+                            _vm.confirmRemove(props.row)
+                          }
+                        }
+                      },
+                      [_c("b-icon", { attrs: { icon: "trash" } })],
+                      1
+                    )
+                  ])
+                ]
+              }
+            }
+          ])
+        },
+        [
+          _c("template", { attrs: { slot: "empty" }, slot: "empty" }, [
+            _c("section", { staticClass: "section" }, [
+              _c(
+                "div",
+                { staticClass: "content has-text-grey has-text-centered" },
+                [_c("p", [_vm._v(_vm._s(_vm.empty))])]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "template",
+            { attrs: { slot: "bottom-left" }, slot: "bottom-left" },
+            [
+              _c(
+                "b-field",
+                [
+                  _c(
+                    "b-select",
+                    {
+                      attrs: { value: _vm.perPage, placeholder: "Per page" },
+                      on: { input: _vm.onPerPageChange }
+                    },
+                    _vm._l(_vm.perPageOptions, function(option, index) {
+                      return _c(
+                        "option",
+                        { key: index, domProps: { value: option } },
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(option) +
+                              "\n                    "
+                          )
+                        ]
+                      )
+                    })
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        2
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-790c5c61", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
