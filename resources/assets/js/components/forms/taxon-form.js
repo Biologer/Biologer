@@ -27,7 +27,9 @@ export default {
                     category_level: 10
                 };
             }
-        }
+        },
+        
+        categories: Object
     },
 
     data() {

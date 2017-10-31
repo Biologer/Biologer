@@ -59472,6 +59472,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -59648,6 +59652,18 @@ var render = function() {
                       _vm._v(
                         "\n                " +
                           _vm._s(props.row.id) +
+                          "\n            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-table-column",
+                    { attrs: { field: "category", label: "Category" } },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(props.row.category) +
                           "\n            "
                       )
                     ]
@@ -60382,7 +60398,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     category_level: 10
                 };
             }
-        }
+        },
+
+        categories: Object
     },
 
     data: function data() {

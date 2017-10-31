@@ -22,6 +22,10 @@
                     {{ props.row.id }}
                 </b-table-column>
 
+                <b-table-column field="category" label="Category">
+                    {{ props.row.category }}
+                </b-table-column>
+
                 <b-table-column field="name" label="Name" sortable>
                     {{ props.row.name }}
                 </b-table-column>

@@ -13,6 +13,8 @@ class Taxon extends Model
      */
     protected $table = 'taxa';
 
+    protected $appends = ['category'];
+
     /**
      * The relations to eager load on every query.
      *
@@ -48,6 +50,13 @@ class Taxon extends Model
     public function unapprovedObservations()
     {
         return $this->observations()->unapproved();
+    }
+
+    public function getCategoryAttribute()
+    {
+        $categories =static::getCategories();
+
+        return $categories[$this->category_level];
     }
 
     /**

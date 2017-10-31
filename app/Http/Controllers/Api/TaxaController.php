@@ -82,6 +82,11 @@ class TaxaController extends Controller
                 Rule::unique('taxa', 'name')->ignore($taxon->id),
             ],
             'parent_id' => 'nullable|exists:taxa,id',
+            'category_level' => [
+                'required',
+                'integer',
+                'in:'.implode(',', array_keys(Taxon::getCategories())),
+            ],
         ], [], [
             'parent_id' => 'parent',
         ]);
