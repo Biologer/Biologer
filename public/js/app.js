@@ -60395,12 +60395,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 return {
                     name: null,
                     parent_id: null,
-                    category_level: 10
+                    category_level: 10,
+                    fe_id: null,
+                    fe_old_id: null
                 };
             }
         },
 
-        categories: Object
+        categories: Array
     },
 
     data: function data() {
@@ -60408,10 +60410,33 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             form: new __WEBPACK_IMPORTED_MODULE_0_form_backend_validation___default.a(_extends({}, this.taxon), {
                 http: window.axios
             }),
-            parentName: this.taxon && this.taxon.parent ? this.taxon.parent.name : null
+            parentName: this.taxon && this.taxon.parent ? this.taxon.parent.name : null,
+            selectedParent: null
         };
     },
 
+
+    computed: {
+        categoryOptions: function categoryOptions() {
+            var _this = this;
+
+            if (this.selectedParent) {
+                return this.categories.filter(function (category) {
+                    return category.value < _this.selectedParent.category_level;
+                });
+            }
+
+            return this.categories;
+        }
+    },
+
+    watch: {
+        selectedParent: function selectedParent() {
+            if (this.selectedParent && this.form.category_level >= this.selectedParent.category_level) {
+                this.form.category_level = null;
+            }
+        }
+    },
 
     methods: {
         /**
@@ -60425,7 +60450,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.form[this.method.toLowerCase()](this.action).then(this.onSuccessfulSubmit).catch(this.onFailedSubmit);
         },
         onSuccessfulSubmit: function onSuccessfulSubmit() {
-            var _this = this;
+            var _this2 = this;
 
             this.form.processing = true;
 
@@ -60437,9 +60462,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             // We want to wait a bit before we send the user to redirect route
             // so we can show the message that the action was successful.
             setTimeout(function () {
-                _this.form.processing = false;
+                _this2.form.processing = false;
 
-                window.location.href = _this.redirect;
+                window.location.href = _this2.redirect;
             }, 500);
         },
         onFailedSubmit: function onFailedSubmit(error) {
@@ -60450,6 +60475,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             });
         },
         onTaxonSelect: function onTaxonSelect(taxon) {
+            this.selectedParent = taxon;
             this.form.parent_id = taxon ? taxon.id : null;
         }
     }

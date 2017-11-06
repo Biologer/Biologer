@@ -8,29 +8,10 @@
                     action="{{ route('api.taxa.update', $taxon) }}"
                     method="put"
                     :taxon="{{ $taxon }}"
-                    :categories="{{ json_encode(App\Taxon::getCategories()) }}">
+                    :categories="{{ json_encode(App\Taxon::getCategoryOptions()) }}">
                     <div class="">
                         <div class="columns">
-                            <div class="column is-half">
-                                <b-field label="Name"
-                                    :type="form.errors.has('name') ? 'is-danger' : ''"
-                                    :message="form.errors.has('name') ? form.errors.first('name') : ''">
-                                    <b-input v-model="form.name"></b-input>
-                                </b-field>
-
-                                <b-field label="Category">
-                                    <b-select placeholder="Select category" v-model="form.category_level">
-                                        <option
-                                            v-for="(option, index) in categories"
-                                            :value="index"
-                                            :key="index"
-                                            v-text="option">
-                                        </option>
-                                    </b-select>
-                                </b-field>
-                            </div>
-
-                            <div class="column is-half">
+                            <div class="column is-5">
                                 <nz-taxon-autocomplete label="Parent"
                                     v-model="parentName"
                                     @select="onTaxonSelect"
@@ -39,6 +20,45 @@
                                     :taxon="{{ $taxon->parent or 'null' }}"
                                     except="{{ $taxon->id }}">
                                 </nz-taxon-autocomplete>
+                            </div>
+
+                            <div class="column is-5">
+                                <b-field label="Name"
+                                    :type="form.errors.has('name') ? 'is-danger' : ''"
+                                    :message="form.errors.has('name') ? form.errors.first('name') : ''">
+                                    <b-input v-model="form.name"></b-input>
+                                </b-field>
+                            </div>
+
+                            <div class="column is-2">
+                                <b-field label="Category">
+                                    <b-select placeholder="Select category" v-model="form.category_level">
+                                        <option
+                                            v-for="(category, index) in categoryOptions"
+                                            :value="category.value"
+                                            :key="index"
+                                            v-text="category.name">
+                                        </option>
+                                    </b-select>
+                                </b-field>
+                            </div>
+                        </div>
+
+                        <div class="columns">
+                            <div class="column is-half">
+                                <b-field label="(old) FaunaEuropea ID"
+                                    :type="form.errors.has('fe_old_id') ? 'is-danger' : ''"
+                                    :message="form.errors.has('fe_old_id') ? form.errors.first('fe_old_id') : ''">
+                                    <b-input v-model="form.fe_old_id"></b-input>
+                                </b-field>
+                            </div>
+
+                            <div class="column is-half">
+                                <b-field label="FaunaEuropea ID"
+                                    :type="form.errors.has('fe_id') ? 'is-danger' : ''"
+                                    :message="form.errors.has('fe_id') ? form.errors.first('fe_id') : ''">
+                                    <b-input v-model="form.fe_id"></b-input>
+                                </b-field>
                             </div>
                         </div>
 

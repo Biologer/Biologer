@@ -59,7 +59,9 @@ class TaxaController extends Controller
         $data = request()->validate([
             'name' => 'required|unique:taxa,name',
             'parent_id' => 'nullable|exists:taxa,id',
-            'category_level' => 'required|integer'
+            'category_level' => 'required|integer',
+            'fe_old_id' => 'nullable',
+            'fe_id' => 'nullable',
         ], [], [
             'parent_id' => 'parent',
         ]);
@@ -87,6 +89,8 @@ class TaxaController extends Controller
                 'integer',
                 'in:'.implode(',', array_keys(Taxon::getCategories())),
             ],
+            'fe_old_id' => 'nullable',
+            'fe_id' => 'nullable',
         ], [], [
             'parent_id' => 'parent',
         ]);

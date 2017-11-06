@@ -72,4 +72,18 @@ class Taxon extends Model
             ->values()
             ->all();
     }
+
+    /**
+     * Taxon categories as options for frontend.
+     * @return array
+     */
+    public static function getCategoryOptions()
+    {
+        return array_map(function ($category, $index) {
+            return [
+                'value' => $index,
+                'name' => $category,
+            ];
+        }, static::getCategories(), array_keys(static::getCategories()));
+    }
 }

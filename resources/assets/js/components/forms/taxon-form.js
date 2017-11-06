@@ -24,12 +24,14 @@ export default {
                 return {
                     name: null,
                     parent_id: null,
-                    category_level: 10
+                    category_level: 10,
+                    fe_id: null,
+                    fe_old_id: null
                 };
             }
         },
-        
-        categories: Object
+
+        categories: Array
     },
 
     data() {
@@ -40,7 +42,30 @@ export default {
                 http: window.axios
             }),
             parentName: this.taxon && this.taxon.parent ? this.taxon.parent.name : null,
+            selectedParent: null
         };
+    },
+
+    computed: {
+        categoryOptions() {
+            if (this.selectedParent) {
+                return this.categories.filter((category) => {
+                    return category.value < this.selectedParent.category_level;
+                })
+            }
+
+            return this.categories;
+        }
+    },
+
+    watch: {
+        selectedParent() {
+            if (this.selectedParent &&
+                this.form.category_level >= this.selectedParent.category_level
+            ) {
+                this.form.category_level = null;
+            }
+        }
     },
 
     methods: {
@@ -83,6 +108,7 @@ export default {
         },
 
         onTaxonSelect(taxon) {
+            this.selectedParent = taxon;
             this.form.parent_id = taxon ? taxon.id : null;
         }
     }
