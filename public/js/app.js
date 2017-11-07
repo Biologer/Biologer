@@ -59594,11 +59594,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             checkedRows: [],
             filter: {
                 name: '',
-                category: ''
+                category_level: ''
             },
             newFilter: {
                 name: '',
-                category: ''
+                category_level: ''
             }
         };
     },
@@ -59875,11 +59875,11 @@ var render = function() {
                       {
                         on: { input: _vm.onFilter },
                         model: {
-                          value: _vm.newFilter.category,
+                          value: _vm.newFilter.category_level,
                           callback: function($$v) {
-                            _vm.$set(_vm.newFilter, "category", $$v)
+                            _vm.$set(_vm.newFilter, "category_level", $$v)
                           },
-                          expression: "newFilter.category"
+                          expression: "newFilter.category_level"
                         }
                       },
                       [

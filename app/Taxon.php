@@ -24,7 +24,7 @@ class Taxon extends Model
      */
     protected function filters() {
         return [
-            'category' => \App\Filters\Taxon\CategoryLevel::class,
+            'category_level' => \App\Filters\Taxon\CategoryLevel::class,
             'except' => \App\Filters\ExceptId::class,
             'id' => \App\Filters\Id::class,
             'name' => \App\Filters\NameLike::class,

@@ -61,7 +61,7 @@
                 <th class="is-hidden-mobile"></th>
                 <th class="is-hidden-mobile">
                     <b-field>
-                        <b-select v-model="newFilter.category" @input="onFilter">
+                        <b-select v-model="newFilter.category_level" @input="onFilter">
                             <option value=""></option>
                             <option
                                 v-for="(category, index) in categories"
@@ -122,11 +122,11 @@ export default {
             checkedRows: [],
             filter: {
                 name: '',
-                category: ''
+                category_level: ''
             },
             newFilter: {
                 name: '',
-                category: ''
+                category_level: ''
             }
         };
     },
