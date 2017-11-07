@@ -14,31 +14,15 @@ class TaxaController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        list($sortField, $sortOrder) = explode('.', request('sort_by', 'name.asc'));
+        $taxa = Taxon::with('parent')->filter($request)->orderBy('id');
 
-        $taxa = Taxon::with('parent')->orderBy($sortField, $sortOrder)->orderBy('id');
-
-        if (request()->has('name') && $name = request('name')) {
-            $taxa->where('name', 'like', $name.'%');
-        }
-
-        if (request()->has('category') && $category = request('category')) {
-            $taxa->where('category_level', $category);
-        }
-
-        if (request()->has('except')) {
-            $taxa->where('id', '<>', request('except'));
-        }
-
-        if (request('all')) {
+        if ($request->input('all', false)) {
             return $taxa->get();
         }
 
-        return $taxa->paginate(
-            request('per_page', 15)
-        );
+        return $taxa->paginate($request->input('per_page', 15));
     }
 
     /**

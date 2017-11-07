@@ -17874,6 +17874,10 @@ h6 {
   padding-bottom: 1rem;
 }
 
+.align-middle {
+  vertical-align: middle;
+}
+
 .bg-primary-lightest {
   background-color: #FBFFFD;
 }

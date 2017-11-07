@@ -41,7 +41,7 @@
     "extra": {
         "laravel": {
             "dont-discover": [
-                "itsgoingd/clockwork"
+                
             ]
         }
     },

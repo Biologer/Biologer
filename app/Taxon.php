@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Filters\Filterable;
+
 class Taxon extends Model
 {
-    use Concerns\HasAncestry;
+    use Concerns\HasAncestry, Filterable;
 
     /**
      * The table associated with the model.
@@ -14,6 +16,21 @@ class Taxon extends Model
     protected $table = 'taxa';
 
     protected $appends = ['category'];
+
+    /**
+     * Filters that can be used on queries.
+     *
+     * @var array
+     */
+    protected function filters() {
+        return [
+            'category' => \App\Filters\Taxon\CategoryLevel::class,
+            'except' => \App\Filters\ExceptId::class,
+            'id' => \App\Filters\Id::class,
+            'name' => \App\Filters\NameLike::class,
+            'sort_by' => \App\Filters\SortBy::class,
+        ];
+    }
 
     /**
      * The relations to eager load on every query.

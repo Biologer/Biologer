@@ -59761,7 +59761,13 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "b-table-column",
-                    { attrs: { field: "category", label: "Category" } },
+                    {
+                      attrs: {
+                        field: "category_level",
+                        label: "Category",
+                        sortable: ""
+                      }
+                    },
                     [
                       _vm._v(
                         "\n                " +
