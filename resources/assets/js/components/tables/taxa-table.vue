@@ -58,8 +58,7 @@
             </template>
 
             <template slot="footer">
-                <th class="is-hidden-mobile">
-                </th>
+                <th class="is-hidden-mobile"></th>
                 <th class="is-hidden-mobile">
                     <b-field>
                         <b-select v-model="newFilter.category" @input="onFilter">
@@ -78,8 +77,7 @@
                         <b-input v-model="newFilter.name" @blur="onFilter" @keyup.enter.native="onFilter"></b-input>
                     </b-field>
                 </th>
-                <th class="is-hidden-mobile">
-                </th>
+                <th class="is-hidden-mobile"></th>
             </template>
         </b-table>
     </div>
