@@ -9,7 +9,8 @@
                 <nz-taxa-table
                     list-route="api.taxa.index"
                     edit-route="admin.taxa.edit"
-                    delete-route="api.taxa.destroy">
+                    delete-route="api.taxa.destroy"
+                    :categories="{{ json_encode(\App\Taxon::getCategoryOptions()) }}">
                 </nz-taxa-table>
             </div>
         </section>

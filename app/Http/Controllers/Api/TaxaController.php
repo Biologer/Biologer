@@ -20,12 +20,16 @@ class TaxaController extends Controller
 
         $taxa = Taxon::with('parent')->orderBy($sortField, $sortOrder)->orderBy('id');
 
-        if (request()->has('name')) {
-            $taxa = $taxa->where('name', 'like', request('name', '').'%');
+        if (request()->has('name') && $name = request('name')) {
+            $taxa->where('name', 'like', $name.'%');
+        }
+
+        if (request()->has('category') && $category = request('category')) {
+            $taxa->where('category_level', $category);
         }
 
         if (request()->has('except')) {
-            $taxa = $taxa->where('id', '<>', request('except'));
+            $taxa->where('id', '<>', request('except'));
         }
 
         if (request('all')) {
@@ -40,12 +44,12 @@ class TaxaController extends Controller
     /**
     * Display the specified resource.
     *
-    * @param  int  $id
+    * @param  \App\Taxon  $taxon
     * @return \Illuminate\Http\JsonResponse
     */
-    public function show($id)
+    public function show(Taxon $taxon)
     {
-        //
+        return $taxon;
     }
 
     /**

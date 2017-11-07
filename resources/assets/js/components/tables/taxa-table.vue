@@ -56,6 +56,31 @@
                     </b-select>
                 </b-field>
             </template>
+
+            <template slot="footer">
+                <th class="is-hidden-mobile">
+                </th>
+                <th class="is-hidden-mobile">
+                    <b-field>
+                        <b-select v-model="newFilter.category" @input="onFilter">
+                            <option value=""></option>
+                            <option
+                                v-for="(category, index) in categories"
+                                :value="category.value"
+                                :key="index"
+                                v-text="category.name">
+                            </option>
+                        </b-select>
+                    </b-field>
+                </th>
+                <th class="is-hidden-mobile">
+                    <b-field>
+                        <b-input v-model="newFilter.name" @blur="onFilter" @keyup.enter.native="onFilter"></b-input>
+                    </b-field>
+                </th>
+                <th class="is-hidden-mobile">
+                </th>
+            </template>
         </b-table>
     </div>
 </template>
@@ -82,7 +107,8 @@ export default {
         empty: {
             type: String,
             default: 'Nothing here.'
-        }
+        },
+        categories: Array
     },
 
     data() {
@@ -95,8 +121,20 @@ export default {
             defaultSortOrder: 'asc',
             page: 1,
             perPage: this.perPageOptions[0],
-            checkedRows: []
+            checkedRows: [],
+            filter: {
+                name: '',
+                category: ''
+            },
+            newFilter: {
+                name: '',
+                category: ''
+            }
         };
+    },
+
+    mounted() {
+        this.loadAsyncData()
     },
 
     methods: {
@@ -106,7 +144,8 @@ export default {
             return axios.get(route(this.listRoute, {
                 sort_by: `${this.sortField}.${this.sortOrder}`,
                 page: this.page,
-                per_page:this.perPage
+                per_page:this.perPage,
+                ...this.filter
             })).then(({ data }) => {
                 this.data = [];
                 this.total = data.total;
@@ -135,6 +174,22 @@ export default {
             this.sortOrder = order
 
             this.loadAsyncData()
+        },
+
+        onFilter() {
+            let reload = false;
+
+            for (let field in this.newFilter) {
+                if (this.filter[field] !== this.newFilter[field]) {
+                    reload = true;
+                }
+
+                this.filter[field] = this.newFilter[field];
+            }
+
+            if (reload) {
+                this.loadAsyncData()
+            }
         },
 
         onPerPageChange(perPage) {
@@ -168,10 +223,6 @@ export default {
         editLink (row) {
             return route(this.editRoute, row.id);
         }
-    },
-
-    mounted() {
-        this.loadAsyncData()
     }
 }
 </script>

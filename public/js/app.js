@@ -39122,7 +39122,7 @@ module.exports = function spread(callback) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.5.2
+ * Vue.js v2.5.3
  * (c) 2014-2017 Evan You
  * Released under the MIT License.
  */
@@ -39883,6 +39883,7 @@ function createTextVNode (val) {
 // multiple renders, cloning them avoids errors when DOM manipulations rely
 // on their elm reference.
 function cloneVNode (vnode, deep) {
+  var componentOptions = vnode.componentOptions;
   var cloned = new VNode(
     vnode.tag,
     vnode.data,
@@ -39890,7 +39891,7 @@ function cloneVNode (vnode, deep) {
     vnode.text,
     vnode.elm,
     vnode.context,
-    vnode.componentOptions,
+    componentOptions,
     vnode.asyncFactory
   );
   cloned.ns = vnode.ns;
@@ -39898,8 +39899,13 @@ function cloneVNode (vnode, deep) {
   cloned.key = vnode.key;
   cloned.isComment = vnode.isComment;
   cloned.isCloned = true;
-  if (deep && vnode.children) {
-    cloned.children = cloneVNodes(vnode.children);
+  if (deep) {
+    if (vnode.children) {
+      cloned.children = cloneVNodes(vnode.children, true);
+    }
+    if (componentOptions && componentOptions.children) {
+      componentOptions.children = cloneVNodes(componentOptions.children, true);
+    }
   }
   return cloned
 }
@@ -40132,7 +40138,7 @@ function set (target, key, val) {
     target.splice(key, 1, val);
     return val
   }
-  if (hasOwn(target, key)) {
+  if (key in target && !(key in Object.prototype)) {
     target[key] = val;
     return val
   }
@@ -40264,7 +40270,7 @@ function mergeDataOrFn (
         typeof parentVal === 'function' ? parentVal.call(this) : parentVal
       )
     }
-  } else if (parentVal || childVal) {
+  } else {
     return function mergedInstanceDataFn () {
       // instance merge
       var instanceData = typeof childVal === 'function'
@@ -40298,7 +40304,7 @@ strats.data = function (
 
       return parentVal
     }
-    return mergeDataOrFn.call(this, parentVal, childVal)
+    return mergeDataOrFn(parentVal, childVal)
   }
 
   return mergeDataOrFn(parentVal, childVal, vm)
@@ -41104,6 +41110,9 @@ function updateListeners (
 /*  */
 
 function mergeVNodeHook (def, hookKey, hook) {
+  if (def instanceof VNode) {
+    def = def.data.hook || (def.data.hook = {});
+  }
   var invoker;
   var oldHook = def[hookKey];
 
@@ -41471,6 +41480,7 @@ function updateComponentListeners (
 ) {
   target = vm;
   updateListeners(listeners, oldListeners || {}, add, remove$1, vm);
+  target = undefined;
 }
 
 function eventsMixin (Vue) {
@@ -41526,7 +41536,7 @@ function eventsMixin (Vue) {
     if (!cbs) {
       return vm
     }
-    if (arguments.length === 1) {
+    if (!fn) {
       vm._events[event] = null;
       return vm
     }
@@ -41588,7 +41598,6 @@ function resolveSlots (
   if (!children) {
     return slots
   }
-  var defaultSlot = [];
   for (var i = 0, l = children.length; i < l; i++) {
     var child = children[i];
     var data = child.data;
@@ -41609,12 +41618,14 @@ function resolveSlots (
         slot.push(child);
       }
     } else {
-      defaultSlot.push(child);
+      (slots.default || (slots.default = [])).push(child);
     }
   }
-  // ignore whitespace
-  if (!defaultSlot.every(isWhitespace)) {
-    slots.default = defaultSlot;
+  // ignore slots that contains only whitespace
+  for (var name$1 in slots) {
+    if (slots[name$1].every(isWhitespace)) {
+      delete slots[name$1];
+    }
   }
   return slots
 }
@@ -42778,6 +42789,7 @@ function renderSlot (
   bindObject
 ) {
   var scopedSlotFn = this.$scopedSlots[name];
+  var nodes;
   if (scopedSlotFn) { // scoped slot
     props = props || {};
     if (bindObject) {
@@ -42789,19 +42801,28 @@ function renderSlot (
       }
       props = extend(extend({}, bindObject), props);
     }
-    return scopedSlotFn(props) || fallback
+    nodes = scopedSlotFn(props) || fallback;
   } else {
     var slotNodes = this.$slots[name];
     // warn duplicate slot usage
-    if (slotNodes && "development" !== 'production') {
-      slotNodes._rendered && warn(
-        "Duplicate presence of slot \"" + name + "\" found in the same render tree " +
-        "- this will likely cause render errors.",
-        this
-      );
+    if (slotNodes) {
+      if ("development" !== 'production' && slotNodes._rendered) {
+        warn(
+          "Duplicate presence of slot \"" + name + "\" found in the same render tree " +
+          "- this will likely cause render errors.",
+          this
+        );
+      }
       slotNodes._rendered = true;
     }
-    return slotNodes || fallback
+    nodes = slotNodes || fallback;
+  }
+
+  var target = props && props.slot;
+  if (target) {
+    return this.$createElement('template', { slot: target }, nodes)
+  } else {
+    return nodes
   }
 }
 
@@ -42904,8 +42925,8 @@ function renderStatic (
 ) {
   // static trees can be rendered once and cached on the contructor options
   // so every instance shares the same cached trees
-  var renderFns = this.$options.staticRenderFns;
-  var cached = renderFns.cached || (renderFns.cached = []);
+  var options = this.$options;
+  var cached = options.cached || (options.cached = []);
   var tree = cached[index];
   // if has already-rendered static tree and not inside v-for,
   // we can reuse the same tree by doing a shallow clone.
@@ -42915,7 +42936,7 @@ function renderStatic (
       : cloneVNode(tree)
   }
   // otherwise, render a fresh tree.
-  tree = cached[index] = renderFns[index].call(this._renderProxy, null, this);
+  tree = cached[index] = options.staticRenderFns[index].call(this._renderProxy, null, this);
   markStatic(tree, ("__static__" + index), false);
   return tree
 }
@@ -43956,8 +43977,8 @@ var KeepAlive = {
       // check pattern
       var name = getComponentName(componentOptions);
       if (name && (
-        (this.include && !matches(this.include, name)) ||
-        (this.exclude && matches(this.exclude, name))
+        (this.exclude && matches(this.exclude, name)) ||
+        (this.include && !matches(this.include, name))
       )) {
         return vnode
       }
@@ -44053,7 +44074,7 @@ Object.defineProperty(Vue$3.prototype, '$ssrContext', {
   }
 });
 
-Vue$3.version = '2.5.2';
+Vue$3.version = '2.5.3';
 
 /*  */
 
@@ -45034,9 +45055,12 @@ function createPatchFunction (backend) {
           // create an empty node and replace it
           oldVnode = emptyNodeAt(oldVnode);
         }
+
         // replacing existing element
         var oldElm = oldVnode.elm;
         var parentElm$1 = nodeOps.parentNode(oldElm);
+
+        // create new node
         createElm(
           vnode,
           insertedVnodeQueue,
@@ -45047,9 +45071,8 @@ function createPatchFunction (backend) {
           nodeOps.nextSibling(oldElm)
         );
 
+        // update parent placeholder node element, recursively
         if (isDef(vnode.parent)) {
-          // component root element replaced.
-          // update parent placeholder node element, recursively
           var ancestor = vnode.parent;
           var patchable = isPatchable(vnode);
           while (ancestor) {
@@ -45078,6 +45101,7 @@ function createPatchFunction (backend) {
           }
         }
 
+        // destroy old node
         if (isDef(parentElm$1)) {
           removeVnodes(parentElm$1, [oldVnode], 0, 0);
         } else if (isDef(oldVnode.tag)) {
@@ -45143,14 +45167,14 @@ function _update (oldVnode, vnode) {
       }
     };
     if (isCreate) {
-      mergeVNodeHook(vnode.data.hook || (vnode.data.hook = {}), 'insert', callInsert);
+      mergeVNodeHook(vnode, 'insert', callInsert);
     } else {
       callInsert();
     }
   }
 
   if (dirsWithPostpatch.length) {
-    mergeVNodeHook(vnode.data.hook || (vnode.data.hook = {}), 'postpatch', function () {
+    mergeVNodeHook(vnode, 'postpatch', function () {
       for (var i = 0; i < dirsWithPostpatch.length; i++) {
         callHook$1(dirsWithPostpatch[i], 'componentUpdated', vnode, oldVnode);
       }
@@ -45935,6 +45959,7 @@ function updateDOMListeners (oldVnode, vnode) {
   target$1 = vnode.elm;
   normalizeEvents(on);
   updateListeners(on, oldOn, add$1, remove$2, vnode.context);
+  target$1 = undefined;
 }
 
 var events = {
@@ -46540,7 +46565,7 @@ function enter (vnode, toggleDisplay) {
 
   if (!vnode.data.show) {
     // remove pending leave element on enter by injecting an insert hook
-    mergeVNodeHook(vnode.data.hook || (vnode.data.hook = {}), 'insert', function () {
+    mergeVNodeHook(vnode, 'insert', function () {
       var parent = el.parentNode;
       var pendingNode = parent && parent._pending && parent._pending[vnode.key];
       if (pendingNode &&
@@ -46779,10 +46804,17 @@ if (isIE9) {
   });
 }
 
-var model$1 = {
-  inserted: function inserted (el, binding, vnode) {
+var directive = {
+  inserted: function inserted (el, binding, vnode, oldVnode) {
     if (vnode.tag === 'select') {
-      setSelected(el, binding, vnode.context);
+      // #6903
+      if (oldVnode.elm && !oldVnode.elm._vOptions) {
+        mergeVNodeHook(vnode, 'postpatch', function () {
+          directive.componentUpdated(el, binding, vnode);
+        });
+      } else {
+        setSelected(el, binding, vnode.context);
+      }
       el._vOptions = [].map.call(el.options, getValue);
     } else if (vnode.tag === 'textarea' || isTextInputType(el.type)) {
       el._vModifiers = binding.modifiers;
@@ -46803,6 +46835,7 @@ var model$1 = {
       }
     }
   },
+
   componentUpdated: function componentUpdated (el, binding, vnode) {
     if (vnode.tag === 'select') {
       setSelected(el, binding, vnode.context);
@@ -46961,7 +46994,7 @@ var show = {
 };
 
 var platformDirectives = {
-  model: model$1,
+  model: directive,
   show: show
 };
 
@@ -47378,19 +47411,6 @@ Vue$3.nextTick(function () {
 
 /*  */
 
-// check whether current browser encodes a char inside attribute values
-function shouldDecode (content, encoded) {
-  var div = document.createElement('div');
-  div.innerHTML = "<div a=\"" + content + "\"/>";
-  return div.innerHTML.indexOf(encoded) > 0
-}
-
-// #3663
-// IE encodes newlines inside attribute values while other browsers don't
-var shouldDecodeNewlines = inBrowser ? shouldDecode('\n', '&#10;') : false;
-
-/*  */
-
 var defaultTagRE = /\{\{((?:.|\n)+?)\}\}/g;
 var regexEscapeRE = /[-.*+?^${}()|[\]\/\\]/g;
 
@@ -47587,10 +47607,11 @@ var decodingMap = {
   '&gt;': '>',
   '&quot;': '"',
   '&amp;': '&',
-  '&#10;': '\n'
+  '&#10;': '\n',
+  '&#9;': '\t'
 };
 var encodedAttr = /&(?:lt|gt|quot|amp);/g;
-var encodedAttrWithNewLines = /&(?:lt|gt|quot|amp|#10);/g;
+var encodedAttrWithNewLines = /&(?:lt|gt|quot|amp|#10|#9);/g;
 
 // #5992
 var isIgnoreNewlineTag = makeMap('pre,textarea', true);
@@ -47781,12 +47802,12 @@ function parseHTML (html, options) {
         if (args[5] === '') { delete args[5]; }
       }
       var value = args[3] || args[4] || args[5] || '';
+      var shouldDecodeNewlines = tagName === 'a' && args[1] === 'href'
+        ? options.shouldDecodeNewlinesForHref
+        : options.shouldDecodeNewlines;
       attrs[i] = {
         name: args[1],
-        value: decodeAttr(
-          value,
-          options.shouldDecodeNewlines
-        )
+        value: decodeAttr(value, shouldDecodeNewlines)
       };
     }
 
@@ -47945,6 +47966,7 @@ function parse (
     isUnaryTag: options.isUnaryTag,
     canBeLeftOpenTag: options.canBeLeftOpenTag,
     shouldDecodeNewlines: options.shouldDecodeNewlines,
+    shouldDecodeNewlinesForHref: options.shouldDecodeNewlinesForHref,
     shouldKeepComment: options.comments,
     start: function start (tag, attrs, unary) {
       // check namespace.
@@ -48303,7 +48325,7 @@ function processSlot (el) {
       el.slotTarget = slotTarget === '""' ? '"default"' : slotTarget;
       // preserve slot as an attribute for native shadow DOM compat
       // only for non-scoped slots.
-      if (!el.slotScope) {
+      if (el.tag !== 'template' && !el.slotScope) {
         addAttr(el, 'slot', slotTarget);
       }
     }
@@ -48392,6 +48414,13 @@ function processAttrs (el) {
         }
       }
       addAttr(el, name, JSON.stringify(value));
+      // #6887 firefox doesn't update muted state if set via attribute
+      // even immediately after element creation
+      if (!el.component &&
+          name === 'muted' &&
+          platformMustUseProp(el.tag, el.attrsMap.type, name)) {
+        addProp(el, name, 'true');
+      }
     }
   }
 }
@@ -48496,6 +48525,8 @@ function preTransformNode (el, options) {
       var typeBinding = getBindingAttr(el, 'type');
       var ifCondition = getAndRemoveAttr(el, 'v-if', true);
       var ifConditionExtra = ifCondition ? ("&&(" + ifCondition + ")") : "";
+      var hasElse = getAndRemoveAttr(el, 'v-else', true) != null;
+      var elseIfCondition = getAndRemoveAttr(el, 'v-else-if', true);
       // 1. checkbox
       var branch0 = cloneASTElement(el);
       // process for on the main node
@@ -48526,6 +48557,13 @@ function preTransformNode (el, options) {
         exp: ifCondition,
         block: branch2
       });
+
+      if (hasElse) {
+        branch0.else = true;
+      } else if (elseIfCondition) {
+        branch0.elseif = elseIfCondition;
+      }
+
       return branch0
     }
   }
@@ -49592,6 +49630,21 @@ var compileToFunctions = ref$1.compileToFunctions;
 
 /*  */
 
+// check whether current browser encodes a char inside attribute values
+var div;
+function getShouldDecode (href) {
+  div = div || document.createElement('div');
+  div.innerHTML = href ? "<a href=\"\n\"/>" : "<div a=\"\n\"/>";
+  return div.innerHTML.indexOf('&#10;') > 0
+}
+
+// #3663: IE encodes newlines inside attribute values while other browsers don't
+var shouldDecodeNewlines = inBrowser ? getShouldDecode(false) : false;
+// #6828: chrome encodes content in a[href]
+var shouldDecodeNewlinesForHref = inBrowser ? getShouldDecode(true) : false;
+
+/*  */
+
 var idToTemplate = cached(function (id) {
   var el = query(id);
   return el && el.innerHTML
@@ -49647,6 +49700,7 @@ Vue$3.prototype.$mount = function (
 
       var ref = compileToFunctions(template, {
         shouldDecodeNewlines: shouldDecodeNewlines,
+        shouldDecodeNewlinesForHref: shouldDecodeNewlinesForHref,
         delimiters: options.delimiters,
         comments: options.comments
       }, this);
@@ -55870,9 +55924,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3754fd83", Component.options)
+    hotAPI.createRecord("data-v-17fc7ddc", Component.options)
   } else {
-    hotAPI.reload("data-v-3754fd83", Component.options)
+    hotAPI.reload("data-v-17fc7ddc", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -56024,7 +56078,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-3754fd83", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-17fc7ddc", module.exports)
   }
 }
 
@@ -56068,9 +56122,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5333bae7", Component.options)
+    hotAPI.createRecord("data-v-85ca06a4", Component.options)
   } else {
-    hotAPI.reload("data-v-5333bae7", Component.options)
+    hotAPI.reload("data-v-85ca06a4", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -56091,13 +56145,13 @@ var content = __webpack_require__(362);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(90)("c92686d6", content, false);
+var update = __webpack_require__(90)("52e2c3fa", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../css-loader/index.js!../../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5333bae7\",\"scoped\":false,\"hasInlineConfig\":true}!../../../vue-loader/lib/selector.js?type=styles&index=0&bustCache!./map.vue", function() {
-     var newContent = require("!!../../../css-loader/index.js!../../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5333bae7\",\"scoped\":false,\"hasInlineConfig\":true}!../../../vue-loader/lib/selector.js?type=styles&index=0&bustCache!./map.vue");
+   module.hot.accept("!!../../../css-loader/index.js!../../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-85ca06a4\",\"scoped\":false,\"hasInlineConfig\":true}!../../../vue-loader/lib/selector.js?type=styles&index=0&bustCache!./map.vue", function() {
+     var newContent = require("!!../../../css-loader/index.js!../../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-85ca06a4\",\"scoped\":false,\"hasInlineConfig\":true}!../../../vue-loader/lib/selector.js?type=styles&index=0&bustCache!./map.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -56377,7 +56431,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-5333bae7", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-85ca06a4", module.exports)
   }
 }
 
@@ -56421,9 +56475,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7c732ea2", Component.options)
+    hotAPI.createRecord("data-v-ed35740a", Component.options)
   } else {
-    hotAPI.reload("data-v-7c732ea2", Component.options)
+    hotAPI.reload("data-v-ed35740a", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -56444,13 +56498,13 @@ var content = __webpack_require__(368);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(90)("e3ed98ee", content, false);
+var update = __webpack_require__(90)("fc3fd234", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../css-loader/index.js!../../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7c732ea2\",\"scoped\":false,\"hasInlineConfig\":true}!../../../vue-loader/lib/selector.js?type=styles&index=0&bustCache!./streetViewPanorama.vue", function() {
-     var newContent = require("!!../../../css-loader/index.js!../../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7c732ea2\",\"scoped\":false,\"hasInlineConfig\":true}!../../../vue-loader/lib/selector.js?type=styles&index=0&bustCache!./streetViewPanorama.vue");
+   module.hot.accept("!!../../../css-loader/index.js!../../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-ed35740a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../vue-loader/lib/selector.js?type=styles&index=0&bustCache!./streetViewPanorama.vue", function() {
+     var newContent = require("!!../../../css-loader/index.js!../../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-ed35740a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../vue-loader/lib/selector.js?type=styles&index=0&bustCache!./streetViewPanorama.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -56659,7 +56713,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7c732ea2", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-ed35740a", module.exports)
   }
 }
 
@@ -56699,9 +56753,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-82fa8870", Component.options)
+    hotAPI.createRecord("data-v-c1ab87be", Component.options)
   } else {
-    hotAPI.reload("data-v-82fa8870", Component.options)
+    hotAPI.reload("data-v-c1ab87be", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -56849,7 +56903,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-82fa8870", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-c1ab87be", module.exports)
   }
 }
 
@@ -56889,9 +56943,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-506d4226", Component.options)
+    hotAPI.createRecord("data-v-2c922d06", Component.options)
   } else {
-    hotAPI.reload("data-v-506d4226", Component.options)
+    hotAPI.reload("data-v-2c922d06", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -57165,7 +57219,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-506d4226", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-2c922d06", module.exports)
   }
 }
 
@@ -57231,9 +57285,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-199d4608", Component.options)
+    hotAPI.createRecord("data-v-753d1cd6", Component.options)
   } else {
-    hotAPI.reload("data-v-199d4608", Component.options)
+    hotAPI.reload("data-v-753d1cd6", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -57430,7 +57484,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-199d4608", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-753d1cd6", module.exports)
   }
 }
 
@@ -57470,9 +57524,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-f1674c1e", Component.options)
+    hotAPI.createRecord("data-v-3822434a", Component.options)
   } else {
-    hotAPI.reload("data-v-f1674c1e", Component.options)
+    hotAPI.reload("data-v-3822434a", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -58011,7 +58065,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-f1674c1e", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-3822434a", module.exports)
   }
 }
 
@@ -58051,9 +58105,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2efdf9fc", Component.options)
+    hotAPI.createRecord("data-v-88fc0bca", Component.options)
   } else {
-    hotAPI.reload("data-v-2efdf9fc", Component.options)
+    hotAPI.reload("data-v-88fc0bca", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -58316,7 +58370,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-2efdf9fc", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-88fc0bca", module.exports)
   }
 }
 
@@ -58356,9 +58410,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-483c1ab4", Component.options)
+    hotAPI.createRecord("data-v-68ffdead", Component.options)
   } else {
-    hotAPI.reload("data-v-483c1ab4", Component.options)
+    hotAPI.reload("data-v-68ffdead", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -58486,7 +58540,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-483c1ab4", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-68ffdead", module.exports)
   }
 }
 
@@ -58526,9 +58580,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1f77bd2b", Component.options)
+    hotAPI.createRecord("data-v-a6d4ad9c", Component.options)
   } else {
-    hotAPI.reload("data-v-1f77bd2b", Component.options)
+    hotAPI.reload("data-v-a6d4ad9c", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -59088,7 +59142,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1f77bd2b", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-a6d4ad9c", module.exports)
   }
 }
 
@@ -59128,9 +59182,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6d20f911", Component.options)
+    hotAPI.createRecord("data-v-4dc8796a", Component.options)
   } else {
-    hotAPI.reload("data-v-6d20f911", Component.options)
+    hotAPI.reload("data-v-4dc8796a", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -59354,7 +59408,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6d20f911", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-4dc8796a", module.exports)
   }
 }
 
@@ -59394,9 +59448,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-790c5c61", Component.options)
+    hotAPI.createRecord("data-v-29e245ba", Component.options)
   } else {
-    hotAPI.reload("data-v-790c5c61", Component.options)
+    hotAPI.reload("data-v-29e245ba", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -59414,6 +59468,33 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -59498,7 +59579,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         empty: {
             type: String,
             default: 'Nothing here.'
-        }
+        },
+        categories: Array
     },
 
     data: function data() {
@@ -59511,8 +59593,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             defaultSortOrder: 'asc',
             page: 1,
             perPage: this.perPageOptions[0],
-            checkedRows: []
+            checkedRows: [],
+            filter: {
+                name: '',
+                category: ''
+            },
+            newFilter: {
+                name: '',
+                category: ''
+            }
         };
+    },
+    mounted: function mounted() {
+        this.loadAsyncData();
     },
 
 
@@ -59522,11 +59615,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.loading = true;
 
-            return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(route(this.listRoute, {
+            return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(route(this.listRoute, _extends({
                 sort_by: this.sortField + '.' + this.sortOrder,
                 page: this.page,
                 per_page: this.perPage
-            })).then(function (_ref) {
+            }, this.filter))).then(function (_ref) {
                 var data = _ref.data;
 
                 _this.data = [];
@@ -59560,6 +59653,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.sortOrder = order;
 
             this.loadAsyncData();
+        },
+        onFilter: function onFilter() {
+            var reload = false;
+
+            for (var field in this.newFilter) {
+                if (this.filter[field] !== this.newFilter[field]) {
+                    reload = true;
+                }
+
+                this.filter[field] = this.newFilter[field];
+            }
+
+            if (reload) {
+                this.loadAsyncData();
+            }
         },
         onPerPageChange: function onPerPageChange(perPage) {
             if (perPage === this.perPage) return;
@@ -59597,10 +59705,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         editLink: function editLink(row) {
             return route(this.editRoute, row.id);
         }
-    },
-
-    mounted: function mounted() {
-        this.loadAsyncData();
     }
 });
 
@@ -59708,7 +59812,7 @@ var render = function() {
           ])
         },
         [
-          _c("template", { attrs: { slot: "empty" }, slot: "empty" }, [
+          _c("template", { slot: "empty" }, [
             _c("section", { staticClass: "section" }, [
               _c(
                 "div",
@@ -59720,7 +59824,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "template",
-            { attrs: { slot: "bottom-left" }, slot: "bottom-left" },
+            { slot: "bottom-left" },
             [
               _c(
                 "b-field",
@@ -59750,7 +59854,89 @@ var render = function() {
               )
             ],
             1
-          )
+          ),
+          _vm._v(" "),
+          _c("template", { slot: "footer" }, [
+            _c("th", { staticClass: "is-hidden-mobile" }),
+            _vm._v(" "),
+            _c(
+              "th",
+              { staticClass: "is-hidden-mobile" },
+              [
+                _c(
+                  "b-field",
+                  [
+                    _c(
+                      "b-select",
+                      {
+                        on: { input: _vm.onFilter },
+                        model: {
+                          value: _vm.newFilter.category,
+                          callback: function($$v) {
+                            _vm.$set(_vm.newFilter, "category", $$v)
+                          },
+                          expression: "newFilter.category"
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }),
+                        _vm._v(" "),
+                        _vm._l(_vm.categories, function(category, index) {
+                          return _c("option", {
+                            key: index,
+                            domProps: {
+                              value: category.value,
+                              textContent: _vm._s(category.name)
+                            }
+                          })
+                        })
+                      ],
+                      2
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              { staticClass: "is-hidden-mobile" },
+              [
+                _c(
+                  "b-field",
+                  [
+                    _c("b-input", {
+                      on: { blur: _vm.onFilter },
+                      nativeOn: {
+                        keyup: function($event) {
+                          if (
+                            !("button" in $event) &&
+                            _vm._k($event.keyCode, "enter", 13, $event.key)
+                          ) {
+                            return null
+                          }
+                          _vm.onFilter($event)
+                        }
+                      },
+                      model: {
+                        value: _vm.newFilter.name,
+                        callback: function($$v) {
+                          _vm.$set(_vm.newFilter, "name", $$v)
+                        },
+                        expression: "newFilter.name"
+                      }
+                    })
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("th", { staticClass: "is-hidden-mobile" })
+          ])
         ],
         2
       )
@@ -59764,7 +59950,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-790c5c61", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-29e245ba", module.exports)
   }
 }
 
@@ -59804,9 +59990,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-c9c79cf6", Component.options)
+    hotAPI.createRecord("data-v-b7a369c4", Component.options)
   } else {
-    hotAPI.reload("data-v-c9c79cf6", Component.options)
+    hotAPI.reload("data-v-b7a369c4", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -60280,7 +60466,7 @@ var render = function() {
           ])
         },
         [
-          _c("template", { attrs: { slot: "empty" }, slot: "empty" }, [
+          _c("template", { slot: "empty" }, [
             _c("section", { staticClass: "section" }, [
               _c(
                 "div",
@@ -60292,7 +60478,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "template",
-            { attrs: { slot: "bottom-left" }, slot: "bottom-left" },
+            { slot: "bottom-left" },
             [
               _c(
                 "b-field",
@@ -60356,7 +60542,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-c9c79cf6", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-b7a369c4", module.exports)
   }
 }
 
