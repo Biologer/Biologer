@@ -29,15 +29,15 @@
                     {{ props.row.taxon ? props.row.taxon.name : '' }}
                 </b-table-column>
 
-                <b-table-column field="year" label="Year" sortable>
+                <b-table-column field="year" label="Year" numeric sortable>
                     {{ props.row.year }}
                 </b-table-column>
 
-                <b-table-column field="month" label="Month" sortable>
+                <b-table-column field="month" label="Month" numeric sortable>
                     {{ props.row.month }}
                 </b-table-column>
 
-                <b-table-column field="day" label="Day" sortable>
+                <b-table-column field="day" label="Day" numeric sortable>
                     {{ props.row.day }}
                 </b-table-column>
 

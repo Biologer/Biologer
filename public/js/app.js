@@ -61659,7 +61659,14 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "b-table-column",
-                    { attrs: { field: "year", label: "Year", sortable: "" } },
+                    {
+                      attrs: {
+                        field: "year",
+                        label: "Year",
+                        numeric: "",
+                        sortable: ""
+                      }
+                    },
                     [
                       _vm._v(
                         "\n                " +
@@ -61671,7 +61678,14 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "b-table-column",
-                    { attrs: { field: "month", label: "Month", sortable: "" } },
+                    {
+                      attrs: {
+                        field: "month",
+                        label: "Month",
+                        numeric: "",
+                        sortable: ""
+                      }
+                    },
                     [
                       _vm._v(
                         "\n                " +
@@ -61683,7 +61697,14 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "b-table-column",
-                    { attrs: { field: "day", label: "Day", sortable: "" } },
+                    {
+                      attrs: {
+                        field: "day",
+                        label: "Day",
+                        numeric: "",
+                        sortable: ""
+                      }
+                    },
                     [
                       _vm._v(
                         "\n                " +
