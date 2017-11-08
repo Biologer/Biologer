@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <b-table
+        <nz-table
             :data="data"
             :loading="loading"
 
@@ -57,11 +57,11 @@
                 </b-field>
             </template>
 
-            <template slot="footer">
+            <template slot="headerSecondary">
                 <th class="is-hidden-mobile"></th>
                 <th class="is-hidden-mobile">
                     <b-field>
-                        <b-select v-model="newFilter.category_level" @input="onFilter">
+                        <b-select v-model="newFilter.category_level" @input="onFilter" expanded>
                             <option value=""></option>
                             <option
                                 v-for="(category, index) in categories"
@@ -79,7 +79,7 @@
                 </th>
                 <th class="is-hidden-mobile"></th>
             </template>
-        </b-table>
+        </nz-table>
     </div>
 </template>
 

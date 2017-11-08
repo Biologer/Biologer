@@ -12,6 +12,7 @@ import DynamicField from './components/inputs/dynamic-input';
 import SpatialInput from './components/inputs/spatial-input';
 import TaxonAutocomplete from './components/inputs/taxon-autocomplete';
 
+import { Table, TableColumn } from './components/table';
 import TaxaTable from './components/tables/taxa-table';
 import FieldObservationsTable from './components/tables/field-observations-table';
 
@@ -36,6 +37,8 @@ if (window.route) {
     Vue.prototype.$ziggy = window.route;
 }
 
+Vue.component(Table.name, Table);
+Vue.component(TableColumn.name, TableColumn);
 Vue.component(Navbar.name, Navbar);
 Vue.component(Sidebar.name, Sidebar);
 Vue.component(DateInput.name, DateInput);
