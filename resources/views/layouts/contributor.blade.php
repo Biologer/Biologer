@@ -24,13 +24,11 @@
                             </a>
                         </div>
 
-                        <div class="navbar-item">
-                            <a class="has-text-dark" @click="toggleSidebar">
-                                <span class="badge is-badge-info is-badge-small" data-badge="">
-                                    @include('components.icon', ['icon' => 'bell'])
-                                </span>
-                            </a>
-                        </div>
+                        <a class="navbar-item" @click="toggleSidebar">
+                            <span class="badge is-badge-info is-badge-small" data-badge="">
+                                @include('components.icon', ['icon' => 'bell'])
+                            </span>
+                        </a>
 
                         <div class="navbar-item has-dropdown is-hoverable">
                             <a class="navbar-link is-hidden-touch">
