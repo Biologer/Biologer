@@ -27,7 +27,9 @@
                             </div>
 
                             <div class="column is-2">
-                                <b-field label="Category">
+                                <b-field label="Category"
+                                    :type="form.errors.has('category_level') ? 'is-danger' : ''"
+                                    :message="form.errors.has('category_level') ? form.errors.first('category_level') : ''">
                                     <b-select placeholder="Select category" v-model="form.category_level">
                                         <option
                                             v-for="(category, index) in categoryOptions"
@@ -43,17 +45,17 @@
                         <div class="columns">
                             <div class="column is-half">
                                 <b-field label="(old) FaunaEuropea ID"
-                                    :type="form.errors.has('old_fauna_europea_id') ? 'is-danger' : ''"
-                                    :message="form.errors.has('old_fauna_europea_id') ? form.errors.first('old_fauna_europea_id') : ''">
-                                    <b-input v-model="form.old_fauna_europea_id"></b-input>
+                                    :type="form.errors.has('fe_old_id') ? 'is-danger' : ''"
+                                    :message="form.errors.has('fe_old_id') ? form.errors.first('fe_old_id') : ''">
+                                    <b-input v-model="form.fe_old_id"></b-input>
                                 </b-field>
                             </div>
 
                             <div class="column is-half">
                                 <b-field label="FaunaEuropea ID"
-                                    :type="form.errors.has('fauna_europea_id') ? 'is-danger' : ''"
-                                    :message="form.errors.has('fauna_europea_id') ? form.errors.first('fauna_europea_id') : ''">
-                                    <b-input v-model="form.fauna_europea_id"></b-input>
+                                    :type="form.errors.has('fe_id') ? 'is-danger' : ''"
+                                    :message="form.errors.has('fe_id') ? form.errors.first('fe_id') : ''">
+                                    <b-input v-model="form.fe_id"></b-input>
                                 </b-field>
                             </div>
                         </div>

@@ -31,7 +31,9 @@
                             </div>
 
                             <div class="column is-2">
-                                <b-field label="Category">
+                                <b-field label="Category"
+                                    :type="form.errors.has('category_level') ? 'is-danger' : ''"
+                                    :message="form.errors.has('category_level') ? form.errors.first('category_level') : ''">
                                     <b-select placeholder="Select category" v-model="form.category_level">
                                         <option
                                             v-for="(category, index) in categoryOptions"
