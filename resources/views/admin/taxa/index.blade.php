@@ -3,7 +3,10 @@
 @section('content')
     <div class="container">
         <section class="section">
-            <h1 class="is-size-4">Field Observations</h1>
+            <div class="level">
+                <h1 class="is-size-4">Taxa</h1>
+                <a href="{{ route('admin.taxa.create') }}" class="button is-primary">&nbsp;New</a>
+            </div>
 
             <div class="box">
                 <nz-taxa-table
