@@ -57350,6 +57350,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'nzSidebar',
@@ -57388,44 +57396,36 @@ var render = function() {
     { staticClass: "sidebar", class: { "is-active": _vm.active } },
     [
       _c("div", { staticClass: "sidebar-header" }, [
-        _c("div", { staticClass: "tabs is-toggle is-fullwidth" }, [
-          _c("ul", [
-            _c(
-              "li",
-              { class: { "is-active": _vm.activeTab === "notifications" } },
-              [
-                _c(
-                  "a",
-                  {
-                    on: {
-                      click: function($event) {
-                        _vm.tabClick("notifications")
-                      }
-                    }
-                  },
-                  [_vm._v("Notifications")]
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "li",
-              { class: { "is-active": _vm.activeTab === "announcements" } },
-              [
-                _c(
-                  "a",
-                  {
-                    on: {
-                      click: function($event) {
-                        _vm.tabClick("announcements")
-                      }
-                    }
-                  },
-                  [_vm._v("Announcements")]
-                )
-              ]
-            )
-          ])
+        _c("div", { staticClass: "buttons has-addons" }, [
+          _c(
+            "button",
+            {
+              staticClass: "button",
+              class: { "is-link": _vm.activeTab === "notifications" },
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  _vm.tabClick("notifications")
+                }
+              }
+            },
+            [_vm._v("\n                Notifications\n            ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "button",
+              class: { "is-link": _vm.activeTab === "announcements" },
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  _vm.tabClick("announcements")
+                }
+              }
+            },
+            [_vm._v("\n                Announcements\n            ")]
+          )
         ])
       ]),
       _vm._v(" "),
@@ -57434,32 +57434,36 @@ var render = function() {
         { staticClass: "sidebar-body" },
         [
           _vm.activeTab === "announcements"
-            ? _vm._l(_vm.announcements, function(announcement) {
-                return _vm.announcements.length
-                  ? _c("div", { staticClass: "sidebar-block" }, [
+            ? [
+                _vm.announcements.length
+                  ? _vm._l(_vm.announcements, function(announcement) {
+                      return _c("div", { staticClass: "sidebar-block" }, [
+                        _vm._v(
+                          "\n                    Dummy announcement\n                "
+                        )
+                      ])
+                    })
+                  : _c("div", { staticClass: "sidebar-block is-fullheight" }, [
                       _vm._v(
-                        "\n                Dummy announcement\n            "
+                        "\n                There are no announcements at the moment.\n            "
                       )
                     ])
+              ]
+            : [
+                _vm.notifications.length
+                  ? _vm._l(_vm.notifications, function(notification) {
+                      return _c("div", { staticClass: "sidebar-block" }, [
+                        _vm._v(
+                          "\n                    Dummy notification\n                "
+                        )
+                      ])
+                    })
                   : _c("div", { staticClass: "sidebar-block is-fullheight" }, [
                       _vm._v(
                         "\n                You don't have new notifications at the moment.\n            "
                       )
                     ])
-              })
-            : _vm._l(_vm.notifications, function(notification) {
-                return _vm.notifications.length
-                  ? _c("div", { staticClass: "sidebar-block" }, [
-                      _vm._v(
-                        "\n                Dummy notification\n            "
-                      )
-                    ])
-                  : _c("div", { staticClass: "sidebar-block is-fullheight" }, [
-                      _vm._v(
-                        "\n                You don't have new notifications at the moment.\n            "
-                      )
-                    ])
-              })
+              ]
         ],
         2
       ),

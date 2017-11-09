@@ -1,34 +1,42 @@
 <template>
 <div class="sidebar" :class="{'is-active': active}">
     <div class="sidebar-header">
-        <div class="tabs is-toggle is-fullwidth">
-          <ul>
-            <li :class="{'is-active': activeTab === 'notifications'}">
-                <a @click="tabClick('notifications')">Notifications</a>
-            </li>
-            <li :class="{'is-active': activeTab === 'announcements'}">
-                <a @click="tabClick('announcements')">Announcements</a>
-            </li>
-          </ul>
+        <div class="buttons has-addons">
+            <button
+                type="button"
+                class="button"
+                :class="{'is-link': activeTab === 'notifications'}"
+                @click="tabClick('notifications')">
+                Notifications
+            </button>
+            <button
+                type="button"
+                class="button"
+                :class="{'is-link': activeTab === 'announcements'}"
+                @click="tabClick('announcements')">
+                Announcements
+            </button>
         </div>
     </div>
     <div class="sidebar-body">
         <template v-if="activeTab === 'announcements'">
-            <div class="sidebar-block"
-                v-for="announcement in announcements"
-                v-if="announcements.length">
-                Dummy announcement
-            </div>
+            <template v-if="announcements.length">
+                <div class="sidebar-block"
+                    v-for="announcement in announcements">
+                    Dummy announcement
+                </div>
+            </template>
             <div class="sidebar-block is-fullheight" v-else>
-                You don't have new notifications at the moment.
+                There are no announcements at the moment.
             </div>
         </template>
         <template v-else>
-            <div class="sidebar-block"
-                v-for="notification in notifications"
-                v-if="notifications.length">
-                Dummy notification
-            </div>
+            <template v-if="notifications.length">
+                <div class="sidebar-block"
+                    v-for="notification in notifications">
+                    Dummy notification
+                </div>
+            </template>
             <div class="sidebar-block is-fullheight" v-else>
                 You don't have new notifications at the moment.
             </div>
