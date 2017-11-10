@@ -2,7 +2,7 @@
 
 @section('body')
     <nz-navbar inline-template>
-        <nav class="navbar has-shadow is-fixed-top hero-border-top">
+        <nav class="navbar is-primary">
             <div class="container">
                 <div class="navbar-brand">
                     <a class="navbar-item" href="{{ url('/') }}">
@@ -17,17 +17,8 @@
                 </div>
                 <div class="navbar-menu" :class="{ 'is-active': active }">
                     <div class="navbar-end">
-                        <div class="navbar-item">
-                            <a href="{{ route('contributor.field-observations.create') }}" class="button is-primary">
-                                @include('components.icon', ['icon' => 'plus'])
-                                <span>New Observation</span>
-                            </a>
-                        </div>
-
                         <a class="navbar-item" @click="toggleSidebar">
-                            <span class="badge is-badge-info is-badge-small" data-badge="">
-                                @include('components.icon', ['icon' => 'bell'])
-                            </span>
+                            @include('components.icon', ['icon' => 'bell'])
                         </a>
 
                         <div class="navbar-item has-dropdown is-hoverable">
@@ -60,9 +51,31 @@
                     </div>
                 </div>
             </div>
+
             <nz-sidebar :active="showSidebar" @close="showSidebar = false"></nz-sidebar>
         </nav>
     </nz-navbar>
+
+    <nav class="navbar has-shadow">
+        <div class="container">
+            <div class="navbar-menu" :class="{ 'is-active': active }">
+                <div class="navbar-start">
+                    <div class="navbar-item">
+                        <h1 class="is-size-4">Taxa</h1>
+                    </div>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <a href="{{ route('contributor.field-observations.create') }}" class="button is-primary">
+                            @include('components.icon', ['icon' => 'plus'])
+                            <span>New Observation</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
 
     @yield('content')
 

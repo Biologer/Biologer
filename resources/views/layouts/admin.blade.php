@@ -2,7 +2,7 @@
 
 @section('body')
     <nz-navbar inline-template>
-        <nav class="navbar has-shadow is-fixed-top hero-border-top">
+        <nav class="navbar has-shadow border-t-4 border-primary">
             <div class="container">
                 <div class="navbar-brand">
                     <a class="navbar-item" href="{{ url('/') }}">

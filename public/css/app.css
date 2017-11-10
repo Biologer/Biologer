@@ -17833,16 +17833,24 @@ h6 {
   text-decoration: underline;
 }
 
-.hero-border-top {
-  border-top: 4px solid #0d6c3c;
+.border-t-4 {
+  border-top: 4px solid #dbdbdb;
 }
 
-.hero-border-left {
-  border-left: 4px solid #0d6c3c;
+.border-l-4 {
+  border-left: 4px solid #dbdbdb;
 }
 
 .border-b {
   border-bottom: 1px solid #dbdbdb;
+}
+
+.border-primary {
+  border-color: #0d6c3c;
+}
+
+.m-2 {
+  margin: .5em;
 }
 
 .mx-2 {
@@ -17860,8 +17868,8 @@ h6 {
   margin-bottom: 1em;
 }
 
-.m-2 {
-  margin: .5em;
+.mt-8 {
+  margin-top: 2rem;
 }
 
 .py-2 {
@@ -17872,6 +17880,10 @@ h6 {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.pt-4 {
+  padding-top: 1rem;
 }
 
 .align-middle {

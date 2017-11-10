@@ -23,16 +23,25 @@
     text-decoration: underline;
 }
 
-.hero-border-top {
-    border-top: 4px solid $primary;
+.border-t-4 {
+    border-top: 4px solid $grey-lighter;
 }
 
-.hero-border-left {
-    border-left: 4px solid $primary;
+.border-l-4 {
+    border-left: 4px solid $grey-lighter;
 }
 
 .border-b {
     border-bottom: 1px solid $grey-lighter;
+}
+
+.border-primary {
+    border-color: $primary;
+}
+
+
+.m-2 {
+    margin: .5em;
 }
 
 .mx-2 {
@@ -49,8 +58,8 @@
     margin-bottom: 1em;
 }
 
-.m-2 {
-    margin: .5em;
+.mt-8 {
+    margin-top: 2rem;
 }
 
 .py-2 {
@@ -61,6 +70,10 @@
 .py-4 {
     padding-top: 1rem;
     padding-bottom: 1rem;
+}
+
+.pt-4 {
+    padding-top: 1rem;
 }
 
 .align-middle {
