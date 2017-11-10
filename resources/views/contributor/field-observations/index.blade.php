@@ -1,17 +1,30 @@
-@extends('layouts.contributor')
+@extends('layouts.dashboard', ['title' => 'My Observations'])
 
 @section('content')
-    <div class="container">
-        <section class="section">
-            <h1 class="is-size-4">Field Observations</h1>
-
-            <div class="box">
-                <nz-field-observations-table
-                    list-route="api.my.field-observations.index"
-                    edit-route="contributor.field-observations.edit"
-                    delete-route="api.field-observations.destroy">
-                </nz-field-observations-table>
-            </div>
-        </section>
+    <div class="container py-4">
+        <div class="box">
+            <nz-field-observations-table
+                list-route="api.my.field-observations.index"
+                edit-route="contributor.field-observations.edit"
+                delete-route="api.field-observations.destroy">
+            </nz-field-observations-table>
+        </div>
     </div>
+@endsection
+
+@section('breadcrumbs')
+    <div class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="{{ route('contributor.index') }}">Dashbaord</a></li>
+            <li class="is-active"><a>My Observations</a></li>
+        </ul>
+    </div>
+@endsection
+
+@section('createButton')
+    <a href="{{ route('contributor.field-observations.create') }}" class="button is-secondary is-outlined">
+        @include('components.icon', ['icon' => 'plus'])
+        &nbsp;
+        New
+    </a>
 @endsection

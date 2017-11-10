@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.dashboard', ['title' => 'New Taxon'])
 
 @section('content')
     <div class="container">
@@ -75,5 +75,15 @@
                 </nz-taxon-form>
             </div>
         </section>
+    </div>
+@endsection
+
+@section('breadcrumbs')
+    <div class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="{{ route('contributor.index') }}">Dashbaord</a></li>
+            <li><a href="{{ route('admin.taxa.index') }}">Taxa</a></li>
+            <li class="is-active"><a>Edit</a></li>
+        </ul>
     </div>
 @endsection

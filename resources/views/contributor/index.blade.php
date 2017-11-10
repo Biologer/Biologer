@@ -1,7 +1,7 @@
-@extends('layouts.contributor')
+@extends('layouts.dashboard')
 
 @section('content')
-    <div class="container is-fluid pt-4">
+    <div class="container is-fluid py-4">
         <div class="columns">
             <div class="column is-one-quarter">
                 <aside class="menu">
@@ -40,4 +40,20 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('breadcrumbs')
+    <div class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li class="is-active"><a>Dashbaord</a></li>
+        </ul>
+    </div>
+@endsection
+
+@section('createButton')
+    <a class="button is-secondary is-outlined" href="{{ route('contributor.field-observations.create') }}">
+        @include('components.icon', ['icon' => 'plus'])
+        &nbsp;
+        New Observation
+    </a>
 @endsection

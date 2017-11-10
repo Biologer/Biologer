@@ -61,21 +61,17 @@
             <div class="navbar-menu" :class="{ 'is-active': active }">
                 <div class="navbar-start">
                     <div class="navbar-item">
-                        <h1 class="is-size-4">Taxa</h1>
+                        @yield('breadcrumbs')
                     </div>
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item">
-                        <a href="{{ route('contributor.field-observations.create') }}" class="button is-primary">
-                            @include('components.icon', ['icon' => 'plus'])
-                            <span>New Observation</span>
-                        </a>
+                        @yield('createButton')
                     </div>
                 </div>
             </div>
         </div>
     </nav>
-
 
     @yield('content')
 
