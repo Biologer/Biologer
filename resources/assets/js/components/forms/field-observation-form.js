@@ -52,7 +52,8 @@ export default {
             form: new Form({
                 ...this.observation
             }, {
-                http: window.axios
+                http: window.axios,
+                resetOnSuccess: false
             }),
             dynamicFields: [],
             chosenField: null

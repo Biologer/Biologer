@@ -16,7 +16,7 @@
 @section('breadcrumbs')
     <div class="breadcrumb" aria-label="breadcrumbs">
         <ul>
-            <li><a href="{{ route('contributor.index') }}">Dashbaord</a></li>
+            <li><a href="{{ route('contributor.index') }}">Dashboard</a></li>
             <li class="is-active"><a>Taxa</a></li>
         </ul>
     </div>

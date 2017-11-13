@@ -73,7 +73,7 @@ class Taxon extends Model
     {
         $categories =static::getCategories();
 
-        return $categories[$this->category_level];
+        return trans('taxonomy.'.$categories[$this->category_level]);
     }
 
     /**
@@ -99,7 +99,7 @@ class Taxon extends Model
         return array_map(function ($category, $index) {
             return [
                 'value' => $index,
-                'name' => $category,
+                'name' => trans('taxonomy.'.$category),
             ];
         }, static::getCategories(), array_keys(static::getCategories()));
     }

@@ -39,7 +39,8 @@ export default {
             form: new Form({
                 ...this.taxon
             }, {
-                http: window.axios
+                http: window.axios,
+                resetOnSuccess: false
             }),
             parentName: this.taxon && this.taxon.parent ? this.taxon.parent.name : null,
             selectedParent: null
@@ -56,6 +57,10 @@ export default {
 
             return this.categories;
         }
+    },
+
+    mounted() {
+        document.querySelector('.nz-taxon-autocomplete input').focus();
     },
 
     watch: {

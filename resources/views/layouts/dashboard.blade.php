@@ -6,7 +6,7 @@
             <div class="container">
                 <div class="navbar-brand">
                     <a class="navbar-item" href="{{ url('/') }}">
-                        <h4 class="is-size-4 has-text-bold">{{ config('app.name') }}</h4>
+                        <span class="is-size-4">{{ config('app.name') }}</span>
                     </a>
 
                     <div class="navbar-burger" @click="toggle">
@@ -58,7 +58,7 @@
 
     <nav class="navbar has-shadow">
         <div class="container">
-            <div class="navbar-menu" :class="{ 'is-active': active }">
+            <div class="navbar-menu">
                 <div class="navbar-start">
                     <div class="navbar-item">
                         @yield('breadcrumbs')

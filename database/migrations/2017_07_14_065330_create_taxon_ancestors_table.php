@@ -18,6 +18,14 @@ class CreateTaxonAncestorsTable extends Migration
             $table->unsignedInteger('ancestor_id');
 
             $table->primary(['model_id', 'ancestor_id']);
+
+            $table->foreign('model_id')
+                ->references('id')->on('taxa')
+                ->onDelete('cascade');
+
+            $table->foreign('ancestor_id')
+                ->references('id')->on('taxa')
+                ->onDelete('cascade');
         });
     }
 

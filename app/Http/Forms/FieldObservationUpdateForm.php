@@ -27,38 +27,38 @@ class FieldObservationUpdateForm extends FormRequest
      *
      * @return array
      */
-     public function rules()
-     {
-         return [
-             'taxon_id' => 'nullable|exists:taxa,id',
-             'year' => 'bail|required|date_format:Y|before_or_equal:now',
-             'month' => [
-                 'bail',
-                 'nullable',
-                 new Month($this->input('year')),
-             ],
-             'day' => [
-                 'bail',
-                 'nullable',
-                 new Day($this->input('year'), $this->input('month')),
-             ],
-             'latitude' => 'required|numeric|between:-90,90',
-             'longitude'=> 'required|numeric|between:-180,180',
-             'elevation'=> 'required|integer|max:10000',
-             'accuracy' => 'required|integer',
-             'source' => 'nullable|string',
-             'photos' => [
-                 'nullable',
-                 'array',
-                 'max:'.config('alciphron.photos_per_observation'),
-             ],
-             'dynamic_fields' => 'nullable|array',
-             'dynamic_fields.*' => [
-                 'nullable',
-                 new DynamicFieldValidation(FieldObservation::dynamicFields())
-             ],
-         ];
-     }
+    public function rules()
+    {
+        return [
+            'taxon_id' => 'nullable|exists:taxa,id',
+            'year' => 'bail|required|date_format:Y|before_or_equal:now',
+            'month' => [
+                'bail',
+                'nullable',
+                new Month($this->input('year')),
+            ],
+            'day' => [
+                'bail',
+                'nullable',
+                new Day($this->input('year'), $this->input('month')),
+            ],
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude'=> 'required|numeric|between:-180,180',
+            'elevation'=> 'required|integer|max:10000',
+            'accuracy' => 'required|integer',
+            'source' => 'nullable|string',
+            'photos' => [
+                'nullable',
+                'array',
+                'max:'.config('alciphron.photos_per_observation'),
+            ],
+            'dynamic_fields' => 'nullable|array',
+            'dynamic_fields.*' => [
+                'nullable',
+                new DynamicFieldValidation(FieldObservation::dynamicFields())
+            ],
+        ];
+    }
 
     /**
      * Store observation and related data.

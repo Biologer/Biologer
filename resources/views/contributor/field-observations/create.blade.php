@@ -94,8 +94,8 @@
 @section('breadcrumbs')
     <div class="breadcrumb" aria-label="breadcrumbs">
         <ul>
-            <li><a href="{{ route('contributor.index') }}">Dashbaord</a></li>
-            <li><a href="{{ route('contributor.field-observations.index') }}">My Observations</a></li>
+            <li><a href="{{ route('contributor.index') }}">Dashboard</a></li>
+            <li><a href="{{ route('contributor.field-observations.index') }}">My Field Observations</a></li>
             <li class="is-active"><a>New</a></li>
         </ul>
     </div>

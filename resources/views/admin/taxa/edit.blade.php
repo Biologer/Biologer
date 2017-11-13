@@ -9,7 +9,7 @@
                     method="put"
                     :taxon="{{ $taxon }}"
                     :categories="{{ json_encode(App\Taxon::getCategoryOptions()) }}">
-                    <div class="">
+                    <form @submit.prevent="submit">
                         <div class="columns">
                             <div class="column is-5">
                                 <nz-taxon-autocomplete label="Parent"
@@ -66,7 +66,7 @@
 
                         <hr>
 
-                        <button type="button"
+                        <button type="submit"
                             class="button is-primary"
                             :class="{
                                 'is-loading': form.processing
@@ -75,7 +75,7 @@
                             Save
                         </button>
                         <a :href="redirect" class="button is-text">Cancel</a>
-                    </div>
+                    </form>
                 </nz-taxon-form>
             </div>
         </section>
@@ -85,9 +85,9 @@
 @section('breadcrumbs')
     <div class="breadcrumb" aria-label="breadcrumbs">
         <ul>
-            <li><a href="{{ route('contributor.index') }}">Dashbaord</a></li>
+            <li><a href="{{ route('contributor.index') }}">Dashboard</a></li>
             <li><a href="{{ route('admin.taxa.index') }}">Taxa</a></li>
-            <li class="is-active"><a>New</a></li>
+            <li class="is-active"><a>Edit</a></li>
         </ul>
     </div>
 @endsection
