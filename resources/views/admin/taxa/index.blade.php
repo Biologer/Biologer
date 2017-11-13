@@ -1,7 +1,7 @@
 @extends('layouts.dashboard', ['title' => 'Taxa'])
 
 @section('content')
-    <div class="container py-4">
+    <div class="container p-4">
         <div class="box">
             <nz-taxa-table
                 list-route="api.taxa.index"
@@ -25,7 +25,6 @@
 @section('createButton')
     <a href="{{ route('admin.taxa.create') }}" class="button is-secondary is-outlined">
         @include('components.icon', ['icon' => 'plus'])
-        &nbsp;
-        New
+        <span>New</span>
     </a>
 @endsection

@@ -5,15 +5,15 @@
             <button
                 type="button"
                 class="button"
-                :class="{'is-link': activeTab === 'notifications'}"
-                @click="tabClick('notifications')">
+                :class="[activeTab === 'notifications' ? 'is-link' : '']"
+                @click="activeTab = 'notifications'">
                 Notifications
             </button>
             <button
                 type="button"
                 class="button"
-                :class="{'is-link': activeTab === 'announcements'}"
-                @click="tabClick('announcements')">
+                :class="[activeTab === 'announcements' ? 'is-link' : '']"
+                @click="activeTab = 'announcements'">
                 Announcements
             </button>
         </div>
@@ -44,7 +44,7 @@
     </div>
 
     <footer class="sidebar-footer">
-        <button type="button" class="button" @click="$emit('close')">Close</button>
+        <button type="button" class="button" @click="hide">Close</button>
     </footer>
 </div>
 </template>
@@ -63,13 +63,26 @@ export default {
         };
     },
 
+    created () {
+        if (typeof window !== 'undefined') {
+            document.addEventListener('keyup', this.keyPress)
+        }
+    },
+
+    beforeDestroy() {
+        if (typeof window !== 'undefined') {
+            document.removeEventListener('keyup', this.keyPress)
+        }
+    },
+
     methods: {
         hide() {
             this.$emit('close');
         },
 
-        tabClick(tab) {
-            this.activeTab = tab;
+        keyPress(event) {
+            // Esc key
+            if (event.keyCode === 27) this.hide();
         }
     }
 }

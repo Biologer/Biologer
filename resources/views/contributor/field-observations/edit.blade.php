@@ -1,7 +1,7 @@
 @extends('layouts.dashboard', ['title' => 'Edit Observation'])
 
 @section('content')
-    <div class="container py-4">
+    <div class="container p-4">
         <div class="box">
             <field-observation-form action="{{ route('api.field-observations.update', $observation) }}" method="put" inline-template
                  :data-dynamic-fields="{{ App\FieldObservation::availableDynamicFields() }}"

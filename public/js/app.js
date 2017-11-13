@@ -57371,14 +57371,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             activeTab: 'notifications'
         };
     },
+    created: function created() {
+        if (typeof window !== 'undefined') {
+            document.addEventListener('keyup', this.keyPress);
+        }
+    },
+    beforeDestroy: function beforeDestroy() {
+        if (typeof window !== 'undefined') {
+            document.removeEventListener('keyup', this.keyPress);
+        }
+    },
 
 
     methods: {
         hide: function hide() {
             this.$emit('close');
         },
-        tabClick: function tabClick(tab) {
-            this.activeTab = tab;
+        keyPress: function keyPress(event) {
+            // Esc key
+            if (event.keyCode === 27) this.hide();
         }
     }
 });
@@ -57401,11 +57412,11 @@ var render = function() {
             "button",
             {
               staticClass: "button",
-              class: { "is-link": _vm.activeTab === "notifications" },
+              class: [_vm.activeTab === "notifications" ? "is-link" : ""],
               attrs: { type: "button" },
               on: {
                 click: function($event) {
-                  _vm.tabClick("notifications")
+                  _vm.activeTab = "notifications"
                 }
               }
             },
@@ -57416,11 +57427,11 @@ var render = function() {
             "button",
             {
               staticClass: "button",
-              class: { "is-link": _vm.activeTab === "announcements" },
+              class: [_vm.activeTab === "announcements" ? "is-link" : ""],
               attrs: { type: "button" },
               on: {
                 click: function($event) {
-                  _vm.tabClick("announcements")
+                  _vm.activeTab = "announcements"
                 }
               }
             },
@@ -57474,11 +57485,7 @@ var render = function() {
           {
             staticClass: "button",
             attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                _vm.$emit("close")
-              }
-            }
+            on: { click: _vm.hide }
           },
           [_vm._v("Close")]
         )
@@ -60876,6 +60883,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -60913,6 +60926,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             page: 1,
             perPage: this.perPageOptions[0],
             checkedRows: [],
+            showFilter: false,
             filter: {
                 name: '',
                 category_level: ''
@@ -60972,6 +60986,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.sortOrder = order;
 
             this.loadAsyncData();
+        },
+        clearFilter: function clearFilter() {
+            for (var field in this.newFilter) {
+                this.newFilter[field] = '';
+            }
+
+            this.onFilter();
         },
         onFilter: function onFilter() {
             var reload = false;
@@ -61037,10 +61058,115 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {},
+    { staticClass: "taxa-table" },
     [
+      _c("div", { staticClass: "buttons has-addons" }, [
+        _c(
+          "button",
+          {
+            staticClass: "button",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                _vm.showFilter = !_vm.showFilter
+              }
+            }
+          },
+          [
+            _c("b-icon", { attrs: { icon: "filter" } }),
+            _vm._v(" "),
+            _c("span", [_vm._v("Filters")])
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "button",
+            attrs: { type: "button" },
+            on: { click: _vm.clearFilter }
+          },
+          [_vm._v("Clear")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("b-collapse", { attrs: { open: _vm.showFilter } }, [
+        _c(
+          "div",
+          { staticClass: "columns" },
+          [
+            _c(
+              "b-field",
+              { staticClass: "column", attrs: { label: "Category" } },
+              [
+                _c(
+                  "b-select",
+                  {
+                    attrs: { expanded: "" },
+                    on: { input: _vm.onFilter },
+                    model: {
+                      value: _vm.newFilter.category_level,
+                      callback: function($$v) {
+                        _vm.$set(_vm.newFilter, "category_level", $$v)
+                      },
+                      expression: "newFilter.category_level"
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "" } }),
+                    _vm._v(" "),
+                    _vm._l(_vm.categories, function(category, index) {
+                      return _c("option", {
+                        key: index,
+                        domProps: {
+                          value: category.value,
+                          textContent: _vm._s(category.name)
+                        }
+                      })
+                    })
+                  ],
+                  2
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "b-field",
+              { staticClass: "column", attrs: { label: "Name" } },
+              [
+                _c("b-input", {
+                  on: { blur: _vm.onFilter },
+                  nativeOn: {
+                    keyup: function($event) {
+                      if (
+                        !("button" in $event) &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key)
+                      ) {
+                        return null
+                      }
+                      _vm.onFilter($event)
+                    }
+                  },
+                  model: {
+                    value: _vm.newFilter.name,
+                    callback: function($$v) {
+                      _vm.$set(_vm.newFilter, "name", $$v)
+                    },
+                    expression: "newFilter.name"
+                  }
+                })
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
       _c(
-        "nz-table",
+        "b-table",
         {
           attrs: {
             data: _vm.data,
@@ -61179,90 +61305,7 @@ var render = function() {
               )
             ],
             1
-          ),
-          _vm._v(" "),
-          _c("template", { slot: "headerSecondary" }, [
-            _c("th", { staticClass: "is-hidden-mobile" }),
-            _vm._v(" "),
-            _c(
-              "th",
-              { staticClass: "is-hidden-mobile" },
-              [
-                _c(
-                  "b-field",
-                  [
-                    _c(
-                      "b-select",
-                      {
-                        attrs: { expanded: "" },
-                        on: { input: _vm.onFilter },
-                        model: {
-                          value: _vm.newFilter.category_level,
-                          callback: function($$v) {
-                            _vm.$set(_vm.newFilter, "category_level", $$v)
-                          },
-                          expression: "newFilter.category_level"
-                        }
-                      },
-                      [
-                        _c("option", { attrs: { value: "" } }),
-                        _vm._v(" "),
-                        _vm._l(_vm.categories, function(category, index) {
-                          return _c("option", {
-                            key: index,
-                            domProps: {
-                              value: category.value,
-                              textContent: _vm._s(category.name)
-                            }
-                          })
-                        })
-                      ],
-                      2
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              { staticClass: "is-hidden-mobile" },
-              [
-                _c(
-                  "b-field",
-                  [
-                    _c("b-input", {
-                      on: { blur: _vm.onFilter },
-                      nativeOn: {
-                        keyup: function($event) {
-                          if (
-                            !("button" in $event) &&
-                            _vm._k($event.keyCode, "enter", 13, $event.key)
-                          ) {
-                            return null
-                          }
-                          _vm.onFilter($event)
-                        }
-                      },
-                      model: {
-                        value: _vm.newFilter.name,
-                        callback: function($$v) {
-                          _vm.$set(_vm.newFilter, "name", $$v)
-                        },
-                        expression: "newFilter.name"
-                      }
-                    })
-                  ],
-                  1
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("th", { staticClass: "is-hidden-mobile" })
-          ])
+          )
         ],
         2
       )

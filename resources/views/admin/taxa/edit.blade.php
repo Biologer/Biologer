@@ -1,7 +1,7 @@
 @extends('layouts.dashboard', ['title' => 'Edit Taxon'])
 
 @section('content')
-    <div class="container">
+    <div class="container p-4">
         <section class="section">
             <div class="box">
                 <nz-taxon-form inline-template

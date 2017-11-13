@@ -1,7 +1,7 @@
 @extends('layouts.dashboard', ['title' => 'My Observations'])
 
 @section('content')
-    <div class="container py-4">
+    <div class="container p-4">
         <div class="box">
             <nz-field-observations-table
                 list-route="api.my.field-observations.index"
@@ -24,7 +24,6 @@
 @section('createButton')
     <a href="{{ route('contributor.field-observations.create') }}" class="button is-secondary is-outlined">
         @include('components.icon', ['icon' => 'plus'])
-        &nbsp;
-        New
+        <span>New</span>
     </a>
 @endsection

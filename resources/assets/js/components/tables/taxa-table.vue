@@ -1,6 +1,35 @@
 <template>
-    <div class="">
-        <nz-table
+    <div class="taxa-table">
+        <div class="buttons has-addons">
+            <button type="button"
+                class="button"
+                @click="showFilter = !showFilter">
+                <b-icon icon="filter"></b-icon>
+                <span>Filters</span>
+            </button>
+            <button type="button" class="button" @click="clearFilter">Clear</button>
+        </div>
+        <b-collapse :open="showFilter">
+            <div class="columns">
+                <b-field label="Category" class="column">
+                    <b-select v-model="newFilter.category_level" @input="onFilter" expanded>
+                        <option value=""></option>
+                        <option
+                            v-for="(category, index) in categories"
+                            :value="category.value"
+                            :key="index"
+                            v-text="category.name">
+                        </option>
+                    </b-select>
+                </b-field>
+
+                <b-field label="Name" class="column">
+                    <b-input v-model="newFilter.name" @blur="onFilter" @keyup.enter.native="onFilter"></b-input>
+                </b-field>
+            </div>
+        </b-collapse>
+
+        <b-table
             :data="data"
             :loading="loading"
 
@@ -56,30 +85,7 @@
                     </b-select>
                 </b-field>
             </template>
-
-            <template slot="headerSecondary">
-                <th class="is-hidden-mobile"></th>
-                <th class="is-hidden-mobile">
-                    <b-field>
-                        <b-select v-model="newFilter.category_level" @input="onFilter" expanded>
-                            <option value=""></option>
-                            <option
-                                v-for="(category, index) in categories"
-                                :value="category.value"
-                                :key="index"
-                                v-text="category.name">
-                            </option>
-                        </b-select>
-                    </b-field>
-                </th>
-                <th class="is-hidden-mobile">
-                    <b-field>
-                        <b-input v-model="newFilter.name" @blur="onFilter" @keyup.enter.native="onFilter"></b-input>
-                    </b-field>
-                </th>
-                <th class="is-hidden-mobile"></th>
-            </template>
-        </nz-table>
+        </b-table>
     </div>
 </template>
 
@@ -120,6 +126,7 @@ export default {
             page: 1,
             perPage: this.perPageOptions[0],
             checkedRows: [],
+            showFilter: false,
             filter: {
                 name: '',
                 category_level: ''
@@ -172,6 +179,14 @@ export default {
             this.sortOrder = order
 
             this.loadAsyncData()
+        },
+
+        clearFilter() {
+            for (let field in this.newFilter) {
+                this.newFilter[field] = ''
+            }
+
+            this.onFilter()
         },
 
         onFilter() {

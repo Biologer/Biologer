@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <div class="container is-fluid py-4">
+    <div class="container is-fluid p-4">
         <div class="columns">
             <div class="column is-one-quarter">
                 <aside class="menu">
@@ -24,16 +24,29 @@
             </div>
 
             <div class="column">
-                <div class="columns">
-                    <div class="column is-one-third">
-                        <div class="box has-text-centered">
-                            <h3 class="is-uppercase is-size-6">My Field Observations</h3>
-
-                            <div class="is-size-1">
-                                {{ $observationCount }}
-                            </div>
-
-                            <a href="{{ route('contributor.field-observations.index') }}">See all</a>
+                <div class="level box">
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">My Field Observations</p>
+                            <p class="title">{{ $observationCount }}</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">Approved</p>
+                            <p class="title">0</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">Unsolved</p>
+                            <p class="title">0</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">Pending</p>
+                            <p class="title">0</p>
                         </div>
                     </div>
                 </div>
@@ -53,7 +66,6 @@
 @section('createButton')
     <a class="button is-secondary is-outlined" href="{{ route('contributor.field-observations.create') }}">
         @include('components.icon', ['icon' => 'plus'])
-        &nbsp;
-        New Observation
+        <span>New Observation<span>
     </a>
 @endsection
