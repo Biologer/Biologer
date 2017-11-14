@@ -10,9 +10,10 @@
                     <div class="columns">
                         <div class="column is-half">
                             <nz-taxon-autocomplete v-model="form.taxon_suggestion"
-                                                   @select="onTaxonSelect"
-                                                   :errors="form.errors"
-                                                   :taxon="{{ $observation->observation->taxon or 'null' }}">
+                                @select="onTaxonSelect"
+                                :errors="form.errors"
+                                :taxon="{{ $observation->observation->taxon or 'null' }}"
+                                autofocus>
                             </nz-taxon-autocomplete>
                             <nz-date-input :data-year="form.year"
                                            :data-month="form.month"

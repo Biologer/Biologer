@@ -19,7 +19,8 @@
                                         name="email"
                                         class="input{{ $errors->has('email') ? ' is-danger' : '' }}"
                                         placeholder="Email"
-                                        value="{{ old('email') }}">
+                                        value="{{ old('email') }}"
+                                        autofocus>
                                 </div>
                                 <p class="help{{ $errors->has('email') ? ' is-danger' : '' }}">{{ $errors->first('email') }}</p>
                             </div>

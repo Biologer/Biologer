@@ -85,35 +85,42 @@
     </section>
 
     <b-tabs type="is-boxed bg-light" position="is-centered" class="bg-white" :animated="false">
-        <b-tab-item label="Reptiles">
+        @if ($rootGroups->count() === 1)
             <section class="section">
                 <div class="container">
-                    <div class="columns is-centered">
-                        <div class="column">
-                            <div class="bg-light" style="height: 150px">
-                            </div>
+                    @foreach ($rootGroups->first()->groups->chunk(3) as $groups)
+                        <div class="columns is-centered">
+                            @foreach($groups as $group)
+                                <div class="column is-one-third">
+                                    <div class="bg-light" style="height: 150px">
+                                        {{ $group->name }}
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
-                        <div class="column">
-                            <div class="bg-light" style="height: 150px">
-                            </div>
+                    @endforeach
+                </dev>
+            </section>
+        @else
+            @foreach($rootGroups as $rootGroup)
+                <b-tab-item label="{{ $rootGroup->name }}">
+                    <section class="section">
+                        <div class="container">
+                            @foreach ($rootGroup->groups->chunk(3) as $groups)
+                                <div class="columns is-centered">
+                                    @foreach($groups as $group)
+                                        <div class="column is-one-third">
+                                            <div class="bg-light" style="height: 150px">
+                                                {{ $group->name }}
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endforeach
                         </div>
-                        <div class="column">
-                            <div class="bg-light" style="height: 150px">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </b-tab-item>
-        <b-tab-item label="Amphibians">
-            <section class="section">
-                <div class="container"></div>
-            </section>
-        </b-tab-item>
-        <b-tab-item label="Insects">
-            <section class="section">
-                <div class="container"></div>
-            </section>
-        </b-tab-item>
+                    </section>
+                </b-tab-item>
+            @endforeach
+        @endif
     </b-tabs>
 @endsection

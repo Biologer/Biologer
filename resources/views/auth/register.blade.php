@@ -19,7 +19,8 @@
                                         name="first_name"
                                         class="input{{ $errors->has('first_name') ? ' is-danger' : '' }}"
                                         placeholder="First Name"
-                                        value="{{ old('first_name') }}">
+                                        value="{{ old('first_name') }}"
+                                        autofocus>
                                 </div>
                                 <p class="help{{ $errors->has('first_name') ? ' is-danger' : '' }}">{{ $errors->first('first_name') }}</p>
                             </div>

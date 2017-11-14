@@ -12,7 +12,8 @@
                       :keep-first="true"
                       :icon="icon"
                       :placeholder="placeholder"
-                      expanded>
+                      expanded
+                      :autofocus="autofocus">
 
         <template slot-scope="props">
           <div class="media">
@@ -62,7 +63,8 @@ export default {
             type: String,
             default: null
         },
-        except: {}
+        except: {},
+        autofocus: Boolean
     },
 
     data() {

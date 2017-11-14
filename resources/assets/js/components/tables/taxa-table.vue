@@ -61,7 +61,7 @@
                     {{ props.row.name }}
                 </b-table-column>
 
-                <b-table-column label="Actions">
+                <b-table-column label="Actions" width="100">
                     <a :href="editLink(props.row)"><b-icon icon="edit"></b-icon></a>
                     <a @click="confirmRemove(props.row)"><b-icon icon="trash"></b-icon></a>
                 </b-table-column>

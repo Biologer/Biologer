@@ -13,7 +13,8 @@
                                 v-model="parentName"
                                 @select="onTaxonSelect"
                                 :error="form.errors.has('parent_id')"
-                                :message="form.errors.first('parent_id')">
+                                :message="form.errors.first('parent_id')"
+                                autofocus>
                             </nz-taxon-autocomplete>
                         </div>
 

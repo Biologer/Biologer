@@ -17,7 +17,8 @@
                                 :error="form.errors.has('parent_id')"
                                 :message="form.errors.first('parent_id')"
                                 :taxon="{{ $taxon->parent or 'null' }}"
-                                except="{{ $taxon->id }}">
+                                except="{{ $taxon->id }}"
+                                autofocus>
                             </nz-taxon-autocomplete>
                         </div>
 

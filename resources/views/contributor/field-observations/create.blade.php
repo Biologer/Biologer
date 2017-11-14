@@ -8,9 +8,11 @@
                 <div class="">
                     <div class="columns">
                         <div class="column is-half">
-                            <nz-taxon-autocomplete v-model="form.taxon_suggestion" @select="onTaxonSelect"
+                            <nz-taxon-autocomplete v-model="form.taxon_suggestion"
+                                @select="onTaxonSelect"
                                 :error="form.errors.has('taxon_id')"
-                                :message="form.errors.has('taxon_id') ? form.errors.first('taxon_id') : null">
+                                :message="form.errors.has('taxon_id') ? form.errors.first('taxon_id') : null"
+                                autofocus>
                             </nz-taxon-autocomplete>
                             <nz-date-input :data-year="form.year"
                                            :data-month="form.month"

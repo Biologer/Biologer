@@ -59,10 +59,6 @@ export default {
         }
     },
 
-    mounted() {
-        document.querySelector('.nz-taxon-autocomplete input').focus();
-    },
-
     watch: {
         selectedParent() {
             if (this.selectedParent &&

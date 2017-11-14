@@ -59249,6 +59249,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -59281,7 +59282,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: String,
             default: null
         },
-        except: {}
+        except: {},
+        autofocus: Boolean
     },
 
     data: function data() {
@@ -59377,7 +59379,8 @@ var render = function() {
               "keep-first": true,
               icon: _vm.icon,
               placeholder: _vm.placeholder,
-              expanded: ""
+              expanded: "",
+              autofocus: _vm.autofocus
             },
             on: { input: _vm.onInput, select: _vm.onSelect },
             scopedSlots: _vm._u([
@@ -61240,27 +61243,31 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _c("b-table-column", { attrs: { label: "Actions" } }, [
-                    _c(
-                      "a",
-                      { attrs: { href: _vm.editLink(props.row) } },
-                      [_c("b-icon", { attrs: { icon: "edit" } })],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        on: {
-                          click: function($event) {
-                            _vm.confirmRemove(props.row)
+                  _c(
+                    "b-table-column",
+                    { attrs: { label: "Actions", width: "100" } },
+                    [
+                      _c(
+                        "a",
+                        { attrs: { href: _vm.editLink(props.row) } },
+                        [_c("b-icon", { attrs: { icon: "edit" } })],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          on: {
+                            click: function($event) {
+                              _vm.confirmRemove(props.row)
+                            }
                           }
-                        }
-                      },
-                      [_c("b-icon", { attrs: { icon: "trash" } })],
-                      1
-                    )
-                  ])
+                        },
+                        [_c("b-icon", { attrs: { icon: "trash" } })],
+                        1
+                      )
+                    ]
+                  )
                 ]
               }
             }
@@ -61779,27 +61786,31 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _c("b-table-column", { attrs: { label: "Actions" } }, [
-                    _c(
-                      "a",
-                      { attrs: { href: _vm.editLink(props.row) } },
-                      [_c("b-icon", { attrs: { icon: "edit" } })],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        on: {
-                          click: function($event) {
-                            _vm.confirmRemove(props.row)
+                  _c(
+                    "b-table-column",
+                    { attrs: { label: "Actions", width: "100" } },
+                    [
+                      _c(
+                        "a",
+                        { attrs: { href: _vm.editLink(props.row) } },
+                        [_c("b-icon", { attrs: { icon: "edit" } })],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          on: {
+                            click: function($event) {
+                              _vm.confirmRemove(props.row)
+                            }
                           }
-                        }
-                      },
-                      [_c("b-icon", { attrs: { icon: "trash" } })],
-                      1
-                    )
-                  ])
+                        },
+                        [_c("b-icon", { attrs: { icon: "trash" } })],
+                        1
+                      )
+                    ]
+                  )
                 ]
               }
             },
@@ -62010,11 +62021,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             return this.categories;
         }
     },
-
-    mounted: function mounted() {
-        document.querySelector('.nz-taxon-autocomplete input').focus();
-    },
-
 
     watch: {
         selectedParent: function selectedParent() {

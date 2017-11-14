@@ -13,7 +13,7 @@
 
 Route::auth();
 
-Route::view('/', 'home');
+Route::get('/', 'HomeController@index');
 Route::get('taxa/{taxon}', 'TaxaController@show');
 
 Route::middleware('auth')->group(function () {
