@@ -29,6 +29,8 @@
             </div>
         </b-collapse>
 
+        <hr>
+
         <b-table
             :data="data"
             :loading="loading"

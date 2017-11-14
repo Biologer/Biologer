@@ -60889,6 +60889,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
 
 
 
@@ -61164,6 +61166,8 @@ var render = function() {
           1
         )
       ]),
+      _vm._v(" "),
+      _c("hr"),
       _vm._v(" "),
       _c(
         "b-table",
@@ -61637,7 +61641,7 @@ var render = function() {
     {},
     [
       _c(
-        "nz-table",
+        "b-table",
         {
           attrs: {
             data: _vm.data,
