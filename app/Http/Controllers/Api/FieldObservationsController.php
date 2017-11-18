@@ -6,24 +6,28 @@ use App\FieldObservation;
 use App\Http\Controllers\Controller;
 use App\Http\Forms\NewFieldObservationForm;
 use App\Http\Forms\FieldObservationUpdateForm;
+use App\Http\Resources\FieldObservation as FieldObservationResource;
 
 class FieldObservationsController extends Controller
 {
     /**
      * Get field observations.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
-    {
-        if (request('all')) {
-            return FieldObservation::all();
-        }
+     public function index(Request $request)
+     {
+         $query = FieldObservation::filter($request)->orderBy('id');
 
-        return FieldObservation::paginate(
-            request('per_page', 15)
-        );
-    }
+         if ($request->input('all', false)) {
+             return FieldObservationResource::collection($quary->get());
+         }
+
+         return FieldObservationResource::collection(
+             $query->paginate($request->input('per_page', 15))
+         );
+     }
 
     /**
      * Add new field observation.

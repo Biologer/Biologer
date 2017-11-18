@@ -20,6 +20,10 @@
                     <ul class="menu-list">
                         <li><a href="{{ route('admin.taxa.index') }}">Taxa</a></li>
                     </ul>
+
+                    <ul class="menu-list">
+                        <li><a href="{{ route('admin.pending-observations.index') }}">Pending Observations</a></li>
+                    </ul>
                 </aside>
             </div>
 

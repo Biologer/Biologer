@@ -25,6 +25,8 @@ Route::middleware('auth:api')->group(function() {
     Route::put('taxa/{taxon}', 'TaxaController@update')->name('api.taxa.update');
     Route::delete('taxa/{taxon}', 'TaxaController@destroy')->name('api.taxa.destroy');
 
+    Route::get('pending-observations', 'PendingObservationsController@index')->name('api.pending-observations.index');
+
     Route::group(['prefix' => 'my'], function () {
         Route::get('field-observations', 'My\FieldObservationsController@index')->name('api.my.field-observations.index');
     });

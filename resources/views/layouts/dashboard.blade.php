@@ -60,9 +60,7 @@
         <div class="container">
             <div class="navbar-menu">
                 <div class="navbar-start">
-                    <div class="navbar-item">
-                        @yield('breadcrumbs')
-                    </div>
+                    @yield('breadcrumbs')
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item">

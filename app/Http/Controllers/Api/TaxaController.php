@@ -6,6 +6,7 @@ use App\Taxon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Taxon as TaxonResource;
 
 class TaxaController extends Controller
 {
@@ -19,10 +20,12 @@ class TaxaController extends Controller
         $taxa = Taxon::with('parent')->filter($request)->orderBy('id');
 
         if ($request->input('all', false)) {
-            return $taxa->get();
+            return TaxonResource::collection($taxa->get());
         }
 
-        return $taxa->paginate($request->input('per_page', 15));
+        return TaxonResource::collection(
+            $taxa->paginate($request->input('per_page', 15))
+        );
     }
 
     /**

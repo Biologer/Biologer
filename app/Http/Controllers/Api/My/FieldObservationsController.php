@@ -3,30 +3,31 @@
 namespace App\Http\Controllers\Api\My;
 
 use App\FieldObservation;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Forms\NewFieldObservationForm;
 use App\Http\Forms\FieldObservationUpdateForm;
+use App\Http\Resources\FieldObservation as FieldObservationResource;
 
 class FieldObservationsController extends Controller
 {
     /**
      * Get field observations made by the user.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        list($sortField, $sortOrder) = explode('.', request('sort_by', 'id.desc'));
+        $query = FieldObservation::createdBy(auth()->user())
+            ->with('photos')->filter($request)->orderBy('id');
 
-        $fieldObservations = FieldObservation::createdBy(auth()->user())
-            ->with('photos')->orderBy($sortField, $sortOrder)->orderBy('id');
-
-        if (request('all')) {
-            return $fieldObservations->get();
+        if ($request->input('all', false)) {
+            return FieldObservationResource::collection($quary->get());
         }
 
-        return $fieldObservations->paginate(
-            request('per_page', 15)
+        return FieldObservationResource::collection(
+            $query->paginate($request->input('per_page', 15))
         );
     }
 }

@@ -2,13 +2,14 @@
 
 namespace App;
 
+use App\Filters\Filterable;
 use Sofa\Eloquence\Mappable;
 use Sofa\Eloquence\Eloquence;
 use Illuminate\Support\Facades\Storage;
 
 class FieldObservation extends Model
 {
-    use Concerns\HasDynamicFields, Eloquence, Mappable;
+    use Concerns\HasDynamicFields, Eloquence, Filterable, Mappable;
 
     /**
      * The relations to eager load on every query.
@@ -26,6 +27,15 @@ class FieldObservation extends Model
         'dynamic_fields' => 'collection',
     ];
 
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'approved_at',
+    ];
+
     protected $maps = [
       'taxon_name' => 'observation.taxon.name',
       'latitude' => 'observation.latitude',
@@ -34,6 +44,13 @@ class FieldObservation extends Model
       'month' => 'observation.month',
       'day' => 'observation.day',
     ];
+
+    protected function filters() {
+        return [
+            'id' => \App\Filters\Id::class,
+            'sort_by' => \App\Filters\SortBy::class,
+        ];
+    }
 
     /**
      * Available dynamic fields.
@@ -77,6 +94,26 @@ class FieldObservation extends Model
         return $this->belongsToMany(Photo::class);
     }
 
+    /**
+     * Get only pending observations.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePending($query)
+    {
+        return $query->whereHas('observation', function ($q) {
+            return $q->unapproved();
+        });
+    }
+
+    /**
+     * Get observations created by given user.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \App\User                              $user
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeCreatedBy($query, User $user)
     {
         return $query->whereHas('observation', function ($q) use ($user) {
@@ -87,7 +124,7 @@ class FieldObservation extends Model
     /**
      * Add photos to the observation, using photos' paths.
      *
-     * @param  array $photos Paths
+     * @param  array  $photos Paths
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function addPhotos($photos)
@@ -108,7 +145,7 @@ class FieldObservation extends Model
     /**
      * Remove unused photos and and add new ones.
      *
-     * @param  array $photos
+     * @param  array  $photos
      * @return void
      */
     public function syncPhotos($photos)
