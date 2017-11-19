@@ -16,8 +16,7 @@
   font-style: normal;
 }
 
-.fa,
-.icon .mdi {
+.fa {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -91,13 +90,11 @@
   float: right;
 }
 
-.fa.fa-pull-left,
-.icon .fa-pull-left.mdi {
+.fa.fa-pull-left {
   margin-right: .3em;
 }
 
-.fa.fa-pull-right,
-.icon .fa-pull-right.mdi {
+.fa.fa-pull-right {
   margin-left: .3em;
 }
 
@@ -111,13 +108,11 @@
   float: left;
 }
 
-.fa.pull-left,
-.icon .pull-left.mdi {
+.fa.pull-left {
   margin-right: .3em;
 }
 
-.fa.pull-right,
-.icon .pull-right.mdi {
+.fa.pull-right {
   margin-left: .3em;
 }
 
@@ -7168,9 +7163,7 @@ a.box:active {
   font-size: 1.25rem;
 }
 
-.file.is-medium .file-icon .fa,
-.file.is-medium .file-icon .icon .mdi,
-.icon .file.is-medium .file-icon .mdi {
+.file.is-medium .file-icon .fa {
   font-size: 21px;
 }
 
@@ -7178,9 +7171,7 @@ a.box:active {
   font-size: 1.5rem;
 }
 
-.file.is-large .file-icon .fa,
-.file.is-large .file-icon .icon .mdi,
-.icon .file.is-large .file-icon .mdi {
+.file.is-large .file-icon .fa {
   font-size: 28px;
 }
 
@@ -7239,27 +7230,19 @@ a.box:active {
   width: 1.5em;
 }
 
-.file.is-boxed .file-icon .fa,
-.file.is-boxed .file-icon .icon .mdi,
-.icon .file.is-boxed .file-icon .mdi {
+.file.is-boxed .file-icon .fa {
   font-size: 21px;
 }
 
-.file.is-boxed.is-small .file-icon .fa,
-.file.is-boxed.is-small .file-icon .icon .mdi,
-.icon .file.is-boxed.is-small .file-icon .mdi {
+.file.is-boxed.is-small .file-icon .fa {
   font-size: 14px;
 }
 
-.file.is-boxed.is-medium .file-icon .fa,
-.file.is-boxed.is-medium .file-icon .icon .mdi,
-.icon .file.is-boxed.is-medium .file-icon .mdi {
+.file.is-boxed.is-medium .file-icon .fa {
   font-size: 28px;
 }
 
-.file.is-boxed.is-large .file-icon .fa,
-.file.is-boxed.is-large .file-icon .icon .mdi,
-.icon .file.is-boxed.is-large .file-icon .mdi {
+.file.is-boxed.is-large .file-icon .fa {
   font-size: 35px;
 }
 
@@ -7418,9 +7401,7 @@ a.box:active {
   width: 1em;
 }
 
-.file-icon .fa,
-.file-icon .icon .mdi,
-.icon .file-icon .mdi {
+.file-icon .fa {
   font-size: 14px;
 }
 
@@ -11561,9 +11542,7 @@ label.panel-block:hover {
   margin-right: 0.75em;
 }
 
-.panel-icon .fa,
-.panel-icon .icon .mdi,
-.icon .panel-icon .mdi {
+.panel-icon .fa {
   font-size: inherit;
   line-height: inherit;
 }
@@ -14890,8 +14869,11 @@ label.panel-block:hover {
   padding: 3rem 1.5rem 6rem;
 }
 
-.is-clipped {
-  overflow: hidden;
+.is-noscroll {
+  position: fixed;
+  overflow-y: hidden;
+  width: 100%;
+  bottom: 0;
 }
 
 @-webkit-keyframes fadeOut {
@@ -15269,6 +15251,19 @@ label.panel-block:hover {
           box-shadow: 0 0 0.5em rgba(13, 108, 60, 0.8);
 }
 
+.b-checkbox.checkbox.is-small {
+  border-radius: 2px;
+  font-size: 0.75rem;
+}
+
+.b-checkbox.checkbox.is-medium {
+  font-size: 1.25rem;
+}
+
+.b-checkbox.checkbox.is-large {
+  font-size: 1.5rem;
+}
+
 .collapse .collapse-trigger {
   display: inline;
   cursor: pointer;
@@ -15496,7 +15491,7 @@ label.panel-block:hover {
 }
 
 @media screen and (max-width: 1023px) {
-  .dropdown:not(.is-hoverable):not(.is-inline) .dropdown-menu {
+  .dropdown.is-mobile-modal .dropdown-menu {
     position: fixed;
     width: calc(100vw - 40px);
     max-width: 460px;
@@ -15509,8 +15504,8 @@ label.panel-block:hover {
     overflow-y: auto;
   }
 
-  .dropdown:not(.is-hoverable):not(.is-inline) .dropdown-menu .dropdown-item,
-  .dropdown:not(.is-hoverable):not(.is-inline) .dropdown-menu .has-link a {
+  .dropdown.is-mobile-modal .dropdown-menu .dropdown-item,
+  .dropdown.is-mobile-modal .dropdown-menu .has-link a {
     padding: 1rem 1.5rem;
   }
 }
@@ -15573,22 +15568,6 @@ label.panel-block:hover {
   -ms-user-select: none;
   user-select: none;
   cursor: inherit;
-  vertical-align: middle;
-}
-
-.icon .mdi {
-  font-family: "Material Icons";
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  display: inline-block;
-  -webkit-font-feature-settings: 'liga';
-          font-feature-settings: 'liga';
-}
-
-.icon .fa,
-.icon .mdi {
-  font-size: 21px;
 }
 
 .icon svg {
@@ -15599,92 +15578,6 @@ label.panel-block:hover {
   pointer-events: none;
   width: 1.5rem;
   height: 1.5rem;
-}
-
-.icon.is-small {
-  height: 1rem;
-  width: 1rem;
-}
-
-.icon.is-small .mdi {
-  font-size: 16px;
-}
-
-.icon.is-small .fa,
-.icon.is-small .mdi {
-  font-size: 14px;
-}
-
-.icon.is-medium {
-  height: 2rem;
-  width: 2rem;
-}
-
-.icon.is-medium .mdi {
-  font-size: 32px;
-}
-
-.icon.is-medium .fa,
-.icon.is-medium .mdi {
-  font-size: 28px;
-}
-
-.icon.is-large {
-  height: 3rem;
-  width: 3rem;
-}
-
-.icon.is-large .mdi {
-  font-size: 48px;
-}
-
-.icon.is-large .fa,
-.icon.is-large .mdi {
-  font-size: 42px;
-}
-
-.icon.is-white {
-  color: #ffffff !important;
-}
-
-.icon.is-black {
-  color: #0a0a0a !important;
-}
-
-.icon.is-light {
-  color: whitesmoke !important;
-}
-
-.icon.is-dark {
-  color: #363636 !important;
-}
-
-.icon.is-primary {
-  color: #0d6c3c !important;
-}
-
-.icon.is-link {
-  color: #3273dc !important;
-}
-
-.icon.is-info {
-  color: #209cee !important;
-}
-
-.icon.is-success {
-  color: #23d160 !important;
-}
-
-.icon.is-warning {
-  color: #ffdd57 !important;
-}
-
-.icon.is-danger {
-  color: #ff3860 !important;
-}
-
-.icon.is-secondary {
-  color: #ff6600 !important;
 }
 
 .loading-overlay {
@@ -15749,6 +15642,11 @@ label.panel-block:hover {
 .notification .media {
   padding-top: 0;
   border: 0;
+}
+
+.notification > .delete {
+  right: 0.5rem !important;
+  top: 0.5rem !important;
 }
 
 .modal .animation-content {
@@ -16098,6 +15996,19 @@ label.panel-block:hover {
           box-shadow: 0 0 0.5em rgba(13, 108, 60, 0.8);
 }
 
+.b-radio.radio.is-small {
+  border-radius: 2px;
+  font-size: 0.75rem;
+}
+
+.b-radio.radio.is-medium {
+  font-size: 1.25rem;
+}
+
+.b-radio.radio.is-large {
+  font-size: 1.5rem;
+}
+
 .select select {
   padding-right: 2.5em;
 }
@@ -16421,7 +16332,7 @@ label.panel-block:hover {
 
 .b-table .table {
   width: 100%;
-  border: 0.125em solid transparent;
+  border: 1px solid transparent;
   border-radius: 3px;
   border-collapse: separate;
 }
@@ -16491,10 +16402,6 @@ label.panel-block:hover {
   background-color: transparent;
 }
 
-.b-table .table tr:not(.is-selected).is-hovered {
-  background: rgba(181, 181, 181, 0.35) !important;
-}
-
 .b-table .table .checkbox-cell {
   width: 40px;
 }
@@ -16508,18 +16415,20 @@ label.panel-block:hover {
   transition: none;
 }
 
-.b-table .table .detail td {
+.b-table .table tr.detail {
   -webkit-box-shadow: inset 0 1px 3px #dbdbdb;
           box-shadow: inset 0 1px 3px #dbdbdb;
   background: #fafafa;
 }
 
-.b-table .table .detail td .detail-container {
+.b-table .table tr.detail .detail-container {
   padding: 1rem;
 }
 
 .b-table .table:focus {
-  border: 0.125em solid rgba(13, 108, 60, 0.5);
+  border-color: #0d6c3c;
+  -webkit-box-shadow: 0 0 0 0.125em rgba(13, 108, 60, 0.25);
+          box-shadow: 0 0 0 0.125em rgba(13, 108, 60, 0.25);
 }
 
 .b-table .table.is-bordered th.is-current-sort,
@@ -16627,6 +16536,12 @@ label.panel-block:hover {
   margin-bottom: 0;
 }
 
+.b-tabs .is-disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .b-tabs .tab-content {
   position: relative;
   overflow: hidden;
@@ -16650,6 +16565,78 @@ label.panel-block:hover {
   margin-bottom: 1.5rem;
 }
 
+.b-tabs.is-fullwidth {
+  width: 100%;
+}
+
+.timepicker .dropdown,
+.timepicker .dropdown-trigger {
+  width: 100%;
+}
+
+.timepicker .dropdown-item,
+.timepicker .dropdown .dropdown-menu .has-link a,
+.dropdown .dropdown-menu .has-link .timepicker a {
+  font-size: inherit;
+}
+
+.timepicker .timepicker-footer {
+  padding-top: 0.875rem;
+}
+
+.timepicker .control .select {
+  font-size: 2.5rem;
+}
+
+.timepicker .control .select select {
+  font-weight: 600;
+  padding-right: calc(0.625em - 1px);
+}
+
+.timepicker .control .select select option {
+  font-size: 1.5rem;
+}
+
+.timepicker .control .select select option:disabled {
+  color: rgba(122, 122, 122, 0.7);
+}
+
+.timepicker .control .select:after {
+  display: none;
+}
+
+.timepicker .control:nth-child(1) .select select {
+  border-right: none;
+}
+
+.timepicker .control:nth-child(1) .select:before {
+  content: ":";
+  color: #b5b5b5;
+  display: inline-block;
+  position: absolute;
+  z-index: 6;
+  font-size: 3rem;
+  right: -0.325rem;
+  top: 0.25rem;
+}
+
+.timepicker .control:nth-child(2) .select select {
+  border-left: none;
+}
+
+.timepicker.is-small {
+  border-radius: 2px;
+  font-size: 0.75rem;
+}
+
+.timepicker.is-medium {
+  font-size: 1.25rem;
+}
+
+.timepicker.is-large {
+  font-size: 1.5rem;
+}
+
 .tooltip {
   position: relative;
   display: -webkit-inline-box;
@@ -16661,86 +16648,86 @@ label.panel-block:hover {
 .tooltip.is-top:after {
   top: auto;
   right: auto;
-  bottom: calc(100% + 6px + 2px);
+  bottom: calc(100% + 5px + 2px);
   left: 50%;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
 }
 
 .tooltip.is-top.is-white:before {
-  border-top: 6px solid #ffffff;
-  border-right: 6px solid transparent;
-  border-left: 6px solid transparent;
+  border-top: 5px solid #ffffff;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
   bottom: calc(100% + 2px);
 }
 
 .tooltip.is-top.is-black:before {
-  border-top: 6px solid #0a0a0a;
-  border-right: 6px solid transparent;
-  border-left: 6px solid transparent;
+  border-top: 5px solid #0a0a0a;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
   bottom: calc(100% + 2px);
 }
 
 .tooltip.is-top.is-light:before {
-  border-top: 6px solid whitesmoke;
-  border-right: 6px solid transparent;
-  border-left: 6px solid transparent;
+  border-top: 5px solid whitesmoke;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
   bottom: calc(100% + 2px);
 }
 
 .tooltip.is-top.is-dark:before {
-  border-top: 6px solid #363636;
-  border-right: 6px solid transparent;
-  border-left: 6px solid transparent;
+  border-top: 5px solid #363636;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
   bottom: calc(100% + 2px);
 }
 
 .tooltip.is-top.is-primary:before {
-  border-top: 6px solid #0d6c3c;
-  border-right: 6px solid transparent;
-  border-left: 6px solid transparent;
+  border-top: 5px solid #0d6c3c;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
   bottom: calc(100% + 2px);
 }
 
 .tooltip.is-top.is-link:before {
-  border-top: 6px solid #3273dc;
-  border-right: 6px solid transparent;
-  border-left: 6px solid transparent;
+  border-top: 5px solid #3273dc;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
   bottom: calc(100% + 2px);
 }
 
 .tooltip.is-top.is-info:before {
-  border-top: 6px solid #209cee;
-  border-right: 6px solid transparent;
-  border-left: 6px solid transparent;
+  border-top: 5px solid #209cee;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
   bottom: calc(100% + 2px);
 }
 
 .tooltip.is-top.is-success:before {
-  border-top: 6px solid #23d160;
-  border-right: 6px solid transparent;
-  border-left: 6px solid transparent;
+  border-top: 5px solid #23d160;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
   bottom: calc(100% + 2px);
 }
 
 .tooltip.is-top.is-warning:before {
-  border-top: 6px solid #ffdd57;
-  border-right: 6px solid transparent;
-  border-left: 6px solid transparent;
+  border-top: 5px solid #ffdd57;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
   bottom: calc(100% + 2px);
 }
 
 .tooltip.is-top.is-danger:before {
-  border-top: 6px solid #ff3860;
-  border-right: 6px solid transparent;
-  border-left: 6px solid transparent;
+  border-top: 5px solid #ff3860;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
   bottom: calc(100% + 2px);
 }
 
 .tooltip.is-top.is-secondary:before {
-  border-top: 6px solid #ff6600;
-  border-right: 6px solid transparent;
-  border-left: 6px solid transparent;
+  border-top: 5px solid #ff6600;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
   bottom: calc(100% + 2px);
 }
 
@@ -16761,85 +16748,85 @@ label.panel-block:hover {
   top: 50%;
   right: auto;
   bottom: auto;
-  left: calc(100% + 6px + 2px);
+  left: calc(100% + 5px + 2px);
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
 }
 
 .tooltip.is-right.is-white:before {
-  border-top: 6px solid transparent;
-  border-right: 6px solid #ffffff;
-  border-bottom: 6px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #ffffff;
+  border-bottom: 5px solid transparent;
   left: calc(100% + 2px);
 }
 
 .tooltip.is-right.is-black:before {
-  border-top: 6px solid transparent;
-  border-right: 6px solid #0a0a0a;
-  border-bottom: 6px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #0a0a0a;
+  border-bottom: 5px solid transparent;
   left: calc(100% + 2px);
 }
 
 .tooltip.is-right.is-light:before {
-  border-top: 6px solid transparent;
-  border-right: 6px solid whitesmoke;
-  border-bottom: 6px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 5px solid whitesmoke;
+  border-bottom: 5px solid transparent;
   left: calc(100% + 2px);
 }
 
 .tooltip.is-right.is-dark:before {
-  border-top: 6px solid transparent;
-  border-right: 6px solid #363636;
-  border-bottom: 6px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #363636;
+  border-bottom: 5px solid transparent;
   left: calc(100% + 2px);
 }
 
 .tooltip.is-right.is-primary:before {
-  border-top: 6px solid transparent;
-  border-right: 6px solid #0d6c3c;
-  border-bottom: 6px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #0d6c3c;
+  border-bottom: 5px solid transparent;
   left: calc(100% + 2px);
 }
 
 .tooltip.is-right.is-link:before {
-  border-top: 6px solid transparent;
-  border-right: 6px solid #3273dc;
-  border-bottom: 6px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #3273dc;
+  border-bottom: 5px solid transparent;
   left: calc(100% + 2px);
 }
 
 .tooltip.is-right.is-info:before {
-  border-top: 6px solid transparent;
-  border-right: 6px solid #209cee;
-  border-bottom: 6px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #209cee;
+  border-bottom: 5px solid transparent;
   left: calc(100% + 2px);
 }
 
 .tooltip.is-right.is-success:before {
-  border-top: 6px solid transparent;
-  border-right: 6px solid #23d160;
-  border-bottom: 6px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #23d160;
+  border-bottom: 5px solid transparent;
   left: calc(100% + 2px);
 }
 
 .tooltip.is-right.is-warning:before {
-  border-top: 6px solid transparent;
-  border-right: 6px solid #ffdd57;
-  border-bottom: 6px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #ffdd57;
+  border-bottom: 5px solid transparent;
   left: calc(100% + 2px);
 }
 
 .tooltip.is-right.is-danger:before {
-  border-top: 6px solid transparent;
-  border-right: 6px solid #ff3860;
-  border-bottom: 6px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #ff3860;
+  border-bottom: 5px solid transparent;
   left: calc(100% + 2px);
 }
 
 .tooltip.is-right.is-secondary:before {
-  border-top: 6px solid transparent;
-  border-right: 6px solid #ff6600;
-  border-bottom: 6px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #ff6600;
+  border-bottom: 5px solid transparent;
   left: calc(100% + 2px);
 }
 
@@ -16857,7 +16844,7 @@ label.panel-block:hover {
 
 .tooltip.is-bottom:before,
 .tooltip.is-bottom:after {
-  top: calc(100% + 6px + 2px);
+  top: calc(100% + 5px + 2px);
   right: auto;
   bottom: auto;
   left: 50%;
@@ -16866,79 +16853,79 @@ label.panel-block:hover {
 }
 
 .tooltip.is-bottom.is-white:before {
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #ffffff;
-  border-left: 6px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #ffffff;
+  border-left: 5px solid transparent;
   top: calc(100% + 2px);
 }
 
 .tooltip.is-bottom.is-black:before {
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #0a0a0a;
-  border-left: 6px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #0a0a0a;
+  border-left: 5px solid transparent;
   top: calc(100% + 2px);
 }
 
 .tooltip.is-bottom.is-light:before {
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid whitesmoke;
-  border-left: 6px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid whitesmoke;
+  border-left: 5px solid transparent;
   top: calc(100% + 2px);
 }
 
 .tooltip.is-bottom.is-dark:before {
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #363636;
-  border-left: 6px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #363636;
+  border-left: 5px solid transparent;
   top: calc(100% + 2px);
 }
 
 .tooltip.is-bottom.is-primary:before {
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #0d6c3c;
-  border-left: 6px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #0d6c3c;
+  border-left: 5px solid transparent;
   top: calc(100% + 2px);
 }
 
 .tooltip.is-bottom.is-link:before {
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #3273dc;
-  border-left: 6px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #3273dc;
+  border-left: 5px solid transparent;
   top: calc(100% + 2px);
 }
 
 .tooltip.is-bottom.is-info:before {
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #209cee;
-  border-left: 6px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #209cee;
+  border-left: 5px solid transparent;
   top: calc(100% + 2px);
 }
 
 .tooltip.is-bottom.is-success:before {
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #23d160;
-  border-left: 6px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #23d160;
+  border-left: 5px solid transparent;
   top: calc(100% + 2px);
 }
 
 .tooltip.is-bottom.is-warning:before {
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #ffdd57;
-  border-left: 6px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #ffdd57;
+  border-left: 5px solid transparent;
   top: calc(100% + 2px);
 }
 
 .tooltip.is-bottom.is-danger:before {
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #ff3860;
-  border-left: 6px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #ff3860;
+  border-left: 5px solid transparent;
   top: calc(100% + 2px);
 }
 
 .tooltip.is-bottom.is-secondary:before {
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #ff6600;
-  border-left: 6px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #ff6600;
+  border-left: 5px solid transparent;
   top: calc(100% + 2px);
 }
 
@@ -16957,7 +16944,7 @@ label.panel-block:hover {
 .tooltip.is-left:before,
 .tooltip.is-left:after {
   top: 50%;
-  right: calc(100% + 6px + 2px);
+  right: calc(100% + 5px + 2px);
   bottom: auto;
   left: auto;
   -webkit-transform: translateY(-50%);
@@ -16965,79 +16952,79 @@ label.panel-block:hover {
 }
 
 .tooltip.is-left.is-white:before {
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 6px solid #ffffff;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #ffffff;
   right: calc(100% + 2px);
 }
 
 .tooltip.is-left.is-black:before {
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 6px solid #0a0a0a;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #0a0a0a;
   right: calc(100% + 2px);
 }
 
 .tooltip.is-left.is-light:before {
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 6px solid whitesmoke;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid whitesmoke;
   right: calc(100% + 2px);
 }
 
 .tooltip.is-left.is-dark:before {
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 6px solid #363636;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #363636;
   right: calc(100% + 2px);
 }
 
 .tooltip.is-left.is-primary:before {
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 6px solid #0d6c3c;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #0d6c3c;
   right: calc(100% + 2px);
 }
 
 .tooltip.is-left.is-link:before {
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 6px solid #3273dc;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #3273dc;
   right: calc(100% + 2px);
 }
 
 .tooltip.is-left.is-info:before {
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 6px solid #209cee;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #209cee;
   right: calc(100% + 2px);
 }
 
 .tooltip.is-left.is-success:before {
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 6px solid #23d160;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #23d160;
   right: calc(100% + 2px);
 }
 
 .tooltip.is-left.is-warning:before {
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 6px solid #ffdd57;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #ffdd57;
   right: calc(100% + 2px);
 }
 
 .tooltip.is-left.is-danger:before {
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 6px solid #ff3860;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #ff3860;
   right: calc(100% + 2px);
 }
 
 .tooltip.is-left.is-secondary:before {
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 6px solid #ff6600;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #ff6600;
   right: calc(100% + 2px);
 }
 
@@ -17069,12 +17056,10 @@ label.panel-block:hover {
 .tooltip:after {
   content: attr(data-label);
   width: auto;
-  padding: 4px 8px;
-  background: #0d6c3c;
-  border-radius: 2px;
-  font-size: 12px;
+  padding: 0.35em 0.75em;
+  border-radius: 5px;
+  font-size: 0.85em;
   font-weight: 400;
-  color: #fff;
   -webkit-box-shadow: 0px 1px 2px 1px rgba(0, 1, 0, 0.2);
           box-shadow: 0px 1px 2px 1px rgba(0, 1, 0, 0.2);
   z-index: 888;

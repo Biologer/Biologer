@@ -39,7 +39,6 @@ export default {
             form: new Form({
                 ...this.taxon
             }, {
-                http: window.axios,
                 resetOnSuccess: false
             }),
             parentName: this.taxon && this.taxon.parent ? this.taxon.parent.name : null,
@@ -83,6 +82,9 @@ export default {
                 .catch(this.onFailedSubmit);
         },
 
+        /**
+         * Handle successful form submit.
+         */
         onSuccessfulSubmit() {
             this.form.processing = true
 
@@ -100,6 +102,11 @@ export default {
             }, 500);
         },
 
+        /**
+         * Handle failed form submit.
+         *
+         * @param {Error} error
+         */
         onFailedSubmit(error) {
             this.$toast.open({
                 duration: 2500,
@@ -108,6 +115,11 @@ export default {
             });
         },
 
+        /**
+         * Handle taxon being selected.
+         *
+         * @param {Object} taxon
+         */
         onTaxonSelect(taxon) {
             this.selectedParent = taxon;
             this.form.parent_id = taxon ? taxon.id : null;

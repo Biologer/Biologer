@@ -52,7 +52,6 @@ export default {
             form: new Form({
                 ...this.observation
             }, {
-                http: window.axios,
                 resetOnSuccess: false
             }),
             dynamicFields: [],
@@ -76,14 +75,17 @@ export default {
             this.chosenField = null;
             this.updateFields();
         },
+
         /**
          * Don't use the field any more.
+         *
          * @param  {Object} field
          */
         removeField(field) {
             _.remove(this.form.dynamic_fields, (item) => item.name === field.name);
             this.updateFields();
         },
+
         /**
          * Submit the form.
          */
@@ -97,6 +99,9 @@ export default {
                 .catch(this.onFailedSubmit);
         },
 
+        /**
+         * Handle successful form submit.
+         */
         onSuccessfulSubmit() {
             this.form.processing = true
 
@@ -114,6 +119,11 @@ export default {
             }, 500);
         },
 
+        /**
+         * Handle failed form submit.
+         *
+         * @param {Error} error
+         */
         onFailedSubmit(error) {
             this.$toast.open({
                 duration: 2500,
@@ -122,6 +132,9 @@ export default {
             });
         },
 
+        /**
+         * Update dynamic fields' values.
+         */
         updateFields() {
             this.dynamicFields = this.dataDynamicFields.filter((field) => {
                 return collect(this.form.dynamic_fields).contains((item) => item.name === field.name);
@@ -133,26 +146,56 @@ export default {
             });
         },
 
+        /**
+         * Handle year input.
+         *
+         * @param {Number} value
+         */
         onYearInput(value) {
             this.form.year = value;
         },
 
+        /**
+         * Handle month input.
+         *
+         * @param {Number} value
+         */
         onMonthInput(value) {
             this.form.month = value;
         },
 
+        /**
+         * Handle daz input.
+         *
+         * @param {Number} value
+         */
         onDayInput(value) {
             this.form.day = value;
         },
 
+        /**
+         * Handle taxon veing selected.
+         *
+         * @param {Object} value
+         */
         onTaxonSelect(taxon) {
             this.form.taxon_id = taxon ? taxon.id : null;
         },
 
+        /**
+         * Add uploaded photo's filename to array.
+         *
+         * @param {String} file name
+         */
         onPhotoUploaded(file) {
             this.form.photos.push(file);
         },
 
+        /**
+         * Remove photo from form.
+         *
+         * @param {String} file name
+         */
         onPhotoRemoved(file) {
             this.form.photos.splice(this.form.photos.indexOf(file), 1);
         }
@@ -161,6 +204,7 @@ export default {
     computed: {
         /**
          * Fields that have not been used yet.
+         * 
          * @return {Array} of field data
          */
         availableDynamicFields() {
