@@ -5,6 +5,7 @@
         <div class="box">
             <field-observation-form action="{{ route('api.field-observations.store') }}" method="post" inline-template
                 :data-dynamic-fields="{{ App\FieldObservation::availableDynamicFields() }}">
+
                 <div class="">
                     <div class="columns">
                         <div class="column is-half">
@@ -14,6 +15,7 @@
                                 :message="form.errors.has('taxon_id') ? form.errors.first('taxon_id') : null"
                                 autofocus>
                             </nz-taxon-autocomplete>
+
                             <nz-date-input :data-year="form.year"
                                            :data-month="form.month"
                                            :data-day="form.day"
@@ -22,6 +24,7 @@
                                            v-on:day-input="onDayInput"
                                            :errors="form.errors">
                             </nz-date-input>
+
                             <b-field label="Photos">
                                 <div class="columns">
                                     <div class="column is-one-third">
@@ -34,7 +37,8 @@
                                             :errors="form.errors">
                                         </nz-photo-upload>
                                     </div>
-                                   <div class="column is-one-third">
+
+                                    <div class="column is-one-third">
                                         <nz-photo-upload upload-url="{{ route('api.uploads.store') }}"
                                             remove-url="{{ route('api.uploads.destroy') }}"
                                             text="Upload"
@@ -44,6 +48,7 @@
                                             :errors="form.errors">
                                         </nz-photo-upload>
                                     </div>
+
                                     <div class="column is-one-third">
                                         <nz-photo-upload upload-url="{{ route('api.uploads.store') }}"
                                             remove-url="{{ route('api.uploads.destroy') }}"
@@ -56,7 +61,15 @@
                                     </div>
                                 </div>
                             </b-field>
+
+                            <b-field label="Source">
+                                <b-input v-model="form.source"
+                                    :error="form.errors.has('source')"
+                                    :message="form.errors.has('source') ? form.errors.first('source') : null"
+                                ></b-input>
+                            </b-field>
                         </div>
+
                         <div class="column is-half">
                             <nz-spatial-input :latitude.sync="form.latitude"
                                 :longitude.sync="form.longitude"
@@ -67,6 +80,14 @@
                             </nz-spatial-input>
                         </div>
                     </div>
+
+                    <b-field label="Add Comment">
+                        <b-input type="textarea"
+                            v-model="form.comment"
+                            :error="form.errors.has('comment')"
+                            :message="form.errors.has('comment') ? form.errors.first('comment') : null"
+                        ></b-input>
+                    </b-field>
 
                     <div v-for="(field, index) in dynamicFields" :key="field.name">
                         <nz-dynamic-input :field="field" v-model="_.find(form.dynamic_fields, {name:field.name}).value" @remove="removeField(field)" :errors="form.errors" :index="index"></nz-dynamic-input>
@@ -87,6 +108,7 @@
 
                     <button type="button" class="button is-primary" @click="submit">Save</button>
                     <a :href="redirect" class="button is-text">Cancel</a>
+
                 </div>
             </fild-observation-form>
         </div>

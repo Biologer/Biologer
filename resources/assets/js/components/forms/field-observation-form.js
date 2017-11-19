@@ -41,7 +41,9 @@ export default {
                     elevation: null,
                     location: null,
                     photos: [],
-                    dynamic_fields: []
+                    dynamic_fields: [],
+                    source: null,
+                    comment: null
                 };
             }
         }
@@ -204,7 +206,7 @@ export default {
     computed: {
         /**
          * Fields that have not been used yet.
-         * 
+         *
          * @return {Array} of field data
          */
         availableDynamicFields() {

@@ -31,6 +31,7 @@ class FieldObservationUpdateForm extends FormRequest
     {
         return [
             'taxon_id' => 'nullable|exists:taxa,id',
+            'taxon_suggestion' => 'nullable|string|max:255',
             'year' => 'bail|required|date_format:Y|before_or_equal:now',
             'month' => [
                 'bail',
@@ -79,25 +80,25 @@ class FieldObservationUpdateForm extends FormRequest
      */
     protected function updateObservation($fieldObservation)
     {
-        return tap($fieldObservation, function ($observation) {
-            $observation->update([
-                'source' => $this->input('source') ?: auth()->user()->full_name,
-                'taxon_suggestion' => $this->input('taxon_suggestion', null),
-                'dynamic_fields' => $this->input('dynamic_fields', []),
-            ]);
+        $fieldObservation->observation->update([
+            'taxon_id' => $this->input('taxon_id'),
+            'year' => $this->input('year'),
+            'month' => $this->input('month', null),
+            'day' => $this->input('day', null),
+            'location' => $this->input('location'),
+            'latitude' => $this->input('latitude'),
+            'longitude' => $this->input('longitude'),
+            'mgrs10k' => mgrs10k($this->input('latitude'), $this->input('longitude')),
+            'accuracy' => $this->input('accuracy'),
+            'elevation' => $this->input('elevation'),
+        ]);
 
-            $observation->observation()->update([
-                'taxon_id' => $this->input('taxon_id'),
-                'year' => $this->input('year'),
-                'month' => $this->input('month', null),
-                'day' => $this->input('day', null),
-                'location' => $this->input('location'),
-                'latitude' => $this->input('latitude'),
-                'longitude' => $this->input('longitude'),
-                'mgrs10k' => mgrs10k($this->input('latitude'), $this->input('longitude')),
-                'accuracy' => $this->input('accuracy'),
-                'elevation' => $this->input('elevation'),
-            ]);
-        });
+        $fieldObservation->update([
+            'source' => $this->input('source') ?: auth()->user()->full_name,
+            'taxon_suggestion' => $this->input('taxon_suggestion', null),
+            'dynamic_fields' => $this->input('dynamic_fields', []),
+        ]);
+
+        return $fieldObservation;
     }
 }

@@ -5,13 +5,12 @@ use Faker\Generator as Faker;
 $factory->define(App\FieldObservation::class, function (Faker $faker) {
     return [
         'source' => $faker->name,
+        'taxon_suggestion' => 'Cerambyx cerdo',
     ];
 });
 
 $factory->define(App\Observation::class, function (Faker $faker) {
     static $userId;
-
-    $field = factory(App\FieldObservation::class)->create();
 
     return [
         'year' => date('Y'),
@@ -25,8 +24,6 @@ $factory->define(App\Observation::class, function (Faker $faker) {
         'created_by_id' => function () use ($userId) {
             return $userId ?: $userId = factory(App\User::class)->create()->id;
         },
-        'details_type' => get_class($field),
-        'details_id' => $field->id,
     ];
 });
 

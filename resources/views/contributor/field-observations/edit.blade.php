@@ -6,6 +6,7 @@
             <field-observation-form action="{{ route('api.field-observations.update', $observation) }}" method="put" inline-template
                  :data-dynamic-fields="{{ App\FieldObservation::availableDynamicFields() }}"
                  :observation="{{ json_encode($observation->toArrayForEdit()) }}">
+
                 <div class="">
                     <div class="columns">
                         <div class="column is-half">
@@ -15,6 +16,7 @@
                                 :taxon="{{ $observation->observation->taxon or 'null' }}"
                                 autofocus>
                             </nz-taxon-autocomplete>
+
                             <nz-date-input :data-year="form.year"
                                            :data-month="form.month"
                                            :data-day="form.day"
@@ -23,6 +25,7 @@
                                            v-on:day-input="onDayInput"
                                            :errors="form.errors">
                             </nz-date-input>
+
                             <b-field label="Photos">
                                 <div class="columns">
                                     <div class="column is-one-third">
@@ -37,7 +40,8 @@
                                             :errors="form.errors">
                                         </nz-photo-upload>
                                     </div>
-                                   <div class="column is-one-third">
+
+                                    <div class="column is-one-third">
                                         <nz-photo-upload upload-url="{{ route('api.uploads.store') }}"
                                             remove-url="{{ route('api.uploads.destroy') }}"
                                             image-url="{{ isset($observation->photos[1]) ? $observation->photos[1]->url : '' }}"
@@ -49,6 +53,7 @@
                                             :errors="form.errors">
                                         </nz-photo-upload>
                                     </div>
+
                                     <div class="column is-one-third">
                                         <nz-photo-upload upload-url="{{ route('api.uploads.store') }}"
                                             remove-url="{{ route('api.uploads.destroy') }}"
@@ -63,7 +68,15 @@
                                     </div>
                                 </div>
                             </b-field>
+
+                            <b-field label="Source">
+                                <b-input v-model="form.source"
+                                    :error="form.errors.has('source')"
+                                    :message="form.errors.has('source') ? form.errors.first('source') : null"
+                                ></b-input>
+                            </b-field>
                         </div>
+
                         <div class="column is-half">
                             <nz-spatial-input :latitude.sync="form.latitude"
                                 :longitude.sync="form.longitude"
@@ -102,6 +115,7 @@
                     </button>
                     <a :href="redirect" class="button is-text">Cancel</a>
                 </div>
+
             </fild-observation-form>
         </div>
     </div>

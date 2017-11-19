@@ -6,6 +6,7 @@ use App\Taxon;
 use Tests\TestCase;
 use App\Observation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\ObservationFactory;
 
 class TaxonTest extends TestCase
 {
@@ -17,9 +18,9 @@ class TaxonTest extends TestCase
         $taxon = factory(Taxon::class)->create();
         $this->assertCount(0, $taxon->observations);
 
-        $observations = factory(Observation::class, 3)->create([
+        $observations = ObservationFactory::createManyFieldObservations(3, [
             'taxon_id' => $taxon->id,
-        ]);
+        ])->pluck('observation');
         $taxon->load('observations');
 
         $this->assertCount(3, $taxon->observations);
@@ -31,12 +32,13 @@ class TaxonTest extends TestCase
     {
         $taxon = factory(Taxon::class)->create();
 
-        $approvedObservations = factory(Observation::class, 2)->create([
+        $approvedObservations = ObservationFactory::createManyFieldObservations(2, [
             'taxon_id' => $taxon->id,
-        ]);
-        $unapprovedObservations = factory(Observation::class, 2)->states('unapproved')->create([
+        ])->pluck('observation');
+
+        $unapprovedObservations = ObservationFactory::createManyUnnapprovedFieldObservations(2, [
             'taxon_id' => $taxon->id,
-        ]);
+        ])->pluck('observation');
 
         $approvedObservations->each(function ($observation) use ($taxon) {
             $taxon->approvedObservations->assertContains($observation);
@@ -51,12 +53,13 @@ class TaxonTest extends TestCase
     {
         $taxon = factory(Taxon::class)->create();
 
-        $unapprovedObservations = factory(Observation::class, 2)->states('unapproved')->create([
+        $approvedObservations = ObservationFactory::createManyFieldObservations(2, [
             'taxon_id' => $taxon->id,
-        ]);
-        $approvedObservations = factory(Observation::class, 2)->create([
+        ])->pluck('observation');
+
+        $unapprovedObservations = ObservationFactory::createManyUnnapprovedFieldObservations(2, [
             'taxon_id' => $taxon->id,
-        ]);
+        ])->pluck('observation');
 
         $unapprovedObservations->each(function ($observation) use ($taxon) {
             $taxon->unapprovedObservations->assertContains($observation);
@@ -70,15 +73,16 @@ class TaxonTest extends TestCase
     function it_can_list_unique_mgrs_fields_of_approved_observations()
     {
         $taxon = factory(Taxon::class)->create();
-        factory(Observation::class, 2)->create([
+
+        ObservationFactory::createManyFieldObservations(2, [
             'taxon_id' => $taxon->id,
             'mgrs10k' => 'EQ54',
         ]);
-        factory(Observation::class)->states('unapproved')->create([
+        ObservationFactory::createUnapprovedFieldObservation([
             'taxon_id' => $taxon->id,
             'mgrs10k' => 'SA38',
         ]);
-        factory(Observation::class)->create([
+        ObservationFactory::createFieldObservation([
             'taxon_id' => $taxon->id,
             'mgrs10k' => 'AE13',
         ]);

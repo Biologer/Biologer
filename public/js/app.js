@@ -64103,7 +64103,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     elevation: null,
                     location: null,
                     photos: [],
-                    dynamic_fields: []
+                    dynamic_fields: [],
+                    source: null,
+                    comment: null
                 };
             }
         }
@@ -64283,7 +64285,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     computed: {
         /**
          * Fields that have not been used yet.
-         * 
+         *
          * @return {Array} of field data
          */
         availableDynamicFields: function availableDynamicFields() {
