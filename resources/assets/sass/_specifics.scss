@@ -14,3 +14,21 @@ body {
     min-height: 100vh;
     background-color: $light;
 }
+
+@include touch {
+    .second-navbar {
+        .navbar-menu,
+        .navbar-start,
+        .navbar-end {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .navbar-start + .navbar-end {
+            margin-top: 0;
+        }
+    }
+}

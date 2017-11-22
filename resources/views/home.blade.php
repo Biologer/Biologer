@@ -9,7 +9,7 @@
                         <h4 class="is-size-4 has-text-bold">{{ config('app.name') }}</h4>
                     </a>
 
-                    <div class="navbar-burger" @click="toggle">
+                    <div class="navbar-burger" :class="{ 'is-active': active }" @click="toggle">
                         <span></span>
                         <span></span>
                         <span></span>
@@ -78,31 +78,28 @@
     <section class="section is-hidden-touch bg-light">
         <div class="container has-text-centered">
             <img src="{{ asset('img/banner.png') }}" class="image" usemap="bannermap">
-            <map name="bannermap">
-                <area shape="rect" coords="935,40,1140,115" href="http://www.habiprot.org.rs" alt="Habiprot">
-            </map>
         </div>
     </section>
 
-    <b-tabs type="is-boxed bg-light" position="is-centered" class="bg-white" :animated="false">
-        @if ($rootGroups->count() === 1)
-            <section class="section">
-                <div class="container">
-                    @foreach ($rootGroups->first()->groups->chunk(3) as $groups)
-                        <div class="columns is-centered">
-                            @foreach($groups as $group)
-                                <div class="column is-one-third">
-                                    <div class="bg-light" style="height: 150px">
-                                        {{ $group->name }}
-                                    </div>
+    @if ($rootGroups->count() === 1)
+        <section class="section bg-white">
+            <div class="container">
+                @foreach ($rootGroups->first()->groups->chunk(3) as $groups)
+                    <div class="columns is-centered">
+                        @foreach($groups as $group)
+                            <div class="column is-one-third">
+                                <div class="bg-light" style="height: 150px">
+                                    {{ $group->name }}
                                 </div>
-                            @endforeach
-                        </div>
-                    @endforeach
-                </dev>
-            </section>
-        @else
-            @foreach($rootGroups as $rootGroup)
+                            </div>
+                        @endforeach
+                    </div>
+                @endforeach
+            </dev>
+        </section>
+    @else
+        @foreach($rootGroups as $rootGroup)
+            <b-tabs type="is-boxed bg-light" position="is-centered" class="bg-white" :animated="false">
                 <b-tab-item label="{{ $rootGroup->name }}">
                     <section class="section">
                         <div class="container">
@@ -120,7 +117,17 @@
                         </div>
                     </section>
                 </b-tab-item>
-            @endforeach
-        @endif
-    </b-tabs>
+            </b-tabs>
+        @endforeach
+    @endif
+
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>{{ config('app.name') }}</strong>
+                </p>
+            </div>
+        </div>
+    </footer>
 @endsection

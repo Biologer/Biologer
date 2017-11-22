@@ -1,15 +1,13 @@
 @extends('layouts.dashboard', ['title' => 'Taxa'])
 
 @section('content')
-    <div class="container p-4">
-        <div class="box">
-            <nz-taxa-table
-                list-route="api.taxa.index"
-                edit-route="admin.taxa.edit"
-                delete-route="api.taxa.destroy"
-                :categories="{{ json_encode(\App\Taxon::getCategoryOptions()) }}">
-            </nz-taxa-table>
-        </div>
+    <div class="box">
+        <nz-taxa-table
+            list-route="api.taxa.index"
+            edit-route="admin.taxa.edit"
+            delete-route="api.taxa.destroy"
+            :categories="{{ json_encode(\App\Taxon::getCategoryOptions()) }}">
+        </nz-taxa-table>
     </div>
 @endsection
 

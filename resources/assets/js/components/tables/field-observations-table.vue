@@ -150,7 +150,7 @@ export default {
                 per_page:this.perPage
             })).then(({ data }) => {
                 this.data = [];
-                this.total = data.total;
+                this.total = data.meta.total;
                 data.data.forEach((item) => this.data.push(item));
                 this.loading = false;
             }, response => {

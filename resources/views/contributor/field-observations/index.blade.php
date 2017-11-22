@@ -1,14 +1,12 @@
 @extends('layouts.dashboard', ['title' => 'My Observations'])
 
 @section('content')
-    <div class="container p-4">
-        <div class="box">
-            <nz-field-observations-table
-                list-route="api.my.field-observations.index"
-                edit-route="contributor.field-observations.edit"
-                delete-route="api.field-observations.destroy">
-            </nz-field-observations-table>
-        </div>
+    <div class="box">
+        <nz-field-observations-table
+            list-route="api.my.field-observations.index"
+            edit-route="contributor.field-observations.edit"
+            delete-route="api.field-observations.destroy">
+        </nz-field-observations-table>
     </div>
 @endsection
 
