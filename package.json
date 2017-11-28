@@ -9,19 +9,21 @@
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
+  "dependencies": {
+      "axios": "^0.17.1",
+      "buefy": "^0.6.1",
+      "bulma": "^0.6.1",
+      "collect.js": "^3.1.1",
+      "font-awesome": "^4.7.0",
+      "form-backend-validation": "^2.1.0",
+      "lodash": "^4.17.4",
+      "moment": "^2.19.2",
+      "vue": "^2.5.6",
+      "vue2-google-maps": "^0.8.3"
+  },
   "devDependencies": {
-    "axios": "^0.17.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "buefy": "^0.6.1",
-    "bulma": "^0.6.1",
-    "collect.js": "^3.1.1",
     "cross-env": "^5.1.1",
-    "font-awesome": "^4.7.0",
-    "form-backend-validation": "^2.0.5",
-    "laravel-mix": "^1.6.1",
-    "lodash": "^4.17.4",
-    "moment": "^2.19.2",
-    "vue": "^2.5.6",
-    "vue2-google-maps": "^0.8.3"
+    "laravel-mix": "^1.6.1"
   }
 }
