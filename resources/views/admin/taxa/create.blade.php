@@ -4,7 +4,7 @@
     <div class="box">
         <nz-taxon-form inline-template
             action="{{ route('api.taxa.store') }}"
-            :categories="{{ json_encode(App\Taxon::getCategoryOptions()) }}">
+            :ranks="{{ json_encode(App\Taxon::getRankOptions()) }}">
             <form @submit.prevent="submit">
                 <div class="columns">
                     <div class="column is-5">
@@ -26,15 +26,15 @@
                     </div>
 
                     <div class="column is-2">
-                        <b-field label="Category"
-                            :type="form.errors.has('category_level') ? 'is-danger' : ''"
-                            :message="form.errors.has('category_level') ? form.errors.first('category_level') : ''">
-                            <b-select placeholder="Select category" v-model="form.category_level">
+                        <b-field label="Rank"
+                            :type="form.errors.has('rank_level') ? 'is-danger' : ''"
+                            :message="form.errors.has('rank_level') ? form.errors.first('rank_level') : ''">
+                            <b-select placeholder="Select rank" v-model="form.rank_level">
                                 <option
-                                    v-for="(category, index) in categoryOptions"
-                                    :value="category.value"
+                                    v-for="(rank, index) in rankOptions"
+                                    :value="rank.value"
                                     :key="index"
-                                    v-text="category.name">
+                                    v-text="rank.name">
                                 </option>
                             </b-select>
                         </b-field>

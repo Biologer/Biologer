@@ -15,7 +15,12 @@ class Taxon extends Model
      */
     protected $table = 'taxa';
 
-    protected $appends = ['category'];
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['rank'];
 
     /**
      * Filters that can be used on queries.
@@ -24,20 +29,13 @@ class Taxon extends Model
      */
     protected function filters() {
         return [
-            'category_level' => \App\Filters\Taxon\CategoryLevel::class,
+            'rank_level' => \App\Filters\Taxon\RankLevel::class,
             'except' => \App\Filters\ExceptId::class,
             'id' => \App\Filters\Id::class,
             'name' => \App\Filters\NameLike::class,
             'sort_by' => \App\Filters\SortBy::class,
         ];
     }
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    // protected $with = ['parent'];
 
     /**
      * Observations relation.
@@ -69,11 +67,11 @@ class Taxon extends Model
         return $this->observations()->unapproved();
     }
 
-    public function getCategoryAttribute()
+    public function getRankAttribute()
     {
-        $categories =static::getCategories();
+        $ranks = static::getRanks();
 
-        return trans('taxonomy.'.$categories[$this->category_level]);
+        return trans('taxonomy.'.$ranks[$this->rank_level]);
     }
 
     /**
@@ -91,16 +89,17 @@ class Taxon extends Model
     }
 
     /**
-     * Taxon categories as options for frontend.
+     * Taxon ranks as options for frontend.
+     *
      * @return array
      */
-    public static function getCategoryOptions()
+    public static function getRankOptions()
     {
-        return array_map(function ($category, $index) {
+        return array_map(function ($rank, $index) {
             return [
                 'value' => $index,
-                'name' => trans('taxonomy.'.$category),
+                'name' => trans('taxonomy.'.$rank),
             ];
-        }, static::getCategories(), array_keys(static::getCategories()));
+        }, static::getRanks(), array_keys(static::getRanks()));
     }
 }

@@ -24,14 +24,14 @@ export default {
                 return {
                     name: null,
                     parent_id: null,
-                    category_level: 10,
+                    rank_level: 10,
                     fe_id: null,
                     fe_old_id: null
                 };
             }
         },
 
-        categories: Array
+        ranks: Array
     },
 
     data() {
@@ -47,23 +47,23 @@ export default {
     },
 
     computed: {
-        categoryOptions() {
+        rankOptions() {
             if (this.selectedParent) {
-                return this.categories.filter((category) => {
-                    return category.value < this.selectedParent.category_level;
+                return this.ranks.filter((rank) => {
+                    return rank.value < this.selectedParent.rank_level;
                 })
             }
 
-            return this.categories;
+            return this.ranks;
         }
     },
 
     watch: {
         selectedParent() {
             if (this.selectedParent &&
-                this.form.category_level >= this.selectedParent.category_level
+                this.form.rank_level >= this.selectedParent.rank_level
             ) {
-                this.form.category_level = null;
+                this.form.rank_level = null;
             }
         }
     },

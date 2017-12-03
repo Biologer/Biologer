@@ -49,7 +49,7 @@ trait HasAncestry
 
     public function scopeSpecies($query)
     {
-        return $query->where('category_level', 10);
+        return $query->where('rank_level', 10);
     }
 
     /**
@@ -99,11 +99,10 @@ trait HasAncestry
     }
 
     /**
-     * Get taxon categories.
-     *
+     * Ranks
      * @return array
      */
-    public static function getCategories()
+    public static function getRanks()
     {
         return [
             // 100 => 'root',
@@ -177,7 +176,7 @@ trait HasAncestry
     }
 
     /**
-     * Descendants of category species.
+     * Descendants of rank species.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -193,7 +192,7 @@ trait HasAncestry
      */
     public function selfAndDescendingSpecies()
     {
-        if ($this->category_level !== 10) {
+        if ($this->rank_level !== 10) {
             return $this->descendingSpecies;
         }
 

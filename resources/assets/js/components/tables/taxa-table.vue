@@ -11,14 +11,14 @@
         </div>
         <b-collapse :open="showFilter">
             <div class="columns">
-                <b-field label="Category" class="column">
-                    <b-select v-model="newFilter.category_level" @input="onFilter" expanded>
+                <b-field label="Rank" class="column">
+                    <b-select v-model="newFilter.rank_level" @input="onFilter" expanded>
                         <option value=""></option>
                         <option
-                            v-for="(category, index) in categories"
-                            :value="category.value"
+                            v-for="(rank, index) in ranks"
+                            :value="rank.value"
                             :key="index"
-                            v-text="category.name">
+                            v-text="rank.name">
                         </option>
                     </b-select>
                 </b-field>
@@ -53,8 +53,8 @@
                     {{ props.row.id }}
                 </b-table-column>
 
-                <b-table-column field="category_level" label="Category" sortable>
-                    {{ props.row.category }}
+                <b-table-column field="rank_level" label="Rank" sortable>
+                    {{ props.row.rank }}
                 </b-table-column>
 
                 <b-table-column field="name" label="Name" sortable>
@@ -114,7 +114,7 @@ export default {
             type: String,
             default: 'Nothing here.'
         },
-        categories: Array
+        ranks: Array
     },
 
     data() {
@@ -131,11 +131,11 @@ export default {
             showFilter: false,
             filter: {
                 name: '',
-                category_level: ''
+                rank_level: ''
             },
             newFilter: {
                 name: '',
-                category_level: ''
+                rank_level: ''
             }
         };
     },

@@ -5,7 +5,7 @@ namespace App;
 class ViewGroup extends Model
 {
     /**
-     * Query only main categories. We'll use these for tabs.
+     * Query only main groups. We'll use these for tabs.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder

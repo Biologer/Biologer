@@ -6,7 +6,7 @@
             list-route="api.taxa.index"
             edit-route="admin.taxa.edit"
             delete-route="api.taxa.destroy"
-            :categories="{{ json_encode(\App\Taxon::getCategoryOptions()) }}">
+            :ranks="{{ json_encode(\App\Taxon::getRankOptions()) }}">
         </nz-taxa-table>
     </div>
 @endsection

@@ -366,7 +366,7 @@ CREATE TABLE `taxa` (
   `parent_id` int(10) unsigned DEFAULT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ancestry` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `category_level` int(10) unsigned NOT NULL,
+  `rank_level` int(10) unsigned NOT NULL,
   `fe_old_id` int(10) unsigned DEFAULT NULL,
   `fe_id` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
