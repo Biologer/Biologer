@@ -72,6 +72,21 @@
                             </div>
 
                             <div class="field">
+                                <div class="field">
+                                    <nz-captcha url="{{ Captcha::url() }}"></nz-captcha>
+                                </div>
+
+                                <div class="control">
+                                    <input name="verification_code"
+                                        class="input{{ $errors->has('verification_code') ? ' is-danger' : '' }}"
+                                        placeholder="Verification code">
+                                </div>
+                                <p class="help{{ $errors->has('verification_code') ? ' is-danger' : '' }}">{{ $errors->first('verification_code') }}</p>
+                            </div>
+
+                            <hr>
+
+                            <div class="field">
                                 <div class="control">
                                     <button type="submit" class="button is-primary">Register</button>
                                 </div>

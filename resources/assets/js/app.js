@@ -5,6 +5,7 @@ import * as VueGoogleMaps from 'vue2-google-maps';
 
 import Navbar from './components/navbar';
 import Sidebar from './components/sidebar';
+import Captcha from './components/captcha';
 
 import DateInput from './components/inputs/date-input';
 import PhotoUpload from './components/inputs/photo-upload';
@@ -41,6 +42,7 @@ Vue.component(Table.name, Table);
 Vue.component(TableColumn.name, TableColumn);
 Vue.component(Navbar.name, Navbar);
 Vue.component(Sidebar.name, Sidebar);
+Vue.component(Captcha.name, Captcha);
 Vue.component(DateInput.name, DateInput);
 Vue.component(TaxaTable.name, TaxaTable);
 Vue.component(PhotoUpload.name, PhotoUpload);
