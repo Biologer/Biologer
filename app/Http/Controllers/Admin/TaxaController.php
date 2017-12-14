@@ -36,10 +36,8 @@ class TaxaController extends Controller
      */
     public function edit(Taxon $taxon)
     {
-        $taxon->load('parent');
-
         return view('admin.taxa.edit', [
-            'taxon' => $taxon,
+            'taxon' => $taxon->load('parent'),
         ]);
     }
 }

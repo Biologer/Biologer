@@ -33,20 +33,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function registerMacros()
     {
-        $this->responseMacros();
         $this->collectionMacros();
-    }
-
-    /**
-     * Register macros for TestResponse.
-     *
-     * @return void
-     */
-    protected function responseMacros()
-    {
-        TestResponse::macro('data', function ($key) {
-            return $this->original->getData()[$key];
-        });
     }
 
     /**
@@ -69,18 +56,5 @@ abstract class TestCase extends BaseTestCase
         Collection::macro('assertNotContains', function ($item) {
             Assert::assertFalse($this->contains($item), 'Failed asserting that the collection does not contain the specified value.');
         });
-    }
-
-    /**
-     * Set previous URL.
-     *
-     * @param  string  $url
-     * @return $this
-     */
-    protected function comingFrom($url)
-    {
-        session()->setPreviousUrl(url($url));
-
-        return $this;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Settings;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -52,6 +53,15 @@ class RegisterController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'verification_code' => 'required|captcha',
+            'data_license' => [
+                'required',
+                'in:'.implode(',', Settings::availableDataLicenses())
+            ],
+            'image_license' => [
+                'required',
+                'in:'.implode(',', Settings::availableImageLicences())
+            ],
         ]);
     }
 
@@ -68,6 +78,11 @@ class RegisterController extends Controller
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'settings' => [
+                'data_license' => $data['data_license'],
+                'image_license' => $data['image_license'],
+                'language' => app()->getLocale(),
+            ],
         ]);
     }
 }

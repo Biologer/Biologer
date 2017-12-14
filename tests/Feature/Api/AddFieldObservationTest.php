@@ -28,14 +28,14 @@ class AddFieldObservationTest extends TestCase
     {
         return array_merge([
             'taxon_id' => null,
-            'year' => 2017,
-            'month' => 7,
-            'day' => 15,
+            'year' => '2017',
+            'month' => '7',
+            'day' => '15',
             'location' => 'Novi Sad',
-            'latitude' => 45.251667,
-            'longitude' => 19.836944,
-            'accuracy' => 100,
-            'elevation' => 80,
+            'latitude' => '45.251667',
+            'longitude' => '19.836944',
+            'accuracy' => '100',
+            'elevation' => '80',
             'source' => 'John Doe',
         ], $overrides);
     }
@@ -231,7 +231,7 @@ class AddFieldObservationTest extends TestCase
             'POST', 'api/field-observations', $this->validParams([
                 'year' => $now->year,
                 'month' => $now->month,
-                'day' => -1,
+                'day' => '-1',
             ])
         );
 
@@ -283,7 +283,7 @@ class AddFieldObservationTest extends TestCase
 
         $response = $this->withExceptionHandling()->json(
             'POST', '/api/field-observations', $this->validParams([
-                'latitude' => 91,
+                'latitude' => '91',
             ])
         );
 
@@ -300,7 +300,7 @@ class AddFieldObservationTest extends TestCase
 
         $response = $this->withExceptionHandling()->json(
             'POST', '/api/field-observations', $this->validParams([
-                'latitude' => -91,
+                'latitude' => '-91',
             ])
         );
 
@@ -334,7 +334,7 @@ class AddFieldObservationTest extends TestCase
 
         $response = $this->withExceptionHandling()->json(
             'POST', '/api/field-observations', $this->validParams([
-                'longitude' => 181,
+                'longitude' => '181',
             ])
         );
 
@@ -351,7 +351,7 @@ class AddFieldObservationTest extends TestCase
 
         $response = $this->withExceptionHandling()->json(
             'POST', '/api/field-observations', $this->validParams([
-                'longitude' => -181,
+                'longitude' => '-181',
             ])
         );
 
@@ -452,7 +452,7 @@ class AddFieldObservationTest extends TestCase
 
         $response = $this->withExceptionHandling()->json(
             'POST', '/api/field-observations', $this->validParams([
-                'taxon_id' => 999999999,
+                'taxon_id' => '999999999',
             ])
         );
 
@@ -502,8 +502,8 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->create());
         $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
-                'latitude' => 43.60599592,
-                'longitude' => 21.30373179,
+                'latitude' => '43.60599592',
+                'longitude' => '21.30373179',
             ])
         );
 
@@ -519,8 +519,8 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->create());
         $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
-                'latitude' => 85.0,
-                'longitude' => 21.30373179,
+                'latitude' => '85.0',
+                'longitude' => '21.30373179',
             ])
         );
 

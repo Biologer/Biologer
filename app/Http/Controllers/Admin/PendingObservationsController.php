@@ -15,10 +15,8 @@ class PendingObservationsController extends Controller
 
     public function edit($id)
     {
-        $pendingObservation = FieldObservation::pending()->findOrFail($id);
-
         return view('admin.pending-observations.edit', [
-            'observation' => $pendingObservation,
+            'observation' => FieldObservation::pending()->findOrFail($id),
         ]);
     }
 }
