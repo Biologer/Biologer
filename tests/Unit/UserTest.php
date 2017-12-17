@@ -20,4 +20,13 @@ class UserTest extends TestCase
 
         $this->assertSame('John Doe', $user->full_name);
     }
+
+    /** @test */
+    function verification_token_is_created_for_new_user()
+    {
+        $user = factory(User::class)->states('unverified')->create();
+
+        $this->assertNotNull($user->verificationToken);
+        $this->assertNotEmpty($user->verificationToken->token);
+    }
 }

@@ -16,6 +16,12 @@ Route::auth();
 Route::get('/', 'HomeController@index');
 Route::get('taxa/{taxon}', 'TaxaController@show');
 
+Route::middleware('guest')->group(function () {
+    Route::get('verify/{email}', 'Auth\VerificationController@show')->name('auth.verify.show');
+    Route::get('verify/token/{verificationToken}', 'Auth\VerificationController@verify')->name('auth.verify.verify');
+    Route::post('verify/resend', 'Auth\VerificationController@resend')->name('auth.verify.resend');
+});
+
 Route::middleware('auth')->group(function () {
     Route::get(
         'contributor', 'Contributor\DashboardController@index'

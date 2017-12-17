@@ -32,7 +32,7 @@ class FileUploadTest extends TestCase
     /** @test */
     function unauthenticated_user_cannot_upload_file()
     {
-        $response = $this->withExceptionHandling()->json('POST', '/api/uploads', [
+        $response = $this->json('POST', '/api/uploads', [
             'file' => File::image('test-image.jpg', 800, 600)->size(200),
         ]);
 
@@ -44,7 +44,7 @@ class FileUploadTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->withExceptionHandling()->json('POST', '/api/uploads', []);
+        $response = $this->json('POST', '/api/uploads', []);
 
         $response->assertStatus(422);
     }
@@ -54,7 +54,7 @@ class FileUploadTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->withExceptionHandling()->json('POST', '/api/uploads', [
+        $response = $this->json('POST', '/api/uploads', [
             'file' => File::create('test-document.pdf', 200),
         ]);
 
@@ -66,7 +66,7 @@ class FileUploadTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->withExceptionHandling()->json('POST', '/api/uploads', [
+        $response = $this->json('POST', '/api/uploads', [
             'file' => File::image('test-image.jpg', 801, 600),
         ]);
 
@@ -78,7 +78,7 @@ class FileUploadTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->withExceptionHandling()->json('POST', '/api/uploads', [
+        $response = $this->json('POST', '/api/uploads', [
             'file' => File::image('test-image.jpg', 600, 801),
         ]);
 
@@ -98,7 +98,7 @@ class FileUploadTest extends TestCase
 
         Storage::disk('public')->assertExists("uploads/{$user->id}/test-image.jpg");
 
-        $response = $this->withExceptionHandling()->json('DELETE', '/api/uploads', [
+        $response = $this->json('DELETE', '/api/uploads', [
             'file' => 'test-image.jpg',
         ]);
 
@@ -118,7 +118,7 @@ class FileUploadTest extends TestCase
         );
 
         Passport::actingAs(factory(User::class)->make());
-        $response = $this->withExceptionHandling()->json('DELETE', '/api/uploads', [
+        $response = $this->json('DELETE', '/api/uploads', [
             'file' => 'test-image.jpg',
         ]);
 

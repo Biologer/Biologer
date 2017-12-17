@@ -44,6 +44,11 @@
     margin: .5em;
 }
 
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .mx-2 {
     margin-left: .5em;
     margin-right: .5em;
@@ -61,8 +66,16 @@
     margin-left: .5rem;
 }
 
+.mb-8 {
+    margin-bottom: 2rem;
+}
+
 .mt-8 {
     margin-top: 2rem;
+}
+
+.p-4 {
+    padding: 1rem;
 }
 
 .py-2 {
@@ -79,8 +92,8 @@
     padding-top: 1rem;
 }
 
-.p-4 {
-    padding: 1rem;
+.pb-8 {
+    padding-bottom: 2rem;
 }
 
 .align-middle {

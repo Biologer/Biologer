@@ -7,40 +7,17 @@ trait CanMemoize
     protected $__memoized = [];
 
     /**
-     * Check if we have memoized value for given key.
-     *
-     * @param  string  $key
-     * @return bool
-     */
-    protected function memoized($key)
-    {
-        return array_key_exists($key, $this->__memoized);
-    }
-
-    /**
-     * Store value that needs to be memoized.
+     * Return the same value for given key as the value that was
+     * resolved the first time it was called with the same key.
      *
      * @param  string  $key
      * @param  mixed $value
-     * @return $this
+     * @return mixed
      */
     protected function memoize($key, $value)
     {
-        $this->__memoized[$key] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Get memoized value.
-     *
-     * @param  string  $key
-     * @return mixed
-     */
-    protected function recallMemoized($key)
-    {
-        if (! $this->memoized($key)) {
-            return;
+        if (! array_key_exists($key, $this->__memoized)) {
+            $this->__memoized[$key] = value($value);
         }
 
         return $this->__memoized[$key];

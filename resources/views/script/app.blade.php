@@ -1,8 +1,8 @@
 <script>
     window.App = <?php echo json_encode([
         'gmaps' => [
-            'apiKey' => config('alciphron.gmaps.api_key'),
-            'center' => config('alciphron.gmaps.center'),
+            'apiKey' => config('biologer.gmaps.api_key'),
+            'center' => config('biologer.gmaps.center'),
             'load' => false,
         ]
     ]); ?>

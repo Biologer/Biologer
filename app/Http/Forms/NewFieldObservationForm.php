@@ -52,7 +52,7 @@ class NewFieldObservationForm extends FormRequest
             'photos' => [
                 'nullable',
                 'array',
-                'max:'.config('alciphron.photos_per_observation'),
+                'max:'.config('biologer.photos_per_observation'),
             ],
             'dynamic_fields.*' => [
                 'bail',

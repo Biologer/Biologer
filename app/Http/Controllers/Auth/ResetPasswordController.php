@@ -25,7 +25,7 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/contributor';
 
     /**
      * Create a new controller instance.
@@ -35,5 +35,24 @@ class ResetPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    /**
+     * Get the response for a successful password reset.
+     *
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    protected function sendResetResponse($response)
+    {
+        if (! $this->guard()->user()->verified) {
+            $this->guard()->logout();
+
+            return redirect('/login')
+                ->with('status', 'Password changed successfully. Please verify your email');
+        }
+
+        return redirect($this->redirectPath())
+            ->with('status', trans($response));
     }
 }

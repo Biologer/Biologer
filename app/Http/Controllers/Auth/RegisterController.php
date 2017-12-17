@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Settings;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -53,7 +54,7 @@ class RegisterController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'verification_code' => 'required|captcha',
+            'captcha_verification_code' => 'required|captcha',
             'data_license' => [
                 'required',
                 'in:'.implode(',', Settings::availableDataLicenses())
@@ -83,6 +84,22 @@ class RegisterController extends Controller
                 'image_license' => $data['image_license'],
                 'language' => app()->getLocale(),
             ],
+            'verified' => false,
         ]);
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        $this->guard()->logout();
+
+        return redirect()->route('login')
+            ->with('info', 'Verification link has been sent to your email. Please check your inbox.');
     }
 }

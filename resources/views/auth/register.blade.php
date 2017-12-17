@@ -196,19 +196,19 @@
                             <hr>
 
                             <div class="field">
-                                <label class="label" for="verification_code">Verification Code</label>
+                                <label class="label" for="captcha_verification_code">Verification Code</label>
 
                                 <div class="field">
                                     <nz-captcha url="{{ Captcha::url() }}"></nz-captcha>
                                 </div>
 
                                 <div class="control">
-                                    <input name="verification_code"
-                                        id="verification_code"
-                                        class="input{{ $errors->has('verification_code') ? ' is-danger' : '' }}"
+                                    <input name="captcha_verification_code"
+                                        id="captcha_verification_code"
+                                        class="input{{ $errors->has('captcha_verification_code') ? ' is-danger' : '' }}"
                                         placeholder="Verification code">
                                 </div>
-                                <p class="help{{ $errors->has('verification_code') ? ' is-danger' : '' }}">{{ $errors->first('verification_code') }}</p>
+                                <p class="help{{ $errors->has('captcha_verification_code') ? ' is-danger' : '' }}">{{ $errors->first('captcha_verification_code') }}</p>
                             </div>
 
                             <hr>

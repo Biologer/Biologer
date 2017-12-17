@@ -46,7 +46,7 @@ class AddFieldObservationTest extends TestCase
         $fieldObservationsCount = FieldObservation::count();
         $observationsCount = Observation::count();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams()
         );
 
@@ -112,7 +112,7 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'year' => null,
             ])
@@ -128,7 +128,7 @@ class AddFieldObservationTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'year' => '1aa2',
             ])
@@ -143,7 +143,7 @@ class AddFieldObservationTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', 'api/field-observations', $this->validParams([
                 'year' => date('Y') + 1,
             ])
@@ -158,7 +158,7 @@ class AddFieldObservationTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', 'api/field-observations', $this->validParams([
                 'year' => date('Y'),
                 'month' => date('m') + 1,
@@ -174,7 +174,7 @@ class AddFieldObservationTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', 'api/field-observations', $this->validParams([
                 'year' => date('Y'),
                 'month' => 'invalid',
@@ -190,7 +190,7 @@ class AddFieldObservationTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', 'api/field-observations', $this->validParams([
                 'year' => date('Y'),
                 'month' => '-1',
@@ -208,7 +208,7 @@ class AddFieldObservationTest extends TestCase
 
         $now = Carbon::now();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', 'api/field-observations', $this->validParams([
                 'year' => $now->year,
                 'month' => $now->month,
@@ -227,7 +227,7 @@ class AddFieldObservationTest extends TestCase
 
         $now = Carbon::now();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', 'api/field-observations', $this->validParams([
                 'year' => $now->year,
                 'month' => $now->month,
@@ -246,7 +246,7 @@ class AddFieldObservationTest extends TestCase
 
         $now = Carbon::now();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', 'api/field-observations', $this->validParams([
                 'year' => $now->year,
                 'month' => $now->month,
@@ -264,7 +264,7 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'latitude' => null,
             ])
@@ -281,7 +281,7 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'latitude' => '91',
             ])
@@ -298,7 +298,7 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'latitude' => '-91',
             ])
@@ -315,7 +315,7 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'longitude' => null,
             ])
@@ -332,7 +332,7 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'longitude' => '181',
             ])
@@ -349,7 +349,7 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'longitude' => '-181',
             ])
@@ -366,7 +366,7 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'elevation' => null,
             ])
@@ -383,7 +383,7 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'elevation' => 'aaa',
             ])
@@ -400,7 +400,7 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'accuracy' => null,
             ])
@@ -417,7 +417,7 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'accuracy' => 'aaa',
             ])
@@ -434,7 +434,7 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'taxon_id' => null,
             ])
@@ -450,7 +450,7 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'taxon_id' => '999999999',
             ])
@@ -468,7 +468,7 @@ class AddFieldObservationTest extends TestCase
         $fieldObservationsCount = FieldObservation::count();
         $taxon = factory(Taxon::class)->create();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'taxon_id' => $taxon->id,
             ])
@@ -485,7 +485,7 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'taxon_suggestion' => 'Cerambyx cerdo',
             ])
@@ -589,7 +589,7 @@ class AddFieldObservationTest extends TestCase
         File::image('test-image3.jpg')->storeAs("uploads", 'test-image3.jpg', 'public');
         File::image('test-image4.jpg')->storeAs("uploads", 'test-image4.jpg', 'public');
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'photos' => [
                     'test-image1.jpg',
@@ -610,7 +610,7 @@ class AddFieldObservationTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'photos' => null,
             ])
@@ -624,7 +624,7 @@ class AddFieldObservationTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'dynamic_fields' => null,
             ])
@@ -641,7 +641,7 @@ class AddFieldObservationTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'dynamic_fields' => [
                     [
@@ -666,7 +666,7 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->withExceptionHandling()->json(
+        $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
                 'dynamic_fields' => [
                     [

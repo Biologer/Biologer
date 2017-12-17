@@ -12,7 +12,6 @@
 
 body {
     min-height: 100vh;
-    background-color: $light;
 }
 
 @include touch {
@@ -31,4 +30,24 @@ body {
             margin-top: 0;
         }
     }
+}
+
+.banner-image {
+    height: 10rem;
+}
+
+ul.is-done li:before {
+    content: "\f05d";
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-right: .75rem;
+    color: $primary;
+}
+
+ul.is-not-done li:before {
+    content: "\f05c";
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-right: .75rem;
+    color: $warning;
 }
