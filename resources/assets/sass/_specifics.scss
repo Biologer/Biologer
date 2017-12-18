@@ -36,6 +36,15 @@ body {
     height: 10rem;
 }
 
+.navbar-logo {
+    width: auto;
+    height: 1.75rem;
+
+    &.is-plane {
+        fill: currentColor;
+    }
+}
+
 ul.is-done li:before {
     content: "\f05d";
     font-family: FontAwesome;

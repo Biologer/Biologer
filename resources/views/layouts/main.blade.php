@@ -5,8 +5,8 @@
         <nav class="navbar has-shadow border-t-4 border-primary">
             <div class="container">
                 <div class="navbar-brand">
-                    <a class="navbar-item is-hidden-desktop" href="{{ url('/') }}">
-                        <h4 class="is-size-4 has-text-bold">{{ config('app.name') }}</h4>
+                    <a class="navbar-item" href="{{ url('/') }}">
+                        <img src="{{ asset('img/logo.svg') }}" alt="{{ config('app.name') }}" class="navbar-logo">
                     </a>
 
                     <div class="navbar-burger" :class="{ 'is-active': active }" @click="toggle">

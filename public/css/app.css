@@ -17511,6 +17511,15 @@ body {
   height: 10rem;
 }
 
+.navbar-logo {
+  width: auto;
+  height: 1.75rem;
+}
+
+.navbar-logo.is-plane {
+  fill: currentColor;
+}
+
 ul.is-done li:before {
   content: "\F05D";
   font-family: FontAwesome;
