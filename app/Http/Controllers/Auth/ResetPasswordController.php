@@ -49,7 +49,7 @@ class ResetPasswordController extends Controller
             $this->guard()->logout();
 
             return redirect('/login')
-                ->with('status', 'Password changed successfully. Please verify your email');
+                ->with('info', 'Password changed successfully. Please verify your email.');
         }
 
         return redirect($this->redirectPath())
