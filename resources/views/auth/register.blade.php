@@ -1,15 +1,27 @@
 @extends('layouts.master')
 
 @section('body')
-    <section class="hero min-h-screen bg-light is-bold">
-        <div class="hero-body">
-            <div class="container">
-                <div class="columns">
-                    <div class="column is-8 is-offset-2">
-                        <h1 class="title">
-                          Register
-                        </h1>
-                        <form action="{{ url('/register') }}" method="POST" class="box">
+<nav class="navbar has-shadow border-t-4 border-primary">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{{ url('/') }}">
+                <img src="{{ asset('img/logo.svg') }}" alt="{{ config('app.name') }}" class="navbar-logo">
+            </a>
+        </div>
+    </div>
+</nav>
+
+<section class="hero min-h-screen bg-light is-bold">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8 is-offset-2">
+                    <h1 class="title">
+                      Register
+                    </h1>
+
+                    <div class="box border-t-4 border-primary">
+                        <form action="{{ url('/register') }}" method="POST">
                             {{ csrf_field() }}
 
                             <div class="columns">
@@ -116,7 +128,7 @@
                                                 scientific purposes."
                                                 multilined>
                                                 <label class="radio">
-                                                    <input type="radio" name="data_license" value="CC BY-NC 4.0">
+                                                    <input type="radio" name="data_license" value="CC BY-NC-SA 4.0">
                                                     Open Data (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike</a> licence)
                                                 </label>
                                             </b-tooltip>
@@ -219,12 +231,14 @@
                                 </div>
                             </div>
                         </form>
-                        <p class="has-text-centered">
-                            Already registered? <a href="{{ route('login') }}">Click here to login</a>
-                        </p>
                     </div>
+
+                    <p class="has-text-centered">
+                        Already registered? <a href="{{ route('login') }}">Click here to login</a>
+                    </p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 @endsection

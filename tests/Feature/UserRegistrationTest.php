@@ -24,7 +24,7 @@ class UserRegistrationTest extends TestCase
             'password' => 'top-secret-password',
             'password_confirmation' => 'top-secret-password',
             'data_license' => 'CC BY-SA 4.0',
-            'image_license' => 'CC BY-NC 4.0',
+            'image_license' => 'CC BY-NC-SA 4.0',
             'captcha_verification_code' => Captcha::getVerificationCode(),
         ], $overrides);
     }
@@ -40,7 +40,7 @@ class UserRegistrationTest extends TestCase
         $response->assertRedirect('/login');
         $response->assertSessionHas('info');
         $this->assertTrue(auth()->guest());
-        
+
         $this->assertEquals(1, User::count());
         $user = User::first();
         $this->assertEquals('John', $user->first_name);
@@ -49,7 +49,7 @@ class UserRegistrationTest extends TestCase
         $this->assertTrue(Hash::check('top-secret-password', $user->password));
         $this->assertFalse($user->verified);
         $this->assertEquals('CC BY-SA 4.0', $user->settings()->get('data_license'));
-        $this->assertEquals('CC BY-NC 4.0', $user->settings()->get('image_license'));
+        $this->assertEquals('CC BY-NC-SA 4.0', $user->settings()->get('image_license'));
 
         Mail::assertQueued(VerificationEmail::class, function ($mail) use ($user) {
             return $mail->hasTo('john@example.com')

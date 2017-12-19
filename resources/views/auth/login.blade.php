@@ -1,15 +1,27 @@
 @extends('layouts.master')
 
 @section('body')
-    <section class="hero min-h-screen bg-light is-bold">
-        <div class="hero-body">
-            <div class="container">
-                <div class="columns">
-                    <div class="column is-4 is-offset-4">
-                        <h1 class="title">
-                          Login
-                        </h1>
-                        <form action="{{ url('/login') }}" method="POST" class="box">
+<nav class="navbar has-shadow border-t-4 border-primary">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{{ url('/') }}">
+                <img src="{{ asset('img/logo.svg') }}" alt="{{ config('app.name') }}" class="navbar-logo">
+            </a>
+        </div>
+    </div>
+</nav>
+
+<section class="hero min-h-screen bg-light is-bold">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-4 is-offset-4">
+                    <h1 class="title">
+                      Login
+                    </h1>
+
+                    <div class="box border-t-4 border-primary">
+                        <form action="{{ url('/login') }}" method="POST">
                             {{ csrf_field() }}
 
                             @if (session()->has('success'))
@@ -25,7 +37,6 @@
                                     </div>
                                 </article>
                             @endif
-
 
                             <div class="field">
                                 <label class="label">Email</label>
@@ -60,18 +71,24 @@
                                 </label>
                             </div>
 
-                            <div class="field">
-                                <div class="control">
+                            <div class="level">
+                                <div class="level-left">
                                     <button type="submit" class="button is-primary">Login</button>
+                                </div>
+
+                                <div class="level-right">
+                                    <a href="{{ route('password.request') }}">Forgot password?</a>
                                 </div>
                             </div>
                         </form>
-                        <p class="has-text-centered">
-                            Don't have an account? <a href="{{ route('register') }}">Click here to register</a>
-                        </p>
                     </div>
+
+                    <p class="has-text-centered">
+                        Don't have an account? <a href="{{ route('register') }}">Click here to register</a>
+                    </p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 @endsection

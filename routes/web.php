@@ -28,6 +28,13 @@ Route::middleware('auth')->group(function () {
     )->name('contributor.index');
 
     Route::get(
+        'contributor/preferences', 'Contributor\PreferencesController@index'
+    )->name('contributor.preferences.index');
+    Route::patch(
+        'contributor/preferences', 'Contributor\PreferencesController@update'
+    )->name('contributor.preferences.update');
+
+    Route::get(
         'contributor/field-observations', 'Contributor\FieldObservationsController@index'
     )->name('contributor.field-observations.index');
     Route::get(

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
@@ -57,11 +58,11 @@ class RegisterController extends Controller
             'captcha_verification_code' => 'required|captcha',
             'data_license' => [
                 'required',
-                'in:'.implode(',', Settings::availableDataLicenses())
+                Rule::in(Settings::availableDataLicenses()),
             ],
             'image_license' => [
                 'required',
-                'in:'.implode(',', Settings::availableImageLicences())
+                Rule::in(Settings::availableImageLicenses()),
             ],
         ]);
     }

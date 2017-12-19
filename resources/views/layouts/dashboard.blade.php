@@ -35,6 +35,12 @@
 
                 <div class="navbar-menu" :class="{ 'is-active': active }">
                     <div class="navbar-end">
+                        <a href="{{ route('contributor.preferences.index') }}"
+                            class="navbar-item"
+                            title="Preferences">
+                            @include('components.icon', ['icon' => 'cog'])
+                        </a>
+
                         <a href="{{ route('logout') }}"
                             class="navbar-item"
                             title="{{ auth()->user()->full_name }}"

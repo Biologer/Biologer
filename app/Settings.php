@@ -32,7 +32,10 @@ class Settings
     public function __construct(User $user)
     {
         $this->user = $user;
-        $this->settings = array_merge($this->settings, $user->settings ?: []);
+        $this->settings = array_merge(
+            $this->settings,
+            is_array($user->settings) ? $user->settings : []
+        );
     }
 
     /**
@@ -155,7 +158,7 @@ class Settings
     {
         return [
             'CC BY-SA 4.0',
-            'CC BY-NC 4.0',
+            'CC BY-NC-SA 4.0',
             'Partialy open',
             'Closed',
         ];
@@ -166,11 +169,11 @@ class Settings
      *
      * @return array
      */
-    public static function availableImageLicences()
+    public static function availableImageLicenses()
     {
         return [
             'CC BY-SA 4.0',
-            'CC BY-NC 4.0',
+            'CC BY-NC-SA 4.0',
             'Share on site',
             'Restricted',
         ];
