@@ -36,7 +36,7 @@ class FieldObservationsController extends Controller
      */
     public function store(NewFieldObservationForm $form)
     {
-        return response()->json($form->save(), 201);
+        return new FieldObservationResource($form->save());
     }
 
     /**
@@ -46,11 +46,9 @@ class FieldObservationsController extends Controller
      */
     public function update($id, FieldObservationUpdateForm $form)
     {
-        $fieldObservation = FieldObservation::findOrFail($id);
-
-        $form->save($fieldObservation);
-
-        return response()->json($fieldObservation, 200);
+        return new FieldObservationResource(
+            $form->save(FieldObservation::findOrFail($id))
+        );
     }
 
     /**

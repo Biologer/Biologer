@@ -122,6 +122,32 @@ class FieldObservation extends Model
     }
 
     /**
+     * Get unapproved observations.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeUnapproved($query)
+    {
+        return $query->whereHas('observation', function ($q) {
+            return $q->unapproved();
+        });
+    }
+
+    /**
+     * Get only approvable observation.
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeApprovable($query)
+    {
+        return $query->whereHas('observation', function ($q) {
+            return $q->unapproved()->whereNotNull('taxon_id');
+        });
+    }
+
+    /**
      * Add photos to the observation, using photos' paths.
      *
      * @param  array  $photos Paths
@@ -155,6 +181,26 @@ class FieldObservation extends Model
         $current->whereNotIn('path', $photos)->each->delete();
 
         $this->addPhotos(array_diff($photos, $current->pluck('path')->all()));
+    }
+
+    /**
+     * Approve field observation.
+     *
+     * @return void
+     */
+    public function approve()
+    {
+        $this->observation->approve();
+    }
+
+    /**
+     * Check if field observation is approved.
+     *
+     * @return void
+     */
+    public function isApproved()
+    {
+        return $this->observation->isApproved();
     }
 
     /**

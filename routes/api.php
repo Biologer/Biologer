@@ -27,6 +27,8 @@ Route::middleware('auth:api')->group(function() {
 
     Route::get('pending-observations', 'PendingObservationsController@index')->name('api.pending-observations.index');
 
+    Route::post('approved-field-observations', 'ApprovedFieldObservationsController@store')->name('api.approved-field-observations.store');
+
     Route::group(['prefix' => 'my'], function () {
         Route::get('field-observations', 'My\FieldObservationsController@index')->name('api.my.field-observations.index');
     });

@@ -2,8 +2,9 @@
 
 namespace Tests;
 
-use PHPUnit\Framework\Assert;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
+use PHPUnit\Framework\Assert as PHPUnit;
 use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
@@ -33,7 +34,21 @@ abstract class TestCase extends BaseTestCase
      */
     protected function registerMacros()
     {
+        $this->responseMacros();
         $this->collectionMacros();
+    }
+
+    /**
+     * Register test response macros.
+     *
+     * @return void
+     */
+    protected function responseMacros()
+    {
+        TestResponse::macro('assertValidationError', function ($field) {
+            $this->assertStatus(422);
+            PHPUnit::assertArrayHasKey($field, $this->decodeResponseJson()['errors']);
+        });
     }
 
     /**
@@ -45,16 +60,16 @@ abstract class TestCase extends BaseTestCase
     {
         EloquentCollection::macro('assertEquals', function ($collection) {
             $this->zip($collection)->each(function ($pair) {
-                Assert::assertTrue($pair[0]->is($pair[1]));
+                PHPUnit::assertTrue($pair[0]->is($pair[1]));
             });
         });
 
         Collection::macro('assertContains', function ($item) {
-            Assert::assertTrue($this->contains($item), 'Failed asserting that the collection contains the specified value.');
+            PHPUnit::assertTrue($this->contains($item), 'Failed asserting that the collection contains the specified value.');
         });
 
         Collection::macro('assertNotContains', function ($item) {
-            Assert::assertFalse($this->contains($item), 'Failed asserting that the collection does not contain the specified value.');
+            PHPUnit::assertFalse($this->contains($item), 'Failed asserting that the collection does not contain the specified value.');
         });
     }
 }

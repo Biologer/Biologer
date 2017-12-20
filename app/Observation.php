@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use Illuminate\Support\Carbon;
 
 class Observation extends Model
 {
@@ -122,5 +123,25 @@ class Observation extends Model
         return ! (is_null($this->year)
             || is_null($this->month)
             || is_null($this->day));
+    }
+
+    /**
+     * Approve observation.
+     *
+     * @return void
+     */
+    public function approve()
+    {
+        $this->update(['approved_at' => Carbon::now()]);
+    }
+
+    /**
+     * Check if observation is approved.
+     *
+     * @return bool
+     */
+    public function isApproved()
+    {
+        return ! empty($this->approved_at);
     }
 }

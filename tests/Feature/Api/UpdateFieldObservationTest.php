@@ -9,11 +9,11 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Observation;
 use App\FieldObservation;
+use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\ObservationFactory;
 
 class UpdateFieldObservationTest extends TestCase
 {
@@ -61,9 +61,11 @@ class UpdateFieldObservationTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJson([
-            'elevation' => 1000,
-            'source' => 'New source',
-            'taxon_suggestion' => 'New taxon suggestion',
+            'data' => [
+                'elevation' => 1000,
+                'source' => 'New source',
+                'taxon_suggestion' => 'New taxon suggestion',
+            ]
         ]);
 
         tap($observation->fresh(), function ($fieldObservation) {
