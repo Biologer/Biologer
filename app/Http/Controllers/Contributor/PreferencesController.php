@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Contributor;
 
-use App\Settings;
+use App\License;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 
@@ -23,8 +23,8 @@ class PreferencesController extends Controller
     public function update()
     {
         $data = request()->validate([
-            'data_license' => [Rule::in(Settings::availableDataLicenses())],
-            'image_license' => [Rule::in(Settings::availableImageLicenses())],
+            'data_license' => [Rule::in(License::getIds())],
+            'image_license' => [Rule::in(License::getIds())],
         ]);
 
         auth()->user()->settings()->merge($data);

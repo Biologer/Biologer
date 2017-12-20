@@ -19,8 +19,8 @@ class Settings
      * @var array
      */
     protected $settings = [
-        'data_license' => 'CC BY-SA 4.0',
-        'image_license' => 'CC BY-SA 4.0',
+        'data_license' => 10,
+        'image_license' => 10,
         'language' => 'en',
     ];
 
@@ -147,35 +147,5 @@ class Settings
     public function __isset($key)
     {
         return $this->has($key);
-    }
-
-    /**
-     * List of available data licenses.
-     *
-     * @return array
-     */
-    public static function availableDataLicenses()
-    {
-        return [
-            'CC BY-SA 4.0',
-            'CC BY-NC-SA 4.0',
-            'Partialy open',
-            'Closed',
-        ];
-    }
-
-    /**
-     * List of available image licenses.
-     *
-     * @return array
-     */
-    public static function availableImageLicenses()
-    {
-        return [
-            'CC BY-SA 4.0',
-            'CC BY-NC-SA 4.0',
-            'Share on site',
-            'Restricted',
-        ];
     }
 }

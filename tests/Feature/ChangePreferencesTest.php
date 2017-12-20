@@ -18,16 +18,16 @@ class ChangePreferencesTest extends TestCase
         $oldSettings = $user->settings()->all();
 
         $response = $this->from('/contributor/preferences')->patch('/contributor/preferences', [
-            'data_license' => 'CC BY-NC-SA 4.0',
-            'image_license' => 'Restricted',
+            'data_license' => 20,
+            'image_license' => 30,
         ]);
 
         $response->assertRedirect('/contributor/preferences');
         $newSettings = $user->fresh()->settings()->all();
         $this->assertNotEquals($oldSettings, $newSettings);
         $this->assertArraySubset([
-            'data_license' => 'CC BY-NC-SA 4.0',
-            'image_license' => 'Restricted',
+            'data_license' => 20,
+            'image_license' => 30,
         ], $newSettings);
     }
 

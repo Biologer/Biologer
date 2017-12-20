@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use App\Settings;
+use App\License;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -58,11 +58,11 @@ class RegisterController extends Controller
             'captcha_verification_code' => 'required|captcha',
             'data_license' => [
                 'required',
-                Rule::in(Settings::availableDataLicenses()),
+                Rule::in(License::getIds()),
             ],
             'image_license' => [
                 'required',
-                Rule::in(Settings::availableImageLicenses()),
+                Rule::in(License::getIds()),
             ],
         ]);
     }
@@ -81,8 +81,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'settings' => [
-                'data_license' => $data['data_license'],
-                'image_license' => $data['image_license'],
+                'data_license' => (int) $data['data_license'],
+                'image_license' => (int) $data['image_license'],
                 'language' => app()->getLocale(),
             ],
             'verified' => false,

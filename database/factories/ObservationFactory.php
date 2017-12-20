@@ -5,6 +5,7 @@ use Faker\Generator as Faker;
 $factory->define(App\FieldObservation::class, function (Faker $faker) {
     return [
         'source' => $faker->name,
+        'license' => App\License::getFirstId(),
         'taxon_suggestion' => 'Cerambyx cerdo',
     ];
 });

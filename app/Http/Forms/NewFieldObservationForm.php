@@ -2,6 +2,7 @@
 
 namespace App\Http\Forms;
 
+use App\License;
 use App\Rules\Day;
 use App\Observation;
 use App\Rules\Month;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\DynamicFields\DynamicField;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\DynamicField as DynamicFieldValidation;
+use Illuminate\Validation\Rule;
 
 class NewFieldObservationForm extends FormRequest
 {
@@ -49,6 +51,7 @@ class NewFieldObservationForm extends FormRequest
             'elevation'=> 'required|integer|max:10000',
             'accuracy' => 'required|integer',
             'source' => 'nullable|string',
+            'license' => ['nullable', Rule::in(License::getIds())],
             'photos' => [
                 'nullable',
                 'array',
@@ -86,7 +89,8 @@ class NewFieldObservationForm extends FormRequest
     protected function createObservation()
     {
         $fieldObservation = FieldObservation::create([
-            'source' => $this->input('source') ?: auth()->user()->full_name,
+            'source' => $this->input('source') ?: $this->user()->full_name,
+            'license' => $this->input('license') ?: $this->user()->settings()->get('data_license'),
             'taxon_suggestion' => $this->input('taxon_suggestion', null),
             'dynamic_fields' => $this->input('dynamic_fields', []),
         ]);
