@@ -11,7 +11,7 @@
     <div class="level-item has-text-centered">
         <div>
             <p class="heading">Approved</p>
-            <p class="title">0</p>
+            <p class="title">{{ $approvedObservationCount }}</p>
         </div>
     </div>
     <div class="level-item has-text-centered">
@@ -23,7 +23,7 @@
     <div class="level-item has-text-centered">
         <div>
             <p class="heading">Pending</p>
-            <p class="title">0</p>
+            <p class="title">{{ $pendingObservationCount }}</p>
         </div>
     </div>
 </div>

@@ -25,6 +25,7 @@ class FieldObservation extends Model
      */
     protected $casts = [
         'dynamic_fields' => 'collection',
+        'license' => 'integer',
     ];
 
     /**
@@ -95,19 +96,6 @@ class FieldObservation extends Model
     }
 
     /**
-     * Get only pending observations.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopePending($query)
-    {
-        return $query->whereHas('observation', function ($q) {
-            return $q->unapproved();
-        });
-    }
-
-    /**
      * Get observations created by given user.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -118,6 +106,19 @@ class FieldObservation extends Model
     {
         return $query->whereHas('observation', function ($q) use ($user) {
             return $q->createdBy($user);
+        });
+    }
+
+    /**
+     * Get approved observations.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeApproved($query)
+    {
+        return $query->whereHas('observation', function ($q) {
+            return $q->approved();
         });
     }
 
@@ -136,7 +137,7 @@ class FieldObservation extends Model
 
     /**
      * Get only approvable observation.
-     * 
+     *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -151,18 +152,20 @@ class FieldObservation extends Model
      * Add photos to the observation, using photos' paths.
      *
      * @param  array  $photos Paths
+     * @param  int  $license
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function addPhotos($photos)
+    public function addPhotos($photos, $license)
     {
         return $this->photos()->saveMany(
             collect($photos)->map(function ($name) {
                 return 'uploads/'.auth()->user()->id.'/'.$name;
             })->filter(function ($path) {
                 return Storage::disk('public')->exists($path);
-            })->map(function ($path) {
+            })->map(function ($path) use ($license) {
                 return Photo::store($path, [
                     'author' => $this->source,
+                    'license' => $license,
                 ]);
             })
         );
@@ -172,15 +175,16 @@ class FieldObservation extends Model
      * Remove unused photos and and add new ones.
      *
      * @param  array  $photos
+     * @param  int  $license
      * @return void
      */
-    public function syncPhotos($photos)
+    public function syncPhotos($photos, $license)
     {
         $current = $this->photos()->get();
 
         $current->whereNotIn('path', $photos)->each->delete();
 
-        $this->addPhotos(array_diff($photos, $current->pluck('path')->all()));
+        $this->addPhotos(array_diff($photos, $current->pluck('path')->all()), $license);
     }
 
     /**
@@ -227,6 +231,7 @@ class FieldObservation extends Model
                 return $photo->url;
             }),
             'source' => $this->source,
+            'license' => $this->license,
             'dynamic_fields' => $this->dynamic_fields,
         ];
     }

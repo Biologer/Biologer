@@ -67,6 +67,28 @@
                                 :message="form.errors.has('source') ? form.errors.first('source') : null"
                             ></b-input>
                         </b-field>
+
+                        <b-field label="Data License"
+                            :type="form.errors.has('data_license')? 'is-danger' : null"
+                            :message="form.errors.has('data_license') ? form.errors.first('data_license') : null">
+                            <b-select v-model="form.data_license">
+                                <option :value="null">Default</option>
+                                @foreach (\App\License::getAvailable() as $value => $label)
+                                    <option value="{{ $value }}">{{ $label }}</option>
+                                @endforeach
+                            </b-select>
+                        </b-field>
+
+                        <b-field label="Image License"
+                            :type="form.errors.has('image_license')? 'is-danger' : null"
+                            :message="form.errors.has('image_license') ? form.errors.first('image_license') : null">
+                            <b-select v-model="form.image_license">
+                                <option :value="null">Default</option>
+                                @foreach (\App\License::getAvailable() as $value => $label)
+                                    <option value="{{ $value }}">{{ $label }}</option>
+                                @endforeach
+                            </b-select>
+                        </b-field>
                     </div>
 
                     <div class="column is-half">

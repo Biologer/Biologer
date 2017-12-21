@@ -551,6 +551,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     function photo_can_be_saved_with_observation()
     {
+        $this->withoutExceptionHandling();
         config(['alciphron.photos_per_observation' => 3]);
 
         Passport::actingAs($user = factory(User::class)->create());

@@ -43,6 +43,8 @@ export default {
                     photos: [],
                     dynamic_fields: [],
                     source: null,
+                    data_license: null,
+                    image_license: null,
                     comment: null
                 };
             }

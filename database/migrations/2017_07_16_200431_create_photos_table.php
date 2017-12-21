@@ -17,7 +17,8 @@ class CreatePhotosTable extends Migration
             $table->bigIncrements('id');
             $table->string('path', 255)->nullable();
             $table->string('url', 255)->nullable();
-            $table->string('author', 255)->nullable();
+            $table->string('author', 255);
+            $table->unsignedSmallInteger('license');
             $table->timestamps();
         });
     }

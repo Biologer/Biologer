@@ -1,7 +1,7 @@
 {
-    "name": "nikazooz/alciphron",
+    "name": "nikazooz/biologer",
     "description": "Database of wildlife in Serbia",
-    "keywords": ["alciphron", "insect", "serbia"],
+    "keywords": ["biologer", "reptile", "amphibia", "insect", "serbia"],
     "type": "project",
     "require": {
         "php": ">=7.0.0",

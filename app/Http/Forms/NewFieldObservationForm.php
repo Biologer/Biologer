@@ -51,7 +51,8 @@ class NewFieldObservationForm extends FormRequest
             'elevation'=> 'required|integer|max:10000',
             'accuracy' => 'required|integer',
             'source' => 'nullable|string',
-            'license' => ['nullable', Rule::in(License::getIds())],
+            'data_license' => ['nullable', Rule::in(License::getIds())],
+            'image_license' => ['nullable', Rule::in(License::getIds())],
             'photos' => [
                 'nullable',
                 'array',
@@ -77,7 +78,10 @@ class NewFieldObservationForm extends FormRequest
                 $observation->observation->addNewComment($comment);
             }
 
-            $observation->addPhotos($this->input('photos', []));
+            $observation->addPhotos(
+                $this->input('photos', []),
+                $this->input('image_license') ?: $this->user()->settings()->get('image_license')
+            );
         });
     }
 
@@ -90,7 +94,7 @@ class NewFieldObservationForm extends FormRequest
     {
         $fieldObservation = FieldObservation::create([
             'source' => $this->input('source') ?: $this->user()->full_name,
-            'license' => $this->input('license') ?: $this->user()->settings()->get('data_license'),
+            'license' => $this->input('data_license') ?: $this->user()->settings()->get('data_license'),
             'taxon_suggestion' => $this->input('taxon_suggestion', null),
             'dynamic_fields' => $this->input('dynamic_fields', []),
         ]);

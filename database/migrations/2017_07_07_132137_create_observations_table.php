@@ -29,6 +29,10 @@ class CreateObservationsTable extends Migration
             $table->dateTime('approved_at')->nullable();
             $table->unsignedInteger('created_by_id');
             $table->timestamps();
+
+            $table->foreign('created_by_id')->references('id')->on('users');
+
+            $table->index('approved_at');
         });
     }
 

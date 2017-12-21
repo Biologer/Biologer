@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Support\Facades\Storage;
-use PhpParser\Node\Scalar\String_;
 
 class Photo extends Model
 {

@@ -50,7 +50,8 @@ class FieldObservationUpdateForm extends FormRequest
             'elevation'=> 'required|integer|max:10000',
             'accuracy' => 'required|integer',
             'source' => 'nullable|string',
-            'license' => ['nullable', Rule::in(License::getIds())],
+            'data_license' => ['nullable', Rule::in(License::getIds())],
+            'image_license' => ['nullable', Rule::in(License::getIds())],
             'photos' => [
                 'nullable',
                 'array',
@@ -72,7 +73,10 @@ class FieldObservationUpdateForm extends FormRequest
     public function save($observation)
     {
         return tap($this->updateObservation($observation), function ($observation) {
-            $observation->syncPhotos($this->input('photos', []));
+            $observation->syncPhotos(
+                $this->input('photos', []),
+                $this->input('image_license') ?: $this->user()->settings()->get('image_license')
+            );
         });
     }
 
@@ -98,7 +102,7 @@ class FieldObservationUpdateForm extends FormRequest
 
         $fieldObservation->update([
             'source' => $this->input('source') ?: $this->user()->full_name,
-            'license' => $this->input('license') ?: $this->user()->settings()->get('data_license'),
+            'license' => $this->input('data_license') ?: $this->user()->settings()->get('data_license'),
             'taxon_suggestion' => $this->input('taxon_suggestion', null),
             'dynamic_fields' => $this->input('dynamic_fields', []),
         ]);
