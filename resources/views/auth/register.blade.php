@@ -118,7 +118,7 @@
                                                 experts)."
                                                 multilined>
                                                 <label class="radio">
-                                                    <input type="radio" name="data_license" value="CC BY-SA 4.0" checked>
+                                                    <input type="radio" name="data_license" value="10" checked>
                                                     Open Data (<a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike</a> licence)
                                                 </label>
                                             </b-tooltip>
@@ -128,7 +128,7 @@
                                                 scientific purposes."
                                                 multilined>
                                                 <label class="radio">
-                                                    <input type="radio" name="data_license" value="CC BY-NC-SA 4.0">
+                                                    <input type="radio" name="data_license" value="20">
                                                     Open Data (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike</a> licence)
                                                 </label>
                                             </b-tooltip>
@@ -138,7 +138,7 @@
                                                 the web site and the taxonomic experts."
                                                 multilined>
                                                 <label class="radio">
-                                                    <input type="radio" name="data_license" value="Partialy open">
+                                                    <input type="radio" name="data_license" value="30">
                                                     Partially open data (in resolution of 10x10 km2)
                                                 </label>
                                             </b-tooltip>
@@ -148,7 +148,7 @@
                                                 the data."
                                                 multilined>
                                                 <label class="radio">
-                                                    <input type="radio" name="data_license" value="Closed">
+                                                    <input type="radio" name="data_license" value="40">
                                                     ‎Closed Data (not shown on the maps)
                                                 </label>
                                             </b-tooltip>
@@ -167,7 +167,7 @@
                                                 author’s contribution is recognized"
                                                 multilined>
                                                 <label class="radio">
-                                                    <input type="radio" name="image_license" value="CC BY-SA 4.0" checked>
+                                                    <input type="radio" name="image_license" value="10" checked>
                                                     Share images (<a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike</a> licence)
                                                 </label>
                                             </b-tooltip>
@@ -176,7 +176,7 @@
                                                 agreement."
                                                 multilined>
                                                 <label class="radio">
-                                                    <input type="radio" name="image_license" value="CC BY-NC-SA 4.0">
+                                                    <input type="radio" name="image_license" value="20">
                                                     Share images (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike</a> licence)
                                                 </label>
                                             </b-tooltip>
@@ -186,7 +186,7 @@
                                                 information and the web site logo."
                                                 multilined>
                                                 <label class="radio">
-                                                    <input type="radio" name="image_license" value="Share on site">
+                                                    <input type="radio" name="image_license" value="30">
                                                     Share images on the site (keep the authorship of the images)
                                                 </label>
                                             </b-tooltip>
@@ -196,7 +196,7 @@
                                                 not be easily verified and reviewed in the public domain."
                                                 multilined>
                                                 <label class="radio">
-                                                    <input type="radio" name="image_license" value="Restricted">
+                                                    <input type="radio" name="image_license" value="40">
                                                     ‎Restrict images (images are not shown in the public domain)
                                                 </label>
                                             </b-tooltip>
