@@ -19,7 +19,7 @@ class TaxaController extends Controller
     {
         $taxa = Taxon::with('parent')->filter($request)->orderBy('id');
 
-        if ($request->input('all', false)) {
+        if ($request->has('all')) {
             return TaxonResource::collection($taxa->get());
         }
 

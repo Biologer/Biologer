@@ -13,7 +13,7 @@ class PendingObservationsController extends Controller
     {
         $query = FieldObservation::pending()->filter($request);
 
-        if ($request->input('all', false)) {
+        if ($request->has('all')) {
             return FieldObservationResource::collection($query->get());
         }
 

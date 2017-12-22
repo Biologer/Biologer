@@ -22,8 +22,8 @@ class FieldObservationsController extends Controller
         $query = FieldObservation::createdBy(auth()->user())
             ->with('photos')->filter($request)->orderBy('id');
 
-        if ($request->input('all', false)) {
-            return FieldObservationResource::collection($quary->get());
+        if ($request->has('all')) {
+            return FieldObservationResource::collection($query->get());
         }
 
         return FieldObservationResource::collection(
