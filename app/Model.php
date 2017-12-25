@@ -17,7 +17,7 @@ abstract class Model extends Eloquent
      * Convenience method for getting new instances of the model.
      *
      * @param  array  $attributes
-     * @return static
+     * @return self
      */
     public static function make(array $attributes = [])
     {

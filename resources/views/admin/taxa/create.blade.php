@@ -4,7 +4,11 @@
     <div class="box">
         <nz-taxon-form inline-template
             action="{{ route('api.taxa.store') }}"
-            :ranks="{{ json_encode(App\Taxon::getRankOptions()) }}">
+            :ranks="{{ json_encode($rankOptions) }}"
+            :conventions="{{ $conventions }}"
+            :red-lists="{{ $redLists }}"
+            :red-list-categories="{{ json_encode(\App\RedList::CATEGORIES) }}"
+            >
             <form @submit.prevent="submit">
                 <div class="columns">
                     <div class="column is-5">
@@ -57,6 +61,58 @@
                             <b-input v-model="form.fe_id"></b-input>
                         </b-field>
                     </div>
+                </div>
+
+                <b-field label="Is taxon data restricted?">
+                    <div class="field">
+                        <b-switch v-model="form.restricted">
+                            @{{ form.restricted ? 'Yes' : 'No' }}
+                        </b-switch>
+                    </div>
+                </b-field>
+
+                <b-field label="Conventions">
+                    <div class="block">
+                        <b-checkbox
+                            v-for="convention in conventions"
+                            :key="convention.id"
+                            v-model="form.conventions_ids"
+                            :native-value="convention.id"
+                        >
+                            @{{ convention.name }}
+                        </b-checkbox>
+                    </div>
+                </b-field>
+
+                <div class="field">
+                    <label class="label">Red Lists</label>
+
+                    <b-field v-for="(addedRedList, index) in form.red_lists_data" :key="index" grouped>
+                        <div class="control is-expanded">
+                            <span v-text="getRedListName(addedRedList.red_list_id)"></span>
+                        </div>
+
+                        <b-select v-model="addedRedList.category">
+                            <option v-for="category in redListCategories" :value="category" :key="category" v-text="category">
+                            </option>
+                        </b-select>
+
+                        <div class="control">
+                            <button type="button" class="button has-text-danger" @click="removeRedList(index)">&times;</button>
+                        </div>
+                    </b-field>
+
+                    <b-field grouped v-if="availableRedLists.length">
+                        <b-select v-model="chosenRedList" expanded>
+                            <option v-for="option in availableRedLists" :value="option" :key="option.id" v-text="option.name">
+                            </option>
+                        </b-select>
+
+
+                        <div class="control">
+                            <button type="button" class="button" @click="addRedList">Add red list</button>
+                        </div>
+                    </b-field>
                 </div>
 
                 <hr>

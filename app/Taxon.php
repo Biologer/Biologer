@@ -20,7 +20,16 @@ class Taxon extends Model
      *
      * @var array
      */
-    protected $appends = ['rank'];
+    protected $appends = ['rank', 'conventions_ids', 'red_lists_data'];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'restricted' => 'boolean',
+    ];
 
     /**
      * Filters that can be used on queries.
@@ -29,11 +38,11 @@ class Taxon extends Model
      */
     protected function filters() {
         return [
-            'rank_level' => \App\Filters\Taxon\RankLevel::class,
-            'except' => \App\Filters\ExceptId::class,
             'id' => \App\Filters\Id::class,
             'name' => \App\Filters\NameLike::class,
             'sort_by' => \App\Filters\SortBy::class,
+            'except' => \App\Filters\ExceptId::class,
+            'rank_level' => \App\Filters\Taxon\RankLevel::class,
         ];
     }
 
@@ -67,11 +76,56 @@ class Taxon extends Model
         return $this->observations()->unapproved();
     }
 
+    /**
+     * Red lists the taxon is on.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function redLists()
+    {
+        return $this->belongsToMany(RedList::class)->withPivot('category');
+    }
+
+    /**
+     * Conventions by which the taxon is should be protected.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function conventions()
+    {
+        return $this->belongsToMany(Convention::class);
+    }
+
+    /**
+     * Get taxonomic rank name.
+     *
+     * @return string
+     */
     public function getRankAttribute()
     {
         $ranks = static::getRanks();
 
         return trans('taxonomy.'.$ranks[$this->rank_level]);
+    }
+
+    /**
+     * Get IDs of coventions that cover the taxon.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getConventionsIdsAttribute()
+    {
+        return $this->conventions->pluck('id')->toBase();
+    }
+
+    public function getRedListsDataAttribute()
+    {
+        return $this->redLists->map(function ($redList) {
+            return [
+                'red_list_id' => $redList->id,
+                'category' => $redList->pivot->category,
+            ];
+        });
     }
 
     /**

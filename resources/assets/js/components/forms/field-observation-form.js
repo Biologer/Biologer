@@ -16,19 +16,19 @@ export default {
         },
         redirect: {
             type: String,
-            default () {
+            default() {
                 return route('contributor.field-observations.index');
             }
         },
         dataDynamicFields: {
             type: Array,
-            default () {
+            default() {
                 return [];
             }
         },
         observation: {
             type: Object,
-            default () {
+            default() {
                 return {
                     taxon_id: null,
                     taxon_suggestion: null,

@@ -13,7 +13,12 @@ class ChangePreferencesTest extends TestCase
     /** @test */
     function can_change_license_preferences()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->create([
+            'settings' => [
+                'data_license' => 10,
+                'image_license' => 10,
+            ],
+        ]);
         $this->actingAs($user);
         $oldSettings = $user->settings()->all();
 

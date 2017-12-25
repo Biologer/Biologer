@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Taxon;
+use App\RedList;
+use App\Convention;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -25,7 +27,11 @@ class TaxaController extends Controller
      */
     public function create()
     {
-        return view('admin.taxa.create');
+        return view('admin.taxa.create', [
+            'rankOptions' => Taxon::getRankOptions(),
+            'conventions' => Convention::all(),
+            'redLists' => RedList::all(),
+        ]);
     }
 
     /**
@@ -37,7 +43,10 @@ class TaxaController extends Controller
     public function edit(Taxon $taxon)
     {
         return view('admin.taxa.edit', [
-            'taxon' => $taxon->load('parent'),
+            'taxon' => $taxon->load(['parent', 'redLists']),
+            'rankOptions' => Taxon::getRankOptions(),
+            'conventions' => Convention::all(),
+            'redLists' => RedList::all(),
         ]);
     }
 }

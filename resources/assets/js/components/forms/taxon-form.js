@@ -1,4 +1,5 @@
 import Form from 'form-backend-validation';
+import collect from 'collect.js';
 
 export default {
     name: 'nzTaxonForm',
@@ -14,24 +15,32 @@ export default {
         },
         redirect: {
             type: String,
-            default () {
+            default() {
                 return route('admin.taxa.index');
             }
         },
         taxon: {
             type: Object,
-            default () {
+            default() {
                 return {
                     name: null,
                     parent_id: null,
                     rank_level: 10,
                     fe_id: null,
-                    fe_old_id: null
+                    fe_old_id: null,
+                    conventions_ids: [],
+                    red_lists_data: [],
+                    restricted: false
                 };
             }
         },
-
-        ranks: Array
+        ranks: Array,
+        conventions: Array,
+        redListCategories: Array,
+        redLists: {
+            type: Array,
+            default() { return []; }
+        }
     },
 
     data() {
@@ -42,7 +51,8 @@ export default {
                 resetOnSuccess: false
             }),
             parentName: this.taxon && this.taxon.parent ? this.taxon.parent.name : null,
-            selectedParent: null
+            selectedParent: null,
+            chosenRedList: null
         };
     },
 
@@ -55,6 +65,14 @@ export default {
             }
 
             return this.ranks;
+        },
+
+        availableRedLists() {
+            let addedRedListIds = collect(this.form.red_lists_data)
+
+            return this.redLists.filter(redList => {
+                return !addedRedListIds.contains(rl => redList.id == rl.red_list_id);
+            });
         }
     },
 
@@ -69,6 +87,33 @@ export default {
     },
 
     methods: {
+        /**
+         * Add field to the form.
+         */
+        addRedList() {
+            if (!this.chosenRedList) return;
+
+            this.form.red_lists_data.push({
+                red_list_id: this.chosenRedList.id,
+                category: _.first(this.redListCategories)
+            });
+
+            this.chosenRedList = null;
+        },
+
+        /**
+         * Don't use the field any more.
+         *
+         * @param  {Object} field
+         */
+        removeRedList(index) {
+            this.form.red_lists_data.splice(index, 1)
+        },
+
+        getRedListName(id) {
+            return _.find(this.redLists, { id }).name;
+        },
+
         /**
          * Submit the form.
          */
@@ -98,7 +143,7 @@ export default {
             setTimeout(() => {
                 this.form.processing = false;
 
-                window.location.href = this.redirect;
+                // window.location.href = this.redirect;
             }, 500);
         },
 
