@@ -18,7 +18,7 @@
                             experts)."
                             multilined>
                             <label class="radio">
-                                <input type="radio" name="data_license" value="CC BY-SA 4.0"{{ $preferences->data_license === 'CC BY-SA 4.0' ? ' checked' : '' }}>
+                                <input type="radio" name="data_license" value="10"{{ $preferences->data_license == 10 ? ' checked' : '' }}>
                                 Open Data (<a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike</a> licence)
                             </label>
                         </b-tooltip>
@@ -28,7 +28,7 @@
                             scientific purposes."
                             multilined>
                             <label class="radio">
-                                <input type="radio" name="data_license" value="CC BY-NC-SA 4.0"{{ $preferences->data_license === 'CC BY-NC-SA 4.0' ? ' checked' : '' }}>
+                                <input type="radio" name="data_license" value="20"{{ $preferences->data_license == 20 ? ' checked' : '' }}>
                                 Open Data (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike</a> licence)
                             </label>
                         </b-tooltip>
@@ -38,7 +38,7 @@
                             the web site and the taxonomic experts."
                             multilined>
                             <label class="radio">
-                                <input type="radio" name="data_license" value="Partialy open"{{ $preferences->data_license === 'Partialy open' ? ' checked' : '' }}>
+                                <input type="radio" name="data_license" value="30"{{ $preferences->data_license == 30 ? ' checked' : '' }}>
                                 Partially open data (in resolution of 10x10 km2)
                             </label>
                         </b-tooltip>
@@ -48,7 +48,7 @@
                             the data."
                             multilined>
                             <label class="radio">
-                                <input type="radio" name="data_license" value="Closed"{{ $preferences->data_license === 'Closed' ? ' checked' : '' }}>
+                                <input type="radio" name="data_license" value="40"{{ $preferences->data_license == 40 ? ' checked' : '' }}>
                                 ‎Closed Data (not shown on the maps)
                             </label>
                         </b-tooltip>
@@ -67,7 +67,7 @@
                             author’s contribution is recognized"
                             multilined>
                             <label class="radio">
-                                <input type="radio" name="image_license" value="CC BY-SA 4.0"{{ $preferences->image_license === 'CC BY-SA 4.0' ? ' checked' : '' }}>
+                                <input type="radio" name="image_license" value="10"{{ $preferences->image_license == 10 ? ' checked' : '' }}>
                                 Share images (<a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike</a> licence)
                             </label>
                         </b-tooltip>
@@ -76,7 +76,7 @@
                             agreement."
                             multilined>
                             <label class="radio">
-                                <input type="radio" name="image_license" value="CC BY-NC-SA 4.0"{{ $preferences->image_license === 'CC BY-NC-SA 4.0' ? ' checked' : '' }}>
+                                <input type="radio" name="image_license" value="20"{{ $preferences->image_license == 20 ? ' checked' : '' }}>
                                 Share images (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike</a> licence)
                             </label>
                         </b-tooltip>
@@ -86,7 +86,7 @@
                             information and the web site logo."
                             multilined>
                             <label class="radio">
-                                <input type="radio" name="image_license" value="Share on site"{{ $preferences->image_license === 'Share on site' ? ' checked' : '' }}>
+                                <input type="radio" name="image_license" value="30"{{ $preferences->image_license == 30 ? ' checked' : '' }}>
                                 Share images on the site (keep the authorship of the images)
                             </label>
                         </b-tooltip>
@@ -96,7 +96,7 @@
                             not be easily verified and reviewed in the public domain."
                             multilined>
                             <label class="radio">
-                                <input type="radio" name="image_license" value="Restricted"{{ $preferences->image_license === 'Restricted' ? ' checked' : '' }}>
+                                <input type="radio" name="image_license" value="40"{{ $preferences->image_license == 40 ? ' checked' : '' }}>
                                 ‎Restrict images (images are not shown in the public domain)
                             </label>
                         </b-tooltip>
