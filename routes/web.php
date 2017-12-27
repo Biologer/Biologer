@@ -16,6 +16,8 @@ Route::auth();
 Route::get('/', 'HomeController@index');
 Route::get('taxa/{taxon}', 'TaxaController@show');
 
+Route::view('pages/sponsors', 'pages.sponsors')->name('pages.sponsors');
+
 Route::middleware('guest')->group(function () {
     Route::get('verify/{email}', 'Auth\VerificationController@show')->name('auth.verify.show');
     Route::get('verify/token/{verificationToken}', 'Auth\VerificationController@verify')->name('auth.verify.verify');

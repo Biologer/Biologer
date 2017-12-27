@@ -17,6 +17,18 @@
                 </div>
                 <div class="navbar-menu" :class="{ 'is-active': active }">
                     <div class="navbar-end">
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link is-hidden-touch">
+                                <span>About</span>
+                            </a>
+
+                            <div class="navbar-dropdown is-boxed is-right">
+                                <a class="navbar-item" href="{{ route('pages.sponsors') }}">
+                                    Sponsors
+                                </a>
+                            </div>
+                        </div>
+
                         @auth
                             <div class="navbar-item">
                                 <a href="{{ route('contributor.field-observations.create') }}" class="button is-primary">
@@ -44,7 +56,7 @@
                                     <hr class="navbar-divider">
                                     <a class="navbar-item" href="{{ route('contributor.index') }}">
                                         @include('components.icon', ['icon' => 'dashboard'])
-                                        &nbsp;Contributor Area
+                                        <span>Contributor Area</span>
                                     </a>
                                     <hr class="navbar-divider">
                                     <a href="{{ route('logout') }}"
