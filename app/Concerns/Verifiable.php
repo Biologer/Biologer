@@ -17,6 +17,18 @@ trait Verifiable
     }
 
     /**
+     * Generate verification token for the user.
+     *
+     * @return VerificationToken
+     */
+    public function generateVerificationToken()
+    {
+        return $this->verificationToken()->firstOrCreate([
+            'token' => base64_encode($this->email.str_random(10)),
+        ]);
+    }
+
+    /**
      * Mark that user has verified their email.
      *
      * @return $this

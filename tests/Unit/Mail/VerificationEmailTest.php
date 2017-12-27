@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Mail;
 
+use App\User;
 use Tests\TestCase;
 use App\VerificationToken;
 use App\Mail\VerificationEmail;
@@ -10,15 +11,22 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class VerificationEmailTest extends TestCase
 {
-    /** @test */
-    function email_contains_the_verification_link()
+    protected function getVerificationToken($token = 'verificationToken123')
     {
         $verificationToken = factory(VerificationToken::class)->make([
-            'token' => 'verificationToken123',
+            'token' => $token,
             'user_id' => null,
         ]);
 
-        $email = new VerificationEmail($verificationToken);
+        $verificationToken->setRelation('user', factory(User::class)->make());
+
+        return $verificationToken;
+    }
+
+    /** @test */
+    function email_contains_the_verification_link()
+    {
+        $email = new VerificationEmail($this->getVerificationToken());
 
         $this->assertContains(
             url('/verify/token/verificationToken123'),
@@ -29,12 +37,7 @@ class VerificationEmailTest extends TestCase
     /** @test */
     function email_has_the_correct_subject()
     {
-        $verificationToken = factory(VerificationToken::class)->make([
-            'token' => 'verificationToken123',
-            'user_id' => null,
-        ]);
-
-        $email = new VerificationEmail($verificationToken);
+        $email = new VerificationEmail($this->getVerificationToken());
 
         $this->assertEquals('Verification Email', $email->build()->subject);
     }

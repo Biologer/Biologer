@@ -36,20 +36,6 @@ class VerificationToken extends Model
     }
 
     /**
-     * Generate verification token for given user.
-     *
-     * @param  User  $user
-     * @return self
-     */
-    public static function generateFor(User $user)
-    {
-        return static::create([
-            'user_id' => $user->id,
-            'token' => base64_encode($user->email.str_random(10)),
-        ]);
-    }
-
-    /**
      * Send email with verification link to the user.
      *
      * @return void

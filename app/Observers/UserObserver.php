@@ -15,6 +15,6 @@ class UserObserver
      */
     public function created(User $user)
     {
-        VerificationToken::generateFor($user);
+        $user->generateVerificationToken();
     }
 }
