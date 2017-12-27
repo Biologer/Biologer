@@ -8,8 +8,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ObservationTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     function can_check_if_full_date_is_present()
     {
@@ -19,6 +17,7 @@ class ObservationTest extends TestCase
             'year' => '2017',
             'month' => '07',
             'day' => '15',
+            'created_by_id' => null,
         ]);
 
         $observation2->month = null;

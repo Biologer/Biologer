@@ -3,8 +3,8 @@
 @section('content')
     <div class="box">
         <nz-field-observations-table
-            list-route="api.pending-observations.index"
-            edit-route="admin.pending-observations.edit"
+            list-route="api.my.pending-observations.index"
+            edit-route="curator.pending-observations.edit"
             delete-route="api.field-observations.destroy">
         </nz-field-observations-table>
     </div>

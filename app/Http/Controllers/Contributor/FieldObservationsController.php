@@ -32,10 +32,10 @@ class FieldObservationsController extends Controller
     /**
      * Show form to edit field observation.
      */
-    public function edit($id)
+    public function edit(FieldObservation $fieldObservation)
     {
         return view('contributor.field-observations.edit', [
-            'observation' => FieldObservation::findOrFail($id),
+            'observation' => $fieldObservation,
         ]);
     }
 }

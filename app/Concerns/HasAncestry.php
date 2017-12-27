@@ -47,6 +47,12 @@ trait HasAncestry
         return $this->belongsToMany(static::class, $this->getModelNameLower().'_ancestors', 'ancestor_id', 'model_id');
     }
 
+    /**
+     * Query only species.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeSpecies($query)
     {
         return $query->where('rank_level', 10);
@@ -165,14 +171,24 @@ trait HasAncestry
 
         // Store links
         static::saved(function ($model) {
-            if ($model->isRoot()) {
-                return $model->ancestors()->detach();
-            }
-
-            $model->ancestors()->sync($model->parent->ancestors);
-
-            $model->ancestors()->attach($model->parent);
+            $model->linkAncestors();
         });
+    }
+
+    /**
+     * Take parent and it's ancestors and link them all as this model's ancestors.
+     *
+     * @return void
+     */
+    public function linkAncestors()
+    {
+        if ($this->isRoot()) {
+            return $this->ancestors()->detach();
+        }
+
+        $this->ancestors()->sync($this->parent->ancestors);
+
+        $this->ancestors()->attach($this->parent);
     }
 
     /**
@@ -197,5 +213,27 @@ trait HasAncestry
         }
 
         return $this->descendingSpecies->prepend($this);
+    }
+
+    /**
+     * Rebuild ancestry of entire tree.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function rebuildAncestry()
+    {
+        return static::with(['ancestors', 'parent'])
+            ->orderBy('rank_level', 'desc')
+            ->get()
+            ->map(function ($model) {
+                $model->linkAncestors();
+
+                return $model;
+            })->load(['ancestors', 'parent'])
+            ->each(function ($model) {
+                $model->update([
+                    'ancestry' => $model->generateAncestryBasedOnParentsAncestry(),
+                ]);
+            });
     }
 }

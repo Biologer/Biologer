@@ -19,6 +19,7 @@ class CreateFieldObservationsTable extends Migration
             $table->string('taxon_suggestion', 255)->nullable();
             $table->text('dynamic_fields')->nullable();
             $table->unsignedSmallInteger('license');
+            $table->boolean('unidentifiable')->default(false);
             $table->timestamps();
         });
     }

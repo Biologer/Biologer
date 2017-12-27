@@ -12,6 +12,7 @@ class ApprovedFieldObservationsController extends Controller
 {
     public function store()
     {
+
         request()->validate([
             'field_observation_id' => [
                 'required',
@@ -21,8 +22,8 @@ class ApprovedFieldObservationsController extends Controller
 
         $fieldObservation = FieldObservation::findOrFail(request('field_observation_id'));
 
-        $fieldObservation->approve();
+        $this->authorize('approve', $fieldObservation);
 
-        return new FieldObservationResource($fieldObservation);
+        return new FieldObservationResource($fieldObservation->approve());
     }
 }

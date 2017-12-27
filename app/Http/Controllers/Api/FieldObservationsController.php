@@ -20,13 +20,13 @@ class FieldObservationsController extends Controller
      {
          $query = FieldObservation::filter($request)->orderBy('id');
 
-         if ($request->has('all')) {
-             return FieldObservationResource::collection($query->get());
+         if ($request->has('page')) {
+             return FieldObservationResource::collection(
+                 $query->paginate($request->input('per_page', 15))
+             );
          }
 
-         return FieldObservationResource::collection(
-             $query->paginate($request->input('per_page', 15))
-         );
+         return FieldObservationResource::collection($query->get());
      }
 
     /**
@@ -40,27 +40,36 @@ class FieldObservationsController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \App\FieldObservation  $fieldObservation
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(FieldObservation $fieldObservation)
+    {
+        return new FieldObservationResource($fieldObservation);
+    }
+
+    /**
      * Update field observation.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update($id, FieldObservationUpdateForm $form)
+    public function update(FieldObservation $fieldObservation, FieldObservationUpdateForm $form)
     {
         return new FieldObservationResource(
-            $form->save(FieldObservation::findOrFail($id))
+            $form->save($fieldObservation)
         );
     }
 
     /**
      * Delete field observation.
      *
-     * @param int $id
+     * @param  \App\FieldObservation  $fieldObservation
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy(FieldObservation $fieldObservation)
     {
-        $fieldObservation = FieldObservation::findOrFail($id);
-
         $fieldObservation->observation->delete();
         $fieldObservation->delete();
 

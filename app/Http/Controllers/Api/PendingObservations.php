@@ -13,12 +13,12 @@ class PendingObservationsController extends Controller
     {
         $query = FieldObservation::pending()->filter($request);
 
-        if ($request->has('all')) {
-            return FieldObservationResource::collection($query->get());
+        if ($request->has('page')) {
+            return FieldObservationResource::collection(
+                $query->paginate($request->input('per_page', 15))
+            );
         }
 
-        return FieldObservationResource::collection(
-            $query->paginate($request->input('per_page', 15))
-        );
+        return FieldObservationResource::collection($query->get());
     }
 }

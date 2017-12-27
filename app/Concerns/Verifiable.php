@@ -23,7 +23,9 @@ trait Verifiable
      */
     public function generateVerificationToken()
     {
-        return $this->verificationToken()->firstOrCreate([
+        $token = $this->verificationToken()->first();
+
+        return $token ?: $this->verificationToken()->create([
             'token' => base64_encode($this->email.str_random(10)),
         ]);
     }

@@ -11,12 +11,11 @@ class DashboardController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $observationCount = FieldObservation::createdBy($user)->count();
-        $pendingObservationCount = FieldObservation::unapproved()->createdBy($user)->count();
-        $approvedObservationCount = FieldObservation::approved()->createdBy($user)->count();
 
-        return view('contributor.index', compact(
-            'observationCount', 'pendingObservationCount', 'approvedObservationCount'
-        ));
+        return view('contributor.index', [
+            'observationCount' => FieldObservation::createdBy($user)->count(),
+            'pendingObservationCount' => FieldObservation::unapproved()->createdBy($user)->count(),
+            'approvedObservationCount' => FieldObservation::approved()->createdBy($user)->count(),
+        ]);
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="field-observations-table">
+    <div class="users-table">
         <b-table
             :data="data"
             :loading="loading"
@@ -15,9 +15,6 @@
             :default-sort="[sortField, sortOrder]"
             @sort="onSort"
 
-            detailed
-            :checkable="!!data.length"
-            :checked-rows.sync="checkedRows"
             :mobile-cards="true">
 
             <template slot-scope="props">
@@ -25,24 +22,12 @@
                     {{ props.row.id }}
                 </b-table-column>
 
-                <b-table-column field="taxon_name" label="Taxon" sortable>
-                    {{ props.row.taxon ? props.row.taxon.name : '' }}
+                <b-table-column field="first_name" label="First Name" sortable>
+                    {{ props.row.first_name }}
                 </b-table-column>
 
-                <b-table-column field="year" label="Year" numeric sortable>
-                    {{ props.row.year }}
-                </b-table-column>
-
-                <b-table-column field="month" label="Month" numeric sortable>
-                    {{ props.row.month }}
-                </b-table-column>
-
-                <b-table-column field="day" label="Day" numeric sortable>
-                    {{ props.row.day }}
-                </b-table-column>
-
-                <b-table-column field="source" label="Source" sortable>
-                    {{ props.row.source }}
+                <b-table-column field="last_name" label="Last Name" sortable>
+                    {{ props.row.last_name }}
                 </b-table-column>
 
                 <b-table-column label="Actions" width="100">
@@ -59,24 +44,6 @@
                 </section>
             </template>
 
-            <template slot="detail" slot-scope="props">
-                <article class="media">
-                    <figure class="media-left">
-                        <p class="image is-64x64" v-for="photo in props.row.photos">
-                            <img class="is-clickable" :src="photo" @click="openImageModal(photo)">
-                        </p>
-                    </figure>
-                    <div class="media-content">
-                        <div class="content">
-                            <strong>{{ props.row.location }}</strong>
-                            <small>{{ props.row.latitude }}, {{ props.row.longitude }}</small><br>
-                            <small>Elevation: {{ props.row.elevation}}m</small><br>
-                            <small>Accuracy: {{ props.row.accuracy}}m</small>
-                        </div>
-                    </div>
-                </article>
-            </template>
-
             <template slot="bottom-left">
                 <b-field>
                     <b-select :value="perPage" @input="onPerPageChange" placeholder="Per page">
@@ -90,12 +57,6 @@
                 </b-field>
             </template>
         </b-table>
-
-        <b-modal :active.sync="isImageModalActive" :can-cancel="['escape', 'x']">
-            <div class="image is-4by3">
-                <img :src="modalImage">
-            </div>
-        </b-modal>
     </div>
 </template>
 
@@ -103,7 +64,7 @@
 import axios from 'axios';
 
 export default {
-    name: 'nzFieldObservationsTable',
+    name: 'nzUsersTable',
 
     props: {
         perPageOptions: {
@@ -121,7 +82,8 @@ export default {
         empty: {
             type: String,
             default: 'Nothing here.'
-        }
+        },
+        ranks: Array
     },
 
     data() {
@@ -129,15 +91,17 @@ export default {
             data: [],
             total: 0,
             loading: false,
-            sortField: 'id',
-            sortOrder: 'desc',
-            defaultSortOrder: 'desc',
+            sortField: 'name',
+            sortOrder: 'asc',
+            defaultSortOrder: 'asc',
             page: 1,
             perPage: this.perPageOptions[0],
-            checkedRows: [],
-            isImageModalActive: false,
-            modalImage: null
+            checkedRows: []
         };
+    },
+
+    mounted() {
+        this.loadAsyncData()
     },
 
     methods: {
@@ -147,7 +111,7 @@ export default {
             return axios.get(route(this.listRoute, {
                 sort_by: `${this.sortField}.${this.sortOrder}`,
                 page: this.page,
-                per_page:this.perPage
+                per_page: this.perPage
             })).then(({ data }) => {
                 this.data = [];
                 this.total = data.meta.total;
@@ -176,6 +140,30 @@ export default {
             this.sortOrder = order
 
             this.loadAsyncData()
+        },
+
+        clearFilter() {
+            for (let field in this.newFilter) {
+                this.newFilter[field] = ''
+            }
+
+            this.onFilter()
+        },
+
+        onFilter() {
+            let reload = false;
+
+            for (let field in this.newFilter) {
+                if (this.filter[field] !== this.newFilter[field]) {
+                    reload = true;
+                }
+
+                this.filter[field] = this.newFilter[field];
+            }
+
+            if (reload) {
+                this.loadAsyncData()
+            }
         },
 
         onPerPageChange(perPage) {
@@ -208,28 +196,7 @@ export default {
 
         editLink (row) {
             return route(this.editRoute, row.id);
-        },
-
-        openImageModal(imageUrl) {
-            this.modalImage = imageUrl;
-
-            this.isImageModalActive = true;
         }
-    },
-
-    filters: {
-        /**
-         * Filter to truncate string, accepts a length parameter
-         */
-        truncate(value, length) {
-            return value.length > length
-                ? value.substr(0, length) + '...'
-                : value
-        }
-    },
-
-    mounted() {
-        this.loadAsyncData()
     }
 }
 </script>

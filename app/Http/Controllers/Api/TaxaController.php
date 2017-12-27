@@ -21,13 +21,13 @@ class TaxaController extends Controller
     {
         $taxa = Taxon::with('parent')->filter($request)->orderBy('id');
 
-        if ($request->has('all')) {
-            return TaxonResource::collection($taxa->get());
+        if ($request->has('page')) {
+            return TaxonResource::collection(
+                $taxa->paginate($request->input('per_page', 15))
+            );
         }
 
-        return TaxonResource::collection(
-            $taxa->paginate($request->input('per_page', 15))
-        );
+        return TaxonResource::collection($taxa->get());
     }
 
     /**
@@ -38,7 +38,7 @@ class TaxaController extends Controller
     */
     public function show(Taxon $taxon)
     {
-        return new TaxonResource($taxon->load(['conventions']));
+        return new TaxonResource($taxon->load(['conventions', 'redLists']));
     }
 
     /**
@@ -49,6 +49,8 @@ class TaxaController extends Controller
      */
     public function store()
     {
+        $this->authorize('create', [Taxon::class, request('parent_id')]);
+
         request()->validate([
             'name' => 'required|unique:taxa,name',
             'parent_id' => 'nullable|exists:taxa,id',

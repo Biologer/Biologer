@@ -12,6 +12,15 @@ class FieldObservation extends Model
     use Concerns\HasDynamicFields, Eloquence, Filterable, Mappable;
 
     /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'unidentifiable' => false,
+    ];
+
+    /**
      * The relations to eager load on every query.
      *
      * @var array
@@ -26,6 +35,7 @@ class FieldObservation extends Model
     protected $casts = [
         'dynamic_fields' => 'collection',
         'license' => 'integer',
+        'unidentifiable' => 'boolean',
     ];
 
     /**
@@ -99,7 +109,18 @@ class FieldObservation extends Model
      * Get observations created by given user.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \App\User                              $user
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIdentifiable($query)
+    {
+        return $query->where('unidentifiable', false);
+    }
+
+    /**
+     * Get observations created by given user.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \App\User  $user
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeCreatedBy($query, User $user)
@@ -136,7 +157,18 @@ class FieldObservation extends Model
     }
 
     /**
-     * Get only approvable observation.
+     * Get unapproved observations.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePending($query)
+    {
+        return $query->identifiable()->unapproved();
+    }
+
+    /**
+     * Get only approvable observations.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
@@ -145,6 +177,20 @@ class FieldObservation extends Model
     {
         return $query->whereHas('observation', function ($q) {
             return $q->unapproved()->whereNotNull('taxon_id');
+        });
+    }
+
+    /**
+     * Get only observations of taxa curated by given user.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \App\User  $user
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCuratedBy($query, User $user)
+    {
+        return $query->whereHas('observation', function($observation) use ($user) {
+            return $observation->taxonCuratedBy($user);
         });
     }
 
@@ -190,21 +236,55 @@ class FieldObservation extends Model
     /**
      * Approve field observation.
      *
-     * @return void
+     * @return $this
      */
     public function approve()
     {
         $this->observation->approve();
+
+        return $this;
     }
 
     /**
      * Check if field observation is approved.
      *
-     * @return void
+     * @return bool
      */
     public function isApproved()
     {
         return $this->observation->isApproved();
+    }
+
+    /**
+     * Check if observation is created by given user.
+     *
+     * @param  \App\User  $user
+     * @return bool
+     */
+    public function isCreatedBy(User $user)
+    {
+        return $this->observation->isCreatedBy($user);
+    }
+
+    /**
+     * Check if given user should curate this observation.
+     *
+     * @param  \App\User  $user
+     * @return bool
+     */
+    public function shouldBeCuratedBy(User $user)
+    {
+        return $this->taxon ? $this->taxon->isCuratedBy($user) : true;
+    }
+
+    /**
+     * Check if the observation can be seen by others.
+     *
+     * @return bool
+     */
+    public function isAtLeastPartiallyOpenData()
+    {
+        return $this->license < 40;
     }
 
     /**

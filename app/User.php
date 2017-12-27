@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Concerns\HasRoles;
 use App\Concerns\CanMemoize;
 use App\Concerns\Verifiable;
 use Laravel\Passport\HasApiTokens;
@@ -10,7 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, CanMemoize, Notifiable, Verifiable;
+    use HasApiTokens, CanMemoize, HasRoles, Notifiable, Verifiable;
 
     /**
      * The attributes that are mass assignable.

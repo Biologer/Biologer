@@ -74,6 +74,36 @@ class Observation extends Model
             ->whereNotNull('day');
     }
 
+    /**
+     * Get only observations whos taxon is curated by given user.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \App\User  $user
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeTaxonCuratedBy($query, User $user)
+    {
+        return $query->doesntHave('taxon')
+            ->orWhereHas('taxon', function ($taxon) use ($user) {
+                return $taxon->curatedBy($user);
+            });
+    }
+
+    /**
+     * User that has submited this observation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by_id');
+    }
+
+    /**
+     * Taxon that is observed.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function taxon()
     {
         return $this->belongsTo(Taxon::class);
@@ -143,5 +173,16 @@ class Observation extends Model
     public function isApproved()
     {
         return ! empty($this->approved_at);
+    }
+
+    /**
+     * Check if observation is created by given user.
+     *
+     * @param  \App\User  $user
+     * @return bool
+     */
+    public function isCreatedBy(User $user)
+    {
+        return $this->creator->is($user);
     }
 }

@@ -131,7 +131,7 @@ export default {
         onFailedSubmit(error) {
             this.$toast.open({
                 duration: 2500,
-                message: error.response.data.message,
+                message: _.get(error, 'response.data.message', error.message),
                 type: 'is-danger'
             });
         },

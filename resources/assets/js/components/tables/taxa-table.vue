@@ -151,7 +151,7 @@ export default {
             return axios.get(route(this.listRoute, {
                 sort_by: `${this.sortField}.${this.sortOrder}`,
                 page: this.page,
-                per_page:this.perPage,
+                per_page: this.perPage,
                 ...this.filter
             })).then(({ data }) => {
                 this.data = [];

@@ -25,41 +25,52 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get(
-        'contributor', 'Contributor\DashboardController@index'
-    )->name('contributor.index');
+    Route::prefix('contributor')->namespace('Contributor')->name('contributor.')->group(function () {
+        Route::get('/', 'DashboardController@index')
+            ->name('index');
 
-    Route::get(
-        'contributor/preferences', 'Contributor\PreferencesController@index'
-    )->name('contributor.preferences.index');
-    Route::patch(
-        'contributor/preferences', 'Contributor\PreferencesController@update'
-    )->name('contributor.preferences.update');
+        Route::get('preferences', 'PreferencesController@index')
+            ->name('preferences.index');
 
-    Route::get(
-        'contributor/field-observations', 'Contributor\FieldObservationsController@index'
-    )->name('contributor.field-observations.index');
-    Route::get(
-        'contributor/field-observations/new', 'Contributor\FieldObservationsController@create'
-    )->name('contributor.field-observations.create');
-    Route::get(
-        'contributor/field-observations/{id}/edit', 'Contributor\FieldObservationsController@edit'
-    )->name('contributor.field-observations.edit');
+        Route::patch('preferences', 'PreferencesController@update')
+            ->name('preferences.update');
 
-    Route::get(
-        'admin/taxa', 'Admin\TaxaController@index'
-    )->name('admin.taxa.index');
-    Route::get(
-        'admin/taxa/{taxon}/edit', 'Admin\TaxaController@edit'
-    )->name('admin.taxa.edit');
-    Route::get(
-        'admin/taxa/new', 'Admin\TaxaController@create'
-    )->name('admin.taxa.create');
+        Route::get('field-observations', 'FieldObservationsController@index')
+            ->name('field-observations.index');
 
-    Route::get(
-        'admin/pending-observations', 'Admin\PendingObservationsController@index'
-    )->name('admin.pending-observations.index');
-    Route::get(
-        'admin/pending-observations/{id}/edit', 'Admin\PendingObservationsController@edit'
-    )->name('admin.pending-observations.edit');
+        Route::get('field-observations/new', 'FieldObservationsController@create')
+            ->name('field-observations.create');
+
+        Route::get('field-observations/{fieldObservation}/edit', 'FieldObservationsController@edit')
+            ->middleware('can:update,fieldObservation')
+            ->name('field-observations.edit');
+    });
+
+    Route::prefix('curator')->namespace('Curator')->name('curator.')->group(function () {
+        Route::get('pending-observations', 'PendingObservationsController@index')
+            ->middleware('can:list,App\FieldObservation')
+            ->name('pending-observations.index');
+
+        Route::get('pending-observations/{id}/edit', 'PendingObservationsController@edit')
+            ->name('pending-observations.edit');
+    });
+
+    Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
+        Route::get('taxa', 'TaxaController@index')
+            ->name('taxa.index');
+
+        Route::get('taxa/{taxon}/edit', 'TaxaController@edit')
+            ->middleware('can:update,taxon')
+            ->name('taxa.edit');
+
+        Route::get('taxa/new', 'TaxaController@create')
+            ->middleware('can:create,taxon')
+            ->name('taxa.create');
+
+        Route::get('users', 'UsersController@index')
+            ->middleware('can:list,App\User')
+            ->name('users.index');
+    });
+
+
 });

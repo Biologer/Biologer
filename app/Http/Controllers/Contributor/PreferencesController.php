@@ -22,12 +22,10 @@ class PreferencesController extends Controller
 
     public function update()
     {
-        $data = request()->validate([
+        auth()->user()->settings()->merge(request()->validate([
             'data_license' => [Rule::in(License::getIds())],
             'image_license' => [Rule::in(License::getIds())],
-        ]);
-
-        auth()->user()->settings()->merge($data);
+        ]));
 
         return back();
     }

@@ -93,17 +93,29 @@
                         <li><a href="{{ route('contributor.field-observations.index') }}">Field Observations</a></li>
                     </ul>
 
-                    <p class="menu-label">
-                        Admin
-                    </p>
+                    @role(['admin', 'curator'])
+                        <p class="menu-label">
+                            Curator
+                        </p>
 
-                    <ul class="menu-list">
-                        <li><a href="{{ route('admin.taxa.index') }}">Taxa</a></li>
-                    </ul>
+                        @can('list', \App\FieldObservation::class)
+                            <ul class="menu-list">
+                                <li><a href="{{ route('curator.pending-observations.index') }}">Pending Observations</a></li>
+                            </ul>
+                        @endcan
+                    @endrole
 
-                    <ul class="menu-list">
-                        <li><a href="{{ route('admin.pending-observations.index') }}">Pending Observations</a></li>
-                    </ul>
+                    @role(['admin', 'curator'])
+                        <p class="menu-label">
+                            Admin
+                        </p>
+
+                        @can('list', \App\Taxon::class)
+                            <ul class="menu-list">
+                                <li><a href="{{ route('admin.taxa.index') }}">Taxa</a></li>
+                            </ul>
+                        @endcan
+                    @endrole
                 </aside>
             </div>
 
