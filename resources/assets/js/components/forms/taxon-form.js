@@ -143,7 +143,7 @@ export default {
             setTimeout(() => {
                 this.form.processing = false;
 
-                // window.location.href = this.redirect;
+                window.location.href = this.redirect;
             }, 500);
         },
 
