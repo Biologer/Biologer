@@ -12,12 +12,20 @@ use App\FieldObservation;
 use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
 use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UpdateFieldObservationTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        Artisan::call('db:seed', ['--class' => 'RolesTableSeeder']);
+    }
 
     /**
      * Valid observation data.
@@ -43,7 +51,40 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function field_observation_can_be_updated()
+    function field_observation_can_be_updated_by_user_who_created_it_if_its_not_approved()
+    {
+        $user = factory(User::class)->create();
+        $observation = ObservationFactory::createUnapprovedFieldObservation([
+            'created_by_id' => $user->id,
+        ]);
+
+        Passport::actingAs($user);
+        $response = $this->putJson(
+            "/api/field-observations/{$observation->id}", $this->validParams([
+                'elevation' => 1000,
+                'source' => 'New source',
+                'taxon_suggestion' => 'New taxon suggestion',
+            ])
+        );
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            'data' => [
+                'elevation' => 1000,
+                'source' => 'New source',
+                'taxon_suggestion' => 'New taxon suggestion',
+            ]
+        ]);
+
+        tap($observation->fresh(), function ($fieldObservation) {
+            $this->assertEquals(1000, $fieldObservation->observation->elevation);
+            $this->assertEquals('New source', $fieldObservation->source);
+            $this->assertEquals('New taxon suggestion', $fieldObservation->taxon_suggestion);
+        });
+    }
+
+    /** @test */
+    function field_observation_cannot_be_updated_by_user_who_created_it_if_approved()
     {
         $user = factory(User::class)->create();
         $observation = ObservationFactory::createFieldObservation([
@@ -51,8 +92,35 @@ class UpdateFieldObservationTest extends TestCase
         ]);
 
         Passport::actingAs($user);
-        $response = $this->withoutExceptionHandling()->json(
-            'PUT', "/api/field-observations/{$observation->id}", $this->validParams([
+        $response = $this->putJson(
+            "/api/field-observations/{$observation->id}", $this->validParams([
+                'elevation' => 1000,
+                'source' => 'New source',
+                'taxon_suggestion' => 'New taxon suggestion',
+            ])
+        );
+
+        $response->assertStatus(403);
+
+        tap($observation->fresh(), function ($fieldObservation) {
+            $this->assertNotEquals(1000, $fieldObservation->observation->elevation);
+            $this->assertNotEquals('New source', $fieldObservation->source);
+            $this->assertNotEquals('New taxon suggestion', $fieldObservation->taxon_suggestion);
+        });
+    }
+
+    /** @test */
+    function field_observation_can_be_updated_by_admin()
+    {
+        $user = factory(User::class)->create()->assignRole('admin');
+
+        $observation = ObservationFactory::createFieldObservation([
+            'created_by_id' => $user->id,
+        ]);
+
+        Passport::actingAs($user);
+        $response = $this->putJson(
+            "/api/field-observations/{$observation->id}", $this->validParams([
                 'elevation' => 1000,
                 'source' => 'New source',
                 'taxon_suggestion' => 'New taxon suggestion',

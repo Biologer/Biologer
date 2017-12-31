@@ -52,6 +52,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Taxa the user is in charge of.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function curatedTaxa()
+    {
+        return $this->belongsToMany(Taxon::class);
+    }
+
+    /**
      * Full name accessor.
      *
      * @return string
