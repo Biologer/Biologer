@@ -36,7 +36,11 @@ class AddFieldObservationTest extends TestCase
             'longitude' => '19.836944',
             'accuracy' => '100',
             'elevation' => '80',
-            'source' => 'John Doe',
+            'observer' => 'John Doe',
+            'identifier' => 'Ident Doe',
+            'note' => 'Some comment',
+            'sex' => 'male',
+            'number' => '2',
         ], $overrides);
     }
 
@@ -71,10 +75,8 @@ class AddFieldObservationTest extends TestCase
 
         $this->assertEquals($fieldObservationsCount + 1, FieldObservation::count());
 
-        $fieldObservation = FieldObservation::latest()->first();
-        $this->assertEquals('John Doe', $fieldObservation->source);
-
-        tap($fieldObservation->observation, function ($observation) use ($user) {
+        tap(FieldObservation::latest()->first()->observation, function ($observation) use ($user) {
+            $this->assertEquals($user->full_name, $observation->observer);
             $this->assertEquals(2017, $observation->year);
             $this->assertEquals(7, $observation->month);
             $this->assertEquals(15, $observation->day);
@@ -85,6 +87,9 @@ class AddFieldObservationTest extends TestCase
             $this->assertEquals(80, $observation->elevation);
             $this->assertNull($observation->approved_at);
             $this->assertEquals($user->id, $observation->created_by_id);
+            $this->assertEquals('Some comment', $observation->note);
+            $this->assertEquals('male', $observation->sex);
+            $this->assertEquals(2, $observation->number);
         });
     }
 
@@ -103,7 +108,7 @@ class AddFieldObservationTest extends TestCase
         );
 
         $fieldObservation = FieldObservation::latest()->first();
-        $this->assertEquals('Jane Doe', $fieldObservation->source);
+        $this->assertEquals('Jane Doe', $fieldObservation->observation->observer);
     }
 
     /** @test */
@@ -202,7 +207,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function day_cannot_be_in_the_future()
+    function day_cannot_be_in_the_future_longer_than_a_day()
     {
         Passport::actingAs(factory(User::class)->make());
 
@@ -212,7 +217,7 @@ class AddFieldObservationTest extends TestCase
             'POST', 'api/field-observations', $this->validParams([
                 'year' => $now->year,
                 'month' => $now->month,
-                'day' => $now->day + 1,
+                'day' => $now->day + 2,
             ])
         );
 
@@ -395,9 +400,9 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function accuracy_is_required_when_adding_field_observation()
+    function accuracy_is_optional_when_adding_field_observation()
     {
-        Passport::actingAs(factory(User::class)->make());
+        Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
 
         $response = $this->json(
@@ -406,9 +411,8 @@ class AddFieldObservationTest extends TestCase
             ])
         );
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('accuracy', $response->json()['errors']);
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+        $response->assertSuccessful();
+        $this->assertEquals($fieldObservationsCount + 1, FieldObservation::count());
     }
 
     /** @test */
@@ -531,37 +535,22 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function add_comment_along_with_observation()
-    {
-        Passport::actingAs($user = factory(User::class)->create());
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'comment' => 'Some comment',
-            ])
-        );
-
-        $response->assertStatus(201);
-        tap(FieldObservation::first()->comments, function ($comments) use ($user) {
-            $this->assertCount(1, $comments);
-            $this->assertEquals('Some comment', $comments->first()->body);
-            $this->assertEquals($user->id, $comments->first()->user_id);
-        });
-    }
-
-    /** @test */
     function photo_can_be_saved_with_observation()
     {
         $this->withoutExceptionHandling();
         config(['alciphron.photos_per_observation' => 3]);
 
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = factory(User::class)->create([
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+        ]));
         Storage::fake('public');
         $photosCount = Photo::count();
         File::image('test-image.jpg')->storeAs("uploads/{$user->id}", 'test-image.jpg', 'public');
 
         $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
-                'source' => 'John Doe',
+                'observer' => 'John Doe',
                 'photos' => [
                     'test-image.jpg',
                 ],
@@ -621,65 +610,33 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function additional_fields_are_not_stored_if_not_provided()
+    function sex_is_optional()
     {
         Passport::actingAs(factory(User::class)->create());
 
         $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
-                'dynamic_fields' => null,
+                'sex' => null,
             ])
         );
 
         $response->assertStatus(201);
-        tap(FieldObservation::latest()->first(), function ($observation) {
-            $this->assertEmpty($observation->dynamicFieldValues);
-        });
     }
 
     /** @test */
-    function gender_can_be_submitted_and_stored_as_dynamic_field()
-    {
-        Passport::actingAs(factory(User::class)->create());
-
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'dynamic_fields' => [
-                    [
-                        'name' => 'gender',
-                        'value' => 'male',
-                    ]
-                ],
-            ])
-        );
-
-        $response->assertStatus(201);
-        tap(FieldObservation::latest()->first(), function ($observation) {
-            $observation->dynamic_fields->assertContains(function ($item) {
-                return $item['name'] === 'gender';
-            });
-        });
-    }
-
-    /** @test */
-    function validation_fails_if_invalid_value_is_provided_for_gender()
+    function sex_can_be_one_of_available_values()
     {
         Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
 
         $response = $this->json(
             'POST', '/api/field-observations', $this->validParams([
-                'dynamic_fields' => [
-                    [
-                        'name' => 'gender',
-                        'value' => 'invalid',
-                    ]
-                ],
+                'sex' => 'invalid'
             ])
         );
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('dynamic_fields.0', $response->json()['errors']);
+        $this->assertArrayHasKey('sex', $response->json()['errors']);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 }

@@ -34,7 +34,12 @@ trait HasAncestry
      */
     public function ancestors()
     {
-        return $this->belongsToMany(static::class, $this->getModelNameLower().'_ancestors', 'model_id', 'ancestor_id');
+        return $this->belongsToMany(
+            static::class,
+            $this->getModelNameLower().'_ancestors',
+            'model_id',
+            'ancestor_id'
+        );
     }
 
     /**
@@ -44,7 +49,22 @@ trait HasAncestry
      */
     public function descendants()
     {
-        return $this->belongsToMany(static::class, $this->getModelNameLower().'_ancestors', 'ancestor_id', 'model_id');
+        return $this->belongsToMany(
+            static::class,
+            $this->getModelNameLower().'_ancestors',
+            'ancestor_id',
+            'model_id'
+        );
+    }
+
+    /**
+     * Descendants of rank species.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function descendingSpecies()
+    {
+        return $this->descendants()->species();
     }
 
     /**
@@ -140,42 +160,6 @@ trait HasAncestry
     }
 
     /**
-     * Build up ordered ancestry list.
-     *
-     * @return string
-     */
-    public function generateAncestryBasedOnParentsAncestry()
-    {
-        if (! $this->parent) {
-            return;
-        }
-
-        if ($this->parent->isRoot()) {
-            return $this->parent->id;
-        }
-
-        return $this->parent->ancestry.'/'.$this->parent->id;
-    }
-
-    /**
-     * The "booting" method of the trait.
-     *
-     * @return void
-     */
-    protected static function bootHasAncestry()
-    {
-        // Cache ancestry.
-        static::saving(function ($model) {
-            $model->ancestry = $model->generateAncestryBasedOnParentsAncestry();
-        });
-
-        // Store links
-        static::saved(function ($model) {
-            $model->linkAncestors();
-        });
-    }
-
-    /**
      * Take parent and it's ancestors and link them all as this model's ancestors.
      *
      * @return void
@@ -189,16 +173,6 @@ trait HasAncestry
         $this->ancestors()->sync($this->parent->ancestors);
 
         $this->ancestors()->attach($this->parent);
-    }
-
-    /**
-     * Descendants of rank species.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function descendingSpecies()
-    {
-        return $this->descendants()->species();
     }
 
     /**
@@ -229,11 +203,38 @@ trait HasAncestry
                 $model->linkAncestors();
 
                 return $model;
-            })->load(['ancestors', 'parent'])
-            ->each(function ($model) {
-                $model->update([
-                    'ancestry' => $model->generateAncestryBasedOnParentsAncestry(),
-                ]);
             });
+    }
+
+
+    /**
+     * Rebuild ancestry of entire tree.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function rebuildAncestryDown()
+    {
+        $this->linkAncestors();
+
+        $this->descendants()
+            ->with(['ancestors', 'parent'])
+            ->orderBy('rank_level', 'desc')
+            ->get()
+            ->each->linkAncestors();
+
+        return $this;
+    }
+
+    /**
+     * The "booting" method of the trait.
+     *
+     * @return void
+     */
+    protected static function bootHasAncestry()
+    {
+        // Store links
+        static::saved(function ($model) {
+            $model->linkAncestors();
+        });
     }
 }

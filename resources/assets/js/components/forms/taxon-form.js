@@ -40,7 +40,8 @@ export default {
         redLists: {
             type: Array,
             default() { return []; }
-        }
+        },
+        stages: Array,
     },
 
     data() {

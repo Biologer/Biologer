@@ -4,7 +4,6 @@ use Faker\Generator as Faker;
 
 $factory->define(App\FieldObservation::class, function (Faker $faker) {
     return [
-        'source' => $faker->name,
         'license' => App\License::getFirstId(),
         'taxon_suggestion' => 'Cerambyx cerdo',
     ];
@@ -25,6 +24,8 @@ $factory->define(App\Observation::class, function (Faker $faker) {
         'created_by_id' => function () use ($userId) {
             return $userId ?: $userId = factory(App\User::class)->create()->id;
         },
+        'observer' => $faker->name,
+        'identifier' => $faker->name,
     ];
 });
 

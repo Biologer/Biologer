@@ -10,26 +10,22 @@ export default {
             type: String,
             required: true
         },
+
         method: {
             type: String,
             default: 'post'
         },
+
         redirect: {
             type: String,
-            default() {
-                return route('contributor.field-observations.index');
-            }
+            default: () => route('contributor.field-observations.index')
         },
-        dataDynamicFields: {
-            type: Array,
-            default() {
-                return [];
-            }
-        },
+
         observation: {
             type: Object,
             default() {
                 return {
+                    taxon: null,
                     taxon_id: null,
                     taxon_suggestion: null,
                     year: moment().year(),
@@ -37,15 +33,20 @@ export default {
                     day: moment().date(),
                     latitude: null,
                     longitude: null,
-                    accuracy: 10,
+                    accuracy: null,
                     elevation: null,
                     location: null,
                     photos: [],
-                    dynamic_fields: [],
-                    source: null,
+                    observer: null,
+                    identifier: null,
+                    note: null,
+                    sex: null,
+                    number: null,
+                    stage_id: null,
+                    found_dead: false,
+                    found_dead_note: null,
                     data_license: null,
-                    image_license: null,
-                    comment: null
+                    image_license: null
                 };
             }
         }
@@ -58,38 +59,17 @@ export default {
             }, {
                 resetOnSuccess: false
             }),
-            dynamicFields: [],
-            chosenField: null
+            showMoreDetails: false
         };
     },
 
-    created() {
-        this.updateFields();
+    computed: {
+      stages() {
+        return this.form.taxon ? this.form.taxon.stages : [];
+      }
     },
 
     methods: {
-        /**
-         * Add field to the form.
-         */
-        addField() {
-            this.form.dynamic_fields.push({
-                name: this.chosenField.name,
-                value: this.chosenField.value || this.chosenField.default
-            });
-            this.chosenField = null;
-            this.updateFields();
-        },
-
-        /**
-         * Don't use the field any more.
-         *
-         * @param  {Object} field
-         */
-        removeField(field) {
-            _.remove(this.form.dynamic_fields, (item) => item.name === field.name);
-            this.updateFields();
-        },
-
         /**
          * Submit the form.
          */
@@ -137,20 +117,6 @@ export default {
         },
 
         /**
-         * Update dynamic fields' values.
-         */
-        updateFields() {
-            this.dynamicFields = this.dataDynamicFields.filter((field) => {
-                return collect(this.form.dynamic_fields).contains((item) => item.name === field.name);
-            }).map((field) => {
-                let value = _.find(this.form.dynamic_fields, (item) => item.name === field.name).value;
-                field.value =  value || field.value || field.default;
-
-                return field;
-            });
-        },
-
-        /**
          * Handle year input.
          *
          * @param {Number} value
@@ -183,7 +149,14 @@ export default {
          * @param {Object} value
          */
         onTaxonSelect(taxon) {
+            this.form.taxon = taxon || null;
             this.form.taxon_id = taxon ? taxon.id : null;
+
+            if (!this.stages.length || !collect(this.stages).contains(stage => {
+              return stage.id === this.form.stage_id
+            })) {
+              this.form.stage_id = null
+            }
         },
 
         /**
@@ -202,24 +175,6 @@ export default {
          */
         onPhotoRemoved(file) {
             this.form.photos.splice(this.form.photos.indexOf(file), 1);
-        }
-    },
-
-    computed: {
-        /**
-         * Fields that have not been used yet.
-         *
-         * @return {Array} of field data
-         */
-        availableDynamicFields() {
-            return this.dataDynamicFields.filter((availableField) => {
-                return !collect(this.dynamicFields).contains((field) => {
-                    return availableField.name === field.name;
-                });
-            }).map((field) => {
-                field.value = field.value || field.default;
-                return field;
-            });
         }
     }
 }

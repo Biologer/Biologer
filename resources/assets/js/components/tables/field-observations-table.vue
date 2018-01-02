@@ -16,8 +16,6 @@
             @sort="onSort"
 
             detailed
-            :checkable="!!data.length"
-            :checked-rows.sync="checkedRows"
             :mobile-cards="true">
 
             <template slot-scope="props">
@@ -41,8 +39,8 @@
                     {{ props.row.day }}
                 </b-table-column>
 
-                <b-table-column field="source" label="Source" sortable>
-                    {{ props.row.source }}
+                <b-table-column field="observer" label="Observer" sortable>
+                    {{ props.row.observer }}
                 </b-table-column>
 
                 <b-table-column label="Actions" width="100">
@@ -134,7 +132,6 @@ export default {
             defaultSortOrder: 'desc',
             page: 1,
             perPage: this.perPageOptions[0],
-            checkedRows: [],
             isImageModalActive: false,
             modalImage: null
         };

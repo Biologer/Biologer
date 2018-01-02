@@ -39,6 +39,7 @@
                             class="navbar-item"
                             title="Preferences">
                             @include('components.icon', ['icon' => 'cog'])
+                            <span class="is-hidden-desktop">Preferences</span>
                         </a>
 
                         <a href="{{ route('logout') }}"

@@ -1,12 +1,5 @@
 <template>
-    <div class="">
-        <div class="field is-expanded">
-            <label class="label">Location</label>
-            <div class="control is-fullwidth">
-                <input class="input" :class="{'is-danger': errors.has('location')}" :value="location" @input="onLocationInput" placeholder="Location">
-            </div>
-            <p class="help is-danger" v-if="errors.has('location')" v-text="errors.first('location')"></p>
-        </div>
+    <div class="spatial-input">
         <b-field label="Map">
             <gmap-map style="width: 100%; min-height: 400px"
                 :center="{lat: center.latitude, lng: center.longitude}"
@@ -17,9 +10,9 @@
                              :draggable="true"
                              @dragend="setMarker">
                 </gmap-marker>
-                <gmap-circle v-if="position && accuracy"
+                <gmap-circle v-if="position && newAccuracy"
                              :center="position"
-                             :radius="accuracy"
+                             :radius="newAccuracy"
                              :editable="true"
                              @radius_changed="updateRadius">
                 </gmap-circle>
@@ -62,6 +55,13 @@
                     <p class="help is-danger" v-if="errors.has('elevation')" v-text="errors.first('elevation')"></p>
                 </div>
             </div>
+            <div class="field is-expanded">
+                <label class="label is-small">Location</label>
+                <div class="control is-fullwidth">
+                    <input class="input is-small" :class="{'is-danger': errors.has('location')}" :value="location" @input="onLocationInput" placeholder="Location">
+                </div>
+                <p class="help is-danger" v-if="errors.has('location')" v-text="errors.first('location')"></p>
+            </div>
         </div>
     </div>
 </template>
@@ -71,10 +71,11 @@ export default {
     name: 'nz-spatial-input',
 
     props: {
-        accuracy: {
+        emptyAccuracy: {
             type: Number,
-            default: 5
+            default: 1000
         },
+        accuracy: Number,
         elevation: {
             type: Number,
             default: 100
@@ -142,7 +143,12 @@ export default {
             return this.errors.has('latitude') ||
                 this.errors.has('longitude') ||
                 this.errors.has('elevation') ||
-                this.errors.has('accuracy');
+                this.errors.has('accuracy') ||
+                this.errors.has('location');
+        },
+
+        newAccuracy () {
+            return this.accuracy || this.emptyAccuracy
         }
     },
 
@@ -276,7 +282,13 @@ export default {
          * @param  {Number} value
          */
         updateRadius(value) {
-            this.updateAccuracy(parseInt(value));
+            let radius = parseInt(value)
+
+            if (this.accuracy === null && radius === this.emptyAccuracy) {
+                return
+            }
+
+            this.updateAccuracy(radius);
         },
 
         /**

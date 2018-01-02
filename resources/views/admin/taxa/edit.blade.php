@@ -6,10 +6,11 @@
             action="{{ route('api.taxa.update', $taxon) }}"
             method="put"
             :taxon="{{ $taxon }}"
-            :ranks="{{ json_encode($rankOptions) }}"
+            :ranks="{{ $ranks }}"
             :conventions="{{ $conventions }}"
             :red-lists="{{ $redLists }}"
-            :red-list-categories="{{ json_encode(\App\RedList::CATEGORIES) }}"
+            :red-list-categories="{{ $redListCategories }}"
+            :stages="{{ $stages }}"
             >
             <form @submit.prevent="submit">
                 <div class="columns">
@@ -75,7 +76,20 @@
                     </div>
                 </b-field>
 
-                <b-field label="Conventions">
+                <b-field label="Stages" v-if="stages.length">
+                    <div class="block">
+                        <b-checkbox
+                            v-for="stage in stages"
+                            :key="stage.id"
+                            v-model="form.stages_ids"
+                            :native-value="stage.id"
+                        >
+                            @{{ stage.name }}
+                        </b-checkbox>
+                    </div>
+                </b-field>
+
+                <b-field label="Conventions" v-if="conventions.length">
                     <div class="block">
                         <b-checkbox
                             v-for="convention in conventions"
@@ -88,7 +102,7 @@
                     </div>
                 </b-field>
 
-                <div class="field">
+                <div class="field" v-if="redLists.length">
                     <label class="label">Red Lists</label>
 
                     <b-field v-for="(addedRedList, index) in form.red_lists_data" :key="index" grouped>

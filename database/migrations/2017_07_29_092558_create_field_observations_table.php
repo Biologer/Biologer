@@ -15,11 +15,11 @@ class CreateFieldObservationsTable extends Migration
     {
         Schema::create('field_observations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('source', 255)->nullable();
             $table->string('taxon_suggestion', 255)->nullable();
-            $table->text('dynamic_fields')->nullable();
             $table->unsignedSmallInteger('license');
             $table->boolean('unidentifiable')->default(false);
+            $table->boolean('found_dead')->nullable();
+            $table->text('found_dead_note')->nullable();
             $table->timestamps();
         });
     }

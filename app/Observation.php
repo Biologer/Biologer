@@ -5,6 +5,10 @@ use Illuminate\Support\Carbon;
 
 class Observation extends Model
 {
+    const SEX_OPTIONS = [
+        'male', 'female',
+    ];
+
     /**
      * The relations to eager load on every query.
      *
@@ -25,6 +29,7 @@ class Observation extends Model
         'year' => 'integer',
         'month' => 'integer',
         'day' => 'integer',
+        'number' => 'integer',
     ];
 
     /**

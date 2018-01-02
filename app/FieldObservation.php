@@ -33,9 +33,9 @@ class FieldObservation extends Model
      * @var array
      */
     protected $casts = [
-        'dynamic_fields' => 'collection',
         'license' => 'integer',
         'unidentifiable' => 'boolean',
+        'found_dead' => 'boolean',
     ];
 
     /**
@@ -51,6 +51,7 @@ class FieldObservation extends Model
       'taxon_name' => 'observation.taxon.name',
       'latitude' => 'observation.latitude',
       'longitude' => 'observation.longitude',
+      'observer' => 'observation.observer',
       'year' => 'observation.year',
       'month' => 'observation.month',
       'day' => 'observation.day',
@@ -210,7 +211,7 @@ class FieldObservation extends Model
                 return Storage::disk('public')->exists($path);
             })->map(function ($path) use ($license) {
                 return Photo::store($path, [
-                    'author' => $this->source,
+                    'author' => $this->observation->observer,
                     'license' => $license,
                 ]);
             })
@@ -297,7 +298,7 @@ class FieldObservation extends Model
         return [
             'id' => $this->id,
             'taxon' => $this->observation->taxon,
-            'taxon_id' => $this->taxon_id,
+            'taxon_id' => $this->observation->taxon_id,
             'taxon_suggestion' => $this->taxon_suggestion,
             'day' => $this->observation->day,
             'month' => $this->observation->month,
@@ -305,14 +306,22 @@ class FieldObservation extends Model
             'location' => $this->observation->location,
             'latitude' => $this->observation->latitude,
             'longitude' => $this->observation->longitude,
+            'mgrs10k' => $this->observation->mgrs10k,
             'accuracy' => $this->observation->accuracy,
             'elevation' => $this->observation->elevation,
             'photos' => $this->photos->map(function ($photo) {
                 return $photo->url;
             }),
-            'source' => $this->source,
+            'observer' => $this->observation->observer,
+            'identifier' => $this->observation->identifier,
             'license' => $this->license,
-            'dynamic_fields' => $this->dynamic_fields,
+            'sex' => $this->observation->sex,
+            'stage_id' => $this->observation->stage_id,
+            'number' => $this->observation->number,
+            'note' => $this->observation->note,
+            'found_dead' => $this->found_dead,
+            'found_dead_note' => $this->found_dead_note,
+            'data_license' => $this->license,
         ];
     }
 

@@ -6,7 +6,9 @@ use App\Filters\Filterable;
 
 class Taxon extends Model
 {
-    use Concerns\HasAncestry, Filterable;
+    use Concerns\CanBeCurated,
+        Concerns\HasAncestry,
+        Filterable;
 
     /**
      * The table associated with the model.
@@ -20,7 +22,9 @@ class Taxon extends Model
      *
      * @var array
      */
-    protected $appends = ['rank', 'conventions_ids', 'red_lists_data'];
+    protected $appends = [
+        'conventions_ids', 'rank', 'red_lists_data', 'stages_ids',
+    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -87,7 +91,7 @@ class Taxon extends Model
     }
 
     /**
-     * Conventions by which the taxon is should be protected.
+     * Conventions by which the taxon should be protected.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -97,22 +101,13 @@ class Taxon extends Model
     }
 
     /**
-     * Direct curators for the taxon.
+     * Life cycle stages the taxon goes through.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function curators()
+    public function stages()
     {
-        return $this->belongsToMany(User::class);
-    }
-
-    public function scopeCuratedBy($query, User $user)
-    {
-        return $query->whereHas('curators', function ($q) use ($user) {
-            return $q->where('id', $user->id);
-        })->orWhereHas('ancestors.curators', function ($q) use ($user) {
-            return $q->where('id', $user->id);
-        });
+        return $this->belongsToMany(Stage::class);
     }
 
     /**
@@ -137,6 +132,21 @@ class Taxon extends Model
         return $this->conventions->pluck('id');
     }
 
+    /**
+     * Get IDs of coventions that cover the taxon.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getStagesIdsAttribute()
+    {
+        return $this->stages->pluck('id');
+    }
+
+    /**
+     * Get red list data for the form.
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function getRedListsDataAttribute()
     {
         return $this->redLists->map(function ($redList) {
@@ -174,42 +184,5 @@ class Taxon extends Model
                 'name' => trans('taxonomy.'.$rank),
             ];
         }, static::getRanks(), array_keys(static::getRanks()));
-    }
-
-    /**
-     * Check if given user is curator for the taxon.
-     *
-     * @param  \App\User  $user
-     * @return bool
-     */
-    public function isCuratedBy(User $user)
-    {
-        return $this->isDirectlyCuratedBy($user) || $this->ancestorIsCuratedBy($user);
-    }
-
-    /**
-     * Check if given user is direct curator for the taxon.
-     *
-     * @param  \App\User  $user
-     * @return bool
-     */
-    public function isDirectlyCuratedBy(User $user)
-    {
-        return $this->curators->contains(function ($curator) use ($user) {
-            return $curator->is($user);
-        });
-    }
-
-    /**
-     * Check if given user is curator for taxon's ancestor.
-     *
-     * @param  \App\User  $user
-     * @return bool
-     */
-    public function ancestorIsCuratedBy(User $user)
-    {
-        return $this->ancestors->load('curators')->contains(function ($ancestor) use ($user) {
-            return $ancestor->isDirectlyCuratedBy($user);
-        });
     }
 }

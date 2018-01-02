@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Stage;
 use App\Taxon;
 use App\RedList;
 use App\Convention;
@@ -19,7 +20,7 @@ class TaxaController extends Controller
      */
     public function index(Request $request)
     {
-        $taxa = Taxon::with('parent')->filter($request)->orderBy('id');
+        $taxa = Taxon::with(['parent', 'stages'])->filter($request)->orderBy('id');
 
         if ($request->has('page')) {
             return TaxonResource::collection(
@@ -62,6 +63,11 @@ class TaxaController extends Controller
             'fe_old_id' => 'nullable|integer',
             'fe_id' => 'nullable',
             'restricted' => 'boolean',
+            'stages_ids' => 'nullable|array',
+            'stages_ids.*' => [
+                'required',
+                Rule::in(Stage::pluck('id')->all()),
+            ],
             'conventions_ids' => 'nullable|array',
             'conventions_ids.*' => [
                 'required',
@@ -85,6 +91,7 @@ class TaxaController extends Controller
             'name', 'parent_id', 'rank_level', 'fe_old_id', 'fe_id', 'restricted'
         ]));
 
+        $taxon->stages()->sync(request('stages_ids', []));
         $taxon->conventions()->sync(request('conventions_ids', []));
         $taxon->redLists()->sync(
             $this->mapRedListsData(request('red_lists_data', []))
@@ -116,6 +123,11 @@ class TaxaController extends Controller
             'fe_old_id' => 'nullable|integer',
             'fe_id' => 'nullable',
             'restricted' => 'boolean',
+            'stages_ids' => 'nullable|array',
+            'stages_ids.*' => [
+                'required',
+                Rule::in(Stage::pluck('id')->all()),
+            ],
             'conventions_ids' => 'nullable|array',
             'conventions_ids.*' => [
                 'required',
@@ -139,6 +151,7 @@ class TaxaController extends Controller
             'name', 'parent_id', 'rank_level', 'fe_old_id', 'fe_id', 'restricted'
         ]));
 
+        $taxon->stages()->sync(request('stages_ids', []));
         $taxon->conventions()->sync(request('conventions_ids', []));
         $taxon->redLists()->sync(
             $this->mapRedListsData(request('red_lists_data', []))

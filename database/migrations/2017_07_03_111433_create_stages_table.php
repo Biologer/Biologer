@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTaxaTable extends Migration
+class CreateStagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,9 @@ class CreateTaxaTable extends Migration
      */
     public function up()
     {
-        Schema::create('taxa', function (Blueprint $table) {
+        Schema::create('stages', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('parent_id')->nullable();
             $table->string('name')->unique();
-            $table->unsignedInteger('rank_level');
-            $table->unsignedInteger('fe_old_id')->nullable();
-            $table->string('fe_id')->nullable();
-            $table->boolean('restricted')->default(false);
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ class CreateTaxaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taxa');
+        Schema::dropIfExists('stages');
     }
 }

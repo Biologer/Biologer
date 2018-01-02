@@ -22,15 +22,23 @@ class CreateObservationsTable extends Migration
             $table->string('location')->nullable();
             $table->double('latitude', 15, 12);
             $table->double('longitude', 15, 12);
-            $table->unsignedInteger('accuracy')->default(1);
+            $table->unsignedInteger('accuracy')->nullable();
             $table->string('mgrs10k')->nullable();
             $table->smallInteger('elevation')->default(0);
+            $table->string('observer')->nullable();
+            $table->string('identifier')->nullable();
+            $table->string('sex')->nullable();
+            $table->unsignedInteger('stage_id')->nullable();
+            $table->unsignedInteger('thing_observed_id')->nullable();
+            $table->text('note')->nullable();
+            $table->unsignedInteger('number')->nullable();
             $table->morphs('details');
             $table->dateTime('approved_at')->nullable();
             $table->unsignedInteger('created_by_id');
             $table->timestamps();
 
             $table->foreign('created_by_id')->references('id')->on('users');
+            $table->foreign('stage_id')->references('id')->on('stages');
 
             $table->index('approved_at');
         });

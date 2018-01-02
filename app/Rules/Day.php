@@ -39,7 +39,7 @@ class Day implements Rule
         $date = Carbon::create($this->year, $this->month);
 
         if ($now->year == $this->year && $now->month == $this->month) {
-            return $value <= $now->day;
+            return $value <= $now->day + 1;
         }
 
         return $value <= $date->daysInMonth;

@@ -94,7 +94,7 @@ export default {
 
             axios.get(route('api.taxa.index', {
                 name: this.value,
-                except: this.except
+                except: this.except || null
             })).then(({ data }) => {
                 data.data.forEach((item) => this.data.push(item))
                 this.loading = false

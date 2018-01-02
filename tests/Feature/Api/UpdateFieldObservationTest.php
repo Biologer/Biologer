@@ -53,16 +53,16 @@ class UpdateFieldObservationTest extends TestCase
     /** @test */
     function field_observation_can_be_updated_by_user_who_created_it_if_its_not_approved()
     {
+        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
-        $observation = ObservationFactory::createUnapprovedFieldObservation([
+        $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'created_by_id' => $user->id,
         ]);
 
         Passport::actingAs($user);
         $response = $this->putJson(
-            "/api/field-observations/{$observation->id}", $this->validParams([
+            "/api/field-observations/{$fieldObservation->id}", $this->validParams([
                 'elevation' => 1000,
-                'source' => 'New source',
                 'taxon_suggestion' => 'New taxon suggestion',
             ])
         );
@@ -71,14 +71,12 @@ class UpdateFieldObservationTest extends TestCase
         $response->assertJson([
             'data' => [
                 'elevation' => 1000,
-                'source' => 'New source',
                 'taxon_suggestion' => 'New taxon suggestion',
             ]
         ]);
 
-        tap($observation->fresh(), function ($fieldObservation) {
+        tap($fieldObservation->fresh(), function ($fieldObservation) {
             $this->assertEquals(1000, $fieldObservation->observation->elevation);
-            $this->assertEquals('New source', $fieldObservation->source);
             $this->assertEquals('New taxon suggestion', $fieldObservation->taxon_suggestion);
         });
     }
@@ -95,7 +93,7 @@ class UpdateFieldObservationTest extends TestCase
         $response = $this->putJson(
             "/api/field-observations/{$observation->id}", $this->validParams([
                 'elevation' => 1000,
-                'source' => 'New source',
+                'observer' => 'New observer',
                 'taxon_suggestion' => 'New taxon suggestion',
             ])
         );
@@ -104,7 +102,7 @@ class UpdateFieldObservationTest extends TestCase
 
         tap($observation->fresh(), function ($fieldObservation) {
             $this->assertNotEquals(1000, $fieldObservation->observation->elevation);
-            $this->assertNotEquals('New source', $fieldObservation->source);
+            $this->assertNotEquals('New observer', $fieldObservation->observation->observer);
             $this->assertNotEquals('New taxon suggestion', $fieldObservation->taxon_suggestion);
         });
     }
@@ -114,15 +112,15 @@ class UpdateFieldObservationTest extends TestCase
     {
         $user = factory(User::class)->create()->assignRole('admin');
 
-        $observation = ObservationFactory::createFieldObservation([
+        $fieldObservation = ObservationFactory::createFieldObservation([
             'created_by_id' => $user->id,
         ]);
 
         Passport::actingAs($user);
         $response = $this->putJson(
-            "/api/field-observations/{$observation->id}", $this->validParams([
+            "/api/field-observations/{$fieldObservation->id}", $this->validParams([
                 'elevation' => 1000,
-                'source' => 'New source',
+                'observer' => 'New observer',
                 'taxon_suggestion' => 'New taxon suggestion',
             ])
         );
@@ -131,14 +129,14 @@ class UpdateFieldObservationTest extends TestCase
         $response->assertJson([
             'data' => [
                 'elevation' => 1000,
-                'source' => 'New source',
+                'observer' => 'New observer',
                 'taxon_suggestion' => 'New taxon suggestion',
             ]
         ]);
 
-        tap($observation->fresh(), function ($fieldObservation) {
+        tap($fieldObservation->fresh(), function ($fieldObservation) {
             $this->assertEquals(1000, $fieldObservation->observation->elevation);
-            $this->assertEquals('New source', $fieldObservation->source);
+            $this->assertEquals('New observer', $fieldObservation->observation->observer);
             $this->assertEquals('New taxon suggestion', $fieldObservation->taxon_suggestion);
         });
     }

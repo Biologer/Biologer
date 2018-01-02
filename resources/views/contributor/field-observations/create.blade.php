@@ -2,10 +2,8 @@
 
 @section('content')
     <div class="box">
-        <field-observation-form action="{{ route('api.field-observations.store') }}" method="post" inline-template
-            :data-dynamic-fields="{{ App\FieldObservation::availableDynamicFields() }}">
-
-            <div class="">
+        <field-observation-form action="{{ route('api.field-observations.store') }}" method="post" inline-template>
+            <div class="field-observation-form">
                 <div class="columns">
                     <div class="column is-half">
                         <nz-taxon-autocomplete v-model="form.taxon_suggestion"
@@ -60,35 +58,6 @@
                                 </div>
                             </div>
                         </b-field>
-
-                        <b-field label="Source">
-                            <b-input v-model="form.source"
-                                :error="form.errors.has('source')"
-                                :message="form.errors.has('source') ? form.errors.first('source') : null"
-                            ></b-input>
-                        </b-field>
-
-                        <b-field label="Data License"
-                            :type="form.errors.has('data_license')? 'is-danger' : null"
-                            :message="form.errors.has('data_license') ? form.errors.first('data_license') : null">
-                            <b-select v-model="form.data_license">
-                                <option :value="null">Default</option>
-                                @foreach (\App\License::getAvailable() as $value => $label)
-                                    <option value="{{ $value }}">{{ $label }}</option>
-                                @endforeach
-                            </b-select>
-                        </b-field>
-
-                        <b-field label="Image License"
-                            :type="form.errors.has('image_license')? 'is-danger' : null"
-                            :message="form.errors.has('image_license') ? form.errors.first('image_license') : null">
-                            <b-select v-model="form.image_license">
-                                <option :value="null">Default</option>
-                                @foreach (\App\License::getAvailable() as $value => $label)
-                                    <option value="{{ $value }}">{{ $label }}</option>
-                                @endforeach
-                            </b-select>
-                        </b-field>
                     </div>
 
                     <div class="column is-half">
@@ -102,28 +71,91 @@
                     </div>
                 </div>
 
-                <b-field label="Add Comment">
-                    <b-input type="textarea"
-                        v-model="form.comment"
-                        :error="form.errors.has('comment')"
-                        :message="form.errors.has('comment') ? form.errors.first('comment') : null"
-                    ></b-input>
-                </b-field>
+                <button type="button" class="button is-text" @click="showMoreDetails = !showMoreDetails">More details</button>
 
-                <div v-for="(field, index) in dynamicFields" :key="field.name">
-                    <nz-dynamic-input :field="field" v-model="_.find(form.dynamic_fields, {name:field.name}).value" @remove="removeField(field)" :errors="form.errors" :index="index"></nz-dynamic-input>
-                </div>
-
-                <b-field label="Additional input" v-if="availableDynamicFields.length" >
-                    <b-field v-if="availableDynamicFields.length">
-                        <b-select v-model="chosenField" expanded>
-                            <option v-for="field in availableDynamicFields" :value="field" v-text="field.label"></option>
-                        </b-select>
-                        <div class="control">
-                            <button type="button" class="button" @click="addField()" :disabled="!chosenField">Add</button>
-                        </div>
+                <div class="mt-4" v-show="showMoreDetails">
+                    <b-field label="Note"
+                        :error="form.errors.has('note')"
+                        :message="form.errors.has('note') ? form.errors.first('note') : null">
+                        <b-input type="textarea"
+                            v-model="form.note"
+                        ></b-input>
                     </b-field>
-                </b-field>
+
+                    <b-field label="Number"
+                        :type="form.errors.has('number') ? 'is-danger' : null"
+                        :message="form.errors.has('number') ? form.errors.first('number') : null">
+                        <b-input type="number"
+                            v-model="form.number">
+                        </b-input>
+                    </b-field>
+
+                    <b-field label="Sex"
+                        :type="form.errors.has('sex') ? 'is-danger' : null"
+                        :message="form.errors.has('sex') ? form.errors.first('sex') : null">
+                        <b-select v-model="form.sex">
+                            <option :value="null">Choose a value</option>
+                            @foreach (\App\Observation::SEX_OPTIONS as $value)
+                                <option value="{{ $value }}">{{ $value }}</option>
+                            @endforeach
+                        </b-select>
+                    </b-field>
+
+                    <b-field label="Stage"
+                        :type="form.errors.has('stage_id') ? 'is-danger' : null"
+                        :message="form.errors.has('stage_id') ? form.errors.first('stage_id') : null">
+                        <b-select v-model="form.stage_id" :disabled="!stages.length">
+                            <option :value="null">Choose a stage</option>
+                            <option v-for="stage in stages" :value="stage.id" :key="stage.id" v-text="stage.name"></option>
+                        </b-select>
+                    </b-field>
+
+                    @role(['admin', 'curator'])
+                        <b-field label="Observer"
+                            :type="form.errors.has('observer') ? 'is-danger' : null"
+                            :message="form.errors.has('observer') ? form.errors.first('observer') : null">
+                            <b-input v-model="form.observer"></b-input>
+                        </b-field>
+
+                        <b-field label="Identifier"
+                            :type="form.errors.has('identifier') ? 'is-danger' : null"
+                            :message="form.errors.has('identifier') ? form.errors.first('identifier') : null">
+                            <b-input v-model="form.identifier"></b-input>
+                        </b-field>
+                    @endrole
+
+                    <b-checkbox v-model="form.found_dead">Found Dead?</b-checkbox>
+
+                    <b-field label="Note on dead observation" v-if="form.found_dead"
+                        :error="form.errors.has('found_dead_note')"
+                        :message="form.errors.has('found_dead_note') ? form.errors.first('found_dead_note') : null">
+                        <b-input type="textarea"
+                            v-model="form.found_dead_note"
+                        ></b-input>
+                    </b-field>
+
+                    <b-field label="Data License"
+                        :type="form.errors.has('data_license') ? 'is-danger' : null"
+                        :message="form.errors.has('data_license') ? form.errors.first('data_license') : null">
+                        <b-select v-model="form.data_license">
+                            <option :value="null">Default</option>
+                            @foreach (\App\License::getAvailable() as $value => $label)
+                                <option value="{{ $value }}">{{ $label }}</option>
+                            @endforeach
+                        </b-select>
+                    </b-field>
+
+                    <b-field label="Image License"
+                        :type="form.errors.has('image_license') ? 'is-danger' : null"
+                        :message="form.errors.has('image_license') ? form.errors.first('image_license') : null">
+                        <b-select v-model="form.image_license">
+                            <option :value="null">Default</option>
+                            @foreach (\App\License::getAvailable() as $value => $label)
+                                <option value="{{ $value }}">{{ $label }}</option>
+                            @endforeach
+                        </b-select>
+                    </b-field>
+                </div>
 
                 <hr>
 
