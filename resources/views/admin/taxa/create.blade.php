@@ -7,7 +7,7 @@
             :ranks="{{ $ranks }}"
             :conventions="{{ $conventions }}"
             :red-lists="{{ $redLists }}"
-            :red-list-categories="{{ $redListSategories }}"
+            :red-list-categories="{{ $redListCategories }}"
             :stages="{{ $stages }}"
             >
             <form @submit.prevent="submit">

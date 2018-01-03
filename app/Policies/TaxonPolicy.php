@@ -40,7 +40,7 @@ class TaxonPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user, $parentId)
+    public function create(User $user, $parentId = null)
     {
         return $user->hasRole('admin') || $this->canCreateWithParent($parentId);
     }

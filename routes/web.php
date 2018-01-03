@@ -64,7 +64,7 @@ Route::middleware('auth')->group(function () {
             ->name('taxa.edit');
 
         Route::get('taxa/new', 'TaxaController@create')
-            ->middleware('can:create,taxon')
+            ->middleware('role:admin,curator')
             ->name('taxa.create');
 
         Route::get('users', 'UsersController@index')
