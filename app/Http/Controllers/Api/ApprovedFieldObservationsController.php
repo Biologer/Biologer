@@ -12,7 +12,6 @@ class ApprovedFieldObservationsController extends Controller
 {
     public function store()
     {
-
         request()->validate([
             'field_observation_id' => [
                 'required',

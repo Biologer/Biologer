@@ -58,6 +58,8 @@ Route::middleware('auth:api')->group(function() {
     // Approved field observations
     Route::post('approved-field-observations', 'ApprovedFieldObservationsController@store')
         ->name('api.approved-field-observations.store');
+    Route::post('approved-field-observations/batch', 'ApprovedFieldObservationsBatchController@store')
+        ->name('api.approved-field-observations-batch.store');
 
     // Users
     Route::get('users', 'UsersController@index')

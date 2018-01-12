@@ -1,5 +1,12 @@
 <template>
     <div class="field-observations-table">
+        <div>
+            <button type="button" class="button" v-if="approvable && checkedRows.length" @click="confirmApprove">
+                <b-icon icon="check" class="has-text-success"></b-icon>
+                <span>Approve</span>
+            </button>
+        </div>
+
         <b-table
             :data="data"
             :loading="loading"
@@ -16,7 +23,10 @@
             @sort="onSort"
 
             detailed
-            :mobile-cards="true">
+            :mobile-cards="true"
+
+            :checkable="approvable"
+            :checked-rows.sync="checkedRows">
 
             <template slot-scope="props">
                 <b-table-column field="id" label="ID" width="40" numeric sortable>
@@ -116,10 +126,12 @@ export default {
         listRoute: String,
         editRoute: String,
         deleteRoute: String,
+        approveRoute: String,
         empty: {
             type: String,
             default: 'Nothing here.'
-        }
+        },
+        approvable: Boolean
     },
 
     data() {
@@ -133,7 +145,8 @@ export default {
             page: 1,
             perPage: this.perPageOptions[0],
             isImageModalActive: false,
-            modalImage: null
+            modalImage: null,
+            checkedRows: []
         };
     },
 
@@ -211,6 +224,41 @@ export default {
             this.modalImage = imageUrl;
 
             this.isImageModalActive = true;
+        },
+
+        confirmApprove() {
+            this.$dialog.confirm({
+                message: 'You are about to approve checked observations. If some of them cannot be approved none will be approved.',
+                confirmText: 'Approve',
+                type: 'is-primary',
+                onConfirm: this.approve.bind(this)
+            })
+        },
+
+        approve() {
+            this.loading = true;
+
+            axios.post(route(this.approveRoute), {
+                field_observation_ids: this.checkedRows.map(row => row.id)
+            }).then(this.successfullyApproved).catch(this.failedToApprove)
+        },
+
+        successfullyApproved() {
+            this.checkedRows = [];
+            this.$toast.open({
+                message: 'Observations have been approved',
+                type: 'is-success'
+            });
+            this.loadAsyncData();
+        },
+
+        failedToApprove(error) {
+            this.loading = false;
+            this.$toast.open({
+                message: 'Some of the observations cannot be approved',
+                type: 'is-danger',
+                duration: 5000
+            });
         }
     },
 

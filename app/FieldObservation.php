@@ -65,18 +65,6 @@ class FieldObservation extends Model
     }
 
     /**
-     * Available dynamic fields.
-     *
-     * @return array
-     */
-    public static function dynamicFields()
-    {
-        return [
-            'gender' => \App\DynamicFields\Gender::class,
-        ];
-    }
-
-    /**
      * Main observation data.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphOne
@@ -176,8 +164,10 @@ class FieldObservation extends Model
      */
     public function scopeApprovable($query)
     {
-        return $query->whereHas('observation', function ($q) {
-            return $q->unapproved()->whereNotNull('taxon_id');
+        return $query->whereHas('observation', function ($query) {
+            return $query->unapproved()->whereHas('taxon', function ($query) {
+                return $query->speciesOrLower();
+            });
         });
     }
 
@@ -339,5 +329,16 @@ class FieldObservation extends Model
         });
 
         return $data;
+    }
+
+    /**
+     * Create a new Eloquent Collection instance.
+     *
+     * @param  array  $models
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function newCollection(array $models = [])
+    {
+        return new FieldObservationCollection($models);
     }
 }

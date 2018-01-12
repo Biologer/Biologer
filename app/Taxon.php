@@ -111,6 +111,17 @@ class Taxon extends Model
     }
 
     /**
+     * Scope the query to get only species or taxa of lower ranks.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSpeciesOrLower($query)
+    {
+        return $query->where('rank_level', '<=', 10);
+    }
+
+    /**
      * Get taxonomic rank name.
      *
      * @return string

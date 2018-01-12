@@ -5,7 +5,9 @@
         <nz-field-observations-table
             list-route="api.my.pending-observations.index"
             edit-route="curator.pending-observations.edit"
-            delete-route="api.field-observations.destroy">
+            delete-route="api.field-observations.destroy"
+            approve-route="api.approved-field-observations-batch.store"
+            approvable>
         </nz-field-observations-table>
     </div>
 @endsection

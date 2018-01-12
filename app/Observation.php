@@ -167,7 +167,9 @@ class Observation extends Model
      */
     public function approve()
     {
-        $this->update(['approved_at' => Carbon::now()]);
+        if (is_null($this->approved_at)) {
+            $this->forceFill(['approved_at' => $this->freshTimestamp()])->save();
+        }
     }
 
     /**
