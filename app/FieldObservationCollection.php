@@ -17,4 +17,16 @@ class FieldObservationCollection extends Collection
             $fieldObservation->approve();
         });
     }
+
+    /**
+     * Mark all field observations as unidentifiable.
+     *
+     * @return void
+     */
+    public function markAsUnidentifiable()
+    {
+        $this->each(function ($fieldObservation) {
+            $fieldObservation->markAsUnidentifiable();
+        });
+    }
 }

@@ -173,6 +173,18 @@ class Observation extends Model
     }
 
     /**
+     * Revert appproving observation.
+     *
+     * @return void
+     */
+    public function unapprove()
+    {
+        if (! is_null($this->approved_at)) {
+            $this->forceFill(['approved_at' => null])->save();
+        }
+    }
+
+    /**
      * Check if observation is approved.
      *
      * @return bool

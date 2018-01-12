@@ -61,6 +61,10 @@ Route::middleware('auth:api')->group(function() {
     Route::post('approved-field-observations/batch', 'ApprovedFieldObservationsBatchController@store')
         ->name('api.approved-field-observations-batch.store');
 
+    // Unidentifiable field observations
+    Route::post('unidentifiable-field-observations/batch', 'UnidentifiableFieldObservationsBatchController@store')
+        ->name('api.unidentifiable-field-observations-batch.store');
+
     // Users
     Route::get('users', 'UsersController@index')
         ->middleware('can:list,App\User')

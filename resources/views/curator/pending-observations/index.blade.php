@@ -7,6 +7,7 @@
             edit-route="curator.pending-observations.edit"
             delete-route="api.field-observations.destroy"
             approve-route="api.approved-field-observations-batch.store"
+            mark-as-unidentifiable-route="api.unidentifiable-field-observations-batch.store"
             approvable>
         </nz-field-observations-table>
     </div>

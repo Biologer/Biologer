@@ -9,7 +9,6 @@ use Tests\TestCase;
 use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class BatchApprovingFieldObservationsTest extends TestCase
@@ -46,6 +45,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
         $this->assertEquals(3, $fresh->count());
         $fresh->each(function ($fieldObservation) {
             $this->assertTrue($fieldObservation->isApproved());
+            $this->assertFalse($fieldObservation->unidentifiable);
         });
     }
 

@@ -233,6 +233,26 @@ class FieldObservation extends Model
     {
         $this->observation->approve();
 
+        if ($this->unidentifiable) {
+            $this->forceFill(['unidentifiable' => false])->save();
+        }
+
+        return $this;
+    }
+
+     /**
+     * Mark observation as unidentifiable.
+     *
+     * @return $this
+     */
+    public function markAsUnidentifiable()
+    {
+        $this->observation->unapprove();
+
+        if (! $this->unidentifiable) {
+            $this->forceFill(['unidentifiable' => true])->save();
+        }
+
         return $this;
     }
 

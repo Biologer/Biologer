@@ -1,9 +1,13 @@
 <template>
     <div class="field-observations-table">
-        <div>
+        <div class="buttons">
             <button type="button" class="button" v-if="approvable && checkedRows.length" @click="confirmApprove">
                 <b-icon icon="check" class="has-text-success"></b-icon>
                 <span>Approve</span>
+            </button>
+            <button type="button" class="button" v-if="approvable && checkedRows.length" @click="confirmMarkingAsUnidentifiable">
+                <b-icon icon="times" class="has-text-danger"></b-icon>
+                <span>Unidentifiable</span>
             </button>
         </div>
 
@@ -127,6 +131,7 @@ export default {
         editRoute: String,
         deleteRoute: String,
         approveRoute: String,
+        markAsUnidentifiableRoute: String,
         empty: {
             type: String,
             default: 'Nothing here.'
@@ -236,8 +241,6 @@ export default {
         },
 
         approve() {
-            this.loading = true;
-
             axios.post(route(this.approveRoute), {
                 field_observation_ids: this.checkedRows.map(row => row.id)
             }).then(this.successfullyApproved).catch(this.failedToApprove)
@@ -253,9 +256,41 @@ export default {
         },
 
         failedToApprove(error) {
-            this.loading = false;
             this.$toast.open({
                 message: 'Some of the observations cannot be approved',
+                type: 'is-danger',
+                duration: 5000
+            });
+        },
+
+        confirmMarkingAsUnidentifiable() {
+            this.$dialog.confirm({
+                message: 'You are about to mark checked observations as unidentifiable. If some of them cannot be marked as unidentifiable none will be.',
+                confirmText: 'Mark as unidentifiable',
+                type: 'is-warning',
+                onConfirm: this.markAsUnidentifiable.bind(this)
+            })
+        },
+
+        markAsUnidentifiable() {
+            axios.post(route(this.markAsUnidentifiableRoute), {
+                field_observation_ids: this.checkedRows.map(row => row.id)
+            }).then(this.successfullyMarkedAsUnidentifiable)
+            .catch(this.failedToMarkAsUnidentifiable)
+        },
+
+        successfullyMarkedAsUnidentifiable() {
+            this.checkedRows = [];
+            this.$toast.open({
+                message: 'Observations have been marked as unidentifiable',
+                type: 'is-success'
+            });
+            this.loadAsyncData();
+        },
+
+        failedToMarkAsUnidentifiable(error) {
+            this.$toast.open({
+                message: 'Some of the observations cannot be marked as unidentifiable',
                 type: 'is-danger',
                 duration: 5000
             });
