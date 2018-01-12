@@ -29,7 +29,6 @@ class CreateObservationsTable extends Migration
             $table->string('identifier')->nullable();
             $table->string('sex')->nullable();
             $table->unsignedInteger('stage_id')->nullable();
-            $table->unsignedInteger('thing_observed_id')->nullable();
             $table->text('note')->nullable();
             $table->unsignedInteger('number')->nullable();
             $table->morphs('details');
