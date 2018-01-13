@@ -13,7 +13,7 @@ class UsersController extends Controller
      * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)
     {
@@ -41,7 +41,7 @@ class UsersController extends Controller
      * Display the specified resource.
      *
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\User
      */
     public function show(User $user)
     {
@@ -53,7 +53,7 @@ class UsersController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\User
      */
     public function update(Request $request, User $user)
     {

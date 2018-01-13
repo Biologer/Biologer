@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\FieldObservation;
 use App\Http\Controllers\Controller;
-use App\Http\Forms\NewFieldObservationForm;
-use App\Http\Forms\FieldObservationUpdateForm;
+use App\Http\Requests\StoreFieldObservation;
+use App\Http\Requests\UpdateFieldObservation;
 use App\Http\Resources\FieldObservation as FieldObservationResource;
 
 class FieldObservationsController extends Controller
@@ -14,7 +14,7 @@ class FieldObservationsController extends Controller
      * Get field observations.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
      public function index(Request $request)
      {
@@ -32,9 +32,9 @@ class FieldObservationsController extends Controller
     /**
      * Add new field observation.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Http\Resources\FieldObservation
      */
-    public function store(NewFieldObservationForm $form)
+    public function store(StoreFieldObservation $form)
     {
         return new FieldObservationResource($form->save());
     }
@@ -43,7 +43,7 @@ class FieldObservationsController extends Controller
      * Display the specified resource.
      *
      * @param  \App\FieldObservation  $fieldObservation
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Http\Resources\FieldObservation
      */
     public function show(FieldObservation $fieldObservation)
     {
@@ -53,9 +53,9 @@ class FieldObservationsController extends Controller
     /**
      * Update field observation.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Http\Resources\FieldObservation
      */
-    public function update(FieldObservation $fieldObservation, FieldObservationUpdateForm $form)
+    public function update(FieldObservation $fieldObservation, UpdateFieldObservation $form)
     {
         return new FieldObservationResource(
             $form->save($fieldObservation)
@@ -70,7 +70,6 @@ class FieldObservationsController extends Controller
      */
     public function destroy(FieldObservation $fieldObservation)
     {
-        $fieldObservation->observation->delete();
         $fieldObservation->delete();
 
         return response()->json(null, 204);

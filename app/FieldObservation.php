@@ -361,4 +361,18 @@ class FieldObservation extends Model
     {
         return new FieldObservationCollection($models);
     }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($model) {
+            $model->observation->delete();
+        });
+    }
 }
