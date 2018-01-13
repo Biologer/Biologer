@@ -71,6 +71,4 @@ Route::middleware('auth')->group(function () {
             ->middleware('can:list,App\User')
             ->name('users.index');
     });
-
-
 });
