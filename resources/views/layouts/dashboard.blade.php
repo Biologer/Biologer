@@ -116,6 +116,12 @@
                                 <li><a href="{{ route('admin.taxa.index') }}">Taxa</a></li>
                             </ul>
                         @endcan
+
+                        @can('list', \App\User::class)
+                            <ul class="menu-list">
+                                <li><a href="{{ route('admin.users.index') }}">Users</a></li>
+                            </ul>
+                        @endcan
                     @endrole
                 </aside>
             </div>
