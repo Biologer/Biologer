@@ -112,6 +112,10 @@
     background-color: $white;
 }
 
+.bg-light {
+    background-color: $light;
+}
+
 .is-clickable {
     pointer-events: auto;
     cursor: pointer;

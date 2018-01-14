@@ -82,52 +82,54 @@
         </div>
     </nav>
 
-    <div class="container is-fluid p-4">
-        <div class="columns">
-            <div class="column is-2">
-                <aside class="menu">
-                    <p class="menu-label">
-                        My
-                    </p>
-
-                    <ul class="menu-list">
-                        <li><a href="{{ route('contributor.field-observations.index') }}">Field Observations</a></li>
-                    </ul>
-
-                    @role(['admin', 'curator'])
+    <div class="bg-light">
+        <div class="container is-fluid p-4">
+            <div class="columns">
+                <div class="column is-2">
+                    <aside class="menu">
                         <p class="menu-label">
-                            Curator
+                            My
                         </p>
 
-                        @can('list', \App\FieldObservation::class)
-                            <ul class="menu-list">
-                                <li><a href="{{ route('curator.pending-observations.index') }}">Pending Observations</a></li>
-                            </ul>
-                        @endcan
-                    @endrole
+                        <ul class="menu-list">
+                            <li><a href="{{ route('contributor.field-observations.index') }}">Field Observations</a></li>
+                        </ul>
 
-                    @role(['admin', 'curator'])
-                        <p class="menu-label">
-                            Admin
-                        </p>
+                        @role(['admin', 'curator'])
+                            <p class="menu-label">
+                                Curator
+                            </p>
 
-                        @can('list', \App\Taxon::class)
-                            <ul class="menu-list">
-                                <li><a href="{{ route('admin.taxa.index') }}">Taxa</a></li>
-                            </ul>
-                        @endcan
+                            @can('list', \App\FieldObservation::class)
+                                <ul class="menu-list">
+                                    <li><a href="{{ route('curator.pending-observations.index') }}">Pending Observations</a></li>
+                                </ul>
+                            @endcan
+                        @endrole
 
-                        @can('list', \App\User::class)
-                            <ul class="menu-list">
-                                <li><a href="{{ route('admin.users.index') }}">Users</a></li>
-                            </ul>
-                        @endcan
-                    @endrole
-                </aside>
-            </div>
+                        @role(['admin', 'curator'])
+                            <p class="menu-label">
+                                Admin
+                            </p>
 
-            <div class="column">
-                @yield('content')
+                            @can('list', \App\Taxon::class)
+                                <ul class="menu-list">
+                                    <li><a href="{{ route('admin.taxa.index') }}">Taxa</a></li>
+                                </ul>
+                            @endcan
+
+                            @can('list', \App\User::class)
+                                <ul class="menu-list">
+                                    <li><a href="{{ route('admin.users.index') }}">Users</a></li>
+                                </ul>
+                            @endcan
+                        @endrole
+                    </aside>
+                </div>
+
+                <div class="column">
+                    @yield('content')
+                </div>
             </div>
         </div>
     </div>
