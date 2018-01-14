@@ -70,5 +70,13 @@ Route::middleware('auth')->group(function () {
         Route::get('users', 'UsersController@index')
             ->middleware('can:list,App\User')
             ->name('users.index');
+
+        Route::get('users/{user}/edit', 'UsersController@edit')
+            ->middleware('can:update,user')
+            ->name('users.edit');
+
+        Route::put('users/{user}', 'UsersController@update')
+            ->middleware('can:update,user')
+            ->name('users.update');
     });
 });

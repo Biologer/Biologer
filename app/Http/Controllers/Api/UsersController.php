@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Role;
 use App\User;
+use App\Taxon;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User as UserResource;
 
@@ -51,18 +54,34 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\User  $user
+     * @param  \Illuminate\Http\Request  $request
      * @return \App\Http\Resources\User
      */
-    public function update(Request $request, User $user)
+    public function update(User $user, Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
+            'roles_ids' => 'array',
+            'roles_ids.*' => [Rule::in(Role::pluck('id')->all())],
+            'curated_taxa_ids' => 'array',
+            'curated_taxa_ids.*' => [Rule::in(Taxon::pluck('id')->all())],
         ]);
 
-        $user->update($data);
+        $user->update($request->only(['first_name', 'last_name']));
+
+        if ($request->has('roles_ids')) {
+            $user->roles()->sync($request->input('roles_ids', []));
+        }
+
+        $user->load('roles');
+
+        if ($request->has('curated_taxa_ids')) {
+            $user->curatedTaxa()->sync(
+                $user->hasRole('curator') ? $request->input('curated_taxa_ids', []) : []
+            );
+        }
 
         return new UserResource($user);
     }

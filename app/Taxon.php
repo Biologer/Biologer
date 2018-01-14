@@ -45,7 +45,7 @@ class Taxon extends Model
             'id' => \App\Filters\Id::class,
             'name' => \App\Filters\NameLike::class,
             'sort_by' => \App\Filters\SortBy::class,
-            'except' => \App\Filters\ExceptId::class,
+            'except' => \App\Filters\ExceptIds::class,
             'rank_level' => \App\Filters\Taxon\RankLevel::class,
         ];
     }

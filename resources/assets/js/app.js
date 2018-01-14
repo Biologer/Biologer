@@ -13,10 +13,11 @@ import DynamicField from './components/inputs/dynamic-input';
 import SpatialInput from './components/inputs/spatial-input';
 import TaxonAutocomplete from './components/inputs/taxon-autocomplete';
 
-import { Table, TableColumn } from './components/table';
 import TaxaTable from './components/tables/taxa-table';
+import UsersTable from './components/tables/users-table';
 import FieldObservationsTable from './components/tables/field-observations-table';
 
+import UserForm from './components/forms/user-form';
 import TaxonForm from './components/forms/taxon-form';
 import FieldObservationForm from './components/forms/field-observation-form';
 
@@ -38,13 +39,12 @@ if (window.route) {
     Vue.prototype.$ziggy = window.route;
 }
 
-Vue.component(Table.name, Table);
-Vue.component(TableColumn.name, TableColumn);
 Vue.component(Navbar.name, Navbar);
 Vue.component(Sidebar.name, Sidebar);
 Vue.component(Captcha.name, Captcha);
 Vue.component(DateInput.name, DateInput);
 Vue.component(TaxaTable.name, TaxaTable);
+Vue.component(UsersTable.name, UsersTable);
 Vue.component(PhotoUpload.name, PhotoUpload);
 Vue.component(DynamicField.name, DynamicField);
 Vue.component(DynamicField.name, DynamicField);
@@ -52,6 +52,7 @@ Vue.component(SpatialInput.name, SpatialInput);
 Vue.component(TaxonAutocomplete.name, TaxonAutocomplete);
 Vue.component(FieldObservationForm.name, FieldObservationForm);
 Vue.component(TaxonForm.name, TaxonForm);
+Vue.component(UserForm.name, UserForm);
 Vue.component(FieldObservationsTable.name, FieldObservationsTable);
 
 const app = new Vue({
