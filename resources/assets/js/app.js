@@ -9,11 +9,10 @@ import Captcha from './components/captcha';
 
 import DateInput from './components/inputs/date-input';
 import PhotoUpload from './components/inputs/photo-upload';
-import DynamicField from './components/inputs/dynamic-input';
 import SpatialInput from './components/inputs/spatial-input';
 import TaxonAutocomplete from './components/inputs/taxon-autocomplete';
 
-import { Table }  from './components/table';
+import Table from './components/table';
 import TaxaTable from './components/tables/taxa-table';
 import UsersTable from './components/tables/users-table';
 import FieldObservationsTable from './components/tables/field-observations-table';
@@ -48,8 +47,6 @@ Vue.component(Table.name, Table);
 Vue.component(TaxaTable.name, TaxaTable);
 Vue.component(UsersTable.name, UsersTable);
 Vue.component(PhotoUpload.name, PhotoUpload);
-Vue.component(DynamicField.name, DynamicField);
-Vue.component(DynamicField.name, DynamicField);
 Vue.component(SpatialInput.name, SpatialInput);
 Vue.component(TaxonAutocomplete.name, TaxonAutocomplete);
 Vue.component(FieldObservationForm.name, FieldObservationForm);

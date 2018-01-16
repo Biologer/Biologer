@@ -20,7 +20,6 @@
                         <th v-if="detailed" width="40px"></th>
                         <th class="checkbox-cell" v-if="checkable">
                             <input type="checkbox" :checked="isAllChecked" @change="checkAll">
-                            <!-- <b-checkbox :value="isAllChecked" @change.native="checkAll"></b-checkbox> -->
                         </th>
                         <th v-for="(column, index) in columns"
                             v-if="column.visible"
@@ -65,7 +64,6 @@
 
                             <td class="checkbox-cell" v-if="checkable">
                                 <input type="checkbox" :checked="isRowChecked(row)" @click="checkRow($event, row, index)">
-                                <!-- <b-checkbox :value="isRowChecked(row)" @change.native="checkRow(row)"></b-checkbox> -->
                             </td>
 
                             <slot :row="row" :index="index"></slot>
@@ -200,7 +198,7 @@
                 newData: this.data,
                 newDataTotal: this.backendPagination ? this.total : this.data.length,
                 newCheckedRows: [...this.checkedRows],
-                lastCheckedRow: null,
+                lastCheckedRowIndex: null,
                 newCurrentPage: this.currentPage,
                 currentSortColumn: {},
                 isAsc: true,
@@ -446,13 +444,12 @@
              * Add or remove a single row.
              */
             checkRow(event, row, index) {
-                if (event.shiftKey) {
-                    return this.shiftCheckRow(row, index)
-                }
+                const lastIndex = this.lastCheckedRowIndex
+                this.lastCheckedRowIndex = index
 
-                this.lastCheckedRow = index
-
-                if (!this.isRowChecked(row)) {
+                if (event.shiftKey && lastIndex !== null && index !== lastIndex) {
+                    this.shiftCheckRow(row, index, lastIndex)
+                } else if (!this.isRowChecked(row)) {
                     this.newCheckedRows.push(row)
                 } else {
                     this.removeCheckedRow(row)
@@ -467,38 +464,26 @@
             /**
              * Check row when shift is pressed.
              */
-            shiftCheckRow(row, index) {
-                if (this.lastCheckedRow !== null) {
-                    this.lastCheckedRow = 1
-                }
+            shiftCheckRow(row, index, lastCheckedRowIndex) {
+                // Get the subset of the message list between the two indicies.
+                const subset = this.visibleData.slice(
+                    Math.min(index, lastCheckedRowIndex),
+                    Math.max(index, lastCheckedRowIndex) + 1
+                )
 
-                const sliceStart = index > this.lastCheckedRow ? this.lastCheckedRow : index
-                const sliceEnd = index > this.lastCheckedRow ? index : this.lastCheckedRow
-
-                let newCheckedRows = this.visibleData.slice(sliceStart, sliceEnd + 1)
-
-                if (index > this.lastCheckedRow) {
-                    newCheckedRows = newCheckedRows.reverse()
-                }
-
-                if (newCheckedRows.indexOf(newRow => !this.isRowChecked(newRow)) >= 0) {
-                    newCheckedRows.forEach(newRow => {
-                        this.removeCheckedRow(row)
-                    })
-                } else {
-                    newCheckedRows.forEach(newRow => {
-                        if (!this.isRowChecked(row)) {
-                            this.newCheckedRows.push(row)
+                // Determine the operation based on the checked state
+                // of the clicked checkbox.
+                if (!this.isRowChecked(row)) {
+                    subset.forEach(item => {
+                        if (!this.isRowChecked(item)) {
+                            this.newCheckedRows.push(item)
                         }
                     })
+                } else {
+                    subset.forEach(item => {
+                        this.removeCheckedRow(item)
+                    })
                 }
-
-                this.lastCheckedRow = index
-
-                this.$emit('check', this.newCheckedRows, row)
-
-                // Emit checked rows to update user variable
-                this.$emit('update:checkedRows', this.newCheckedRows)
             },
 
             /**

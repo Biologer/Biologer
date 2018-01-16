@@ -1,11 +1,11 @@
 <template>
     <div class="field-observations-table">
-        <div class="buttons">
-            <button type="button" class="button" v-if="approvable && checkedRows.length" @click="confirmApprove">
+        <div class="buttons" v-if="approvable">
+            <button type="button" class="button" :disabled="!checkedRows.length" @click="confirmApprove">
                 <b-icon icon="check" class="has-text-success"></b-icon>
                 <span>Approve</span>
             </button>
-            <button type="button" class="button" v-if="approvable && checkedRows.length" @click="confirmMarkingAsUnidentifiable">
+            <button type="button" class="button" :disabled="!checkedRows.length" @click="confirmMarkingAsUnidentifiable">
                 <b-icon icon="times" class="has-text-danger"></b-icon>
                 <span>Unidentifiable</span>
             </button>
