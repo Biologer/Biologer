@@ -473,17 +473,12 @@
 
                 // Determine the operation based on the checked state
                 // of the clicked checkbox.
-                if (!this.isRowChecked(row)) {
-                    subset.forEach(item => {
-                        if (!this.isRowChecked(item)) {
-                            this.newCheckedRows.push(item)
-                        }
-                    })
-                } else {
-                    subset.forEach(item => {
-                        this.removeCheckedRow(item)
-                    })
-                }
+                subset.forEach(item => {
+                    this.removeCheckedRow(item)
+                    if (!this.isRowChecked(row)) {
+                        this.newCheckedRows.push(item)
+                    }
+                })
             },
 
             /**
