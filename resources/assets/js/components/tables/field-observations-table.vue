@@ -11,7 +11,7 @@
             </button>
         </div>
 
-        <b-table
+        <nz-table
             :data="data"
             :loading="loading"
 
@@ -101,7 +101,7 @@
                     </b-select>
                 </b-field>
             </template>
-        </b-table>
+        </nz-table>
 
         <b-modal :active.sync="isImageModalActive" :can-cancel="['escape', 'x']">
             <div class="image is-4by3">
