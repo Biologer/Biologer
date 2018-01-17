@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class FieldObservation extends Model
 {
-    use Concerns\HasDynamicFields, Eloquence, Filterable, Mappable;
+    use Eloquence, Filterable, Mappable;
 
     /**
      * The model's attributes.

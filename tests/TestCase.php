@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use PHPUnit\Framework\Assert as PHPUnit;
@@ -35,27 +35,13 @@ abstract class TestCase extends BaseTestCase
      */
     protected function registerMacros()
     {
-        $this->responseMacros();
         $this->collectionMacros();
-    }
-
-    /**
-     * Register test response macros.
-     *
-     * @return void
-     */
-    protected function responseMacros()
-    {
-        TestResponse::macro('assertValidationErrors', function ($fields) {
-            $this->assertStatus(422);
-            $this->assertJsonValidationErrors(array_wrap($fields));
-        });
+        $this->responseMacros();
+        $this->queryBuilderMacros();
     }
 
     /**
      * Register collection macros.
-     *
-     * @return void
      */
     protected function collectionMacros()
     {
@@ -72,5 +58,44 @@ abstract class TestCase extends BaseTestCase
         Collection::macro('assertNotContains', function ($item) {
             PHPUnit::assertFalse($this->contains($item), 'Failed asserting that the collection does not contain the specified value.');
         });
+
+        Collection::macro('assertCount', $this->countAssertion());
+    }
+
+    /**
+     * Register test response macros.
+     */
+    protected function responseMacros()
+    {
+        TestResponse::macro('assertValidationErrors', function ($fields) {
+            $this->assertStatus(422);
+            $this->assertJsonValidationErrors(array_wrap($fields));
+        });
+    }
+
+    /**
+     * Register query builder macros.
+     */
+    protected function queryBuilderMacros()
+    {
+        Builder::macro('assertCount', $this->countAssertion());
+    }
+
+    /**
+     * Get function to assert count.
+     *
+     * @return \Closure
+     */
+    protected function countAssertion()
+    {
+        return function ($expectedCount) {
+            $actualCount = $this->count();
+
+            PHPUnit::assertEquals(
+                $expectedCount,
+                $actualCount,
+                "Failed asserting that count of {$actualCount} equals expected count of {$expectedCount}"
+            );
+        };
     }
 }

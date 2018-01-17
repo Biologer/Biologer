@@ -53,8 +53,8 @@ class AddFieldObservationTest extends TestCase
         $response = $this->postJson('/api/field-observations', $this->validParams());
 
         $response->assertStatus(401);
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
-        $this->assertEquals($observationsCount, Observation::count());
+        FieldObservation::assertCount($fieldObservationsCount);
+        Observation::assertCount($observationsCount);
     }
 
     /** @test */
@@ -69,7 +69,7 @@ class AddFieldObservationTest extends TestCase
 
         $response->assertStatus(201);
 
-        $this->assertEquals($fieldObservationsCount + 1, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount + 1);
 
         tap(FieldObservation::latest()->first()->observation, function ($observation) use ($user) {
             $this->assertEquals($user->full_name, $observation->observer);
@@ -118,7 +118,7 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertValidationErrors('year');
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount);
     }
 
     /** @test */
@@ -243,7 +243,7 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertValidationErrors('latitude');
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount);
     }
 
     /** @test */
@@ -257,7 +257,7 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertValidationErrors('latitude');
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount);
     }
 
     /** @test */
@@ -271,7 +271,7 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertValidationErrors('latitude');
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount);
     }
 
     /** @test */
@@ -285,7 +285,7 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertValidationErrors('longitude');
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount);
     }
 
     /** @test */
@@ -299,7 +299,7 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertValidationErrors('longitude');
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount);
     }
 
     /** @test */
@@ -313,7 +313,7 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertValidationErrors('longitude');
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount);
     }
 
     /** @test */
@@ -327,7 +327,7 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertValidationErrors('elevation');
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount);
     }
 
     /** @test */
@@ -341,7 +341,7 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertValidationErrors('elevation');
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount);
     }
 
     /** @test */
@@ -355,7 +355,7 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertSuccessful();
-        $this->assertEquals($fieldObservationsCount + 1, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount + 1);
     }
 
     /** @test */
@@ -369,7 +369,7 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertValidationErrors('accuracy');
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount);
     }
 
     /** @test */
@@ -383,7 +383,7 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertStatus(201);
-        $this->assertEquals($fieldObservationsCount + 1, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount + 1);
     }
 
     /** @test */
@@ -397,7 +397,7 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertValidationErrors('taxon_id');
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount);
     }
 
     /** @test */
@@ -412,7 +412,7 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertStatus(201);
-        $this->assertEquals($fieldObservationsCount + 1, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount + 1);
         $this->assertEquals($taxon->id, Observation::first()->taxon_id);
     }
 
@@ -427,7 +427,7 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertStatus(201);
-        $this->assertEquals($fieldObservationsCount + 1, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount + 1);
         $this->assertEquals('Cerambyx cerdo', FieldObservation::latest()->first()->taxon_suggestion);
     }
 
@@ -484,7 +484,7 @@ class AddFieldObservationTest extends TestCase
 
         $response->assertStatus(201);
         $photo = Photo::latest()->first();
-        $this->assertEquals($photosCount + 1, Photo::count());
+        Photo::assertCount($photosCount + 1);
         $this->assertEquals("photos/{$photo->id}/test-image.jpg", $photo->path);
         $this->assertNotEmpty($photo->url);
         $this->assertTrue(Storage::disk('public')->exists($photo->path));
@@ -514,7 +514,7 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertValidationErrors('photos');
-        $this->assertEquals($photosCount, Photo::count());
+        Photo::assertCount($photosCount);
     }
 
     /** @test */
@@ -542,7 +542,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function sex_can_be_one_of_available_values()
+    function sex_can_only_be_one_of_available_values()
     {
         Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
@@ -552,6 +552,6 @@ class AddFieldObservationTest extends TestCase
         ]));
 
         $response->assertValidationErrors('sex');
-        $this->assertEquals($fieldObservationsCount, FieldObservation::count());
+        FieldObservation::assertCount($fieldObservationsCount);
     }
 }

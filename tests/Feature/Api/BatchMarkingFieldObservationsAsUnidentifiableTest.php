@@ -42,8 +42,8 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
 
         $response->assertSuccessful();
 
-        $fresh = FieldObservation::whereIn('id', $ids);
-        $this->assertEquals(3, $fresh->count());
+        $fresh = FieldObservation::whereIn('id', $ids)->get();
+        $fresh->assertCount(3);
         $fresh->each(function ($fieldObservation) {
             $this->assertTrue($fieldObservation->unidentifiable);
             $this->assertFalse($fieldObservation->isApproved());
