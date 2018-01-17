@@ -16,8 +16,8 @@
     </div>
     <div class="level-item has-text-centered">
         <div>
-            <p class="heading">Unsolved</p>
-            <p class="title">0</p>
+            <p class="heading">Unidentifiable</p>
+            <p class="title">{{ $unidentifiableObservationCount }}</p>
         </div>
     </div>
     <div class="level-item has-text-centered">

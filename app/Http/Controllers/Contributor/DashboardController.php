@@ -16,6 +16,7 @@ class DashboardController extends Controller
             'observationCount' => FieldObservation::createdBy($user)->count(),
             'pendingObservationCount' => FieldObservation::unapproved()->createdBy($user)->count(),
             'approvedObservationCount' => FieldObservation::approved()->createdBy($user)->count(),
+            'unidentifiableObservationCount' => FieldObservation::unidentifiable()->createdBy($user)->count(),
         ]);
     }
 }

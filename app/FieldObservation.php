@@ -88,7 +88,7 @@ class FieldObservation extends Model
     }
 
     /**
-     * Get observations created by given user.
+     * Scope the query to get identifiable observations.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
@@ -96,6 +96,17 @@ class FieldObservation extends Model
     public function scopeIdentifiable($query)
     {
         return $query->where('unidentifiable', false);
+    }
+
+    /**
+     * Scope the query to get unidentifiable observations.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeUnidentifiable($query)
+    {
+        return $query->where('unidentifiable', true);
     }
 
     /**
