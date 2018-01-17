@@ -1,11 +1,23 @@
 <template>
     <div class="field-observations-table">
         <div class="buttons" v-if="approvable">
-            <button type="button" class="button" :disabled="!checkedRows.length" @click="confirmApprove">
+            <button
+              type="button"
+              class="button"
+              :class="{'is-loading': approving}"
+              :disabled="!checkedRows.length"
+              @click="confirmApprove"
+            >
                 <b-icon icon="check" class="has-text-success"></b-icon>
                 <span>Approve</span>
             </button>
-            <button type="button" class="button" :disabled="!checkedRows.length" @click="confirmMarkingAsUnidentifiable">
+            <button
+              type="button"
+              class="button"
+              :class="{'is-loading': markingAsUnidentifiable}"
+              :disabled="!checkedRows.length"
+              @click="confirmMarkingAsUnidentifiable"
+            >
                 <b-icon icon="times" class="has-text-danger"></b-icon>
                 <span>Unidentifiable</span>
             </button>
@@ -151,7 +163,9 @@ export default {
             perPage: this.perPageOptions[0],
             isImageModalActive: false,
             modalImage: null,
-            checkedRows: []
+            checkedRows: [],
+            approving: false,
+            markingAsUnidentifiable: false
         };
     },
 
@@ -241,6 +255,7 @@ export default {
         },
 
         approve() {
+            this.approving = true;
             axios.post(route(this.approveRoute), {
                 field_observation_ids: this.checkedRows.map(row => row.id)
             }).then(this.successfullyApproved).catch(this.failedToApprove)
@@ -248,6 +263,7 @@ export default {
 
         successfullyApproved() {
             this.checkedRows = [];
+            this.approving = false;
             this.$toast.open({
                 message: 'Observations have been approved',
                 type: 'is-success'
@@ -256,6 +272,7 @@ export default {
         },
 
         failedToApprove(error) {
+            this.approving = false;
             this.$toast.open({
                 message: 'Some of the observations cannot be approved',
                 type: 'is-danger',
@@ -273,6 +290,8 @@ export default {
         },
 
         markAsUnidentifiable() {
+            this.markingAsUnidentifiable = true;
+
             axios.post(route(this.markAsUnidentifiableRoute), {
                 field_observation_ids: this.checkedRows.map(row => row.id)
             }).then(this.successfullyMarkedAsUnidentifiable)
@@ -281,6 +300,7 @@ export default {
 
         successfullyMarkedAsUnidentifiable() {
             this.checkedRows = [];
+            this.markingAsUnidentifiable = false;
             this.$toast.open({
                 message: 'Observations have been marked as unidentifiable',
                 type: 'is-success'
@@ -289,6 +309,7 @@ export default {
         },
 
         failedToMarkAsUnidentifiable(error) {
+            this.markingAsUnidentifiable = false;
             this.$toast.open({
                 message: 'Some of the observations cannot be marked as unidentifiable',
                 type: 'is-danger',
