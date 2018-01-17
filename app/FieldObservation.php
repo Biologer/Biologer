@@ -26,9 +26,10 @@ class FieldObservation extends Model
      * @var array
      */
     protected $casts = [
+        'found_dead' => 'boolean',
         'license' => 'integer',
         'unidentifiable' => 'boolean',
-        'found_dead' => 'boolean',
+        'time' => 'datetime',
     ];
 
     /**
@@ -41,16 +42,17 @@ class FieldObservation extends Model
     ];
 
     protected $maps = [
-      'taxon_name' => 'observation.taxon.name',
-      'latitude' => 'observation.latitude',
-      'longitude' => 'observation.longitude',
-      'observer' => 'observation.observer',
-      'year' => 'observation.year',
-      'month' => 'observation.month',
-      'day' => 'observation.day',
+        'day' => 'observation.day',
+        'month' => 'observation.month',
+        'latitude' => 'observation.latitude',
+        'longitude' => 'observation.longitude',
+        'observer' => 'observation.observer',
+        'taxon_name' => 'observation.taxon.name',
+        'year' => 'observation.year',
     ];
 
-    protected function filters() {
+    protected function filters()
+    {
         return [
             'id' => \App\Filters\Id::class,
             'sort_by' => \App\Filters\SortBy::class,
@@ -244,7 +246,7 @@ class FieldObservation extends Model
         return $this;
     }
 
-     /**
+    /**
      * Mark observation as unidentifiable.
      *
      * @return $this

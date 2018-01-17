@@ -54,9 +54,9 @@ class VerificationController extends Controller
                 'email',
                 Rule::exists('users', 'email')->where(function ($query) {
                     return $query->where('verified', false);
-                })
+                }),
             ],
-            'captcha_code' => 'required|captcha'
+            'captcha_code' => 'required|captcha',
         ]);
 
         User::findByEmail(request('email'))->sendVerificationEmail();

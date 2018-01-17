@@ -38,7 +38,8 @@ class Taxon extends Model
      *
      * @var array
      */
-    protected function filters() {
+    protected function filters()
+    {
         return [
             'id' => \App\Filters\Id::class,
             'name' => \App\Filters\NameLike::class,

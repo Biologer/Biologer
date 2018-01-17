@@ -22,7 +22,7 @@ class VerificationToken extends Model
      */
     public function getRouteKeyName()
     {
-    	return 'token';
+        return 'token';
     }
 
     /**

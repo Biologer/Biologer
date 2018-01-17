@@ -13,13 +13,11 @@ class UnidentifiableFieldObservationsBatchController extends Controller
     {
         request()->validate([
             'field_observation_ids' => 'required|array|min:1',
-            'field_observation_ids.*' => [
-                'required',
-            ]
+            'field_observation_ids.*' => 'required',
         ]);
 
         $fieldObservations = FieldObservation::with([
-            'observation.taxon.curators.roles', 'photos'
+            'observation.taxon.curators.roles', 'photos',
         ])->whereIn('id', request('field_observation_ids'))->get();
 
         $fieldObservations->each(function ($fieldObservation) {

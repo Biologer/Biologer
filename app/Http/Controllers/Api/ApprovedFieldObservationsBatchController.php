@@ -14,7 +14,7 @@ class ApprovedFieldObservationsBatchController extends Controller
     {
         request()->validate([
             'field_observation_ids' => [
-                'required', 'array', 'min:1', new ApprovableFieldObservation
+                'required', 'array', 'min:1', new ApprovableFieldObservation(),
             ],
         ]);
 

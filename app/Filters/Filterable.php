@@ -4,7 +4,8 @@ namespace App\Filters;
 
 trait Filterable
 {
-    protected function filters() {
+    protected function filters()
+    {
         return [];
     }
 
@@ -15,7 +16,7 @@ trait Filterable
         foreach ($request->all() as $param => $value) {
             if (array_key_exists($param, $filters)
                 && $value && class_exists($filters[$param])) {
-                (new $filters[$param])->apply($query, $value);
+                (new $filters[$param]())->apply($query, $value);
             }
         }
 

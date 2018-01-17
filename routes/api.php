@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->group(function() {
+Route::middleware('auth:api')->group(function () {
     // Uploads
     Route::post('uploads', 'UploadsController@store')
         ->name('api.uploads.store');

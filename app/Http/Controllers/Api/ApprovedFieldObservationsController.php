@@ -15,8 +15,8 @@ class ApprovedFieldObservationsController extends Controller
         request()->validate([
             'field_observation_id' => [
                 'required',
-                new ApprovableFieldObservation
-            ]
+                new ApprovableFieldObservation(),
+            ],
         ]);
 
         $fieldObservation = FieldObservation::with([
