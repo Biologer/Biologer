@@ -22,9 +22,7 @@ class Taxon extends Model
      *
      * @var array
      */
-    protected $appends = [
-        'conventions_ids', 'rank', 'red_lists_data', 'stages_ids',
-    ];
+    protected $appends = ['rank'];
 
     /**
      * The attributes that should be cast to native types.
@@ -34,13 +32,6 @@ class Taxon extends Model
     protected $casts = [
         'restricted' => 'boolean',
     ];
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = ['redLists', 'conventions', 'stages'];
 
     /**
      * Filters that can be used on queries.
@@ -138,41 +129,6 @@ class Taxon extends Model
         $ranks = static::getRanks();
 
         return trans('taxonomy.'.$ranks[$this->rank_level]);
-    }
-
-    /**
-     * Get IDs of coventions that cover the taxon.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function getConventionsIdsAttribute()
-    {
-        return $this->conventions->pluck('id');
-    }
-
-    /**
-     * Get IDs of coventions that cover the taxon.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function getStagesIdsAttribute()
-    {
-        return $this->stages->pluck('id');
-    }
-
-    /**
-     * Get red list data for the form.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function getRedListsDataAttribute()
-    {
-        return $this->redLists->map(function ($redList) {
-            return [
-                'red_list_id' => $redList->id,
-                'category' => $redList->pivot->category,
-            ];
-        });
     }
 
     /**

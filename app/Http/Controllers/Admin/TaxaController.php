@@ -46,7 +46,7 @@ class TaxaController extends Controller
     public function edit(Taxon $taxon)
     {
         return view('admin.taxa.edit', [
-            'taxon' => $taxon->load(['parent', 'redLists']),
+            'taxon' => $taxon->load(['parent', 'redLists', 'conventions', 'stages']),
             'ranks' => collect(Taxon::getRankOptions()),
             'conventions' => Convention::all(),
             'redLists' => RedList::all(),
