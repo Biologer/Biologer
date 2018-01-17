@@ -20,7 +20,7 @@ class ApprovingFieldObservationTest extends TestCase
     {
         parent::setUp();
 
-        Artisan::call('db:seed', ['--class' => 'RolesTableSeeder']);
+        $this->seed('RolesTableSeeder');
     }
 
     /** @test */
@@ -73,7 +73,7 @@ class ApprovingFieldObservationTest extends TestCase
             'field_observation_id' => $fieldObservation->id,
         ]);
 
-        $response->assertValidationError('field_observation_id');
+        $response->assertValidationErrors('field_observation_id');
         $this->assertFalse($fieldObservation->fresh()->isApproved());
     }
 
@@ -92,6 +92,6 @@ class ApprovingFieldObservationTest extends TestCase
             'field_observation_id' => $fieldObservation->id,
         ]);
 
-        $response->assertValidationError('field_observation_id');
+        $response->assertValidationErrors('field_observation_id');
     }
 }

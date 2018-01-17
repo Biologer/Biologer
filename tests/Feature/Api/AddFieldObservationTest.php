@@ -50,9 +50,7 @@ class AddFieldObservationTest extends TestCase
         $fieldObservationsCount = FieldObservation::count();
         $observationsCount = Observation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams()
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams());
 
         $response->assertStatus(401);
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
@@ -67,9 +65,7 @@ class AddFieldObservationTest extends TestCase
 
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams()
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams());
 
         $response->assertStatus(201);
 
@@ -96,17 +92,17 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     function users_full_name_as_source_when_source_is_not_provided()
     {
+        $this->withoutExceptionHandling();
         Passport::actingAs(factory(User::class)->create([
             'first_name' => 'Jane',
             'last_name' => 'Doe',
         ]));
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'source' => '',
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'source' => '',
+        ]));
 
+        $response->assertStatus(201);
         $fieldObservation = FieldObservation::latest()->first();
         $this->assertEquals('Jane Doe', $fieldObservation->observation->observer);
     }
@@ -117,14 +113,11 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'year' => null,
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'year' => null,
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('year', $response->json()['errors']);
+        $response->assertValidationErrors('year');
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -133,14 +126,11 @@ class AddFieldObservationTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'year' => '1aa2',
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'year' => '1aa2',
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('year', $response->json()['errors']);
+        $response->assertValidationErrors('year');
     }
 
     /** @test */
@@ -148,14 +138,11 @@ class AddFieldObservationTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->json(
-            'POST', 'api/field-observations', $this->validParams([
-                'year' => date('Y') + 1,
-            ])
-        );
+        $response = $this->postJson('api/field-observations', $this->validParams([
+            'year' => date('Y') + 1,
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('year', $response->json()['errors']);
+        $response->assertValidationErrors('year');
     }
 
     /** @test */
@@ -163,15 +150,12 @@ class AddFieldObservationTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->json(
-            'POST', 'api/field-observations', $this->validParams([
-                'year' => date('Y'),
-                'month' => date('m') + 1,
-            ])
-        );
+        $response = $this->postJson('api/field-observations', $this->validParams([
+            'year' => date('Y'),
+            'month' => date('m') + 1,
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('month', $response->json()['errors']);
+        $response->assertValidationErrors('month');
     }
 
     /** @test */
@@ -179,15 +163,12 @@ class AddFieldObservationTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->json(
-            'POST', 'api/field-observations', $this->validParams([
-                'year' => date('Y'),
-                'month' => 'invalid',
-            ])
-        );
+        $response = $this->postJson('api/field-observations', $this->validParams([
+            'year' => date('Y'),
+            'month' => 'invalid',
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('month', $response->json()['errors']);
+        $response->assertValidationErrors('month');
     }
 
     /** @test */
@@ -195,15 +176,12 @@ class AddFieldObservationTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->json(
-            'POST', 'api/field-observations', $this->validParams([
-                'year' => date('Y'),
-                'month' => '-1',
-            ])
-        );
+        $response = $this->postJson('api/field-observations', $this->validParams([
+            'year' => date('Y'),
+            'month' => '-1',
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('month', $response->json()['errors']);
+        $response->assertValidationErrors('month');
     }
 
     /** @test */
@@ -213,16 +191,13 @@ class AddFieldObservationTest extends TestCase
 
         $now = Carbon::now();
 
-        $response = $this->json(
-            'POST', 'api/field-observations', $this->validParams([
-                'year' => $now->year,
-                'month' => $now->month,
-                'day' => $now->day + 2,
-            ])
-        );
+        $response = $this->postJson('api/field-observations', $this->validParams([
+            'year' => $now->year,
+            'month' => $now->month,
+            'day' => $now->day + 2,
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('day', $response->json()['errors']);
+        $response->assertValidationErrors('day');
     }
 
     /** @test */
@@ -232,16 +207,13 @@ class AddFieldObservationTest extends TestCase
 
         $now = Carbon::now();
 
-        $response = $this->json(
-            'POST', 'api/field-observations', $this->validParams([
-                'year' => $now->year,
-                'month' => $now->month,
-                'day' => '-1',
-            ])
-        );
+        $response = $this->postJson('api/field-observations', $this->validParams([
+            'year' => $now->year,
+            'month' => $now->month,
+            'day' => '-1',
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('day', $response->json()['errors']);
+        $response->assertValidationErrors('day');
     }
 
     /** @test */
@@ -251,16 +223,13 @@ class AddFieldObservationTest extends TestCase
 
         $now = Carbon::now();
 
-        $response = $this->json(
-            'POST', 'api/field-observations', $this->validParams([
-                'year' => $now->year,
-                'month' => $now->month,
-                'day' => 'invalid',
-            ])
-        );
+        $response = $this->postJson('api/field-observations', $this->validParams([
+            'year' => $now->year,
+            'month' => $now->month,
+            'day' => 'invalid',
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('day', $response->json()['errors']);
+        $response->assertValidationErrors('day');
     }
 
     /** @test */
@@ -269,14 +238,11 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'latitude' => null,
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'latitude' => null,
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('latitude', $response->json()['errors']);
+        $response->assertValidationErrors('latitude');
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -286,14 +252,11 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'latitude' => '91',
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'latitude' => '91',
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('latitude', $response->json()['errors']);
+        $response->assertValidationErrors('latitude');
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -303,14 +266,11 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'latitude' => '-91',
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'latitude' => '-91',
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('latitude', $response->json()['errors']);
+        $response->assertValidationErrors('latitude');
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -320,14 +280,11 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'longitude' => null,
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'longitude' => null,
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('longitude', $response->json()['errors']);
+        $response->assertValidationErrors('longitude');
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -337,14 +294,11 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'longitude' => '181',
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'longitude' => '181',
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('longitude', $response->json()['errors']);
+        $response->assertValidationErrors('longitude');
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -354,14 +308,11 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'longitude' => '-181',
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'longitude' => '-181',
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('longitude', $response->json()['errors']);
+        $response->assertValidationErrors('longitude');
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -371,14 +322,11 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'elevation' => null,
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'elevation' => null,
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('elevation', $response->json()['errors']);
+        $response->assertValidationErrors('elevation');
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -388,14 +336,11 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'elevation' => 'aaa',
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'elevation' => 'aaa',
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('elevation', $response->json()['errors']);
+        $response->assertValidationErrors('elevation');
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -405,11 +350,9 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'accuracy' => null,
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'accuracy' => null,
+        ]));
 
         $response->assertSuccessful();
         $this->assertEquals($fieldObservationsCount + 1, FieldObservation::count());
@@ -421,14 +364,11 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'accuracy' => 'aaa',
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'accuracy' => 'aaa',
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('accuracy', $response->json()['errors']);
+        $response->assertValidationErrors('accuracy');
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -438,11 +378,9 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'taxon_id' => null,
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'taxon_id' => null,
+        ]));
 
         $response->assertStatus(201);
         $this->assertEquals($fieldObservationsCount + 1, FieldObservation::count());
@@ -454,14 +392,11 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'taxon_id' => '999999999',
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'taxon_id' => '999999999',
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('taxon_id', $response->json()['errors']);
+        $response->assertValidationErrors('taxon_id');
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 
@@ -472,11 +407,9 @@ class AddFieldObservationTest extends TestCase
         $fieldObservationsCount = FieldObservation::count();
         $taxon = factory(Taxon::class)->create();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'taxon_id' => $taxon->id,
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'taxon_id' => $taxon->id,
+        ]));
 
         $response->assertStatus(201);
         $this->assertEquals($fieldObservationsCount + 1, FieldObservation::count());
@@ -489,11 +422,9 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'taxon_suggestion' => 'Cerambyx cerdo',
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'taxon_suggestion' => 'Cerambyx cerdo',
+        ]));
 
         $response->assertStatus(201);
         $this->assertEquals($fieldObservationsCount + 1, FieldObservation::count());
@@ -504,12 +435,10 @@ class AddFieldObservationTest extends TestCase
     function mgrs_field_is_calculated_automaticaly()
     {
         Passport::actingAs(factory(User::class)->create());
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'latitude' => '43.60599592',
-                'longitude' => '21.30373179',
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'latitude' => '43.60599592',
+            'longitude' => '21.30373179',
+        ]));
 
         $response->assertStatus(201);
         tap(FieldObservation::first()->observation, function ($observation) {
@@ -521,12 +450,10 @@ class AddFieldObservationTest extends TestCase
     function mgrs_field_cannot_be_calculated_in_polar_region()
     {
         Passport::actingAs(factory(User::class)->create());
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'latitude' => '85.0',
-                'longitude' => '21.30373179',
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'latitude' => '85.0',
+            'longitude' => '21.30373179',
+        ]));
 
         $response->assertStatus(201);
         tap(FieldObservation::first()->observation, function ($observation) {
@@ -548,14 +475,12 @@ class AddFieldObservationTest extends TestCase
         $photosCount = Photo::count();
         File::image('test-image.jpg')->storeAs("uploads/{$user->id}", 'test-image.jpg', 'public');
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'observer' => 'John Doe',
-                'photos' => [
-                    'test-image.jpg',
-                ],
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'observer' => 'John Doe',
+            'photos' => [
+                'test-image.jpg',
+            ],
+        ]));
 
         $response->assertStatus(201);
         $photo = Photo::latest()->first();
@@ -579,19 +504,16 @@ class AddFieldObservationTest extends TestCase
         File::image('test-image3.jpg')->storeAs("uploads", 'test-image3.jpg', 'public');
         File::image('test-image4.jpg')->storeAs("uploads", 'test-image4.jpg', 'public');
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'photos' => [
-                    'test-image1.jpg',
-                    'test-image2.jpg',
-                    'test-image3.jpg',
-                    'test-image4.jpg',
-                ],
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'photos' => [
+                'test-image1.jpg',
+                'test-image2.jpg',
+                'test-image3.jpg',
+                'test-image4.jpg',
+            ],
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('photos', $response->json()['errors']);
+        $response->assertValidationErrors('photos');
         $this->assertEquals($photosCount, Photo::count());
     }
 
@@ -600,11 +522,9 @@ class AddFieldObservationTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'photos' => null,
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'photos' => null,
+        ]));
 
         $response->assertStatus(201);
     }
@@ -614,11 +534,9 @@ class AddFieldObservationTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'sex' => null,
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'sex' => null,
+        ]));
 
         $response->assertStatus(201);
     }
@@ -629,14 +547,11 @@ class AddFieldObservationTest extends TestCase
         Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->json(
-            'POST', '/api/field-observations', $this->validParams([
-                'sex' => 'invalid'
-            ])
-        );
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'sex' => 'invalid'
+        ]));
 
-        $response->assertStatus(422);
-        $this->assertArrayHasKey('sex', $response->json()['errors']);
+        $response->assertValidationErrors('sex');
         $this->assertEquals($fieldObservationsCount, FieldObservation::count());
     }
 }

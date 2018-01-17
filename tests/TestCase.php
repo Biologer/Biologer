@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use PHPUnit\Framework\Assert as PHPUnit;
@@ -45,9 +46,9 @@ abstract class TestCase extends BaseTestCase
      */
     protected function responseMacros()
     {
-        TestResponse::macro('assertValidationError', function ($field) {
+        TestResponse::macro('assertValidationErrors', function ($fields) {
             $this->assertStatus(422);
-            PHPUnit::assertArrayHasKey($field, $this->decodeResponseJson()['errors']);
+            $this->assertJsonValidationErrors(array_wrap($fields));
         });
     }
 

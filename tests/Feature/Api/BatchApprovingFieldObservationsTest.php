@@ -19,7 +19,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
     {
         parent::setUp();
 
-        Artisan::call('db:seed', ['--class' => 'RolesTableSeeder']);
+        $this->seed('RolesTableSeeder');
     }
 
     /** @test */
