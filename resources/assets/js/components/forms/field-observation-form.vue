@@ -1,0 +1,397 @@
+<template>
+    <form class="field-observation-form" :action="action" method="POST" @submit.prevent="submit">
+        <div class="columns">
+            <div class="column is-half">
+                <nz-taxon-autocomplete v-model="form.taxon_suggestion"
+                    @select="onTaxonSelect"
+                    :error="form.errors.has('taxon_id')"
+                    :message="form.errors.has('taxon_id') ? form.errors.first('taxon_id') : null"
+                    autofocus>
+                </nz-taxon-autocomplete>
+
+                <nz-date-input
+                    :data-year="form.year"
+                    :data-month="form.month"
+                    :data-day="form.day"
+                    v-on:year-input="onYearInput"
+                    v-on:month-input="onMonthInput"
+                    v-on:day-input="onDayInput"
+                    :errors="form.errors"
+                ></nz-date-input>
+
+                <b-field label="Photos">
+                    <div class="columns">
+                        <div class="column is-one-third">
+                            <nz-photo-upload
+                                :upload-url="photoUploadUrl"
+                                :remove-url="photoRemoveUrl"
+                                text="Upload"
+                                icon="upload"
+                                @uploaded="onPhotoUploaded"
+                                @removed="onPhotoRemoved"
+                                :errors="form.errors"
+                            ></nz-photo-upload>
+                        </div>
+
+                        <div class="column is-one-third">
+                            <nz-photo-upload
+                                :upload-url="photoUploadUrl"
+                                :remove-url="photoRemoveUrl"
+                                text="Upload"
+                                icon="upload"
+                                @uploaded="onPhotoUploaded"
+                                @removed="onPhotoRemoved"
+                                :errors="form.errors"
+                            ></nz-photo-upload>
+                        </div>
+
+                        <div class="column is-one-third">
+                            <nz-photo-upload
+                                :upload-url="photoUploadUrl"
+                                :remove-url="photoRemoveUrl"
+                                text="Upload"
+                                icon="upload"
+                                @uploaded="onPhotoUploaded"
+                                @removed="onPhotoRemoved"
+                                :errors="form.errors"
+                            ></nz-photo-upload>
+                        </div>
+                    </div>
+                </b-field>
+            </div>
+
+            <div class="column is-half">
+                <nz-spatial-input
+                    :latitude.sync="form.latitude"
+                    :longitude.sync="form.longitude"
+                    :location.sync="form.location"
+                    :accuracy.sync="form.accuracy"
+                    :elevation.sync="form.elevation"
+                    :errors="form.errors"
+                ></nz-spatial-input>
+            </div>
+        </div>
+
+        <button type="button" class="button is-text" @click="showMoreDetails = !showMoreDetails">More details</button>
+
+        <div class="mt-4" v-show="showMoreDetails">
+            <b-field
+                label="Note"
+                :error="form.errors.has('note')"
+                :message="form.errors.has('note') ? form.errors.first('note') : null"
+            >
+                <b-input
+                    type="textarea"
+                    v-model="form.note"
+                ></b-input>
+            </b-field>
+
+            <b-field
+                label="Number"
+                :type="form.errors.has('number') ? 'is-danger' : null"
+                :message="form.errors.has('number') ? form.errors.first('number') : null"
+            >
+                <b-input
+                    type="number"
+                    v-model="form.number">
+                </b-input>
+            </b-field>
+
+            <b-field
+                label="Sex"
+                :type="form.errors.has('sex') ? 'is-danger' : null"
+                :message="form.errors.has('sex') ? form.errors.first('sex') : null"
+            >
+                <b-select v-model="form.sex">
+                    <option :value="null">Choose a value</option>
+                    <option v-for="sex in sexes" :value="sex" v-text="sex"></option>
+                </b-select>
+            </b-field>
+
+            <b-field
+                label="Stage"
+                :type="form.errors.has('stage_id') ? 'is-danger' : null"
+                :message="form.errors.has('stage_id') ? form.errors.first('stage_id') : null"
+            >
+                <b-select v-model="form.stage_id" :disabled="!stages.length">
+                    <option :value="null">Choose a stage</option>
+                    <option v-for="stage in stages" :value="stage.id" :key="stage.id" v-text="stage.name"></option>
+                </b-select>
+            </b-field>
+
+            <template v-if="isCuratorOrAdmin">
+                <b-field
+                    label="Observer"
+                    :type="form.errors.has('observer') ? 'is-danger' : null"
+                    :message="form.errors.has('observer') ? form.errors.first('observer') : null"
+                >
+                    <b-input v-model="form.observer"></b-input>
+                </b-field>
+
+                <b-field
+                    label="Identifier"
+                    :type="form.errors.has('identifier') ? 'is-danger' : null"
+                    :message="form.errors.has('identifier') ? form.errors.first('identifier') : null"
+                >
+                    <b-input v-model="form.identifier"></b-input>
+                </b-field>
+            </template>
+
+            <b-checkbox v-model="form.found_dead">Found Dead?</b-checkbox>
+
+            <b-field
+                label="Note on dead observation"
+                v-if="form.found_dead"
+                :error="form.errors.has('found_dead_note')"
+                :message="form.errors.has('found_dead_note') ? form.errors.first('found_dead_note') : null"
+              >
+                <b-input
+                    type="textarea"
+                    v-model="form.found_dead_note"
+                ></b-input>
+            </b-field>
+
+            <b-field
+                label="Data License"
+                :type="form.errors.has('data_license') ? 'is-danger' : null"
+                :message="form.errors.has('data_license') ? form.errors.first('data_license') : null"
+            >
+                <b-select v-model="form.data_license">
+                    <option :value="null">Default</option>
+                    <option v-for="(label, value) in licenses" :value="value" v-text="label"></option>
+                </b-select>
+            </b-field>
+
+            <b-field
+                label="Image License"
+                :type="form.errors.has('image_license') ? 'is-danger' : null"
+                :message="form.errors.has('image_license') ? form.errors.first('image_license') : null"
+            >
+                <b-select v-model="form.image_license">
+                    <option :value="null">Default</option>
+                    <option v-for="(label, value) in licenses" :value="value" v-text="label"></option>
+                </b-select>
+            </b-field>
+        </div>
+
+        <hr>
+
+        <button
+            type="submit"
+            class="button is-primary"
+            :class="{
+                'is-loading': form.processing
+            }"
+            @click="submit"
+        >
+            Save
+        </button>
+        <a :href="redirect" class="button is-text">Cancel</a>
+    </form>
+</template>
+
+<script>
+import moment from 'moment';
+import collect from 'collect.js';
+import Form from 'form-backend-validation';
+import User from '../../models/user';
+
+export default {
+    name: 'field-observation-form',
+
+    props: {
+        action: {
+            type: String,
+            required: true
+        },
+
+        method: {
+            type: String,
+            default: 'POST'
+        },
+
+        redirect: {
+            type: String,
+            redirect: true
+        },
+
+        photoUploadUrl: {
+            type: String,
+            required: true
+        },
+
+        photoRemoveUrl: {
+            type: String,
+            required: true
+        },
+
+        observation: {
+            type: Object,
+            default() {
+                return {
+                    taxon: null,
+                    taxon_id: null,
+                    taxon_suggestion: null,
+                    year: moment().year(),
+                    month: moment().month() + 1,
+                    day: moment().date(),
+                    latitude: null,
+                    longitude: null,
+                    accuracy: null,
+                    elevation: null,
+                    location: null,
+                    photos: [],
+                    observer: null,
+                    identifier: null,
+                    note: null,
+                    sex: null,
+                    number: null,
+                    stage_id: null,
+                    found_dead: false,
+                    found_dead_note: null,
+                    data_license: null,
+                    image_license: null
+                };
+            }
+        },
+        licenses: {
+            type: Object,
+            default: () => { return {} }
+        },
+        sexes: {
+            type: Array,
+            default: () => []
+        }
+    },
+
+    data() {
+        return {
+            form: new Form({
+                ...this.observation
+            }, {
+                resetOnSuccess: false
+            }),
+            showMoreDetails: false,
+            user: new User(window.App.User)
+        };
+    },
+
+    computed: {
+      stages() {
+          return this.form.taxon ? this.form.taxon.stages : [];
+      },
+      isCuratorOrAdmin() {
+          return this.user.hasRole(['admin', 'curator']);
+      }
+    },
+
+    methods: {
+        /**
+         * Submit the form.
+         */
+        submit() {
+            if (this.form.processing) {
+                return;
+            }
+
+            this.form[this.method.toLowerCase()](this.action)
+                .then(this.onSuccessfulSubmit)
+                .catch(this.onFailedSubmit);
+        },
+
+        /**
+         * Handle successful form submit.
+         */
+        onSuccessfulSubmit() {
+            this.form.processing = true
+
+            this.$toast.open({
+                message: 'Saved successfully',
+                type: 'is-success'
+            });
+
+            // We want to wait a bit before we send the user to redirect route
+            // so we can show the message that the action was successful.
+            setTimeout(() => {
+                this.form.processing = false;
+
+                window.location.href = this.redirect;
+            }, 500);
+        },
+
+        /**
+         * Handle failed form submit.
+         *
+         * @param {Error} error
+         */
+        onFailedSubmit(error) {
+            this.$toast.open({
+                duration: 2500,
+                message: _.get(error, 'response.data.message', error.message),
+                type: 'is-danger'
+            });
+        },
+
+        /**
+         * Handle year input.
+         *
+         * @param {Number} value
+         */
+        onYearInput(value) {
+            this.form.year = value;
+        },
+
+        /**
+         * Handle month input.
+         *
+         * @param {Number} value
+         */
+        onMonthInput(value) {
+            this.form.month = value;
+        },
+
+        /**
+         * Handle daz input.
+         *
+         * @param {Number} value
+         */
+        onDayInput(value) {
+            this.form.day = value;
+        },
+
+        /**
+         * Handle taxon veing selected.
+         *
+         * @param {Object} value
+         */
+        onTaxonSelect(taxon) {
+            this.form.taxon = taxon || null;
+            this.form.taxon_id = taxon ? taxon.id : null;
+
+            if (!this.stages.length || !collect(this.stages).contains(stage => {
+              return stage.id === this.form.stage_id
+            })) {
+              this.form.stage_id = null
+            }
+        },
+
+        /**
+         * Add uploaded photo's filename to array.
+         *
+         * @param {String} file name
+         */
+        onPhotoUploaded(file) {
+            this.form.photos.push(file);
+        },
+
+        /**
+         * Remove photo from form.
+         *
+         * @param {String} file name
+         */
+        onPhotoRemoved(file) {
+            this.form.photos.splice(this.form.photos.indexOf(file), 1);
+        }
+    }
+}
+</script>

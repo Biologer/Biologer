@@ -35,7 +35,7 @@ class FieldObservationsController extends Controller
     public function edit(FieldObservation $fieldObservation)
     {
         return view('contributor.field-observations.edit', [
-            'observation' => $fieldObservation->load('observation.taxon'),
+            'observation' => $fieldObservation->load('observation.taxon.stages'),
         ]);
     }
 }
