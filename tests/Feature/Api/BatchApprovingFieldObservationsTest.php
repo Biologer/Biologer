@@ -65,7 +65,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
             'field_observation_ids' => [$fieldObservation->id],
         ]);
 
-        $response->assertJsonValidationErrors('field_observation_ids.0');
+        $response->assertJsonValidationErrors('field_observation_ids');
     }
 
     /** @test */

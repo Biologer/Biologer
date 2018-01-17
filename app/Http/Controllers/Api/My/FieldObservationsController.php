@@ -19,8 +19,9 @@ class FieldObservationsController extends Controller
      */
     public function index(Request $request)
     {
-        $query = FieldObservation::createdBy(auth()->user())
-            ->with('photos')->filter($request)->orderBy('id');
+        $query = FieldObservation::createdBy(auth()->user())->with([
+            'observation.taxon', 'photos',
+        ])->filter($request)->orderBy('id');
 
         if ($request->has('all')) {
             return FieldObservationResource::collection($query->get());

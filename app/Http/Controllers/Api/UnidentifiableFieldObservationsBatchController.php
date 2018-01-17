@@ -18,9 +18,9 @@ class UnidentifiableFieldObservationsBatchController extends Controller
             ]
         ]);
 
-        $fieldObservations = FieldObservation::with(['observation.taxon.curators'])
-            ->whereIn('id', request('field_observation_ids'))
-            ->get();
+        $fieldObservations = FieldObservation::with([
+            'observation.taxon.curators.roles', 'photos'
+        ])->whereIn('id', request('field_observation_ids'))->get();
 
         $fieldObservations->each(function ($fieldObservation) {
             $this->authorize('markAsUnidentifiable', $fieldObservation);

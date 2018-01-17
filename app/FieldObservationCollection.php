@@ -2,10 +2,31 @@
 
 namespace App;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 class FieldObservationCollection extends Collection
 {
+    /**
+     * Get ids of Observation models connected to FieldObservation.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getObservationIds()
+    {
+        return $this->pluck('observation.id');
+    }
+
+    /**
+     * Get ids of FieldObservation models.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getIds()
+    {
+        return $this->pluck('id');
+    }
+
     /**
      * Approve all field observations.
      *
@@ -13,9 +34,17 @@ class FieldObservationCollection extends Collection
      */
     public function approve()
     {
-        $this->each(function ($fieldObservation) {
-            $fieldObservation->approve();
-        });
+        $now = Carbon::now();
+
+        Observation::query()->whereIn('id', $this->getObservationIds())->update([
+            'approved_at' => $now,
+            'updated_at' => $now,
+        ]);
+
+        FieldObservation::query()->whereIn('id', $this->getIds())->update([
+            'unidentifiable' => false,
+            'updated_at' => $now,
+        ]);
     }
 
     /**
@@ -25,8 +54,16 @@ class FieldObservationCollection extends Collection
      */
     public function markAsUnidentifiable()
     {
-        $this->each(function ($fieldObservation) {
-            $fieldObservation->markAsUnidentifiable();
-        });
+        $now = Carbon::now();
+
+        Observation::query()->whereIn('id', $this->getObservationIds())->update([
+            'approved_at' => null,
+            'updated_at' => $now,
+        ]);
+
+        FieldObservation::query()->whereIn('id', $this->getIds())->update([
+            'unidentifiable' => true,
+            'updated_at' => $now,
+        ]);
     }
 }

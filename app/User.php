@@ -42,6 +42,13 @@ class User extends Authenticatable
     ];
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['roles'];
+
+    /**
      * Observations entered by the user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -18,7 +18,9 @@ class FieldObservationsController extends Controller
      */
      public function index(Request $request)
      {
-         $query = FieldObservation::filter($request)->orderBy('id');
+         $query = FieldObservation::with([
+             'observation.taxon', 'photos'
+         ])->filter($request)->orderBy('id');
 
          if ($request->has('page')) {
              return FieldObservationResource::collection(

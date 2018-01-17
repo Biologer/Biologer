@@ -17,7 +17,7 @@ class ApprovableFieldObservation implements Rule
     public function passes($attribute, $value)
     {
         return FieldObservation::approvable()
-            ->where('id', $value)
+            ->whereIn('id', array_wrap($value))
             ->exists();
     }
 
@@ -28,6 +28,6 @@ class ApprovableFieldObservation implements Rule
      */
     public function message()
     {
-        return 'Invalid field observation';
+        return 'Invalid field observation/s';
     }
 }

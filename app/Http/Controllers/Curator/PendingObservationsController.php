@@ -15,7 +15,9 @@ class PendingObservationsController extends Controller
 
     public function edit($id)
     {
-        $fieldObservation = FieldObservation::pending()->findOrFail($id);
+        $fieldObservation = FieldObservation::with([
+            'observation.taxon.curators',
+        ])->pending()->findOrFail($id);
 
         $this->authorize('update', $fieldObservation);
 

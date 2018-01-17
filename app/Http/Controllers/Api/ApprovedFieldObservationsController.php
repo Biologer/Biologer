@@ -19,7 +19,9 @@ class ApprovedFieldObservationsController extends Controller
             ]
         ]);
 
-        $fieldObservation = FieldObservation::findOrFail(request('field_observation_id'));
+        $fieldObservation = FieldObservation::with([
+            'observation.taxon.curators.roles', 'photos',
+        ])->findOrFail(request('field_observation_id'));
 
         $this->authorize('approve', $fieldObservation);
 

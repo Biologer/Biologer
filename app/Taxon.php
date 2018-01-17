@@ -36,6 +36,13 @@ class Taxon extends Model
     ];
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['redLists', 'conventions', 'stages'];
+
+    /**
      * Filters that can be used on queries.
      *
      * @var array

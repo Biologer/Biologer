@@ -13,16 +13,14 @@ class ApprovedFieldObservationsBatchController extends Controller
     public function store()
     {
         request()->validate([
-            'field_observation_ids' => 'required|array|min:1',
-            'field_observation_ids.*' => [
-                'required',
-                new ApprovableFieldObservation
-            ]
+            'field_observation_ids' => [
+                'required', 'array', 'min:1', new ApprovableFieldObservation
+            ],
         ]);
 
-        $fieldObservations = FieldObservation::with(['observation.taxon.curators'])
-            ->whereIn('id', request('field_observation_ids'))
-            ->get();
+        $fieldObservations = FieldObservation::with([
+            'observation.taxon.curators.roles', 'photos',
+        ])->whereIn('id', request('field_observation_ids'))->get();
 
         $fieldObservations->each(function ($fieldObservation) {
             $this->authorize('approve', $fieldObservation);

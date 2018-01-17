@@ -11,7 +11,8 @@ class PendingObservationsController extends Controller
 {
     public function index(Request $request)
     {
-        $query = FieldObservation::pending()->curatedBy($request->user())->filter($request);
+        $query = FieldObservation::with(['observation.taxon', 'photos'])
+            ->pending()->curatedBy($request->user())->filter($request);
 
         if ($request->has('page')) {
             return FieldObservationResource::collection(
