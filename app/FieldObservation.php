@@ -278,7 +278,7 @@ class FieldObservation extends Model
      */
     public function shouldBeCuratedBy(User $user)
     {
-        return $this->taxon ? $this->taxon->isCuratedBy($user) : true;
+        return $this->observation->shouldBeCuratedBy($user);
     }
 
     /**

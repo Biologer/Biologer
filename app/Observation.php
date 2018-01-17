@@ -197,4 +197,15 @@ class Observation extends Model
     {
         return $this->creator->is($user);
     }
+
+    /**
+     * Check if given user shoud curate observation.
+     *
+     * @param  \App\User  $user
+     * @return bool
+     */
+    public function shouldBeCuratedBy(User $user)
+    {
+        return $this->taxon ? $this->taxon->isCuratedBy($user) : true;
+    }
 }
