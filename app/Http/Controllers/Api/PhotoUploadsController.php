@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
-class UploadsController extends Controller
+class PhotoUploadsController extends Controller
 {
     public function store()
     {

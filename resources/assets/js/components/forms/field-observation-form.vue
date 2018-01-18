@@ -25,6 +25,8 @@
                             <nz-photo-upload
                                 :upload-url="photoUploadUrl"
                                 :remove-url="photoRemoveUrl"
+                                :image-url="getObservationPhotoAttribute(0, 'url')"
+                                :image-path="getObservationPhotoAttribute(0, 'path')"
                                 text="Upload"
                                 icon="upload"
                                 @uploaded="onPhotoUploaded"
@@ -37,6 +39,8 @@
                             <nz-photo-upload
                                 :upload-url="photoUploadUrl"
                                 :remove-url="photoRemoveUrl"
+                                :image-url="getObservationPhotoAttribute(1, 'url')"
+                                :image-path="getObservationPhotoAttribute(1, 'path')"
                                 text="Upload"
                                 icon="upload"
                                 @uploaded="onPhotoUploaded"
@@ -49,6 +53,8 @@
                             <nz-photo-upload
                                 :upload-url="photoUploadUrl"
                                 :remove-url="photoRemoveUrl"
+                                :image-url="getObservationPhotoAttribute(2, 'url')"
+                                :image-path="getObservationPhotoAttribute(2, 'path')"
                                 text="Upload"
                                 icon="upload"
                                 @uploaded="onPhotoUploaded"
@@ -295,15 +301,17 @@ export default {
     },
 
     computed: {
-      stages() {
-          return this.form.taxon ? this.form.taxon.stages : [];
-      },
-      isCuratorOrAdmin() {
-          return this.user.hasRole(['admin', 'curator']);
-      },
-      time() {
-          return this.form.time ? moment(this.form.time, 'HH:mm').toDate() : null
-      }
+        stages() {
+            return this.form.taxon ? this.form.taxon.stages : [];
+        },
+
+        isCuratorOrAdmin() {
+            return this.user.hasRole(['admin', 'curator']);
+        },
+
+        time() {
+            return this.form.time ? moment(this.form.time, 'HH:mm').toDate() : null
+        }
     },
 
     methods: {
@@ -407,8 +415,8 @@ export default {
          *
          * @param {String} file name
          */
-        onPhotoUploaded(file) {
-            this.form.photos.push(file);
+        onPhotoUploaded(image) {
+            this.form.photos.push(image);
         },
 
         /**
@@ -416,8 +424,12 @@ export default {
          *
          * @param {String} file name
          */
-        onPhotoRemoved(file) {
-            this.form.photos.splice(this.form.photos.indexOf(file), 1);
+        onPhotoRemoved(image) {
+            _.remove(this.form.photos, { path: image.path })
+        },
+
+        getObservationPhotoAttribute(photoIndex = 0, attribute = 'url') {
+            return _.get(this.observation, `photos.${photoIndex}.${attribute}`, '');
         }
     }
 }

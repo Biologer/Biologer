@@ -39,4 +39,14 @@ class Photo extends Model
 
         return $photo;
     }
+
+    /**
+     * Remove related file.
+     *
+     * @return void
+     */
+    public function removeFile()
+    {
+        return Storage::disk('public')->delete($this->path);
+    }
 }

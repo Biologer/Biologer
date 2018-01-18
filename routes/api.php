@@ -15,11 +15,11 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->group(function () {
     // Uploads
-    Route::post('uploads', 'UploadsController@store')
-        ->name('api.uploads.store');
+    Route::post('uploads/photos', 'PhotoUploadsController@store')
+        ->name('api.photo-uploads.store');
 
-    Route::delete('uploads', 'UploadsController@destroy')
-        ->name('api.uploads.destroy');
+    Route::delete('uploads/photos', 'PhotoUploadsController@destroy')
+        ->name('api.photo-uploads.destroy');
 
     // Taxa
     Route::get('taxa', 'TaxaController@index')

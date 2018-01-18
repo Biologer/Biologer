@@ -6,11 +6,11 @@
             action="{{ route('api.field-observations.update', $observation) }}"
             method="PUT"
             redirect="{{ route('curator.pending-observations.index') }}"
-            photo-upload-url="{{ route('api.uploads.store') }}"
-            photo-remove-url="{{ route('api.uploads.destroy') }}"
+            photo-upload-url="{{ route('api.photo-uploads.store') }}"
+            photo-remove-url="{{ route('api.photo-uploads.destroy') }}"
             :licenses="{{ json_encode(\App\License::getAvailable()) }}"
             :sexes="{{ json_encode(\App\Observation::SEX_OPTIONS) }}"
-            :observation="{{ json_encode($observation->toArrayForEdit()) }}"
+            :observation="{{ $observation }}"
         ></fild-observation-form>
     </div>
 @endsection

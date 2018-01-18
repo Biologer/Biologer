@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\User;
+use App\Photo;
+use App\Observers\UserObserver;
+use App\Observers\PhotoObserver;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -28,6 +32,7 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        //
+        User::observe(UserObserver::class);
+        Photo::observe(PhotoObserver::class);
     }
 }

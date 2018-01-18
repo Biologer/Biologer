@@ -21,7 +21,7 @@
 				<img :src="image.url" alt="Photo">
 			</figure>
 	  	</div>
-		<footer class="card-footer" v-if="image.file">
+		<footer class="card-footer" v-if="image.path">
 			<p class="card-footer-item">
 				<button type="button" class="delete is-danger is-medium" @click="remove"></button>
 			</p>
@@ -46,7 +46,7 @@ export default {
     	return {
     		image: {
 				url: this.imageUrl,
-				file: this.imagePath
+				path: this.imagePath
 			},
 			reader: null,
 			uploading: false,
@@ -111,11 +111,11 @@ export default {
 				   this.progress = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
 				}
 			}).then(response => {
-				this.image.file = response.data.file;
+				this.image.path = response.data.file;
 				this.uploading = false;
 				this.progress = 0;
 
-				this.$emit('uploaded', this.image.file);
+				this.$emit('uploaded', this.image);
 
 				this.reader.readAsDataURL(file)
 			}).catch((error) => {
@@ -142,7 +142,7 @@ export default {
 			axios({
 				method: 'DELETE',
 				data: {
-					file: this.image.file
+					file: this.image.path
 				},
 				url: this.removeUrl
 			}).then(() => {
@@ -151,9 +151,9 @@ export default {
 		},
 
 		clearPhoto() {
-			this.$emit('removed', this.image.file);
+			this.$emit('removed', this.image);
 
-			this.image.file = null;
+			this.image.path = null;
 			this.image.url = null;
 		},
 

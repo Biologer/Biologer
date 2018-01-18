@@ -57,11 +57,8 @@ class UpdateFieldObservation extends FormRequest
             'found_dead_note' => 'nullable',
             'data_license' => ['nullable', Rule::in(License::getIds())],
             'image_license' => ['nullable', Rule::in(License::getIds())],
-            'photos' => [
-                'nullable',
-                'array',
-                'max:'.config('biologer.photos_per_observation'),
-            ],
+            'photos' => 'nullable|array|max:'.config('biologer.photos_per_observation'),
+            'photos.*.path' => 'required',
             'time' => 'nullable|date_format:H:i',
         ];
     }
@@ -75,7 +72,7 @@ class UpdateFieldObservation extends FormRequest
     {
         return tap($this->updateObservation($observation), function ($observation) {
             $observation->syncPhotos(
-                $this->input('photos', []),
+                collect($this->input('photos', [])),
                 $this->input('image_license') ?: $this->user()->settings()->get('image_license')
             );
         });

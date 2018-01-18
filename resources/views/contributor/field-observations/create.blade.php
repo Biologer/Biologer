@@ -6,8 +6,8 @@
             action="{{ route('api.field-observations.store') }}"
             method="POST"
             redirect="{{ route('contributor.field-observations.index') }}"
-            photo-upload-url="{{ route('api.uploads.store') }}"
-            photo-remove-url="{{ route('api.uploads.destroy') }}"
+            photo-upload-url="{{ route('api.photo-uploads.store') }}"
+            photo-remove-url="{{ route('api.photo-uploads.destroy') }}"
             :licenses="{{ json_encode(\App\License::getAvailable()) }}"
             :sexes="{{ json_encode(\App\Observation::SEX_OPTIONS) }}"
         ></fild-observation-form>

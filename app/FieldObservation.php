@@ -248,9 +248,9 @@ class FieldObservation extends Model
     {
         $current = $this->photos()->get();
 
-        $current->whereNotIn('path', $photos)->each->delete();
+        $current->whereNotIn('path', $photos->pluck('path'))->each->delete();
 
-        $this->addPhotos(array_diff($photos, $current->pluck('path')->all()), $license);
+        $this->addPhotos($photos->pluck('path')->diff($current->pluck('path')), $license);
     }
 
     /**
@@ -348,9 +348,7 @@ class FieldObservation extends Model
             'mgrs10k' => $this->observation->mgrs10k,
             'accuracy' => $this->observation->accuracy,
             'elevation' => $this->observation->elevation,
-            'photos' => $this->photos->map(function ($photo) {
-                return $photo->url;
-            }),
+            'photos' => $this->photos,
             'observer' => $this->observation->observer,
             'identifier' => $this->observation->identifier,
             'license' => $this->license,
@@ -363,22 +361,6 @@ class FieldObservation extends Model
             'data_license' => $this->license,
             'time' => $this->time ? $this->time->format('H:i') : null,
         ];
-    }
-
-    /**
-     * Return mapped as array with photos' path instead of URLs.
-     *
-     * @return array
-     */
-    public function toArrayForEdit()
-    {
-        $data = $this->toArray();
-
-        $data['photos'] = $this->photos->map(function ($photo) {
-            return $photo->path;
-        });
-
-        return $data;
     }
 
     /**

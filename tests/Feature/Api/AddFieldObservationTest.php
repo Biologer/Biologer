@@ -448,7 +448,9 @@ class AddFieldObservationTest extends TestCase
         $this->postJson('/api/field-observations', $this->validParams([
             'observer' => 'John Doe',
             'photos' => [
-                'test-image.jpg',
+                [
+                    'path' => 'test-image.jpg',
+                ],
             ],
         ]))->assertStatus(201);
 
@@ -475,10 +477,18 @@ class AddFieldObservationTest extends TestCase
 
         $this->postJson('/api/field-observations', $this->validParams([
             'photos' => [
-                'test-image1.jpg',
-                'test-image2.jpg',
-                'test-image3.jpg',
-                'test-image4.jpg',
+                [
+                    'path' => 'test-image1.jpg',
+                ],
+                [
+                    'path' => 'test-image2.jpg',
+                ],
+                [
+                    'path' => 'test-image3.jpg',
+                ],
+                [
+                    'path' => 'test-image4.jpg',
+                ],
             ],
         ]))->assertValidationErrors('photos');
 

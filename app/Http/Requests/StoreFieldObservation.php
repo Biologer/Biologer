@@ -77,7 +77,7 @@ class StoreFieldObservation extends FormRequest
     {
         return tap($this->createObservation(), function ($observation) {
             $observation->addPhotos(
-                $this->input('photos', []),
+                collect($this->input('photos', []))->pluck('path'),
                 $this->input('image_license') ?: $this->user()->settings()->get('image_license')
             );
         });
