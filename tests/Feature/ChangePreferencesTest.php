@@ -28,6 +28,7 @@ class ChangePreferencesTest extends TestCase
         ]);
 
         $response->assertRedirect('/contributor/preferences');
+
         $newSettings = $user->fresh()->settings()->all();
         $this->assertNotEquals($oldSettings, $newSettings);
         $this->assertArraySubset([

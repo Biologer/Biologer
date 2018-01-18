@@ -37,30 +37,31 @@ class UpdateFieldObservationTest extends TestCase
     {
         return array_merge([
             'taxon_id' => null,
-            'year' => 2017,
-            'month' => 7,
-            'day' => 15,
+            'year' => '2017',
+            'month' => '7',
+            'day' => '15',
             'location' => 'Novi Sad',
-            'latitude' => 45.251667,
-            'longitude' => 19.836944,
-            'accuracy' => 100,
-            'elevation' => 80,
+            'latitude' => '45.251667',
+            'longitude' => '19.836944',
+            'accuracy' => '100',
+            'elevation' => '80',
             'source' => 'John Doe',
             'taxon_suggestion' => null,
+            'time' => '12:30',
+            'sex' => 'male',
         ], $overrides);
     }
 
     /** @test */
     function field_observation_can_be_updated_by_user_who_created_it_if_its_not_approved()
     {
-        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
+        Passport::actingAs($user);
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'created_by_id' => $user->id,
         ]);
 
-        Passport::actingAs($user);
-        $response = $this->putJson(
+        $response= $this->putJson(
             "/api/field-observations/{$fieldObservation->id}", $this->validParams([
                 'elevation' => 1000,
                 'taxon_suggestion' => 'New taxon suggestion',
@@ -85,11 +86,11 @@ class UpdateFieldObservationTest extends TestCase
     function field_observation_cannot_be_updated_by_user_who_created_it_if_approved()
     {
         $user = factory(User::class)->create();
+        Passport::actingAs($user);
         $observation = ObservationFactory::createFieldObservation([
             'created_by_id' => $user->id,
         ]);
 
-        Passport::actingAs($user);
         $response = $this->putJson(
             "/api/field-observations/{$observation->id}", $this->validParams([
                 'elevation' => 1000,
@@ -98,7 +99,7 @@ class UpdateFieldObservationTest extends TestCase
             ])
         );
 
-        $response->assertStatus(403);
+        $response->assertUnauthorized();
 
         tap($observation->fresh(), function ($fieldObservation) {
             $this->assertNotEquals(1000, $fieldObservation->observation->elevation);
@@ -111,12 +112,11 @@ class UpdateFieldObservationTest extends TestCase
     function field_observation_can_be_updated_by_admin()
     {
         $user = factory(User::class)->create()->assignRole('admin');
-
+        Passport::actingAs($user);
         $fieldObservation = ObservationFactory::createFieldObservation([
             'created_by_id' => $user->id,
         ]);
 
-        Passport::actingAs($user);
         $response = $this->putJson(
             "/api/field-observations/{$fieldObservation->id}", $this->validParams([
                 'elevation' => 1000,

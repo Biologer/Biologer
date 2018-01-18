@@ -54,7 +54,7 @@ class ApprovingFieldObservationTest extends TestCase
             'field_observation_id' => $fieldObservation->id,
         ]);
 
-        $response->assertStatus(401);
+        $response->assertUnauthenticated();
         $this->assertFalse($fieldObservation->fresh()->isApproved());
     }
 
@@ -64,6 +64,27 @@ class ApprovingFieldObservationTest extends TestCase
         $user = factory(User::class)->create();
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'taxon_id' => null,
+            'created_by_id' => $user->id,
+        ]);
+
+        Passport::actingAs($user);
+
+        $response = $this->postJson('/api/approved-field-observations', [
+            'field_observation_id' => $fieldObservation->id,
+        ]);
+
+        $response->assertValidationErrors('field_observation_id');
+        $this->assertFalse($fieldObservation->fresh()->isApproved());
+    }
+
+    /** @test */
+    function cannot_approve_unapproved_field_observation_if_taxon_is_not_species_or_lower()
+    {
+        $user = factory(User::class)->create();
+        $taxon = factory(Taxon::class)->create(['rank_level' => 20]);
+        $taxon->curators()->attach($user);
+        $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
+            'taxon_id' => $taxon->id,
             'created_by_id' => $user->id,
         ]);
 

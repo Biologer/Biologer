@@ -67,9 +67,23 @@ abstract class TestCase extends BaseTestCase
      */
     protected function responseMacros()
     {
+        TestResponse::macro('assertUnauthenticated', function () {
+            $this->assertStatus(401);
+
+            return $this;
+        });
+
+        TestResponse::macro('assertUnauthorized', function () {
+            $this->assertStatus(403);
+
+            return $this;
+        });
+
         TestResponse::macro('assertValidationErrors', function ($fields) {
             $this->assertStatus(422);
             $this->assertJsonValidationErrors(array_wrap($fields));
+
+            return $this;
         });
     }
 

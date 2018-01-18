@@ -76,6 +76,7 @@ class UserVerificationTest extends TestCase
             'email' => 'john@example.com',
             'captcha_code' => Captcha::getVerificationCode(),
         ]);
+
         $response->assertRedirect('/verify/john@example.com');
 
         Mail::assertNotQueued(VerificationEmail::class);
@@ -93,6 +94,7 @@ class UserVerificationTest extends TestCase
             'email' => 'john@example.com',
             'captcha_code' => Captcha::getVerificationCode(),
         ]);
+
         $response->assertRedirect('/verify/john@example.com');
 
         Mail::assertNotQueued(VerificationEmail::class);
@@ -130,6 +132,7 @@ class UserVerificationTest extends TestCase
             'email' => 'test@example.com',
             'verified' => true
         ]);
+
         $response = $this->get('/verify/test@example.com');
 
         $response->assertStatus(404);

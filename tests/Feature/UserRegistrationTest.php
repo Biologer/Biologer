@@ -33,15 +33,16 @@ class UserRegistrationTest extends TestCase
     function user_can_register_by_providing_required_information()
     {
         Mail::fake();
-        $this->assertEquals(0, User::count());
+        User::assertCount(0);
 
         $response = $this->post('/register', $this->validParams());
 
         $response->assertRedirect('/login');
         $response->assertSessionHas('info');
+
         $this->assertTrue(auth()->guest());
 
-        $this->assertEquals(1, User::count());
+        User::assertCount(1);
         $user = User::first();
         $this->assertEquals('John', $user->first_name);
         $this->assertEquals('Doe', $user->last_name);

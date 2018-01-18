@@ -19,11 +19,10 @@ class FileUploadTest extends TestCase
         Storage::fake('public');
         Passport::actingAs($user = factory(User::class)->create());
 
-        $response = $this->json('POST', '/api/uploads', [
+        $this->postJson('/api/uploads', [
             'file' => $file = File::image('test-image.jpg', 800, 600)->size(200),
-        ]);
+        ])->assertStatus(200);
 
-        $response->assertStatus(200);
         $this->assertArrayHasKey('file', $response->json());
         $this->assertEquals($file->hashName(), $response->json()['file']);
         Storage::disk('public')->assertExists("uploads/{$user->id}/{$response->json()['file']}");
@@ -32,11 +31,9 @@ class FileUploadTest extends TestCase
     /** @test */
     function unauthenticated_user_cannot_upload_file()
     {
-        $response = $this->json('POST', '/api/uploads', [
+        $this->postJson('/api/uploads', [
             'file' => File::image('test-image.jpg', 800, 600)->size(200),
-        ]);
-
-        $response->assertStatus(401);
+        ])->assertUnauthenticated();
     }
 
     /** @test */
@@ -44,9 +41,7 @@ class FileUploadTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->json('POST', '/api/uploads', []);
-
-        $response->assertStatus(422);
+        $this->postJson('/api/uploads', [])->assertValidationErrors('file');
     }
 
     /** @test */
@@ -54,11 +49,9 @@ class FileUploadTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->json('POST', '/api/uploads', [
+        $this->postJson('/api/uploads', [
             'file' => File::create('test-document.pdf', 200),
-        ]);
-
-        $response->assertStatus(422);
+        ])->assertValidationErrors('file');
     }
 
     /** @test */
@@ -66,11 +59,9 @@ class FileUploadTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->json('POST', '/api/uploads', [
+        $this->postJson('/api/uploads', [
             'file' => File::image('test-image.jpg', 801, 600),
-        ]);
-
-        $response->assertStatus(422);
+        ])->assertValidationErrors('file');
     }
 
     /** @test */
@@ -78,11 +69,9 @@ class FileUploadTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->json('POST', '/api/uploads', [
+        $this->postJson('/api/uploads', [
             'file' => File::image('test-image.jpg', 600, 801),
-        ]);
-
-        $response->assertStatus(422);
+        ])->assertValidationErrors('file');
     }
 
     /** @test */
@@ -98,11 +87,10 @@ class FileUploadTest extends TestCase
 
         Storage::disk('public')->assertExists("uploads/{$user->id}/test-image.jpg");
 
-        $response = $this->json('DELETE', '/api/uploads', [
+        $this->deleteJson('/api/uploads', [
             'file' => 'test-image.jpg',
-        ]);
+        ])->assertStatus(204);
 
-        $response->assertStatus(204);
         Storage::disk('public')->assertMissing("uploads/{$user->id}/test-image.jpg");
     }
 
@@ -110,6 +98,7 @@ class FileUploadTest extends TestCase
     function user_cannot_remove_files_owned_by_others()
     {
         Storage::fake('public');
+        Passport::actingAs(factory(User::class)->create());
         $owner = factory(User::class)->create();
         Storage::disk('public')->putFileAs(
             'uploads/'.$owner->id,
@@ -117,12 +106,10 @@ class FileUploadTest extends TestCase
             'test-image.jpg'
         );
 
-        Passport::actingAs(factory(User::class)->make());
-        $response = $this->json('DELETE', '/api/uploads', [
+        $this->deleteJson('/api/uploads', [
             'file' => 'test-image.jpg',
-        ]);
+        ])->assertStatus(204);
 
-        $response->assertStatus(204);
         Storage::disk('public')->assertExists("uploads/{$owner->id}/test-image.jpg");
     }
 

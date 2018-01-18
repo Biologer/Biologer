@@ -23,9 +23,23 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
     }
 
     /** @test */
+    function guest_cannot_mark_field_observation_as_unidentifiable()
+    {
+        $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
+            'taxon_id' => factory(Taxon::class),
+        ]);
+
+        $response = $this->postJson('/api/unidentifiable-field-observations/batch', [
+            'field_observation_ids' => [$fieldObservation->id],
+        ]);
+
+        $response->assertUnauthenticated();
+        $this->assertFalse($fieldObservation->fresh()->isApproved());
+    }
+
+    /** @test */
     function authenticated_user_that_curates_the_taxa_of_all_the_field_observation_can_mark_them_as_unapprovable()
     {
-        $this->withoutExceptionHandling();
         $user = factory(User::class)->create()->assignRole('curator');
         Passport::actingAs($user);
         $taxon = factory(Taxon::class)->create();

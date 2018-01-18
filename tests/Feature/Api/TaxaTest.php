@@ -18,7 +18,7 @@ class TaxaTest extends TestCase
         $taxa = factory(Taxon::class, 5)->create();
         Passport::actingAs(factory(User::class)->make());
 
-        $response = $this->json('GET', '/api/taxa');
+        $response = $this->getJson('/api/taxa');
 
         $response->assertStatus(200);
         $this->assertArrayHasKey('data', $response->json());
