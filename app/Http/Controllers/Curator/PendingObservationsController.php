@@ -16,13 +16,14 @@ class PendingObservationsController extends Controller
     public function edit($id)
     {
         $fieldObservation = FieldObservation::with([
-            'observation.taxon.curators',
+            'observation.taxon.curators', 'observation.taxon.stages'
         ])->pending()->findOrFail($id);
 
         $this->authorize('update', $fieldObservation);
 
         return view('curator.pending-observations.edit', [
             'observation' => $fieldObservation,
+            'stages' => \App\Stage::all(),
         ]);
     }
 }
