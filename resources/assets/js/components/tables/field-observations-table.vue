@@ -247,7 +247,7 @@ export default {
 
         confirmApprove() {
             this.$dialog.confirm({
-                message: 'You are about to approve checked observations. If some of them cannot be approved none will be approved.',
+                message: 'You are about to approve checked observations.<br/>Those of them that cannot be approved, will not be approved.',
                 confirmText: 'Approve',
                 type: 'is-primary',
                 onConfirm: this.approve.bind(this)
@@ -274,7 +274,7 @@ export default {
         failedToApprove(error) {
             this.approving = false;
             this.$toast.open({
-                message: 'Some of the observations cannot be approved',
+                message: 'Observations cannot be approved',
                 type: 'is-danger',
                 duration: 5000
             });

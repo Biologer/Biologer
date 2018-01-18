@@ -36,12 +36,12 @@ class FieldObservationCollection extends Collection
     {
         $now = Carbon::now();
 
-        Observation::query()->whereIn('id', $this->getObservationIds())->update([
+        Observation::whereIn('id', $this->getObservationIds())->update([
             'approved_at' => $now,
             'updated_at' => $now,
         ]);
 
-        FieldObservation::query()->whereIn('id', $this->getIds())->update([
+        FieldObservation::whereIn('id', $this->getIds())->update([
             'unidentifiable' => false,
             'updated_at' => $now,
         ]);
@@ -56,12 +56,12 @@ class FieldObservationCollection extends Collection
     {
         $now = Carbon::now();
 
-        Observation::query()->whereIn('id', $this->getObservationIds())->update([
+        Observation::whereIn('id', $this->getObservationIds())->update([
             'approved_at' => null,
             'updated_at' => $now,
         ]);
 
-        FieldObservation::query()->whereIn('id', $this->getIds())->update([
+        FieldObservation::whereIn('id', $this->getIds())->update([
             'unidentifiable' => true,
             'updated_at' => $now,
         ]);
