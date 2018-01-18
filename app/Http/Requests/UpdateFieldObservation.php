@@ -62,6 +62,7 @@ class UpdateFieldObservation extends FormRequest
                 'array',
                 'max:'.config('biologer.photos_per_observation'),
             ],
+            'time' => 'nullable|date_format:H:i',
         ];
     }
 
@@ -114,6 +115,7 @@ class UpdateFieldObservation extends FormRequest
             'found_dead_note' => $this->input('found_dead', false) ? $this->input('found_dead_note') : null,
             'license' => $this->input('data_license') ?: $this->user()->settings()->get('data_license'),
             'taxon_suggestion' => $this->input('taxon_suggestion'),
+            'time' => $this->input('time'),
         ]);
 
         return $fieldObservation;

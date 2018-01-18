@@ -119,6 +119,24 @@
                 </b-select>
             </b-field>
 
+            <b-field
+                label="Time"
+                :type="form.errors.has('time') ? 'is-danger' : null"
+                :message="form.errors.has('time') ? form.errors.first('time') : null"
+            >
+                <b-timepicker
+                    :value="time"
+                    @input="onTimeInput"
+                    placeholder="Click to select..."
+                    icon="clock-o"
+                >
+                    <button type="button" class="button is-danger"
+                        @click="form.time = null">
+                        <b-icon icon="close"></b-icon>
+                    </button>
+                </b-timepicker>
+            </b-field>
+
             <template v-if="isCuratorOrAdmin">
                 <b-field
                     label="Observer"
@@ -212,7 +230,6 @@ export default {
 
         redirect: {
             type: String,
-            redirect: true
         },
 
         photoUploadUrl: {
@@ -250,7 +267,8 @@ export default {
                     found_dead: false,
                     found_dead_note: null,
                     data_license: null,
-                    image_license: null
+                    image_license: null,
+                    time: null
                 };
             }
         },
@@ -282,6 +300,9 @@ export default {
       },
       isCuratorOrAdmin() {
           return this.user.hasRole(['admin', 'curator']);
+      },
+      time() {
+          return this.form.time ? moment(this.form.time, 'HH:mm').toDate() : null
       }
     },
 
@@ -315,7 +336,9 @@ export default {
             setTimeout(() => {
                 this.form.processing = false;
 
-                window.location.href = this.redirect;
+                if (this.redirect) {
+                    window.location.href = this.redirect;
+                }
             }, 500);
         },
 
@@ -373,6 +396,10 @@ export default {
             })) {
               this.form.stage_id = null
             }
+        },
+
+        onTimeInput(value) {
+            this.form.time = value ? moment(value).format('HH:mm') : null;
         },
 
         /**

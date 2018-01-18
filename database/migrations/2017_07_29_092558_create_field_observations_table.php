@@ -20,6 +20,7 @@ class CreateFieldObservationsTable extends Migration
             $table->boolean('unidentifiable')->default(false);
             $table->boolean('found_dead')->nullable();
             $table->text('found_dead_note')->nullable();
+            $table->time('time')->nullable();
             $table->timestamps();
         });
     }

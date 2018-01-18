@@ -64,6 +64,7 @@ class StoreFieldObservation extends FormRequest
                 'array',
                 'max:'.config('biologer.photos_per_observation'),
             ],
+            'time' => 'nullable|date_format:H:i',
         ];
     }
 
@@ -94,6 +95,7 @@ class StoreFieldObservation extends FormRequest
             'taxon_suggestion' => $this->input('taxon_suggestion'),
             'found_dead' => $this->input('found_dead', false),
             'found_dead_note' => $this->input('found_dead', false) ? $this->input('found_dead_note') : null,
+            'time' => $this->input('time'),
         ]);
 
         $fieldObservation->observation()->create([

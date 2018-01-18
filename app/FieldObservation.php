@@ -3,13 +3,15 @@
 namespace App;
 
 use App\Filters\Filterable;
+use App\Concerns\CanMemoize;
 use Sofa\Eloquence\Mappable;
 use Sofa\Eloquence\Eloquence;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class FieldObservation extends Model
 {
-    use Eloquence, Filterable, Mappable;
+    use CanMemoize, Eloquence, Filterable, Mappable;
 
     /**
      * The model's attributes.
@@ -29,7 +31,6 @@ class FieldObservation extends Model
         'found_dead' => 'boolean',
         'license' => 'integer',
         'unidentifiable' => 'boolean',
-        'time' => 'datetime',
     ];
 
     /**
@@ -192,6 +193,28 @@ class FieldObservation extends Model
     }
 
     /**
+     * Getter for time attribute.
+     * @param string $value
+     * @return \Illuminate\Support\Carbon|null
+     */
+    public function getTimeAttribute($value)
+    {
+        return $this->memoize('time', function () use ($value) {
+            return $value ? Carbon::parse($value) : null;
+        });
+    }
+
+    /**
+     * Setter for time attribute.
+     *
+     * @param string $value
+     */
+    public function setTimeAttribute($value)
+    {
+        $this->forgetMemoized('time')->attributes['time'] = $value;
+    }
+
+    /**
      * Add photos to the observation, using photos' paths.
      *
      * @param  array  $photos Paths
@@ -338,6 +361,7 @@ class FieldObservation extends Model
             'found_dead' => $this->found_dead,
             'found_dead_note' => $this->found_dead_note,
             'data_license' => $this->license,
+            'time' => $this->time ? $this->time->format('H:i') : null,
         ];
     }
 
