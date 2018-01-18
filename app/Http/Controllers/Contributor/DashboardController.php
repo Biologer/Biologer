@@ -14,7 +14,7 @@ class DashboardController extends Controller
 
         return view('contributor.index', [
             'observationCount' => FieldObservation::createdBy($user)->count(),
-            'pendingObservationCount' => FieldObservation::unapproved()->createdBy($user)->count(),
+            'pendingObservationCount' => FieldObservation::pending()->createdBy($user)->count(),
             'approvedObservationCount' => FieldObservation::approved()->createdBy($user)->count(),
             'unidentifiableObservationCount' => FieldObservation::unidentifiable()->createdBy($user)->count(),
         ]);
