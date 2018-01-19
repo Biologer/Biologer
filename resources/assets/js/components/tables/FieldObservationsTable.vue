@@ -2,23 +2,26 @@
     <div class="field-observations-table">
         <div class="buttons" v-if="approvable">
             <button
-              type="button"
-              class="button"
-              :class="{'is-loading': approving}"
-              :disabled="!checkedRows.length"
-              @click="confirmApprove"
+                type="button"
+                class="button"
+                :class="{'is-loading': approving}"
+                :disabled="!checkedRows.length"
+                @click="confirmApprove"
             >
                 <b-icon icon="check" class="has-text-success"></b-icon>
+
                 <span>Approve</span>
             </button>
+
             <button
-              type="button"
-              class="button"
-              :class="{'is-loading': markingAsUnidentifiable}"
-              :disabled="!checkedRows.length"
-              @click="confirmMarkingAsUnidentifiable"
+                type="button"
+                class="button"
+                :class="{'is-loading': markingAsUnidentifiable}"
+                :disabled="!checkedRows.length"
+                @click="confirmMarkingAsUnidentifiable"
             >
                 <b-icon icon="times" class="has-text-danger"></b-icon>
+
                 <span>Unidentifiable</span>
             </button>
         </div>
@@ -42,37 +45,37 @@
             :mobile-cards="true"
 
             :checkable="approvable"
-            :checked-rows.sync="checkedRows">
-
-            <template slot-scope="props">
+            :checked-rows.sync="checkedRows"
+        >
+            <template slot-scope="{ row }">
                 <b-table-column field="id" label="ID" width="40" numeric sortable>
-                    {{ props.row.id }}
+                    {{ row.id }}
                 </b-table-column>
 
                 <b-table-column field="taxon_name" label="Taxon" sortable>
-                    {{ props.row.taxon ? props.row.taxon.name : '' }}
+                    {{ row.taxon ? row.taxon.name : '' }}
                 </b-table-column>
 
                 <b-table-column field="year" label="Year" numeric sortable>
-                    {{ props.row.year }}
+                    {{ row.year }}
                 </b-table-column>
 
                 <b-table-column field="month" label="Month" numeric sortable>
-                    {{ props.row.month }}
+                    {{ row.month }}
                 </b-table-column>
 
                 <b-table-column field="day" label="Day" numeric sortable>
-                    {{ props.row.day }}
+                    {{ row.day }}
                 </b-table-column>
 
                 <b-table-column field="observer" label="Observer" sortable>
-                    {{ props.row.observer }}
+                    {{ row.observer }}
                 </b-table-column>
 
                 <b-table-column label="Actions" width="100">
-                    <a :href="editLink(props.row)"><b-icon icon="edit"></b-icon></a>
+                    <a :href="editLink(row)"><b-icon icon="edit"></b-icon></a>
 
-                    <a @click="confirmRemove(props.row)"><b-icon icon="trash"></b-icon></a>
+                    <a @click="confirmRemove(row)"><b-icon icon="trash"></b-icon></a>
                 </b-table-column>
             </template>
 
@@ -84,23 +87,23 @@
                 </section>
             </template>
 
-            <template slot="detail" slot-scope="props">
+            <template slot="detail" slot-scope="{ row }">
                 <article class="media">
                     <figure class="media-left">
-                        <p class="image is-64x64" v-for="photo in props.row.photos">
-                            <img class="is-clickable" :src="photo" @click="openImageModal(photo)">
+                        <p class="image is-64x64" v-for="photo in row.photos" :key="photo.id">
+                            <img class="is-clickable" :src="photo.url" @click="openImageModal(photo)">
                         </p>
                     </figure>
 
                     <div class="media-content">
                         <div class="content">
-                            <strong>{{ props.row.location }}</strong>
+                            <strong>{{ row.location }}</strong>
 
-                            <small>{{ props.row.latitude }}, {{ props.row.longitude }}</small><br>
+                            <small>{{ row.latitude }}, {{ row.longitude }}</small><br>
 
-                            <small>Elevation: {{ props.row.elevation}}m</small><br>
+                            <small>Elevation: {{ row.elevation}}m</small><br>
 
-                            <small>Accuracy: {{ props.row.accuracy}}m</small>
+                            <small>Accuracy: {{ row.accuracy}}m</small>
                         </div>
                     </div>
                 </article>
@@ -121,7 +124,7 @@
 
         <b-modal :active.sync="isImageModalActive" :can-cancel="['escape', 'x']">
             <div class="image is-4by3">
-                <img :src="modalImage">
+                <img :src="modalImage.url" v-if="modalImage">
             </div>
         </b-modal>
     </div>
@@ -243,8 +246,8 @@ export default {
             return route(this.editRoute, row.id);
         },
 
-        openImageModal(imageUrl) {
-            this.modalImage = imageUrl;
+        openImageModal(photo) {
+            this.modalImage = photo;
 
             this.isImageModalActive = true;
         },
@@ -260,6 +263,7 @@ export default {
 
         approve() {
             this.approving = true;
+
             axios.post(route(this.approveRoute), {
                 field_observation_ids: this.checkedRows.map(row => row.id)
             }).then(this.successfullyApproved).catch(this.failedToApprove)
@@ -268,15 +272,18 @@ export default {
         successfullyApproved() {
             this.checkedRows = [];
             this.approving = false;
+
             this.$toast.open({
                 message: 'Observations have been approved',
                 type: 'is-success'
             });
+
             this.loadAsyncData();
         },
 
         failedToApprove(error) {
             this.approving = false;
+
             this.$toast.open({
                 message: 'Observations cannot be approved',
                 type: 'is-danger',

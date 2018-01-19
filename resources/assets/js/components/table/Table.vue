@@ -69,8 +69,8 @@
                             <slot :row="row" :index="index"></slot>
                         </tr>
 
+                        <!-- Do not add `key` here (breaks details) -->
                         <tr v-if="detailed && isVisibleDetailRow(row)"
-                            :key="index"
                             class="detail">
                             <td :colspan="columnCount">
                                 <div class="detail-container">
@@ -109,6 +109,7 @@
                         :total="newDataTotal"
                         :per-page="perPage"
                         :simple="paginationSimple"
+                        :size="paginationSize"
                         :current="newCurrentPage"
                         @change="pageChanged">
                     </b-pagination>
@@ -165,6 +166,7 @@
                 default: 20
             },
             paginationSimple: Boolean,
+            paginationSize: String,
             backendSorting: Boolean,
             rowClass: {
                 type: Function,
@@ -346,7 +348,7 @@
                 let sorted = []
                 // Sorting without mutating original data
                 if (fn && typeof fn === 'function') {
-                    sorted = [...array].sort(fn)
+                    sorted = [...array].sort((a, b) => fn(a, b, isAsc))
                 } else {
                     sorted = [...array].sort((a, b) => {
                         // Get nested values from objects
