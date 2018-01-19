@@ -6,6 +6,7 @@ import * as VueGoogleMaps from 'vue2-google-maps';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Captcha from './components/Captcha';
+import ImageModal from './components/ImageModal';
 
 import DateInput from './components/inputs/DateInput';
 import PhotoUpload from './components/inputs/PhotoUpload';
@@ -42,6 +43,7 @@ if (window.route) {
 Vue.component(Navbar.name, Navbar);
 Vue.component(Sidebar.name, Sidebar);
 Vue.component(Captcha.name, Captcha);
+Vue.component(ImageModal.name, ImageModal);
 Vue.component(DateInput.name, DateInput);
 Vue.component(Table.name, Table);
 Vue.component(TaxaTable.name, TaxaTable);

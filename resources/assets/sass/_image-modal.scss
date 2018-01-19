@@ -1,0 +1,46 @@
+$image-modal-nav-background: rgba($white, 0.7) !default;
+$image-modal-nav-color: $text !default;
+
+.image-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    .image-modal-navigation {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 20;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+
+        .image-modal-previous,
+        .image-modal-next {
+            padding: 1em;
+            height: 2.2em;
+            width: 2em;
+            background: $image-modal-nav-background;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: $image-modal-nav-color;
+            z-index: 99;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        .image-modal-next {
+            left: auto;
+            right: 0;
+        }
+    }
+}

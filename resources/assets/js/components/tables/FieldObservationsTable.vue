@@ -73,6 +73,8 @@
                 </b-table-column>
 
                 <b-table-column label="Actions" width="100">
+                    <a @click="openImageModal(row.photos)" v-if="row.photos.length"><b-icon icon="photo"></b-icon></a>
+
                     <a :href="editLink(row)"><b-icon icon="edit"></b-icon></a>
 
                     <a @click="confirmRemove(row)"><b-icon icon="trash"></b-icon></a>
@@ -90,8 +92,8 @@
             <template slot="detail" slot-scope="{ row }">
                 <article class="media">
                     <figure class="media-left">
-                        <p class="image is-64x64" v-for="photo in row.photos" :key="photo.id">
-                            <img class="is-clickable" :src="photo.url" @click="openImageModal(photo)">
+                        <p class="image is-64x64" v-for="(photo, index) in row.photos" :key="photo.id">
+                            <img class="is-clickable" :src="photo.url" @click="openImageModal(row.photos, index)">
                         </p>
                     </figure>
 
@@ -122,11 +124,7 @@
             </template>
         </nz-table>
 
-        <b-modal :active.sync="isImageModalActive" :can-cancel="['escape', 'x']">
-            <div class="image is-4by3">
-                <img :src="modalImage.url" v-if="modalImage">
-            </div>
-        </b-modal>
+        <nz-image-modal :items="modalImages" v-model="modalImageIndex" v-if="modalImages.length" @close="onCarouselClose"/>
     </div>
 </template>
 
@@ -169,7 +167,8 @@ export default {
             page: 1,
             perPage: this.perPageOptions[0],
             isImageModalActive: false,
-            modalImage: null,
+            modalImages: [],
+            modalImageIndex: 0,
             checkedRows: [],
             approving: false,
             markingAsUnidentifiable: false
@@ -246,10 +245,14 @@ export default {
             return route(this.editRoute, row.id);
         },
 
-        openImageModal(photo) {
-            this.modalImage = photo;
+        openImageModal(photos, open) {
+            this.modalImageIndex = open;
+            this.modalImages = photos.map(photo => photo.url);
+        },
 
-            this.isImageModalActive = true;
+        onCarouselClose() {
+            this.modalImages = [];
+            this.modalImages = 0;
         },
 
         confirmApprove() {
