@@ -221,7 +221,7 @@ import Form from 'form-backend-validation';
 import User from '../../models/user';
 
 export default {
-    name: 'field-observation-form',
+    name: 'nzFieldObservationForm',
 
     props: {
         action: {

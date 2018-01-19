@@ -3,23 +3,25 @@
     <b-field grouped>
       <img width="32" :src="this.selected.thumbnail_url" v-if="haveThumbnail">
 
-      <b-autocomplete :value="value"
-                      :data="data"
-                      field="name"
-                      :loading="loading"
-                      @input="onInput"
-                      @select="onSelect"
-                      :keep-first="true"
-                      :icon="icon"
-                      :placeholder="placeholder"
-                      expanded
-                      :autofocus="autofocus">
-
+      <b-autocomplete
+          :value="value"
+          :data="data"
+          field="name"
+          :loading="loading"
+          @input="onInput"
+          @select="onSelect"
+          :keep-first="true"
+          :icon="icon"
+          :placeholder="placeholder"
+          expanded
+          :autofocus="autofocus"
+      >
         <template slot-scope="props">
           <div class="media">
             <div class="media-left">
               <img width="32" :src="props.option.thumbnail_url" v-if="props.option.thumbnail_url">
             </div>
+
             <div class="media-content">
               {{ props.option.name }}
             </div>
@@ -35,7 +37,7 @@
 import axios from 'axios';
 
 export default {
-    name: 'nz-taxon-autocomplete',
+    name: 'nzTaxonAutocomplete',
 
     props: {
         label: {

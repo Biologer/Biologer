@@ -71,6 +71,7 @@
 
                 <b-table-column label="Actions" width="100">
                     <a :href="editLink(props.row)"><b-icon icon="edit"></b-icon></a>
+
                     <a @click="confirmRemove(props.row)"><b-icon icon="trash"></b-icon></a>
                 </b-table-column>
             </template>
@@ -90,11 +91,15 @@
                             <img class="is-clickable" :src="photo" @click="openImageModal(photo)">
                         </p>
                     </figure>
+
                     <div class="media-content">
                         <div class="content">
                             <strong>{{ props.row.location }}</strong>
+
                             <small>{{ props.row.latitude }}, {{ props.row.longitude }}</small><br>
+
                             <small>Elevation: {{ props.row.elevation}}m</small><br>
+
                             <small>Accuracy: {{ props.row.accuracy}}m</small>
                         </div>
                     </div>
@@ -107,9 +112,8 @@
                         <option
                             v-for="(option, index) in perPageOptions"
                             :value="option"
-                            :key="index">
-                            {{ option }}
-                        </option>
+                            :key="index"
+                            v-text="option"/>
                     </b-select>
                 </b-field>
             </template>

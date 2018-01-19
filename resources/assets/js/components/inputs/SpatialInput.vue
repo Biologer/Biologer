@@ -5,61 +5,78 @@
                 :center="{lat: center.latitude, lng: center.longitude}"
                 :zoom="center.zoom"
                 @click="setMarker">
-                <gmap-marker :position="position"
-                             :clickable="true"
-                             :draggable="true"
-                             @dragend="setMarker">
-                </gmap-marker>
-                <gmap-circle v-if="position && newAccuracy"
-                             :center="position"
-                             :radius="newAccuracy"
-                             :editable="true"
-                             @radius_changed="updateRadius">
-                </gmap-circle>
+                <gmap-marker
+                    :position="position"
+                    :clickable="true"
+                    :draggable="true"
+                    @dragend="setMarker"/>
+
+                <gmap-circle
+                    v-if="position && newAccuracy"
+                    :center="position"
+                    :radius="newAccuracy"
+                    :editable="true"
+                    @radius_changed="updateRadius"/>
             </gmap-map>
         </b-field>
+
         <div class="has-text-right">
             <span v-if="mapHasErrors" class="has-text-danger is-size-7">Some fields have errors</span>
+
             <button type="button" class="button is-white is-small is-text" :class="{'has-text-danger': mapHasErrors}" @click="showDetails = !showDetails">Details</button>
         </div>
+
         <div v-show="showDetails">
             <div class="field is-grouped">
                 <div class="field is-expanded">
                     <label class="label is-small">Latitude</label>
+
                     <div class="control is-fullwidth">
                         <input class="input is-small" :class="{'is-danger': errors.has('latitude')}" :value="latitude" @input="onLatitudeInput" placeholder="f.e. 42.5234">
                     </div>
+
                     <p class="help is-danger" v-if="errors.has('latitude')" v-text="errors.first('latitude')"></p>
                 </div>
+
                 <div class="field is-expanded">
                     <label class="label is-small">Longitude</label>
+
                     <div class="control is-fullwidth">
                         <input class="input is-small" :class="{'is-danger': errors.has('longitude')}" :value="longitude" @input="onLongitudeInput" placeholder="f.e. 19.1234">
                     </div>
+
                     <p class="help is-danger" v-if="errors.has('longitude')" v-text="errors.first('longitude')"></p>
                 </div>
             </div>
             <div class="field is-grouped">
                 <div class="field is-expanded">
                     <label class="label is-small">Accuracy/Radius (m)</label>
+
                     <div class="control is-fullwidth">
                         <input class="input is-small" :value="accuracy" @input="onAccuracyInput" placeholder="f.e. 100">
                     </div>
+
                     <p class="help is-danger" v-if="errors.has('accuracy')" v-text="errors.first('accuracy')"></p>
                 </div>
+
                 <div class="field is-expanded">
                     <label class="label is-small">Elevation (m)</label>
+
                     <div class="control is-fullwidth">
                         <input class="input is-small" :value="elevation" @input="onElevationInput" placeholder="f.e. 500">
                     </div>
+
                     <p class="help is-danger" v-if="errors.has('elevation')" v-text="errors.first('elevation')"></p>
                 </div>
             </div>
+
             <div class="field is-expanded">
                 <label class="label is-small">Location</label>
+
                 <div class="control is-fullwidth">
                     <input class="input is-small" :class="{'is-danger': errors.has('location')}" :value="location" @input="onLocationInput" placeholder="Location">
                 </div>
+
                 <p class="help is-danger" v-if="errors.has('location')" v-text="errors.first('location')"></p>
             </div>
         </div>
@@ -68,7 +85,7 @@
 
 <script>
 export default {
-    name: 'nz-spatial-input',
+    name: 'nzSpatialInput',
 
     props: {
         emptyAccuracy: {

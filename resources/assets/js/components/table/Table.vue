@@ -1,6 +1,6 @@
 <template>
     <div class="b-table" :class="{ 'is-loading': loading }">
-        <b-table-mobile-sort
+        <nz-table-mobile-sort
             v-if="mobileCards && hasSortableColumns"
             :current-sort-column="currentSortColumn"
             :is-asc="isAsc"
@@ -120,19 +120,12 @@
 
 <script>
     import { getValueByPath, indexOf } from 'buefy/src/utils/helpers'
-    import { Checkbox as BCheckbox } from 'buefy/src/components/checkbox'
-    import BPagination from 'buefy/src/components/pagination'
-    import BIcon from 'buefy/src/components/icon'
-
-    import BTableMobileSort from 'buefy/src/components/table/TableMobileSort'
+    import NzTableMobileSort from './TableMobileSort'
 
     export default {
         name: 'nzTable',
         components: {
-            BPagination,
-            BIcon,
-            BCheckbox,
-            BTableMobileSort
+            NzTableMobileSort
         },
         props: {
             data: {

@@ -31,15 +31,15 @@
 
 <script>
 export default {
-	name: 'nz-photo-upload',
+	name: 'nzPhotoUpload',
 
     props: [
         'uploadUrl',
         'removeUrl',
-		'imageUrl',
-		'imagePath',
-		'text',
-		'icon'
+				'imageUrl',
+				'imagePath',
+				'text',
+				'icon'
     ],
 
     data() {

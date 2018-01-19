@@ -1,36 +1,5 @@
 <template>
-    <div class="taxa-table">
-        <div class="buttons has-addons">
-            <button type="button"
-                class="button"
-                @click="showFilter = !showFilter">
-                <b-icon icon="filter"></b-icon>
-                <span>Filters</span>
-            </button>
-            <button type="button" class="button" @click="clearFilter">Clear</button>
-        </div>
-        <b-collapse :open="showFilter">
-            <div class="columns">
-                <b-field label="Rank" class="column">
-                    <b-select v-model="newFilter.rank_level" @input="onFilter" expanded>
-                        <option value=""></option>
-                        <option
-                            v-for="(rank, index) in ranks"
-                            :value="rank.value"
-                            :key="index"
-                            v-text="rank.name">
-                        </option>
-                    </b-select>
-                </b-field>
-
-                <b-field label="Name" class="column">
-                    <b-input v-model="newFilter.name" @blur="onFilter" @keyup.enter.native="onFilter"></b-input>
-                </b-field>
-            </div>
-        </b-collapse>
-
-        <hr>
-
+    <div class="users-table">
         <b-table
             :data="data"
             :loading="loading"
@@ -53,16 +22,17 @@
                     {{ props.row.id }}
                 </b-table-column>
 
-                <b-table-column field="rank_level" label="Rank" sortable>
-                    {{ props.row.rank }}
+                <b-table-column field="first_name" label="First Name" sortable>
+                    {{ props.row.first_name }}
                 </b-table-column>
 
-                <b-table-column field="name" label="Name" sortable>
-                    {{ props.row.name }}
+                <b-table-column field="last_name" label="Last Name" sortable>
+                    {{ props.row.last_name }}
                 </b-table-column>
 
                 <b-table-column label="Actions" width="100">
                     <a :href="editLink(props.row)"><b-icon icon="edit"></b-icon></a>
+
                     <a @click="confirmRemove(props.row)"><b-icon icon="trash"></b-icon></a>
                 </b-table-column>
             </template>
@@ -81,9 +51,8 @@
                         <option
                             v-for="(option, index) in perPageOptions"
                             :value="option"
-                            :key="index">
-                            {{ option }}
-                        </option>
+                            :key="index"
+                            v-text="option"/>
                     </b-select>
                 </b-field>
             </template>
@@ -95,7 +64,7 @@
 import axios from 'axios';
 
 export default {
-    name: 'nzTaxaTable',
+    name: 'nzUsersTable',
 
     props: {
         perPageOptions: {
@@ -127,16 +96,7 @@ export default {
             defaultSortOrder: 'asc',
             page: 1,
             perPage: this.perPageOptions[0],
-            checkedRows: [],
-            showFilter: false,
-            filter: {
-                name: '',
-                rank_level: ''
-            },
-            newFilter: {
-                name: '',
-                rank_level: ''
-            }
+            checkedRows: []
         };
     },
 
@@ -151,8 +111,7 @@ export default {
             return axios.get(route(this.listRoute, {
                 sort_by: `${this.sortField}.${this.sortOrder}`,
                 page: this.page,
-                per_page: this.perPage,
-                ...this.filter
+                per_page: this.perPage
             })).then(({ data }) => {
                 this.data = [];
                 this.total = data.meta.total;

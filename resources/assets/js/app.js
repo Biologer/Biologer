@@ -3,23 +3,23 @@ import Vue from 'vue';
 import Buefy from 'buefy';
 import * as VueGoogleMaps from 'vue2-google-maps';
 
-import Navbar from './components/navbar';
-import Sidebar from './components/sidebar';
-import Captcha from './components/captcha';
+import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
+import Captcha from './components/Captcha';
 
-import DateInput from './components/inputs/date-input';
-import PhotoUpload from './components/inputs/photo-upload';
-import SpatialInput from './components/inputs/spatial-input';
-import TaxonAutocomplete from './components/inputs/taxon-autocomplete';
+import DateInput from './components/inputs/DateInput';
+import PhotoUpload from './components/inputs/PhotoUpload';
+import SpatialInput from './components/inputs/SpatialInput';
+import TaxonAutocomplete from './components/inputs/TaxonAutocomplete';
 
-import Table from './components/table';
-import TaxaTable from './components/tables/taxa-table';
-import UsersTable from './components/tables/users-table';
-import FieldObservationsTable from './components/tables/field-observations-table';
+import Table from './components/table/Table';
+import TaxaTable from './components/tables/TaxaTable';
+import UsersTable from './components/tables/UsersTable';
+import FieldObservationsTable from './components/tables/FieldObservationsTable';
 
-import UserForm from './components/forms/user-form';
-import TaxonForm from './components/forms/taxon-form';
-import FieldObservationForm from './components/forms/field-observation-form';
+import UserForm from './components/forms/UserForm';
+import TaxonForm from './components/forms/TaxonForm';
+import FieldObservationForm from './components/forms/FieldObservationForm';
 
 window.Vue = Vue;
 

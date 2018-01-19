@@ -1,5 +1,5 @@
 export default {
-  name: 'nz-navbar',
+  name: 'nzNavbar',
 
   data() {
     return {

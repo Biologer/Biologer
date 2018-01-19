@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="box">
-        <field-observation-form
+        <nz-field-observation-form
             action="{{ route('api.field-observations.update', $observation) }}"
             method="PUT"
             redirect="{{ route('curator.pending-observations.index') }}"
@@ -11,7 +11,7 @@
             :licenses="{{ json_encode(\App\License::getAvailable()) }}"
             :sexes="{{ json_encode(\App\Observation::SEX_OPTIONS) }}"
             :observation="{{ $observation }}"
-        ></fild-observation-form>
+        ></nz-fild-observation-form>
     </div>
 @endsection
 

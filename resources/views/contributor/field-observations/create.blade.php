@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="box">
-        <field-observation-form
+        <nz-field-observation-form
             action="{{ route('api.field-observations.store') }}"
             method="POST"
             redirect="{{ route('contributor.field-observations.index') }}"
@@ -10,7 +10,7 @@
             photo-remove-url="{{ route('api.photo-uploads.destroy') }}"
             :licenses="{{ json_encode(\App\License::getAvailable()) }}"
             :sexes="{{ json_encode(\App\Observation::SEX_OPTIONS) }}"
-        ></fild-observation-form>
+        ></nz-fild-observation-form>
     </div>
 @endsection
 

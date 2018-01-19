@@ -3,7 +3,7 @@
         <img class="image" style="height: 60px" :src="imageUrl" alt="CAPTCHA Image">
 
         <button type="button" class="button is-small ml-2" @click="refresh">
-            <b-icon icon="refresh" size="is-small"></b-icon>
+            <b-icon icon="refresh" size="is-small"/>
         </button>
     </div>
 </template>

@@ -5,17 +5,21 @@
                 :message="errors.has('year') ? errors.first('year'): ''">
                 <b-input :placeholder="placeholders.year" :value="year" @input="onYearInput"></b-input>
             </b-field>
+
             <b-field expanded :type="errors.has('month') ? 'is-danger': ''"
                 :message="errors.has('month') ? errors.first('month'): ''">
                 <b-select :placeholder="placeholders.month" :value="month" @input="onMonthInput" expanded>
                     <option :value="null"></option>
+                    
                     <option v-for="(month, index) in months" :value="(index + 1)" v-text="month"></option>
                 </b-select>
             </b-field>
+
             <b-field expanded :type="errors.has('day') ? 'is-danger': ''"
                 :message="errors.has('day') ? errors.first('day'): ''">
                 <b-select :placeholder="placeholders.day" :value="day" @input="onDayInput" expanded>
                     <option :value="null"></option>
+
                     <option v-for="day in days" :value="day" v-text="day"></option>
                 </b-select>
             </b-field>
@@ -27,7 +31,7 @@
 import moment from 'moment';
 
 export default {
-  name: 'nz-date-input',
+  name: 'nzDateInput',
 
   props: {
     label: {
