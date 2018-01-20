@@ -79,17 +79,17 @@ export default {
             this.newValue = newValue;
         },
 
-        registerKeyListener(event) {
-            const key = event.which || event.keyCode;
+        registerKeyListener(e) {
+            const key = e.which || e.keyCode;
 
-            if (key === 37) {
+            if (key === 37) { // left arrow
                 this.prev();
-            } else if (key === 39) {
+            } else if (key === 39) { // right arrow
                 this.next();
             }
         },
 
-        onClose(event) {
+        onClose(e) {
             this.active = false;
 
             // Buefy modal component sets these classes and
@@ -97,7 +97,7 @@ export default {
             document.documentElement.classList.remove('is-clipped');
             document.body.classList.remove('is-noscroll');
 
-            this.$emit('close', event);
+            this.$emit('close', e);
         }
     }
 }

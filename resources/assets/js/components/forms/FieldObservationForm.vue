@@ -1,12 +1,13 @@
 <template>
-    <form class="field-observation-form" :action="action" method="POST" @submit.prevent="submit">
+    <div class="field-observation-form">
         <div class="columns">
             <div class="column is-half">
                 <nz-taxon-autocomplete v-model="form.taxon_suggestion"
                     @select="onTaxonSelect"
                     :error="form.errors.has('taxon_id')"
                     :message="form.errors.has('taxon_id') ? form.errors.first('taxon_id') : null"
-                    autofocus>
+                    autofocus
+                    ref="taxonAutocomplete">
                 </nz-taxon-autocomplete>
 
                 <nz-date-input
@@ -204,14 +205,28 @@
             type="submit"
             class="button is-primary"
             :class="{
-                'is-loading': form.processing
+                'is-loading': submittingWithRedirect
             }"
-            @click="submit"
+            @click="submitAndRedirect"
         >
             Save
         </button>
+
+        <button
+            type="submit"
+            class="button is-primary"
+            :class="{
+                'is-outlined': !submittingWithoutRedirect,
+                'is-loading': submittingWithoutRedirect
+            }"
+            @click="submitAndAddMore"
+            v-if="saveMore"
+        >
+            Save (more)
+        </button>
+
         <a :href="redirect" class="button is-text">Cancel</a>
-    </form>
+    </div>
 </template>
 
 <script>
@@ -285,18 +300,17 @@ export default {
         sexes: {
             type: Array,
             default: () => []
-        }
+        },
+        saveMore: Boolean
     },
 
     data() {
         return {
-            form: new Form({
-                ...this.observation
-            }, {
-                resetOnSuccess: false
-            }),
+            form: this.newForm(this.observation),
             showMoreDetails: false,
-            user: new User(window.App.User)
+            user: new User(window.App.User),
+            submittingWithRedirect: false,
+            submittingWithoutRedirect: false
         };
     },
 
@@ -314,24 +328,63 @@ export default {
         }
     },
 
+    created() {
+        document.addEventListener('keyup', this.registerKeyListener);
+    },
+
+    beforeDestroy() {
+        document.removeEventListener('keyup', this.registerKeyListener);
+    },
+
     methods: {
         /**
-         * Submit the form.
+         * Create new form instance.
+         *
+         * @param  {Object} data default form data
+         * @return {Form}
          */
-        submit() {
+        newForm(data) {
+            return new Form({
+                ...data
+            }, {
+                resetOnSuccess: false
+            })
+        },
+
+        /**
+         * Submit the form with redirect.
+         */
+        submitAndRedirect() {
             if (this.form.processing) {
                 return;
             }
 
+            this.submittingWithRedirect = true;
+
             this.form[this.method.toLowerCase()](this.action)
-                .then(this.onSuccessfulSubmit)
+                .then(this.onSuccessfulSubmitWithRedirect)
                 .catch(this.onFailedSubmit);
         },
 
         /**
-         * Handle successful form submit.
+         * Submit the form and stay to add more.
          */
-        onSuccessfulSubmit() {
+        submitAndAddMore() {
+            if (this.form.processing) {
+                return;
+            }
+
+            this.submittingWithoutRedirect = true;
+
+            this.form[this.method.toLowerCase()](this.action)
+                .then(this.onSuccessfulSubmitAndAddMore)
+                .catch(this.onFailedSubmit);
+        },
+
+        /**
+         * Handle successful form submit with redirect.
+         */
+        onSuccessfulSubmitWithRedirect() {
             this.form.processing = true
 
             this.$toast.open({
@@ -343,6 +396,7 @@ export default {
             // so we can show the message that the action was successful.
             setTimeout(() => {
                 this.form.processing = false;
+                this.submittingWithRedirect = false;
 
                 if (this.redirect) {
                     window.location.href = this.redirect;
@@ -351,11 +405,38 @@ export default {
         },
 
         /**
+         * Handle successful form submit with no redirect.
+         */
+        onSuccessfulSubmitAndAddMore() {
+            this.submittingWithoutRedirect = false;
+
+            this.$toast.open({
+                message: 'Saved successfully',
+                type: 'is-success'
+            });
+
+            // Reset the form but remember date and location data.
+            this.form = this.newForm({
+                ...this.observation,
+                ..._.pick(this.form, [
+                    'location', 'accuracy', 'elevation', 'latitude', 'longitude',
+                    'year', 'month', 'day'
+                ])
+            });
+
+            // Focus on taxon autocomplete input.
+            this.$refs.taxonAutocomplete.$el.querySelector('input').focus();
+        },
+
+        /**
          * Handle failed form submit.
          *
          * @param {Error} error
          */
         onFailedSubmit(error) {
+            this.submittingWithRedirect = false;
+            this.submittingWithoutRedirect = false;
+
             this.$toast.open({
                 duration: 2500,
                 message: _.get(error, 'response.data.message', error.message),
@@ -399,9 +480,11 @@ export default {
             this.form.taxon = taxon || null;
             this.form.taxon_id = taxon ? taxon.id : null;
 
-            if (!this.stages.length || !collect(this.stages).contains(stage => {
-              return stage.id === this.form.stage_id
-            })) {
+            const invalidStage = !collect(this.stages).contains(stage => {
+                return stage.id === this.form.stage_id;
+            });
+
+            if (invalidStage) {
               this.form.stage_id = null
             }
         },
@@ -428,8 +511,30 @@ export default {
             _.remove(this.form.photos, { path: image.path })
         },
 
+        /**
+         * Get observation photo attribute.
+         *
+         * @param  {Number} [photoIndex=0]
+         * @param  {String} [attribute='url']
+         * @return {String}
+         */
         getObservationPhotoAttribute(photoIndex = 0, attribute = 'url') {
             return _.get(this.observation, `photos.${photoIndex}.${attribute}`, '');
+        },
+
+        /**
+         * Keyboard shortcuts.
+         *
+         * @param {Event} e
+         */
+        registerKeyListener(e) {
+            const enter = 13 === (e.which || e.keyCode);
+
+            if (this.saveMore && e.ctrlKey && e.shiftKey && enter) {
+                this.submitAndAddMore();
+            } else if (e.ctrlKey && enter) {
+                this.submitAndRedirect();
+            }
         }
     }
 }
