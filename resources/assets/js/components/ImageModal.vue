@@ -1,5 +1,5 @@
 <template>
-    <b-modal :active="true" :can-cancel="['escape', 'x']" @close="onClose">
+    <b-modal :active="active" :can-cancel="['escape', 'x']" @close="onClose">
         <div class="image-modal">
             <img :src="openImage">
 
@@ -34,6 +34,7 @@ export default {
     data() {
         return {
             newValue: this.value,
+            active: true
         };
     },
 
@@ -89,6 +90,13 @@ export default {
         },
 
         onClose(event) {
+            this.active = false;
+
+            // Buefy modal component sets these classes and
+            // if we don't remove them scroll will not work.
+            document.documentElement.classList.remove('is-clipped');
+            document.body.classList.remove('is-noscroll');
+
             this.$emit('close', event);
         }
     }
