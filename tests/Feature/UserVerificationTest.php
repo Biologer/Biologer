@@ -14,7 +14,7 @@ class UserVerificationTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function can_verify_unverified_user()
+    public function can_verify_unverified_user()
     {
         $user = factory(User::class)->states('unverified')->create([
             'email' => 'test@example.com',
@@ -27,7 +27,7 @@ class UserVerificationTest extends TestCase
     }
 
     /** @test */
-    function already_verified_user_cannot_verify_again()
+    public function already_verified_user_cannot_verify_again()
     {
         $user = factory(User::class)->create([
             'email' => 'test@example.com',
@@ -40,7 +40,7 @@ class UserVerificationTest extends TestCase
     }
 
     /** @test */
-    function can_resend_verification_email_to_unverified_user()
+    public function can_resend_verification_email_to_unverified_user()
     {
         Mail::fake();
 
@@ -63,7 +63,7 @@ class UserVerificationTest extends TestCase
     }
 
     /** @test */
-    function will_not_send_verification_to_verfied_user()
+    public function will_not_send_verification_to_verfied_user()
     {
         Mail::fake();
 
@@ -84,7 +84,7 @@ class UserVerificationTest extends TestCase
     }
 
     /** @test */
-    function will_not_send_if_the_user_has_not_registered()
+    public function will_not_send_if_the_user_has_not_registered()
     {
         Mail::fake();
 
@@ -102,7 +102,7 @@ class UserVerificationTest extends TestCase
     }
 
     /** @test */
-    function can_see_verify_page()
+    public function can_see_verify_page()
     {
         $user = factory(User::class)->states('unverified')->create([
             'email' => 'test@example.com',
@@ -118,7 +118,7 @@ class UserVerificationTest extends TestCase
     }
 
     /** @test */
-    function verify_page_is_unavailable_if_the_user_does_not_exist()
+    public function verify_page_is_unavailable_if_the_user_does_not_exist()
     {
         $response = $this->get('/verify/test@example.com');
 
@@ -126,11 +126,11 @@ class UserVerificationTest extends TestCase
     }
 
     /** @test */
-    function verify_page_is_unavailable_if_the_user_is_already_verified()
+    public function verify_page_is_unavailable_if_the_user_is_already_verified()
     {
         factory(User::class)->create([
             'email' => 'test@example.com',
-            'verified' => true
+            'verified' => true,
         ]);
 
         $response = $this->get('/verify/test@example.com');

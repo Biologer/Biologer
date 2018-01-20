@@ -9,7 +9,6 @@ use App\Observation;
 use App\Rules\Month;
 use App\FieldObservation;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreFieldObservation extends FormRequest
@@ -46,8 +45,8 @@ class StoreFieldObservation extends FormRequest
                 new Day($this->input('year'), $this->input('month')),
             ],
             'latitude' => 'required|numeric|between:-90,90',
-            'longitude'=> 'required|numeric|between:-180,180',
-            'elevation'=> 'required|integer|max:10000',
+            'longitude' => 'required|numeric|between:-180,180',
+            'elevation' => 'required|integer|max:10000',
             'accuracy' => 'nullable|integer|max:10000',
             'observer' => 'nullable|string',
             'identifier' => 'nullable|string',

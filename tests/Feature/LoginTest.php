@@ -4,8 +4,6 @@ namespace Tests\Feature;
 
 use App\User;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Mail;
-use Nikazooz\LaravelCaptcha\Facades\Captcha;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginTest extends TestCase
@@ -13,7 +11,7 @@ class LoginTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function user_with_verified_their_email_can_login()
+    public function user_with_verified_their_email_can_login()
     {
         $user = factory(User::class)->create([
             'email' => 'test@example.com',
@@ -31,7 +29,7 @@ class LoginTest extends TestCase
     }
 
     /** @test */
-    function user_that_has_not_verified_their_email_is_redirected_to_verify_page()
+    public function user_that_has_not_verified_their_email_is_redirected_to_verify_page()
     {
         factory(User::class)->states('unverified')->create([
             'email' => 'test@example.com',
@@ -49,7 +47,7 @@ class LoginTest extends TestCase
     }
 
     /** @test */
-    function cannot_login_with_invalid_email()
+    public function cannot_login_with_invalid_email()
     {
         factory(User::class)->states('unverified')->create([
             'email' => 'test@example.com',
@@ -68,7 +66,7 @@ class LoginTest extends TestCase
     }
 
     /** @test */
-    function cannot_login_with_invalid_password()
+    public function cannot_login_with_invalid_password()
     {
         factory(User::class)->states('unverified')->create([
             'email' => 'test@example.com',

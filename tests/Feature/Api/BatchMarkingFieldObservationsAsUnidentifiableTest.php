@@ -4,11 +4,10 @@ namespace Tests\Feature\Api;
 
 use App\User;
 use App\Taxon;
-use App\FieldObservation;
 use Tests\TestCase;
+use App\FieldObservation;
 use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
@@ -23,7 +22,7 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
     }
 
     /** @test */
-    function guest_cannot_mark_field_observation_as_unidentifiable()
+    public function guest_cannot_mark_field_observation_as_unidentifiable()
     {
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'taxon_id' => factory(Taxon::class),
@@ -38,7 +37,7 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
     }
 
     /** @test */
-    function authenticated_user_that_curates_the_taxa_of_all_the_field_observation_can_mark_them_as_unapprovable()
+    public function authenticated_user_that_curates_the_taxa_of_all_the_field_observation_can_mark_them_as_unapprovable()
     {
         $user = factory(User::class)->create()->assignRole('curator');
         Passport::actingAs($user);

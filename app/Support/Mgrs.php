@@ -3,8 +3,8 @@
 namespace App\Support;
 
 use PHPCoord\LatLng;
-use PHPCoord\UTMRef;
 use PHPCoord\RefEll;
+use PHPCoord\UTMRef;
 
 class Mgrs
 {
@@ -18,7 +18,7 @@ class Mgrs
      *
      * @var array
      */
-    protected static $e100kLetters = [ 'ABCDEFGH', 'JKLMNPQR', 'STUVWXYZ' ];
+    protected static $e100kLetters = ['ABCDEFGH', 'JKLMNPQR', 'STUVWXYZ'];
 
     /**
      * Letters' groups for 100k northing.
@@ -145,7 +145,7 @@ class Mgrs
      */
     public function n100k()
     {
-       return static::$n100kLetters[($this->zone() - 1) % 2][$this->row()];
+        return static::$n100kLetters[($this->zone() - 1) % 2][$this->row()];
     }
 
     /**
@@ -176,7 +176,7 @@ class Mgrs
      */
     protected function easting($precision)
     {
-      return $this->applyPrecision($this->utmEasting(), $precision);
+        return $this->applyPrecision($this->utmEasting(), $precision);
     }
 
     /**

@@ -46,7 +46,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function guests_cannot_add_new_field_observations()
+    public function guests_cannot_add_new_field_observations()
     {
         $fieldObservationsCount = FieldObservation::count();
         $observationsCount = Observation::count();
@@ -60,7 +60,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function authenticated_user_can_add_field_observation()
+    public function authenticated_user_can_add_field_observation()
     {
         $user = factory(User::class)->create();
         Passport::actingAs($user);
@@ -94,7 +94,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function users_full_name_as_source_when_source_is_not_provided()
+    public function users_full_name_as_source_when_source_is_not_provided()
     {
         Passport::actingAs(factory(User::class)->create([
             'first_name' => 'Jane',
@@ -109,7 +109,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function year_is_required_when_adding_field_observation()
+    public function year_is_required_when_adding_field_observation()
     {
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
@@ -122,7 +122,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function year_must_be_valid_year()
+    public function year_must_be_valid_year()
     {
         Passport::actingAs(factory(User::class)->make());
 
@@ -132,7 +132,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function year_cannot_be_in_the_future()
+    public function year_cannot_be_in_the_future()
     {
         Passport::actingAs(factory(User::class)->make());
 
@@ -142,7 +142,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function month_cannot_be_in_the_future()
+    public function month_cannot_be_in_the_future()
     {
         Passport::actingAs(factory(User::class)->make());
 
@@ -153,7 +153,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function month_cannot_be_string()
+    public function month_cannot_be_string()
     {
         Passport::actingAs(factory(User::class)->make());
 
@@ -164,7 +164,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function month_cannot_be_negative_number()
+    public function month_cannot_be_negative_number()
     {
         Passport::actingAs(factory(User::class)->make());
 
@@ -175,7 +175,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function day_cannot_be_in_the_future_longer_than_a_day()
+    public function day_cannot_be_in_the_future_longer_than_a_day()
     {
         Passport::actingAs(factory(User::class)->make());
 
@@ -189,7 +189,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function day_cannot_be_negative_number()
+    public function day_cannot_be_negative_number()
     {
         Passport::actingAs(factory(User::class)->make());
 
@@ -203,7 +203,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function day_cannot_be_string()
+    public function day_cannot_be_string()
     {
         Passport::actingAs(factory(User::class)->make());
 
@@ -217,7 +217,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function latitude_is_required_when_adding_field_observation()
+    public function latitude_is_required_when_adding_field_observation()
     {
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
@@ -230,7 +230,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function latitude_must_be_number_less_than_90()
+    public function latitude_must_be_number_less_than_90()
     {
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
@@ -243,7 +243,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function latitude_must_be_number_breate_than_negative_90()
+    public function latitude_must_be_number_breate_than_negative_90()
     {
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
@@ -256,7 +256,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function longitude_is_required_when_adding_field_observation()
+    public function longitude_is_required_when_adding_field_observation()
     {
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
@@ -269,7 +269,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function longitude_must_be_number_less_than_180()
+    public function longitude_must_be_number_less_than_180()
     {
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
@@ -282,7 +282,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function longitude_must_be_number_greater_than_negative_180()
+    public function longitude_must_be_number_greater_than_negative_180()
     {
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
@@ -295,7 +295,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function elevation_is_required_when_adding_field_observation()
+    public function elevation_is_required_when_adding_field_observation()
     {
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
@@ -308,7 +308,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function elevation_must_be_number()
+    public function elevation_must_be_number()
     {
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
@@ -321,7 +321,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function accuracy_is_optional_when_adding_field_observation()
+    public function accuracy_is_optional_when_adding_field_observation()
     {
         Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
@@ -334,7 +334,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function accuracy_must_be_number()
+    public function accuracy_must_be_number()
     {
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
@@ -347,7 +347,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function taxon_is_optional()
+    public function taxon_is_optional()
     {
         Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
@@ -360,7 +360,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function fails_if_taxon_does_not_exist()
+    public function fails_if_taxon_does_not_exist()
     {
         Passport::actingAs(factory(User::class)->make());
         $fieldObservationsCount = FieldObservation::count();
@@ -373,7 +373,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function observation_is_stored_with_correct_taxon()
+    public function observation_is_stored_with_correct_taxon()
     {
         Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
@@ -388,7 +388,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function taxon_suggestion_is_stored()
+    public function taxon_suggestion_is_stored()
     {
         Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
@@ -402,7 +402,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function mgrs_field_is_calculated_automaticaly()
+    public function mgrs_field_is_calculated_automaticaly()
     {
         Passport::actingAs(factory(User::class)->create());
 
@@ -417,7 +417,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function mgrs_field_cannot_be_calculated_in_polar_region()
+    public function mgrs_field_cannot_be_calculated_in_polar_region()
     {
         Passport::actingAs(factory(User::class)->create());
 
@@ -432,7 +432,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function photo_can_be_saved_with_observation()
+    public function photo_can_be_saved_with_observation()
     {
         $this->withoutExceptionHandling();
         config(['alciphron.photos_per_observation' => 3]);
@@ -463,17 +463,17 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function maximum_number_of_photos_that_can_be_saved_with_observation_can_be_set()
+    public function maximum_number_of_photos_that_can_be_saved_with_observation_can_be_set()
     {
         config(['alciphron.photos_per_observation' => 3]);
 
         Passport::actingAs(factory(User::class)->make());
         Storage::fake('public');
         $photosCount = Photo::count();
-        File::image('test-image1.jpg')->storeAs("uploads", 'test-image1.jpg', 'public');
-        File::image('test-image2.jpg')->storeAs("uploads", 'test-image2.jpg', 'public');
-        File::image('test-image3.jpg')->storeAs("uploads", 'test-image3.jpg', 'public');
-        File::image('test-image4.jpg')->storeAs("uploads", 'test-image4.jpg', 'public');
+        File::image('test-image1.jpg')->storeAs('uploads', 'test-image1.jpg', 'public');
+        File::image('test-image2.jpg')->storeAs('uploads', 'test-image2.jpg', 'public');
+        File::image('test-image3.jpg')->storeAs('uploads', 'test-image3.jpg', 'public');
+        File::image('test-image4.jpg')->storeAs('uploads', 'test-image4.jpg', 'public');
 
         $this->postJson('/api/field-observations', $this->validParams([
             'photos' => [
@@ -496,7 +496,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function photos_can_be_null()
+    public function photos_can_be_null()
     {
         Passport::actingAs(factory(User::class)->create());
 
@@ -506,7 +506,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function sex_is_optional()
+    public function sex_is_optional()
     {
         Passport::actingAs(factory(User::class)->create());
 
@@ -516,20 +516,20 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function sex_can_only_be_one_of_available_values()
+    public function sex_can_only_be_one_of_available_values()
     {
         Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
 
         $this->postJson('/api/field-observations', $this->validParams([
-            'sex' => 'invalid'
+            'sex' => 'invalid',
         ]))->assertValidationErrors('sex');
 
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
     /** @test */
-    function time_is_optional()
+    public function time_is_optional()
     {
         Passport::actingAs(factory(User::class)->create());
 
@@ -539,13 +539,13 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function time_must_be_in_correct_format()
+    public function time_must_be_in_correct_format()
     {
         Passport::actingAs(factory(User::class)->create());
         $fieldObservationsCount = FieldObservation::count();
 
         $this->postJson('/api/field-observations', $this->validParams([
-            'time' => 'invalid'
+            'time' => 'invalid',
         ]))->assertValidationErrors('time');
 
         FieldObservation::assertCount($fieldObservationsCount);

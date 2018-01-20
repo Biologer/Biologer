@@ -90,13 +90,13 @@ class Taxon extends Model
     }
 
     /**
-     * Conventions by which the taxon should be protected.
+     * Conservation lists by which the taxon should be protected.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function conventions()
+    public function conservationLists()
     {
-        return $this->belongsToMany(Convention::class);
+        return $this->belongsToMany(ConservationList::class);
     }
 
     /**
@@ -159,5 +159,10 @@ class Taxon extends Model
                 'name' => trans('taxonomy.'.$rank),
             ];
         }, static::getRanks(), array_keys(static::getRanks()));
+    }
+
+    public static function findByName($name)
+    {
+        return static::where('name', $name)->first();
     }
 }

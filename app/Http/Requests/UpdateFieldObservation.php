@@ -45,8 +45,8 @@ class UpdateFieldObservation extends FormRequest
                 new Day($this->input('year'), $this->input('month')),
             ],
             'latitude' => 'required|numeric|between:-90,90',
-            'longitude'=> 'required|numeric|between:-180,180',
-            'elevation'=> 'required|integer|max:10000',
+            'longitude' => 'required|numeric|between:-180,180',
+            'elevation' => 'required|integer|max:10000',
             'accuracy' => 'nullable|integer|max:10000',
             'observer' => 'nullable|string',
             'identifier' => 'nullable|string',
@@ -66,11 +66,12 @@ class UpdateFieldObservation extends FormRequest
     /**
      * Store observation and related data.
      *
-     * @return \App\Observation
+     * @param  \App\FieldObservation  $fieldObservation
+     * @return \App\FieldObservation
      */
-    public function save($observation)
+    public function save(FieldObservation $fieldObservation)
     {
-        return tap($this->updateObservation($observation), function ($observation) {
+        return tap($this->updateObservation($fieldObservation), function ($observation) {
             $observation->syncPhotos(
                 collect($this->input('photos', [])),
                 $this->input('image_license') ?: $this->user()->settings()->get('image_license')
@@ -81,9 +82,10 @@ class UpdateFieldObservation extends FormRequest
     /**
      * Create observation.
      *
-     * @return \App\Observation
+     * @param  \App\FieldObservation  $fieldObservation
+     * @return \App\FieldObservation
      */
-    protected function updateObservation($fieldObservation)
+    protected function updateObservation(FieldObservation $fieldObservation)
     {
         $fieldObservation->observation->update([
             'taxon_id' => $this->input('taxon_id'),

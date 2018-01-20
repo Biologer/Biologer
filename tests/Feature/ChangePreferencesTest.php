@@ -11,7 +11,7 @@ class ChangePreferencesTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function can_change_license_preferences()
+    public function can_change_license_preferences()
     {
         $user = factory(User::class)->create([
             'settings' => [
@@ -38,7 +38,7 @@ class ChangePreferencesTest extends TestCase
     }
 
     /** @test */
-    function can_see_preferences_page()
+    public function can_see_preferences_page()
     {
         $user = factory(User::class)->create();
 

@@ -3,8 +3,8 @@
 namespace App;
 
 use App\Mail\VerificationEmail;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Database\Eloquent\Model;
 
 class VerificationToken extends Model
 {

@@ -16,20 +16,20 @@ class FieldObservationsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-     public function index(Request $request)
-     {
-         $query = FieldObservation::with([
-             'observation.taxon', 'photos'
+    public function index(Request $request)
+    {
+        $query = FieldObservation::with([
+             'observation.taxon', 'photos',
          ])->filter($request)->orderBy('id');
 
-         if ($request->has('page')) {
-             return FieldObservationResource::collection(
+        if ($request->has('page')) {
+            return FieldObservationResource::collection(
                  $query->paginate($request->input('per_page', 15))
              );
-         }
+        }
 
-         return FieldObservationResource::collection($query->get());
-     }
+        return FieldObservationResource::collection($query->get());
+    }
 
     /**
      * Add new field observation.

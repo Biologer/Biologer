@@ -9,7 +9,7 @@ $factory->define(App\Taxon::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Convention::class, function (Faker $faker) {
+$factory->define(App\ConservationList::class, function (Faker $faker) {
     return [
         'name' => $faker->city,
     ];
@@ -18,5 +18,11 @@ $factory->define(App\Convention::class, function (Faker $faker) {
 $factory->define(App\RedList::class, function (Faker $faker) {
     return [
         'name' => $faker->country,
+    ];
+});
+
+$factory->define(App\Stage::class, function (Faker $faker) {
+    return [
+        'name' => $faker->word,
     ];
 });

@@ -2,9 +2,8 @@
 
 namespace Tests;
 
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Query\Builder;
 use PHPUnit\Framework\Assert as PHPUnit;
 use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -75,6 +74,12 @@ abstract class TestCase extends BaseTestCase
 
         TestResponse::macro('assertUnauthorized', function () {
             $this->assertStatus(403);
+
+            return $this;
+        });
+
+        TestResponse::macro('assertNotFound', function () {
+            $this->assertStatus(404);
 
             return $this;
         });

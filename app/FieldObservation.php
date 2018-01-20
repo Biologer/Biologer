@@ -187,7 +187,7 @@ class FieldObservation extends Model
      */
     public function scopeCuratedBy($query, User $user)
     {
-        return $query->whereHas('observation', function($observation) use ($user) {
+        return $query->whereHas('observation', function ($observation) use ($user) {
             return $observation->taxonCuratedBy($user);
         });
     }

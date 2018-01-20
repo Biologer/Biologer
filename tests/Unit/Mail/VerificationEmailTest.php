@@ -6,8 +6,6 @@ use App\User;
 use Tests\TestCase;
 use App\VerificationToken;
 use App\Mail\VerificationEmail;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class VerificationEmailTest extends TestCase
 {
@@ -24,7 +22,7 @@ class VerificationEmailTest extends TestCase
     }
 
     /** @test */
-    function email_contains_the_verification_link()
+    public function email_contains_the_verification_link()
     {
         $email = new VerificationEmail($this->getVerificationToken());
 
@@ -35,7 +33,7 @@ class VerificationEmailTest extends TestCase
     }
 
     /** @test */
-    function email_has_the_correct_subject()
+    public function email_has_the_correct_subject()
     {
         $email = new VerificationEmail($this->getVerificationToken());
 

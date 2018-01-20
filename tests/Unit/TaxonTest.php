@@ -5,15 +5,15 @@ namespace Tests\Unit;
 use App\Taxon;
 use Tests\TestCase;
 use App\Observation;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\ObservationFactory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TaxonTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    function it_can_have_many_observations()
+    public function it_can_have_many_observations()
     {
         $taxon = factory(Taxon::class)->create();
         $this->assertCount(0, $taxon->observations);
@@ -28,7 +28,7 @@ class TaxonTest extends TestCase
     }
 
     /** @test */
-    function it_can_have_many_approved_observations()
+    public function it_can_have_many_approved_observations()
     {
         $taxon = factory(Taxon::class)->create();
 
@@ -49,7 +49,7 @@ class TaxonTest extends TestCase
     }
 
     /** @test */
-    function it_can_have_many_unapproved_observations()
+    public function it_can_have_many_unapproved_observations()
     {
         $taxon = factory(Taxon::class)->create();
 
@@ -70,7 +70,7 @@ class TaxonTest extends TestCase
     }
 
     /** @test */
-    function it_can_list_unique_mgrs_fields_of_approved_observations()
+    public function it_can_list_unique_mgrs_fields_of_approved_observations()
     {
         $taxon = factory(Taxon::class)->create();
 
@@ -88,12 +88,14 @@ class TaxonTest extends TestCase
         ]);
 
         $this->assertEquals(
-            ['EQ54', 'AE13'], $taxon->mgrs(), 'MGRS fields do not match.'
+            ['EQ54', 'AE13'],
+            $taxon->mgrs(),
+            'MGRS fields do not match.'
         );
     }
 
     /** @test */
-    function it_can_be_root_taxon()
+    public function it_can_be_root_taxon()
     {
         $taxon = factory(Taxon::class)->create([
             'parent_id' => null,
@@ -103,7 +105,7 @@ class TaxonTest extends TestCase
     }
 
     /** @test */
-    function it_can_be_child_of_another_taxon()
+    public function it_can_be_child_of_another_taxon()
     {
         $parent = factory(Taxon::class)->create();
         $taxon = factory(Taxon::class)->create([
@@ -116,7 +118,7 @@ class TaxonTest extends TestCase
     }
 
     /** @test */
-    function it_can_be_parent_of_another_taxon()
+    public function it_can_be_parent_of_another_taxon()
     {
         $parent = factory(Taxon::class)->create();
         $taxon = factory(Taxon::class)->create([
@@ -128,7 +130,7 @@ class TaxonTest extends TestCase
     }
 
     /** @test */
-    function the_parent_is_ancestor_as_well()
+    public function the_parent_is_ancestor_as_well()
     {
         $parent = factory(Taxon::class)->create(['parent_id' => null]);
         $taxon = factory(Taxon::class)->create(['parent_id' => $parent->id]);
@@ -137,7 +139,7 @@ class TaxonTest extends TestCase
     }
 
     /** @test */
-    function it_can_have_many_ancestors_which_it_inherits_from_parent()
+    public function it_can_have_many_ancestors_which_it_inherits_from_parent()
     {
         $root = factory(Taxon::class)->create(['parent_id' => null]);
         $parent = factory(Taxon::class)->create(['parent_id' => $root->id]);
@@ -148,7 +150,7 @@ class TaxonTest extends TestCase
     }
 
     /** @test */
-    function it_can_have_many_children_taxa()
+    public function it_can_have_many_children_taxa()
     {
         $taxon = factory(Taxon::class)->create();
         $children = factory(Taxon::class, 3)->create(['parent_id' => $taxon->id]);
@@ -160,7 +162,7 @@ class TaxonTest extends TestCase
     }
 
     /** @test */
-    function it_can_many_descendants()
+    public function it_can_many_descendants()
     {
         $root = factory(Taxon::class)->create(['parent_id' => null]);
         $parent = factory(Taxon::class)->create(['parent_id' => $root->id]);

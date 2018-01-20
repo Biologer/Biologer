@@ -101,7 +101,7 @@ trait HasAncestry
     /**
      * Check if given taxon is child of this taxon.
      *
-     * @param  static|integer  $parent
+     * @param  static|int  $parent
      * @return bool
      */
     public function isChildOf($parent)
@@ -121,11 +121,11 @@ trait HasAncestry
      */
     public function isParentOf($model)
     {
-        return $this->id === $model->parent_id ;
+        return $this->id === $model->parent_id;
     }
 
     /**
-     * Ranks
+     * Ranks.
      * @return array
      */
     public static function getRanks()

@@ -26,7 +26,6 @@ class TaxonPolicy
      * Determine whether the user can view the taxon.
      *
      * @param  \App\User  $user
-     * @param  \App\Taxon  $taxon
      * @return mixed
      */
     public function list(User $user)
@@ -38,20 +37,22 @@ class TaxonPolicy
      * Determine whether the user can create taxons.
      *
      * @param  \App\User  $user
+     * @param  int|null  $parentId
      * @return mixed
      */
     public function create(User $user, $parentId = null)
     {
-        return $user->hasRole('admin') || $this->canCreateWithParent($parentId);
+        return $user->hasRole('admin') || $this->canCreateWithParent($user, $parentId);
     }
 
     /**
      * Check if user can create taxon whos parent has given ID.
      *
+     * @param  \App\User  $user
      * @param  int  $parentId
      * @return bool
      */
-    protected function canCreateWithParent($parentId)
+    protected function canCreateWithParent(User $user, $parentId)
     {
         return ($taxon = Taxon::find($parentId)) ? $taxon->isCuratedBy($user) : false;
     }

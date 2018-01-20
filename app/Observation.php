@@ -1,7 +1,6 @@
 <?php
 
 namespace App;
-use Illuminate\Support\Carbon;
 
 class Observation extends Model
 {

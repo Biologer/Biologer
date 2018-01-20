@@ -6,7 +6,7 @@ class RedList extends Model
 {
     /**
      * Red List categories.
-     * 
+     *
      * @var array
      */
     const CATEGORIES = ['EX', 'EW', 'CR', 'EN', 'VU', 'NT', 'LC', 'DD', 'NE'];

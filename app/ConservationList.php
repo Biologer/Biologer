@@ -2,10 +2,10 @@
 
 namespace App;
 
-class Convention extends Model
+class ConservationList extends Model
 {
     /**
-     * Taxa the convention applies to.
+     * Taxa that is listed.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */

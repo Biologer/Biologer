@@ -13,7 +13,7 @@ class TaxaTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function can_fetch_list_of_taxa()
+    public function can_fetch_list_of_taxa()
     {
         $taxa = factory(Taxon::class, 5)->create();
         Passport::actingAs(factory(User::class)->make());
@@ -33,7 +33,7 @@ class TaxaTest extends TestCase
     }
 
     /** @test */
-    function can_fetch_paginated_list_of_taxa()
+    public function can_fetch_paginated_list_of_taxa()
     {
         $taxa = factory(Taxon::class, 5)->create();
         Passport::actingAs(factory(User::class)->make());
@@ -49,7 +49,7 @@ class TaxaTest extends TestCase
     }
 
     /** @test */
-    function can_exclude_taxa_with_provided_ids()
+    public function can_exclude_taxa_with_provided_ids()
     {
         $taxa = factory(Taxon::class, 5)->create();
         Passport::actingAs(factory(User::class)->make());

@@ -31,7 +31,7 @@ class Month implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!$this->yearIsValid() || $value <= 0) {
+        if (! $this->yearIsValid() || $value <= 0) {
             return false;
         }
 

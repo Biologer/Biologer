@@ -14,7 +14,7 @@ class PhotoTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function file_is_removed_when_photo_is_deleted()
+    public function file_is_removed_when_photo_is_deleted()
     {
         Storage::fake('public');
         $file = File::image('example.jpg')->storeAs('uploads', 'example.jpg', [

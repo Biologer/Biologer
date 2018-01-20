@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\User;
 use Tests\TestCase;
-use App\VerificationToken;
 use App\Mail\VerificationEmail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -30,7 +29,7 @@ class UserRegistrationTest extends TestCase
     }
 
     /** @test */
-    function user_can_register_by_providing_required_information()
+    public function user_can_register_by_providing_required_information()
     {
         Mail::fake();
         User::assertCount(0);
@@ -59,7 +58,7 @@ class UserRegistrationTest extends TestCase
     }
 
     /** @test */
-    function first_name_is_required()
+    public function first_name_is_required()
     {
         Mail::fake();
         User::assertCount(0);
@@ -77,7 +76,7 @@ class UserRegistrationTest extends TestCase
     }
 
     /** @test */
-    function last_name_is_required()
+    public function last_name_is_required()
     {
         Mail::fake();
         User::assertCount(0);
@@ -95,7 +94,7 @@ class UserRegistrationTest extends TestCase
     }
 
     /** @test */
-    function password_name_is_required()
+    public function password_name_is_required()
     {
         Mail::fake();
         User::assertCount(0);
@@ -113,7 +112,7 @@ class UserRegistrationTest extends TestCase
     }
 
     /** @test */
-    function password_must_be_at_least_6_characters_long()
+    public function password_must_be_at_least_6_characters_long()
     {
         Mail::fake();
         User::assertCount(0);
@@ -131,7 +130,7 @@ class UserRegistrationTest extends TestCase
     }
 
     /** @test */
-    function password_confirmation_is_required()
+    public function password_confirmation_is_required()
     {
         Mail::fake();
         User::assertCount(0);
@@ -150,7 +149,7 @@ class UserRegistrationTest extends TestCase
     }
 
     /** @test */
-    function password_confirmation_must_match_password()
+    public function password_confirmation_must_match_password()
     {
         Mail::fake();
         User::assertCount(0);
@@ -169,7 +168,7 @@ class UserRegistrationTest extends TestCase
     }
 
     /** @test */
-    function captcha_verification_code_is_required()
+    public function captcha_verification_code_is_required()
     {
         Mail::fake();
         User::assertCount(0);
@@ -187,7 +186,7 @@ class UserRegistrationTest extends TestCase
     }
 
     /** @test */
-    function captcha_verification_code_must_be_valid()
+    public function captcha_verification_code_must_be_valid()
     {
         Mail::fake();
         User::assertCount(0);
@@ -205,7 +204,7 @@ class UserRegistrationTest extends TestCase
     }
 
     /** @test */
-    function data_license_is_required()
+    public function data_license_is_required()
     {
         Mail::fake();
         User::assertCount(0);
@@ -223,7 +222,7 @@ class UserRegistrationTest extends TestCase
     }
 
     /** @test */
-    function data_license_can_only_be_one_of_supported()
+    public function data_license_can_only_be_one_of_supported()
     {
         Mail::fake();
         User::assertCount(0);
@@ -241,7 +240,7 @@ class UserRegistrationTest extends TestCase
     }
 
     /** @test */
-    function image_license_is_required()
+    public function image_license_is_required()
     {
         Mail::fake();
         User::assertCount(0);
@@ -259,7 +258,7 @@ class UserRegistrationTest extends TestCase
     }
 
     /** @test */
-    function image_license_can_only_be_one_of_supported()
+    public function image_license_can_only_be_one_of_supported()
     {
         Mail::fake();
         User::assertCount(0);

@@ -3,17 +3,11 @@
 namespace Tests\Feature\Api;
 
 use App\User;
-use App\Photo;
 use App\Taxon;
-use Carbon\Carbon;
 use Tests\TestCase;
 use App\Observation;
-use App\FieldObservation;
 use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
-use Illuminate\Http\Testing\File;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UpdateFieldObservationTest extends TestCase
@@ -53,7 +47,7 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function field_observation_can_be_updated_by_user_who_created_it_if_its_not_approved()
+    public function field_observation_can_be_updated_by_user_who_created_it_if_its_not_approved()
     {
         $user = factory(User::class)->create();
         Passport::actingAs($user);
@@ -61,8 +55,9 @@ class UpdateFieldObservationTest extends TestCase
             'created_by_id' => $user->id,
         ]);
 
-        $response= $this->putJson(
-            "/api/field-observations/{$fieldObservation->id}", $this->validParams([
+        $response = $this->putJson(
+            "/api/field-observations/{$fieldObservation->id}",
+            $this->validParams([
                 'elevation' => 1000,
                 'taxon_suggestion' => 'New taxon suggestion',
             ])
@@ -73,7 +68,7 @@ class UpdateFieldObservationTest extends TestCase
             'data' => [
                 'elevation' => 1000,
                 'taxon_suggestion' => 'New taxon suggestion',
-            ]
+            ],
         ]);
 
         tap($fieldObservation->fresh(), function ($fieldObservation) {
@@ -83,7 +78,7 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function field_observation_cannot_be_updated_by_user_who_created_it_if_approved()
+    public function field_observation_cannot_be_updated_by_user_who_created_it_if_approved()
     {
         $user = factory(User::class)->create();
         Passport::actingAs($user);
@@ -92,7 +87,8 @@ class UpdateFieldObservationTest extends TestCase
         ]);
 
         $response = $this->putJson(
-            "/api/field-observations/{$observation->id}", $this->validParams([
+            "/api/field-observations/{$observation->id}",
+            $this->validParams([
                 'elevation' => 1000,
                 'observer' => 'New observer',
                 'taxon_suggestion' => 'New taxon suggestion',
@@ -109,7 +105,7 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function field_observation_can_be_updated_by_admin()
+    public function field_observation_can_be_updated_by_admin()
     {
         $user = factory(User::class)->create()->assignRole('admin');
         Passport::actingAs($user);
@@ -118,7 +114,8 @@ class UpdateFieldObservationTest extends TestCase
         ]);
 
         $response = $this->putJson(
-            "/api/field-observations/{$fieldObservation->id}", $this->validParams([
+            "/api/field-observations/{$fieldObservation->id}",
+            $this->validParams([
                 'elevation' => 1000,
                 'observer' => 'New observer',
                 'taxon_suggestion' => 'New taxon suggestion',
@@ -131,7 +128,7 @@ class UpdateFieldObservationTest extends TestCase
                 'elevation' => 1000,
                 'observer' => 'New observer',
                 'taxon_suggestion' => 'New taxon suggestion',
-            ]
+            ],
         ]);
 
         tap($fieldObservation->fresh(), function ($fieldObservation) {

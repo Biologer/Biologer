@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Curator;
 
 use App\FieldObservation;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class PendingObservationsController extends Controller
@@ -16,7 +15,7 @@ class PendingObservationsController extends Controller
     public function edit($id)
     {
         $fieldObservation = FieldObservation::with([
-            'observation.taxon.curators', 'observation.taxon.stages'
+            'observation.taxon.curators', 'observation.taxon.stages',
         ])->pending()->findOrFail($id);
 
         $this->authorize('update', $fieldObservation);

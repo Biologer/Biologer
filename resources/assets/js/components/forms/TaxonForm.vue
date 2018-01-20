@@ -76,15 +76,15 @@
             </div>
         </b-field>
 
-        <b-field label="Conventions" v-if="conventions.length">
+        <b-field label="Conservation Lists" v-if="conservationLists.length">
             <div class="block">
                 <b-checkbox
-                    v-for="convention in conventions"
-                    :key="convention.id"
-                    v-model="form.conventions_ids"
-                    :native-value="convention.id"
+                    v-for="conservationList in conservationLists"
+                    :key="conservationList.id"
+                    v-model="form.conservation_lists_ids"
+                    :native-value="conservationList.id"
                 >
-                    {{ convention.name }}
+                    {{ conservationList.name }}
                 </b-checkbox>
             </div>
         </b-field>
@@ -112,7 +112,6 @@
                     <option v-for="option in availableRedLists" :value="option" :key="option.id" v-text="option.name">
                     </option>
                 </b-select>
-
 
                 <div class="control">
                     <button type="button" class="button" @click="addRedList">Add red list</button>
@@ -165,7 +164,7 @@ export default {
                     rank_level: 10,
                     fe_id: null,
                     fe_old_id: null,
-                    conventions: [],
+                    conservation_lists: [],
                     red_lists: [],
                     stages: [],
                     restricted: false
@@ -173,7 +172,7 @@ export default {
             }
         },
         ranks: Array,
-        conventions: Array,
+        conservationLists: Array,
         redListCategories: Array,
         redLists: {
             type: Array,
@@ -185,12 +184,12 @@ export default {
     data() {
         return {
             form: new Form({
+                ...this.taxon,
+                stages_ids: this.taxon.stages.map(stage => stage.id),
+                conservation_lists_ids: this.taxon.conservation_lists.map(conservationList => conservationList.id),
                 red_lists_data: this.taxon.red_lists.map(redList => {
                   return { red_list_id: redList.id, category: redList.pivot.category }
                 }),
-                conventions_ids: this.taxon.conventions.map(convention => convention.id),
-                stages_ids: this.taxon.stages.map(stage => stage.id),
-                ...this.taxon
             }, {
                 resetOnSuccess: false
             }),

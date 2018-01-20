@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Taxon;
-use Illuminate\Http\Request;
 
 class TaxaController extends Controller
 {

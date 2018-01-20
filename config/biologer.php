@@ -8,6 +8,6 @@ return [
             'latitude' => (float) env('MAP_CENTER_LATITUDE', 44.15068115978091),
             'longitude' => (float) env('MAP_CENTER_LONGITUDE', 20.7257080078125),
             'zoom' => (int) env('MAP_CENTER_ZOOM', 7),
-        ]
+        ],
     ],
 ];

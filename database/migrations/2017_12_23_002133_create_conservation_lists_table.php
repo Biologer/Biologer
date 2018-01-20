@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateConventionsTable extends Migration
+class CreateConservationListsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateConventionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('conventions', function (Blueprint $table) {
+        Schema::create('conservation_lists', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateConventionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conventions');
+        Schema::dropIfExists('conservation_lists');
     }
 }

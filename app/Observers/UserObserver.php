@@ -3,7 +3,6 @@
 namespace App\Observers;
 
 use App\User;
-use App\VerificationToken;
 
 class UserObserver
 {

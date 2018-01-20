@@ -5,11 +5,8 @@ namespace Tests\Feature\Api;
 use App\User;
 use App\Taxon;
 use Tests\TestCase;
-use App\FieldObservation;
 use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ApprovingFieldObservationTest extends TestCase
@@ -24,7 +21,7 @@ class ApprovingFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function authenticated_user_that_curates_the_taxon_can_approve_unapproved_field_observation_that_has_taxon_selected()
+    public function authenticated_user_that_curates_the_taxon_can_approve_unapproved_field_observation_that_has_taxon_selected()
     {
         $user = factory(User::class)->create()->assignRole('curator');
         $taxon = factory(Taxon::class)->create();
@@ -44,7 +41,7 @@ class ApprovingFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function guest_cannot_approve_field_observation()
+    public function guest_cannot_approve_field_observation()
     {
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'taxon_id' => factory(Taxon::class),
@@ -59,7 +56,7 @@ class ApprovingFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function cannot_approve_unapproved_field_observation_that_does_not_have_taxon_selected()
+    public function cannot_approve_unapproved_field_observation_that_does_not_have_taxon_selected()
     {
         $user = factory(User::class)->create();
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
@@ -78,7 +75,7 @@ class ApprovingFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function cannot_approve_unapproved_field_observation_if_taxon_is_not_species_or_lower()
+    public function cannot_approve_unapproved_field_observation_if_taxon_is_not_species_or_lower()
     {
         $user = factory(User::class)->create();
         $taxon = factory(Taxon::class)->create(['rank_level' => 20]);
@@ -99,7 +96,7 @@ class ApprovingFieldObservationTest extends TestCase
     }
 
     /** @test */
-    function cannot_approve_already_approved_field_observation()
+    public function cannot_approve_already_approved_field_observation()
     {
         $user = factory(User::class)->create();
         $fieldObservation = ObservationFactory::createFieldObservation([

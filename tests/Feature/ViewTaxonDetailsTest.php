@@ -11,7 +11,7 @@ class ViewTaxonDetailsTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function can_see_basic_taxon_information()
+    public function can_see_basic_taxon_information()
     {
         $taxon = factory(Taxon::class)->create([
             'name' => 'Cerambyx cerdo',

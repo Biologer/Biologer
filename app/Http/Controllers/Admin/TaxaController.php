@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Stage;
 use App\Taxon;
 use App\RedList;
-use App\Convention;
-use Illuminate\Http\Request;
+use App\ConservationList;
 use App\Http\Controllers\Controller;
 
 class TaxaController extends Controller
@@ -30,7 +29,7 @@ class TaxaController extends Controller
     {
         return view('admin.taxa.create', [
             'ranks' => collect(Taxon::getRankOptions()),
-            'conventions' => Convention::all(),
+            'conservationLists' => ConservationList::all(),
             'redLists' => RedList::all(),
             'redListCategories' => collect(RedList::CATEGORIES),
             'stages' => Stage::all(),
@@ -46,9 +45,9 @@ class TaxaController extends Controller
     public function edit(Taxon $taxon)
     {
         return view('admin.taxa.edit', [
-            'taxon' => $taxon->load(['parent', 'redLists', 'conventions', 'stages']),
+            'taxon' => $taxon->load(['parent', 'redLists', 'conservationLists', 'stages']),
             'ranks' => collect(Taxon::getRankOptions()),
-            'conventions' => Convention::all(),
+            'conservationLists' => ConservationList::all(),
             'redLists' => RedList::all(),
             'redListCategories' => collect(RedList::CATEGORIES),
             'stages' => Stage::all(),

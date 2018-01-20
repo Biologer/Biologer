@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Stage;
 use App\Taxon;
 use App\RedList;
-use App\Convention;
+use App\ConservationList;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
@@ -32,14 +32,14 @@ class TaxaController extends Controller
     }
 
     /**
-    * Display the specified resource.
-    *
-    * @param  \App\Taxon  $taxon
-    * @return \App\Http\Resources\Taxon
-    */
+     * Display the specified resource.
+     *
+     * @param  \App\Taxon  $taxon
+     * @return \App\Http\Resources\Taxon
+     */
     public function show(Taxon $taxon)
     {
-        return new TaxonResource($taxon->load(['conventions', 'redLists']));
+        return new TaxonResource($taxon->load(['conservationLists', 'redLists']));
     }
 
     /**
@@ -68,10 +68,10 @@ class TaxaController extends Controller
                 'required',
                 Rule::in(Stage::pluck('id')->all()),
             ],
-            'conventions_ids' => 'nullable|array',
-            'conventions_ids.*' => [
+            'conservation_lists_ids' => 'nullable|array',
+            'conservation_lists_ids.*' => [
                 'required',
-                Rule::in(Convention::pluck('id')->all()),
+                Rule::in(ConservationList::pluck('id')->all()),
             ],
             'red_lists_data' => 'nullable|array',
             'red_lists_data.*' => 'array',
@@ -88,11 +88,11 @@ class TaxaController extends Controller
         ]);
 
         $taxon = Taxon::create(request([
-            'name', 'parent_id', 'rank_level', 'fe_old_id', 'fe_id', 'restricted'
+            'name', 'parent_id', 'rank_level', 'fe_old_id', 'fe_id', 'restricted',
         ]));
 
         $taxon->stages()->sync(request('stages_ids', []));
-        $taxon->conventions()->sync(request('conventions_ids', []));
+        $taxon->conservationLists()->sync(request('conservation_lists_ids', []));
         $taxon->redLists()->sync(
             $this->mapRedListsData(request('red_lists_data', []))
         );
@@ -128,10 +128,10 @@ class TaxaController extends Controller
                 'required',
                 Rule::in(Stage::pluck('id')->all()),
             ],
-            'conventions_ids' => 'nullable|array',
-            'conventions_ids.*' => [
+            'conservation_lists_ids' => 'nullable|array',
+            'conservation_lists_ids.*' => [
                 'required',
-                Rule::in(Convention::pluck('id')->all()),
+                Rule::in(ConservationList::pluck('id')->all()),
             ],
             'red_lists_data' => 'nullable|array',
             'red_lists_data.*' => 'array',
@@ -148,11 +148,11 @@ class TaxaController extends Controller
         ]);
 
         $taxon->update(request([
-            'name', 'parent_id', 'rank_level', 'fe_old_id', 'fe_id', 'restricted'
+            'name', 'parent_id', 'rank_level', 'fe_old_id', 'fe_id', 'restricted',
         ]));
 
         $taxon->stages()->sync(request('stages_ids', []));
-        $taxon->conventions()->sync(request('conventions_ids', []));
+        $taxon->conservationLists()->sync(request('conservation_lists_ids', []));
         $taxon->redLists()->sync(
             $this->mapRedListsData(request('red_lists_data', []))
         );

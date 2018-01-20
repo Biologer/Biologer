@@ -4,12 +4,11 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Observation;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ObservationTest extends TestCase
 {
     /** @test */
-    function can_check_if_full_date_is_present()
+    public function can_check_if_full_date_is_present()
     {
         list(
             $observation1, $observation2, $observation3, $observation4

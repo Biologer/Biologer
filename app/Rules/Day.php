@@ -31,7 +31,7 @@ class Day implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!$this->yearIsValid() || !$this->monthIsValid() || $value <= 0) {
+        if (! $this->yearIsValid() || ! $this->monthIsValid() || $value <= 0) {
             return false;
         }
 

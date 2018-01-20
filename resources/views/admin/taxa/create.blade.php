@@ -6,7 +6,7 @@
             action="{{ route('api.taxa.store') }}"
             method="POST"
             :ranks="{{ $ranks }}"
-            :conventions="{{ $conventions }}"
+            :conservation-lists="{{ $conservationLists }}"
             :red-lists="{{ $redLists }}"
             :red-list-categories="{{ $redListCategories }}"
             :stages="{{ $stages }}"

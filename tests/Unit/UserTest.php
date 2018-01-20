@@ -11,7 +11,7 @@ class UserTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function full_name_is_concatenation_of_first_and_last_names()
+    public function full_name_is_concatenation_of_first_and_last_names()
     {
         $user = factory(User::class)->make([
             'first_name' => 'John',
@@ -22,7 +22,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    function verification_token_is_created_for_new_user()
+    public function verification_token_is_created_for_new_user()
     {
         $user = factory(User::class)->states('unverified')->create();
 

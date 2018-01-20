@@ -11,6 +11,6 @@ class NullMgrs
 
     public function convert()
     {
-        return null;
+        return;
     }
 }
