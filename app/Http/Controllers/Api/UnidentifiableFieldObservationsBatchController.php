@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\FieldObservation;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\FieldObservation as FieldObservationResource;
+use App\Http\Resources\FieldObservationResource;
 
 class UnidentifiableFieldObservationsBatchController extends Controller
 {
+    /**
+     * Mark multiple field observations as unidentifiable.
+     *
+     * @return \App\Http\Resources\FieldObservationResource
+     */
     public function store()
     {
         request()->validate([

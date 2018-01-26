@@ -3,20 +3,24 @@
 namespace App\Http\Controllers\Api\My;
 
 use App\FieldObservation;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\FieldObservation as FieldObservationResource;
+use App\Http\Resources\FieldObservationResource;
 
 class PendingObservationsController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * Get pending obervation the authenticated user needs to look at.
+     *
+     * @return \App\Http\Resources\FieldObservationResource
+     */
+    public function index()
     {
         $query = FieldObservation::with(['observation.taxon', 'photos'])
-            ->pending()->curatedBy($request->user())->filter($request);
+            ->pending()->curatedBy(auth()->user())->filter(request());
 
-        if ($request->has('page')) {
+        if (request()->has('page')) {
             return FieldObservationResource::collection(
-                $query->paginate($request->input('per_page', 15))
+                $query->paginate(request('per_page', 15))
             );
         }
 

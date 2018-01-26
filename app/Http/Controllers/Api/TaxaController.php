@@ -6,25 +6,24 @@ use App\Stage;
 use App\Taxon;
 use App\RedList;
 use App\ConservationList;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Taxon as TaxonResource;
+use App\Http\Resources\TaxonResource;
 
 class TaxaController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Http\Resources\TaxonResource
      */
-    public function index(Request $request)
+    public function index()
     {
-        $taxa = Taxon::with(['parent', 'stages'])->filter($request)->orderBy('id');
+        $taxa = Taxon::with(['parent', 'stages'])->filter(request())->orderBy('id');
 
-        if ($request->has('page')) {
+        if (request()->has('page')) {
             return TaxonResource::collection(
-                $taxa->paginate($request->input('per_page', 15))
+                $taxa->paginate(request('per_page', 15))
             );
         }
 
@@ -35,7 +34,7 @@ class TaxaController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Taxon  $taxon
-     * @return \App\Http\Resources\Taxon
+     * @return \App\Http\Resources\TaxonResource
      */
     public function show(Taxon $taxon)
     {
@@ -45,8 +44,7 @@ class TaxaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \App\Http\Resources\Taxon
+     * @return \App\Http\Resources\TaxonResource
      */
     public function store()
     {

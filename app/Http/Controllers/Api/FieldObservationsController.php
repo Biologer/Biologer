@@ -6,25 +6,24 @@ use App\FieldObservation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFieldObservation;
 use App\Http\Requests\UpdateFieldObservation;
-use App\Http\Resources\FieldObservation as FieldObservationResource;
+use App\Http\Resources\FieldObservationResource;
 
 class FieldObservationsController extends Controller
 {
     /**
      * Get field observations.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index()
     {
         $query = FieldObservation::with([
              'observation.taxon', 'photos',
-         ])->filter($request)->orderBy('id');
+         ])->filter(request())->orderBy('id');
 
-        if ($request->has('page')) {
+        if (request()->has('page')) {
             return FieldObservationResource::collection(
-                 $query->paginate($request->input('per_page', 15))
+                 $query->paginate(request('per_page', 15))
              );
         }
 
@@ -34,7 +33,7 @@ class FieldObservationsController extends Controller
     /**
      * Add new field observation.
      *
-     * @return \App\Http\Resources\FieldObservation
+     * @return \App\Http\Resources\FieldObservationResource
      */
     public function store(StoreFieldObservation $form)
     {
@@ -45,7 +44,7 @@ class FieldObservationsController extends Controller
      * Display the specified resource.
      *
      * @param  \App\FieldObservation  $fieldObservation
-     * @return \App\Http\Resources\FieldObservation
+     * @return \App\Http\Resources\FieldObservationResource
      */
     public function show(FieldObservation $fieldObservation)
     {
@@ -55,7 +54,7 @@ class FieldObservationsController extends Controller
     /**
      * Update field observation.
      *
-     * @return \App\Http\Resources\FieldObservation
+     * @return \App\Http\Resources\FieldObservationResource
      */
     public function update(FieldObservation $fieldObservation, UpdateFieldObservation $form)
     {

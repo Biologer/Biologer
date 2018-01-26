@@ -11,7 +11,7 @@ class PreferencesController extends Controller
     /**
      * Display user's preferences.
      *
-     * @return \Iluuminate\View\View
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -20,6 +20,11 @@ class PreferencesController extends Controller
         ]);
     }
 
+    /**
+     * Update user's preferences.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update()
     {
         auth()->user()->settings()->merge(request()->validate([

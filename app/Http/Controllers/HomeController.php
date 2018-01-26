@@ -6,6 +6,11 @@ use App\ViewGroup;
 
 class HomeController extends Controller
 {
+    /**
+     * Display the main website page.
+     *
+     * @return \Illuminate\Http\View
+     */
     public function index()
     {
         return view('home', [

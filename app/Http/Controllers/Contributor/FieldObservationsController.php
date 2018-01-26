@@ -9,6 +9,8 @@ class FieldObservationsController extends Controller
 {
     /**
      * Display a list of observations.
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -18,7 +20,7 @@ class FieldObservationsController extends Controller
     /**
      * Show page to add new observation.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -27,6 +29,8 @@ class FieldObservationsController extends Controller
 
     /**
      * Show form to edit field observation.
+     *
+     * @return \Illuminate\View\View
      */
     public function edit(FieldObservation $fieldObservation)
     {

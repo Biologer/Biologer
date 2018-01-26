@@ -5,24 +5,22 @@ namespace App\Http\Controllers\Api;
 use App\Role;
 use App\User;
 use App\Taxon;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\User as UserResource;
+use App\Http\Resources\UserResource;
 
 class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->has('page')) {
+        if (request()->has('page')) {
             return UserResource::collection(
-                User::paginate($request->input('per_page', 15))
+                User::paginate(request('per_page', 15))
             );
         }
 
@@ -31,11 +29,8 @@ class UsersController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
         //
     }
@@ -44,7 +39,7 @@ class UsersController extends Controller
      * Display the specified resource.
      *
      * @param  \App\User  $user
-     * @return \App\Http\Resources\User
+     * @return \App\Http\Resources\UserResource
      */
     public function show(User $user)
     {
@@ -55,12 +50,11 @@ class UsersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\User  $user
-     * @param  \Illuminate\Http\Request  $request
-     * @return \App\Http\Resources\User
+     * @return \App\Http\Resources\UserResource
      */
-    public function update(User $user, Request $request)
+    public function update(User $user)
     {
-        $request->validate([
+        request()->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'roles_ids' => 'array',
@@ -69,17 +63,17 @@ class UsersController extends Controller
             'curated_taxa_ids.*' => [Rule::in(Taxon::pluck('id')->all())],
         ]);
 
-        $user->update($request->only(['first_name', 'last_name']));
+        $user->update(request(['first_name', 'last_name']));
 
-        if ($request->has('roles_ids')) {
-            $user->roles()->sync($request->input('roles_ids', []));
+        if (request()->has('roles_ids')) {
+            $user->roles()->sync(request('roles_ids', []));
         }
 
         $user->load('roles');
 
-        if ($request->has('curated_taxa_ids')) {
+        if (request()->has('curated_taxa_ids')) {
             $user->curatedTaxa()->sync(
-                $user->hasRole('curator') ? $request->input('curated_taxa_ids', []) : []
+                $user->hasRole('curator') ? request('curated_taxa_ids', []) : []
             );
         }
 
@@ -90,7 +84,7 @@ class UsersController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(User $user)
     {

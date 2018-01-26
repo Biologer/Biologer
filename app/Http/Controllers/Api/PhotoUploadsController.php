@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
 class PhotoUploadsController extends Controller
 {
+    /**
+     * Store uploaded photo.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store()
     {
         request()->validate([
@@ -19,6 +23,11 @@ class PhotoUploadsController extends Controller
         ]);
     }
 
+    /**
+     * Delete uploaded photo.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy()
     {
         if (request()->has('file')) {

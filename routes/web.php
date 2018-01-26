@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
             ->middleware('can:list,App\FieldObservation')
             ->name('pending-observations.index');
 
-        Route::get('pending-observations/{id}/edit', 'PendingObservationsController@edit')
+        Route::get('pending-observations/{pendingObservation}/edit', 'PendingObservationsController@edit')
             ->name('pending-observations.edit');
     });
 

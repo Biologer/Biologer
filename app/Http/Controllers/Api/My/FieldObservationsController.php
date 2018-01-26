@@ -3,30 +3,28 @@
 namespace App\Http\Controllers\Api\My;
 
 use App\FieldObservation;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\FieldObservation as FieldObservationResource;
+use App\Http\Resources\FieldObservationResource;
 
 class FieldObservationsController extends Controller
 {
     /**
      * Get field observations made by the user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Http\Resources\FieldObservationResource
      */
-    public function index(Request $request)
+    public function index()
     {
         $query = FieldObservation::createdBy(auth()->user())->with([
             'observation.taxon', 'photos',
-        ])->filter($request)->orderBy('id');
+        ])->filter(request())->orderBy('id');
 
-        if ($request->has('all')) {
+        if (request()->has('all')) {
             return FieldObservationResource::collection($query->get());
         }
 
         return FieldObservationResource::collection(
-            $query->paginate($request->input('per_page', 15))
+            $query->paginate(request('per_page', 15))
         );
     }
 }

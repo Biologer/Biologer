@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\FieldObservation;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Rules\ApprovableFieldObservation;
-use App\Http\Resources\FieldObservation as FieldObservationResource;
+use App\Http\Resources\FieldObservationResource;
 
 class ApprovedFieldObservationsBatchController extends Controller
 {
+    /**
+     * Approve multiple field observations.
+     *
+     * @return \App\Http\Resources\FieldObservationResource
+     */
     public function store()
     {
         request()->validate([
