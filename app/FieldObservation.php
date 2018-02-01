@@ -13,6 +13,10 @@ class FieldObservation extends Model
 {
     use CanMemoize, Eloquence, Filterable, Mappable;
 
+    const STATUS_APPROVED = 'approved';
+    const STATUS_PENDING = 'pending';
+    const STATUS_UNIDENTIFIABLE = 'unidentifiable';
+
     /**
      * The model's attributes.
      *
@@ -21,6 +25,13 @@ class FieldObservation extends Model
     protected $attributes = [
         'unidentifiable' => false,
     ];
+
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $appends = ['status'];
 
     /**
      * The attributes that should be cast to native types.
@@ -215,6 +226,24 @@ class FieldObservation extends Model
     }
 
     /**
+     * Rank translation.
+     *
+     * @return string
+     */
+    public function getStatusAttribute()
+    {
+        if ($this->unidentifiable) {
+            return static::STATUS_UNIDENTIFIABLE;
+        }
+
+        if ($this->isApproved()) {
+            return static::STATUS_APPROVED;
+        }
+
+        return static::STATUS_PENDING;
+    }
+
+    /**
      * Add photos to the observation, using photos' paths.
      *
      * @param  array  $photos Paths
@@ -360,6 +389,7 @@ class FieldObservation extends Model
             'found_dead_note' => $this->found_dead_note,
             'data_license' => $this->license,
             'time' => $this->time ? $this->time->format('H:i') : null,
+            'status' => $this->status,
         ];
     }
 

@@ -5,8 +5,8 @@
         <nz-field-observations-table
             list-route="api.my.field-observations.index"
             edit-route="contributor.field-observations.edit"
-            delete-route="api.field-observations.destroy">
-        </nz-field-observations-table>
+            delete-route="api.field-observations.destroy"
+            show-status />
     </div>
 @endsection
 

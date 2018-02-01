@@ -83,6 +83,17 @@ class Taxon extends Model
     }
 
     /**
+     * Find taxon by name.
+     *
+     * @param  string  $name
+     * @return \App\Taxon
+     */
+    public static function findByName($name)
+    {
+        return static::where('name', $name)->first();
+    }
+
+    /**
      * Observations relation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -201,16 +212,5 @@ class Taxon extends Model
                 'label' => trans('taxonomy.'.$rank),
             ];
         }, array_keys(static::RANKS));
-    }
-
-    /**
-     * Find taxon by name.
-     *
-     * @param  string  $name
-     * @return \App\Taxon
-     */
-    public static function findByName($name)
-    {
-        return static::where('name', $name)->first();
     }
 }

@@ -72,6 +72,10 @@
                     {{ row.observer }}
                 </b-table-column>
 
+                <b-table-column field="status" label="Status" v-if="showStatus">
+                    <span :class="determineStatusClass(row.status)"><b-icon :icon="determineStatusIcon(row.status)" /></span>
+                </b-table-column>
+
                 <b-table-column label="Actions" width="100">
                     <a @click="openImageModal(row.photos)" v-if="row.photos.length"><b-icon icon="photo"></b-icon></a>
 
@@ -153,7 +157,8 @@ export default {
             type: String,
             default: 'Nothing here.'
         },
-        approvable: Boolean
+        approvable: Boolean,
+        showStatus: Boolean
     },
 
     data() {
@@ -329,6 +334,30 @@ export default {
                 type: 'is-danger',
                 duration: 5000
             });
+        },
+
+        determineStatusIcon(status) {
+            if (status === 'unidentifiable') {
+                return 'times'
+            }
+
+            if (status === 'approved') {
+                return 'check'
+            }
+
+            return 'question'
+        },
+
+        determineStatusClass(status) {
+            if (status === 'unidentifiable') {
+                return 'has-text-danger'
+            }
+
+            if (status === 'approved') {
+                return 'has-text-success'
+            }
+
+            return 'has-text-info'
         }
     },
 
