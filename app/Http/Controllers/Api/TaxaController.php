@@ -15,7 +15,7 @@ class TaxaController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \App\Http\Resources\TaxonResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
@@ -103,7 +103,7 @@ class TaxaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Taxon  $taxon
-     * @return \App\Http\Resources\Taxon
+     * @return \App\Http\Resources\TaxonResource
      */
     public function update(Taxon $taxon)
     {
