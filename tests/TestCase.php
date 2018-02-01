@@ -90,6 +90,12 @@ abstract class TestCase extends BaseTestCase
 
             return $this;
         });
+
+        TestResponse::macro('dd', function () {
+            dd($this->content());
+
+            return $this;
+        });
     }
 
     /**

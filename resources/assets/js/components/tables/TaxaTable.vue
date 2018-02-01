@@ -13,13 +13,13 @@
         <b-collapse :open="showFilter">
             <div class="columns">
                 <b-field label="Rank" class="column">
-                    <b-select v-model="newFilter.rank_level" @input="onFilter" expanded>
+                    <b-select v-model="newFilter.rank" @input="onFilter" expanded>
                         <option value=""></option>
                         <option
                             v-for="(rank, index) in ranks"
                             :value="rank.value"
                             :key="index"
-                            v-text="rank.name">
+                            v-text="rank.label">
                         </option>
                     </b-select>
                 </b-field>
@@ -55,7 +55,7 @@
                 </b-table-column>
 
                 <b-table-column field="rank_level" label="Rank" sortable>
-                    {{ props.row.rank }}
+                    {{ props.row.rank_translation }}
                 </b-table-column>
 
                 <b-table-column field="name" label="Name" sortable>

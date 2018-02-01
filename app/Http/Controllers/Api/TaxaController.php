@@ -53,10 +53,9 @@ class TaxaController extends Controller
         request()->validate([
             'name' => 'required|unique:taxa,name',
             'parent_id' => 'nullable|exists:taxa,id',
-            'rank_level' => [
+            'rank' => [
                 'required',
-                'integer',
-                Rule::in(array_keys(Taxon::getRanks())),
+                Rule::in(array_keys(Taxon::RANKS)),
             ],
             'fe_old_id' => 'nullable|integer',
             'fe_id' => 'nullable',
@@ -86,7 +85,7 @@ class TaxaController extends Controller
         ]);
 
         $taxon = Taxon::create(request([
-            'name', 'parent_id', 'rank_level', 'fe_old_id', 'fe_id', 'restricted',
+            'name', 'parent_id', 'rank', 'fe_old_id', 'fe_id', 'restricted',
         ]));
 
         $taxon->stages()->sync(request('stages_ids', []));
@@ -113,10 +112,9 @@ class TaxaController extends Controller
                 Rule::unique('taxa', 'name')->ignore($taxon->id),
             ],
             'parent_id' => 'nullable|exists:taxa,id',
-            'rank_level' => [
+            'rank' => [
                 'required',
-                'integer',
-                Rule::in(array_keys(Taxon::getRanks())),
+                Rule::in(array_keys(Taxon::RANKS)),
             ],
             'fe_old_id' => 'nullable|integer',
             'fe_id' => 'nullable',
@@ -146,7 +144,7 @@ class TaxaController extends Controller
         ]);
 
         $taxon->update(request([
-            'name', 'parent_id', 'rank_level', 'fe_old_id', 'fe_id', 'restricted',
+            'name', 'parent_id', 'rank', 'fe_old_id', 'fe_id', 'restricted',
         ]));
 
         $taxon->stages()->sync(request('stages_ids', []));

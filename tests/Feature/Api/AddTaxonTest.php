@@ -27,7 +27,7 @@ class AddTaxonTest extends TestCase
         return array_merge([
             'parent_id' => null,
             'name' => 'Cerambyx cerdo',
-            'rank_level' => 10,
+            'rank' => 'species',
             'fe_id' => 'random-string',
             'fe_old_id' => '12345',
             'restricted' => false,
@@ -83,7 +83,8 @@ class AddTaxonTest extends TestCase
         $response->assertStatus(201);
 
         $this->assertNotNull($taxon = Taxon::findByName('Cerambyx cerdo'));
-        $this->assertEquals(10, $taxon->rank_level);
+        $this->assertEquals('species', $taxon->rank);
+        $this->assertEquals(Taxon::RANKS['species'], $taxon->rank_level);
         $this->assertEquals('12345', $taxon->fe_old_id);
         $this->assertEquals('random-string', $taxon->fe_id);
         $this->assertFalse($taxon->restricted);

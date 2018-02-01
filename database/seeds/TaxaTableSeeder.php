@@ -14,7 +14,7 @@ class TaxaTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::unprepared(File::get(dirname(__DIR__).'/fixtures/taxa.sql'));
+        DB::unprepared(File::get(__DIR__.'/data/taxa.sql'));
 
         Taxon::rebuildAncestry();
     }

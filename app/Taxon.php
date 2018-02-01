@@ -11,6 +11,38 @@ class Taxon extends Model
         Filterable;
 
     /**
+     * @var array
+     */
+    const RANKS = [
+        // 'root' => 100,
+        'kingdom' => 70,
+        'phylum' => 60,
+        // 'subphylum' => 57,
+        // 'superclass' => 53,
+        'class' => 50,
+        // 'subclass' => 47,
+        // 'superorder' => 43,
+        'order' => 40,
+        // 'suborder' => 37,
+        // 'infraorder' => 35,
+        // 'superfamily' => 33,
+        // 'epifamily' => 32,
+        'family' => 30,
+        // 'subfamily' => 27,
+        // 'supertribe' => 26,
+        // 'tribe' => 25,
+        // 'subtribe' => 24,
+        'genus' => 20,
+        // 'genushybrid' => 20,
+        'species' => 10,
+        'speciescomplex' => 10,
+        // 'hybrid' => 10,
+        'subspecies' => 5,
+        // 'variety' => 5,
+        // 'form' => 5,
+    ];
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -18,11 +50,11 @@ class Taxon extends Model
     protected $table = 'taxa';
 
     /**
-     * The accessors to append to the model's array form.
+     * The relations to eager load on every query.
      *
      * @var array
      */
-    protected $appends = ['rank'];
+    protected $appends = ['rank_translation'];
 
     /**
      * The attributes that should be cast to native types.
@@ -31,6 +63,7 @@ class Taxon extends Model
      */
     protected $casts = [
         'restricted' => 'boolean',
+        'rank_level' => 'integer',
     ];
 
     /**
@@ -45,7 +78,7 @@ class Taxon extends Model
             'name' => \App\Filters\NameLike::class,
             'sort_by' => \App\Filters\SortBy::class,
             'except' => \App\Filters\ExceptIds::class,
-            'rank_level' => \App\Filters\Taxon\RankLevel::class,
+            'rank' => \App\Filters\Taxon\Rank::class,
         ];
     }
 
@@ -117,19 +150,28 @@ class Taxon extends Model
      */
     public function scopeSpeciesOrLower($query)
     {
-        return $query->where('rank_level', '<=', 10);
+        return $query->where('rank_level', '<=', static::RANKS['species']);
     }
 
     /**
-     * Get taxonomic rank name.
+     * When setting rank, set it's level as well.
+     *
+     * @param string  $value
+     */
+    public function setRankAttribute($value)
+    {
+        $this->attributes['rank'] = $value;
+        $this->attributes['rank_level'] = static::RANKS[$value];
+    }
+
+    /**
+     * Rank translation.
      *
      * @return string
      */
-    public function getRankAttribute()
+    public function getRankTranslationAttribute()
     {
-        $ranks = static::getRanks();
-
-        return trans('taxonomy.'.$ranks[$this->rank_level]);
+        return trans('taxonomy.'.$this->rank);
     }
 
     /**
@@ -153,14 +195,20 @@ class Taxon extends Model
      */
     public static function getRankOptions()
     {
-        return array_map(function ($rank, $index) {
+        return array_map(function ($rank) {
             return [
-                'value' => $index,
-                'name' => trans('taxonomy.'.$rank),
+                'value' => $rank,
+                'label' => trans('taxonomy.'.$rank),
             ];
-        }, static::getRanks(), array_keys(static::getRanks()));
+        }, array_keys(static::RANKS));
     }
 
+    /**
+     * Find taxon by name.
+     *
+     * @param  string  $name
+     * @return \App\Taxon
+     */
     public static function findByName($name)
     {
         return static::where('name', $name)->first();

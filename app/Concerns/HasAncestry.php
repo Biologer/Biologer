@@ -75,7 +75,7 @@ trait HasAncestry
      */
     public function scopeSpecies($query)
     {
-        return $query->where('rank_level', 10);
+        return $query->where('rank_level', static::RANKS['species']);
     }
 
     /**
@@ -125,41 +125,6 @@ trait HasAncestry
     }
 
     /**
-     * Ranks.
-     * @return array
-     */
-    public static function getRanks()
-    {
-        return [
-            // 100 => 'root',
-            70 => 'kingdom',
-            60 => 'phylum',
-            // 57 => 'subphylum',
-            // 53 => 'superclass',
-            50 => 'class',
-            // 47 => 'subclass',
-            // 43 => 'superorder',
-            40 => 'order',
-            // 37 => 'suborder',
-            // 35 => 'infraorder',
-            // 33 => 'superfamily',
-            // 32 => 'epifamily',
-            30 => 'family',
-            // 27 => 'subfamily',
-            // 26 => 'supertribe',
-            // 25 => 'tribe',
-            // 24 => 'subtribe',
-            20 => 'genus',
-            // 20 => 'genushybrid',
-            10 => 'species',
-            // 10 => 'hybrid',
-            5 => 'subspecies',
-            // 5 => 'variety',
-            // 5 => 'form',
-        ];
-    }
-
-    /**
      * Take parent and it's ancestors and link them all as this model's ancestors.
      *
      * @return void
@@ -182,7 +147,7 @@ trait HasAncestry
      */
     public function selfAndDescendingSpecies()
     {
-        if ($this->rank_level !== 10) {
+        if ($this->rank !== 'species') {
             return $this->descendingSpecies;
         }
 

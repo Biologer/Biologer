@@ -2,10 +2,10 @@
 
 namespace App\Filters\Taxon;
 
-class RankLevel
+class Rank
 {
     public function apply($query, $value)
     {
-        return $query->where('rank_level', $value);
+        return $query->where('rank', $value);
     }
 }
