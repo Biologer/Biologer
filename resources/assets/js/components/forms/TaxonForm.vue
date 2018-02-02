@@ -23,14 +23,14 @@
 
             <div class="column is-2">
                 <b-field label="Rank"
-                    :type="form.errors.has('rank_level') ? 'is-danger' : ''"
-                    :message="form.errors.has('rank_level') ? form.errors.first('rank_level') : ''">
-                    <b-select placeholder="Select rank" v-model="form.rank_level">
+                    :type="form.errors.has('rank') ? 'is-danger' : ''"
+                    :message="form.errors.has('rank') ? form.errors.first('rank') : ''">
+                    <b-select placeholder="Select rank" v-model="form.rank">
                         <option
                             v-for="(rank, index) in rankOptions"
                             :value="rank.value"
                             :key="index"
-                            v-text="rank.name">
+                            v-text="rank.label">
                         </option>
                     </b-select>
                 </b-field>
@@ -161,7 +161,7 @@ export default {
                 return {
                     name: null,
                     parent_id: null,
-                    rank_level: 10,
+                    rank: 'species',
                     fe_id: null,
                     fe_old_id: null,
                     conservation_lists: [],
@@ -203,7 +203,7 @@ export default {
         rankOptions() {
             if (this.selectedParent) {
                 return this.ranks.filter((rank) => {
-                    return rank.value < this.selectedParent.rank_level;
+                    return rank.level < this.selectedParent.rank_level;
                 })
             }
 
@@ -220,11 +220,9 @@ export default {
     },
 
     watch: {
-        selectedParent() {
-            if (this.selectedParent &&
-                this.form.rank_level >= this.selectedParent.rank_level
-            ) {
-                this.form.rank_level = null;
+        selectedParent(value) {
+            if (this.shouldResetRank(value)) {
+                this.form.rank = null;
             }
         }
     },
@@ -311,6 +309,15 @@ export default {
         onTaxonSelect(taxon) {
             this.selectedParent = taxon;
             this.form.parent_id = taxon ? taxon.id : null;
+        },
+
+        shouldResetRank(selectedParent) {
+            return selectedParent &&
+                this.getRankLevel(this.form.rank) >= selectedParent.rank_level;
+        },
+
+        getRankLevel(rank) {
+            return _.get(_.find(this.ranks, { value: rank }), 'level');
         }
     }
 }

@@ -206,11 +206,12 @@ class Taxon extends Model
      */
     public static function getRankOptions()
     {
-        return array_map(function ($rank) {
+        return array_map(function ($rank, $level) {
             return [
+                'level' => $level,
                 'value' => $rank,
                 'label' => trans('taxonomy.'.$rank),
             ];
-        }, array_keys(static::RANKS));
+        }, array_keys(static::RANKS), static::RANKS);
     }
 }

@@ -29,6 +29,7 @@ return [
     'genus' => 'Genus',
     'genushybrid' => 'Genushybrid',
     'species' => 'Species',
+    'speciescomplex' => 'Species Complex',
     'hybrid' => 'Hybrid',
     'subspecies' => 'Subspecies',
     'variety' => 'Variety',
