@@ -10,7 +10,6 @@
           :loading="loading"
           @input="onInput"
           @select="onSelect"
-          :keep-first="true"
           :icon="icon"
           :placeholder="placeholder"
           expanded
