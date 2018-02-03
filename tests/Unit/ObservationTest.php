@@ -4,9 +4,13 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Observation;
+use Tests\ObservationFactory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ObservationTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function can_check_if_full_date_is_present()
     {
@@ -28,5 +32,17 @@ class ObservationTest extends TestCase
         $this->assertFalse($observation2->isDateComplete());
         $this->assertFalse($observation3->isDateComplete());
         $this->assertFalse($observation4->isDateComplete());
+    }
+
+    /** @test */
+    public function can_be_unnaproved()
+    {
+        $observation = ObservationFactory::createFieldObservation()->observation;
+
+        $this->assertTrue($observation->isApproved());
+
+        $observation->unapprove();
+
+        $this->assertFalse($observation->isApproved());
     }
 }

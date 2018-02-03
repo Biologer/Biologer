@@ -19,9 +19,12 @@ class CreateTaxaTable extends Migration
             $table->string('name')->unique();
             $table->string('rank')->index();
             $table->unsignedInteger('rank_level')->index();
+            $table->string('ancestry');
             $table->unsignedInteger('fe_old_id')->nullable();
             $table->string('fe_id')->nullable();
             $table->boolean('restricted')->default(false);
+            $table->boolean('allochthonous')->default(false);
+            $table->boolean('invasive')->default(false);
             $table->timestamps();
         });
     }

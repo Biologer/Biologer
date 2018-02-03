@@ -44,7 +44,7 @@ class TaxonTest extends TestCase
             $taxon->approvedObservations->assertContains($observation);
         });
         $unapprovedObservations->each(function ($observation) use ($taxon) {
-            $taxon->approvedObservations->assertNotContains($observation);
+            $taxon->approvedObservations->assertDoesntContain($observation);
         });
     }
 
@@ -65,7 +65,7 @@ class TaxonTest extends TestCase
             $taxon->unapprovedObservations->assertContains($observation);
         });
         $approvedObservations->each(function ($observation) use ($taxon) {
-            $taxon->unapprovedObservations->assertNotContains($observation);
+            $taxon->unapprovedObservations->assertDoesntContain($observation);
         });
     }
 
@@ -171,6 +171,43 @@ class TaxonTest extends TestCase
         $root->descendants->assertContains($parent);
         $root->descendants->assertContains($taxon);
         $parent->descendants->assertContains($taxon);
-        $parent->descendants->assertNotContains($root);
+        $parent->descendants->assertDoesntContain($root);
+    }
+
+    /** @test */
+    public function ancestors_are_linked_and_ancestry_is_cached_upon_creation()
+    {
+        $root = factory(Taxon::class)->create(['parent_id' => null]);
+        $parent = factory(Taxon::class)->create(['parent_id' => $root->id]);
+        $taxon = factory(Taxon::class)->create(['parent_id' => $parent->id]);
+
+        $taxon->ancestors->assertContains($root);
+        $taxon->ancestors->assertContains($parent);
+        $this->assertEquals("{$root->id}/{$parent->id}", $taxon->ancestry);
+    }
+
+    /** @test */
+    public function ancestry_for_descendants_is_relinked_when_taxon_parent_changes()
+    {
+        $root1 = factory(Taxon::class)->create(['parent_id' => null]);
+        $root2 = factory(Taxon::class)->create(['parent_id' => null]);
+        $parent = factory(Taxon::class)->create(['parent_id' => $root1->id]);
+        $taxon = factory(Taxon::class)->create(['parent_id' => $parent->id]);
+
+        $taxon->ancestors->assertDoesntContain($root2);
+
+        $parent->fresh()->update(['parent_id' => $root2->id]);
+
+        tap($parent->fresh(), function ($parent) use ($root2) {
+            $this->assertEquals($root2->id, $parent->ancestry);
+            $parent->ancestors->assertContains($root2);
+        });
+
+        tap($taxon->fresh(), function ($taxon) use ($root1, $root2, $parent) {
+            $taxon->ancestors->assertDoesntContain($root1);
+            $taxon->ancestors->assertContains($root2);
+            $taxon->ancestors->assertContains($parent);
+            $this->assertEquals("{$root2->id}/{$parent->id}", $taxon->ancestry);
+        });
     }
 }

@@ -127,17 +127,21 @@ trait HasAncestry
     /**
      * Take parent and it's ancestors and link them all as this model's ancestors.
      *
-     * @return void
+     * @return $this
      */
     public function linkAncestors()
     {
         if ($this->isRoot()) {
-            return $this->ancestors()->detach();
+            $this->ancestors()->detach();
+
+            return $this;
         }
 
         $this->ancestors()->sync($this->parent->ancestors);
 
         $this->ancestors()->attach($this->parent);
+
+        return $this;
     }
 
     /**
@@ -165,9 +169,7 @@ trait HasAncestry
             ->orderBy('rank_level', 'desc')
             ->get()
             ->map(function ($model) {
-                $model->linkAncestors();
-
-                return $model;
+                return $model->linkAncestors();
             });
     }
 
@@ -191,6 +193,49 @@ trait HasAncestry
     }
 
     /**
+     * Rebuild ancestry cache based on connections to ancestors.
+     *
+     * @return void
+     */
+    public static function rebuildAncestryCache()
+    {
+        static::with('ancestors')
+            ->get()
+            ->each->cacheAncestry();
+    }
+
+    /**
+     * Cache ancestry path; used to sort by ancestry.
+     *
+     * @return void
+     */
+    public function cacheAncestry()
+    {
+        $this->update(['ancestry' => $this->generateAncestryCache()]);
+    }
+
+    public function rebuildAncestryCacheDown()
+    {
+        $this->descendants()
+            ->with(['ancestors', 'parent'])
+            ->orderBy('rank_level', 'desc')
+            ->get()
+            ->each->cacheAncestry();
+
+        return $this;
+    }
+
+    /**
+     * Generate ancestry path cache based on connections to ancestors.
+     *
+     * @return string
+     */
+    protected function generateAncestryCache()
+    {
+        return $this->ancestors->sortByDesc('rank_level')->pluck('id')->implode('/');
+    }
+
+    /**
      * The "booting" method of the trait.
      *
      * @return void
@@ -198,8 +243,16 @@ trait HasAncestry
     protected static function bootHasAncestry()
     {
         // Store links
-        static::saved(function ($model) {
-            $model->linkAncestors();
+        static::created(function ($model) {
+            $model->linkAncestors()->cacheAncestry();
+        });
+
+        static::updating(function ($model) {
+            if ($model->isDirty('parent_id')) {
+                $model->load('parent')->rebuildAncestryDown()->rebuildAncestryCacheDown();
+
+                $model->ancestry = $model->generateAncestryCache();
+            }
         });
     }
 }

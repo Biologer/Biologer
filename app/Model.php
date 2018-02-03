@@ -12,15 +12,4 @@ abstract class Model extends Eloquent
      * @var array
      */
     protected $guarded = [];
-
-    /**
-     * Convenience method for getting new instances of the model.
-     *
-     * @param  array  $attributes
-     * @return self
-     */
-    public static function make(array $attributes = [])
-    {
-        return new static($attributes);
-    }
 }

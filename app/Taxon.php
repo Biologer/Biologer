@@ -50,6 +50,18 @@ class Taxon extends Model
     protected $table = 'taxa';
 
     /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'allochthonous' => false,
+        'ancestry' => '',
+        'invasive' => false,
+        'restricted' => false,
+    ];
+
+    /**
      * The relations to eager load on every query.
      *
      * @var array
@@ -62,8 +74,10 @@ class Taxon extends Model
      * @var array
      */
     protected $casts = [
-        'restricted' => 'boolean',
+        'allochthonous' => 'boolean',
+        'invasive' => 'boolean',
         'rank_level' => 'integer',
+        'restricted' => 'boolean',
     ];
 
     /**

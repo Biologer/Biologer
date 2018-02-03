@@ -54,7 +54,7 @@ abstract class TestCase extends BaseTestCase
             PHPUnit::assertTrue($this->contains($item), 'Failed asserting that the collection contains the specified value.');
         });
 
-        Collection::macro('assertNotContains', function ($item) {
+        Collection::macro('assertDoesntContain', function ($item) {
             PHPUnit::assertFalse($this->contains($item), 'Failed asserting that the collection does not contain the specified value.');
         });
 

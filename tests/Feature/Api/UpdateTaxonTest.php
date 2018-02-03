@@ -31,6 +31,8 @@ class UpdateTaxonTest extends TestCase
             'fe_id' => 'random-string',
             'fe_old_id' => '12345',
             'restricted' => false,
+            'allochthonous' => false,
+            'invasive' => false,
             'stages_ids' => [],
             'conservation_lists_ids' => [],
             'red_lists_ids' => [],
@@ -69,7 +71,12 @@ class UpdateTaxonTest extends TestCase
     /** @test */
     public function user_with_the_role_of_admin_can_update_taxon()
     {
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
+        $taxon = factory(Taxon::class)->create([
+            'name' => 'Cerambyx cerdo',
+            'restricted' => false,
+            'allochthonous' => false,
+            'invasive' => false,
+        ]);
         Passport::actingAs(factory(User::class)->create()->assignRole('admin'));
         $stages = factory(Stage::class, 2)->create();
         $conservationLists = factory(ConservationList::class, 2)->create();
@@ -77,6 +84,9 @@ class UpdateTaxonTest extends TestCase
 
         $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
             'name' => 'Cerambyx scopolii',
+            'restricted' => true,
+            'allochthonous' => true,
+            'invasive' => true,
             'stages_ids' => $stages->pluck('id')->all(),
             'conservation_lists_ids' => $conservationLists->pluck('id')->all(),
             'red_lists_data' => $redLists->map(function ($redList) {
@@ -92,7 +102,9 @@ class UpdateTaxonTest extends TestCase
         $this->assertEquals(Taxon::RANKS['species'], $taxon->rank_level);
         $this->assertEquals('12345', $taxon->fe_old_id);
         $this->assertEquals('random-string', $taxon->fe_id);
-        $this->assertFalse($taxon->restricted);
+        $this->assertTrue($taxon->restricted);
+        $this->assertTrue($taxon->allochthonous);
+        $this->assertTrue($taxon->invasive);
         $taxon->stages->assertEquals($stages);
         $taxon->conservationLists->assertEquals($conservationLists);
         $taxon->redLists->assertEquals($redLists);

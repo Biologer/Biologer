@@ -16,8 +16,8 @@ class UnidentifiableFieldObservationsBatchController extends Controller
     public function store()
     {
         request()->validate([
-            'field_observation_ids' => 'required|array|min:1',
-            'field_observation_ids.*' => 'required',
+            'field_observation_ids' => ['required', 'array', 'min:1'],
+            'field_observation_ids.*' => ['required'],
         ]);
 
         $fieldObservations = FieldObservation::with([

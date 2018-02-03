@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
+use App\Taxon;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,12 @@ use Illuminate\Foundation\Inspiring;
 |
 */
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->describe('Display an inspiring quote');
+Artisan::command('ancestry:rebuild', function () {
+    $this->line('Rebuilding ancestry connections.');
+    Taxon::rebuildAncestry();
+
+    $this->line('Caching ancestry path.');
+    Taxon::rebuildAncestryCache();
+
+    $this->info('Finished rebuilding and caching ancestry.');
+})->describe('Rebuild ancestry and cache ancestry path.');

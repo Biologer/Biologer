@@ -51,27 +51,23 @@ class TaxaController extends Controller
         $this->authorize('create', [Taxon::class, request('parent_id')]);
 
         request()->validate([
-            'name' => 'required|unique:taxa,name',
-            'parent_id' => 'nullable|exists:taxa,id',
-            'rank' => [
-                'required',
-                Rule::in(array_keys(Taxon::RANKS)),
-            ],
-            'fe_old_id' => 'nullable|integer',
-            'fe_id' => 'nullable',
-            'restricted' => 'boolean',
-            'stages_ids' => 'nullable|array',
-            'stages_ids.*' => [
-                'required',
-                Rule::in(Stage::pluck('id')->all()),
-            ],
-            'conservation_lists_ids' => 'nullable|array',
+            'name' => ['required', 'unique:taxa,name'],
+            'parent_id' => ['nullable', 'exists:taxa,id'],
+            'rank' => ['required', Rule::in(array_keys(Taxon::RANKS))],
+            'fe_old_id' => ['nullable', 'integer'],
+            'fe_id' => ['nullable'],
+            'restricted' => ['boolean'],
+            'allochthonous' => ['boolean'],
+            'invasive' => ['boolean'],
+            'stages_ids' => ['nullable', 'array'],
+            'stages_ids.*' => ['required', Rule::in(Stage::pluck('id')->all())],
+            'conservation_lists_ids' => ['nullable', 'array'],
             'conservation_lists_ids.*' => [
                 'required',
                 Rule::in(ConservationList::pluck('id')->all()),
             ],
-            'red_lists_data' => 'nullable|array',
-            'red_lists_data.*' => 'array',
+            'red_lists_data' => ['nullable', 'array'],
+            'red_lists_data.*' => ['array'],
             'red_lists_data.*.red_list_id' => [
                 'required',
                 Rule::in(RedList::pluck('id')->all()),
@@ -86,6 +82,7 @@ class TaxaController extends Controller
 
         $taxon = Taxon::create(request([
             'name', 'parent_id', 'rank', 'fe_old_id', 'fe_id', 'restricted',
+            'allochthonous', 'invasive',
         ]));
 
         $taxon->stages()->sync(request('stages_ids', []));
@@ -107,30 +104,20 @@ class TaxaController extends Controller
     public function update(Taxon $taxon)
     {
         request()->validate([
-            'name' => [
-                'required',
-                Rule::unique('taxa', 'name')->ignore($taxon->id),
-            ],
-            'parent_id' => 'nullable|exists:taxa,id',
-            'rank' => [
-                'required',
-                Rule::in(array_keys(Taxon::RANKS)),
-            ],
-            'fe_old_id' => 'nullable|integer',
-            'fe_id' => 'nullable',
-            'restricted' => 'boolean',
-            'stages_ids' => 'nullable|array',
-            'stages_ids.*' => [
-                'required',
-                Rule::in(Stage::pluck('id')->all()),
-            ],
-            'conservation_lists_ids' => 'nullable|array',
-            'conservation_lists_ids.*' => [
-                'required',
-                Rule::in(ConservationList::pluck('id')->all()),
-            ],
-            'red_lists_data' => 'nullable|array',
-            'red_lists_data.*' => 'array',
+            'name' => ['required', Rule::unique('taxa', 'name')->ignore($taxon->id)],
+            'parent_id' => ['nullable', 'exists:taxa,id'],
+            'rank' => ['required', Rule::in(array_keys(Taxon::RANKS))],
+            'fe_old_id' => ['nullable', 'integer'],
+            'fe_id' => ['nullable'],
+            'restricted' => ['boolean'],
+            'allochthonous' => ['boolean'],
+            'invasive' => ['boolean'],
+            'stages_ids' => ['nullable', 'array'],
+            'stages_ids.*' => ['required', Rule::in(Stage::pluck('id')->all())],
+            'conservation_lists_ids' => ['nullable', 'array'],
+            'conservation_lists_ids.*' => ['required', Rule::in(ConservationList::pluck('id')->all())],
+            'red_lists_data' => ['nullable', 'array'],
+            'red_lists_data.*' => ['array'],
             'red_lists_data.*.red_list_id' => [
                 'required',
                 Rule::in(RedList::pluck('id')->all()),
@@ -145,6 +132,7 @@ class TaxaController extends Controller
 
         $taxon->update(request([
             'name', 'parent_id', 'rank', 'fe_old_id', 'fe_id', 'restricted',
+            'allochthonous', 'invasive',
         ]));
 
         $taxon->stages()->sync(request('stages_ids', []));

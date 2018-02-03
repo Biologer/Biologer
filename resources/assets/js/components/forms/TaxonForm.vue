@@ -55,13 +55,31 @@
             </div>
         </div>
 
-        <b-field label="Is taxon data restricted?">
-            <div class="field">
-                <b-switch v-model="form.restricted">
-                    {{ form.restricted ? 'Yes' : 'No' }}
-                </b-switch>
+        <div class="columns">
+            <div class="column">
+                <b-field label="Is taxon data restricted?">
+                    <div class="field">
+                        <b-switch v-model="form.restricted">
+                            {{ form.restricted ? 'Yes' : 'No' }}
+                        </b-switch>
+                    </div>
+                </b-field>
             </div>
-        </b-field>
+            <div class="column">
+                <b-field label="Is allochthonous?">
+                    <b-switch v-model="form.allochthonous">
+                        {{ form.allochthonous ? 'Yes' : 'No' }}
+                    </b-switch>
+                </b-field>
+            </div>
+            <div class="column">
+                <b-field label="Is invasive?">
+                    <b-switch v-model="form.invasive">
+                        {{ form.invasive ? 'Yes' : 'No' }}
+                    </b-switch>
+                </b-field>
+            </div>
+        </div>
 
         <b-field label="Stages" v-if="stages.length">
             <div class="block">
@@ -162,11 +180,15 @@ export default {
                     name: null,
                     parent_id: null,
                     rank: 'species',
+                    rank_level: 10,
                     fe_id: null,
                     fe_old_id: null,
                     conservation_lists: [],
                     red_lists: [],
                     stages: [],
+                    restricted: false,
+                    allochthonous: false,
+                    invasive: false,
                     restricted: false
                 };
             }

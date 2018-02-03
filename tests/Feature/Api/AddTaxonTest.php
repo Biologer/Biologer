@@ -31,6 +31,8 @@ class AddTaxonTest extends TestCase
             'fe_id' => 'random-string',
             'fe_old_id' => '12345',
             'restricted' => false,
+            'allochthonous' => false,
+            'invasive' => false,
             'stages_ids' => [],
             'conservation_lists_ids' => [],
             'red_lists_ids' => [],
@@ -73,6 +75,9 @@ class AddTaxonTest extends TestCase
 
         $response = $this->postJson('/api/taxa', $this->validParams([
             'name' => 'Cerambyx cerdo',
+            'restricted' => true,
+            'allochthonous' => true,
+            'invasive' => true,
             'stages_ids' => $stages->pluck('id')->all(),
             'conservation_lists_ids' => $conservationLists->pluck('id')->all(),
             'red_lists_data' => $redLists->map(function ($redList) {
@@ -87,7 +92,9 @@ class AddTaxonTest extends TestCase
         $this->assertEquals(Taxon::RANKS['species'], $taxon->rank_level);
         $this->assertEquals('12345', $taxon->fe_old_id);
         $this->assertEquals('random-string', $taxon->fe_id);
-        $this->assertFalse($taxon->restricted);
+        $this->assertTrue($taxon->restricted);
+        $this->assertTrue($taxon->allochthonous);
+        $this->assertTrue($taxon->invasive);
         $taxon->stages->assertEquals($stages);
         $taxon->conservationLists->assertEquals($conservationLists);
         $taxon->redLists->assertEquals($redLists);

@@ -6,6 +6,10 @@ $factory->define(App\Taxon::class, function (Faker $faker) {
     return [
         'name' => $faker->unique()->name,
         'rank' => 'species',
+        'ancestry' => '',
+        'allochthonous' => false,
+        'invasive' => false,
+        'restricted' => false,
     ];
 });
 

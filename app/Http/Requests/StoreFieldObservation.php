@@ -31,9 +31,9 @@ class StoreFieldObservation extends FormRequest
     public function rules()
     {
         return [
-            'taxon_id' => 'nullable|exists:taxa,id',
-            'taxon_suggestion' => 'nullable|string|max:255',
-            'year' => 'bail|required|date_format:Y|before_or_equal:now',
+            'taxon_id' => ['nullable', 'exists:taxa,id'],
+            'taxon_suggestion' => ['nullable', 'string', 'max:255'],
+            'year' => ['bail', 'required', 'date_format:Y', 'before_or_equal:now'],
             'month' => [
                 'bail',
                 'nullable',
@@ -44,17 +44,17 @@ class StoreFieldObservation extends FormRequest
                 'nullable',
                 new Day($this->input('year'), $this->input('month')),
             ],
-            'latitude' => 'required|numeric|between:-90,90',
-            'longitude' => 'required|numeric|between:-180,180',
-            'elevation' => 'required|integer|max:10000',
-            'accuracy' => 'nullable|integer|max:10000',
-            'observer' => 'nullable|string',
-            'identifier' => 'nullable|string',
+            'latitude' => ['required', 'numeric', 'between:-90,90'],
+            'longitude' => ['required', 'numeric', 'between:-180,180'],
+            'elevation' => ['required', 'integer', 'max:10000'],
+            'accuracy' => ['nullable', 'integer', 'max:10000'],
+            'observer' => ['nullable', 'string'],
+            'identifier' => ['nullable', 'string'],
             'stage_id' => ['nullable', Rule::in(Stage::pluck('id')->all())],
             'sex' => ['nullable', Rule::in(Observation::SEX_OPTIONS)],
-            'number' => 'nullable|integer|min:1',
-            'found_dead' => 'nullable|boolean',
-            'found_dead_note' => 'nullable',
+            'number' => ['nullable', 'integer', 'min:1'],
+            'found_dead' => ['nullable', 'boolean'],
+            'found_dead_note' => ['nullable'],
             'data_license' => ['nullable', Rule::in(License::getIds())],
             'data_license' => ['nullable', Rule::in(License::getIds())],
             'image_license' => ['nullable', Rule::in(License::getIds())],
@@ -63,7 +63,7 @@ class StoreFieldObservation extends FormRequest
                 'array',
                 'max:'.config('biologer.photos_per_observation'),
             ],
-            'time' => 'nullable|date_format:H:i',
+            'time' => ['nullable', 'date_format:H:i'],
         ];
     }
 
