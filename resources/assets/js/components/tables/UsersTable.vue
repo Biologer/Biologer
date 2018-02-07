@@ -18,19 +18,19 @@
             :mobile-cards="true">
 
             <template slot-scope="props">
-                <b-table-column field="id" label="ID" width="40" numeric sortable>
+                <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
                     {{ props.row.id }}
                 </b-table-column>
 
-                <b-table-column field="first_name" label="First Name" sortable>
+                <b-table-column field="first_name" :label="trans('labels.users.first_name')" sortable>
                     {{ props.row.first_name }}
                 </b-table-column>
 
-                <b-table-column field="last_name" label="Last Name" sortable>
+                <b-table-column field="last_name" :label="trans('labels.users.last_name')" sortable>
                     {{ props.row.last_name }}
                 </b-table-column>
 
-                <b-table-column label="Actions" width="100">
+                <b-table-column :label="trans('labels.actions')" width="100">
                     <a :href="editLink(props.row)"><b-icon icon="edit"></b-icon></a>
 
                     <a @click="confirmRemove(props.row)"><b-icon icon="trash"></b-icon></a>

@@ -2,6 +2,7 @@
 
 use App\Support\Mgrs;
 use App\Support\Territory;
+use App\Support\Localization;
 
 function mgrs10k($latitude, $longitude)
 {
@@ -15,6 +16,12 @@ function mgrs10k($latitude, $longitude)
  * @param  string  $name
  * @return \Illuminate\Support\Collection
  */
-function territory($name = null) {
+function territory($name = null)
+{
     return Territory::get($name);
+}
+
+function localizationStrings()
+{
+    return Localization::strings();
 }

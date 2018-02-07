@@ -3,12 +3,14 @@
 namespace App;
 
 use App\Filters\Filterable;
+use Dimsav\Translatable\Translatable;
 
 class Taxon extends Model
 {
     use Concerns\CanBeCurated,
         Concerns\HasAncestry,
-        Filterable;
+        Filterable,
+        Translatable;
 
     /**
      * @var array
@@ -66,7 +68,7 @@ class Taxon extends Model
      *
      * @var array
      */
-    protected $appends = ['rank_translation'];
+    protected $appends = ['rank_translation', 'native_name', 'description'];
 
     /**
      * The attributes that should be cast to native types.
@@ -80,6 +82,10 @@ class Taxon extends Model
         'restricted' => 'boolean',
     ];
 
+    public $translatedAttributes = ['native_name', 'description'];
+
+    protected $with = ['translations'];
+
     /**
      * Filters that can be used on queries.
      *
@@ -89,7 +95,7 @@ class Taxon extends Model
     {
         return [
             'id' => \App\Filters\Id::class,
-            'name' => \App\Filters\NameLike::class,
+            'name' => \App\Filters\Taxon\NameLike::class,
             'sort_by' => \App\Filters\SortBy::class,
             'except' => \App\Filters\ExceptIds::class,
             'rank' => \App\Filters\Taxon\Rank::class,
@@ -200,6 +206,26 @@ class Taxon extends Model
     }
 
     /**
+     * Native name translation in current locale.
+     *
+     * @return string
+     */
+    public function getNativeNameAttribute()
+    {
+        return $this->translateOrNew($this->locale())->native_name;
+    }
+
+    /**
+     * Description translation in current locale.
+     *
+     * @return string
+     */
+    public function getDescriptionAttribute()
+    {
+        return $this->translateOrNew($this->locale())->description;
+    }
+
+    /**
      * Get list of MGRS fields the taxon was observed at.
      *
      * @return array
@@ -227,5 +253,19 @@ class Taxon extends Model
                 'label' => trans('taxonomy.'.$rank),
             ];
         }, array_keys(static::RANKS), static::RANKS);
+    }
+
+    /**
+     * Get attribute translations forthe forms.
+     *
+     * @param  string  $attribute
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAttributeTranslations($attribute)
+    {
+        return collect(\LaravelLocalization::getSupportedLanguagesKeys())
+            ->mapWithKeys(function ($locale) use ($attribute) {
+                return [$locale => $this->translateOrNew($locale)->{$attribute}];
+            });
     }
 }

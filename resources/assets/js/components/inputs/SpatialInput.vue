@@ -1,6 +1,6 @@
 <template>
     <div class="spatial-input">
-        <b-field label="Map">
+        <b-field :label="trans('labels.field_observations.map')">
             <gmap-map style="width: 100%; min-height: 400px"
                 :center="{lat: center.latitude, lng: center.longitude}"
                 :zoom="center.zoom"
@@ -21,15 +21,15 @@
         </b-field>
 
         <div class="has-text-right">
-            <span v-if="mapHasErrors" class="has-text-danger is-size-7">Some fields have errors</span>
+            <span v-if="mapHasErrors" class="has-text-danger is-size-7">{{ trans('Some fields have errors') }}</span>
 
-            <button type="button" class="button is-white is-small is-text" :class="{'has-text-danger': mapHasErrors}" @click="showDetails = !showDetails">Details</button>
+            <button type="button" class="button is-white is-small is-text" :class="{'has-text-danger': mapHasErrors}" @click="showDetails = !showDetails">{{ trans('labels.field_observations.details') }}</button>
         </div>
 
         <div v-show="showDetails">
             <div class="field is-grouped">
                 <div class="field is-expanded">
-                    <label class="label is-small">Latitude</label>
+                    <label class="label is-small">{{ trans('labels.field_observations.latitude') }}</label>
 
                     <div class="control is-fullwidth">
                         <input class="input is-small" :class="{'is-danger': errors.has('latitude')}" :value="latitude" @input="onLatitudeInput" placeholder="f.e. 42.5234">
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="field is-expanded">
-                    <label class="label is-small">Longitude</label>
+                    <label class="label is-small">{{ trans('labels.field_observations.longitude') }}</label>
 
                     <div class="control is-fullwidth">
                         <input class="input is-small" :class="{'is-danger': errors.has('longitude')}" :value="longitude" @input="onLongitudeInput" placeholder="f.e. 19.1234">
@@ -50,7 +50,7 @@
             </div>
             <div class="field is-grouped">
                 <div class="field is-expanded">
-                    <label class="label is-small">Accuracy/Radius (m)</label>
+                    <label class="label is-small">{{ trans('labels.field_observations.accuracy_m') }}</label>
 
                     <div class="control is-fullwidth">
                         <input class="input is-small" :value="accuracy" @input="onAccuracyInput" placeholder="f.e. 100">
@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="field is-expanded">
-                    <label class="label is-small">Elevation (m)</label>
+                    <label class="label is-small">{{ trans('labels.field_observations.elevation_m') }}</label>
 
                     <div class="control is-fullwidth">
                         <input class="input is-small" :value="elevation" @input="onElevationInput" placeholder="f.e. 500">
@@ -71,7 +71,7 @@
             </div>
 
             <div class="field is-expanded">
-                <label class="label is-small">Location</label>
+                <label class="label is-small">{{ trans('labels.field_observations.location') }}</label>
 
                 <div class="control is-fullwidth">
                     <input class="input is-small" :class="{'is-danger': errors.has('location')}" :value="location" @input="onLocationInput" placeholder="Location">

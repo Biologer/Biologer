@@ -1,4 +1,4 @@
-@extends('layouts.dashboard', ['title' => 'Edit Observation'])
+@extends('layouts.dashboard', ['title' => __('navigation.edit_observation')])
 
 @section('content')
     <div class="box">
@@ -18,9 +18,9 @@
 @section('breadcrumbs')
     <div class="breadcrumb" aria-label="breadcrumbs">
         <ul>
-            <li><a href="{{ route('contributor.index') }}">Dashboard</a></li>
-            <li><a href="{{ route('curator.pending-observations.index') }}">Pending Observations</a></li>
-            <li class="is-active"><a>Edit</a></li>
+            <li><a href="{{ route('contributor.index') }}">{{ __('navigation.dashboard') }}</a></li>
+            <li><a href="{{ route('curator.pending-observations.index') }}">{{ __('navigation.pending_observations') }}</a></li>
+            <li class="is-active"><a>{{ __('navigation.edit') }}</a></li>
         </ul>
     </div>
 @endsection

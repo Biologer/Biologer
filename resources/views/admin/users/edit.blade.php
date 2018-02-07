@@ -14,9 +14,9 @@
 @section('breadcrumbs')
     <div class="breadcrumb" aria-label="breadcrumbs">
         <ul>
-            <li><a href="{{ route('contributor.index') }}">Dashboard</a></li>
-            <li><a href="{{ route('admin.users.index') }}">Users</a></li>
-            <li class="is-active"><a>Edit</a></li>
+            <li><a href="{{ route('contributor.index') }}">{{ __('navigation.dashboard') }}</a></li>
+            <li><a href="{{ route('admin.users.index') }}">{{ __('navigation.users') }}</a></li>
+            <li class="is-active"><a>{{ __('navigation.edit') }}</a></li>
         </ul>
     </div>
 @endsection

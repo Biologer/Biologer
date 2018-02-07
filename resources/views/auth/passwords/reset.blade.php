@@ -6,7 +6,7 @@
         <div class="container mt-8">
             <div class="columns">
                 <div class="column is-8 is-offset-2">
-                    <h1 class="title">Reset Password</h1>
+                    <h1 class="title">{{ __('navigation.reset_password') }}</h1>
 
                     <div class="box border-t-4 border-primary">
                         <form method="POST" action="{{ route('password.request') }}">
@@ -15,14 +15,14 @@
                             <input type="hidden" name="token" value="{{ $token }}">
 
                             <div class="field">
-                                <label for="email" class="label">E-Mail Address</label>
+                                <label for="email" class="label">{{ __('labels.reset_password.email') }}</label>
 
                                 <div class="control">
                                     <input type="email"
                                         id="email"
                                         name="email"
                                         class="input{{ $errors->has('email') ? ' is-danger' : '' }}"
-                                        placeholder="Email"
+                                        placeholder="{{ __('labels.reset_password.email') }}"
                                         value="{{ $email or old('email') }}"
                                         required
                                         autofocus>
@@ -34,7 +34,7 @@
                             </div>
 
                             <div class="field">
-                                <label for="password" class="label">Password</label>
+                                <label for="password" class="label">{{ __('labels.reset_password.password') }}</label>
 
                                 <div class="control">
                                     <input id="password"
@@ -52,7 +52,7 @@
                             </div>
 
                             <div class="field">
-                                <label for="password-confirm" class="label">Confirm Password</label>
+                                <label for="password-confirm" class="label">{{ __('labels.reset_password.password_confirmation') }}</label>
                                 <div class="control">
                                     <input id="password-confirm"
                                         type="password"
@@ -69,7 +69,7 @@
 
                             <div class="field">
                                 <button type="submit" class="button is-primary">
-                                    Reset Password
+                                    {{ __('buttons.reset_password') }}
                                 </button>
                             </div>
                         </form>

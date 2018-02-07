@@ -70,12 +70,20 @@
     margin-bottom: 2rem;
 }
 
+.mt-2 {
+    margin-top: .5rem;
+}
+
 .mt-4 {
     margin-top: 1rem;
 }
 
 .mt-8 {
     margin-top: 2rem;
+}
+
+.p-2 {
+    padding: .5rem;
 }
 
 .p-4 {
@@ -90,6 +98,11 @@
 .py-4 {
     padding-top: 1rem;
     padding-bottom: 1rem;
+}
+
+.px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .pt-4 {
@@ -119,4 +132,8 @@
 .is-clickable {
     pointer-events: auto;
     cursor: pointer;
+}
+
+.shadow {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
 }

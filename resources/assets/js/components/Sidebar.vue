@@ -7,14 +7,14 @@
                 class="button"
                 :class="[activeTab === 'notifications' ? 'is-link' : '']"
                 @click="activeTab = 'notifications'">
-                Notifications
+                {{ trans('buttons.notifications') }}
             </button>
             <button
                 type="button"
                 class="button"
                 :class="[activeTab === 'announcements' ? 'is-link' : '']"
                 @click="activeTab = 'announcements'">
-                Announcements
+                {{ trans('buttons.announcements') }}
             </button>
         </div>
     </div>
@@ -44,7 +44,7 @@
     </div>
 
     <footer class="sidebar-footer">
-        <button type="button" class="button" @click="hide">Close</button>
+        <button type="button" class="button" @click="hide">{{ trans('buttons.close') }}</button>
     </footer>
 </div>
 </template>

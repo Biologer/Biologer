@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'about' => 'О нама',
+    'sponsors' => 'Спонзори',
+    'login' => 'Пријава',
+    'register' => 'Регистрација',
+    'new_observation' => 'Нов унос',
+    'contributor_area' => 'Место за чланове',
+    'logout' => 'Одјава',
+    'preferences' => 'Подешавања',
+    'dashboard' => 'Контролна табла',
+    'notifications' => 'Обавештења',
+    'announcements' => 'Објаве',
+    'new' => 'Ново',
+    'new_field_observation' => 'Нов теренски унос',
+    'my_field_observations' => 'Моји теренски налази',
+    'edit' => 'Измени',
+    'edit_observation' => 'Измени налаз',
+    'pending_observations' => 'Налази на чекању',
+    'field_observations' => 'Теренски налази',
+    'my' => 'Моје',
+    'curator' => 'Уредник',
+    'admin' => 'Администратор',
+    'taxa' => 'Таксони',
+    'users' => 'Корисници',
+    'reset_password' => 'Ресетовање лозинке',
+];

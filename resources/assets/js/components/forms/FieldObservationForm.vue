@@ -7,7 +7,8 @@
                     :error="form.errors.has('taxon_id')"
                     :message="form.errors.has('taxon_id') ? form.errors.first('taxon_id') : null"
                     autofocus
-                    ref="taxonAutocomplete">
+                    ref="taxonAutocomplete"
+                    :label="trans('labels.field_observations.taxon')">
                 </nz-taxon-autocomplete>
 
                 <nz-date-input
@@ -18,9 +19,10 @@
                     v-on:month-input="onMonthInput"
                     v-on:day-input="onDayInput"
                     :errors="form.errors"
+                    :label="trans('labels.field_observations.date')"
                 ></nz-date-input>
 
-                <b-field label="Photos">
+                <b-field :label="trans('labels.field_observations.photos')">
                     <div class="columns">
                         <div class="column is-one-third">
                             <nz-photo-upload
@@ -28,7 +30,7 @@
                                 :remove-url="photoRemoveUrl"
                                 :image-url="getObservationPhotoAttribute(0, 'url')"
                                 :image-path="getObservationPhotoAttribute(0, 'path')"
-                                text="Upload"
+                                :text="trans('labels.field_observations.upload')"
                                 icon="upload"
                                 @uploaded="onPhotoUploaded"
                                 @removed="onPhotoRemoved"
@@ -42,7 +44,7 @@
                                 :remove-url="photoRemoveUrl"
                                 :image-url="getObservationPhotoAttribute(1, 'url')"
                                 :image-path="getObservationPhotoAttribute(1, 'path')"
-                                text="Upload"
+                                :text="trans('labels.field_observations.upload')"
                                 icon="upload"
                                 @uploaded="onPhotoUploaded"
                                 @removed="onPhotoRemoved"
@@ -56,7 +58,7 @@
                                 :remove-url="photoRemoveUrl"
                                 :image-url="getObservationPhotoAttribute(2, 'url')"
                                 :image-path="getObservationPhotoAttribute(2, 'path')"
-                                text="Upload"
+                                :text="trans('labels.field_observations.upload')"
                                 icon="upload"
                                 @uploaded="onPhotoUploaded"
                                 @removed="onPhotoRemoved"
@@ -79,11 +81,11 @@
             </div>
         </div>
 
-        <button type="button" class="button is-text" @click="showMoreDetails = !showMoreDetails">More details</button>
+        <button type="button" class="button is-text" @click="showMoreDetails = !showMoreDetails">{{ trans('labels.field_observations.more_details') }}</button>
 
         <div class="mt-4" v-show="showMoreDetails">
             <b-field
-                label="Note"
+                :label="trans('labels.field_observations.note')"
                 :error="form.errors.has('note')"
                 :message="form.errors.has('note') ? form.errors.first('note') : null"
             >
@@ -94,7 +96,7 @@
             </b-field>
 
             <b-field
-                label="Number"
+                :label="trans('labels.field_observations.number')"
                 :type="form.errors.has('number') ? 'is-danger' : null"
                 :message="form.errors.has('number') ? form.errors.first('number') : null"
             >
@@ -105,36 +107,36 @@
             </b-field>
 
             <b-field
-                label="Sex"
+                :label="trans('labels.field_observations.sex')"
                 :type="form.errors.has('sex') ? 'is-danger' : null"
                 :message="form.errors.has('sex') ? form.errors.first('sex') : null"
             >
                 <b-select v-model="form.sex">
-                    <option :value="null">Choose a value</option>
+                    <option :value="null">{{ trans('labels.field_observations.choose_a_value') }}</option>
                     <option v-for="sex in sexes" :value="sex" v-text="sex"></option>
                 </b-select>
             </b-field>
 
             <b-field
-                label="Stage"
+                :label="trans('labels.field_observations.stage')"
                 :type="form.errors.has('stage_id') ? 'is-danger' : null"
                 :message="form.errors.has('stage_id') ? form.errors.first('stage_id') : null"
             >
                 <b-select v-model="form.stage_id" :disabled="!stages.length">
-                    <option :value="null">Choose a stage</option>
+                    <option :value="null">{{ trans('labels.field_observations.choose_a_stage') }}</option>
                     <option v-for="stage in stages" :value="stage.id" :key="stage.id" v-text="stage.name"></option>
                 </b-select>
             </b-field>
 
             <b-field
-                label="Time"
+                :label="trans('labels.field_observations.time')"
                 :type="form.errors.has('time') ? 'is-danger' : null"
                 :message="form.errors.has('time') ? form.errors.first('time') : null"
             >
                 <b-timepicker
                     :value="time"
                     @input="onTimeInput"
-                    placeholder="Click to select..."
+                    :placeholder="trans('labels.field_observations.click_to_select')"
                     icon="clock-o"
                 >
                     <button type="button" class="button is-danger"
@@ -146,7 +148,7 @@
 
             <template v-if="isCuratorOrAdmin">
                 <b-field
-                    label="Observer"
+                    :label="trans('labels.field_observations.observer')"
                     :type="form.errors.has('observer') ? 'is-danger' : null"
                     :message="form.errors.has('observer') ? form.errors.first('observer') : null"
                 >
@@ -154,7 +156,7 @@
                 </b-field>
 
                 <b-field
-                    label="Identifier"
+                    :label="trans('labels.field_observations.identifier')"
                     :type="form.errors.has('identifier') ? 'is-danger' : null"
                     :message="form.errors.has('identifier') ? form.errors.first('identifier') : null"
                 >
@@ -162,10 +164,10 @@
                 </b-field>
             </template>
 
-            <b-checkbox v-model="form.found_dead">Found Dead?</b-checkbox>
+            <b-checkbox v-model="form.found_dead">{{ trans('labels.field_observations.found_dead') }}</b-checkbox>
 
             <b-field
-                label="Note on dead observation"
+                :label="trans('labels.field_observations.found_dead_note')"
                 v-if="form.found_dead"
                 :error="form.errors.has('found_dead_note')"
                 :message="form.errors.has('found_dead_note') ? form.errors.first('found_dead_note') : null"
@@ -177,23 +179,23 @@
             </b-field>
 
             <b-field
-                label="Data License"
+                :label="trans('labels.field_observations.data_license')"
                 :type="form.errors.has('data_license') ? 'is-danger' : null"
                 :message="form.errors.has('data_license') ? form.errors.first('data_license') : null"
             >
                 <b-select v-model="form.data_license">
-                    <option :value="null">Default</option>
+                    <option :value="null">{{ trans('labels.field_observations.default') }}</option>
                     <option v-for="(label, value) in licenses" :value="value" v-text="label"></option>
                 </b-select>
             </b-field>
 
             <b-field
-                label="Image License"
+                :label="trans('labels.field_observations.image_license')"
                 :type="form.errors.has('image_license') ? 'is-danger' : null"
                 :message="form.errors.has('image_license') ? form.errors.first('image_license') : null"
             >
                 <b-select v-model="form.image_license">
-                    <option :value="null">Default</option>
+                    <option :value="null">{{ trans('labels.field_observations.default') }}</option>
                     <option v-for="(label, value) in licenses" :value="value" v-text="label"></option>
                 </b-select>
             </b-field>
@@ -209,7 +211,7 @@
             }"
             @click="submitAndRedirect"
         >
-            Save
+            {{ trans('buttons.save') }}
         </button>
 
         <button
@@ -222,10 +224,10 @@
             @click="submitAndAddMore"
             v-if="saveMore"
         >
-            Save (more)
+            {{ trans('buttons.save_more') }}
         </button>
 
-        <a :href="redirect" class="button is-text">Cancel</a>
+        <a :href="redirect" class="button is-text">{{ trans('buttons.cancel') }}</a>
     </div>
 </template>
 
@@ -388,7 +390,7 @@ export default {
             this.form.processing = true
 
             this.$toast.open({
-                message: 'Saved successfully',
+                message: this.trans('Saved successfully'),
                 type: 'is-success'
             });
 
@@ -411,7 +413,7 @@ export default {
             this.submittingWithoutRedirect = false;
 
             this.$toast.open({
-                message: 'Saved successfully',
+                message: this.trans('Saved successfully'),
                 type: 'is-success'
             });
 

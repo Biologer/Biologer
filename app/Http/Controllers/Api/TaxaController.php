@@ -10,6 +10,8 @@ use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaxonResource;
 
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 class TaxaController extends Controller
 {
     /**
@@ -80,10 +82,12 @@ class TaxaController extends Controller
             'parent_id' => 'parent',
         ]);
 
-        $taxon = Taxon::create(request([
+        $taxon = Taxon::create(array_merge(request([
             'name', 'parent_id', 'rank', 'fe_old_id', 'fe_id', 'restricted',
             'allochthonous', 'invasive',
-        ]));
+        ]), $this->mapTranslatedAttributes(request()->all(), [
+            'description', 'native_name',
+        ])));
 
         $taxon->stages()->sync(request('stages_ids', []));
         $taxon->conservationLists()->sync(request('conservation_lists_ids', []));
@@ -130,10 +134,12 @@ class TaxaController extends Controller
             'parent_id' => 'parent',
         ]);
 
-        $taxon->update(request([
+        $taxon->update(array_merge(request([
             'name', 'parent_id', 'rank', 'fe_old_id', 'fe_id', 'restricted',
             'allochthonous', 'invasive',
-        ]));
+        ]), $this->mapTranslatedAttributes(request()->all(), [
+            'description', 'native_name',
+        ])));
 
         $taxon->stages()->sync(request('stages_ids', []));
         $taxon->conservationLists()->sync(request('conservation_lists_ids', []));
@@ -167,5 +173,15 @@ class TaxaController extends Controller
         return collect($redListsData)->mapWithKeys(function ($item) {
             return [$item['red_list_id'] => ['category' => $item['category']]];
         })->all();
+    }
+
+    protected function mapTranslatedAttributes($data, array $attributes)
+    {
+        return collect(LaravelLocalization::getSupportedLanguagesKeys())
+            ->mapWithKeys(function ($locale) use ($data, $attributes) {
+                return [$locale => collect($attributes)->mapWithKeys(function ($attribute) use ($data, $locale) {
+                    return [$attribute => array_get($data, $attribute.'.'.$locale)];
+                })->toArray()];
+            })->toArray();
     }
 }

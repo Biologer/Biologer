@@ -101,6 +101,6 @@ class RegisterController extends Controller
         $this->guard()->logout();
 
         return redirect()->route('login')
-            ->with('info', 'Verification link has been sent to your email. Please check your inbox.');
+            ->with('info', trans('auth.verification_link_sent'));
     }
 }

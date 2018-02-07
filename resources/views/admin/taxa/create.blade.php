@@ -1,4 +1,4 @@
-@extends('layouts.dashboard', ['title' => 'New Taxon'])
+@extends('layouts.dashboard', ['title' => __('navigation.new_taxon')])
 
 @section('content')
     <div class="box">
@@ -17,9 +17,9 @@
 @section('breadcrumbs')
     <div class="breadcrumb" aria-label="breadcrumbs">
         <ul>
-            <li><a href="{{ route('contributor.index') }}">Dashboard</a></li>
-            <li><a href="{{ route('admin.taxa.index') }}">Taxa</a></li>
-            <li class="is-active"><a>New</a></li>
+            <li><a href="{{ route('contributor.index') }}">{{ __('navigation.dashboard') }}</a></li>
+            <li><a href="{{ route('admin.taxa.index') }}">{{ __('navigation.taxa') }}</a></li>
+            <li class="is-active"><a>{{ __('navigation.new') }}</a></li>
         </ul>
     </div>
 @endsection

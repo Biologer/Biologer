@@ -10,7 +10,7 @@
             >
                 <b-icon icon="check" class="has-text-success"></b-icon>
 
-                <span>Approve</span>
+                <span>{{ trans('buttons.approve') }}</span>
             </button>
 
             <button
@@ -22,7 +22,7 @@
             >
                 <b-icon icon="times" class="has-text-danger"></b-icon>
 
-                <span>Unidentifiable</span>
+                <span>{{ trans('buttons.unidentifiable') }}</span>
             </button>
         </div>
 
@@ -48,35 +48,35 @@
             :checked-rows.sync="checkedRows"
         >
             <template slot-scope="{ row }">
-                <b-table-column field="id" label="ID" width="40" numeric sortable>
+                <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
                     {{ row.id }}
                 </b-table-column>
 
-                <b-table-column field="taxon_name" label="Taxon" sortable>
+                <b-table-column field="taxon_name" :label="trans('labels.field_observations.taxon')" sortable>
                     {{ row.taxon ? row.taxon.name : '' }}
                 </b-table-column>
 
-                <b-table-column field="year" label="Year" numeric sortable>
+                <b-table-column field="year" :label="trans('labels.field_observations.year')" numeric sortable>
                     {{ row.year }}
                 </b-table-column>
 
-                <b-table-column field="month" label="Month" numeric sortable>
+                <b-table-column field="month" :label="trans('labels.field_observations.month')" numeric sortable>
                     {{ row.month }}
                 </b-table-column>
 
-                <b-table-column field="day" label="Day" numeric sortable>
+                <b-table-column field="day" :label="trans('labels.field_observations.day')" numeric sortable>
                     {{ row.day }}
                 </b-table-column>
 
-                <b-table-column field="observer" label="Observer" sortable>
+                <b-table-column field="observer" :label="trans('labels.field_observations.observer')" sortable>
                     {{ row.observer }}
                 </b-table-column>
 
-                <b-table-column field="status" label="Status" v-if="showStatus">
+                <b-table-column field="status" :label="trans('labels.field_observations.status')" v-if="showStatus">
                     <span :class="determineStatusClass(row.status)"><b-icon :icon="determineStatusIcon(row.status)" /></span>
                 </b-table-column>
 
-                <b-table-column label="Actions" width="100">
+                <b-table-column :label="trans('labels.actions')" width="100">
                     <a @click="openImageModal(row.photos)" v-if="row.photos.length"><b-icon icon="photo"></b-icon></a>
 
                     <a :href="editLink(row)"><b-icon icon="edit"></b-icon></a>
@@ -107,9 +107,9 @@
 
                             <small>{{ row.latitude }}, {{ row.longitude }}</small><br>
 
-                            <small>Elevation: {{ row.elevation}}m</small><br>
+                            <small>{{ trans('labels.field_observations.elevation') }}: {{ row.elevation}}m</small><br>
 
-                            <small>Accuracy: {{ row.accuracy}}m</small>
+                            <small v-if="row.accuracy">{{ trans('labels.field_observations.accuracy') }}: {{ row.accuracy}}m</small>
                         </div>
                     </div>
                 </article>

@@ -1,34 +1,37 @@
 <template>
     <div class="taxa-table">
-        <div class="buttons has-addons">
-            <button type="button"
+        <form @submit.prevent="applyFilter">
+            <button
+                type="button"
                 class="button"
-                @click="showFilter = !showFilter">
+                @click="showFilter = !showFilter"
+            >
                 <b-icon icon="filter"></b-icon>
-                <span>Filters</span>
+                <span>{{ trans('buttons.filters') }}</span>
             </button>
+            <b-collapse :open="showFilter" class="mt-4">
+                <div class="columns">
+                    <b-field :label="trans('labels.taxa.rank')" class="column">
+                        <b-select v-model="newFilter.rank" expanded>
+                            <option value=""></option>
+                            <option
+                                v-for="(rank, index) in ranks"
+                                :value="rank.value"
+                                :key="index"
+                                v-text="rank.label">
+                            </option>
+                        </b-select>
+                    </b-field>
 
-            <button type="button" class="button" @click="clearFilter">Clear</button>
-        </div>
-        <b-collapse :open="showFilter">
-            <div class="columns">
-                <b-field label="Rank" class="column">
-                    <b-select v-model="newFilter.rank" @input="onFilter" expanded>
-                        <option value=""></option>
-                        <option
-                            v-for="(rank, index) in ranks"
-                            :value="rank.value"
-                            :key="index"
-                            v-text="rank.label">
-                        </option>
-                    </b-select>
-                </b-field>
+                    <b-field :label="trans('labels.taxa.name')" class="column">
+                        <b-input v-model="newFilter.name"></b-input>
+                    </b-field>
+                </div>
 
-                <b-field label="Name" class="column">
-                    <b-input v-model="newFilter.name" @blur="onFilter" @keyup.enter.native="onFilter"></b-input>
-                </b-field>
-            </div>
-        </b-collapse>
+                <button type="submit" class="button is-primary is-outlined" @click="applyFilter">{{ trans('buttons.apply') }}</button>
+                <button type="button" class="button" @click="clearFilter">{{ trans('buttons.clear') }}</button>
+            </b-collapse>
+        </form>
 
         <hr>
 
@@ -49,23 +52,23 @@
 
             :mobile-cards="true">
 
-            <template slot-scope="props">
-                <b-table-column field="id" label="ID" width="40" numeric sortable>
-                    {{ props.row.id }}
+            <template slot-scope="{ row }">
+                <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
+                    {{ row.id }}
                 </b-table-column>
 
-                <b-table-column field="rank_level" label="Rank" sortable>
-                    {{ props.row.rank_translation }}
+                <b-table-column field="rank_level" :label="trans('labels.taxa.rank')" sortable>
+                    {{ row.rank_translation }}
                 </b-table-column>
 
-                <b-table-column field="name" label="Name" sortable>
-                    {{ props.row.name }}
+                <b-table-column field="name" :label="trans('labels.taxa.name')" sortable>
+                    {{ row.name + (row.native_name ? ` (${row.native_name})` : '') }}
                 </b-table-column>
 
-                <b-table-column label="Actions" width="100">
-                    <a :href="editLink(props.row)"><b-icon icon="edit"></b-icon></a>
+                <b-table-column :label="trans('labels.actions')" width="100">
+                    <a :href="editLink(row)"><b-icon icon="edit"></b-icon></a>
 
-                    <a @click="confirmRemove(props.row)"><b-icon icon="trash"></b-icon></a>
+                    <a @click="confirmRemove(row)"><b-icon icon="trash"></b-icon></a>
                 </b-table-column>
             </template>
 
@@ -189,10 +192,10 @@ export default {
                 this.newFilter[field] = ''
             }
 
-            this.onFilter()
+            this.applyFilter()
         },
 
-        onFilter() {
+        applyFilter() {
             let reload = false;
 
             for (let field in this.newFilter) {

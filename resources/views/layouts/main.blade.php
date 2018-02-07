@@ -5,7 +5,7 @@
         <nav class="navbar has-shadow border-t-4 border-primary">
             <div class="container">
                 <div class="navbar-brand">
-                    <a class="navbar-item" href="{{ url('/') }}">
+                    <a class="navbar-item" href="{{ url('/') }}" title="{{ config('app.name') }}">
                         <img src="{{ asset('img/logo.svg') }}" alt="{{ config('app.name') }}" class="navbar-logo">
                     </a>
 
@@ -19,12 +19,12 @@
                     <div class="navbar-end">
                         <div class="navbar-item has-dropdown is-hoverable">
                             <a class="navbar-link is-hidden-touch">
-                                <span>About</span>
+                                <span>{{ __('navigation.about') }}</span>
                             </a>
 
                             <div class="navbar-dropdown is-boxed is-right">
                                 <a class="navbar-item" href="{{ route('pages.sponsors') }}">
-                                    Sponsors
+                                    {{ __('navigation.sponsors') }}
                                 </a>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                                         </svg>
                                     </span>
 
-                                    <span>New Observation</span>
+                                    <span>{{ __('navigation.new_observation') }}</span>
                                 </a>
                             </div>
 
@@ -56,14 +56,14 @@
                                     <hr class="navbar-divider">
                                     <a class="navbar-item" href="{{ route('contributor.index') }}">
                                         @include('components.icon', ['icon' => 'dashboard'])
-                                        <span>Contributor Area</span>
+                                        <span>{{ __('navigation.contributor_area') }}</span>
                                     </a>
                                     <hr class="navbar-divider">
                                     <a href="{{ route('logout') }}"
                                         class="navbar-item"
                                         onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
-                                        Logout
+                                        {{ trans('navbar.logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -76,13 +76,13 @@
                                 <div class="field is-grouped">
                                     <div class="control">
                                         <a href="{{ route('login') }}" class="button is-primary">
-                                            Login
+                                            {{ __('navigation.login') }}
                                         </a>
                                     </div>
 
                                     <div class="control">
                                         <a href="{{ route('register') }}" class="button is-outlined is-secondary">
-                                            Register
+                                            {{ __('navigation.register') }}
                                         </a>
                                     </div>
                                 </div>
@@ -96,4 +96,15 @@
 
     @yield('content')
 
+    <footer class="footer">
+        <div class="container">
+            <div class="level">
+                <div class="level-left"></div>
+                
+                <div class="level-right">
+                    @include('components.languageSelector')
+                </div>
+            </div>
+        </div>
+    </footer>
 @endsection

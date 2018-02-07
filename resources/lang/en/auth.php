@@ -16,4 +16,6 @@ return [
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
+    'verification_link_sent' => 'Verification link has been sent to your email. Please check your inbox.',
+    'verify_email' => 'Please verify your email first.',
 ];

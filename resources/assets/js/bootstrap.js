@@ -24,6 +24,12 @@ if (token) {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
+let language = document.documentElement.lang;
+
+if (language) {
+    window.axios.defaults.headers.common['Accept-Language'] = language;
+}
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

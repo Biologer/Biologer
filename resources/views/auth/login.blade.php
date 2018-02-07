@@ -8,6 +8,16 @@
                 <img src="{{ asset('img/logo.svg') }}" alt="{{ config('app.name') }}" class="navbar-logo">
             </a>
         </div>
+
+        <div class="navbar-menu">
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <a href="{{ route('register') }}" class="button is-outlined is-secondary">
+                        {{ __('navigation.register') }}
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </nav>
 
@@ -17,11 +27,11 @@
             <div class="columns">
                 <div class="column is-4 is-offset-4">
                     <h1 class="title">
-                      Login
+                      {{ __('navigation.login') }}
                     </h1>
 
                     <div class="box border-t-4 border-primary">
-                        <form action="{{ url('/login') }}" method="POST">
+                        <form action="{{ route('login') }}" method="POST">
                             {{ csrf_field() }}
 
                             @if (session()->has('success'))
@@ -39,12 +49,12 @@
                             @endif
 
                             <div class="field">
-                                <label class="label">Email</label>
+                                <label class="label">{{ __('labels.login.email') }}</label>
                                 <div class="control">
                                     <input type="email"
                                         name="email"
                                         class="input{{ $errors->has('email') ? ' is-danger' : '' }}"
-                                        placeholder="Email"
+                                        placeholder="{{ __('labels.login.email') }}"
                                         value="{{ old('email') }}"
                                         autofocus>
                                 </div>
@@ -52,12 +62,12 @@
                             </div>
 
                             <div class="field">
-                                <label class="label">Password</label>
+                                <label class="label">{{ __('labels.login.password') }}</label>
                                 <div class="control">
                                     <input type="password"
                                         name="password"
                                         class="input{{ $errors->has('password') ? ' is-danger' : '' }}"
-                                        placeholder="Password">
+                                        placeholder="{{ __('labels.login.password') }}">
                                 </div>
                                 <p class="help{{ $errors->has('password') ? ' is-danger' : '' }}">{{ $errors->first('password') }}</p>
                             </div>
@@ -67,28 +77,36 @@
                                     <input type="checkbox"
                                         name="remember"
                                         {{ old('remember') ? ' checked' : '' }}>
-                                    Remember me
+                                    {{ __('labels.login.remember_me') }}
                                 </label>
                             </div>
 
                             <div class="level">
                                 <div class="level-left">
-                                    <button type="submit" class="button is-primary">Login</button>
+                                    <button type="submit" class="button is-primary">{{ __('buttons.login') }}</button>
                                 </div>
 
                                 <div class="level-right">
-                                    <a href="{{ route('password.request') }}">Forgot password?</a>
+                                    <a href="{{ route('password.request') }}">{{ __('labels.login.forgot_password') }}</a>
                                 </div>
                             </div>
                         </form>
                     </div>
-
-                    <p class="has-text-centered">
-                        Don't have an account? <a href="{{ route('register') }}">Click here to register</a>
-                    </p>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-left"></div>
+
+            <div class="level-right">
+                @include('components.languageSelector')
+            </div>
+        </div>
+    </div>
+</footer>
 @endsection

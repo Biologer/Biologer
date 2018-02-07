@@ -1,4 +1,4 @@
-@extends('layouts.dashboard', ['title' => 'Taxa'])
+@extends('layouts.dashboard', ['title' => __('navigation.taxa')])
 
 @section('content')
     <div class="box">
@@ -14,8 +14,8 @@
 @section('breadcrumbs')
     <div class="breadcrumb" aria-label="breadcrumbs">
         <ul>
-            <li><a href="{{ route('contributor.index') }}">Dashboard</a></li>
-            <li class="is-active"><a>Taxa</a></li>
+            <li><a href="{{ route('contributor.index') }}">{{ __('navigation.dashboard') }}</a></li>
+            <li class="is-active"><a>{{ __('navigation.taxa') }}</a></li>
         </ul>
     </div>
 @endsection
@@ -23,6 +23,6 @@
 @section('createButton')
     <a href="{{ route('admin.taxa.create') }}" class="button is-secondary is-outlined">
         @include('components.icon', ['icon' => 'plus'])
-        <span>New</span>
+        <span>{{ __('navigation.new') }}</span>
     </a>
 @endsection

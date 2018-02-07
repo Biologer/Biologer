@@ -88,8 +88,6 @@ return [
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute format is invalid.',
 
-    'df_supported' => 'This field is not supported.',
-    'df_valid' => 'Invalid value for this field.',
     'captcha' => 'The :attribute must be valid CAPTCHA.',
 
     /*

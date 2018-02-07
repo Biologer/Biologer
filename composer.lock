@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "03453568efaee11d47072a3ff763dac2",
+    "content-hash": "f4f6f22c982ee2095e23d687fbc2692f",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -68,6 +68,64 @@
                 "symmetric key cryptography"
             ],
             "time": "2017-05-18T21:28:48+00:00"
+        },
+        {
+            "name": "dimsav/laravel-translatable",
+            "version": "v8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dimsav/laravel-translatable.git",
+                "reference": "8bdcb62b580df98fc5d5540edc2d8aa9a2760db4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dimsav/laravel-translatable/zipball/8bdcb62b580df98fc5d5540edc2d8aa9a2760db4",
+                "reference": "8bdcb62b580df98fc5d5540edc2d8aa9a2760db4",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.5.*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.5.*",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Dimsav\\Translatable\\TranslatableServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dimsav\\Translatable\\": "src/Translatable/"
+                },
+                "classmap": [
+                    "tests"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dimitrios Savvopoulos",
+                    "email": "ds@dimsav.com",
+                    "homepage": "http://dimsav.com"
+                }
+            ],
+            "description": "A Laravel package for multilingual models",
+            "keywords": [
+                "database",
+                "language",
+                "laravel",
+                "translation"
+            ],
+            "time": "2018-01-04T20:11:56+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1221,6 +1279,68 @@
                 "server"
             ],
             "time": "2017-12-23T23:33:42+00:00"
+        },
+        {
+            "name": "mcamara/laravel-localization",
+            "version": "v1.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mcamara/laravel-localization.git",
+                "reference": "fc2188a82611507f85f2219664b0d789f3d38212"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mcamara/laravel-localization/zipball/fc2188a82611507f85f2219664b0d789f3d38212",
+                "reference": "fc2188a82611507f85f2219664b0d789f3d38212",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "~5.2||~5.3||~5.4||~5.5",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "orchestra/testbench-browser-kit": "~3.4",
+                "phpunit/phpunit": "6.0.*"
+            },
+            "suggest": {
+                "ext-intl": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mcamara\\LaravelLocalization\\LaravelLocalizationServiceProvider"
+                    ],
+                    "aliases": {
+                        "LaravelLocalization": "Mcamara\\LaravelLocalization\\Facades\\LaravelLocalization"
+                    }
+                }
+            },
+            "autoload": {
+                "classmap": [],
+                "psr-0": {
+                    "Mcamara\\LaravelLocalization": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marc Cámara",
+                    "email": "mcamara88@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Easy localization for Laravel",
+            "homepage": "https://github.com/mcamara/laravel-localization",
+            "keywords": [
+                "laravel",
+                "localization",
+                "php"
+            ],
+            "time": "2018-01-23T15:10:21+00:00"
         },
         {
             "name": "monolog/monolog",

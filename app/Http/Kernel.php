@@ -41,6 +41,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+            \App\Http\Middleware\HeaderLocale::class,
         ],
     ];
 
@@ -62,5 +63,9 @@ class Kernel extends HttpKernel
         'role' => \App\Http\Middleware\AnyRole::class,
         'roles' => \App\Http\Middleware\AllRoles::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+
+        'localizationRedirect' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
+        'localeCookieRedirect' => \Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect::class,
+        'localeViewPath' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
     ];
 }

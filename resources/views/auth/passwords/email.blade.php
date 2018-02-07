@@ -6,7 +6,7 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8 is-offset-2">
-                    <h1 class="title">Reset Password</h1>
+                    <h1 class="title">{{ __('navigation.reset_password') }}</h1>
 
                     <div class="box border-t-4 border-primary">
                         @if (session('status'))
@@ -21,13 +21,13 @@
                             {{ csrf_field() }}
 
                             <div class="field">
-                                <label class="label">Email</label>
+                                <label class="label">{{ __('labels.forgot_password.email') }}</label>
 
                                 <div class="control">
                                     <input type="email"
                                         name="email"
                                         class="input{{ $errors->has('email') ? ' is-danger' : '' }}"
-                                        placeholder="Email"
+                                        placeholder="{{ __('labels.forgot_password.email') }}"
                                         value="{{ old('email') }}"
                                         required
                                         autofocus>
@@ -38,7 +38,7 @@
 
                             <div class="field">
                                 <button type="submit" class="button is-primary">
-                                    Send Password Reset Link
+                                    {{ __('buttons.send_password_reset_link') }}
                                 </button>
                             </div>
                         </form>

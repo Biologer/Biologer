@@ -23,7 +23,7 @@
                 <nav class="navbar is-primary">
                     <div class="container is-fluid">
                         <div class="navbar-brand">
-                            <a class="navbar-item" href="{{ url('/') }}">
+                            <a class="navbar-item" href="{{ url('/') }}" title="{{ config('app.name') }}">
                                 <svg class="navbar-logo is-plane" version="1.1" viewBox="0 0 105 28" xmlns="http://www.w3.org/2000/svg">
                                     <g transform="matrix(1.7638 0 0 1.7637 -.00050103 .00040525)" font-size="25.4" font-weight="700" letter-spacing="0" word-spacing="0">
                                         <path d="m25.043 10.068c0 2.94 2.001 2.954 2.824 2.954 0.384 0 0.836-0.01 1.42-0.199-1.42-0.399-1.254-1.149-1.363-3.138v-4.041c-0.039-2.094-0.7-4.135-4.41-4.482 1.29 0.998 1.57 1.89 1.529 2.807zm8.928-0.952c0 1.18-0.227 1.918-0.894 1.918s-0.894-0.739-0.894-1.918c0-1.178 0.227-1.917 0.894-1.917s0.894 0.739 0.894 1.917zm2.995 0c0-2.457-1.448-3.905-3.889-3.905s-3.889 1.448-3.889 3.905c0 2.458 1.448 3.906 3.89 3.906 2.44 0 3.888-1.448 3.888-3.906z"/>
@@ -36,11 +36,11 @@
                                 </svg>
                             </a>
 
-                            <a class="navbar-item" href="{{ route('contributor.index') }}" title="Dashboard">
+                            <a class="navbar-item" href="{{ route('contributor.index') }}" title="{{ __('navigation.dashboard') }}">
                                 @include('components.icon', ['icon' => 'dashboard'])
                             </a>
 
-                            <a class="navbar-item" @click="toggleSidebar" title="Notifications">
+                            <a class="navbar-item" @click="toggleSidebar" title="{{ __('navigation.notifications') }}">
                                 @include('components.icon', ['icon' => 'bell'])
                             </a>
 
@@ -55,9 +55,9 @@
                             <div class="navbar-end">
                                 <a href="{{ route('contributor.preferences.index') }}"
                                     class="navbar-item"
-                                    title="Preferences">
+                                    title="{{ __('navigation.preferences') }}">
                                     @include('components.icon', ['icon' => 'cog'])
-                                    <span class="is-hidden-desktop">Preferences</span>
+                                    <span class="is-hidden-desktop">{{ __('navigation.preferences') }}</span>
                                 </a>
 
                                 <a href="{{ route('logout') }}"
@@ -65,7 +65,7 @@
                                     title="{{ auth()->user()->full_name }}"
                                     onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
-                                    <span>Logout</span>
+                                    <span>{{ __('navigation.logout') }}</span>
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -79,26 +79,19 @@
                 </nav>
             </nz-navbar>
 
-            <nav class="navbar has-shadow second-navbar">
+            <div class="secondary-navbar bg-white py-2 px-4 shadow">
                 <div class="container is-fluid">
-                    <div class="navbar-menu">
-                        <div class="navbar-start">
-                            <div class="navbar-item">
-                                @yield('breadcrumbs')
-                            </div>
+                    <div class="level">
+                        <div class="level-left">
+                            @yield('breadcrumbs')
                         </div>
-                        <div class="navbar-end">
-                            <div class="navbar-item">
-                                <div class="field is-grouped">
-                                    <div class="control">
-                                        @yield('createButton')
-                                    </div>
-                                </div>
-                            </div>
+
+                        <div class="level-right">
+                            @yield('createButton')
                         </div>
                     </div>
                 </div>
-            </nav>
+            </div>
 
             <div class="bg-light">
                 <div class="container is-fluid p-4">
@@ -106,39 +99,39 @@
                         <div class="column is-2">
                             <aside class="menu">
                                 <p class="menu-label">
-                                    My
+                                    {{ __('navigation.my') }}
                                 </p>
 
                                 <ul class="menu-list">
-                                    <li><a href="{{ route('contributor.field-observations.index') }}">Field Observations</a></li>
+                                    <li><a href="{{ route('contributor.field-observations.index') }}">{{ __('navigation.field_observations') }}</a></li>
                                 </ul>
 
                                 @role(['admin', 'curator'])
                                     <p class="menu-label">
-                                        Curator
+                                        {{ __('navigation.curator') }}
                                     </p>
 
                                     @can('list', \App\FieldObservation::class)
                                         <ul class="menu-list">
-                                            <li><a href="{{ route('curator.pending-observations.index') }}">Pending Observations</a></li>
+                                            <li><a href="{{ route('curator.pending-observations.index') }}">{{ __('navigation.pending_observations') }}</a></li>
                                         </ul>
                                     @endcan
                                 @endrole
 
                                 @role(['admin', 'curator'])
                                     <p class="menu-label">
-                                        Admin
+                                        {{ __('navigation.admin') }}
                                     </p>
 
                                     @can('list', \App\Taxon::class)
                                         <ul class="menu-list">
-                                            <li><a href="{{ route('admin.taxa.index') }}">Taxa</a></li>
+                                            <li><a href="{{ route('admin.taxa.index') }}">{{ __('navigation.taxa') }}</a></li>
                                         </ul>
                                     @endcan
 
                                     @can('list', \App\User::class)
                                         <ul class="menu-list">
-                                            <li><a href="{{ route('admin.users.index') }}">Users</a></li>
+                                            <li><a href="{{ route('admin.users.index') }}">{{ __('navigation.users') }}</a></li>
                                         </ul>
                                     @endcan
                                 @endrole
@@ -151,6 +144,18 @@
                     </div>
                 </div>
             </div>
+
+            <footer class="footer">
+                <div class="container">
+                    <div class="level">
+                        <div class="level-left"></div>
+                        
+                        <div class="level-right">
+                            @include('components.languageSelector')
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
 
         @stack('beforeScripts')

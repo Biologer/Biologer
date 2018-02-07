@@ -4,25 +4,25 @@
 <div class="level box">
     <div class="level-item has-text-centered">
         <div>
-            <p class="heading">My Field Observations</p>
+            <p class="heading">{{ __('dashboard.my_field_observations') }}</p>
             <p class="title">{{ $observationCount }}</p>
         </div>
     </div>
     <div class="level-item has-text-centered">
         <div>
-            <p class="heading">Approved</p>
+            <p class="heading">{{ __('dashboard.approved') }}</p>
             <p class="title">{{ $approvedObservationCount }}</p>
         </div>
     </div>
     <div class="level-item has-text-centered">
         <div>
-            <p class="heading">Unidentifiable</p>
+            <p class="heading">{{ __('dashboard.unidentifiable') }}</p>
             <p class="title">{{ $unidentifiableObservationCount }}</p>
         </div>
     </div>
     <div class="level-item has-text-centered">
         <div>
-            <p class="heading">Pending</p>
+            <p class="heading">{{ __('dashboard.pending') }}</p>
             <p class="title">{{ $pendingObservationCount }}</p>
         </div>
     </div>
@@ -32,7 +32,7 @@
 @section('breadcrumbs')
 <div class="breadcrumb" aria-label="breadcrumbs">
     <ul>
-        <li class="is-active"><a>Dashboard</a></li>
+        <li class="is-active"><a>{{ __('navigation.dashboard') }}</a></li>
     </ul>
 </div>
 @endsection
@@ -47,6 +47,6 @@
         </svg>
     </span>
 
-    <span>New Observation<span>
+    <span>{{ __('navigation.new_observation') }}<span>
 </a>
 @endsection

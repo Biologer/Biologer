@@ -11,9 +11,8 @@ If you're having trouble clicking on the button, follow the link below:
 [{{ route('auth.verify.verify', $verificationToken) }}]({{ route('auth.verify.verify', $verificationToken) }})
 
 In case you have not sent the request, ignore the message or report it to the e-mail address:
-[info@biologer.org](mailto:info@biologer.org)
+[{{ config('mail.reply_address') }}](mailto:{{ config('mail.reply_address') }})
 
-Thanks,<br>
 Best regards,
 {{ config('app.name') }} team
 @endcomponent

@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'about' => 'About',
+    'sponsors' => 'Sponsors',
+    'login' => 'Login',
+    'register' => 'Register',
+    'new_observation' => 'New Observation',
+    'contributor_area' => 'Contributor Area',
+    'logout' => 'Logout',
+    'preferences' => 'Preferences',
+    'dashboard' => 'Dashboard',
+    'notifications' => 'Notifications',
+    'announcements' => 'Announcements',
+    'new' => 'New',
+    'new_field_observation' => 'New Field Observation',
+    'my_field_observations' => 'My Field Observations',
+    'edit' => 'Edit',
+    'edit_observation' => 'Edit Observation',
+    'pending_observations' => 'Pending Observations',
+    'field_observations' => 'Field Observations',
+    'my' => 'My',
+    'curator' => 'Curator',
+    'admin' => 'admin',
+    'taxa' => 'Taxa',
+    'users' => 'Users',
+    'reset_password' => 'Reset Password',
+];

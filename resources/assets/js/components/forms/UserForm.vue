@@ -3,18 +3,18 @@
         <form @submit.prevent="submit">
             <div class="columns">
                 <div class="column">
-                    <b-field label="First Name">
+                    <b-field :label="trans('labels.users.first_name')">
                         <b-input v-model="form.first_name"></b-input>
                     </b-field>
                 </div>
                 <div class="column">
-                    <b-field label="Last Name">
+                    <b-field :label="trans('labels.users.last_name')">
                         <b-input v-model="form.last_name"></b-input>
                     </b-field>
                 </div>
             </div>
 
-            <b-field label="Roles">
+            <b-field :label="trans('labels.users.roles')">
                 <div class="block">
                     <b-checkbox
                         v-for="role in roles"
@@ -27,7 +27,7 @@
                 </div>
             </b-field>
 
-            <b-field label="Curated Taxa" v-if="isCurator">
+            <b-field :label="trans('labels.users.curated_taxa')" v-if="isCurator">
                 <b-taginput v-model="curatedTaxa"
                     :data="filteredTaxa"
                     autocomplete
@@ -39,7 +39,7 @@
 
             <hr>
 
-            <button type="submit" class="button is-primary">Save</button>
+            <button type="submit" class="button is-primary">{{ trans('buttons.save') }}</button>
         </form>
     </div>
 </template>
@@ -131,7 +131,7 @@ export default {
             this.form.processing = true
 
             this.$toast.open({
-                message: 'Saved successfully',
+                message: this.trans('Saved successfully'),
                 type: 'is-success'
             });
 

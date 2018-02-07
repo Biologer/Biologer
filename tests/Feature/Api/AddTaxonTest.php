@@ -36,6 +36,12 @@ class AddTaxonTest extends TestCase
             'stages_ids' => [],
             'conservation_lists_ids' => [],
             'red_lists_ids' => [],
+            'native_name' => [
+                app()->getLocale() => 'oak longhorn beetle',
+            ],
+            'description' => [
+                app()->getLocale() => 'test description',
+            ],
         ], $overrides);
     }
 
@@ -95,6 +101,8 @@ class AddTaxonTest extends TestCase
         $this->assertTrue($taxon->restricted);
         $this->assertTrue($taxon->allochthonous);
         $this->assertTrue($taxon->invasive);
+        $this->assertEquals($taxon->native_name, 'oak longhorn beetle');
+        $this->assertEquals($taxon->description, 'test description');
         $taxon->stages->assertEquals($stages);
         $taxon->conservationLists->assertEquals($conservationLists);
         $taxon->redLists->assertEquals($redLists);

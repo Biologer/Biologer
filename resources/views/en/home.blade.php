@@ -20,15 +20,15 @@
                 <ul class="is-done">
                     <li>User registration</li>
                     <li>Data input (through the web interface)</li>
+                    <li>Translations to multiple languages</li>
                 </ul>
             </div>
             <div class="column is-size-5">
-                <p>What does not work:</p>
+                <p>What doesn't work yet:</p>
 
                 <ul class="is-not-done">
                     <li>‎Data view</li>
                     <li>‎Data export</li>
-                    <li>Translation on the other languags</li>
                     <li>Notifications</li>
                     <li>Conversation between the users</li>
                     <li>Android application</li>

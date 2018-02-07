@@ -120,4 +120,15 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Reply Address
+    |--------------------------------------------------------------------------
+    |
+    | Email address you want your users to reply to.
+    |
+    */
+
+    'reply_address' => env('MAIL_REPLY_ADDRESS', 'info@example.com'),
+
 ];

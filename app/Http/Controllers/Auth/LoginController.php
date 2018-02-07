@@ -51,7 +51,7 @@ class LoginController extends Controller
             $this->guard()->logout();
 
             return redirect()->route('login')
-                ->with('info', 'Please verify your email first.');
+                ->with('info', trans('auth.verify_email'));
         }
     }
 }

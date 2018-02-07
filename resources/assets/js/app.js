@@ -56,6 +56,16 @@ Vue.component(TaxonForm.name, TaxonForm);
 Vue.component(UserForm.name, UserForm);
 Vue.component(FieldObservationsTable.name, FieldObservationsTable);
 
+Vue.prototype.trans = (string, args = {}) => {
+    let value = _.get(window.App.i18n, string, string);
+
+    _.eachRight(args, (paramVal, paramKey) => {
+        value = _.replace(value, `:${paramKey}`, paramVal);
+    });
+
+    return value;
+};
+
 const app = new Vue({
     el: '#app'
 });
