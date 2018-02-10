@@ -2,8 +2,8 @@
     window.App = <?php echo json_encode([
         'User' => auth()->user(),
         'gmaps' => [
-            'apiKey' => config('biologer.gmaps.api_key'),
-            'center' => config('biologer.gmaps.center'),
+            'apiKey' => config('services.gmaps.key'),
+            'center' => territory()->get('center'),
             'load' => false,
         ]
     ]); ?>

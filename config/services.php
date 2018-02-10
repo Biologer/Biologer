@@ -35,4 +35,8 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'gmaps' => [
+        'key' => env('GMAPS_API_KEY'),
+    ],
+
 ];
