@@ -3,7 +3,7 @@
 return [
     'photos_per_observation' => 3,
 
-    'territory' => 'Serbia',
+    'territory' => env('MAP_TERRITORY', 'Serbia'),
 
     'territories' => [
         'Serbia' => [

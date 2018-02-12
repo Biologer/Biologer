@@ -112,7 +112,7 @@
             </div>
         </b-field>
 
-        <b-field :label="trans('labels.taxa.convservation_lists')" v-if="conservationLists.length">
+        <b-field :label="trans('labels.taxa.conservation_lists')" v-if="conservationLists.length">
             <div class="block">
                 <b-checkbox
                     v-for="conservationList in conservationLists"
@@ -126,7 +126,7 @@
         </b-field>
 
         <div class="field" v-if="redLists.length">
-            <label class="label">{{ trans('labels.taxa.ref_lists') }}</label>
+            <label class="label">{{ trans('labels.taxa.red_lists') }}</label>
 
             <b-field v-for="(addedRedList, index) in form.red_lists_data" :key="index" grouped>
                 <div class="control is-expanded">
