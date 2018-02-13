@@ -67,7 +67,7 @@ return [
     'numeric' => 'Поље :attribute мора бити број.',
     'present' => 'Поље :attribute мора бити присутно.',
     'regex' => 'Формат поља :attribute није валидан.',
-    'required' => 'Поље :attribute је обавезно.',
+    'required' => 'Поље је обавезно.',
     'required_if' => 'Поље :attribute је обавезно када поље :other садржи :value.',
     'required_unless' => 'Поље :attribute је обавезно када поље :other не задрже :values.',
     'required_with' => 'Поље :attribute је обавезно када је :values присутан.',

@@ -12,10 +12,10 @@ class License
     public static function getAvailable()
     {
         return [
-            10 => 'CC BY-SA 4.0',
-            20 => 'CC BY-NC-SA 4.0',
-            30 => 'Partially open',
-            40 => 'Closed',
+            10 => __('licenses.CC BY-SA 4.0'),
+            20 => __('licenses.CC BY-NC-SA 4.0'),
+            30 => __('licenses.Partially open'),
+            40 => __('licenses.Closed'),
         ];
     }
 

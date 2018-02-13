@@ -1,4 +1,6 @@
 {
+    "You are receiving this email because we received a password reset request for your account.": "Добили сте овај и-мејл зато што смо примили ваш захтев за ресетовање лозинке.",
+    "If you did not request a password reset, no further action is required.": "У случају да нисте послали захтев за ресетовање лозинке, није потребна било каква акција.",
     "The given data was invalid.": "Дати подаци нису исправни.",
     "Some fields have errors": "Нека поља имају грешке",
     "Saved successfully": "Успешно сачувано",

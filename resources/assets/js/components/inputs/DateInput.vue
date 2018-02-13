@@ -10,8 +10,8 @@
                 :message="errors.has('month') ? errors.first('month'): ''">
                 <b-select :placeholder="placeholders.month" :value="month" @input="onMonthInput" expanded>
                     <option :value="null"></option>
-                    
-                    <option v-for="(month, index) in months" :value="(index + 1)" v-text="month"></option>
+
+                    <option v-for="(month, index) in months" :value="(index + 1)" v-text="trans('months.' + month)"></option>
                 </b-select>
             </b-field>
 

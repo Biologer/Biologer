@@ -31,7 +31,8 @@ let gmapsConfig = {};
 if (window.App && window.App.gmaps && window.App.gmaps.load) {
     gmapsConfig.load = {
         key: window.App.gmaps.apiKey,
-        libraries: 'drawing'
+        libraries: 'drawing',
+        language: window.App.locale
     }
 }
 Vue.use(VueGoogleMaps, gmapsConfig);

@@ -22,7 +22,7 @@
                         v-model="form.roles_ids"
                         :native-value="role.id"
                     >
-                        {{ role.name }}
+                        {{ trans('roles.' + role.name) }}
                     </b-checkbox>
                 </div>
             </b-field>
