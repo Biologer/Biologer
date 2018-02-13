@@ -16,8 +16,8 @@ class ConservationListsTableSeeder extends Seeder
             ConservationList::create([
                 'slug' => 'serbia-1',
                 'en' => ['name' => 'Serbia 1', 'description' => 'Code of regulations on declaration and protection of strictly protected and protected wild species of plants, animals and fungi'],
-                'sr-Latn' => ['name' => 'Zaštićena u Srbiji', 'description' => 'Prilog 1 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gliva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
-                'sr' => ['name' => 'Заштићена у Србији', 'description' => 'Прилог 2 Правилника о проглашењу и заштити строго заштићених и заштићених дивљих врста биљака, животиња и глива ("Службени гласник РС", бр 5/2010 и 47/2011)'],
+                'sr-Latn' => ['name' => 'Zaštićena (RS)', 'description' => 'Prilog 1 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gliva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
+                'sr' => ['name' => 'Заштићена (РС)', 'description' => 'Прилог 2 Правилника о проглашењу и заштити строго заштићених и заштићених дивљих врста биљака, животиња и глива ("Службени гласник РС", бр 5/2010 и 47/2011)'],
             ]);
         });
 
@@ -25,8 +25,8 @@ class ConservationListsTableSeeder extends Seeder
             ConservationList::create([
                 'slug' => 'serbia-2',
                 'en' => ['name' => 'Serbia 2', 'description' => 'Code of regulations on declaration and protection of strictly protected and protected wild species of plants, animals and fungi'],
-                'sr-Latn' => ['name' => 'Strogo zaštićena u Srbiji', 'description' => 'Prilog 2 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gliva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
-                'sr' => ['name' => 'Строго заштићена у Србији', 'description' => 'Прилог 2 Правилника о проглашењу и заштити строго заштићених и заштићених дивљих врста биљака, животиња и глива ("Службени гласник РС", бр 5/2010 и 47/2011)'],
+                'sr-Latn' => ['name' => 'Strogo zaštićena (RS)', 'description' => 'Prilog 2 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gliva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
+                'sr' => ['name' => 'Строго заштићена (РС)', 'description' => 'Прилог 2 Правилника о проглашењу и заштити строго заштићених и заштићених дивљих врста биљака, животиња и глива ("Службени гласник РС", бр 5/2010 и 47/2011)'],
             ]);
         });
 
@@ -51,18 +51,18 @@ class ConservationListsTableSeeder extends Seeder
         ConservationList::where(['slug' => 'bern-convention'])->firstOr(function () {
             ConservationList::create([
                 'slug' => 'bern-convention',
-                'en' => ['name' => 'Bern Convention', 'description' => 'Convention on the Conservation of European Wildlife and Natural Habitats'],
-                'sr-Latn' => ['name' => 'Bernska konvencija', 'description' => 'Konvencija o očuvanju evropske divlje flore, faune i prirodnih staništa'],
-                'sr' => ['name' => 'Бернска конвенција', 'description' => 'Конвенција о очувању европске дивље флоре, фауне и природних станишта'],
+                'en' => ['name' => 'Bern', 'description' => 'Convention on the Conservation of European Wildlife and Natural Habitats'],
+                'sr-Latn' => ['name' => 'Bern', 'description' => 'Konvencija o očuvanju evropske divlje flore, faune i prirodnih staništa'],
+                'sr' => ['name' => 'Берн', 'description' => 'Конвенција о очувању европске дивље флоре, фауне и природних станишта'],
             ]);
         });
 
         ConservationList::where(['slug' => 'cites-convention'])->firstOr(function () {
             ConservationList::create([
                 'slug' => 'cites-convention',
-                'en' => ['name' => 'CITES Convention', 'description' => 'Convention on International Trade in Endangered Species of Wild Fauna and Flora'],
-                'sr-Latn' => ['name' => 'CITES konvencija', 'description' => 'Konvencija o međunarodnoj trgovini ugroženim divljim vrstama biljaka i životinja'],
-                'sr' => ['name' => 'ЦИТЕС конвенција', 'description' => 'Конвенција о међународној трговини угроженим дивљим врстама биљака и животиња'],
+                'en' => ['name' => 'CITES', 'description' => 'Convention on International Trade in Endangered Species of Wild Fauna and Flora'],
+                'sr-Latn' => ['name' => 'CITES', 'description' => 'Konvencija o međunarodnoj trgovini ugroženim divljim vrstama biljaka i životinja'],
+                'sr' => ['name' => 'ЦИТЕС', 'description' => 'Конвенција о међународној трговини угроженим дивљим врстама биљака и животиња'],
             ]);
         });
 
@@ -70,8 +70,8 @@ class ConservationListsTableSeeder extends Seeder
             ConservationList::create([
                 'slug' => 'pba',
                 'en' => ['name' => 'PBA', 'description' => 'Prime Butterfly Areas'],
-                'sr-Latn' => ['name' => 'PBA', 'description' => 'Primarna područja za dnevne leptire'],
-                'sr' => ['name' => 'ПБА', 'description' => 'Примарна подручја за дневне лептире'],
+                'sr-Latn' => ['name' => 'PBA', 'description' => 'Odabrana područja za dnevne leptire'],
+                'sr' => ['name' => 'ПБА', 'description' => 'Одабрана подручја за дневне лептире'],
             ]);
         });
     }

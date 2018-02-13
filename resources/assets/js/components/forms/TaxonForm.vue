@@ -121,18 +121,19 @@
 
         <b-field :label="trans('labels.taxa.conservation_lists')" v-if="conservationLists.length">
             <div class="block">
-              <b-tooltip :label="conservationList.description"
-                  v-for="conservationList in conservationLists"
-                  :key="conservationList.id"
-                  class="mr-2"
-                  multilined>
-                  <b-checkbox
-                      v-model="form.conservation_lists_ids"
-                      :native-value="conservationList.id"
-                  >
-                      {{ conservationList.name }}
-                  </b-checkbox>
-              </b-tooltip>
+                <div class="columns is-multiline is-gapless">
+                    <div class="column is-half" v-for="conservationList in conservationLists" :key="conservationList.id">
+                        <b-tooltip :label="conservationList.description"
+                            multilined>
+                            <b-checkbox
+                                v-model="form.conservation_lists_ids"
+                                :native-value="conservationList.id"
+                            >
+                                {{ conservationList.name }}
+                            </b-checkbox>
+                        </b-tooltip>
+                    </div>
+                </div>
             </div>
         </b-field>
 
