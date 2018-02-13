@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ConservationListTranslation extends Model
+class ConservationDocumentTranslation extends Model
 {
     /**
      * Indicates if the model should be timestamped.
@@ -18,5 +18,5 @@ class ConservationListTranslation extends Model
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'description'];
 }

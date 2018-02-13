@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateConservationListTranslationsTable extends Migration
+class CreateConservationLegislationTranslationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,19 @@ class CreateConservationListTranslationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('conservation_list_translations', function (Blueprint $table) {
+        Schema::create('conservation_legislation_translations', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('list_id');
+            $table->unsignedInteger('leg_id');
             $table->string('locale');
             $table->string('name');
             $table->string('description')->nullable();
 
-            $table->foreign('list_id')
+            $table->foreign('leg_id')
                   ->references('id')
-                  ->on('conservation_lists')
+                  ->on('conservation_legislations')
                   ->onDelete('cascade');
 
-            $table->unique(['list_id', 'locale']);
+            $table->unique(['leg_id', 'locale']);
         });
     }
 
@@ -36,6 +36,6 @@ class CreateConservationListTranslationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conservation_list_translations');
+        Schema::dropIfExists('conservation_legislation_translations');
     }
 }

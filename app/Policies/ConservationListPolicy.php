@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\User;
-use App\ConservationList;
+use App\ConservationLegislation;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ConservationListPolicy
+class ConservationLegislationPolicy
 {
     use HandlesAuthorization;
 
@@ -14,10 +14,10 @@ class ConservationListPolicy
      * Determine whether the user can view the conservation list.
      *
      * @param  \App\User  $user
-     * @param  \App\ConservationList  $conservationList
+     * @param  \App\ConservationLegislation  $conservationLegislation
      * @return mixed
      */
-    public function view(User $user, ConservationList $conservationList)
+    public function view(User $user, ConservationLegislation $conservationLegislation)
     {
         return $user->hasAnyRole(['admin', 'curator']);
     }
@@ -37,10 +37,10 @@ class ConservationListPolicy
      * Determine whether the user can update the conservation list.
      *
      * @param  \App\User  $user
-     * @param  \App\ConservationList  $conservationList
+     * @param  \App\ConservationLegislation  $conservationLegislation
      * @return mixed
      */
-    public function update(User $user, ConservationList $conservationList)
+    public function update(User $user, ConservationLegislation $conservationLegislation)
     {
         return $user->hasAnyRole(['admin']);
     }
@@ -49,10 +49,10 @@ class ConservationListPolicy
      * Determine whether the user can delete the conservation list.
      *
      * @param  \App\User  $user
-     * @param  \App\ConservationList  $conservationList
+     * @param  \App\ConservationLegislation  $conservationLegislation
      * @return mixed
      */
-    public function delete(User $user, ConservationList $conservationList)
+    public function delete(User $user, ConservationLegislation $conservationLegislation)
     {
         return $user->hasAnyRole(['admin']);
     }

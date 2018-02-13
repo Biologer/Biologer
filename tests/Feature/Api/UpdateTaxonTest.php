@@ -7,8 +7,9 @@ use App\Stage;
 use App\Taxon;
 use App\RedList;
 use Tests\TestCase;
-use App\ConservationList;
+use App\ConservationDocument;
 use Laravel\Passport\Passport;
+use App\ConservationLegislation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UpdateTaxonTest extends TestCase
@@ -34,7 +35,8 @@ class UpdateTaxonTest extends TestCase
             'allochthonous' => false,
             'invasive' => false,
             'stages_ids' => [],
-            'conservation_lists_ids' => [],
+            'conservation_legislations_ids' => [],
+            'conservation_documents_ids' => [],
             'red_lists_ids' => [],
             'native_name' => [
                 app()->getLocale() => 'oak longhorn beetle',
@@ -77,6 +79,7 @@ class UpdateTaxonTest extends TestCase
     /** @test */
     public function user_with_the_role_of_admin_can_update_taxon()
     {
+        $this->withoutExceptionHandling();
         $taxon = factory(Taxon::class)->create([
             'name' => 'Cerambyx cerdo',
             'restricted' => false,
@@ -85,7 +88,8 @@ class UpdateTaxonTest extends TestCase
         ]);
         Passport::actingAs(factory(User::class)->create()->assignRole('admin'));
         $stages = factory(Stage::class, 2)->create();
-        $conservationLists = factory(ConservationList::class, 2)->create();
+        $conservationLegislations = factory(ConservationLegislation::class, 2)->create();
+        $conservationDocuments = factory(ConservationDocument::class, 2)->create();
         $redLists = factory(RedList::class, 2)->create();
 
         $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
@@ -94,7 +98,8 @@ class UpdateTaxonTest extends TestCase
             'allochthonous' => true,
             'invasive' => true,
             'stages_ids' => $stages->pluck('id')->all(),
-            'conservation_lists_ids' => $conservationLists->pluck('id')->all(),
+            'conservation_legislations_ids' => $conservationLegislations->pluck('id')->all(),
+            'conservation_documents_ids' => $conservationDocuments->pluck('id')->all(),
             'red_lists_data' => $redLists->map(function ($redList) {
                 return ['red_list_id' => $redList->id, 'category' => 'EN'];
             })->all(),
@@ -114,7 +119,8 @@ class UpdateTaxonTest extends TestCase
         $this->assertEquals($taxon->native_name, 'oak longhorn beetle');
         $this->assertEquals($taxon->description, 'test description');
         $taxon->stages->assertEquals($stages);
-        $taxon->conservationLists->assertEquals($conservationLists);
+        $taxon->conservationLegislations->assertEquals($conservationLegislations);
+        $taxon->conservationDocuments->assertEquals($conservationDocuments);
         $taxon->redLists->assertEquals($redLists);
     }
 

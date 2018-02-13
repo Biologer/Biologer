@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Stage;
 use App\Taxon;
 use App\RedList;
-use App\ConservationList;
+use App\ConservationDocument;
 use Illuminate\Validation\Rule;
+use App\ConservationLegislation;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaxonResource;
 
@@ -40,7 +41,9 @@ class TaxaController extends Controller
      */
     public function show(Taxon $taxon)
     {
-        return new TaxonResource($taxon->load(['conservationLists', 'redLists']));
+        return new TaxonResource($taxon->load([
+            'conservationLegislations', 'redLists', 'conservationDocuments',
+        ]));
     }
 
     /**
@@ -64,10 +67,11 @@ class TaxaController extends Controller
             'invasive' => ['boolean'],
             'stages_ids' => ['nullable', 'array'],
             'stages_ids.*' => ['required', Rule::in(Stage::pluck('id')->all())],
-            'conservation_lists_ids' => ['nullable', 'array'],
-            'conservation_lists_ids.*' => [
-                'required',
-                Rule::in(ConservationList::pluck('id')->all()),
+            'conservation_legislations_ids' => [
+                'nullable', 'array', Rule::in(ConservationLegislation::pluck('id')->all()),
+            ],
+            'conservation_documents_ids' => [
+                'nullable', 'array', Rule::in(ConservationDocument::pluck('id')->all()),
             ],
             'red_lists_data' => ['nullable', 'array'],
             'red_lists_data.*' => ['array'],
@@ -91,7 +95,8 @@ class TaxaController extends Controller
         ])));
 
         $taxon->stages()->sync(request('stages_ids', []));
-        $taxon->conservationLists()->sync(request('conservation_lists_ids', []));
+        $taxon->conservationLegislations()->sync(request('conservation_legislations_ids', []));
+        $taxon->conservationDocuments()->sync(request('conservation_documents_ids', []));
         $taxon->redLists()->sync(
             $this->mapRedListsData(request('red_lists_data', []))
         );
@@ -120,8 +125,12 @@ class TaxaController extends Controller
             'invasive' => ['boolean'],
             'stages_ids' => ['nullable', 'array'],
             'stages_ids.*' => ['required', Rule::in(Stage::pluck('id')->all())],
-            'conservation_lists_ids' => ['nullable', 'array'],
-            'conservation_lists_ids.*' => ['required', Rule::in(ConservationList::pluck('id')->all())],
+            'conservation_legislations_ids' => [
+                'nullable', 'array', Rule::in(ConservationLegislation::pluck('id')->all()),
+            ],
+            'conservation_documents_ids' => [
+                'nullable', 'array', Rule::in(ConservationDocument::pluck('id')->all()),
+            ],
             'red_lists_data' => ['nullable', 'array'],
             'red_lists_data.*' => ['array'],
             'red_lists_data.*.red_list_id' => [
@@ -144,7 +153,8 @@ class TaxaController extends Controller
         ])));
 
         $taxon->stages()->sync(request('stages_ids', []));
-        $taxon->conservationLists()->sync(request('conservation_lists_ids', []));
+        $taxon->conservationLegislations()->sync(request('conservation_legislations_ids', []));
+        $taxon->conservationDocuments()->sync(request('conservation_documents_ids', []));
         $taxon->redLists()->sync(
             $this->mapRedListsData(request('red_lists_data', []))
         );

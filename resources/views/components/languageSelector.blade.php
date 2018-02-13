@@ -1,4 +1,4 @@
-<b-dropdown position="is-top-right" class="is-right" v-cloke>
+<b-dropdown position="is-top-right" class="is-right" v-cloak>
     <button class="button" slot="trigger">
         <span>{{ LaravelLocalization::getCurrentLocaleNative() }}</span>
         <b-icon icon="angle-up"></b-icon>

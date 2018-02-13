@@ -98,14 +98,14 @@ export default {
             };
 
             if (this.except) {
-                params.except = this.except
+                params.except = this.except;
             }
 
             axios.get(route('api.taxa.index'), { params }).then(({ data }) => {
-                data.data.forEach((item) => this.data.push(item))
-                this.loading = false
+                data.data.forEach((item) => this.data.push(item));
+                this.loading = false;
             }, response => {
-                this.loading = false
+                this.loading = false;
             });
         }, 500),
 

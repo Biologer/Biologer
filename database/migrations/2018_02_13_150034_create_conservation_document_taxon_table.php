@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateConservationListTaxonTable extends Migration
+class CreateConservationDocumentTaxonTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateConservationListTaxonTable extends Migration
      */
     public function up()
     {
-        Schema::create('conservation_list_taxon', function (Blueprint $table) {
-            $table->unsignedInteger('conservation_list_id');
+        Schema::create('conservation_document_taxon', function (Blueprint $table) {
+            $table->unsignedInteger('doc_id');
             $table->unsignedInteger('taxon_id');
 
-            $table->primary(['conservation_list_id', 'taxon_id']);
+            $table->primary(['doc_id', 'taxon_id']);
 
-            $table->foreign('conservation_list_id')
+            $table->foreign('doc_id')
                 ->references('id')
-                ->on('conservation_lists')
+                ->on('conservation_documents')
                 ->onDelete('cascade');
 
             $table->foreign('taxon_id')
@@ -38,6 +38,6 @@ class CreateConservationListTaxonTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conservation_list_taxon');
+        Schema::dropIfExists('conservation_document_taxon');
     }
 }

@@ -5,11 +5,11 @@ namespace App;
 use Dimsav\Translatable\Translatable;
 use App\Concerns\HasTranslatableAttributes;
 
-class ConservationList extends Model
+class ConservationLegislation extends Model
 {
     use Translatable, HasTranslatableAttributes;
 
-    protected $translationForeignKey = 'list_id';
+    protected $translationForeignKey = 'leg_id';
 
     /**
      * The relations to eager load on every query.

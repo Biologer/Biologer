@@ -119,17 +119,35 @@
             </div>
         </b-field>
 
-        <b-field :label="trans('labels.taxa.conservation_lists')" v-if="conservationLists.length">
+        <b-field :label="trans('labels.taxa.conservation_legislations')" v-if="conservationLegislations.length">
             <div class="block">
                 <div class="columns is-multiline is-gapless">
-                    <div class="column is-half" v-for="conservationList in conservationLists" :key="conservationList.id">
-                        <b-tooltip :label="conservationList.description"
+                    <div class="column is-half" v-for="conservationLegislation in conservationLegislations" :key="conservationLegislation.id">
+                        <b-tooltip :label="conservationLegislation.description"
                             multilined>
                             <b-checkbox
-                                v-model="form.conservation_lists_ids"
-                                :native-value="conservationList.id"
+                                v-model="form.conservation_legislations_ids"
+                                :native-value="conservationLegislation.id"
                             >
-                                {{ conservationList.name }}
+                                {{ conservationLegislation.name }}
+                            </b-checkbox>
+                        </b-tooltip>
+                    </div>
+                </div>
+            </div>
+        </b-field>
+
+        <b-field :label="trans('labels.taxa.conservation_documents')" v-if="conservationDocuments.length">
+            <div class="block">
+                <div class="columns is-multiline is-gapless">
+                    <div class="column is-half" v-for="conservationDocument in conservationDocuments" :key="conservationDocument.id">
+                        <b-tooltip :label="conservationDocument.description"
+                            multilined>
+                            <b-checkbox
+                                v-model="form.conservation_documents_ids"
+                                :native-value="conservationDocument.id"
+                            >
+                                {{ conservationDocument.name }}
                             </b-checkbox>
                         </b-tooltip>
                     </div>
@@ -224,7 +242,8 @@ export default {
                     author: null,
                     fe_id: null,
                     fe_old_id: null,
-                    conservation_lists: [],
+                    conservation_legislations: [],
+                    conservation_documents: [],
                     red_lists: [],
                     stages: [],
                     restricted: false,
@@ -235,7 +254,8 @@ export default {
             }
         },
         ranks: Array,
-        conservationLists: Array,
+        conservationLegislations: Array,
+        conservationDocuments: Array,
         redListCategories: Array,
         redLists: {
             type: Array,
@@ -257,7 +277,8 @@ export default {
             form: new Form({
                 ...this.taxon,
                 stages_ids: this.taxon.stages.map(stage => stage.id),
-                conservation_lists_ids: this.taxon.conservation_lists.map(conservationList => conservationList.id),
+                conservation_legislations_ids: this.taxon.conservation_legislations.map(conservationLegislation => conservationLegislation.id),
+                conservation_documents_ids: this.taxon.conservation_documents.map(conservationDocument => conservationDocument.id),
                 red_lists_data: this.taxon.red_lists.map(redList => {
                   return { red_list_id: redList.id, category: redList.pivot.category }
                 }),

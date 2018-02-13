@@ -13,7 +13,13 @@ $factory->define(App\Taxon::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\ConservationList::class, function (Faker $faker) {
+$factory->define(App\ConservationLegislation::class, function (Faker $faker) {
+    return [
+        'slug' => $faker->unique()->city,
+    ];
+});
+
+$factory->define(App\ConservationDocument::class, function (Faker $faker) {
     return [
         'slug' => $faker->unique()->city,
     ];

@@ -164,9 +164,29 @@ class Taxon extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function conservationLists()
+    public function conservationLegislations()
     {
-        return $this->belongsToMany(ConservationList::class);
+        return $this->belongsToMany(
+            ConservationLegislation::class,
+            'conservation_legislation_taxon',
+            'taxon_id',
+            'leg_id'
+        );
+    }
+
+    /**
+     * Conservation lists by which the taxon should be protected.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function conservationDocuments()
+    {
+        return $this->belongsToMany(
+            ConservationDocument::class,
+            'conservation_document_taxon',
+            'taxon_id',
+            'doc_id'
+        );
     }
 
     /**
