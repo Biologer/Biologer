@@ -9,7 +9,7 @@ return [
     */
 
     'root' => 'Koren',
-    'kingdom' => 'Kraljevstvo',
+    'kingdom' => 'Carstvo',
     'phylum' => 'Tip',
     'subphylum' => 'Podtip',
     'superclass' => 'Nadklasa',

@@ -8,8 +8,8 @@
                     :message="form.errors.has('taxon_id') ? form.errors.first('taxon_id') : null"
                     autofocus
                     ref="taxonAutocomplete"
-                    :label="trans('labels.field_observations.taxon')">
-                </nz-taxon-autocomplete>
+                    :label="trans('labels.field_observations.taxon')"
+                    :placeholder="trans('labels.field_observations.search_for_taxon')" />
 
                 <nz-date-input
                     :data-year="form.year"
@@ -20,7 +20,11 @@
                     v-on:day-input="onDayInput"
                     :errors="form.errors"
                     :label="trans('labels.field_observations.date')"
-                ></nz-date-input>
+                    :placeholders="{
+                        year: trans('labels.field_observations.year'),
+                        month: trans('labels.field_observations.month'),
+                        day: trans('labels.field_observations.day')
+                    }" />
 
                 <b-field :label="trans('labels.field_observations.photos')">
                     <div class="columns">

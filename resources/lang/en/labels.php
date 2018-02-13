@@ -41,6 +41,7 @@ return [
         'rank' => 'Rank',
         'name' => 'Name',
         'parent' => 'Parent',
+        'author' => 'Author',
         'native_name' => 'Native Name',
         'description' => 'Description',
         'fe_old_id' => '(old) FaunaEuropea ID',
@@ -52,10 +53,14 @@ return [
         'conservation_lists' => 'Conservation Lists',
         'red_lists' => 'Red Lists',
         'add_red_list' => 'Add red list',
+        'search_for_taxon' => 'Search for taxon...',
+        'yes' => 'Yes',
+        'no' => 'No',
     ],
 
     'field_observations' => [
         'taxon' => 'Taxon',
+        'search_for_taxon' => 'Search for taxon...',
         'date' => 'Date',
         'year' => 'Year',
         'month' => 'Month',
@@ -88,5 +93,8 @@ return [
         'choose_a_value' => 'Choose a value',
         'click_to_select' => 'Click to select...',
         'status' => 'Status',
+
+        'male' => 'Male',
+        'female' => 'Female',
     ],
 ];

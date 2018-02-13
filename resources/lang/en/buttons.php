@@ -11,6 +11,7 @@ return [
     'delete' => 'Delete',
     'approve' => 'Approve',
     'unidentifiable' => 'Unidentifiable',
+    'mark_unidentifiable' => 'Mark as unidentifiable',
     'notifications' => 'Notifications',
     'announcements' => 'Announcements',
     'close' => 'Close',

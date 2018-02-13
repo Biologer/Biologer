@@ -6,6 +6,7 @@
             list-route="api.my.field-observations.index"
             edit-route="contributor.field-observations.edit"
             delete-route="api.field-observations.destroy"
+            empty="{{ __('No data...') }}"
             show-status />
     </div>
 @endsection
@@ -22,6 +23,6 @@
 @section('createButton')
     <a href="{{ route('contributor.field-observations.create') }}" class="button is-secondary is-outlined">
         @include('components.icon', ['icon' => 'plus'])
-        <span>{{ __('navigation.new') }}</span>
+        <span>{{ __('navigation.new_observation') }}</span>
     </a>
 @endsection

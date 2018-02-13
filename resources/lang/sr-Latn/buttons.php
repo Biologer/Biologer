@@ -11,6 +11,7 @@ return [
     'delete' => 'Obriši',
     'approve' => 'Odobri',
     'unidentifiable' => 'Nije moguće identifikovati',
+    'mark_unidentifiable' => 'Označi da nije moguća identifikacija',
     'notifications' => 'Obaveštenja',
     'announcements' => 'Objave',
     'close' => 'Zatvori',

@@ -6,7 +6,8 @@
             list-route="api.taxa.index"
             edit-route="admin.taxa.edit"
             delete-route="api.taxa.destroy"
-            :ranks="{{ json_encode(\App\Taxon::getRankOptions()) }}">
+            :ranks="{{ json_encode(\App\Taxon::getRankOptions()) }}"
+            empty="{{ __('No data...') }}">
         </nz-taxa-table>
     </div>
 @endsection
@@ -23,6 +24,6 @@
 @section('createButton')
     <a href="{{ route('admin.taxa.create') }}" class="button is-secondary is-outlined">
         @include('components.icon', ['icon' => 'plus'])
-        <span>{{ __('navigation.new') }}</span>
+        <span>{{ __('navigation.add') }}</span>
     </a>
 @endsection

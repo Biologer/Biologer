@@ -228,8 +228,9 @@ export default {
 
         confirmRemove(row) {
             this.$dialog.confirm({
-                message: 'Are you sure you want to delete this record?',
-                confirmText: 'Remove',
+                message: this.trans('Are you sure you want to delete this record?'),
+                confirmText: this.trans('buttons.delete'),
+                cancelText: this.trans('buttons.cancel'),
                 type: 'is-danger',
                 onConfirm: () => { this.remove(row) }
             })
@@ -238,7 +239,7 @@ export default {
         remove (row) {
             return axios.delete(route(this.deleteRoute, row.id)).then(response => {
                 this.$toast.open({
-                    message: 'Record deleted',
+                    message: this.trans('Record deleted'),
                     type: 'is-success'
                 });
 
@@ -262,8 +263,9 @@ export default {
 
         confirmApprove() {
             this.$dialog.confirm({
-                message: 'You are about to approve checked observations.<br/>Those of them that cannot be approved, will not be approved.',
-                confirmText: 'Approve',
+                message: this.trans('You are about to approve checked observations.<br/>Those of them that cannot be approved, will not be approved.'),
+                confirmText: this.trans('buttons.approve'),
+                cancelText: this.trans('buttons.cancel'),
                 type: 'is-primary',
                 onConfirm: this.approve.bind(this)
             })
@@ -282,7 +284,7 @@ export default {
             this.approving = false;
 
             this.$toast.open({
-                message: 'Observations have been approved',
+                message: this.trans('Observations have been approved'),
                 type: 'is-success'
             });
 
@@ -293,7 +295,7 @@ export default {
             this.approving = false;
 
             this.$toast.open({
-                message: 'Observations cannot be approved',
+                message: this.trans('Observations cannot be approved'),
                 type: 'is-danger',
                 duration: 5000
             });
@@ -301,8 +303,9 @@ export default {
 
         confirmMarkingAsUnidentifiable() {
             this.$dialog.confirm({
-                message: 'You are about to mark checked observations as unidentifiable. If some of them cannot be marked as unidentifiable none will be.',
-                confirmText: 'Mark as unidentifiable',
+                message: this.trans('You are about to mark checked observations as unidentifiable.'),
+                confirmText: this.trans('buttons.mark_unidentifiable'),
+                cancelText: this.trans('buttons.cancel'),
                 type: 'is-warning',
                 onConfirm: this.markAsUnidentifiable.bind(this)
             })
@@ -321,7 +324,7 @@ export default {
             this.checkedRows = [];
             this.markingAsUnidentifiable = false;
             this.$toast.open({
-                message: 'Observations have been marked as unidentifiable',
+                message: this.trans('Observations have been marked as unidentifiable'),
                 type: 'is-success'
             });
             this.loadAsyncData();
@@ -330,7 +333,7 @@ export default {
         failedToMarkAsUnidentifiable(error) {
             this.markingAsUnidentifiable = false;
             this.$toast.open({
-                message: 'Some of the observations cannot be marked as unidentifiable',
+                message: this.trans('Some of the observations cannot be marked as unidentifiable'),
                 type: 'is-danger',
                 duration: 5000
             });

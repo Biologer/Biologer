@@ -56,6 +56,7 @@ class TaxaController extends Controller
             'name' => ['required', 'unique:taxa,name'],
             'parent_id' => ['nullable', 'exists:taxa,id'],
             'rank' => ['required', Rule::in(array_keys(Taxon::RANKS))],
+            'author' => ['nullable', 'string'],
             'fe_old_id' => ['nullable', 'integer'],
             'fe_id' => ['nullable'],
             'restricted' => ['boolean'],
@@ -84,7 +85,7 @@ class TaxaController extends Controller
 
         $taxon = Taxon::create(array_merge(request([
             'name', 'parent_id', 'rank', 'fe_old_id', 'fe_id', 'restricted',
-            'allochthonous', 'invasive',
+            'allochthonous', 'invasive', 'author',
         ]), $this->mapTranslatedAttributes(request()->all(), [
             'description', 'native_name',
         ])));
@@ -111,6 +112,7 @@ class TaxaController extends Controller
             'name' => ['required', Rule::unique('taxa', 'name')->ignore($taxon->id)],
             'parent_id' => ['nullable', 'exists:taxa,id'],
             'rank' => ['required', Rule::in(array_keys(Taxon::RANKS))],
+            'author' => ['nullable', 'string'],
             'fe_old_id' => ['nullable', 'integer'],
             'fe_id' => ['nullable'],
             'restricted' => ['boolean'],
@@ -136,7 +138,7 @@ class TaxaController extends Controller
 
         $taxon->update(array_merge(request([
             'name', 'parent_id', 'rank', 'fe_old_id', 'fe_id', 'restricted',
-            'allochthonous', 'invasive',
+            'allochthonous', 'invasive', 'author',
         ]), $this->mapTranslatedAttributes(request()->all(), [
             'description', 'native_name',
         ])));

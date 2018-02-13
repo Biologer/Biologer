@@ -9,6 +9,7 @@
                     :message="form.errors.first('parent_id')"
                     :taxon="taxon.parent || null"
                     :except="taxon.id"
+                    :placeholder="trans('labels.taxa.search_for_taxon')"
                     autofocus />
             </div>
 
@@ -24,7 +25,7 @@
                 <b-field :label="trans('labels.taxa.rank')"
                     :type="form.errors.has('rank') ? 'is-danger' : ''"
                     :message="form.errors.has('rank') ? form.errors.first('rank') : ''">
-                    <b-select placeholder="Select rank" v-model="form.rank" expanded>
+                    <b-select v-model="form.rank" expanded>
                         <option
                             v-for="(rank, index) in rankOptions"
                             :value="rank.value"
@@ -35,11 +36,17 @@
             </div>
         </div>
 
+        <b-field :label="trans('labels.taxa.author')"
+            :type="form.errors.has('author') ? 'is-danger' : ''"
+            :message="form.errors.has('author') ? form.errors.first('author') : ''">
+            <b-input v-model="form.author" />
+        </b-field>
+
         <hr>
 
         <b-field :label="trans('labels.taxa.native_name')">
             <b-tabs size="is-small" class="block">
-                <b-tab-item :label="data.name" v-for="(data, locale) in supportedLocales" :key="locale">
+                <b-tab-item :label="trans('languages.' + data.name)" v-for="(data, locale) in supportedLocales" :key="locale">
                     <b-input v-model="form.native_name[locale]" />
                 </b-tab-item>
             </b-tabs>
@@ -47,7 +54,7 @@
 
         <b-field :label="trans('labels.taxa.description')">
             <b-tabs size="is-small" class="block">
-                <b-tab-item :label="data.name" v-for="(data, locale) in supportedLocales" :key="locale">
+                <b-tab-item :label="trans('languages.' + data.name)" v-for="(data, locale) in supportedLocales" :key="locale">
                     <b-input type="textarea" v-model="form.description[locale]" />
                 </b-tab-item>
             </b-tabs>
@@ -78,7 +85,7 @@
                 <b-field :label="trans('labels.taxa.restricted')">
                     <div class="field">
                         <b-switch v-model="form.restricted">
-                            {{ form.restricted ? 'Yes' : 'No' }}
+                            {{ form.restricted ? trans('labels.taxa.yes') : trans('labels.taxa.no') }}
                         </b-switch>
                     </div>
                 </b-field>
@@ -86,14 +93,14 @@
             <div class="column">
                 <b-field :label="trans('labels.taxa.allochthonous')">
                     <b-switch v-model="form.allochthonous">
-                        {{ form.allochthonous ? 'Yes' : 'No' }}
+                        {{ form.allochthonous ? trans('labels.taxa.yes') : trans('labels.taxa.no') }}
                     </b-switch>
                 </b-field>
             </div>
             <div class="column">
                 <b-field :label="trans('labels.taxa.invasive')">
                     <b-switch v-model="form.invasive">
-                        {{ form.invasive ? 'Yes' : 'No' }}
+                        {{ form.invasive ? trans('labels.taxa.yes') : trans('labels.taxa.no') }}
                     </b-switch>
                 </b-field>
             </div>
@@ -107,7 +114,7 @@
                     v-model="form.stages_ids"
                     :native-value="stage.id"
                 >
-                    {{ stage.name }}
+                    {{ trans('stages.' + stage.name) }}
                 </b-checkbox>
             </div>
         </b-field>
@@ -209,6 +216,7 @@ export default {
                     parent_id: null,
                     rank: 'species',
                     rank_level: 10,
+                    author: null,
                     fe_id: null,
                     fe_old_id: null,
                     conservation_lists: [],

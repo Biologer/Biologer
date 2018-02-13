@@ -1,4 +1,4 @@
-<b-dropdown position="is-top-right" class="is-right">
+<b-dropdown position="is-top-right" class="is-right" v-cloke>
     <button class="button" slot="trigger">
         <span>{{ LaravelLocalization::getCurrentLocaleNative() }}</span>
         <b-icon icon="angle-up"></b-icon>
@@ -9,8 +9,6 @@
             rel="alternate"
             hreflang="{{ $localeCode }}"
             class="dropdown-item"
-        >
-            {{ $properties['native'] }}
-        </a>
+        >{{ __('languages.'.$properties['name']) }} ({{ $properties['native'] }})</a>
     @endforeach
 </b-dropdown>

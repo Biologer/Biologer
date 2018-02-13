@@ -3,5 +3,14 @@
     "Some fields have errors": "Some fields have errors",
     "Saved successfully": "Saved successfully",
     "Changes to license preferences will act as defaults for newly added observations and photos, and will not affect old entries.": "Changes to license preferences will act as defaults for newly added observations and photos, and will not affect old entries.",
-    "Note": "Note"
+    "Note": "Note",
+    "No data...": "No data...",
+    "Are you sure you want to delete this record?": "Are you sure you want to delete this record?",
+    "Record deleted": "Record deleted",
+    "You are about to approve checked observations.<br/>Those of them that cannot be approved, will not be approved.": "You are about to approve checked observations.<br/>Those of them that cannot be approved, will not be approved.",
+    "Observations have been approved": "Observations have been approved",
+    "Observations cannot be approved": "Observations cannot be approved",
+    "You are about to mark checked observations as unidentifiable.": "You are about to mark checked observations as unidentifiable.",
+    "Observations have been marked as unidentifiable": "Observations have been marked as unidentifiable",
+    "Some of the observations cannot be marked as unidentifiable": "Some of the observations cannot be marked as unidentifiable"
 }

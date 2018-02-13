@@ -19,6 +19,7 @@ class CreateTaxaTable extends Migration
             $table->string('name')->unique();
             $table->string('rank')->index();
             $table->unsignedInteger('rank_level')->index();
+            $table->string('author')->nullable();
             $table->string('ancestry');
             $table->unsignedInteger('fe_old_id')->nullable();
             $table->string('fe_id')->nullable();

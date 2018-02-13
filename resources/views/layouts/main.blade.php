@@ -63,7 +63,7 @@
                                         class="navbar-item"
                                         onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
-                                        {{ trans('navbar.logout') }}
+                                        {{ trans('navigation.logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -100,7 +100,7 @@
         <div class="container">
             <div class="level">
                 <div class="level-left"></div>
-                
+
                 <div class="level-right">
                     @include('components.languageSelector')
                 </div>

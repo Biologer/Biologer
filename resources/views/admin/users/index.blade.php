@@ -3,9 +3,9 @@
 @section('content')
     <div class="box">
         <nz-users-table list-route="api.users.index"
-        edit-route="admin.users.edit"
-        delete-route="api.users.destroy"
-        ></nz-users-table>
+            edit-route="admin.users.edit"
+            delete-route="api.users.destroy"
+            empty="{{ __('No data...') }}" />
     </div>
 @endsection
 

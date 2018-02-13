@@ -5,7 +5,7 @@ return [
     'actions' => 'Акције',
 
     'login' => [
-        'email' => 'Email',
+        'email' => 'Е-пошта',
         'password' => 'Лозинка',
         'forgot_password' => 'Заборавили сте лозинку?',
         'remember_me' => 'Запамти ме',
@@ -14,18 +14,18 @@ return [
     'register' => [
         'first_name' => 'Име',
         'last_name' => 'Презиме',
-        'email' => 'Email',
+        'email' => 'Е-пошта',
         'password' => 'Лозинка',
         'password_confirmation' => 'Поновите лозинку',
         'verification_code' => 'Верификациони код',
     ],
 
     'forgot_password' => [
-        'email' => 'Email',
+        'email' => 'Е-пошта',
     ],
 
     'reset_password' => [
-        'email' => 'E-Mail адреса',
+        'email' => 'Адреса е-поште',
         'password' => 'Лозинка',
         'password_confirmation' => 'Потврдите лозинку',
     ],
@@ -41,6 +41,7 @@ return [
         'rank' => 'Таксономска категорија',
         'name' => 'Назив',
         'parent' => 'Родитељски таксон',
+        'author' => 'Аутор',
         'native_name' => 'Народни назив',
         'description' => 'Опис',
         'fe_old_id' => '(стара) FaunaEuropea ID',
@@ -48,14 +49,18 @@ return [
         'restricted' => 'Да ли су подаци ограничени',
         'allochthonous' => 'Да ли је алохтон?',
         'invasive' => 'Да ли је инвазиван?',
-        'stages' => 'Stadijumi',
-        'conservation_lists' => 'Konservacione liste',
-        'red_lists' => 'Crvene liste',
-        'add_red_list' => 'Dodaj crvenu listu',
+        'stages' => 'Стадијуми',
+        'conservation_lists' => 'Законска заштита',
+        'red_lists' => 'Црене листе',
+        'add_red_list' => 'Додај црвену листу',
+        'search_for_taxon' => 'Тражи таксон...',
+        'yes' => 'Да',
+        'no' => 'Не',
     ],
 
     'field_observations' => [
         'taxon' => 'Таксон',
+        'search_for_taxon' => 'Тражи таксон...',
         'date' => 'Датум',
         'year' => 'Година',
         'month' => 'Месец',
@@ -88,5 +93,8 @@ return [
         'choose_a_value' => 'Одаберите вредност',
         'click_to_select' => 'Кликнитекако бисте одабрали...',
         'status' => 'Статус',
+
+        'male' => 'Мужјак',
+        'female' => 'Женка',
     ],
 ];

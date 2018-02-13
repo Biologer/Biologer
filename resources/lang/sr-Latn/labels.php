@@ -5,7 +5,7 @@ return [
     'actions' => 'Akcije',
 
     'login' => [
-        'email' => 'Email',
+        'email' => 'E-pošta',
         'password' => 'Lozinka',
         'forgot_password' => 'Zaboravili ste lozinku?',
         'remember_me' => 'Zapamti me',
@@ -14,18 +14,18 @@ return [
     'register' => [
         'first_name' => 'Ime',
         'last_name' => 'Prezime',
-        'email' => 'Email',
+        'email' => 'E-pošta',
         'password' => 'Lozinka',
         'password_confirmation' => 'Ponovite lozinku',
         'verification_code' => 'Verifikacioni kod',
     ],
 
     'forgot_password' => [
-        'email' => 'Email',
+        'email' => 'E-pošta',
     ],
 
     'reset_password' => [
-        'email' => 'E-Mail adresa',
+        'email' => 'Adresa e-pošte',
         'password' => 'Lozinka',
         'password_confirmation' => 'Potvrdite lozinku',
     ],
@@ -41,6 +41,7 @@ return [
         'rank' => 'Kategorija',
         'name' => 'Naziv',
         'parent' => 'Roditeljski takson',
+        'author' => 'Autor',
         'native_name' => 'Narodni naziv',
         'description' => 'Opis',
         'fe_old_id' => '(stara) FaunaEuropea ID',
@@ -49,13 +50,17 @@ return [
         'allochthonous' => 'Da li je alohton?',
         'invasive' => 'Da li je invazivan?',
         'stages' => 'Stadijumi',
-        'conservation_lists' => 'Konzervacione liste',
+        'conservation_lists' => 'Zakonska zaštita',
         'red_lists' => 'Crvene liste',
         'add_red_list' => 'Dodaj crvenu listu',
+        'search_for_taxon' => 'Traži takson...',
+        'yes' => 'Da',
+        'no' => 'Ne',
     ],
 
     'field_observations' => [
         'taxon' => 'Takson',
+        'search_for_taxon' => 'Traži takson...',
         'date' => 'Datum',
         'year' => 'Godina',
         'month' => 'Mesec',
@@ -88,5 +93,8 @@ return [
         'choose_a_value' => 'Odaberite vrednost',
         'click_to_select' => 'Kliknite kako biste odabrali...',
         'status' => 'Status',
+
+        'male' => 'Mužjak',
+        'female' => 'Ženka',
     ],
 ];
