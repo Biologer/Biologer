@@ -9,6 +9,7 @@ class Taxon extends Model
 {
     use Concerns\CanBeCurated,
         Concerns\HasAncestry,
+        Concerns\HasTranslatableAttributes,
         Filterable,
         Translatable;
 
@@ -71,6 +72,13 @@ class Taxon extends Model
     protected $appends = ['rank_translation', 'native_name', 'description'];
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['translations'];
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -83,8 +91,6 @@ class Taxon extends Model
     ];
 
     public $translatedAttributes = ['native_name', 'description'];
-
-    protected $with = ['translations'];
 
     /**
      * Filters that can be used on queries.
@@ -233,10 +239,10 @@ class Taxon extends Model
     public function mgrs()
     {
         return $this->approvedObservations()
-            ->pluck('mgrs10k')
-            ->unique()
-            ->values()
-            ->all();
+                    ->pluck('mgrs10k')
+                    ->unique()
+                    ->values()
+                    ->all();
     }
 
     /**
@@ -253,19 +259,5 @@ class Taxon extends Model
                 'label' => trans('taxonomy.'.$rank),
             ];
         }, array_keys(static::RANKS), static::RANKS);
-    }
-
-    /**
-     * Get attribute translations forthe forms.
-     *
-     * @param  string  $attribute
-     * @return \Illuminate\Support\Collection
-     */
-    public function getAttributeTranslations($attribute)
-    {
-        return collect(\LaravelLocalization::getSupportedLanguagesKeys())
-            ->mapWithKeys(function ($locale) use ($attribute) {
-                return [$locale => $this->translateOrNew($locale)->{$attribute}];
-            });
     }
 }

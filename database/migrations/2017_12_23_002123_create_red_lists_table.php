@@ -15,7 +15,7 @@ class CreateRedListsTable extends Migration
     {
         Schema::create('red_lists', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }
