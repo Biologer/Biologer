@@ -55,15 +55,16 @@ class UsersController extends Controller
     public function update(User $user)
     {
         request()->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'roles_ids' => 'array',
+            'first_name' => ['required', 'string', 'max:191'],
+            'last_name' => ['required', 'string', 'max:191'],
+            'institution' => ['nullable', 'string', 'max:191'],
+            'roles_ids' => ['array'],
             'roles_ids.*' => [Rule::in(Role::pluck('id')->all())],
-            'curated_taxa_ids' => 'array',
+            'curated_taxa_ids' => ['array'],
             'curated_taxa_ids.*' => [Rule::in(Taxon::pluck('id')->all())],
         ]);
 
-        $user->update(request(['first_name', 'last_name']));
+        $user->update(request(['first_name', 'last_name', 'institution']));
 
         if (request()->has('roles_ids')) {
             $user->roles()->sync(request('roles_ids', []));
