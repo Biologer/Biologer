@@ -1,11 +1,11 @@
 {
     "You are receiving this email because we received a password reset request for your account.": "You are receiving this email because we received a password reset request for your account.",
     "If you did not request a password reset, no further action is required.": "If you did not request a password reset, no further action is required.",
+    "Account Verification": "Account Verification",
     "The given data was invalid.": "The given data was invalid.",
     "Some fields have errors": "Some fields have errors",
     "Saved successfully": "Saved successfully",
-    "Changes to license preferences will act as defaults for newly added observations and photos, and will not affect old entries.": "Changes to license preferences will act as defaults for newly added observations and photos, and will not affect old entries.",
-    "Note": "Note",
+    "<strong>Note:</strong> Changes to license preferences will act as defaults for newly added observations and photos, and will not affect old entries.": "<strong>Note:</strong> Changes to license preferences will act as defaults for newly added observations and photos, and will not affect old entries.",
     "No data...": "No data...",
     "Are you sure you want to delete this record?": "Are you sure you want to delete this record?",
     "Record deleted": "Record deleted",

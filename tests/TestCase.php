@@ -22,8 +22,6 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->app->setLocale('en');
-
         $this->registerMacros();
     }
 

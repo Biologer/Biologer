@@ -10,7 +10,7 @@
 
         <article class="message is-info">
             <div class="message-body">
-                <strong>{{ __('Note') }}:</strong> {{ __('Changes to license preferences will act as defaults for newly added observations and photos, and will not affect old entries.') }}
+                {!! __('<strong>Note:</strong> Changes to license preferences will act as defaults for newly added observations and photos, and will not affect old entries.') !!}
             </div>
         </article>
 

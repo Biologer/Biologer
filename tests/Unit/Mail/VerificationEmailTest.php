@@ -37,6 +37,6 @@ class VerificationEmailTest extends TestCase
     {
         $email = new VerificationEmail($this->getVerificationToken());
 
-        $this->assertEquals('Verification Email', $email->build()->subject);
+        $this->assertEquals('Account Verification', $email->build()->subject);
     }
 }

@@ -1,11 +1,11 @@
 {
     "You are receiving this email because we received a password reset request for your account.": "Добили сте овај и-мејл зато што смо примили ваш захтев за ресетовање лозинке.",
     "If you did not request a password reset, no further action is required.": "У случају да нисте послали захтев за ресетовање лозинке, није потребна било каква акција.",
+    "Account Verification": "Верификација налога",
     "The given data was invalid.": "Дати подаци нису исправни.",
     "Some fields have errors": "Нека поља имају грешке",
     "Saved successfully": "Успешно сачувано",
-    "Changes to license preferences will act as defaults for newly added observations and photos, and will not affect old entries.": "Измене у подешавањима лиценце ће бити примењена као подразумеване вредности за нове уносе и фотографије, и неће имати утицаја на старе.",
-    "Note": "Напомена",
+    "<strong>Note:</strong> Changes to license preferences will act as defaults for newly added observations and photos, and will not affect old entries.": "<strong>Напомена:</strong> Измене у подешавањима лиценце ће бити примењена као подразумеване вредности за нове уносе и фотографије, и неће имати утицаја на старе.",
     "No data...": "Нема података...",
     "Are you sure you want to delete this record?": "Да ли сте сигурни да желите обрисати овај унос?",
     "Record deleted": "Унос обрисан",

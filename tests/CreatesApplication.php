@@ -18,6 +18,8 @@ trait CreatesApplication
 
         $app->make(Kernel::class)->bootstrap();
 
+        $app->setLocale('en');
+
         Hash::setRounds(4);
 
         return $app;

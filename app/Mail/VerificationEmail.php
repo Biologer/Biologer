@@ -11,11 +11,15 @@ class VerificationEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    /**
+     * @var \App\VerificationToken
+     */
     public $verificationToken;
 
     /**
      * Create a new message instance.
      *
+     * @param \App\VerificationToken $verificationToken
      * @return void
      */
     public function __construct(VerificationToken $verificationToken)
@@ -30,8 +34,10 @@ class VerificationEmail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.auth.verification', [
+        $locale = $this->verificationToken->user->settings()->get('language');
+
+        return $this->markdown($locale.'.emails.auth.verification', [
             'verificationToken' => $this->verificationToken,
-        ])->subject('Verification Email');
+        ])->subject(__('Account Verification', [], $locale));
     }
 }
