@@ -42,15 +42,7 @@ class FieldObservation extends Model
         'found_dead' => 'boolean',
         'license' => 'integer',
         'unidentifiable' => 'boolean',
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'approved_at',
+        'approved_at' => 'datetime'
     ];
 
     protected $maps = [
@@ -385,6 +377,8 @@ class FieldObservation extends Model
             'stage_id' => $this->observation->stage_id,
             'number' => $this->observation->number,
             'note' => $this->observation->note,
+            'project' => $this->observation->project,
+            'found_on' => $this->observation->found_on,
             'found_dead' => $this->found_dead,
             'found_dead_note' => $this->found_dead_note,
             'data_license' => $this->license,

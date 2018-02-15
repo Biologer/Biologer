@@ -36,7 +36,7 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <div class="field">
+                                    <div class="field is-required">
                                         <label class="label">{{ __('labels.register.first_name') }}</label>
 
                                         <div class="control">
@@ -53,7 +53,7 @@
                                 </div>
 
                                 <div class="column">
-                                    <div class="field">
+                                    <div class="field is-required">
                                         <label class="label">{{ __('labels.register.last_name') }}</label>
 
                                         <div class="control">
@@ -70,6 +70,20 @@
                             </div>
 
                             <div class="field">
+                                <label class="label">{{ __('labels.register.institution') }}</label>
+
+                                <div class="control">
+                                    <input type="text"
+                                        name="institution"
+                                        class="input{{ $errors->has('institution') ? ' is-danger' : '' }}"
+                                        placeholder="{{ __('labels.register.institution') }}"
+                                        value="{{ old('institution') }}">
+                                </div>
+
+                                <p class="help{{ $errors->has('institution') ? ' is-danger' : '' }}">{{ $errors->first('institution') }}</p>
+                            </div>
+
+                            <div class="field is-required">
                                 <label class="label">{{ __('labels.register.email') }}</label>
 
                                 <div class="control">
@@ -85,7 +99,7 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <div class="field">
+                                    <div class="field is-required">
                                         <label class="label">{{ __('labels.register.password') }}</label>
 
                                         <div class="control">
@@ -99,7 +113,7 @@
                                     </div>
                                 </div>
                                 <div class="column">
-                                    <div class="field">
+                                    <div class="field is-required">
                                         <label class="label">{{ __('labels.register.password_confirmation') }}</label>
 
                                         <div class="control">
@@ -125,7 +139,7 @@
 
                             <hr>
 
-                            <div class="field">
+                            <div class="field is-required">
                                 <label class="label" for="captcha_verification_code">{{ __('labels.register.verification_code') }}</label>
 
                                 <div class="field">

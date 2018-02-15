@@ -88,27 +88,40 @@
         <button type="button" class="button is-text" @click="showMoreDetails = !showMoreDetails">{{ trans('labels.field_observations.more_details') }}</button>
 
         <div class="mt-4" v-show="showMoreDetails">
+            <div class="field">
+                <label for="project" class="label">
+                    <b-tooltip :label="trans('labels.field_observations.project_tooltip')" multilined dashed>
+                        {{ trans('labels.field_observations.project') }}
+                    </b-tooltip>
+                </label>
+
+                <b-input id="project" name="project" v-model="form.project" />
+
+                <p
+                    v-if="form.errors.has('project')"
+                    v-html="form.errors.first('project')"
+                    class="help"
+                    :class="{ 'is-danger': form.errors.has('project') }"
+                />
+            </div>
+
+            <b-field
+                :label="trans('labels.field_observations.found_on')"
+                :type="form.errors.has('found_on') ? 'is-danger' : null"
+                :message="form.errors.has('found_on') ? form.errors.first('found_on') : null"
+            ><b-input v-model="form.found_on" /></b-field>
+
             <b-field
                 :label="trans('labels.field_observations.note')"
                 :error="form.errors.has('note')"
                 :message="form.errors.has('note') ? form.errors.first('note') : null"
-            >
-                <b-input
-                    type="textarea"
-                    v-model="form.note"
-                ></b-input>
-            </b-field>
+            ><b-input type="textarea" v-model="form.note" /></b-field>
 
             <b-field
                 :label="trans('labels.field_observations.number')"
                 :type="form.errors.has('number') ? 'is-danger' : null"
                 :message="form.errors.has('number') ? form.errors.first('number') : null"
-            >
-                <b-input
-                    type="number"
-                    v-model="form.number">
-                </b-input>
-            </b-field>
+            ><b-input type="number" v-model="form.number" /></b-field>
 
             <b-field
                 :label="trans('labels.field_observations.sex')"
@@ -155,17 +168,13 @@
                     :label="trans('labels.field_observations.observer')"
                     :type="form.errors.has('observer') ? 'is-danger' : null"
                     :message="form.errors.has('observer') ? form.errors.first('observer') : null"
-                >
-                    <b-input v-model="form.observer"></b-input>
-                </b-field>
+                ><b-input v-model="form.observer" /></b-field>
 
                 <b-field
                     :label="trans('labels.field_observations.identifier')"
                     :type="form.errors.has('identifier') ? 'is-danger' : null"
                     :message="form.errors.has('identifier') ? form.errors.first('identifier') : null"
-                >
-                    <b-input v-model="form.identifier"></b-input>
-                </b-field>
+                ><b-input v-model="form.identifier" /></b-field>
             </template>
 
             <b-checkbox v-model="form.found_dead">{{ trans('labels.field_observations.found_dead') }}</b-checkbox>
@@ -175,12 +184,7 @@
                 v-if="form.found_dead"
                 :error="form.errors.has('found_dead_note')"
                 :message="form.errors.has('found_dead_note') ? form.errors.first('found_dead_note') : null"
-              >
-                <b-input
-                    type="textarea"
-                    v-model="form.found_dead_note"
-                ></b-input>
-            </b-field>
+              ><b-input type="textarea" v-model="form.found_dead_note" /></b-field>
 
             <b-field
                 :label="trans('labels.field_observations.data_license')"
@@ -290,6 +294,8 @@ export default {
                     note: '',
                     sex: null,
                     number: null,
+                    project: null,
+                    found_on: null,
                     stage_id: null,
                     found_dead: false,
                     found_dead_note: '',
@@ -426,7 +432,7 @@ export default {
                 ...this.observation,
                 ..._.pick(this.form, [
                     'location', 'accuracy', 'elevation', 'latitude', 'longitude',
-                    'year', 'month', 'day'
+                    'year', 'month', 'day', 'project'
                 ])
             });
 

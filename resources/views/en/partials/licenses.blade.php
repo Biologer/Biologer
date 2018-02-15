@@ -1,6 +1,6 @@
 <div class="columns">
     <div class="column">
-        <div class="field">
+        <div class="field is-required">
             <label class="label">Data License</label>
             <p>Choose how you would like to share data with the others.</p>
             <div class="control">
@@ -49,7 +49,7 @@
     </div>
 
     <div class="column">
-        <div class="field">
+        <div class="field is-required">
             <label class="label">Image License</label>
             <p>Chose how you would like to share images with the others.</p>
             <div class="control">

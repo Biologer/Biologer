@@ -32,7 +32,7 @@ class StoreFieldObservation extends FormRequest
     {
         return [
             'taxon_id' => ['nullable', 'exists:taxa,id'],
-            'taxon_suggestion' => ['nullable', 'string', 'max:255'],
+            'taxon_suggestion' => ['nullable', 'string', 'max:191'],
             'year' => ['bail', 'required', 'date_format:Y', 'before_or_equal:now'],
             'month' => [
                 'bail',
@@ -64,6 +64,8 @@ class StoreFieldObservation extends FormRequest
                 'max:'.config('biologer.photos_per_observation'),
             ],
             'time' => ['nullable', 'date_format:H:i'],
+            'project' => ['nullable', 'string', 'max:191'],
+            'found_on' => ['nullable', 'string', 'max:191'],
         ];
     }
 
@@ -117,6 +119,8 @@ class StoreFieldObservation extends FormRequest
             'stage_id' => $this->input('stage_id'),
             'number' => $this->input('number'),
             'note' => $this->input('note'),
+            'project' => $this->input('project'),
+            'found_on' => $this->input('found_on'),
         ]);
 
         return $fieldObservation;

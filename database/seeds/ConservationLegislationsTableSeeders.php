@@ -1,7 +1,7 @@
 <?php
 
-use App\ConservationLegislation;
 use Illuminate\Database\Seeder;
+use App\ConservationLegislation;
 
 class ConservationLegislationsTableSeeder extends Seeder
 {

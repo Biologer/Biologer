@@ -54,6 +54,7 @@ class RegisterController extends Controller
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'institution' => ['nullable', 'string'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'captcha_verification_code' => ['required', 'captcha'],
             'data_license' => [
@@ -79,6 +80,7 @@ class RegisterController extends Controller
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
+            'institution' => $data['institution'],
             'password' => bcrypt($data['password']),
             'settings' => [
                 'data_license' => (int) $data['data_license'],

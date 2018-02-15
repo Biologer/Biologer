@@ -12,7 +12,7 @@
 
                         <input type="hidden" name="email" value="{{ $user->email }}">
 
-                        <div class="field">
+                        <div class="field is-required">
                             <div class="field">
                                 <nz-captcha url="{{ Captcha::url() }}"></nz-captcha>
                             </div>

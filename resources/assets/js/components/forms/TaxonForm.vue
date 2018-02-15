@@ -15,6 +15,7 @@
 
             <div class="column is-5">
                 <b-field :label="trans('labels.taxa.name')"
+                    class="is-required"
                     :type="form.errors.has('name') ? 'is-danger' : ''"
                     :message="form.errors.has('name') ? form.errors.first('name') : ''">
                     <b-input v-model="form.name" />
@@ -23,6 +24,7 @@
 
             <div class="column is-3">
                 <b-field :label="trans('labels.taxa.rank')"
+                    class="is-required"
                     :type="form.errors.has('rank') ? 'is-danger' : ''"
                     :message="form.errors.has('rank') ? form.errors.first('rank') : ''">
                     <b-select v-model="form.rank" expanded>

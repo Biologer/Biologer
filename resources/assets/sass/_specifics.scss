@@ -51,6 +51,11 @@ ul.is-not-done li:before {
     color: $warning;
 }
 
+.field.is-required .label:after {
+    content: '*';
+    color: $danger;
+}
+
 [v-cloak] {
     display: none;
 }

@@ -60,6 +60,8 @@ class UpdateFieldObservation extends FormRequest
             'photos' => ['nullable', 'array', 'max:'.config('biologer.photos_per_observation')],
             'photos.*.path' => ['required'],
             'time' => ['nullable' ,'date_format:H:i'],
+            'project' => ['nullable', 'string', 'max:191'],
+            'found_on' => ['nullable', 'string', 'max:191'],
         ];
     }
 
@@ -107,6 +109,8 @@ class UpdateFieldObservation extends FormRequest
             'sex' => $this->input('sex'),
             'number' => $this->input('number'),
             'stage_id' => $this->input('stage_id'),
+            'project' => $this->input('project'),
+            'found_on' => $this->input('found_on'),
         ]);
 
         $fieldObservation->update([

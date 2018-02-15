@@ -14,7 +14,7 @@
 
                             <input type="hidden" name="token" value="{{ $token }}">
 
-                            <div class="field">
+                            <div class="field is-required">
                                 <label for="email" class="label">{{ __('labels.reset_password.email') }}</label>
 
                                 <div class="control">
@@ -33,7 +33,7 @@
                                 @endif
                             </div>
 
-                            <div class="field">
+                            <div class="field is-required">
                                 <label for="password" class="label">{{ __('labels.reset_password.password') }}</label>
 
                                 <div class="control">
@@ -51,7 +51,7 @@
                                 </div>
                             </div>
 
-                            <div class="field">
+                            <div class="field is-required">
                                 <label for="password-confirm" class="label">{{ __('labels.reset_password.password_confirmation') }}</label>
                                 <div class="control">
                                     <input id="password-confirm"

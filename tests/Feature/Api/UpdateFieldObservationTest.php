@@ -43,6 +43,8 @@ class UpdateFieldObservationTest extends TestCase
             'taxon_suggestion' => null,
             'time' => '12:30',
             'sex' => 'male',
+            'project' => 'The Big Project',
+            'found_on' => 'Leaf of birch',
         ], $overrides);
     }
 
@@ -74,6 +76,8 @@ class UpdateFieldObservationTest extends TestCase
         tap($fieldObservation->fresh(), function ($fieldObservation) {
             $this->assertEquals(1000, $fieldObservation->observation->elevation);
             $this->assertEquals('New taxon suggestion', $fieldObservation->taxon_suggestion);
+            $this->assertEquals('The Big Project', $fieldObservation->observation->project);
+            $this->assertEquals('Leaf of birch', $fieldObservation->observation->found_on);
         });
     }
 

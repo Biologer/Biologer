@@ -20,7 +20,7 @@
                         <form method="POST" action="{{ route('password.email') }}">
                             {{ csrf_field() }}
 
-                            <div class="field">
+                            <div class="field is-required">
                                 <label class="label">{{ __('labels.forgot_password.email') }}</label>
 
                                 <div class="control">

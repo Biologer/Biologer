@@ -3,16 +3,21 @@
         <form @submit.prevent="submit">
             <div class="columns">
                 <div class="column">
-                    <b-field :label="trans('labels.users.first_name')">
-                        <b-input v-model="form.first_name"></b-input>
+                    <b-field :label="trans('labels.users.first_name')" class="is-required">
+                        <b-input v-model="form.first_name" />
                     </b-field>
                 </div>
+
                 <div class="column">
-                    <b-field :label="trans('labels.users.last_name')">
-                        <b-input v-model="form.last_name"></b-input>
+                    <b-field :label="trans('labels.users.last_name')" class="is-required">
+                        <b-input v-model="form.last_name" />
                     </b-field>
                 </div>
             </div>
+
+            <b-field :label="trans('labels.users.institution')">
+                <b-input v-model="form.institution" />
+            </b-field>
 
             <b-field :label="trans('labels.users.roles')">
                 <div class="block">
@@ -63,6 +68,7 @@ export default {
                 return {
                     first_name: '',
                     last_name: '',
+                    institution: '',
                     roles: [],
                     curated_taxa: [],
                 };
@@ -78,6 +84,7 @@ export default {
             form: new Form({
                 first_name: this.user.first_name,
                 last_name: this.user.last_name,
+                institution: this.user.institution,
                 roles_ids: this.user.roles.map(role => role.id),
                 curated_taxa_ids: this.user.curated_taxa.map(taxon => taxon.id)
             }, {

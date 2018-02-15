@@ -20,6 +20,7 @@ class UserRegistrationTest extends TestCase
             'first_name' => 'John',
             'last_name' => 'Doe',
             'email' => 'john@example.com',
+            'institution' => 'Faculty of Science and Mathematics',
             'password' => 'top-secret-password',
             'password_confirmation' => 'top-secret-password',
             'data_license' => 10,
@@ -46,6 +47,7 @@ class UserRegistrationTest extends TestCase
         $this->assertEquals('John', $user->first_name);
         $this->assertEquals('Doe', $user->last_name);
         $this->assertEquals('john@example.com', $user->email);
+        $this->assertEquals('Faculty of Science and Mathematics', $user->institution);
         $this->assertTrue(Hash::check('top-secret-password', $user->password));
         $this->assertFalse($user->verified);
         $this->assertEquals(10, $user->settings()->get('data_license'));

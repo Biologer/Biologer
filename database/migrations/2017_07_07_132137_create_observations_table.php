@@ -31,6 +31,8 @@ class CreateObservationsTable extends Migration
             $table->unsignedInteger('stage_id')->nullable();
             $table->text('note')->nullable();
             $table->unsignedInteger('number')->nullable();
+            $table->string('project')->nullable();
+            $table->string('found_on')->nullable();
             $table->morphs('details');
             $table->dateTime('approved_at')->nullable();
             $table->unsignedInteger('created_by_id');

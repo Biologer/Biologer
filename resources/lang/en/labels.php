@@ -14,6 +14,7 @@ return [
     'register' => [
         'first_name' => 'First Name',
         'last_name' => 'Last Name',
+        'institution' => 'Institution',
         'email' => 'Email',
         'password' => 'Password',
         'password_confirmation' => 'Repeat Password',
@@ -33,6 +34,7 @@ return [
     'users' => [
         'first_name' => 'First Name',
         'last_name' => 'Last Name',
+        'institution' => 'Institution',
         'roles' => 'Roles',
         'curated_taxa' => 'Curated Taxa',
     ],
@@ -80,6 +82,9 @@ return [
         'more_details' => 'More Details',
         'note' => 'Note',
         'number' => 'Number',
+        'project' => 'Project',
+        'project_tooltip' => 'If the data is gathered in the course of a project write the project name/number here.',
+        'found_on' => 'Found On',
         'sex' => 'Sex',
         'stage' => 'Stage',
         'time' => 'Time',

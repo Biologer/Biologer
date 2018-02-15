@@ -28,7 +28,7 @@
 
         <div v-show="showDetails">
             <div class="field is-grouped">
-                <div class="field is-expanded">
+                <div class="field is-expanded is-required">
                     <label class="label is-small">{{ trans('labels.field_observations.latitude') }}</label>
 
                     <div class="control is-fullwidth">
@@ -38,7 +38,7 @@
                     <p class="help is-danger" v-if="errors.has('latitude')" v-text="errors.first('latitude')"></p>
                 </div>
 
-                <div class="field is-expanded">
+                <div class="field is-expanded is-required">
                     <label class="label is-small">{{ trans('labels.field_observations.longitude') }}</label>
 
                     <div class="control is-fullwidth">
@@ -59,7 +59,7 @@
                     <p class="help is-danger" v-if="errors.has('accuracy')" v-text="errors.first('accuracy')"></p>
                 </div>
 
-                <div class="field is-expanded">
+                <div class="field is-expanded is-required">
                     <label class="label is-small">{{ trans('labels.field_observations.elevation_m') }}</label>
 
                     <div class="control is-fullwidth">

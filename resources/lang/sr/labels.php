@@ -14,6 +14,7 @@ return [
     'register' => [
         'first_name' => 'Име',
         'last_name' => 'Презиме',
+        'institution' => 'Институција',
         'email' => 'Е-пошта',
         'password' => 'Лозинка',
         'password_confirmation' => 'Поновите лозинку',
@@ -33,6 +34,7 @@ return [
     'users' => [
         'first_name' => 'Име',
         'last_name' => 'Презиме',
+        'institution' => 'Институција',
         'roles' => 'Улоге',
         'curated_taxa' => 'Таксони које уређује',
     ],
@@ -80,6 +82,9 @@ return [
         'more_details' => 'Више детаља',
         'note' => 'Белешка',
         'number' => 'Број',
+        'project' => 'Пројекат',
+        'project_tooltip' => 'Ако су подаци прикупљени у оквиру пројекта, овде упишите назив/број пројекта.',
+        'found_on' => 'Нађено на',
         'sex' => 'Пол',
         'stage' => 'Стадијум',
         'time' => 'Време',

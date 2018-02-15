@@ -1,6 +1,6 @@
 <div class="columns">
     <div class="column">
-        <div class="field">
+        <div class="field is-required">
             <label class="label">Коришћење података</label>
             <p>Изаберите један од начина на који желите да делите своје податке.</p>
             <div class="control">
@@ -48,7 +48,7 @@
     </div>
 
     <div class="column">
-        <div class="field">
+        <div class="field is-required">
             <label class="label">Коришћење фотографија</label>
             <p>Изаберите један од начина на који желите да делите своје фотографије.</p>
             <div class="control">
