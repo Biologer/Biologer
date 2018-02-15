@@ -105,11 +105,22 @@
                 />
             </div>
 
-            <b-field
-                :label="trans('labels.field_observations.found_on')"
-                :type="form.errors.has('found_on') ? 'is-danger' : null"
-                :message="form.errors.has('found_on') ? form.errors.first('found_on') : null"
-            ><b-input v-model="form.found_on" /></b-field>
+            <div class="field">
+                <label for="found_on" class="label">
+                    <b-tooltip :label="trans('labels.field_observations.found_on_tooltip')" multilined dashed>
+                        {{ trans('labels.field_observations.found_on') }}
+                    </b-tooltip>
+                </label>
+
+                <b-input id="found_on" name="found_on" v-model="form.found_on" />
+
+                <p
+                    v-if="form.errors.has('found_on')"
+                    v-html="form.errors.first('found_on')"
+                    class="help"
+                    :class="{ 'is-danger': form.errors.has('found_on') }"
+                />
+            </div>
 
             <b-field
                 :label="trans('labels.field_observations.note')"
