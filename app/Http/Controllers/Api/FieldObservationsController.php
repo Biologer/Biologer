@@ -18,7 +18,7 @@ class FieldObservationsController extends Controller
     public function index()
     {
         $query = FieldObservation::with([
-             'observation.taxon', 'photos',
+             'observation.taxon', 'photos', 'activity.causer',
          ])->filter(request())->orderBy('id');
 
         if (request()->has('page')) {
@@ -33,6 +33,7 @@ class FieldObservationsController extends Controller
     /**
      * Add new field observation.
      *
+     * @param  \App\Http\Requests\StoreFieldObservation  $form
      * @return \App\Http\Resources\FieldObservationResource
      */
     public function store(StoreFieldObservation $form)
@@ -54,13 +55,13 @@ class FieldObservationsController extends Controller
     /**
      * Update field observation.
      *
+     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Http\Requests\UpdateFieldObservation  $form
      * @return \App\Http\Resources\FieldObservationResource
      */
     public function update(FieldObservation $fieldObservation, UpdateFieldObservation $form)
     {
-        return new FieldObservationResource(
-            $form->save($fieldObservation)
-        );
+        return new FieldObservationResource($form->save($fieldObservation));
     }
 
     /**

@@ -127,6 +127,20 @@ class StoreTaxon extends FormRequest
     {
         return tap($this->createTaxon(), function ($taxon) {
             $this->syncRelations($taxon);
+            $this->logCreatedActivity($taxon);
         });
+    }
+
+    /**
+     * Log taxon created activity.
+     *
+     * @param  \App\Taxon  $taxon
+     * @return void
+     */
+    protected function logCreatedActivity(Taxon $taxon)
+    {
+        activity()->performedOn($taxon)
+            ->causedBy($this->user())
+            ->log('created');
     }
 }

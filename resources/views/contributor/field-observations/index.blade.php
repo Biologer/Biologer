@@ -7,7 +7,11 @@
             edit-route="contributor.field-observations.edit"
             delete-route="api.field-observations.destroy"
             empty="{{ __('No data...') }}"
-            show-status />
+            show-status
+            @role(['admin', 'curator'])
+            show-activity-log
+            @endrole
+        />
     </div>
 @endsection
 

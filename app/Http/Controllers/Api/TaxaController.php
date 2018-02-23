@@ -17,7 +17,7 @@ class TaxaController extends Controller
      */
     public function index()
     {
-        $taxa = Taxon::with(['parent', 'stages'])->filter(request())->orderBy('id');
+        $taxa = Taxon::with(['parent', 'stages', 'activity.causer'])->filter(request())->orderBy('id');
 
         if (request()->has('page')) {
             return TaxonResource::collection(
@@ -51,7 +51,6 @@ class TaxaController extends Controller
     {
         return new TaxonResource($form->save());
     }
-
 
     /**
      * Update the specified resource in storage.

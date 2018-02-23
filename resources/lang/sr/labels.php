@@ -57,8 +57,6 @@ return [
         'red_lists' => 'Црене листе',
         'add_red_list' => 'Додај црвену листу',
         'search_for_taxon' => 'Тражи таксон...',
-        'yes' => 'Да',
-        'no' => 'Не',
     ],
 
     'field_observations' => [

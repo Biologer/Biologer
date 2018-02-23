@@ -59,6 +59,7 @@ class UpdateTaxon extends FormRequest
                 'required',
                 Rule::in(RedList::CATEGORIES),
             ],
+            'reason' => ['required', 'string', 'max:255'],
         ];
     }
 
@@ -77,16 +78,28 @@ class UpdateTaxon extends FormRequest
     /**
      * Update taxon using request data.
      *
+     * @param  \App\Taxon  $taxon
      * @return \App\Taxon
      */
-    protected function updateTaxon(Taxon $taxon)
+    public function save(Taxon $taxon)
     {
-        return tap($taxon)->update(array_merge($this->only([
+        $oldData = $taxon->load([
+            'parent', 'stages', 'conservationLegislations', 'redLists',
+            'conservationDocuments',
+        ])->toArray();
+
+        $taxon->update(array_merge($this->only([
             'name', 'parent_id', 'rank', 'fe_old_id', 'fe_id', 'restricted',
             'allochthonous', 'invasive', 'author',
         ]), Localization::transformTranslations($this->only([
             'description', 'native_name',
         ]))));
+
+        $this->syncRelations($taxon);
+
+        $this->logUpdatedActivity($taxon, $oldData);
+
+        return $taxon;
     }
 
     /**
@@ -118,16 +131,85 @@ class UpdateTaxon extends FormRequest
         );
     }
 
-    /**
-     * Store the information.
-     *
-     * @param  \App\Taxon  $taxon
-     * @return \App\Taxon
-     */
-    public function save(Taxon $taxon)
+    protected function logUpdatedActivity(Taxon $taxon, $oldData)
     {
-        return tap($this->updateTaxon($taxon), function ($taxon) {
-            $this->syncRelations($taxon);
-        });
+        activity()->performedOn($taxon)
+            ->causedBy($this->user())
+            ->withProperty('old', $this->getChangedData($taxon, $oldData))
+            ->withProperty('reason', $this->input('reason'))
+            ->log('updated');
+    }
+
+    protected function getChangedData(Taxon $taxon, $oldData)
+    {
+        $changed = array_keys($taxon->getChanges());
+
+        $data = [];
+        foreach($oldData as $key => $value) {
+            if ('stages' === $key && $this->stagesAreChanged($taxon, collect($value))) {
+                $data[$key] = null;
+            } elseif ('conservation_legislations' === $key && $this->conservationLegislationsAreChanged($taxon, collect($value))) {
+                $data[$key] = null;
+            } elseif ('conservation_documents' === $key && $this->conservationDocumentsAreChanged($taxon, collect($value))) {
+                $data[$key] = null;
+            } elseif ('red_lists' === $key && $this->redListsAreChanged($taxon, collect($value))) {
+                $data[$key] = null;
+            } elseif (in_array($key, $changed)) {
+                if ('parent_id' === $key) {
+                    $data['parent'] = $oldData['parent'] ? $oldData['parent']['name'] : $value;
+                } elseif ('rank' === $key) {
+                    $data[$key] = ['value' => $value, 'label' => 'taxonomy.'.$value];
+                } elseif (in_array($key, ['description', 'native_name'])) {
+                    $data[$key] = null;
+                } elseif (in_array($key, ['restricted', 'allochthonous', 'invasive'])) {
+                    $data[$key] = ['value' => $value, 'label' => $value ? 'Yes' : 'No'];
+                } else {
+                    $data[$key] = $value;
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    protected function stagesAreChanged($taxon, $oldValue)
+    {
+        $taxon->load('stages');
+
+        return $oldValue->count() !== $taxon->stages->count()
+            || (!$oldValue->isEmpty() && !$taxon->stages->isEmpty()
+            && $oldValue->pluck('id')->diff($taxon->stages->pluck('id')));
+    }
+
+    protected function conservationLegislationsAreChanged($taxon, $oldValue)
+    {
+        $taxon->load('conservationLegislations');
+
+        return $oldValue->count() !== $taxon->conservationLegislations->count()
+            || (!$oldValue->isEmpty() && !$taxon->conservationLegislations->isEmpty()
+            && $oldValue->pluck('id')->diff($taxon->conservationLegislations->pluck('id')));
+    }
+
+    protected function conservationDocumentsAreChanged($taxon, $oldValue)
+    {
+        $taxon->load('conservationDocuments');
+
+        return $oldValue->count() !== $taxon->conservationDocuments->count()
+            || (!$oldValue->isEmpty() && !$taxon->conservationDocuments->isEmpty()
+            && $oldValue->pluck('id')->diff($taxon->conservationDocuments->pluck('id')));
+    }
+
+    protected function redListsAreChanged($taxon, $oldValue)
+    {
+        $taxon->load('redLists');
+
+        return $oldValue->count() !== $taxon->redLists->count()
+            || (!$oldValue->isEmpty() && !$taxon->redLists->isEmpty()
+            && $oldValue->pluck('id')->diff($taxon->redLists->pluck('id'))
+            || $oldValue->filter(function ($oldRedList) use ($taxon) {
+                return $taxon->redLists->contains(function ($redList) use ($oldRedList) {
+                    return $redList->is($oldRedList) && $redList->pivot->category === $oldRedList->pivot->category;
+                });
+            })->count() !== $oldValue->count());
     }
 }

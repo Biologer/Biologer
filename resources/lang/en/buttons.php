@@ -19,4 +19,7 @@ return [
     'register' => 'Register',
     'send_password_reset_link' => 'Send Password Reset Link',
     'reset_password' => 'Reset Password',
+    'stay_on_page' => 'Stay on page',
+    'leave_page' => 'Leave page',
+    'confirm' => 'Confirm',
 ];

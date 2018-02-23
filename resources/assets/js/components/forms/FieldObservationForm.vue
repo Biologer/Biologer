@@ -1,5 +1,5 @@
 <template>
-    <div class="field-observation-form">
+    <form :action="action" method="POST" :lang="locale" class="field-observation-form">
         <div class="columns">
             <div class="column is-half">
                 <nz-taxon-autocomplete v-model="form.taxon_suggestion"
@@ -141,7 +141,7 @@
             >
                 <b-select v-model="form.sex">
                     <option :value="null">{{ trans('labels.field_observations.choose_a_value') }}</option>
-                    <option v-for="sex in sexes" :value="sex" v-text="sex"></option>
+                    <option v-for="sex in sexes" :value="sex" v-text="trans('labels.field_observations.'+sex)"></option>
                 </b-select>
             </b-field>
 
@@ -152,7 +152,7 @@
             >
                 <b-select v-model="form.stage_id" :disabled="!stages.length">
                     <option :value="null">{{ trans('labels.field_observations.choose_a_stage') }}</option>
-                    <option v-for="stage in stages" :value="stage.id" :key="stage.id" v-text="stage.name"></option>
+                    <option v-for="stage in stages" :value="stage.id" :key="stage.id" v-text="trans('stages.'+stage.name)"></option>
                 </b-select>
             </b-field>
 
@@ -228,7 +228,7 @@
             :class="{
                 'is-loading': submittingWithRedirect
             }"
-            @click="submitAndRedirect"
+            @click.prevent="submitWithRedirect"
         >
             {{ trans('buttons.save') }}
         </button>
@@ -240,40 +240,28 @@
                 'is-outlined': !submittingWithoutRedirect,
                 'is-loading': submittingWithoutRedirect
             }"
-            @click="submitAndAddMore"
-            v-if="saveMore"
+            @click.prevent="submitWithoutRedirect"
+            v-if="submitMore"
         >
             {{ trans('buttons.save_more') }}
         </button>
 
-        <a :href="redirect" class="button is-text">{{ trans('buttons.cancel') }}</a>
-    </div>
+        <a :href="cancelUrl" class="button is-text" @click="onCancel">{{ trans('buttons.cancel') }}</a>
+    </form>
 </template>
 
 <script>
-import moment from 'moment';
 import collect from 'collect.js';
 import Form from 'form-backend-validation';
-import User from '../../models/user';
+import FormMixin from '../../mixins/FormMixin';
+import UserMixin from '../../mixins/UserMixin';
 
 export default {
     name: 'nzFieldObservationForm',
 
+    mixins: [FormMixin, UserMixin],
+
     props: {
-        action: {
-            type: String,
-            required: true
-        },
-
-        method: {
-            type: String,
-            default: 'POST'
-        },
-
-        redirect: {
-            type: String,
-        },
-
         photoUploadUrl: {
             type: String,
             required: true
@@ -316,24 +304,23 @@ export default {
                 };
             }
         },
+
         licenses: {
             type: Object,
             default: () => { return {} }
         },
+
         sexes: {
             type: Array,
             default: () => []
-        },
-        saveMore: Boolean
+        }
     },
 
     data() {
         return {
-            form: this.newForm(this.observation),
+            keepAfterSubmit: this.getAttributesToKeep(),
             showMoreDetails: false,
-            user: new User(window.App.User),
-            submittingWithRedirect: false,
-            submittingWithoutRedirect: false
+            locale: window.App.locale
         };
     },
 
@@ -342,129 +329,32 @@ export default {
             return this.form.taxon ? this.form.taxon.stages : [];
         },
 
-        isCuratorOrAdmin() {
-            return this.user.hasRole(['admin', 'curator']);
-        },
-
         time() {
             return this.form.time ? moment(this.form.time, 'HH:mm').toDate() : null
         }
-    },
-
-    created() {
-        document.addEventListener('keyup', this.registerKeyListener);
-    },
-
-    beforeDestroy() {
-        document.removeEventListener('keyup', this.registerKeyListener);
     },
 
     methods: {
         /**
          * Create new form instance.
          *
-         * @param  {Object} data default form data
          * @return {Form}
          */
-        newForm(data) {
+        newForm() {
             return new Form({
-                ...data
+                ...this.observation,
+                reason: null
             }, {
                 resetOnSuccess: false
             })
         },
 
         /**
-         * Submit the form with redirect.
+         * Performa after submit without redirect is successful.
          */
-        submitAndRedirect() {
-            if (this.form.processing) {
-                return;
-            }
-
-            this.submittingWithRedirect = true;
-
-            this.form[this.method.toLowerCase()](this.action)
-                .then(this.onSuccessfulSubmitWithRedirect)
-                .catch(this.onFailedSubmit);
-        },
-
-        /**
-         * Submit the form and stay to add more.
-         */
-        submitAndAddMore() {
-            if (this.form.processing) {
-                return;
-            }
-
-            this.submittingWithoutRedirect = true;
-
-            this.form[this.method.toLowerCase()](this.action)
-                .then(this.onSuccessfulSubmitAndAddMore)
-                .catch(this.onFailedSubmit);
-        },
-
-        /**
-         * Handle successful form submit with redirect.
-         */
-        onSuccessfulSubmitWithRedirect() {
-            this.form.processing = true
-
-            this.$toast.open({
-                message: this.trans('Saved successfully'),
-                type: 'is-success'
-            });
-
-            // We want to wait a bit before we send the user to redirect route
-            // so we can show the message that the action was successful.
-            setTimeout(() => {
-                this.form.processing = false;
-                this.submittingWithRedirect = false;
-
-                if (this.redirect) {
-                    window.location.href = this.redirect;
-                }
-            }, 500);
-        },
-
-        /**
-         * Handle successful form submit with no redirect.
-         */
-        onSuccessfulSubmitAndAddMore() {
-            this.submittingWithoutRedirect = false;
-
-            this.$toast.open({
-                message: this.trans('Saved successfully'),
-                type: 'is-success'
-            });
-
-            // Reset the form but remember date and location data.
-            this.form = this.newForm({
-                ...this.observation,
-                ..._.pick(this.form, [
-                    'location', 'accuracy', 'elevation', 'latitude', 'longitude',
-                    'year', 'month', 'day', 'project'
-                ])
-            });
-
+        hookAfterSubmitWithoutRedirect() {
             // Focus on taxon autocomplete input.
             this.$refs.taxonAutocomplete.$el.querySelector('input').focus();
-        },
-
-        /**
-         * Handle failed form submit.
-         *
-         * @param {Error} error
-         */
-        onFailedSubmit(error) {
-            this.submittingWithRedirect = false;
-            this.submittingWithoutRedirect = false;
-
-            this.$toast.open({
-                duration: 2500,
-                message: _.get(error, 'response.data.message', error.message),
-                type: 'is-danger'
-            });
         },
 
         /**
@@ -546,18 +436,15 @@ export default {
         },
 
         /**
-         * Keyboard shortcuts.
+         * Attributes to keep after submit without redirect.
          *
-         * @param {Event} e
+         * @return {Array}
          */
-        registerKeyListener(e) {
-            const enter = 13 === (e.which || e.keyCode);
-
-            if (this.saveMore && e.ctrlKey && e.shiftKey && enter) {
-                this.submitAndAddMore();
-            } else if (e.ctrlKey && enter) {
-                this.submitAndRedirect();
-            }
+        getAttributesToKeep() {
+            return [
+                'location', 'accuracy', 'elevation', 'latitude', 'longitude',
+                'year', 'month', 'day', 'project'
+            ];
         }
     }
 }

@@ -23,7 +23,7 @@ class PhotoTest extends TestCase
 
         $photo = Photo::store($file, [
             'author' => 'John Doe',
-            'license' => License::getFirstId(),
+            'license' => License::firstId(),
         ]);
 
         Storage::disk('public')->assertExists($photo->path);

@@ -1,0 +1,15 @@
+.activity-log {
+    .activity-log-item:not(:last-child) {
+        border-bottom: 1px solid $grey-light;
+    }
+}
+
+.activity-log-item {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.activity-log-item__header {
+    font-size: $size-7;
+    color: $grey;
+}

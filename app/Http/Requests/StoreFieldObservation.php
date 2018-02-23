@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Stage;
+use App\Taxon;
 use App\License;
 use App\Rules\Day;
 use App\Observation;
@@ -55,9 +56,9 @@ class StoreFieldObservation extends FormRequest
             'number' => ['nullable', 'integer', 'min:1'],
             'found_dead' => ['nullable', 'boolean'],
             'found_dead_note' => ['nullable'],
-            'data_license' => ['nullable', Rule::in(License::getIds())],
-            'data_license' => ['nullable', Rule::in(License::getIds())],
-            'image_license' => ['nullable', Rule::in(License::getIds())],
+            'data_license' => ['nullable', Rule::in(License::ids()->all())],
+            'data_license' => ['nullable', Rule::in(License::ids()->all())],
+            'image_license' => ['nullable', Rule::in(License::ids()->all())],
             'photos' => [
                 'nullable',
                 'array',
@@ -81,6 +82,8 @@ class StoreFieldObservation extends FormRequest
                 collect($this->input('photos', []))->pluck('path'),
                 $this->input('image_license') ?: $this->user()->settings()->get('image_license')
             );
+
+            $this->logActivity($observation);
         });
     }
 
@@ -91,15 +94,39 @@ class StoreFieldObservation extends FormRequest
      */
     protected function createObservation()
     {
-        $fieldObservation = FieldObservation::create([
+        $fieldObservation = FieldObservation::create($this->getSpecificObservationData());
+
+        $fieldObservation->observation()->create($this->getGeneralObservationData());
+
+        return $fieldObservation;
+    }
+
+    /**
+     * Get observation data specific to field observation from the request.
+     *
+     * @return array
+     */
+    protected function getSpecificObservationData()
+    {
+        return [
             'license' => $this->input('data_license') ?: $this->user()->settings()->get('data_license'),
-            'taxon_suggestion' => $this->input('taxon_suggestion'),
+            'taxon_suggestion' => $this->input('taxon_id')
+                ? Taxon::find($this->input('taxon_id'))->name
+                : $this->input('taxon_suggestion'),
             'found_dead' => $this->input('found_dead', false),
             'found_dead_note' => $this->input('found_dead', false) ? $this->input('found_dead_note') : null,
             'time' => $this->input('time'),
-        ]);
+        ];
+    }
 
-        $fieldObservation->observation()->create([
+    /**
+     * Get general observation data from the request.
+     *
+     * @return array
+     */
+    protected function getGeneralObservationData()
+    {
+        return [
             'taxon_id' => $this->input('taxon_id'),
             'year' => $this->input('year'),
             'month' => $this->input('month'),
@@ -121,8 +148,19 @@ class StoreFieldObservation extends FormRequest
             'note' => $this->input('note'),
             'project' => $this->input('project'),
             'found_on' => $this->input('found_on'),
-        ]);
+        ];
+    }
 
-        return $fieldObservation;
+    /**
+     * Log created activity for field observation.
+     *
+     * @param  \App\FieldObservation  $fieldObservation
+     * @return void
+     */
+    protected function logActivity(FieldObservation $fieldObservation)
+    {
+        activity()->performedOn($fieldObservation)
+            ->causedBy($this->user())
+            ->log('created');
     }
 }

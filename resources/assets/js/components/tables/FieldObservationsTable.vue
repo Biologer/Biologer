@@ -76,12 +76,14 @@
                     <span :class="determineStatusClass(row.status)"><b-icon :icon="determineStatusIcon(row.status)" /></span>
                 </b-table-column>
 
-                <b-table-column :label="trans('labels.actions')" width="100">
-                    <a @click="openImageModal(row.photos)" v-if="row.photos.length"><b-icon icon="photo"></b-icon></a>
+                <b-table-column :label="trans('labels.actions')">
+                    <a @click="openImageModal(row.photos)" v-if="row.photos.length"><b-icon icon="photo" /></a>
 
-                    <a :href="editLink(row)"><b-icon icon="edit"></b-icon></a>
+                    <a @click="openActivityLogModal(row)" v-if="showActivityLog" :title="trans('Activity Log')"><b-icon icon="history" /></a>
 
-                    <a @click="confirmRemove(row)"><b-icon icon="trash"></b-icon></a>
+                    <a :href="editLink(row)" :title="trans('buttons.edit')"><b-icon icon="edit" /></a>
+
+                    <a @click="confirmRemove(row)" :title="trans('buttons.delete')"><b-icon icon="trash" /></a>
                 </b-table-column>
             </template>
 
@@ -129,6 +131,18 @@
         </nz-table>
 
         <nz-image-modal :items="modalImages" v-model="modalImageIndex" v-if="modalImages.length" @close="onCarouselClose"/>
+
+        <b-modal :active="activityLog.length > 0" @close="activityLog = []">
+            <div class="modal-card">
+                <div class="modal-card-head">
+                    <b-icon icon="history" />
+                    <p class="modal-card-title">{{ trans('Activity Log') }}</p>
+                </div>
+                <div class="modal-card-body">
+                    <nz-field-observation-activity-log :activities="activityLog" />
+                </div>
+            </div>
+        </b-modal>
     </div>
 </template>
 
@@ -158,7 +172,8 @@ export default {
             default: 'Nothing here.'
         },
         approvable: Boolean,
-        showStatus: Boolean
+        showStatus: Boolean,
+        showActivityLog: Boolean
     },
 
     data() {
@@ -176,7 +191,8 @@ export default {
             modalImageIndex: 0,
             checkedRows: [],
             approving: false,
-            markingAsUnidentifiable: false
+            markingAsUnidentifiable: false,
+            activityLog: []
         };
     },
 
@@ -258,7 +274,7 @@ export default {
 
         onCarouselClose() {
             this.modalImages = [];
-            this.modalImages = 0;
+            this.modalImagesIndex = 0;
         },
 
         confirmApprove() {
@@ -302,20 +318,40 @@ export default {
         },
 
         confirmMarkingAsUnidentifiable() {
-            this.$dialog.confirm({
-                message: this.trans('You are about to mark checked observations as unidentifiable.'),
+            const dialog = this.$dialog.prompt({
+                message: this.trans('You are about to mark checked observations as unidentifiable. What\'s the reason?'),
                 confirmText: this.trans('buttons.mark_unidentifiable'),
                 cancelText: this.trans('buttons.cancel'),
                 type: 'is-warning',
+                inputAttrs: {
+                    placeholder: this.trans('Reason'),
+                    required: true,
+                    maxlength: 255
+                },
                 onConfirm: this.markAsUnidentifiable.bind(this)
             })
+
+            dialog.$nextTick(() => {
+                dialog.$refs.input.addEventListener('invalid', (e) => {
+                    e.target.setCustomValidity('');
+
+                    if (!e.target.validity.valid) {
+                        e.target.setCustomValidity(this.trans('This field is required and can contain max 255 chars.'));
+                    }
+                });
+
+                dialog.$refs.input.addEventListener('input', (e) => {
+                    dialog.validationMessage = null;
+                });
+            });
         },
 
-        markAsUnidentifiable() {
+        markAsUnidentifiable(reason) {
             this.markingAsUnidentifiable = true;
 
             axios.post(route(this.markAsUnidentifiableRoute), {
-                field_observation_ids: this.checkedRows.map(row => row.id)
+                field_observation_ids: this.checkedRows.map(row => row.id),
+                reason
             }).then(this.successfullyMarkedAsUnidentifiable)
             .catch(this.failedToMarkAsUnidentifiable)
         },
@@ -361,6 +397,10 @@ export default {
             }
 
             return 'has-text-info'
+        },
+
+        openActivityLogModal(row) {
+            this.activityLog = row.activity;
         }
     },
 

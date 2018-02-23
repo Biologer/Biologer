@@ -22,6 +22,9 @@ import UserForm from './components/forms/UserForm';
 import TaxonForm from './components/forms/TaxonForm';
 import FieldObservationForm from './components/forms/FieldObservationForm';
 
+import FieldObservationActivityLog from './components/activity/FieldObservationActivityLog';
+import TaxonActivityLog from './components/activity/TaxonActivityLog';
+
 window.Vue = Vue;
 
 Vue.use(Buefy, { defaultIconPack: 'fa' });
@@ -32,7 +35,7 @@ if (window.App && window.App.gmaps && window.App.gmaps.load) {
     gmapsConfig.load = {
         key: window.App.gmaps.apiKey,
         libraries: 'drawing',
-        language: window.App.locale
+        language: document.documentElement.lang
     }
 }
 Vue.use(VueGoogleMaps, gmapsConfig);
@@ -57,8 +60,11 @@ Vue.component(TaxonForm.name, TaxonForm);
 Vue.component(UserForm.name, UserForm);
 Vue.component(FieldObservationsTable.name, FieldObservationsTable);
 
+Vue.component(FieldObservationActivityLog.name, FieldObservationActivityLog);
+Vue.component(TaxonActivityLog.name, TaxonActivityLog);
+
 Vue.prototype.trans = (string, args = {}) => {
-    let value = _.get(window.App.i18n, string, string);
+    let value = window.App.i18n[string] || string;
 
     _.eachRight(args, (paramVal, paramKey) => {
         value = _.replace(value, `:${paramKey}`, paramVal);
@@ -66,6 +72,14 @@ Vue.prototype.trans = (string, args = {}) => {
 
     return value;
 };
+
+Vue.filter('formatDateTime', function (value) {
+  if (!value) return '';
+
+  value = value.toString()
+
+  return window.moment(value).format('DD.MM.YYYY HH:mm');
+});
 
 const app = new Vue({
     el: '#app'

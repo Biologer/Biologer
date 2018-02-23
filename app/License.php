@@ -4,19 +4,38 @@ namespace App;
 
 class License
 {
+    public static function all()
+    {
+        return collect([
+            [
+                'id' => 10,
+                'name' => 'CC BY-SA 4.0',
+            ],
+            [
+                'id' => 20,
+                'name' => 'CC BY-NC-SA 4.0',
+            ],
+            [
+                'id' => 30,
+                'name' => 'Partially open',
+            ],
+            [
+                'id' => 40,
+                'name' => 'Closed',
+            ],
+        ]);
+    }
+
     /**
      * List of available licenses.
      *
      * @return array
      */
-    public static function getAvailable()
+    public static function getOptions()
     {
-        return [
-            10 => __('licenses.CC BY-SA 4.0'),
-            20 => __('licenses.CC BY-NC-SA 4.0'),
-            30 => __('licenses.Partially open'),
-            40 => __('licenses.Closed'),
-        ];
+        return static::all()->mapWithKeys(function ($license) {
+            return [$license['id'] => __("licenses.{$license['name']}")];
+        })->all();
     }
 
     /**
@@ -24,30 +43,34 @@ class License
      *
      * @return array
      */
-    public static function getIds()
+    public static function ids()
     {
-        return array_keys(static::getAvailable());
+        return static::all()->pluck('id');
     }
 
-    public static function getFirstId()
+    public static function firstId()
     {
-        return array_first(static::getIds());
+        return static::ids()->first();
+    }
+
+    public static function first()
+    {
+        return static::all()->first();
     }
 
     /**
      * Get license name.
      *
-     * @param  int $key
+     * @param  int  $id
      * @return string|null
      */
-    public function getName($key)
+    public static function findById($id)
     {
-        $licenses = static::getAvailable();
+        return static::all()->where('id', $id)->first();
+    }
 
-        if (! array_key_exists($key, $licenses)) {
-            return;
-        }
-
-        return $licenses[$key];
+    public static function findByName($name)
+    {
+        return static::all()->where('name', $name)->first();
     }
 }

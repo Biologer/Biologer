@@ -11,7 +11,7 @@
                 <b-select :placeholder="placeholders.month" :value="month" @input="onMonthInput" expanded>
                     <option :value="null"></option>
 
-                    <option v-for="(month, index) in months" :value="(index + 1)" v-text="trans('months.' + month)"></option>
+                    <option v-for="(month, index) in months" :value="(index + 1)" v-text="month"></option>
                 </b-select>
             </b-field>
 
@@ -28,8 +28,6 @@
 </template>
 
 <script>
-import moment from 'moment';
-
 export default {
   name: 'nzDateInput',
 

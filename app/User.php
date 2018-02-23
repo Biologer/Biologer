@@ -51,6 +51,13 @@ class User extends Authenticatable
     protected $with = ['roles'];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['full_name'];
+
+    /**
      * Observations entered by the user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

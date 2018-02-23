@@ -5,12 +5,18 @@
         <nz-field-observation-form
             action="{{ route('api.field-observations.update', $observation) }}"
             method="PUT"
-            redirect="{{ route('contributor.field-observations.index') }}"
+            redirect-url="{{ route('contributor.field-observations.index') }}"
+            cancel-url="{{ route('contributor.field-observations.index') }}"
             photo-upload-url="{{ route('api.photo-uploads.store') }}"
             photo-remove-url="{{ route('api.photo-uploads.destroy') }}"
-            :licenses="{{ json_encode(\App\License::getAvailable()) }}"
+            :licenses="{{ json_encode(\App\License::getOptions()) }}"
             :sexes="{{ json_encode(\App\Observation::SEX_OPTIONS) }}"
             :observation="{{ $observation }}"
+            should-confirm-submit
+            confirm-submit-message="{{ __('Reason for changing data. Please try to be precise in order to keep the track of changes and ensure data verification.') }}"
+            should-ask-reason
+            should-confirm-cancel
+            submit-only-dirty
         ></nz-fild-observation-form>
     </div>
 @endsection

@@ -51,6 +51,7 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
         $ids = $fieldObservations->pluck('id')->all();
         $response = $this->postJson('/api/unidentifiable-field-observations/batch', [
             'field_observation_ids' => $ids,
+            'reason' => 'Testing',
         ]);
 
         $response->assertSuccessful();

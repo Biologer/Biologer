@@ -55,8 +55,9 @@ class FieldObservationPolicy
      */
     public function update(User $user, FieldObservation $fieldObservation)
     {
-        return $user->hasRole('admin') || $this->isCurator($user, $fieldObservation)
-            || ($fieldObservation->isCreatedBy($user) && ! $fieldObservation->isApproved());
+        return $user->hasRole('admin')
+            || $this->isCurator($user, $fieldObservation)
+            || $fieldObservation->isCreatedBy($user);
     }
 
     /**

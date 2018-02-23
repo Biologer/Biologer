@@ -16,15 +16,15 @@ class FieldObservationsController extends Controller
     public function index()
     {
         $query = FieldObservation::createdBy(auth()->user())->with([
-            'observation.taxon', 'photos',
+            'observation.taxon', 'photos', 'activity.causer',
         ])->filter(request())->orderBy('id');
 
-        if (request()->has('all')) {
-            return FieldObservationResource::collection($query->get());
+        if (request()->has('page')) {
+            return FieldObservationResource::collection(
+                 $query->paginate(request('per_page', 15))
+             );
         }
 
-        return FieldObservationResource::collection(
-            $query->paginate(request('per_page', 15))
-        );
+        return FieldObservationResource::collection($query->get());
     }
 }

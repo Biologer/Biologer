@@ -59,11 +59,11 @@ class RegisterController extends Controller
             'captcha_verification_code' => ['required', 'captcha'],
             'data_license' => [
                 'required',
-                Rule::in(License::getIds()),
+                Rule::in(License::ids()->all()),
             ],
             'image_license' => [
                 'required',
-                Rule::in(License::getIds()),
+                Rule::in(License::ids()->all()),
             ],
         ]);
     }

@@ -19,4 +19,7 @@ return [
     'register' => 'Registracija',
     'send_password_reset_link' => 'Pošalji link za resetovanje lozinke',
     'reset_password' => 'Resetuj lozinku',
+    'stay_on_page' => 'Ostani na stranici',
+    'leave_page' => 'Napusti stranicu',
+    'confirm' => 'Potvrdi',
 ];

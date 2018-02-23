@@ -1,5 +1,5 @@
-<template lang="html">
-    <form @submit.prevent="submit">
+<template>
+    <form :action="action" method="POST" @submit.prevent="submitWithRedirect">
         <div class="columns">
             <div class="column is-4">
                 <nz-taxon-autocomplete :label="trans('labels.taxa.parent')"
@@ -87,7 +87,7 @@
                 <b-field :label="trans('labels.taxa.restricted')">
                     <div class="field">
                         <b-switch v-model="form.restricted">
-                            {{ form.restricted ? trans('labels.taxa.yes') : trans('labels.taxa.no') }}
+                            {{ form.restricted ? trans('Yes') : trans('No') }}
                         </b-switch>
                     </div>
                 </b-field>
@@ -95,14 +95,14 @@
             <div class="column">
                 <b-field :label="trans('labels.taxa.allochthonous')">
                     <b-switch v-model="form.allochthonous">
-                        {{ form.allochthonous ? trans('labels.taxa.yes') : trans('labels.taxa.no') }}
+                        {{ form.allochthonous ? trans('Yes') : trans('No') }}
                     </b-switch>
                 </b-field>
             </div>
             <div class="column">
                 <b-field :label="trans('labels.taxa.invasive')">
                     <b-switch v-model="form.invasive">
-                        {{ form.invasive ? trans('labels.taxa.yes') : trans('labels.taxa.no') }}
+                        {{ form.invasive ? trans('Yes') : trans('No') }}
                     </b-switch>
                 </b-field>
             </div>
@@ -194,16 +194,17 @@
             :class="{
                 'is-loading': form.processing
             }"
-            @click="submit">
+            @click="submitWithRedirect">
             {{ trans('buttons.save') }}
         </button>
-        <a :href="redirect" class="button is-text">{{ trans('buttons.cancel') }}</a>
+        <a :href="cancelUrl" class="button is-text" @click="onCancel">{{ trans('buttons.cancel') }}</a>
     </form>
 </template>
 
 <script>
 import Form from 'form-backend-validation';
 import collect from 'collect.js';
+import FormMixin from '../../mixins/FormMixin';
 
 function defaultTranslations() {
     const value = {};
@@ -218,21 +219,9 @@ function defaultTranslations() {
 export default {
     name: 'nzTaxonForm',
 
+    mixins: [FormMixin],
+
     props: {
-        action: {
-            type: String,
-            required: true
-        },
-        method: {
-            type: String,
-            default: 'post'
-        },
-        redirect: {
-            type: String,
-            default() {
-                return route('admin.taxa.index');
-            }
-        },
         taxon: {
             type: Object,
             default() {
@@ -276,20 +265,8 @@ export default {
 
     data() {
         return {
-            form: new Form({
-                ...this.taxon,
-                stages_ids: this.taxon.stages.map(stage => stage.id),
-                conservation_legislations_ids: this.taxon.conservation_legislations.map(conservationLegislation => conservationLegislation.id),
-                conservation_documents_ids: this.taxon.conservation_documents.map(conservationDocument => conservationDocument.id),
-                red_lists_data: this.taxon.red_lists.map(redList => {
-                  return { red_list_id: redList.id, category: redList.pivot.category }
-                }),
-                native_name: this.nativeNames,
-                description: this.descriptions,
-            }, {
-                resetOnSuccess: false
-            }),
-            parentName: this.taxon && this.taxon.parent ? this.taxon.parent.name : null,
+            form: this.newForm(),
+            parentName: _.get(this.taxon, 'parent.name'),
             selectedParent: null,
             chosenRedList: null
         };
@@ -328,6 +305,23 @@ export default {
     },
 
     methods: {
+        newForm() {
+            return new Form({
+                ...this.taxon,
+                stages_ids: this.taxon.stages.map(stage => stage.id),
+                conservation_legislations_ids: this.taxon.conservation_legislations.map(conservationLegislation => conservationLegislation.id),
+                conservation_documents_ids: this.taxon.conservation_documents.map(conservationDocument => conservationDocument.id),
+                red_lists_data: this.taxon.red_lists.map(redList => {
+                  return { red_list_id: redList.id, category: redList.pivot.category }
+                }),
+                native_name: this.nativeNames,
+                description: this.descriptions,
+                reason: null
+            }, {
+                resetOnSuccess: false
+            });
+        },
+
         /**
          * Add field to the form.
          */
@@ -356,52 +350,6 @@ export default {
         },
 
         /**
-         * Submit the form.
-         */
-        submit() {
-            if (this.form.processing) {
-                return;
-            }
-
-            this.form[this.method.toLowerCase()](this.action)
-                .then(this.onSuccessfulSubmit)
-                .catch(this.onFailedSubmit);
-        },
-
-        /**
-         * Handle successful form submit.
-         */
-        onSuccessfulSubmit() {
-            this.form.processing = true
-
-            this.$toast.open({
-                message: this.trans('Saved successfully'),
-                type: 'is-success'
-            });
-
-            // We want to wait a bit before we send the user to redirect route
-            // so we can show the message that the action was successful.
-            setTimeout(() => {
-                this.form.processing = false;
-
-                window.location.href = this.redirect;
-            }, 500);
-        },
-
-        /**
-         * Handle failed form submit.
-         *
-         * @param {Error} error
-         */
-        onFailedSubmit(error) {
-            this.$toast.open({
-                duration: 2500,
-                message: _.get(error, 'response.data.message', error.message),
-                type: 'is-danger'
-            });
-        },
-
-        /**
          * Handle taxon being selected.
          *
          * @param {Object} taxon
@@ -421,6 +369,11 @@ export default {
                 this.getRankLevel(this.form.rank) >= selectedParent.rank_level;
         },
 
+        /**
+         * Get rank level.
+         * @param {Object} rank
+         * @return {Number}
+         */
         getRankLevel(rank) {
             return _.get(_.find(this.ranks, { value: rank }), 'level');
         }

@@ -9,8 +9,11 @@
             approve-route="api.approved-field-observations-batch.store"
             mark-as-unidentifiable-route="api.unidentifiable-field-observations-batch.store"
             empty="{{ __('No data...') }}"
-            approvable>
-        </nz-field-observations-table>
+            approvable
+            @role(['admin', 'curator'])
+            show-activity-log
+            @endrole
+        />
     </div>
 @endsection
 

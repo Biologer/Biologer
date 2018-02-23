@@ -66,6 +66,8 @@
                 </b-table-column>
 
                 <b-table-column :label="trans('labels.actions')" width="100">
+                    <a @click="openActivityLogModal(row)" v-if="showActivityLog && row.activity.length > 0" :title="trans('Activity Log')"><b-icon icon="history" /></a>
+
                     <a :href="editLink(row)"><b-icon icon="edit"></b-icon></a>
 
                     <a @click="confirmRemove(row)"><b-icon icon="trash"></b-icon></a>
@@ -92,6 +94,18 @@
                 </b-field>
             </template>
         </b-table>
+
+        <b-modal :active="activityLog.length > 0" @close="activityLog = []">
+            <div class="modal-card">
+                <div class="modal-card-head">
+                    <b-icon icon="history" />
+                    <p class="modal-card-title">{{ trans('Activity Log') }}</p>
+                </div>
+                <div class="modal-card-body">
+                    <nz-taxon-activity-log :activities="activityLog" />
+                </div>
+            </div>
+        </b-modal>
     </div>
 </template>
 
@@ -118,7 +132,8 @@ export default {
             type: String,
             default: 'Nothing here.'
         },
-        ranks: Array
+        ranks: Array,
+        showActivityLog: Boolean
     },
 
     data() {
@@ -140,7 +155,8 @@ export default {
             newFilter: {
                 name: '',
                 rank_level: ''
-            }
+            },
+            activityLog: []
         };
     },
 
@@ -242,6 +258,10 @@ export default {
 
         editLink (row) {
             return route(this.editRoute, row.id);
+        },
+
+        openActivityLogModal(row) {
+            this.activityLog = row.activity;
         }
     }
 }

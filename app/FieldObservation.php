@@ -7,6 +7,7 @@ use App\Concerns\CanMemoize;
 use Sofa\Eloquence\Mappable;
 use Sofa\Eloquence\Eloquence;
 use Illuminate\Support\Carbon;
+use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\Storage;
 
 class FieldObservation extends Model
@@ -27,7 +28,7 @@ class FieldObservation extends Model
     ];
 
     /**
-     * The relations to eager load on every query.
+     * The accessors to append to the model's array form.
      *
      * @var array
      */
@@ -91,6 +92,11 @@ class FieldObservation extends Model
     public function photos()
     {
         return $this->belongsToMany(Photo::class);
+    }
+
+    public function activity()
+    {
+        return $this->morphMany(Activity::class, 'subject')->latest();
     }
 
     /**
@@ -306,6 +312,17 @@ class FieldObservation extends Model
         return $this;
     }
 
+    public function markAsPending()
+    {
+        $this->observation->unapprove();
+
+        if ($this->unidentifiable) {
+            $this->forceFill(['unidentifiable' => false])->save();
+        }
+
+        return $this;
+    }
+
     /**
      * Check if field observation is approved.
      *
@@ -314,6 +331,16 @@ class FieldObservation extends Model
     public function isApproved()
     {
         return $this->observation->isApproved();
+    }
+
+    /**
+     * Check if field observation is pending.
+     *
+     * @return bool
+     */
+    public function isPending()
+    {
+        return ! $this->isApproved() && ! $this->unidentifiable;
     }
 
     /**
@@ -384,6 +411,7 @@ class FieldObservation extends Model
             'data_license' => $this->license,
             'time' => $this->time ? $this->time->format('H:i') : null,
             'status' => $this->status,
+            'activity' => $this->activity,
         ];
     }
 

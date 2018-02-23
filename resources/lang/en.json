@@ -1,4 +1,6 @@
 {
+    "Yes": "Yes",
+    "No": "No",
     "You are receiving this email because we received a password reset request for your account.": "You are receiving this email because we received a password reset request for your account.",
     "If you did not request a password reset, no further action is required.": "If you did not request a password reset, no further action is required.",
     "Account Verification": "Account Verification",
@@ -12,7 +14,16 @@
     "You are about to approve checked observations.<br/>Those of them that cannot be approved, will not be approved.": "You are about to approve checked observations.<br/>Those of them that cannot be approved, will not be approved.",
     "Observations have been approved": "Observations have been approved",
     "Observations cannot be approved": "Observations cannot be approved",
-    "You are about to mark checked observations as unidentifiable.": "You are about to mark checked observations as unidentifiable.",
+    "You are about to mark checked observations as unidentifiable. What's the reason?": "You are about to mark checked observations as unidentifiable. What's the reason?",
     "Observations have been marked as unidentifiable": "Observations have been marked as unidentifiable",
-    "Some of the observations cannot be marked as unidentifiable": "Some of the observations cannot be marked as unidentifiable"
+    "Some of the observations cannot be marked as unidentifiable": "Some of the observations cannot be marked as unidentifiable",
+    "You've made changes to data entry. Save changes?": "You've made changes to data entry. Save changes?",
+    "Reason for changing data. Please try to be precise in order to keep the track of changes and ensure data verification.": "Reason for changing data. Please try to be precise in order to keep the track of changes and ensure data verification.",
+    "There are no changes, the data will not be saved.": "There are no changes, the data will not be saved.",
+    "If you leave this page changes will not be saved.": "If you leave this page changes will not be saved.",
+    "Reason": "Reason",
+    "Activity Log": "Activity Log",
+    "added record": "added record",
+    "changed": "changed",
+    "This field is required and can contain max 255 chars.": "This field is required and can contain max 255 chars."
 }

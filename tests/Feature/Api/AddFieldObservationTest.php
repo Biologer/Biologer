@@ -64,12 +64,15 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function authenticated_user_can_add_field_observation()
     {
+        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
         $user = factory(User::class)->create();
         Passport::actingAs($user);
 
         $fieldObservationsCount = FieldObservation::count();
 
-        $response = $this->postJson('/api/field-observations', $this->validParams());
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'taxon_id' => $taxon->id,
+        ]));
 
         $response->assertStatus(201);
 
@@ -77,7 +80,10 @@ class AddFieldObservationTest extends TestCase
         $fieldObservation = FieldObservation::latest()->first();
 
         $this->assertEquals('12:00', $fieldObservation->time->format('H:i'));
-        tap($fieldObservation->observation, function ($observation) use ($user) {
+        $this->assertEquals('Cerambyx cerdo', $fieldObservation->taxon_suggestion);
+        
+        tap($fieldObservation->observation, function ($observation) use ($user, $taxon) {
+            $this->assertTrue($observation->taxon->is($taxon));
             $this->assertEquals($user->full_name, $observation->observer);
             $this->assertEquals(2017, $observation->year);
             $this->assertEquals(7, $observation->month);
@@ -95,6 +101,28 @@ class AddFieldObservationTest extends TestCase
             $this->assertEquals('The Big Project', $observation->project);
             $this->assertEquals('Leaf of birch', $observation->found_on);
         });
+    }
+
+    /** @test */
+    public function activity_log_entry_is_added_when_field_observation_is_added()
+    {
+        $user = factory(User::class)->create();
+        Passport::actingAs($user);
+
+        $fieldObservationsCount = FieldObservation::count();
+
+        $response = $this->postJson('/api/field-observations', $this->validParams());
+
+        $response->assertStatus(201);
+
+        FieldObservation::assertCount($fieldObservationsCount + 1);
+        $fieldObservation = FieldObservation::latest()->first();
+
+        $fieldObservation->activity->assertCount(1);
+        $activity = $fieldObservation->activity->latest()->first();
+
+        $this->assertEquals('created', $activity->description);
+        $this->assertTrue($activity->causer->is($user));
     }
 
     /** @test */

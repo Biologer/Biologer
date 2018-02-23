@@ -7,8 +7,9 @@
             edit-route="admin.taxa.edit"
             delete-route="api.taxa.destroy"
             :ranks="{{ json_encode(\App\Taxon::getRankOptions()) }}"
-            empty="{{ __('No data...') }}">
-        </nz-taxa-table>
+            empty="{{ __('No data...') }}"
+            show-activity-log
+        />
     </div>
 @endsection
 

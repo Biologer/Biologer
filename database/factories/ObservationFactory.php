@@ -4,7 +4,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\FieldObservation::class, function (Faker $faker) {
     return [
-        'license' => App\License::getFirstId(),
+        'license' => App\License::firstId(),
         'taxon_suggestion' => 'Cerambyx cerdo',
         'found_dead' => $faker->boolean,
         'found_dead_note' => $faker->sentence,

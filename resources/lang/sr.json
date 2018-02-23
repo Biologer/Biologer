@@ -1,4 +1,6 @@
 {
+    "Yes": "Да",
+    "No": "Не",
     "You are receiving this email because we received a password reset request for your account.": "Добили сте овај и-мејл зато што смо примили ваш захтев за ресетовање лозинке.",
     "If you did not request a password reset, no further action is required.": "У случају да нисте послали захтев за ресетовање лозинке, није потребна било каква акција.",
     "Account Verification": "Верификација налога",
@@ -12,7 +14,16 @@
     "You are about to approve checked observations.<br/>Those of them that cannot be approved, will not be approved.": "Покушавате да одобрите означене уносе.<br/>Они који не могу бити одобрени, неће бити одобрени.",
     "Observations have been approved": "Уноси су одобрени",
     "Observations cannot be approved": "Означени уноси се не могу одобрити",
-    "You are about to mark checked observations as unidentifiable.": "Покушавате да означите одабране уносе као да није могућа идентификација.",
+    "You are about to mark checked observations as unidentifiable. What's the reason?": "Покушавате да означите одабране уносе као да није могућа идентификација. Који је разлог?",
     "Observations have been marked as unidentifiable": "Уноси су означени као да није могућа идентификација",
-    "Some of the observations cannot be marked as unidentifiable": "Неки од уноса се не могу означити као да није могуће идентификација"
+    "Some of the observations cannot be marked as unidentifiable": "Неки од уноса се не могу означити као да није могуће идентификација",
+    "You've made changes to data entry. Save changes?": "Направили сте измене унетог податка. Да ли желите да сачувате?",
+    "Reason for changing data. Please try to be precise in order to keep the track of changes and ensure data verification.": "Разлог промене података. Молимо вас да будете прецизни како бисмо лакше пратили измене и осигурали валидност података.",
+    "There are no changes, the data will not be saved.": "Нема промена, подаци неће бити сачувани.",
+    "If you leave this page changes will not be saved.": "Уколико напустите страницу измене неће бити сачуване.",
+    "Reason": "Разлог",
+    "Activity Log": "Дневник активности",
+    "added record": "је додао/ла унос",
+    "changed": "је изменио/ла",
+    "This field is required and can contain max 255 chars.": "Ово поље је обавезно и може садржати највише 255 знакова."
 }

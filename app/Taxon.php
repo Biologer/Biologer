@@ -4,6 +4,7 @@ namespace App;
 
 use App\Filters\Filterable;
 use Dimsav\Translatable\Translatable;
+use Spatie\Activitylog\Models\Activity;
 
 class Taxon extends Model
 {
@@ -62,6 +63,15 @@ class Taxon extends Model
         'ancestry' => '',
         'invasive' => false,
         'restricted' => false,
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'created_at', 'updated_at',
     ];
 
     /**
@@ -197,6 +207,11 @@ class Taxon extends Model
     public function stages()
     {
         return $this->belongsToMany(Stage::class);
+    }
+
+    public function activity()
+    {
+        return $this->morphMany(Activity::class, 'subject')->latest();
     }
 
     /**

@@ -12,10 +12,10 @@ class Localization
         $locale = app()->getLocale();
 
         return Cache::rememberForever("localizationStrings.{$locale}", function () use ($locale) {
-            return array_merge(
+            return array_dot(array_merge(
                 static::loadJson($locale),
                 static::loadTranslations($locale)
-            );
+            ));
         });
     }
 

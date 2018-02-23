@@ -5,12 +5,15 @@
         <nz-taxon-form
             action="{{ route('api.taxa.store') }}"
             method="POST"
+            redirect-url="{{ route('admin.taxa.index') }}"
+            cancel-url="{{ route('admin.taxa.index') }}"
             :ranks="{{ $ranks }}"
             :conservation-legislations="{{ $conservationLegislations }}"
             :conservation-documents="{{ $conservationDocuments }}"
             :red-lists="{{ $redLists }}"
             :red-list-categories="{{ $redListCategories }}"
             :stages="{{ $stages }}"
+            should-confirm-cancel
         ></nz-taxon-form>
     </div>
 @endsection

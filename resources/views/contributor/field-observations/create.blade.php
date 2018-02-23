@@ -5,12 +5,14 @@
         <nz-field-observation-form
             action="{{ route('api.field-observations.store') }}"
             method="POST"
-            redirect="{{ route('contributor.field-observations.index') }}"
+            redirect-url="{{ route('contributor.field-observations.index') }}"
+            cancel-url="{{ route('contributor.field-observations.index') }}"
             photo-upload-url="{{ route('api.photo-uploads.store') }}"
             photo-remove-url="{{ route('api.photo-uploads.destroy') }}"
-            :licenses="{{ json_encode(\App\License::getAvailable()) }}"
+            :licenses="{{ json_encode(\App\License::getOptions()) }}"
             :sexes="{{ json_encode(\App\Observation::SEX_OPTIONS) }}"
-            save-more
+            submit-more
+            should-confirm-cancel
         ></nz-fild-observation-form>
     </div>
 @endsection

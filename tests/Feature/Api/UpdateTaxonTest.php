@@ -44,6 +44,7 @@ class UpdateTaxonTest extends TestCase
             'description' => [
                 app()->getLocale() => 'test description',
             ],
+            'reason' => 'Testing',
         ], $overrides);
     }
 
@@ -153,5 +154,51 @@ class UpdateTaxonTest extends TestCase
         ]));
 
         $response->assertUnauthorized();
+    }
+
+    /** @test */
+    public function activity_log_entry_is_added_when_field_observation_is_updated()
+    {
+        $this->artisan('db:seed', ['--class' => 'StagesTableSeeder']);
+        $taxon = factory(Taxon::class)->create([
+            'parent_id' => factory(Taxon::class)->create(['name' => 'Cerambyx'])->id,
+            'name' => 'Cerambyx scopolii',
+        ]);
+        $taxon->stages()->sync($stages = Stage::all());
+
+        $activityCount = $taxon->activity()->count();
+
+        $user = factory(User::class)->create();
+        $taxon->curators()->attach($user);
+        Passport::actingAs($user);
+
+        $response = $this->putJson(
+            "/api/taxa/{$taxon->id}",
+            $this->validParams([
+                'parent_id' => factory(Taxon::class)->create()->id,
+                'name' => 'Cerambyx cerdo',
+                'restricted' => true,
+                'allochthonous' => true,
+                'invasive' => true,
+                'stages_ids' => [],
+                'reason' => 'Just testin\' :)',
+            ])
+        );
+
+        $response->assertStatus(200);
+
+        tap($taxon->fresh(), function ($taxon) use ($activityCount, $user, $stages) {
+            $taxon->activity->assertCount($activityCount + 1);
+            $activity = $taxon->activity->latest()->first();
+
+            $this->assertEquals('updated', $activity->description);
+            $this->assertTrue($activity->causer->is($user));
+            $this->assertArraySubset([
+                'parent' => 'Cerambyx',
+                'name' => 'Cerambyx scopolii',
+                'stages' => null,
+            ], $activity->changes()->get('old'));
+            $this->assertEquals('Just testin\' :)', $activity->getExtraProperty('reason'));
+        });
     }
 }
