@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Stage;
 use App\Taxon;
-use App\RedList;
-use App\ConservationDocument;
-use Illuminate\Validation\Rule;
-use App\ConservationLegislation;
+use App\Http\Requests\StoreTaxon;
+use App\Http\Requests\UpdateTaxon;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaxonResource;
-
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class TaxaController extends Controller
 {
@@ -49,59 +44,12 @@ class TaxaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param  \App\Http\Requests\StoreTaxon  $form
      * @return \App\Http\Resources\TaxonResource
      */
-    public function store()
+    public function store(StoreTaxon $form)
     {
-        $this->authorize('create', [Taxon::class, request('parent_id')]);
-
-        request()->validate([
-            'name' => ['required', 'unique:taxa,name'],
-            'parent_id' => ['nullable', 'exists:taxa,id'],
-            'rank' => ['required', Rule::in(array_keys(Taxon::RANKS))],
-            'author' => ['nullable', 'string'],
-            'fe_old_id' => ['nullable', 'integer'],
-            'fe_id' => ['nullable'],
-            'restricted' => ['boolean'],
-            'allochthonous' => ['boolean'],
-            'invasive' => ['boolean'],
-            'stages_ids' => ['nullable', 'array'],
-            'stages_ids.*' => ['required', Rule::in(Stage::pluck('id')->all())],
-            'conservation_legislations_ids' => [
-                'nullable', 'array', Rule::in(ConservationLegislation::pluck('id')->all()),
-            ],
-            'conservation_documents_ids' => [
-                'nullable', 'array', Rule::in(ConservationDocument::pluck('id')->all()),
-            ],
-            'red_lists_data' => ['nullable', 'array'],
-            'red_lists_data.*' => ['array'],
-            'red_lists_data.*.red_list_id' => [
-                'required',
-                Rule::in(RedList::pluck('id')->all()),
-            ],
-            'red_lists_data.*.category' => [
-                'required',
-                Rule::in(RedList::CATEGORIES),
-            ],
-        ], [], [
-            'parent_id' => 'parent',
-        ]);
-
-        $taxon = Taxon::create(array_merge(request([
-            'name', 'parent_id', 'rank', 'fe_old_id', 'fe_id', 'restricted',
-            'allochthonous', 'invasive', 'author',
-        ]), $this->mapTranslatedAttributes(request()->all(), [
-            'description', 'native_name',
-        ])));
-
-        $taxon->stages()->sync(request('stages_ids', []));
-        $taxon->conservationLegislations()->sync(request('conservation_legislations_ids', []));
-        $taxon->conservationDocuments()->sync(request('conservation_documents_ids', []));
-        $taxon->redLists()->sync(
-            $this->mapRedListsData(request('red_lists_data', []))
-        );
-
-        return new TaxonResource($taxon);
+        return new TaxonResource($form->save());
     }
 
 
@@ -109,57 +57,12 @@ class TaxaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Taxon  $taxon
+     * @param  \App\Http\Requests\UpdateTaxon  $form
      * @return \App\Http\Resources\TaxonResource
      */
-    public function update(Taxon $taxon)
+    public function update(Taxon $taxon, UpdateTaxon $form)
     {
-        request()->validate([
-            'name' => ['required', Rule::unique('taxa', 'name')->ignore($taxon->id)],
-            'parent_id' => ['nullable', 'exists:taxa,id'],
-            'rank' => ['required', Rule::in(array_keys(Taxon::RANKS))],
-            'author' => ['nullable', 'string'],
-            'fe_old_id' => ['nullable', 'integer'],
-            'fe_id' => ['nullable'],
-            'restricted' => ['boolean'],
-            'allochthonous' => ['boolean'],
-            'invasive' => ['boolean'],
-            'stages_ids' => ['nullable', 'array'],
-            'stages_ids.*' => ['required', Rule::in(Stage::pluck('id')->all())],
-            'conservation_legislations_ids' => [
-                'nullable', 'array', Rule::in(ConservationLegislation::pluck('id')->all()),
-            ],
-            'conservation_documents_ids' => [
-                'nullable', 'array', Rule::in(ConservationDocument::pluck('id')->all()),
-            ],
-            'red_lists_data' => ['nullable', 'array'],
-            'red_lists_data.*' => ['array'],
-            'red_lists_data.*.red_list_id' => [
-                'required',
-                Rule::in(RedList::pluck('id')->all()),
-            ],
-            'red_lists_data.*.category' => [
-                'required',
-                Rule::in(RedList::CATEGORIES),
-            ],
-        ], [], [
-            'parent_id' => 'parent',
-        ]);
-
-        $taxon->update(array_merge(request([
-            'name', 'parent_id', 'rank', 'fe_old_id', 'fe_id', 'restricted',
-            'allochthonous', 'invasive', 'author',
-        ]), $this->mapTranslatedAttributes(request()->all(), [
-            'description', 'native_name',
-        ])));
-
-        $taxon->stages()->sync(request('stages_ids', []));
-        $taxon->conservationLegislations()->sync(request('conservation_legislations_ids', []));
-        $taxon->conservationDocuments()->sync(request('conservation_documents_ids', []));
-        $taxon->redLists()->sync(
-            $this->mapRedListsData(request('red_lists_data', []))
-        );
-
-        return new TaxonResource($taxon);
+        return new TaxonResource($form->save($taxon));
     }
 
     /**
@@ -173,27 +76,5 @@ class TaxaController extends Controller
         $taxon->delete();
 
         return response()->json(null, 204);
-    }
-
-    /**
-     * Map red list data to format required to store the value.
-     * @param  array  $redListsData
-     * @return array
-     */
-    protected function mapRedListsData($redListsData = [])
-    {
-        return collect($redListsData)->mapWithKeys(function ($item) {
-            return [$item['red_list_id'] => ['category' => $item['category']]];
-        })->all();
-    }
-
-    protected function mapTranslatedAttributes($data, array $attributes)
-    {
-        return collect(LaravelLocalization::getSupportedLanguagesKeys())
-            ->mapWithKeys(function ($locale) use ($data, $attributes) {
-                return [$locale => collect($attributes)->mapWithKeys(function ($attribute) use ($data, $locale) {
-                    return [$attribute => array_get($data, $attribute.'.'.$locale)];
-                })->toArray()];
-            })->toArray();
     }
 }

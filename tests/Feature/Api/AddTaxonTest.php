@@ -75,7 +75,6 @@ class AddTaxonTest extends TestCase
     /** @test */
     public function user_with_the_role_of_admin_can_create_taxon()
     {
-        $this->withoutExceptionHandling();
         Passport::actingAs(factory(User::class)->create()->assignRole('admin'));
         $stages = factory(Stage::class, 2)->create();
         $conservationLegislations = factory(ConservationLegislation::class, 2)->create();
