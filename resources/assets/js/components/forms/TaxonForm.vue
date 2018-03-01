@@ -47,17 +47,17 @@
         <hr>
 
         <b-field :label="trans('labels.taxa.native_name')">
-            <b-tabs size="is-small" class="block">
+            <b-tabs size="is-small" class="block" @change="(index) => focusOnTranslation(index, 'native_name')">
                 <b-tab-item :label="trans('languages.' + data.name)" v-for="(data, locale) in supportedLocales" :key="locale">
-                    <b-input v-model="form.native_name[locale]" />
+                    <b-input v-model="form.native_name[locale]" :id="`native_name-${locale}`" />
                 </b-tab-item>
             </b-tabs>
         </b-field>
 
         <b-field :label="trans('labels.taxa.description')">
-            <b-tabs size="is-small" class="block">
+            <b-tabs size="is-small" class="block" @change="(index) => focusOnTranslation(index, 'description')">
                 <b-tab-item :label="trans('languages.' + data.name)" v-for="(data, locale) in supportedLocales" :key="locale">
-                    <b-input type="textarea" v-model="form.description[locale]" />
+                    <b-input type="textarea" v-model="form.description[locale]" :id="`description-${locale}`" />
                 </b-tab-item>
             </b-tabs>
         </b-field>
@@ -376,6 +376,15 @@ export default {
          */
         getRankLevel(rank) {
             return _.get(_.find(this.ranks, { value: rank }), 'level');
+        },
+
+        focusOnTranslation(index, attribute) {
+            const locales = _.keys(this.supportedLocales);
+            const selector = `#${attribute}-${locales[index]}`;
+
+            setTimeout(() => {
+                this.$el.querySelector(selector).focus();
+            }, 500)
         }
     }
 }
