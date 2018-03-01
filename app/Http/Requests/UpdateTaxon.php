@@ -154,6 +154,16 @@ class UpdateTaxon extends FormRequest
                 $data[$key] = null;
             } elseif ('red_lists' === $key && $this->redListsAreChanged($taxon, collect($value))) {
                 $data[$key] = null;
+            } elseif ('translations' === $key) {
+                if ($this->translationIsChanged('description', collect($value), $taxon->translations)) {
+                    $data['description'] = null;
+                }
+
+                if ($this->translationIsChanged('native_name', collect($value), $taxon->translations)) {
+                    $data['native_name'] = null;
+                }
+            } elseif ('red_lists' === $key && $this->redListsAreChanged($taxon, collect($value))) {
+                $data[$key] = null;
             } elseif (in_array($key, $changed)) {
                 if ('parent_id' === $key) {
                     $data['parent'] = $oldData['parent'] ? $oldData['parent']['name'] : $value;
@@ -177,8 +187,8 @@ class UpdateTaxon extends FormRequest
         $taxon->load('stages');
 
         return $oldValue->count() !== $taxon->stages->count()
-            || (!$oldValue->isEmpty() && !$taxon->stages->isEmpty()
-            && $oldValue->pluck('id')->diff($taxon->stages->pluck('id')));
+            || ($oldValue->isNotEmpty() && $taxon->stages->isNotEmpty()
+            && $oldValue->pluck('id')->diff($taxon->stages->pluck('id'))->isNotEmpty());
     }
 
     protected function conservationLegislationsAreChanged($taxon, $oldValue)
@@ -186,8 +196,8 @@ class UpdateTaxon extends FormRequest
         $taxon->load('conservationLegislations');
 
         return $oldValue->count() !== $taxon->conservationLegislations->count()
-            || (!$oldValue->isEmpty() && !$taxon->conservationLegislations->isEmpty()
-            && $oldValue->pluck('id')->diff($taxon->conservationLegislations->pluck('id')));
+            || ($oldValue->isNotEmpty() && $taxon->conservationLegislations->isNotEmpty()
+            && $oldValue->pluck('id')->diff($taxon->conservationLegislations->pluck('id'))->isNotEmpty());
     }
 
     protected function conservationDocumentsAreChanged($taxon, $oldValue)
@@ -195,8 +205,8 @@ class UpdateTaxon extends FormRequest
         $taxon->load('conservationDocuments');
 
         return $oldValue->count() !== $taxon->conservationDocuments->count()
-            || (!$oldValue->isEmpty() && !$taxon->conservationDocuments->isEmpty()
-            && $oldValue->pluck('id')->diff($taxon->conservationDocuments->pluck('id')));
+            || ($oldValue->isNotEmpty() && !$taxon->conservationDocuments->isNotEmpty()
+            && $oldValue->pluck('id')->diff($taxon->conservationDocuments->pluck('id'))->isNotEmpty());
     }
 
     protected function redListsAreChanged($taxon, $oldValue)
@@ -205,11 +215,24 @@ class UpdateTaxon extends FormRequest
 
         return $oldValue->count() !== $taxon->redLists->count()
             || (!$oldValue->isEmpty() && !$taxon->redLists->isEmpty()
-            && $oldValue->pluck('id')->diff($taxon->redLists->pluck('id'))
+            && $oldValue->pluck('id')->diff($taxon->redLists->pluck('id'))->isNotEmpty()
             || $oldValue->filter(function ($oldRedList) use ($taxon) {
                 return $taxon->redLists->contains(function ($redList) use ($oldRedList) {
                     return $redList->is($oldRedList) && $redList->pivot->category === $oldRedList->pivot->category;
                 });
             })->count() !== $oldValue->count());
+    }
+
+    public function translationIsChanged($translatedAttribute, $oldValue, $value)
+    {
+        $old = $oldValue->mapWithKeys(function ($translation) use ($translatedAttribute) {
+            return [$translation['locale'] => $translation[$translatedAttribute]];
+        });
+
+        $new = $value->mapWithKeys(function ($translation) use ($translatedAttribute) {
+            return [$translation->locale => $translation->{$translatedAttribute}];
+        });
+
+        return !$old->diffAssoc($new)->isEmpty() || !$new->diffAssoc($old)->isEmpty();
     }
 }
