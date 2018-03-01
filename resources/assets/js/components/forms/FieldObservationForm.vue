@@ -166,6 +166,7 @@
                     @input="onTimeInput"
                     :placeholder="trans('labels.field_observations.click_to_select')"
                     icon="clock-o"
+                    :mobile-native="false"
                 >
                     <button type="button" class="button is-danger"
                         @click="form.time = null">

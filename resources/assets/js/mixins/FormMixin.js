@@ -95,7 +95,8 @@ export default {
                 message: this.confirmSubmitMessage,
                 confirmText: this.trans('buttons.save'),
                 cancelText: this.trans('buttons.cancel'),
-                onConfirm
+                onConfirm,
+                onCancel: () => { this.confirmingSubmit = false; }
             };
 
             if (!this.shouldAskReason) {
@@ -306,6 +307,7 @@ export default {
                     this.confirmingCancel = false;
                     window.location.href = this.cancelUrl;
                 },
+                onCancel: () => { this.confirmingCancel = false; },
                 cancelText: this.trans('buttons.stay_on_page'),
                 confirmText: this.trans('buttons.leave_page'),
             });
