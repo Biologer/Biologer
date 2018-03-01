@@ -67,6 +67,7 @@ class StoreFieldObservation extends FormRequest
             'time' => ['nullable', 'date_format:H:i'],
             'project' => ['nullable', 'string', 'max:191'],
             'found_on' => ['nullable', 'string', 'max:191'],
+            'note' => ['nullable', 'string'],
         ];
     }
 
@@ -148,6 +149,7 @@ class StoreFieldObservation extends FormRequest
             'note' => $this->input('note'),
             'project' => $this->input('project'),
             'found_on' => $this->input('found_on'),
+            'note' => $this->input('note'),
         ];
     }
 

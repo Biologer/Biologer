@@ -63,6 +63,7 @@ class UpdateFieldObservation extends FormRequest
             'time' => ['nullable' ,'date_format:H:i'],
             'project' => ['nullable', 'string', 'max:191'],
             'found_on' => ['nullable', 'string', 'max:191'],
+            'note' => ['nullable', 'string'],
             'reason' => ['required', 'string', 'max:255'],
         ];
     }
@@ -139,6 +140,7 @@ class UpdateFieldObservation extends FormRequest
             'stage_id' => $this->input('stage_id'),
             'project' => $this->input('project'),
             'found_on' => $this->input('found_on'),
+            'note' => $this->input('note'),
         ];
     }
 
@@ -238,6 +240,6 @@ class UpdateFieldObservation extends FormRequest
 
         return $oldPhotos->count() !== $fieldObservation->photos->count()
             || (!$oldPhotos->isEmpty() && !$fieldObservation->photos->isEmpty()
-            && $oldPhotos->pluck('path')->diff($fieldObservation->photos->pluck('path')));
+            && !$oldPhotos->pluck('id')->diff($fieldObservation->photos->pluck('id'))->isEmpty());
     }
 }
