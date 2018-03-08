@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "12d3a222c149af32b6cc80eebf9d80d4",
+    "content-hash": "88ed89fe6aac015fd95494861aa58612",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -55,6 +55,57 @@
                 "toolkit"
             ],
             "time": "2015-05-16T19:24:58+00:00"
+        },
+        {
+            "name": "czim/laravel-localization-route-cache",
+            "version": "0.9.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/czim/laravel-localization-route-cache.git",
+                "reference": "9e7af6076e148eed0491265891975fa7453f776a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/czim/laravel-localization-route-cache/zipball/9e7af6076e148eed0491265891975fa7453f776a",
+                "reference": "9e7af6076e148eed0491265891975fa7453f776a",
+                "shasum": ""
+            },
+            "require": {
+                "mcamara/laravel-localization": "^1.1",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.0",
+                "phpunit/phpunit": "4.*",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Czim\\LaravelLocalizationRouteCache\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Coen Zimmerman",
+                    "email": "coen@pixelindustries.com",
+                    "homepage": "http://www.pixelindustries.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Translated route caching solution for laravel localization",
+            "homepage": "https://github.com/czim/laravel-localization-route-cache",
+            "keywords": [
+                "cache",
+                "localization",
+                "route",
+                "translations"
+            ],
+            "time": "2017-12-11T16:18:17+00:00"
         },
         {
             "name": "defuse/php-encryption",
