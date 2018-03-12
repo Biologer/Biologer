@@ -4,7 +4,9 @@
             <gmap-map style="width: 100%; min-height: 400px"
                 :center="{lat: center.latitude, lng: center.longitude}"
                 :zoom="center.zoom"
-                @click="setMarker">
+                @click="setMarker"
+                @zoom_changed="onZoomChanged"
+            >
                 <gmap-marker
                     :position="position"
                     :clickable="true"
@@ -16,7 +18,8 @@
                     :center="position"
                     :radius="newAccuracy"
                     :editable="true"
-                    @radius_changed="updateRadius"/>
+                    @radius_changed="updateRadius"
+                    :options="{ strokeWeight: .75 }"/>
             </gmap-map>
         </b-field>
 
@@ -84,14 +87,12 @@
 </template>
 
 <script>
+const ZOOM_ONE = 6144000;
+
 export default {
     name: 'nzSpatialInput',
 
     props: {
-        emptyAccuracy: {
-            type: Number,
-            default: 1000
-        },
         accuracy: Number,
         elevation: {
             type: Number,
@@ -119,6 +120,7 @@ export default {
 
     data() {
         return {
+            emptyAccuracy: this.calculateEmptyAccuracy(window.App.gmaps.center.zoom),
             showDetails: false,
             elevationService: null,
             center: window.App.gmaps.center
@@ -335,6 +337,23 @@ export default {
 
                 this.updateElevation(parseInt(results[0].elevation));
             })
+        },
+
+        /**
+         * Recalculate default accuracy when zoom is changed.
+         * @param  {Number} zoom
+         */
+        onZoomChanged(zoom) {
+            this.emptyAccuracy = this.calculateEmptyAccuracy(zoom);
+        },
+
+        /**
+         * Calculate accuracy based on map zoom.
+         * @param  {Number} zoom
+         * @return {Number}
+         */
+        calculateEmptyAccuracy(zoom) {
+            return parseInt(ZOOM_ONE / Math.pow(2, zoom));
         }
     }
 }
