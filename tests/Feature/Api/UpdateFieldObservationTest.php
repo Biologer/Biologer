@@ -167,6 +167,68 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     /** @test */
+    public function time_is_not_logged_if_not_changed()
+    {
+        $user = factory(User::class)->create();
+        Passport::actingAs($user);
+        $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
+            'created_by_id' => $user->id,
+        ], [
+            'time' => '09:00',
+        ]);
+        $activityCount = $fieldObservation->activity()->count();
+
+        $response = $this->putJson(
+            "/api/field-observations/{$fieldObservation->id}",
+            $this->validParams([
+                'time' => '09:00',
+                'latitude' => '43.123123',
+                'longitude' => '43.123123',
+                'elevation' => '239',
+                'accuracy' => '30',
+            ])
+        );
+
+        $response->assertStatus(200);
+
+        tap($fieldObservation->fresh(), function ($fieldObservation) use ($activityCount) {
+            $fieldObservation->activity->assertCount($activityCount + 1);
+            $activity = $fieldObservation->activity->latest()->first();
+
+            $this->assertArrayNotHasKey('time', $activity->changes()->get('old'));
+        });
+    }
+
+    /** @test */
+    public function time_is_logged_if_changed()
+    {
+        $user = factory(User::class)->create();
+        Passport::actingAs($user);
+        $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
+            'created_by_id' => $user->id,
+        ], [
+            'time' => '09:00',
+        ]);
+        $activityCount = $fieldObservation->activity()->count();
+
+        $response = $this->putJson(
+            "/api/field-observations/{$fieldObservation->id}",
+            $this->validParams([
+                'time' => '10:00',
+            ])
+        );
+
+        $response->assertStatus(200);
+
+        tap($fieldObservation->fresh(), function ($fieldObservation) use ($activityCount) {
+            $fieldObservation->activity->assertCount($activityCount + 1);
+            $activity = $fieldObservation->activity->latest()->first();
+
+            $this->assertArrayHasKey('time', $activity->changes()->get('old'));
+        });
+    }
+
+    /** @test */
     public function field_observation_cannot_be_updated_by_other_regular_user()
     {
         Passport::actingAs(factory(User::class)->create());

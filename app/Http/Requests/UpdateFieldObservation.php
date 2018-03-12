@@ -170,7 +170,7 @@ class UpdateFieldObservation extends FormRequest
      */
     protected function getChangedData(FieldObservation $fieldObservation, array $oldData)
     {
-        $excluded = ['taxon_id', 'mgrs10k'];
+        $excluded = ['taxon_id', 'mgrs10k', 'time'];
         $changed = array_merge(
             array_keys($fieldObservation->observation->getChanges()),
             array_keys($fieldObservation->getChanges())
