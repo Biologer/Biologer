@@ -226,8 +226,9 @@ class UpdateTaxon extends FormRequest
     public function translationIsChanged($translatedAttribute, $oldValue, $value)
     {
         $old = $oldValue->mapWithKeys(function ($translation) use ($translatedAttribute) {
-            return [$translation['locale'] => $translation[$translatedAttribute]];
+            return [$translation['locale'] => $translation[$translatedAttribute] ?? null];
         });
+
 
         $new = $value->mapWithKeys(function ($translation) use ($translatedAttribute) {
             return [$translation->locale => $translation->{$translatedAttribute}];
