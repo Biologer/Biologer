@@ -145,7 +145,7 @@ class UpdateTaxon extends FormRequest
         $changed = array_keys($taxon->getChanges());
 
         $data = [];
-        foreach($oldData as $key => $value) {
+        foreach ($oldData as $key => $value) {
             if ('stages' === $key && $this->stagesAreChanged($taxon, collect($value))) {
                 $data[$key] = null;
             } elseif ('conservation_legislations' === $key && $this->conservationLegislationsAreChanged($taxon, collect($value))) {
@@ -205,7 +205,7 @@ class UpdateTaxon extends FormRequest
         $taxon->load('conservationDocuments');
 
         return $oldValue->count() !== $taxon->conservationDocuments->count()
-            || ($oldValue->isNotEmpty() && !$taxon->conservationDocuments->isNotEmpty()
+            || ($oldValue->isNotEmpty() && ! $taxon->conservationDocuments->isNotEmpty()
             && $oldValue->pluck('id')->diff($taxon->conservationDocuments->pluck('id'))->isNotEmpty());
     }
 
@@ -214,7 +214,7 @@ class UpdateTaxon extends FormRequest
         $taxon->load('redLists');
 
         return $oldValue->count() !== $taxon->redLists->count()
-            || (!$oldValue->isEmpty() && !$taxon->redLists->isEmpty()
+            || (! $oldValue->isEmpty() && ! $taxon->redLists->isEmpty()
             && $oldValue->pluck('id')->diff($taxon->redLists->pluck('id'))->isNotEmpty()
             || $oldValue->filter(function ($oldRedList) use ($taxon) {
                 return $taxon->redLists->contains(function ($redList) use ($oldRedList) {
@@ -233,6 +233,6 @@ class UpdateTaxon extends FormRequest
             return [$translation->locale => $translation->{$translatedAttribute}];
         });
 
-        return !$old->diffAssoc($new)->isEmpty() || !$new->diffAssoc($old)->isEmpty();
+        return ! $old->diffAssoc($new)->isEmpty() || ! $new->diffAssoc($old)->isEmpty();
     }
 }

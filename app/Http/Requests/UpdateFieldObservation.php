@@ -177,13 +177,13 @@ class UpdateFieldObservation extends FormRequest
         );
 
         $data = [];
-        foreach($oldData as $key => $value) {
+        foreach ($oldData as $key => $value) {
             if ('time' === $key && $this->timeIsChanged($fieldObservation, $value)) {
                 $data[$key] = $value;
             } elseif ('photos' === $key && $this->photosAreChanged($fieldObservation, $value)) {
                 // We just need to know that it changed. It's confusing to show what.
                 $data[$key] = null;
-            } elseif (in_array($key, $changed) && !in_array($key, $excluded)) {
+            } elseif (in_array($key, $changed) && ! in_array($key, $excluded)) {
                 if ('taxon_suggestion' === $key) {
                     // We need it with the key of "taxon", not "taxon_suggestion".
                     $data['taxon'] = $value;
@@ -194,7 +194,7 @@ class UpdateFieldObservation extends FormRequest
                         'label' => $value ? 'stages.'.Stage::find($value)->name : null,
                     ];
                 } elseif ('sex' === $key) {
-                   $data[$key] = [
+                    $data[$key] = [
                        'value' => $value,
                        'label' => $value ? 'labels.field_observations.'.$value : null,
                    ];
@@ -239,7 +239,7 @@ class UpdateFieldObservation extends FormRequest
         $fieldObservation->load('photos');
 
         return $oldPhotos->count() !== $fieldObservation->photos->count()
-            || (!$oldPhotos->isEmpty() && !$fieldObservation->photos->isEmpty()
-            && !$oldPhotos->pluck('id')->diff($fieldObservation->photos->pluck('id'))->isEmpty());
+            || (! $oldPhotos->isEmpty() && ! $fieldObservation->photos->isEmpty()
+            && ! $oldPhotos->pluck('id')->diff($fieldObservation->photos->pluck('id'))->isEmpty());
     }
 }

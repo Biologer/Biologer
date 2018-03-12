@@ -154,10 +154,10 @@ class UpdateFieldObservationTest extends TestCase
                 'taxon' => 'Cerambyx scopolii',
                 'stage' => ['label' => 'stages.'.$stages->first()->name],
                 'data_license' => [
-                    'label' => 'licenses.CC BY-SA 4.0'
+                    'label' => 'licenses.CC BY-SA 4.0',
                 ],
                 'time' => '09:00',
-                'found_dead'=> [
+                'found_dead' => [
                     'label' => 'Yes',
                 ],
                 'photos' => null,

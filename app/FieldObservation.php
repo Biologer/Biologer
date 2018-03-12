@@ -7,8 +7,8 @@ use App\Concerns\CanMemoize;
 use Sofa\Eloquence\Mappable;
 use Sofa\Eloquence\Eloquence;
 use Illuminate\Support\Carbon;
-use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Activitylog\Models\Activity;
 
 class FieldObservation extends Model
 {
@@ -43,7 +43,7 @@ class FieldObservation extends Model
         'found_dead' => 'boolean',
         'license' => 'integer',
         'unidentifiable' => 'boolean',
-        'approved_at' => 'datetime'
+        'approved_at' => 'datetime',
     ];
 
     protected $maps = [
