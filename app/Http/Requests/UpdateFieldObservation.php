@@ -224,7 +224,9 @@ class UpdateFieldObservation extends FormRequest
      */
     protected function timeIsChanged($fieldObservation, $oldValue)
     {
-        return $fieldObservation->time && $oldValue !== $fieldObservation->time->format('H:i');
+        return ($oldValue && ! $fieldObservation->time)
+            || $fieldObservation->time
+            && $oldValue !== $fieldObservation->time->format('H:i');
     }
 
     /**

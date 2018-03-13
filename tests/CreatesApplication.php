@@ -20,7 +20,7 @@ trait CreatesApplication
 
         $app->setLocale('en');
 
-        Hash::setRounds(4);
+        Hash::driver('bcrypt')->setRounds(4);
 
         return $app;
     }

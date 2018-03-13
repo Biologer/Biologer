@@ -7,6 +7,7 @@ use App\License;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -81,7 +82,7 @@ class RegisterController extends Controller
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'institution' => $data['institution'],
-            'password' => bcrypt($data['password']),
+            'password' => Hash::make($data['password']),
             'settings' => [
                 'data_license' => (int) $data['data_license'],
                 'image_license' => (int) $data['image_license'],
