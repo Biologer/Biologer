@@ -1,6 +1,6 @@
 <template>
     <div class="activity-log-item">
-        {{ activity.created_at | formatDateTime }} {{ activity.causer.full_name }} {{ trans('approved') }}
+        {{ activity.created_at | formatDateTime }} {{ activity.causer.full_name }} {{ trans('activityLog.approved') }}
     </div>
 </template>
 
