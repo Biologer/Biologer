@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Storage;
 class PhotoUploadsController extends Controller
 {
     /**
+     * 2MB in KB.
+     *
+     * @var integer
+     */
+    const TWO_MEGABYTES = 2048;
+
+    /**
      * Store uploaded photo.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -15,7 +22,11 @@ class PhotoUploadsController extends Controller
     public function store()
     {
         request()->validate([
-            'file' => 'required|image|dimensions:max_width=800,max_height=800',
+            'file' => [
+                'required', 'image', 'max:'.static::TWO_MEGABYTES,
+            ],
+        ], [
+            'file.max' => trans('validation.photo_max_2MB'),
         ]);
 
         return response()->json([

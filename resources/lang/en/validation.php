@@ -91,6 +91,8 @@ return [
 
     'captcha' => 'The :attribute must be valid CAPTCHA.',
 
+    'photo_max_2MB' => 'The filesize of the photo may not be greater than 2 megabytes.',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
