@@ -112,7 +112,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
             'field_observation_ids' => [$fieldObservation->id],
         ]);
 
-        $response->assertUnauthorized();
+        $response->assertForbidden();
     }
 
     /** @test */
@@ -126,7 +126,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
             'field_observation_ids' => [$fieldObservation->id],
         ]);
 
-        $response->assertUnauthenticated();
+        $response->assertUnauthorized();
         $this->assertFalse($fieldObservation->fresh()->isApproved());
     }
 

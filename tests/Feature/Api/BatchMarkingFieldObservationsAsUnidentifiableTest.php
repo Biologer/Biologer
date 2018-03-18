@@ -32,7 +32,7 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
             'field_observation_ids' => [$fieldObservation->id],
         ]);
 
-        $response->assertUnauthenticated();
+        $response->assertUnauthorized();
         $this->assertFalse($fieldObservation->fresh()->isApproved());
     }
 

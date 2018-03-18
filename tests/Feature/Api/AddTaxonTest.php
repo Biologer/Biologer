@@ -53,7 +53,7 @@ class AddTaxonTest extends TestCase
             'name' => 'Cerambyx cerdo',
         ]));
 
-        $response->assertUnauthenticated();
+        $response->assertUnauthorized();
 
         $this->assertNull(Taxon::findByName('Cerambyx cerdo'));
     }
@@ -67,7 +67,7 @@ class AddTaxonTest extends TestCase
             'name' => 'Cerambyx cerdo',
         ]));
 
-        $response->assertUnauthorized();
+        $response->assertForbidden();
 
         $this->assertNull(Taxon::findByName('Cerambyx cerdo'));
     }
@@ -140,6 +140,6 @@ class AddTaxonTest extends TestCase
             'name' => 'Cerambyx cerdo',
         ]));
 
-        $response->assertUnauthorized();
+        $response->assertForbidden();
     }
 }

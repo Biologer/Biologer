@@ -34,7 +34,7 @@ class PhotoUploadTest extends TestCase
     {
         $this->postJson('/api/uploads/photos', [
             'file' => File::image('test-image.jpg', 800, 600)->size(200),
-        ])->assertUnauthenticated();
+        ])->assertUnauthorized();
     }
 
     /** @test */

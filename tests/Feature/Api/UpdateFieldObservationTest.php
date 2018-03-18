@@ -245,7 +245,7 @@ class UpdateFieldObservationTest extends TestCase
             ])
         );
 
-        $response->assertUnauthorized();
+        $response->assertForbidden();
 
         tap($observation->fresh(), function ($fieldObservation) {
             $this->assertNotEquals(1000, $fieldObservation->observation->elevation);

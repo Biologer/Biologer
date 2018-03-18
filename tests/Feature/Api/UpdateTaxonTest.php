@@ -57,7 +57,7 @@ class UpdateTaxonTest extends TestCase
             'name' => 'Cerambyx scopolii',
         ]));
 
-        $response->assertUnauthenticated();
+        $response->assertUnauthorized();
 
         $this->assertEquals('Cerambyx cerdo', $taxon->fresh()->name);
     }
@@ -72,7 +72,7 @@ class UpdateTaxonTest extends TestCase
             'name' => 'Cerambyx scopolii',
         ]));
 
-        $response->assertUnauthorized();
+        $response->assertForbidden();
 
         $this->assertEquals('Cerambyx cerdo', $taxon->fresh()->name);
     }
@@ -153,7 +153,7 @@ class UpdateTaxonTest extends TestCase
             'name' => 'Cerambyx scopolii',
         ]));
 
-        $response->assertUnauthorized();
+        $response->assertForbidden();
     }
 
     /** @test */
