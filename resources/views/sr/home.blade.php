@@ -21,6 +21,7 @@
                     <li>Регистрацију корисника</li>
                     <li>Унос података (кроз веб софтвер)</li>
                     <li>Превод програма на више језика</li>
+                    <li>Апликацију за Андроид уређаје (beta). <a href="https://drive.google.com/open?id=1nIwqk2hycKkr-ZvU2FfZrrObZaLVF1ho" target="_blank">Линк</a></li>
                 </ul>
             </div>
             <div class="column is-size-5">
@@ -31,7 +32,6 @@
                     <li>‎Извоз података</li>
                     <li>Систем обавештења</li>
                     <li>Систем комуникације између корисника</li>
-                    <li>Апликацију за Андроид уређаје</li>
                 </ul>
             </div>
         </div>

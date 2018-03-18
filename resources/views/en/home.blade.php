@@ -21,6 +21,7 @@
                     <li>User registration</li>
                     <li>Data input (through the web interface)</li>
                     <li>Translations to multiple languages</li>
+                    <li>Android application (beta). <a href="https://drive.google.com/open?id=1nIwqk2hycKkr-ZvU2FfZrrObZaLVF1ho" target="_blank">Link</a></li>
                 </ul>
             </div>
             <div class="column is-size-5">
@@ -31,7 +32,6 @@
                     <li>‎Data export</li>
                     <li>Notifications</li>
                     <li>Conversation between the users</li>
-                    <li>Android application</li>
                 </ul>
             </div>
         </div>
