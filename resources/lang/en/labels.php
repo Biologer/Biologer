@@ -100,6 +100,8 @@ return [
         'choose_a_value' => 'Choose a value',
         'click_to_select' => 'Click to select...',
         'status' => 'Status',
+        'types' => 'Observation Type',
+        'types_placeholder' => 'Select Observation Type',
 
         'male' => 'Male',
         'female' => 'Female',

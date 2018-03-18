@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Stage;
 use App\Taxon;
 use App\License;
+use App\ObservationType;
 use App\Rules\Day;
 use App\Observation;
 use App\Rules\Month;
@@ -68,6 +69,9 @@ class StoreFieldObservation extends FormRequest
             'project' => ['nullable', 'string', 'max:191'],
             'found_on' => ['nullable', 'string', 'max:191'],
             'note' => ['nullable', 'string'],
+            'observation_types_ids' => [
+                'nullable', 'array', Rule::in(ObservationType::pluck('id')->all()),
+            ],
         ];
     }
 
@@ -83,6 +87,8 @@ class StoreFieldObservation extends FormRequest
                 collect($this->input('photos', []))->pluck('path'),
                 $this->input('image_license') ?: $this->user()->settings()->get('image_license')
             );
+
+            $this->syncRelations($observation);
 
             $this->logActivity($observation);
         });
@@ -151,6 +157,17 @@ class StoreFieldObservation extends FormRequest
             'found_on' => $this->input('found_on'),
             'note' => $this->input('note'),
         ];
+    }
+
+    /**
+     * Sync field observation relations.
+     *
+     * @param  \App\FieldObservation  $fieldObservation
+     * @return void
+     */
+    protected function syncRelations(FieldObservation $fieldObservation)
+    {
+        $fieldObservation->observation->types()->sync($this->input('observation_types_ids', []));
     }
 
     /**

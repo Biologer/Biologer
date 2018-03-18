@@ -11,6 +11,7 @@
             photo-remove-url="{{ route('api.photo-uploads.destroy') }}"
             :licenses="{{ json_encode(\App\License::getOptions()) }}"
             :sexes="{{ json_encode(\App\Observation::SEX_OPTIONS) }}"
+            :observation-types="{{ App\ObservationType::all() }}"
             submit-more
             should-confirm-cancel
         ></nz-fild-observation-form>

@@ -85,25 +85,73 @@
             </div>
         </div>
 
-        <button type="button" class="button is-text" @click="showMoreDetails = !showMoreDetails">{{ trans('labels.field_observations.more_details') }}</button>
+        <button
+            type="button"
+            class="button is-text"
+            @click="showMoreDetails = !showMoreDetails"
+        >
+            {{ trans('labels.field_observations.more_details') }}
+        </button>
 
         <div class="mt-4" v-show="showMoreDetails">
-            <div class="field">
-                <label for="project" class="label">
-                    <b-tooltip :label="trans('labels.field_observations.project_tooltip')" multilined dashed>
-                        {{ trans('labels.field_observations.project') }}
-                    </b-tooltip>
-                </label>
+            <div class="columns">
+                <div class="column">
+                    <b-field
+                        :label="trans('labels.field_observations.stage')"
+                        :type="form.errors.has('stage_id') ? 'is-danger' : null"
+                        :message="form.errors.has('stage_id') ? form.errors.first('stage_id') : null"
+                    >
+                        <b-select v-model="form.stage_id" :disabled="!stages.length" expanded>
+                            <option :value="null">{{ trans('labels.field_observations.choose_a_stage') }}</option>
+                            <option v-for="stage in stages" :value="stage.id" :key="stage.id" v-text="trans('stages.'+stage.name)"></option>
+                        </b-select>
+                    </b-field>
+                </div>
 
-                <b-input id="project" name="project" v-model="form.project" />
-
-                <p
-                    v-if="form.errors.has('project')"
-                    v-html="form.errors.first('project')"
-                    class="help"
-                    :class="{ 'is-danger': form.errors.has('project') }"
-                />
+                <div class="column">
+                    <b-field
+                        :label="trans('labels.field_observations.sex')"
+                        :type="form.errors.has('sex') ? 'is-danger' : null"
+                        :message="form.errors.has('sex') ? form.errors.first('sex') : null"
+                    >
+                        <b-select v-model="form.sex">
+                            <option :value="null">{{ trans('labels.field_observations.choose_a_value') }}</option>
+                            <option v-for="sex in sexes" :value="sex" v-text="trans('labels.field_observations.'+sex)"></option>
+                        </b-select>
+                    </b-field>
+                </div>
             </div>
+
+            <b-field
+                :label="trans('labels.field_observations.types')"
+                :error="form.errors.has('observation_types_ids')"
+                :message="form.errors.has('observation_types_ids') ? form.errors.first('observation_types_ids') : null"
+            >
+                <b-taginput
+                    v-model="selectedObservationTypes"
+                    :data="availableObservationTypes"
+                    autocomplete
+                    :allowNew="false"
+                    field="name"
+                    icon="tag"
+                    :placeholder="trans('labels.field_observations.types_placeholder')"
+                    @typing="onTypeTyping"
+                    @keyup.native.delete="onTypeBackspace"
+                    open-on-focus>
+                </b-taginput>
+            </b-field>
+
+            <b-field
+                :label="trans('labels.field_observations.number')"
+                :type="form.errors.has('number') ? 'is-danger' : null"
+                :message="form.errors.has('number') ? form.errors.first('number') : null"
+            ><b-input type="number" v-model="form.number" /></b-field>
+
+            <b-field
+                :label="trans('labels.field_observations.note')"
+                :error="form.errors.has('note')"
+                :message="form.errors.has('note') ? form.errors.first('note') : null"
+            ><b-input type="textarea" v-model="form.note" /></b-field>
 
             <div class="field">
                 <label for="found_on" class="label">
@@ -121,40 +169,6 @@
                     :class="{ 'is-danger': form.errors.has('found_on') }"
                 />
             </div>
-
-            <b-field
-                :label="trans('labels.field_observations.note')"
-                :error="form.errors.has('note')"
-                :message="form.errors.has('note') ? form.errors.first('note') : null"
-            ><b-input type="textarea" v-model="form.note" /></b-field>
-
-            <b-field
-                :label="trans('labels.field_observations.number')"
-                :type="form.errors.has('number') ? 'is-danger' : null"
-                :message="form.errors.has('number') ? form.errors.first('number') : null"
-            ><b-input type="number" v-model="form.number" /></b-field>
-
-            <b-field
-                :label="trans('labels.field_observations.sex')"
-                :type="form.errors.has('sex') ? 'is-danger' : null"
-                :message="form.errors.has('sex') ? form.errors.first('sex') : null"
-            >
-                <b-select v-model="form.sex">
-                    <option :value="null">{{ trans('labels.field_observations.choose_a_value') }}</option>
-                    <option v-for="sex in sexes" :value="sex" v-text="trans('labels.field_observations.'+sex)"></option>
-                </b-select>
-            </b-field>
-
-            <b-field
-                :label="trans('labels.field_observations.stage')"
-                :type="form.errors.has('stage_id') ? 'is-danger' : null"
-                :message="form.errors.has('stage_id') ? form.errors.first('stage_id') : null"
-            >
-                <b-select v-model="form.stage_id" :disabled="!stages.length">
-                    <option :value="null">{{ trans('labels.field_observations.choose_a_stage') }}</option>
-                    <option v-for="stage in stages" :value="stage.id" :key="stage.id" v-text="trans('stages.'+stage.name)"></option>
-                </b-select>
-            </b-field>
 
             <b-field
                 :label="trans('labels.field_observations.time')"
@@ -175,6 +189,32 @@
                 </b-timepicker>
             </b-field>
 
+            <div class="field">
+                <label for="project" class="label">
+                    <b-tooltip :label="trans('labels.field_observations.project_tooltip')" multilined dashed>
+                        {{ trans('labels.field_observations.project') }}
+                    </b-tooltip>
+                </label>
+
+                <b-input id="project" name="project" v-model="form.project" />
+
+                <p
+                    v-if="form.errors.has('project')"
+                    v-html="form.errors.first('project')"
+                    class="help"
+                    :class="{ 'is-danger': form.errors.has('project') }"
+                />
+            </div>
+
+            <b-checkbox v-model="form.found_dead">{{ trans('labels.field_observations.found_dead') }}</b-checkbox>
+
+            <b-field
+                :label="trans('labels.field_observations.found_dead_note')"
+                v-if="form.found_dead"
+                :error="form.errors.has('found_dead_note')"
+                :message="form.errors.has('found_dead_note') ? form.errors.first('found_dead_note') : null"
+            ><b-input type="textarea" v-model="form.found_dead_note" /></b-field>
+
             <template v-if="isCuratorOrAdmin">
                 <b-field
                     :label="trans('labels.field_observations.observer')"
@@ -188,15 +228,6 @@
                     :message="form.errors.has('identifier') ? form.errors.first('identifier') : null"
                 ><b-input v-model="form.identifier" /></b-field>
             </template>
-
-            <b-checkbox v-model="form.found_dead">{{ trans('labels.field_observations.found_dead') }}</b-checkbox>
-
-            <b-field
-                :label="trans('labels.field_observations.found_dead_note')"
-                v-if="form.found_dead"
-                :error="form.errors.has('found_dead_note')"
-                :message="form.errors.has('found_dead_note') ? form.errors.first('found_dead_note') : null"
-              ><b-input type="textarea" v-model="form.found_dead_note" /></b-field>
 
             <b-field
                 :label="trans('labels.field_observations.data_license')"
@@ -301,7 +332,8 @@ export default {
                     found_dead_note: '',
                     data_license: null,
                     image_license: null,
-                    time: null
+                    time: null,
+                    types: []
                 };
             }
         },
@@ -314,6 +346,11 @@ export default {
         sexes: {
             type: Array,
             default: () => []
+        },
+
+        observationTypes: {
+            type: Array,
+            default: () => []
         }
     },
 
@@ -321,7 +358,9 @@ export default {
         return {
             keepAfterSubmit: this.getAttributesToKeep(),
             showMoreDetails: false,
-            locale: window.App.locale
+            locale: window.App.locale,
+            observationTypeSearch: '',
+            shouldClearType: false
         };
     },
 
@@ -332,6 +371,33 @@ export default {
 
         time() {
             return this.form.time ? moment(this.form.time, 'HH:mm').toDate() : null
+        },
+
+        selectedObservationTypes: {
+            get() {
+                return this.observationTypes.filter(type =>
+                    _.includes(this.form.observation_types_ids, type.id)
+                );
+            },
+
+            set(value) {
+                this.form.observation_types_ids = value.map(type => type.id);
+            }
+        },
+
+        availableObservationTypes() {
+            return this.observationTypes.filter(type => {
+                return !_.includes(this.form.observation_types_ids, type.id)
+                    && type.name.toLowerCase().includes(this.observationTypeSearch.toLowerCase());
+            });
+        }
+    },
+
+    created() {
+        if (!this.selectedObservationTypes.length) {
+            this.pushSelectedObservationType(
+                _.find(this.availableObservationTypes, { slug: 'observed' })
+            );
         }
     },
 
@@ -344,6 +410,7 @@ export default {
         newForm() {
             return new Form({
                 ...this.observation,
+                observation_types_ids: this.observation.types.map(type => type.id),
                 reason: null
             }, {
                 resetOnSuccess: false
@@ -414,6 +481,12 @@ export default {
          */
         onPhotoUploaded(image) {
             this.form.photos.push(image);
+
+            const availableType = _.find(this.availableObservationTypes, { slug: 'photographed' });
+
+            if (availableType) {
+                this.pushSelectedObservationType(availableType);
+            }
         },
 
         /**
@@ -422,7 +495,17 @@ export default {
          * @param {String} file name
          */
         onPhotoRemoved(image) {
-            _.remove(this.form.photos, { path: image.path })
+            _.remove(this.form.photos, { path: image.path });
+
+            const selectedTypeIndex = _.findIndex(this.selectedObservationTypes, { slug: 'photographed' });
+
+            if (!this.form.photos.length && selectedTypeIndex >= 0) {
+                const selectedObservationTypes = this.selectedObservationTypes;
+
+                selectedObservationTypes.splice(selectedTypeIndex, 1);
+
+                this.selectedObservationTypes = selectedObservationTypes;
+            }
         },
 
         /**
@@ -446,6 +529,34 @@ export default {
                 'location', 'accuracy', 'elevation', 'latitude', 'longitude',
                 'year', 'month', 'day', 'project'
             ];
+        },
+
+        /**
+         * Set tag search.
+         * @param {String} value
+         */
+        onTypeTyping(value) {
+            this.observationTypeSearch = value;
+        },
+
+        /**
+         * Handle removing tags with backspace.
+         */
+        onTypeBackspace() {
+            if (this.shouldClearType) {
+                this.form.observation_types_ids.splice(-1, 1);
+                this.shouldClearType = false;
+            } else if (!this.observationTypeSearch) {
+                this.shouldClearType = true;
+            }
+        },
+
+        pushSelectedObservationType(type) {
+            const selectedObservationTypes = this.selectedObservationTypes;
+
+            selectedObservationTypes.push(type);
+
+            this.selectedObservationTypes = selectedObservationTypes;
         }
     }
 }

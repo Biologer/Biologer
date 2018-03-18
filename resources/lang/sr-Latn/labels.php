@@ -100,6 +100,8 @@ return [
         'choose_a_value' => 'Odaberite vrednost',
         'click_to_select' => 'Kliknite kako biste odabrali...',
         'status' => 'Status',
+        'types' => 'Tip nalaza',
+        'types_placeholder' => 'Odaberite tip nalaza',
 
         'male' => 'Mužjak',
         'female' => 'Ženka',

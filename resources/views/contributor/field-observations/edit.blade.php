@@ -11,6 +11,7 @@
             photo-remove-url="{{ route('api.photo-uploads.destroy') }}"
             :licenses="{{ json_encode(\App\License::getOptions()) }}"
             :sexes="{{ json_encode(\App\Observation::SEX_OPTIONS) }}"
+            :observation-types="{{ App\ObservationType::all() }}"
             :observation="{{ $observation }}"
             should-confirm-submit
             confirm-submit-message="{{ __('Reason for changing data. Please try to be precise in order to keep the track of changes and ensure data verification.') }}"

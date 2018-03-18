@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RedListsTableSeeder::class);
         $this->call(ConservationLegislationsTableSeeder::class);
         $this->call(ConservationDocumentsTableSeeder::class);
+        $this->call(ObservationTypesTableSeeder::class);
         // $this->call(UsersTableSeeder::class);
     }
 }

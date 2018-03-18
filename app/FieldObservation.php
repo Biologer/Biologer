@@ -412,6 +412,7 @@ class FieldObservation extends Model
             'time' => $this->time ? $this->time->format('H:i') : null,
             'status' => $this->status,
             'activity' => $this->activity,
+            'types' => $this->observation->types,
         ];
     }
 

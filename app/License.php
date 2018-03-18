@@ -4,23 +4,28 @@ namespace App;
 
 class License
 {
+    const CC_BY_SA = 10;
+    const CC_BY_NC_SA = 20;
+    const PARTIALLY_OPEN = 30;
+    const CLOSED = 40;
+
     public static function all()
     {
         return collect([
             [
-                'id' => 10,
+                'id' => static::CC_BY_SA,
                 'name' => 'CC BY-SA 4.0',
             ],
             [
-                'id' => 20,
+                'id' => static::CC_BY_NC_SA,
                 'name' => 'CC BY-NC-SA 4.0',
             ],
             [
-                'id' => 30,
+                'id' => static::PARTIALLY_OPEN,
                 'name' => 'Partially open',
             ],
             [
-                'id' => 40,
+                'id' => static::CLOSED,
                 'name' => 'Closed',
             ],
         ]);

@@ -117,6 +117,21 @@ class Observation extends Model
     }
 
     /**
+     * Observation types.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function types()
+    {
+        return $this->belongsToMany(
+            ObservationType::class,
+            'observation_observation_type',
+            'observation_id',
+            'type_id'
+        );
+    }
+
+    /**
      * Comments about the observation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany

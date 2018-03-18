@@ -55,7 +55,7 @@ class AddFieldObservationTest extends TestCase
 
         $response = $this->postJson('/api/field-observations', $this->validParams());
 
-        $response->assertUnauthenticated();
+        $response->assertUnauthorized();
 
         FieldObservation::assertCount($fieldObservationsCount);
         Observation::assertCount($observationsCount);

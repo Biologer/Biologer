@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Stage;
 use App\Taxon;
 use App\License;
+use App\ObservationType;
 use App\Rules\Day;
 use App\Observation;
 use App\Rules\Month;
@@ -65,6 +66,9 @@ class UpdateFieldObservation extends FormRequest
             'found_on' => ['nullable', 'string', 'max:191'],
             'note' => ['nullable', 'string'],
             'reason' => ['required', 'string', 'max:255'],
+            'observation_types_ids' => [
+                'nullable', 'array', Rule::in(ObservationType::pluck('id')->all()),
+            ],
         ];
     }
 
@@ -85,6 +89,8 @@ class UpdateFieldObservation extends FormRequest
             collect($this->input('photos', [])),
             $this->input('image_license') ?: $this->user()->settings()->get('image_license')
         );
+
+        $this->syncRelations($fieldObservation);
 
         $this->logActivity($fieldObservation, $oldData);
 
@@ -183,7 +189,9 @@ class UpdateFieldObservation extends FormRequest
             } elseif ('photos' === $key && $this->photosAreChanged($fieldObservation, $value)) {
                 // We just need to know that it changed. It's confusing to show what.
                 $data[$key] = null;
-            } elseif (in_array($key, $changed) && ! in_array($key, $excluded)) {
+            } elseif ('types' === $key && $this->observationTypesAreChanged($fieldObservation, $value)) {
+                $data[$key] = null;
+            }elseif (in_array($key, $changed) && ! in_array($key, $excluded)) {
                 if ('taxon_suggestion' === $key) {
                     // We need it with the key of "taxon", not "taxon_suggestion".
                     $data['taxon'] = $value;
@@ -243,5 +251,32 @@ class UpdateFieldObservation extends FormRequest
         return $oldPhotos->count() !== $fieldObservation->photos->count()
             || (! $oldPhotos->isEmpty() && ! $fieldObservation->photos->isEmpty()
             && ! $oldPhotos->pluck('id')->diff($fieldObservation->photos->pluck('id'))->isEmpty());
+    }
+
+    /**
+     * Check if observations types have changed.
+     *
+     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \Illuminate\Database\Eloquent\Collection  $oldValue
+     * @return bool
+     */
+    protected function observationTypesAreChanged($fieldObservation, $oldValue)
+    {
+        $fieldObservation->observation->load('types');
+
+        return $oldValue->count() !== $fieldObservation->observation->types->count()
+            || ($oldValue->isNotEmpty() && $fieldObservation->observation->types->isNotEmpty()
+            && $oldValue->pluck('id')->diff($fieldObservation->observation->types->pluck('id'))->isNotEmpty());;
+    }
+
+    /**
+     * Sync field observation relations.
+     *
+     * @param  \App\FieldObservation  $fieldObservation
+     * @return void
+     */
+    protected function syncRelations(FieldObservation $fieldObservation)
+    {
+        $fieldObservation->observation->types()->sync($this->input('observation_types_ids', []));
     }
 }
