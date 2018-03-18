@@ -56,22 +56,12 @@ class PhotoUploadTest extends TestCase
     }
 
     /** @test */
-    public function image_cannot_be_wider_than_800px()
+    public function image_cannot_be_larger_than_2_megabytes()
     {
         Passport::actingAs(factory(User::class)->make());
 
         $this->postJson('/api/uploads/photos', [
-            'file' => File::image('test-image.jpg', 801, 600),
-        ])->assertValidationErrors('file');
-    }
-
-    /** @test */
-    public function image_cannot_be_higher_than_800px()
-    {
-        Passport::actingAs(factory(User::class)->make());
-
-        $this->postJson('/api/uploads/photos', [
-            'file' => File::image('test-image.jpg', 600, 801),
+            'file' => File::image('test-image.jpg')->size(2 * 1024 + 1),
         ])->assertValidationErrors('file');
     }
 
