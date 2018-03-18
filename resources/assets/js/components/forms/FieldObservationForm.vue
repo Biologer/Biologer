@@ -114,7 +114,7 @@
                         :type="form.errors.has('sex') ? 'is-danger' : null"
                         :message="form.errors.has('sex') ? form.errors.first('sex') : null"
                     >
-                        <b-select v-model="form.sex">
+                        <b-select v-model="form.sex" expanded>
                             <option :value="null">{{ trans('labels.field_observations.choose_a_value') }}</option>
                             <option v-for="sex in sexes" :value="sex" v-text="trans('labels.field_observations.'+sex)"></option>
                         </b-select>
@@ -229,27 +229,33 @@
                 ><b-input v-model="form.identifier" /></b-field>
             </template>
 
-            <b-field
-                :label="trans('labels.field_observations.data_license')"
-                :type="form.errors.has('data_license') ? 'is-danger' : null"
-                :message="form.errors.has('data_license') ? form.errors.first('data_license') : null"
-            >
-                <b-select v-model="form.data_license">
-                    <option :value="null">{{ trans('labels.field_observations.default') }}</option>
-                    <option v-for="(label, value) in licenses" :value="value" v-text="label"></option>
-                </b-select>
-            </b-field>
+            <div class="columns">
+                <div class="column">
+                    <b-field
+                        :label="trans('labels.field_observations.data_license')"
+                        :type="form.errors.has('data_license') ? 'is-danger' : null"
+                        :message="form.errors.has('data_license') ? form.errors.first('data_license') : null"
+                    >
+                        <b-select v-model="form.data_license" expanded>
+                            <option :value="null">{{ trans('labels.field_observations.default') }}</option>
+                            <option v-for="(label, value) in licenses" :value="value" v-text="label"></option>
+                        </b-select>
+                    </b-field>
+                </div>
 
-            <b-field
-                :label="trans('labels.field_observations.image_license')"
-                :type="form.errors.has('image_license') ? 'is-danger' : null"
-                :message="form.errors.has('image_license') ? form.errors.first('image_license') : null"
-            >
-                <b-select v-model="form.image_license">
-                    <option :value="null">{{ trans('labels.field_observations.default') }}</option>
-                    <option v-for="(label, value) in licenses" :value="value" v-text="label"></option>
-                </b-select>
-            </b-field>
+                <div class="column">
+                    <b-field
+                        :label="trans('labels.field_observations.image_license')"
+                        :type="form.errors.has('image_license') ? 'is-danger' : null"
+                        :message="form.errors.has('image_license') ? form.errors.first('image_license') : null"
+                    >
+                        <b-select v-model="form.image_license" expanded>
+                            <option :value="null">{{ trans('labels.field_observations.default') }}</option>
+                            <option v-for="(label, value) in licenses" :value="value" v-text="label"></option>
+                        </b-select>
+                    </b-field>
+                </div>
+            </div>
         </div>
 
         <hr>

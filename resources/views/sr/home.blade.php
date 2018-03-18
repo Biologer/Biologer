@@ -21,7 +21,7 @@
                     <li>Регистрацију корисника</li>
                     <li>Унос података (кроз веб софтвер)</li>
                     <li>Превод програма на више језика</li>
-                    <li>Апликацију за Андроид уређаје (beta). <a href="https://drive.google.com/open?id=1nIwqk2hycKkr-ZvU2FfZrrObZaLVF1ho" target="_blank">Линк</a></li>
+                    <li>Апликацију за Андроид уређаје (beta). <a href="https://drive.google.com/open?id=1nIwqk2hycKkr-ZvU2FfZrrObZaLVF1ho" target="_blank">Преузмите</a></li>
                 </ul>
             </div>
             <div class="column is-size-5">
