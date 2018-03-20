@@ -7,6 +7,15 @@ use Illuminate\Support\Facades\Storage;
 class Photo extends Model
 {
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'metadata' => 'collection',
+    ];
+
+    /**
      * Accessor for url.
      *
      * @return string
@@ -21,23 +30,41 @@ class Photo extends Model
      *
      * @param  string  $path
      * @param  array  $data
-     * @param  bool  $withUrl If the url should be stored
      * @return self
      */
-    public static function store($path, $data, $withUrl = false)
+    public static function store($path, array $data)
     {
-        $photo = static::create($data);
+        $data['path'] = $path;
+        $data['metadata']['exif'] = @exif_read_data($path);
 
-        $photo->path = "photos/{$photo->id}/".basename($path);
-        Storage::disk('public')->move($path, $photo->path);
+        return static::create($data)->moveToFinalPath();
+    }
 
-        if ($withUrl) {
-            $photo->url = Storage::disk('public')->url($this->path);
-        }
+    /**
+     * Final path to file.
+     *
+     * @return string
+     */
+    protected function getFinalPath()
+    {
+        return 'photos/'.$this->id.'/'.basename($this->path);
+    }
 
-        $photo->save();
+    /**
+     * Move file to final path.
+     *
+     * @return $this
+     */
+    public function moveToFinalPath()
+    {
+        $newPath = $this->getFinalPath();
 
-        return $photo;
+        Storage::disk('public')->move($this->path, $newPath);
+
+        return tap($this)->update([
+            'path' => $newPath,
+            'url' => Storage::disk('public')->url($newPath)
+        ]);
     }
 
     /**
@@ -48,5 +75,19 @@ class Photo extends Model
     public function removeFile()
     {
         return Storage::disk('public')->delete($this->path);
+    }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($model) {
+            $model->removeFile();
+        });
     }
 }

@@ -314,7 +314,7 @@ class FieldObservation extends Model
 
     /**
      * Move observation to pending.
-     * 
+     *
      * @return $this
      */
     public function moveToPending()

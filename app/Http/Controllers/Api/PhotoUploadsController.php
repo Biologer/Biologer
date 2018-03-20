@@ -10,7 +10,7 @@ class PhotoUploadsController extends Controller
     /**
      * 2MB in KB.
      *
-     * @var integer
+     * @var int
      */
     const TWO_MEGABYTES = 2048;
 
