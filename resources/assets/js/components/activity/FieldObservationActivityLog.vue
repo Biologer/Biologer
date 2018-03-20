@@ -13,6 +13,7 @@
 import ActivityFieldObservationApproved from './FieldObservationApproved';
 import ActivityFieldObservationCreated from './FieldObservationCreated';
 import ActivityFieldObservationMarkedUnidentifiable from './FieldObservationMarkedUnidentifiable';
+import ActivityFieldObservationMovedToPending from './FieldObservationMovedToPending';
 import ActivityFieldObservationUpdated from './FieldObservationUpdated';
 
 export default {
@@ -22,6 +23,7 @@ export default {
         [ActivityFieldObservationApproved.name]: ActivityFieldObservationApproved,
         [ActivityFieldObservationCreated.name]: ActivityFieldObservationCreated,
         [ActivityFieldObservationMarkedUnidentifiable.name]: ActivityFieldObservationMarkedUnidentifiable,
+        [ActivityFieldObservationMovedToPending.name]: ActivityFieldObservationMovedToPending,
         [ActivityFieldObservationUpdated.name]: ActivityFieldObservationUpdated
     },
 
@@ -34,7 +36,9 @@ export default {
 
     methods: {
         chooseActivityComponent(activity) {
-            return `nz-activity-field-observation-${activity.description.replace('_', '-')}`;
+            const component = `nz-activity-field-observation-${activity.description.split('_').join('-')}`;
+            console.log(component);
+            return component;
         },
     }
 }

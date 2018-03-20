@@ -66,4 +66,24 @@ class FieldObservationCollection extends Collection
             'updated_at' => $now,
         ]);
     }
+
+    /**
+     * Move all field observations to pending.
+     *
+     * @return void
+     */
+    public function moveToPending()
+    {
+        $now = Carbon::now();
+
+        Observation::whereIn('id', $this->getObservationIds())->update([
+            'approved_at' => null,
+            'updated_at' => $now,
+        ]);
+
+        FieldObservation::whereIn('id', $this->getIds())->update([
+            'unidentifiable' => false,
+            'updated_at' => $now,
+        ]);
+    }
 }

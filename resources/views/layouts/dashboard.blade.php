@@ -115,6 +115,14 @@
                                         <ul class="menu-list">
                                             <li><a href="{{ route('curator.pending-observations.index') }}">{{ __('navigation.pending_observations') }}</a></li>
                                         </ul>
+
+                                        <ul class="menu-list">
+                                            <li><a href="{{ route('curator.approved-observations.index') }}">{{ __('navigation.approved_observations') }}</a></li>
+                                        </ul>
+
+                                        <ul class="menu-list">
+                                            <li><a href="{{ route('curator.unidentifiable-observations.index') }}">{{ __('navigation.unidentifiable_observations') }}</a></li>
+                                        </ul>
                                     @endcan
                                 @endrole
 
@@ -149,7 +157,7 @@
                 <div class="container">
                     <div class="level">
                         <div class="level-left"></div>
-                        
+
                         <div class="level-right">
                             @include('components.languageSelector')
                         </div>

@@ -61,6 +61,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post('unidentifiable-field-observations/batch', 'UnidentifiableFieldObservationsBatchController@store')
         ->name('api.unidentifiable-field-observations-batch.store');
 
+    // Unidentifiable field observations
+    Route::post('pending-field-observations/batch', 'PendingFieldObservationsBatchController@store')
+        ->name('api.pending-field-observations-batch.store');
+
     // Users
     Route::get('users', 'UsersController@index')
         ->middleware('can:list,App\User')
@@ -82,9 +86,19 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('my')->namespace('My')->group(function () {
         Route::get('field-observations', 'FieldObservationsController@index')
             ->name('api.my.field-observations.index');
+    });
 
+    Route::prefix('curator')->namespace('Curator')->group(function () {
         Route::get('pending-observations', 'PendingObservationsController@index')
             ->middleware('can:list,App\FieldObservation')
-            ->name('api.my.pending-observations.index');
+            ->name('api.curator.pending-observations.index');
+
+        Route::get('approved-observations', 'ApprovedObservationsController@index')
+            ->middleware('can:list,App\FieldObservation')
+            ->name('api.curator.approved-observations.index');
+
+        Route::get('unidentifiable-observations', 'UnidentifiableObservationsController@index')
+            ->middleware('can:list,App\FieldObservation')
+            ->name('api.curator.unidentifiable-observations.index');
     });
 });

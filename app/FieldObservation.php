@@ -312,7 +312,12 @@ class FieldObservation extends Model
         return $this;
     }
 
-    public function markAsPending()
+    /**
+     * Move observation to pending.
+     * 
+     * @return $this
+     */
+    public function moveToPending()
     {
         $this->observation->unapprove();
 

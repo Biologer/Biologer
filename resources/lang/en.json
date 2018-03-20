@@ -17,11 +17,14 @@
     "You are about to mark checked observations as unidentifiable. What's the reason?": "You are about to mark checked observations as unidentifiable. What's the reason?",
     "Observations have been marked as unidentifiable": "Observations have been marked as unidentifiable",
     "Some of the observations cannot be marked as unidentifiable": "Some of the observations cannot be marked as unidentifiable",
+    "You are about to move checked observations to pending. What's the reason?": "You are about to move checked observations to pending. What's the reason?",
+    "Observations have been moved to pending": "Observations have been moved to pending",
     "You've made changes to data entry. Save changes?": "You've made changes to data entry. Save changes?",
     "Reason for changing data. Please try to be precise in order to keep the track of changes and ensure data verification.": "Reason for changing data. Please try to be precise in order to keep the track of changes and ensure data verification.",
     "There are no changes, the data will not be saved.": "There are no changes, the data will not be saved.",
     "If you leave this page changes will not be saved.": "If you leave this page changes will not be saved.",
     "Reason": "Reason",
     "Activity Log": "Activity Log",
-    "This field is required and can contain max 255 chars.": "This field is required and can contain max 255 chars."
+    "This field is required and can contain max 255 chars.": "This field is required and can contain max 255 chars.",
+    "Whoops, looks like something went wrong.": "Whoops, looks like something went wrong."
 }

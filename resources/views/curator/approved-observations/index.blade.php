@@ -1,19 +1,19 @@
-@extends('layouts.dashboard', ['title' => __('navigation.pending_observations')])
+@extends('layouts.dashboard', ['title' => __('navigation.approved_observations')])
 
 @section('content')
     <div class="box">
         <nz-field-observations-table
-            list-route="api.curator.pending-observations.index"
-            edit-route="curator.pending-observations.edit"
+            list-route="api.curator.approved-observations.index"
+            edit-route="curator.approved-observations.edit"
             delete-route="api.field-observations.destroy"
             empty="{{ __('No data...') }}"
             @role(['admin', 'curator'])
             show-activity-log
             @endrole
-            approvable
-            approve-route="api.approved-field-observations-batch.store"
             markable-as-unidentifiable
             mark-as-unidentifiable-route="api.unidentifiable-field-observations-batch.store"
+            movable-to-pending
+            move-to-pending-route="api.pending-field-observations-batch.store"
         />
     </div>
 @endsection
@@ -22,7 +22,7 @@
     <div class="breadcrumb" aria-label="breadcrumbs">
         <ul>
             <li><a href="{{ route('contributor.index') }}">{{ __('navigation.dashboard') }}</a></li>
-            <li class="is-active"><a>{{ __('navigation.pending_observations') }}</a></li>
+            <li class="is-active"><a>{{ __('navigation.approved_observations') }}</a></li>
         </ul>
     </div>
 @endsection

@@ -1,14 +1,15 @@
 <template>
     <div class="field-observations-table">
-        <div class="buttons" v-if="approvable">
+        <div class="buttons" v-if="hasActions">
             <button
                 type="button"
                 class="button"
                 :class="{'is-loading': approving}"
                 :disabled="!checkedRows.length"
                 @click="confirmApprove"
+                v-if="approvable"
             >
-                <b-icon icon="check" class="has-text-success"></b-icon>
+                <b-icon icon="check" class="has-text-success" v-if="!approving"></b-icon>
 
                 <span>{{ trans('buttons.approve') }}</span>
             </button>
@@ -19,10 +20,24 @@
                 :class="{'is-loading': markingAsUnidentifiable}"
                 :disabled="!checkedRows.length"
                 @click="confirmMarkingAsUnidentifiable"
+                v-if="markableAsUnidentifiable"
             >
-                <b-icon icon="times" class="has-text-danger"></b-icon>
+                <b-icon icon="times" class="has-text-danger" v-if="!markingAsUnidentifiable"></b-icon>
 
                 <span>{{ trans('buttons.unidentifiable') }}</span>
+            </button>
+
+            <button
+                type="button"
+                class="button"
+                :class="{'is-loading': movingToPending}"
+                :disabled="!checkedRows.length"
+                @click="confirmMoveToPending"
+                v-if="movableToPending"
+            >
+                <b-icon icon="question" class="has-text-warning" v-if="!movingToPending"></b-icon>
+
+                <span>{{ trans('buttons.move_to_pending') }}</span>
             </button>
         </div>
 
@@ -44,7 +59,7 @@
             detailed
             :mobile-cards="true"
 
-            :checkable="approvable"
+            :checkable="hasActions"
             :checked-rows.sync="checkedRows"
         >
             <template slot-scope="{ row }">
@@ -167,11 +182,14 @@ export default {
         deleteRoute: String,
         approveRoute: String,
         markAsUnidentifiableRoute: String,
+        moveToPendingRoute: String,
         empty: {
             type: String,
             default: 'Nothing here.'
         },
         approvable: Boolean,
+        markableAsUnidentifiable: Boolean,
+        movableToPending: Boolean,
         showStatus: Boolean,
         showActivityLog: Boolean
     },
@@ -192,8 +210,17 @@ export default {
             checkedRows: [],
             approving: false,
             markingAsUnidentifiable: false,
+            movingToPending: false,
             activityLog: []
         };
+    },
+
+    computed: {
+        hasActions() {
+            return this.approvable
+              || this.markableAsUnidentifiable
+              || this.movableToPending;
+        }
     },
 
     methods: {
@@ -332,17 +359,7 @@ export default {
             })
 
             dialog.$nextTick(() => {
-                dialog.$refs.input.addEventListener('invalid', (e) => {
-                    e.target.setCustomValidity('');
-
-                    if (!e.target.validity.valid) {
-                        e.target.setCustomValidity(this.trans('This field is required and can contain max 255 chars.'));
-                    }
-                });
-
-                dialog.$refs.input.addEventListener('input', (e) => {
-                    dialog.validationMessage = null;
-                });
+                this.validateReason(dialog);
             });
         },
 
@@ -401,6 +418,68 @@ export default {
 
         openActivityLogModal(row) {
             this.activityLog = row.activity;
+        },
+
+        validateReason(dialog) {
+            dialog.$refs.input.addEventListener('invalid', (e) => {
+                e.target.setCustomValidity('');
+
+                if (!e.target.validity.valid) {
+                    e.target.setCustomValidity(this.trans('This field is required and can contain max 255 chars.'));
+                }
+            });
+
+            dialog.$refs.input.addEventListener('input', (e) => {
+                dialog.validationMessage = null;
+            });
+        },
+
+        confirmMoveToPending() {
+            const dialog = this.$dialog.prompt({
+                message: this.trans('You are about to move checked observations to pending. What\'s the reason?'),
+                confirmText: this.trans('buttons.move_to_pending'),
+                cancelText: this.trans('buttons.cancel'),
+                type: 'is-warning',
+                inputAttrs: {
+                    placeholder: this.trans('Reason'),
+                    required: true,
+                    maxlength: 255
+                },
+                onConfirm: this.moveToPending.bind(this)
+            })
+
+            dialog.$nextTick(() => {
+                this.validateReason(dialog);
+            });
+        },
+
+        moveToPending(reason) {
+            this.movingToPending = true;
+
+            axios.post(route(this.moveToPendingRoute), {
+                field_observation_ids: this.checkedRows.map(row => row.id),
+                reason
+            }).then(this.successfullyMovedToPending).catch(this.failedToMoveToPending)
+        },
+
+        successfullyMovedToPending() {
+            this.checkedRows = [];
+            this.movingToPending = false;
+            this.$toast.open({
+                message: this.trans('Observations have been moved to pending'),
+                type: 'is-success'
+            });
+            this.loadAsyncData();
+        },
+
+        failedToMoveToPending(error) {
+            this.movingToPending = false;
+            this.$toast.open({
+                message: this.trans('Whoops, looks like something went wrong.'),
+                type: 'is-danger',
+                duration: 5000
+            });
+            this.loadAsyncData();
         }
     },
 

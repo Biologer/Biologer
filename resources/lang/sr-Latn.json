@@ -17,11 +17,14 @@
     "You are about to mark checked observations as unidentifiable. What's the reason?": "Pokušavate da označite odabrane unose kao da nije moguća identifikacija. Koji je razlog?",
     "Observations have been marked as unidentifiable": "Unosi su označeni kao da nije moguća identifikacija",
     "Some of the observations cannot be marked as unidentifiable": "Neki od unosa se ne mogu označiti kao da nije moguća identifikacija",
+    "You are about to move checked observations to pending. What's the reason?": "Pokušavate da stavite odabrane unose na čekanje. Koji je razlog?",
+    "Observations have been moved to pending": "Unosi su stavljeni na čekanje",
     "You've made changes to data entry. Save changes?": "Napravili ste izmene unetog podatka. Da li želite da sačuvate?",
     "Reason for changing data. Please try to be precise in order to keep the track of changes and ensure data verification.": "Razlog izmene podataka. Molimo vas da budete precizni kako bismo lakše pratili izmene i osigurali validnost podataka.",
     "There are no changes, the data will not be saved.": "Nema promena, podaci neće biti sačuvani.",
     "If you leave this page changes will not be saved.": "Ukoliko napustite stranicu izmene neće biti sačuvane.",
     "Reason": "Razlog",
     "Activity Log": "Dnevnik aktivnosti",
-    "This field is required and can contain max 255 chars.": "Ovo polje je obavezno i može sadržati najviše 255 znakova."
+    "This field is required and can contain max 255 chars.": "Ovo polje je obavezno i može sadržati najviše 255 znakova.",
+    "Whoops, looks like something went wrong.": "Ups, izgleda da je nešto pošlo naopako."
 }

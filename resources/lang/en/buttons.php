@@ -12,6 +12,7 @@ return [
     'approve' => 'Approve',
     'unidentifiable' => 'Unidentifiable',
     'mark_unidentifiable' => 'Mark as unidentifiable',
+    'move_to_pending' => 'Move to pending',
     'notifications' => 'Notifications',
     'announcements' => 'Announcements',
     'close' => 'Close',

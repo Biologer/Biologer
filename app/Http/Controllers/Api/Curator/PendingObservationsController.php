@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\My;
+namespace App\Http\Controllers\Api\Curator;
 
 use App\FieldObservation;
 use App\Http\Controllers\Controller;

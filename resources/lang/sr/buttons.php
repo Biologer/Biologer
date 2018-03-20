@@ -12,6 +12,7 @@ return [
     'approve' => 'Одобри',
     'unidentifiable' => 'Није могуће идентификовати',
     'mark_unidentifiable' => 'Означи да није могућа идентифијација',
+    'move_to_pending' => 'Стави на чекање',
     'notifications' => 'Обавештења',
     'announcements' => 'Објаве',
     'close' => 'Затвори',

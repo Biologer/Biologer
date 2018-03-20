@@ -5,4 +5,5 @@ return [
     'changed' => 'changed',
     'approved' => 'approved',
     'marked_unidentifiable' => 'marked as unidentifiable',
+    'moved_to_pending' => 'moved to pending',
 ];

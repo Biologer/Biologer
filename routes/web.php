@@ -56,6 +56,20 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
             Route::get('pending-observations/{pendingObservation}/edit', 'PendingObservationsController@edit')
                 ->name('pending-observations.edit');
+
+            Route::get('approved-observations', 'ApprovedObservationsController@index')
+                ->middleware('can:list,App\FieldObservation')
+                ->name('approved-observations.index');
+
+            Route::get('approved-observations/{approvedObservation}/edit', 'ApprovedObservationsController@edit')
+                ->name('approved-observations.edit');
+
+            Route::get('unidentifiable-observations', 'UnidentifiableObservationsController@index')
+                ->middleware('can:list,App\FieldObservation')
+                ->name('unidentifiable-observations.index');
+
+            Route::get('unidentifiable-observations/{unidentifiableObservation}/edit', 'UnidentifiableObservationsController@edit')
+                ->name('unidentifiable-observations.edit');
         });
 
         Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {

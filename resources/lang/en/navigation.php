@@ -19,6 +19,8 @@ return [
     'edit' => 'Edit',
     'edit_observation' => 'Edit Observation',
     'pending_observations' => 'Pending Observations',
+    'approved_observations' => 'Approved Observations',
+    'unidentifiable_observations' => 'Unidentifiable Observations',
     'field_observations' => 'Field Observations',
     'my' => 'My',
     'curator' => 'Curator',

@@ -97,6 +97,18 @@ class FieldObservationPolicy
     }
 
     /**
+     * Determinte whether the user can move the field observation to pending.
+     *
+     * @param  \App\User  $user
+     * @param  \App\FieldObservation  $fieldObservation
+     * @return bool
+     */
+    public function moveToPending(User $user, FieldObservation $fieldObservation)
+    {
+        return $this->isCurator($user, $fieldObservation);
+    }
+
+    /**
      * Check if the user is curator for the observed taxon.
      *
      * @param  \App\User  $user

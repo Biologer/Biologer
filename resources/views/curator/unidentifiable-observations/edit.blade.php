@@ -5,8 +5,8 @@
         <nz-field-observation-form
             action="{{ route('api.field-observations.update', $observation) }}"
             method="PUT"
-            redirect-url="{{ route('curator.pending-observations.index') }}"
-            cancel-url="{{ route('curator.pending-observations.index') }}"
+            redirect-url="{{ route('curator.unidentifiable-observations.index') }}"
+            cancel-url="{{ route('curator.unidentifiable-observations.index') }}"
             photo-upload-url="{{ route('api.photo-uploads.store') }}"
             photo-remove-url="{{ route('api.photo-uploads.destroy') }}"
             :licenses="{{ json_encode(\App\License::getOptions()) }}"
@@ -26,7 +26,7 @@
     <div class="breadcrumb" aria-label="breadcrumbs">
         <ul>
             <li><a href="{{ route('contributor.index') }}">{{ __('navigation.dashboard') }}</a></li>
-            <li><a href="{{ route('curator.pending-observations.index') }}">{{ __('navigation.pending_observations') }}</a></li>
+            <li><a href="{{ route('curator.unidentifiable-observations.index') }}">{{ __('navigation.unidentifiable_observations') }}</a></li>
             <li class="is-active"><a>{{ __('navigation.edit') }}</a></li>
         </ul>
     </div>

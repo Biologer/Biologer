@@ -94,7 +94,7 @@ class UpdateFieldObservation extends FormRequest
 
         $this->logActivity($fieldObservation, $oldData);
 
-        $fieldObservation->markAsPending();
+        $fieldObservation->moveToPending();
 
         return $fieldObservation;
     }
