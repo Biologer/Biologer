@@ -8,7 +8,6 @@ use Tests\TestCase;
 use App\FieldObservation;
 use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MoveFieldObservationsToPending extends TestCase

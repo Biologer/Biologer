@@ -8,8 +8,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Http\Testing\File;
 
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CleaningOldUploads extends TestCase
 {

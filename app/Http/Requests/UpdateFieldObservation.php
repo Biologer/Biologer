@@ -5,10 +5,10 @@ namespace App\Http\Requests;
 use App\Stage;
 use App\Taxon;
 use App\License;
-use App\ObservationType;
 use App\Rules\Day;
 use App\Observation;
 use App\Rules\Month;
+use App\ObservationType;
 use App\FieldObservation;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -191,7 +191,7 @@ class UpdateFieldObservation extends FormRequest
                 $data[$key] = null;
             } elseif ('types' === $key && $this->observationTypesAreChanged($fieldObservation, $value)) {
                 $data[$key] = null;
-            }elseif (in_array($key, $changed) && ! in_array($key, $excluded)) {
+            } elseif (in_array($key, $changed) && ! in_array($key, $excluded)) {
                 if ('taxon_suggestion' === $key) {
                     // We need it with the key of "taxon", not "taxon_suggestion".
                     $data['taxon'] = $value;
@@ -266,7 +266,7 @@ class UpdateFieldObservation extends FormRequest
 
         return $oldValue->count() !== $fieldObservation->observation->types->count()
             || ($oldValue->isNotEmpty() && $fieldObservation->observation->types->isNotEmpty()
-            && $oldValue->pluck('id')->diff($fieldObservation->observation->types->pluck('id'))->isNotEmpty());;
+            && $oldValue->pluck('id')->diff($fieldObservation->observation->types->pluck('id'))->isNotEmpty());
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Curator;
 
 use App\FieldObservation;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ApprovedObservationsController extends Controller
