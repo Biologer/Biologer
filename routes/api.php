@@ -86,6 +86,9 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('my')->namespace('My')->group(function () {
         Route::get('field-observations', 'FieldObservationsController@index')
             ->name('api.my.field-observations.index');
+
+        Route::get('profile', 'ProfileController@show')
+            ->name('api.my.profile.show');
     });
 
     Route::prefix('curator')->namespace('Curator')->group(function () {
