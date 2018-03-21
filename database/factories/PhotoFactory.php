@@ -2,11 +2,10 @@
 
 use App\Photo;
 use Faker\Generator as Faker;
-
-use Illuminate\Http\UploadedFile;
+use Illuminate\Http\Testing\File;
 
 $factory->define(Photo::class, function (Faker $faker) {
-    $path = UploadedFile::fake()->image(str_random().'.jpg')->store('/photos', [
+    $path = File::image(str_random().'.jpg')->store('photos', [
         'disk' => 'public',
     ]);
 

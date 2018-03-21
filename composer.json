@@ -8,6 +8,7 @@
         "czim/laravel-localization-route-cache": "^0.9.6",
         "dimsav/laravel-translatable": "^9.0",
         "fideloper/proxy": "~4.0",
+        "intervention/image": "^2.4",
         "laravel/framework": "5.6.*",
         "laravel/passport": "~5.0",
         "laravel/tinker": "^1.0",

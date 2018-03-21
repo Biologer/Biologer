@@ -10,7 +10,9 @@ use Tests\TestCase;
 use App\Observation;
 use App\FieldObservation;
 use Laravel\Passport\Passport;
+use App\Jobs\ResizeUploadedPhoto;
 use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -81,7 +83,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->assertEquals('12:00', $fieldObservation->time->format('H:i'));
         $this->assertEquals('Cerambyx cerdo', $fieldObservation->taxon_suggestion);
-        
+
         tap($fieldObservation->observation, function ($observation) use ($user, $taxon) {
             $this->assertTrue($observation->taxon->is($taxon));
             $this->assertEquals($user->full_name, $observation->observer);
@@ -466,16 +468,19 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function photo_can_be_saved_with_observation()
     {
-        $this->withoutExceptionHandling();
         config(['alciphron.photos_per_observation' => 3]);
+        config(['alciphron.photo_size_dimension' => 800]);
+
+        Queue::fake();
+        Storage::fake('public');
 
         Passport::actingAs($user = factory(User::class)->create([
             'first_name' => 'John',
             'last_name' => 'Doe',
         ]));
-        Storage::fake('public');
-        $photosCount = Photo::count();
         File::image('test-image.jpg')->storeAs("uploads/{$user->id}", 'test-image.jpg', 'public');
+
+        $photosCount = Photo::count();
 
         $this->postJson('/api/field-observations', $this->validParams([
             'observer' => 'John Doe',
@@ -486,12 +491,15 @@ class AddFieldObservationTest extends TestCase
             ],
         ]))->assertStatus(201);
 
-        $photo = Photo::latest()->first();
         Photo::assertCount($photosCount + 1);
+        $photo = Photo::latest()->first();
         $this->assertEquals("photos/{$photo->id}/test-image.jpg", $photo->path);
         $this->assertNotEmpty($photo->url);
         $this->assertTrue(Storage::disk('public')->exists($photo->path));
         $this->assertEquals('John Doe', $photo->author);
+        Queue::assertPushed(ResizeUploadedPhoto::class, function ($job) use ($photo) {
+            return $job->photo->is($photo);
+        });
     }
 
     /** @test */

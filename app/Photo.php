@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Jobs\ResizeUploadedPhoto;
 use Illuminate\Support\Facades\Storage;
 
 class Photo extends Model
@@ -37,7 +38,7 @@ class Photo extends Model
         $data['path'] = $path;
         $data['metadata']['exif'] = @exif_read_data($path);
 
-        return static::create($data)->moveToFinalPath();
+        return static::create($data)->moveToFinalPath()->queueResize();
     }
 
     /**
@@ -63,8 +64,17 @@ class Photo extends Model
 
         return tap($this)->update([
             'path' => $newPath,
-            'url' => Storage::disk('public')->url($newPath)
+            'url' => Storage::disk('public')->url($newPath),
         ]);
+    }
+
+    public function queueResize()
+    {
+        if (config('biologer.photo_resize_dimension')) {
+            ResizeUploadedPhoto::dispatch($this);
+        }
+
+        return $this;
     }
 
     /**
