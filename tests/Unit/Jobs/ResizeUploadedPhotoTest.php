@@ -28,7 +28,7 @@ class ResizeUploadedPhotoTest extends TestCase
 
         (new ResizeUploadedPhoto($photo))->handle();
 
-        list($width, $height) = getimagesize(Storage::disk('public')->path($path));
+        list($width, $height) = getimagesize($photo->absolutePath());
         $this->assertEquals(800, $width);
         $this->assertEquals(600, $height);
     }
@@ -37,14 +37,14 @@ class ResizeUploadedPhotoTest extends TestCase
     public function it_resizes_portrait_image_by_height_while_keeping_aspect_ratio()
     {
         Storage::fake('public');
-        $path = File::image(str_random().'.jpg', 1200, 1600)->store('photos', [
+        $path = File::image('test-image.jpg', 1200, 1600)->store('photos', [
             'disk' => 'public',
         ]);
         $photo = factory(Photo::class)->make(['path' => $path]);
 
         (new ResizeUploadedPhoto($photo))->handle();
 
-        list($width, $height) = getimagesize(Storage::disk('public')->path($path));
+        list($width, $height) = getimagesize($photo->absolutePath());
         $this->assertEquals(600, $width);
         $this->assertEquals(800, $height);
     }
@@ -53,15 +53,36 @@ class ResizeUploadedPhotoTest extends TestCase
     public function it_does_not_resize_the_image_if_there_is_no_need_to_do_so()
     {
         Storage::fake('public');
-        $path = File::image(str_random().'.jpg', 500, 400)->store('photos', [
+        $path = File::image('test-image.jpg', 500, 400)->store('photos', [
             'disk' => 'public',
         ]);
         $photo = factory(Photo::class)->make(['path' => $path]);
 
         (new ResizeUploadedPhoto($photo))->handle();
 
-        list($width, $height) = getimagesize(Storage::disk('public')->path($path));
+        list($width, $height) = getimagesize($photo->absolutePath());
         $this->assertEquals(500, $width);
         $this->assertEquals(400, $height);
+    }
+
+    /** @test */
+    public function it_crops_image_if_cropping_information_is_provided()
+    {
+        Storage::fake('public');
+        $path = File::image('test-image.jpg', 500, 400)->store('photos', [
+            'disk' => 'public',
+        ]);
+        $photo = factory(Photo::class)->make(['path' => $path]);
+
+        (new ResizeUploadedPhoto($photo, [
+            'width' => 100,
+            'height' => 100,
+            'x' => 100,
+            'y' => 100,
+        ]))->handle();
+
+        list($width, $height) = getimagesize($photo->absolutePath());
+        $this->assertEquals(100, $width);
+        $this->assertEquals(100, $height);
     }
 }

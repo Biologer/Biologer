@@ -67,7 +67,7 @@
 }
 
 .mr-2 {
-    margin-left: .5rem;
+    margin-right: .5rem;
 }
 
 .mb-8 {
@@ -127,6 +127,10 @@
 
 .bg-white {
     background-color: $white;
+}
+
+.text-white {
+    color: $white;
 }
 
 .bg-light {

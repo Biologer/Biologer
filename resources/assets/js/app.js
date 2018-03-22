@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Captcha from './components/Captcha';
 import ImageModal from './components/ImageModal';
+import ImageCropModal from './components/ImageCropModal';
 
 import DateInput from './components/inputs/DateInput';
 import PhotoUpload from './components/inputs/PhotoUpload';
@@ -48,6 +49,7 @@ Vue.component(Navbar.name, Navbar);
 Vue.component(Sidebar.name, Sidebar);
 Vue.component(Captcha.name, Captcha);
 Vue.component(ImageModal.name, ImageModal);
+Vue.component(ImageCropModal.name, ImageCropModal);
 Vue.component(DateInput.name, DateInput);
 Vue.component(Table.name, Table);
 Vue.component(TaxaTable.name, TaxaTable);

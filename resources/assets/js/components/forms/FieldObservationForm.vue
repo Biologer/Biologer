@@ -39,6 +39,7 @@
                                 icon="upload"
                                 @uploaded="onPhotoUploaded"
                                 @removed="onPhotoRemoved"
+                                @cropped="onPhotoCropped"
                                 :errors="form.errors"
                             ></nz-photo-upload>
                         </div>
@@ -53,6 +54,7 @@
                                 icon="upload"
                                 @uploaded="onPhotoUploaded"
                                 @removed="onPhotoRemoved"
+                                @cropped="onPhotoCropped"
                                 :errors="form.errors"
                             ></nz-photo-upload>
                         </div>
@@ -67,6 +69,7 @@
                                 icon="upload"
                                 @uploaded="onPhotoUploaded"
                                 @removed="onPhotoRemoved"
+                                @cropped="onPhotoCropped"
                                 :errors="form.errors"
                             ></nz-photo-upload>
                         </div>
@@ -415,9 +418,16 @@ export default {
          * @return {Form}
          */
         newForm() {
+            const observation = this.observation;
+
+            // If crop is not set on existing photos, we can't crop them.
+            observation.photos.forEach(photo => {
+               photo.crop = null;
+            });
+
             return new Form({
-                ...this.observation,
-                observation_types_ids: this.observation.types.map(type => type.id),
+                ...observation,
+                observation_types_ids: observation.types.map(type => type.id),
                 reason: null
             }, {
                 resetOnSuccess: false
@@ -499,7 +509,7 @@ export default {
         /**
          * Remove photo from form.
          *
-         * @param {String} file name
+         * @param {Object} image
          */
         onPhotoRemoved(image) {
             _.remove(this.form.photos, { path: image.path });
@@ -512,6 +522,23 @@ export default {
                 selectedObservationTypes.splice(selectedTypeIndex, 1);
 
                 this.selectedObservationTypes = selectedObservationTypes;
+            }
+        },
+
+        /**
+         * Add/remove cropping information.
+         *
+         * @param {Object} image
+         */
+        onPhotoCropped(croppedImage) {
+            const photoIndex = _.findIndex(this.form.photos, { path: croppedImage.path });
+
+            if (photoIndex >= 0) {
+                const photo = _.cloneDeep(this.form.photos[photoIndex]);
+
+                photo.crop = croppedImage.crop;
+
+                this.form.photos.splice(photoIndex, 1, photo);
             }
         },
 

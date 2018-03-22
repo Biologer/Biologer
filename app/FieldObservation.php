@@ -251,15 +251,15 @@ class FieldObservation extends Model
     public function addPhotos($photos, $license)
     {
         return $this->photos()->saveMany(
-            collect($photos)->map(function ($name) {
-                return 'uploads/'.auth()->user()->id.'/'.$name;
+            collect($photos)->map(function ($photo) {
+                return 'uploads/'.auth()->user()->id.'/'.$photo['path'];
             })->filter(function ($path) {
                 return Storage::disk('public')->exists($path);
-            })->map(function ($path) use ($license) {
+            })->map(function ($path, $index) use ($license, $photos) {
                 return Photo::store($path, [
                     'author' => $this->observation->observer,
                     'license' => $license,
-                ]);
+                ], array_get($photos[$index], 'crop'));
             })
         );
     }
@@ -273,11 +273,39 @@ class FieldObservation extends Model
      */
     public function syncPhotos($photos, $license)
     {
+        $result = [
+            'cropped' => [],
+            'added' => [],
+            'removed' => [],
+        ];
+
         $current = $this->photos()->get();
 
-        $current->whereNotIn('path', $photos->pluck('path'))->each->delete();
+        // Removing
+        $current->whereNotIn('id', $photos->pluck('id'))->each(function ($photo) use (&$result) {
+            $result['removed'][] = $photo;
+            $photo->delete();
+        });
 
-        $this->addPhotos($photos->pluck('path')->diff($current->pluck('path')), $license);
+        // Cropping old
+        $old = $current->pluck('id')->intersect($photos->pluck('id'));
+
+        $current->whereIn('id', $old)->each(function ($photo) use ($photos, &$result) {
+            $crop = array_get($photos->where('path', $photo->path)->first(), 'crop');
+
+            if ($crop) {
+                $photo->crop($crop['width'], $crop['height'], $crop['x'], $crop['y']);
+                $result['cropped'][] = $photo;
+            }
+        });
+
+        // Adding new
+        $new = $photos->filter(function ($photo) {
+            return empty(array_get($photo, 'id'));
+        });
+        $result['added'] = $this->addPhotos($new, $license)->all();
+
+        return $result;
     }
 
     /**

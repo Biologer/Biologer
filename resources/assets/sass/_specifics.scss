@@ -59,3 +59,8 @@ ul.is-not-done li:before {
 [v-cloak] {
     display: none;
 }
+
+.croppr-container {
+    display: flex;
+    justify-content: center;
+}

@@ -21,14 +21,21 @@ class ResizeUploadedPhoto implements ShouldQueue
     public $photo;
 
     /**
+     * @var array|null
+     */
+    public $crop;
+
+    /**
      * Create a new job instance.
      *
      * @param  \App\Photo  $photo
+     * @param  array|null  $crop
      * @return void
      */
-    public function __construct(Photo $photo)
+    public function __construct(Photo $photo, $crop = null)
     {
         $this->photo = $photo;
+        $this->crop = $crop;
     }
 
     /**
@@ -38,16 +45,27 @@ class ResizeUploadedPhoto implements ShouldQueue
      */
     public function handle()
     {
-        $image = Image::make(Storage::disk('public')->get($this->photo->path));
+        $image = Image::make($this->photo->getContent());
+        $shouldResize = $this->shouldResize($image);
 
-        if (! $this->shouldResize($image)) {
+        if (! $this->crop && ! $shouldResize) {
             return;
         }
 
-        Storage::disk('public')->put(
-            $this->photo->path,
-            (string) $this->resize($image)->encode()
-        );
+        if ($this->crop) {
+            $image = $image->crop(
+                $this->crop['width'],
+                $this->crop['height'],
+                $this->crop['x'],
+                $this->crop['y']
+            );
+        }
+
+        if ($shouldResize) {
+            $image = $this->resize($image);
+        }
+
+        $this->photo->putContent((string) $image->encode());
     }
 
     /**

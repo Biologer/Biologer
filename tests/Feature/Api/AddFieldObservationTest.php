@@ -469,7 +469,7 @@ class AddFieldObservationTest extends TestCase
     public function photo_can_be_saved_with_observation()
     {
         config(['alciphron.photos_per_observation' => 3]);
-        config(['alciphron.photo_size_dimension' => 800]);
+        config(['alciphron.photo_size_dimension' => null]);
 
         Queue::fake();
         Storage::fake('public');
@@ -482,14 +482,16 @@ class AddFieldObservationTest extends TestCase
 
         $photosCount = Photo::count();
 
-        $this->postJson('/api/field-observations', $this->validParams([
+        $response = $this->postJson('/api/field-observations', $this->validParams([
             'observer' => 'John Doe',
             'photos' => [
                 [
                     'path' => 'test-image.jpg',
                 ],
             ],
-        ]))->assertStatus(201);
+        ]));
+
+        $response->assertStatus(201);
 
         Photo::assertCount($photosCount + 1);
         $photo = Photo::latest()->first();
@@ -497,8 +499,37 @@ class AddFieldObservationTest extends TestCase
         $this->assertNotEmpty($photo->url);
         $this->assertTrue(Storage::disk('public')->exists($photo->path));
         $this->assertEquals('John Doe', $photo->author);
+    }
+
+    /** @test */
+    public function photos_are_queued_to_be_resized_if_needed()
+    {
+        config(['alciphron.photo_size_dimension' => 800]);
+
+        Queue::fake();
+        Storage::fake('public');
+
+        Passport::actingAs($user = factory(User::class)->create());
+        File::image('test-image.jpg', 400, 400)->storeAs("uploads/{$user->id}", 'test-image.jpg', 'public');
+        File::image('test-image2.jpg', 400, 400)->storeAs("uploads/{$user->id}", 'test-image2.jpg', 'public');
+
+        $photosCount = Photo::count();
+
+        $this->postJson('/api/field-observations', $this->validParams([
+            'observer' => 'John Doe',
+            'photos' => [
+                [
+                    'path' => 'test-image.jpg',
+                    'crop' => ['width' => 100, 'height' => 100, 'x' => 100, 'y' => 100],
+                ],
+            ],
+        ]))->assertStatus(201);
+
+        Photo::assertCount($photosCount + 1);
+        $photo = Photo::latest()->first();
         Queue::assertPushed(ResizeUploadedPhoto::class, function ($job) use ($photo) {
-            return $job->photo->is($photo);
+            return $job->photo->is($photo)
+                && $job->crop === ['width' => 100, 'height' => 100, 'x' => 100, 'y' => 100];
         });
     }
 

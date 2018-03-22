@@ -60,7 +60,13 @@ class UpdateFieldObservation extends FormRequest
             'data_license' => ['nullable', Rule::in(License::ids()->all())],
             'image_license' => ['nullable', Rule::in(License::ids()->all())],
             'photos' => ['nullable', 'array', 'max:'.config('biologer.photos_per_observation')],
-            'photos.*.path' => ['required'],
+            'photos.*.id' => ['required_without:photos.*.path', 'integer'],
+            'photos.*.path' => ['required_without:photos.*.id', 'string'],
+            'photos.*.crop' => ['nullable', 'array'],
+            'photos.*.crop.x' => ['required_with:photos.*.crop', 'integer'],
+            'photos.*.crop.y' => ['required_with:photos.*.crop', 'integer'],
+            'photos.*.crop.width' => ['required_with:photos.*.crop', 'integer'],
+            'photos.*.crop.height' => ['required_with:photos.*.crop', 'integer'],
             'time' => ['nullable' ,'date_format:H:i'],
             'project' => ['nullable', 'string', 'max:191'],
             'found_on' => ['nullable', 'string', 'max:191'],
@@ -85,14 +91,14 @@ class UpdateFieldObservation extends FormRequest
         $fieldObservation->observation->update($this->getGeneralObservationData());
         $fieldObservation->update($this->getSpecificObservationData());
 
-        $fieldObservation->syncPhotos(
+        $photoSync = $fieldObservation->syncPhotos(
             collect($this->input('photos', [])),
             $this->input('image_license') ?: $this->user()->settings()->get('image_license')
         );
 
         $this->syncRelations($fieldObservation);
 
-        $this->logActivity($fieldObservation, $oldData);
+        $this->logActivity($fieldObservation, $oldData, $photoSync);
 
         $fieldObservation->moveToPending();
 
@@ -155,13 +161,14 @@ class UpdateFieldObservation extends FormRequest
      *
      * @param  \App\FieldObservation  $fieldObservation
      * @param  array  $oldData
+     * @param  array  $photoSync
      * @return void
      */
-    protected function logActivity(FieldObservation $fieldObservation, array $oldData)
+    protected function logActivity(FieldObservation $fieldObservation, array $oldData, $photoSync)
     {
         activity()->performedOn($fieldObservation)
            ->causedBy($this->user())
-           ->withProperty('old', $this->getChangedData($fieldObservation, $oldData))
+           ->withProperty('old', $this->getChangedData($fieldObservation, $oldData, $photoSync))
            ->withProperty('reason', $this->input('reason'))
            ->log('updated');
     }
@@ -174,7 +181,7 @@ class UpdateFieldObservation extends FormRequest
      * @param  array  $oldData
      * @return array
      */
-    protected function getChangedData(FieldObservation $fieldObservation, array $oldData)
+    protected function getChangedData(FieldObservation $fieldObservation, array $oldData, $photoSync)
     {
         $excluded = ['taxon_id', 'mgrs10k', 'time'];
         $changed = array_merge(
@@ -186,7 +193,7 @@ class UpdateFieldObservation extends FormRequest
         foreach ($oldData as $key => $value) {
             if ('time' === $key && $this->timeIsChanged($fieldObservation, $value)) {
                 $data[$key] = $value;
-            } elseif ('photos' === $key && $this->photosAreChanged($fieldObservation, $value)) {
+            } elseif ('photos' === $key && $this->photosAreChanged($photoSync)) {
                 // We just need to know that it changed. It's confusing to show what.
                 $data[$key] = null;
             } elseif ('types' === $key && $this->observationTypesAreChanged($fieldObservation, $value)) {
@@ -238,19 +245,16 @@ class UpdateFieldObservation extends FormRequest
     }
 
     /**
-     * Check if time changed.
+     * Check if photos are changed.
      *
-     * @param  \App\FieldObservation  $fieldObservation
-     * @param  \Illuminate\Database\Eloquent\Collection  $oldPhotos
+     * @param  array  $photoSync
      * @return bool
      */
-    protected function photosAreChanged($fieldObservation, $oldPhotos)
+    protected function photosAreChanged($photoSync)
     {
-        $fieldObservation->load('photos');
-
-        return $oldPhotos->count() !== $fieldObservation->photos->count()
-            || (! $oldPhotos->isEmpty() && ! $fieldObservation->photos->isEmpty()
-            && ! $oldPhotos->pluck('id')->diff($fieldObservation->photos->pluck('id'))->isEmpty());
+        return count($photoSync['cropped'])
+            || count($photoSync['removed'])
+            || count($photoSync['added']);
     }
 
     /**

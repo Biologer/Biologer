@@ -5,6 +5,8 @@ namespace App;
 use App\Jobs\ResizeUploadedPhoto;
 use Illuminate\Support\Facades\Storage;
 
+use Intervention\Image\Facades\Image;
+
 class Photo extends Model
 {
     /**
@@ -31,24 +33,34 @@ class Photo extends Model
      *
      * @param  string  $path
      * @param  array  $data
+     * @param  array|null  $crop
      * @return self
      */
-    public static function store($path, array $data)
+    public static function store($path, array $data, $crop = null)
     {
         $data['path'] = $path;
         $data['metadata']['exif'] = @exif_read_data($path);
 
-        return static::create($data)->moveToFinalPath()->queueResize();
+        return static::create($data)->moveToFinalPath()->queueResize($crop);
     }
 
-    /**
-     * Final path to file.
-     *
-     * @return string
-     */
-    protected function getFinalPath()
+    public function crop($width, $height, $x, $y)
     {
-        return 'photos/'.$this->id.'/'.basename($this->path);
+        $this->putContent(
+            (string) Image::make($this->getContent())
+                ->crop($width, $height, $x, $y)
+                ->encode()
+        );
+    }
+
+    public function getContent()
+    {
+        return Storage::disk('public')->get($this->path);
+    }
+
+    public function putContent($content)
+    {
+        return Storage::disk('public')->put($this->path, $content);
     }
 
     /**
@@ -58,7 +70,7 @@ class Photo extends Model
      */
     public function moveToFinalPath()
     {
-        $newPath = $this->getFinalPath();
+        $newPath = 'photos/'.$this->id.'/'.basename($this->path);
 
         Storage::disk('public')->move($this->path, $newPath);
 
@@ -68,13 +80,18 @@ class Photo extends Model
         ]);
     }
 
-    public function queueResize()
+    public function queueResize($crop)
     {
-        if (config('biologer.photo_resize_dimension')) {
-            ResizeUploadedPhoto::dispatch($this);
+        if ($crop || config('biologer.photo_resize_dimension')) {
+            ResizeUploadedPhoto::dispatch($this, $crop);
         }
 
         return $this;
+    }
+
+    public function absolutePath()
+    {
+        return Storage::disk('public')->path($this->path);
     }
 
     /**

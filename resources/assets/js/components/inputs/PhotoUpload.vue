@@ -9,23 +9,30 @@
 							size="is-medium">
 						</b-icon>
 					</div>
+
 					<progress class="progress is-primary is-small" :value="progress" max="100" v-if="uploading">{{ progress }}%</progress>
+
 					<div v-else>{{ text }}</div>
 				</div>
 			</section>
 		</b-upload>
 	</b-field>
+
 	<div class="card" v-else>
 		<div class="card-image">
 			<figure class="image is-4by3">
-				<img :src="image.url" alt="Photo">
+				<img :src="thumbnailUrl" alt="Uploaded photo">
 			</figure>
-	  	</div>
-		<footer class="card-footer" v-if="image.path">
+	  </div>
+
+		<footer class="card-footer" v-if="haveImage">
 			<p class="card-footer-item">
-				<button type="button" class="delete is-danger is-medium" @click="remove"></button>
+				<button type="button" class="button is-outlined is-small mr-2" @click="openCropModal" @close="closeCropModal"><b-icon icon="crop" /></button>
+				<button type="button" class="delete is-danger is-medium" @click="remove" v-if="image.path"></button>
 			</p>
 		</footer>
+
+		<nz-image-crop-modal :active.sync="showCropModal" :crop.sync="image.crop" :image-url="image.url" v-if="haveImage"/>
 	</div>
 </template>
 
@@ -33,31 +40,43 @@
 export default {
 	name: 'nzPhotoUpload',
 
-    props: [
-        'uploadUrl',
-        'removeUrl',
-				'imageUrl',
-				'imagePath',
-				'text',
-				'icon'
-    ],
+  props: [
+    'uploadUrl',
+    'removeUrl',
+		'imageUrl',
+		'imagePath',
+		'text',
+		'icon'
+  ],
 
-    data() {
-    	return {
-    		image: {
+  data() {
+    return {
+    	image: {
 				url: this.imageUrl,
-				path: this.imagePath
+				path: this.imagePath,
+				crop: null
 			},
+			croppedImageUrl: null,
 			reader: null,
 			uploading: false,
 			progress: 0,
 			hasExisting: !!this.imageUrl,
-			error: null
-    	};
-    },
+			error: null,
+			showCropModal: false
+    };
+  },
 
-	created() {
-		this.initFileReader();
+	watch: {
+		'image.crop': function (value) {
+			this.$emit('cropped', this.image);
+
+			if (!value) {
+				this.croppedImageUrl = null;
+				return;
+			}
+
+			this.cropThumbnail(value);
+		}
 	},
 
 	computed: {
@@ -65,14 +84,13 @@ export default {
 			return !!this.image.url;
 		},
 
-		imageStyles() {
-			return {
-				backgroundImage: `url('${this.image.url}')`,
-				backgroundSize: 'cover',
-			    backgroundRepeat: 'no-repeat',
-			    backgroundPosition: 'center center'
-			}
+		thumbnailUrl() {
+			return this.croppedImageUrl || this.image.url;
 		}
+	},
+
+	created() {
+		this.initFileReader();
 	},
 
 	methods: {
@@ -80,7 +98,7 @@ export default {
 			this.reader = new FileReader();
 
 			this.reader.addEventListener('load', () => {
-				this.image.url = this.reader.result
+				this.image.url = this.reader.result;
 			});
 		},
 
@@ -155,6 +173,8 @@ export default {
 
 			this.image.path = null;
 			this.image.url = null;
+			this.image.crop = null;
+			this.croppedImageUrl = null;
 		},
 
 		handleError(error) {
@@ -168,6 +188,31 @@ export default {
 			}
 
 			this.error = error.response.data.errors.file[0];
+		},
+
+		openCropModal() {
+			this.showCropModal = true;
+		},
+
+		closeCropModal() {
+			this.showCropModal = false;
+		},
+
+		cropThumbnail(crop) {
+			// Create image
+			const image = document.createElement('img');
+			image.src = this.image.url;
+
+			// Draw canvas
+			const canvas = document.createElement('canvas');
+
+  		canvas.setAttribute('width', crop.width);
+  		canvas.setAttribute('height', crop.height);
+
+  		const context = canvas.getContext('2d');
+  		context.drawImage(image, -crop.x, -crop.y);
+
+			this.croppedImageUrl = canvas.toDataURL();
 		}
 	}
 }

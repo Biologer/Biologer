@@ -10,10 +10,8 @@ use App\License;
 use Tests\TestCase;
 use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
-use Illuminate\Http\UploadedFile;
-
+use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
-
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UpdateFieldObservationTest extends TestCase
@@ -120,8 +118,7 @@ class UpdateFieldObservationTest extends TestCase
         $fieldObservation->photos()->sync(factory(Photo::class)->create());
         $activityCount = $fieldObservation->activity()->count();
 
-        $uploadedPhoto = UploadedFile::fake()
-            ->image(str_random().'.jpg')
+        $uploadedPhoto = File::image(str_random().'.jpg')
             ->store('uploads/'.$user->id, [
                 'disk' => 'public',
             ]);
@@ -286,5 +283,81 @@ class UpdateFieldObservationTest extends TestCase
             $this->assertEquals('New observer', $fieldObservation->observation->observer);
             $this->assertEquals('New taxon suggestion', $fieldObservation->taxon_suggestion);
         });
+    }
+
+    /** @test */
+    public function updating_photos()
+    {
+        Storage::fake('public');
+
+        $user = factory(User::class)->create();
+
+        $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
+            'created_by_id' => $user->id,
+            'elevation' => 500,
+        ], [
+            'license' => License::findByName('CC BY-SA 4.0')['id'],
+            'found_dead' => true,
+            'found_dead_note' => 'Note on dead',
+            'time' => '09:00',
+        ]);
+
+        $existingPhoto = factory(Photo::class)->create();
+        $fieldObservation->photos()->sync($existingPhoto);
+
+        $uploadedPhoto = File::image('new-test-image.jpg')
+            ->storeAs('uploads/'.$user->id, 'new-test-image.jpg', 'public');
+
+        Passport::actingAs($user);
+
+        $this->putJson(
+            "/api/field-observations/{$fieldObservation->id}",
+            $this->validParams([
+                'photos' => [
+                    [
+                        'id' => $existingPhoto->id,
+                    ],
+                    [
+                        'path' => 'new-test-image.jpg',
+                    ]
+                ],
+            ])
+        );
+
+        $this->assertEquals(2, $fieldObservation->photos->count());
+        $this->assertTrue($fieldObservation->photos->contains($existingPhoto));
+    }
+
+    /** @test */
+    public function either_id_or_path_must_be_given_when_updating_photos()
+    {
+        Storage::fake('public');
+
+        $user = factory(User::class)->create();
+
+        $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
+            'created_by_id' => $user->id,
+            'elevation' => 500,
+        ], [
+            'license' => License::findByName('CC BY-SA 4.0')['id'],
+            'found_dead' => true,
+            'found_dead_note' => 'Note on dead',
+            'time' => '09:00',
+        ]);
+
+        Passport::actingAs($user);
+
+        $response = $this->putJson(
+            "/api/field-observations/{$fieldObservation->id}",
+            $this->validParams([
+                'photos' => [
+                    [
+                        'something_unneeded' => 'new-test-image.jpg',
+                    ]
+                ],
+            ])
+        );
+
+        $response->assertJsonValidationErrors(['photos.0.id', 'photos.0.path']);
     }
 }

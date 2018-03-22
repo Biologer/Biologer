@@ -65,6 +65,11 @@ class StoreFieldObservation extends FormRequest
                 'array',
                 'max:'.config('biologer.photos_per_observation'),
             ],
+            'photos.*.crop' => ['nullable', 'array'],
+            'photos.*.crop.x' => ['required_with:photos.*.crop', 'integer'],
+            'photos.*.crop.y' => ['required_with:photos.*.crop', 'integer'],
+            'photos.*.crop.width' => ['required_with:photos.*.crop', 'integer'],
+            'photos.*.crop.height' => ['required_with:photos.*.crop', 'integer'],
             'time' => ['nullable', 'date_format:H:i'],
             'project' => ['nullable', 'string', 'max:191'],
             'found_on' => ['nullable', 'string', 'max:191'],
@@ -84,7 +89,7 @@ class StoreFieldObservation extends FormRequest
     {
         return tap($this->createObservation(), function ($observation) {
             $observation->addPhotos(
-                collect($this->input('photos', []))->pluck('path'),
+                collect($this->input('photos', [])),
                 $this->input('image_license') ?: $this->user()->settings()->get('image_license')
             );
 
