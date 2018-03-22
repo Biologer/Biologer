@@ -471,6 +471,7 @@ class FieldObservation extends Model
 
         static::deleting(function ($model) {
             $model->observation->delete();
+            $model->activity()->delete();
         });
     }
 }

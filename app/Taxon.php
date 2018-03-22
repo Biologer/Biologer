@@ -295,4 +295,18 @@ class Taxon extends Model
             ];
         }, array_keys(static::RANKS), static::RANKS);
     }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($model) {
+            $model->activity()->delete();
+        });
+    }
 }
