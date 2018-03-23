@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Carbon;
 use App\Jobs\ResizeUploadedPhoto;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
@@ -25,6 +26,11 @@ class Photo extends Model
     public function fieldObservations()
     {
         return $this->belongsToMany(FieldObservation::class);
+    }
+
+    public function scopeOlderThanDay($query)
+    {
+        return $query->where('updated_at', '<', Carbon::yesterday());
     }
 
     /**
