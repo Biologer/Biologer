@@ -12,13 +12,11 @@ class ConservationDocumentsTableSeeder extends Seeder
      */
     public function run()
     {
-        ConservationDocument::where(['slug' => 'pba'])->firstOr(function () {
-            ConservationDocument::create([
-                'slug' => 'pba',
-                'en' => ['name' => 'PBA', 'description' => 'Prime Butterfly Areas'],
-                'sr-Latn' => ['name' => 'PBA', 'description' => 'Odabrana područja za dnevne leptire'],
-                'sr' => ['name' => 'ПБА', 'description' => 'Одабрана подручја за дневне лептире'],
-            ]);
-        });
+        ConservationDocument::firstOrCreate(['slug' => 'pba'])->update([
+            'en' => ['name' => 'PBA', 'description' => 'Prime Butterfly Areas'],
+            'hr' => ['name' => 'PBA', 'description' => 'Odabrana područja za dnevne leptire'],
+            'sr' => ['name' => 'ПБА', 'description' => 'Одабрана подручја за дневне лептире'],
+            'sr-Latn' => ['name' => 'PBA', 'description' => 'Odabrana područja za dnevne leptire'],
+        ]);
     }
 }

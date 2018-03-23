@@ -17,25 +17,10 @@ class Territory
             $name = config('biologer.territory');
         }
 
-        return collect([
-            'center' => static::center($name),
-        ]);
-    }
-
-    protected static function center($name)
-    {
-        $territory = strtolower($name);
-
-        $territories = [];
-
-        foreach (config('biologer.territories', []) as $key => $value) {
-            $territories[strtolower($key)] = $value;
-        }
-
-        if (! array_key_exists($territory, $territories)) {
+        return collect(config('biologer.territories', []))->mapWithKeys(function ($value, $key) {
+            return [strtolower($key) => $value];
+        })->collect(strtolower($name), function () {
             throw new \Exception("Territory with the name of {$name} is not defined.");
-        }
-
-        return $territories[$territory];
+        });
     }
 }

@@ -14,8 +14,12 @@ class TaxaTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::unprepared(File::get(__DIR__.'/data/taxa.sql'));
+        $file = __DIR__.'/data/'.snake_case(config('biologer.territory')).'_taxa.sql';
 
-        Taxon::rebuildAncestry();
+        if (Taxon::count() === 0 && File::exists($file)) {
+            DB::unprepared(File::get($file));
+
+            Taxon::rebuildAncestry();
+        }
     }
 }

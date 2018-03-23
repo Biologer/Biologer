@@ -12,31 +12,18 @@ class RedListsTableSeeder extends Seeder
      */
     public function run()
     {
-        RedList::where(['slug' => 'global'])->firstOr(function () {
-            RedList::create([
-                'slug' => 'global',
-                'en' => ['name' => 'Global'],
-                'sr-Latn' => ['name' => 'Globalna'],
-                'sr' => ['name' => 'Глобална'],
-            ]);
-        });
+        RedList::firstOrCreate(['slug' => 'global'])->update([
+            'en' => ['name' => 'Global'],
+            'hr' => ['name' => 'Globalna'],
+            'sr' => ['name' => 'Глобална'],
+            'sr-Latn' => ['name' => 'Globalna']
+        ]);
 
-        RedList::where(['slug' => 'europe'])->firstOr(function () {
-            RedList::create([
-                'slug' => 'europe',
-                'en' => ['name' => 'Europe'],
-                'sr-Latn' => ['name' => 'Evropa'],
-                'sr' => ['name' => 'Европа'],
-            ]);
-        });
-
-        RedList::where(['slug' => 'serbia'])->firstOr(function () {
-            RedList::create([
-                'slug' => 'serbia',
-                'en' => ['name' => 'Serbia'],
-                'sr-Latn' => ['name' => 'Srbija'],
-                'sr' => ['name' => 'Србија'],
-            ]);
-        });
+        RedList::firstOrCreate(['slug' => 'europe'])->update([
+            'en' => ['name' => 'Europe'],
+            'hr' => ['name' => 'Evropa'],
+            'sr' => ['name' => 'Европа'],
+            'sr-Latn' => ['name' => 'Evropa'],
+        ]);
     }
 }

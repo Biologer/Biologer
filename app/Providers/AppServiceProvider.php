@@ -21,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
         Collection::macro('latest', function () {
             return $this->sortByDesc('created_at');
         });
+
+        Collection::macro('collect', function ($key, $default = null) {
+            return new static($this->get($key, $default));
+        });
     }
 
     /**

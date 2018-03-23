@@ -13,22 +13,18 @@ class ObservationTypesTableSeeder extends Seeder
      */
     public function run()
     {
-        ObservationType::where(['slug' => 'observed'])->firstOr(function () {
-            ObservationType::create([
-                'slug' => 'observed',
-                'en' => ['name' => 'Observed'],
-                'sr-Latn' => ['name' => 'Uočeno'],
-                'sr' => ['name' => 'Уочено'],
-            ]);
-        });
+        ObservationType::firstOrCreate(['slug' => 'observed'])->update([
+            'en' => ['name' => 'Observed'],
+            'hr' => ['name' => 'Uočeno'],
+            'sr' => ['name' => 'Уочено'],
+            'sr-Latn' => ['name' => 'Uočeno'],
+        ]);
 
-        ObservationType::where(['slug' => 'photographed'])->firstOr(function () {
-            ObservationType::create([
-                'slug' => 'photographed',
-                'en' => ['name' => 'Photographed'],
-                'sr-Latn' => ['name' => 'Fotografisano'],
-                'sr' => ['name' => 'Фотографисано'],
-            ]);
-        });
+        ObservationType::firstOrCreate(['slug' => 'photographed'])->update([
+            'en' => ['name' => 'Photographed'],
+            'hr' => ['name' => 'Fotografisano'],
+            'sr' => ['name' => 'Фотографисано'],
+            'sr-Latn' => ['name' => 'Fotografisano'],
+        ]);
     }
 }

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ConservationLegislationsTableSeeder::class);
         $this->call(ConservationDocumentsTableSeeder::class);
         $this->call(ObservationTypesTableSeeder::class);
+        $this->call(TerritorySpecificTableSeeder::class);
         // $this->call(UsersTableSeeder::class);
     }
 }
