@@ -3,9 +3,8 @@
 namespace App;
 
 use App\Jobs\ResizeUploadedPhoto;
-use Illuminate\Support\Facades\Storage;
-
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 class Photo extends Model
 {
@@ -17,6 +16,16 @@ class Photo extends Model
     protected $casts = [
         'metadata' => 'collection',
     ];
+
+    /**
+     * Field observations the photo is attached to.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function fieldObservations()
+    {
+        return $this->belongsToMany(FieldObservation::class);
+    }
 
     /**
      * Accessor for url.
@@ -44,6 +53,15 @@ class Photo extends Model
         return static::create($data)->moveToFinalPath()->queueResize($crop);
     }
 
+    /**
+     * Crop the image.
+     *
+     * @param  int  $width
+     * @param  int  $height
+     * @param  int  $x
+     * @param  int  $y
+     * @return void
+     */
     public function crop($width, $height, $x, $y)
     {
         $this->putContent(
@@ -53,11 +71,22 @@ class Photo extends Model
         );
     }
 
+    /**
+     * Get the content of the image file.
+     *
+     * @return string
+     */
     public function getContent()
     {
         return Storage::disk('public')->get($this->path);
     }
 
+    /**
+     * Put the content into the image file.
+     *
+     * @param  string  $content
+     * @return void
+     */
     public function putContent($content)
     {
         return Storage::disk('public')->put($this->path, $content);
@@ -80,6 +109,12 @@ class Photo extends Model
         ]);
     }
 
+    /**
+     * Queue the resize of the photo.
+     *
+     * @param  array  $crop
+     * @return $this
+     */
     public function queueResize($crop)
     {
         if ($crop || config('biologer.photo_resize_dimension')) {
@@ -89,6 +124,11 @@ class Photo extends Model
         return $this;
     }
 
+    /**
+     * Get absolute path to the file.
+     *
+     * @return string
+     */
     public function absolutePath()
     {
         return Storage::disk('public')->path($this->path);
