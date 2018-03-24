@@ -247,7 +247,7 @@
                         :type="form.errors.has('image_license') ? 'is-danger' : null"
                         :message="form.errors.has('image_license') ? form.errors.first('image_license') : null"
                     >
-                        <b-select v-model="form.image_license" expanded>
+                        <b-select v-model="form.image_license" expanded :disabled="shouldDisableImageLicenseField">
                             <option :value="null">{{ trans('labels.field_observations.default') }}</option>
                             <option v-for="(label, value) in licenses" :value="value" v-text="label"></option>
                         </b-select>
@@ -385,6 +385,10 @@ export default {
                 return !_.includes(this.form.observation_types_ids, type.id)
                     && type.name.toLowerCase().includes(this.observationTypeSearch.toLowerCase());
             });
+        },
+
+        shouldDisableImageLicenseField() {
+          return !this.form.photos.filter(photo => !photo.id).length
         }
     },
 
