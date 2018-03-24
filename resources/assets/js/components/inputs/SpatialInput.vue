@@ -2,7 +2,7 @@
     <div class="spatial-input">
         <b-field :label="trans('labels.field_observations.map')">
             <gmap-map style="width: 100%; min-height: 400px"
-                :center="{lat: center.latitude, lng: center.longitude}"
+                :center="centerCoordinates"
                 :zoom="center.zoom"
                 @click="setMarker"
                 @zoom_changed="onZoomChanged"
@@ -168,6 +168,13 @@ export default {
 
         newAccuracy () {
             return this.accuracy || this.emptyAccuracy
+        },
+
+        centerCoordinates() {
+            return this.position || {
+                lat: this.center.latitude,
+                lng: this.center.longitude
+            }
         }
     },
 
@@ -180,6 +187,10 @@ export default {
                 this.getElevation(value);
             }
         },
+    },
+
+    created() {
+        this.setCurrentLocationAsMapCenter();
     },
 
     methods: {
@@ -354,6 +365,26 @@ export default {
          */
         calculateEmptyAccuracy(zoom) {
             return parseInt(ZOOM_ONE / Math.pow(2, zoom));
+        },
+
+        /**
+         * Use browser location to set map center.
+         */
+        setCurrentLocationAsMapCenter() {
+            // We don't want to use this feature if the marker is set.
+            if (!navigator.geolocation || this.position) {
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(position => {
+                if (this.position) {
+                    return;
+                }
+
+                this.center.latitude = position.coords.latitude;
+                this.center.longitude = position.coords.longitude;
+                this.center.zoom = 10;
+            });
         }
     }
 }
