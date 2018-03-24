@@ -18,7 +18,7 @@ function mgrs10k($latitude, $longitude)
  */
 function territory($name = null)
 {
-    return Territory::get($name);
+    return Territory::findByName($name);
 }
 
 if (! function_exists('array_key_rename')) {

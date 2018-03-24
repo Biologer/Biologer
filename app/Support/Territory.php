@@ -11,7 +11,7 @@ class Territory
      * @param  string  $name
      * @return \Illuminate\Support\Collection
      */
-    public static function get($name)
+    public static function findByName($name)
     {
         if (is_null($name)) {
             $name = config('biologer.territory');
