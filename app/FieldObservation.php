@@ -7,7 +7,6 @@ use App\Concerns\CanMemoize;
 use Sofa\Eloquence\Mappable;
 use Sofa\Eloquence\Eloquence;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\Models\Activity;
 
 class FieldObservation extends Model
@@ -257,7 +256,7 @@ class FieldObservation extends Model
                 return Photo::store(UploadedPhoto::relativePath($photo['path']), [
                     'author' => $this->observation->observer,
                     'license' => $license,
-                    'metadata' => ['exif' => UploadedPhoto::exif($photo['path'])]
+                    'metadata' => ['exif' => UploadedPhoto::exif($photo['path'])],
                 ], array_get($photos[$index], 'crop'));
             })
         );

@@ -10,11 +10,13 @@ class HumanReadable
      * @param  int  $kilobytes
      * @return string
      */
-    public static function fileSize($kilobytes) {
+    public static function fileSize($kilobytes)
+    {
         $i = floor(log($kilobytes, 1024));
 
         return round(
-            $kilobytes / pow(1024, $i), [0,2,2,3][$i]
+            $kilobytes / pow(1024, $i),
+            [0,2,2,3][$i]
         ).['kB','MB','GB','TB'][$i];
     }
 }

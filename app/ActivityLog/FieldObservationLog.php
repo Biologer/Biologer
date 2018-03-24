@@ -10,7 +10,7 @@ class FieldObservationLog
 {
     public static function changes(FieldObservation $fieldObservation, array $oldData, $photoSync)
     {
-        return (new static())->getChangedData($fieldObservation, $oldData, $photoSync);
+        return (new self())->getChangedData($fieldObservation, $oldData, $photoSync);
     }
 
     /**

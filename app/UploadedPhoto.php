@@ -4,7 +4,6 @@ namespace App;
 
 use App\Support\Exif;
 use Illuminate\Http\UploadedFile;
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
 class UploadedPhoto

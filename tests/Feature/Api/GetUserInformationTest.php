@@ -21,7 +21,7 @@ class GetUserInformationTest extends TestCase
             'settings' => [
                 'language' => 'sr-Latn',
                 'data_license' => 10,
-                'image_license' => 20
+                'image_license' => 20,
             ],
         ]);
 

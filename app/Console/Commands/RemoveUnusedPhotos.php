@@ -34,6 +34,5 @@ class RemoveUnusedPhotos extends Command
         Photo::doesntHave('fieldObservations')->olderThanDay()->get()->each->delete();
 
         $this->info('Unused photos have been removed!');
-
     }
 }

@@ -10,9 +10,8 @@ use App\Observation;
 use App\Rules\Month;
 use App\ObservationType;
 use App\FieldObservation;
-use App\ActivityLog\FieldObservationLog;
-
 use Illuminate\Validation\Rule;
+use App\ActivityLog\FieldObservationLog;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateFieldObservation extends FormRequest

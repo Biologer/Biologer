@@ -319,7 +319,7 @@ class UpdateFieldObservationTest extends TestCase
                     ],
                     [
                         'path' => 'new-test-image.jpg',
-                    ]
+                    ],
                 ],
             ])
         );
@@ -353,7 +353,7 @@ class UpdateFieldObservationTest extends TestCase
                 'photos' => [
                     [
                         'something_unneeded' => 'new-test-image.jpg',
-                    ]
+                    ],
                 ],
             ])
         );

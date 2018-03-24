@@ -2,7 +2,6 @@
 
 use App\Support\Mgrs;
 use App\Support\Territory;
-use App\Support\Localization;
 
 function mgrs10k($latitude, $longitude)
 {
