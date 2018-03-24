@@ -21,11 +21,6 @@ function territory($name = null)
     return Territory::get($name);
 }
 
-function localizationStrings()
-{
-    return Localization::strings();
-}
-
 if (! function_exists('array_key_rename')) {
     function array_key_rename(&$array, $oldKey, $newKey)
     {

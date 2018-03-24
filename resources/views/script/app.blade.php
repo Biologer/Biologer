@@ -8,6 +8,6 @@
             'center' => territory()->get('center'),
             'load' => false,
         ],
-        'i18n' => localizationStrings(),
+        'i18n' => \App\Support\Localization::strings(),
     ]); ?>
 </script>
