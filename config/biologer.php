@@ -5,6 +5,8 @@ return [
 
     'photo_resize_dimension' => (int) env('PHOTO_RESIZE_DIMENSION', null),
 
+    'max_upload_size' => (int) env('MAX_UPLOAD_SIZE', 2048),
+
     'territory' => env('MAP_TERRITORY', 'Serbia'),
 
     'territories' => [

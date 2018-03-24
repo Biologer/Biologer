@@ -41,8 +41,6 @@ export default {
 	name: 'nzPhotoUpload',
 
   props: [
-    'uploadUrl',
-    'removeUrl',
 		'imageUrl',
 		'imagePath',
 		'text',
@@ -120,7 +118,7 @@ export default {
 
 		upload(file) {
 			this.uploading = true
-			return axios.post(this.uploadUrl, this.makeForm(file), {
+			return axios.post(route('api.photo-uploads.store'), this.makeForm(file), {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 					Accept: 'application/json'
@@ -157,13 +155,7 @@ export default {
 				return this.clearPhoto();
 			}
 
-			axios({
-				method: 'DELETE',
-				data: {
-					file: this.image.path
-				},
-				url: this.removeUrl
-			}).then(() => {
+			axios.delete(route('api.photo-uploads.destroy', this.image.path)).then(() => {
 				this.clearPhoto();
 			})
 		},

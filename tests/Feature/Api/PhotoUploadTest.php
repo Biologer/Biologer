@@ -20,13 +20,12 @@ class PhotoUploadTest extends TestCase
         Passport::actingAs($user = factory(User::class)->create());
 
         $response = $this->postJson('/api/uploads/photos', [
-            'file' => $file = File::image('test-image.jpg', 800, 600)->size(200),
+            'file' => File::image('test-image.jpg', 800, 600)->size(200),
         ]);
 
         $response->assertStatus(200);
         $this->assertArrayHasKey('file', $response->json());
-        $this->assertEquals($file->hashName(), $response->json()['file']);
-        Storage::disk('public')->assertExists("uploads/{$user->id}/{$response->json()['file']}");
+        Storage::disk('public')->assertExists("uploads/{$user->id}/{$response->json('file')}");
     }
 
     /** @test */
@@ -42,7 +41,7 @@ class PhotoUploadTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->make());
 
-        $this->postJson('/api/uploads/photos', [])->assertValidationErrors('file');
+        $this->postJson('/api/uploads/photos', [])->assertJsonValidationErrors('file');
     }
 
     /** @test */
@@ -52,17 +51,19 @@ class PhotoUploadTest extends TestCase
 
         $this->postJson('/api/uploads/photos', [
             'file' => File::create('test-document.pdf', 200),
-        ])->assertValidationErrors('file');
+        ])->assertJsonValidationErrors('file');
     }
 
     /** @test */
-    public function image_cannot_be_larger_than_2_megabytes()
+    public function image_cannot_be_larger_than_max_configured_size()
     {
+        config(['biologer.max_upload_size' => 2048]);
+
         Passport::actingAs(factory(User::class)->make());
 
         $this->postJson('/api/uploads/photos', [
             'file' => File::image('test-image.jpg')->size(2 * 1024 + 1),
-        ])->assertValidationErrors('file');
+        ])->assertJsonValidationErrors('file');
     }
 
     /** @test */
@@ -78,9 +79,7 @@ class PhotoUploadTest extends TestCase
 
         Storage::disk('public')->assertExists("uploads/{$user->id}/test-image.jpg");
 
-        $this->deleteJson('/api/uploads/photos', [
-            'file' => 'test-image.jpg',
-        ])->assertStatus(204);
+        $this->deleteJson('/api/uploads/photos/test-image.jpg')->assertStatus(204);
 
         Storage::disk('public')->assertMissing("uploads/{$user->id}/test-image.jpg");
     }
@@ -97,9 +96,7 @@ class PhotoUploadTest extends TestCase
             'test-image.jpg'
         );
 
-        $this->deleteJson('/api/uploads/photos', [
-            'file' => 'test-image.jpg',
-        ])->assertStatus(204);
+        $this->deleteJson('/api/uploads/photos/test-image.jpg')->assertNotFound();
 
         Storage::disk('public')->assertExists("uploads/{$owner->id}/test-image.jpg");
     }

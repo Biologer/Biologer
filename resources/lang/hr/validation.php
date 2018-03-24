@@ -89,7 +89,7 @@ return [
 
     'captcha' => 'Polje :attribute mora biti validan CAPTCHA kod.',
 
-    'photo_max_2MB' => 'Veličina fajla fotografije ne sme biti veća od 2 megabajta.',
+    'photo_max' => 'Veličina fajla fotografije ne sme biti veća od :size.',
 
     /*
     |--------------------------------------------------------------------------

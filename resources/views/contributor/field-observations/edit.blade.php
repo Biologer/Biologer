@@ -7,8 +7,6 @@
             method="PUT"
             redirect-url="{{ route('contributor.field-observations.index') }}"
             cancel-url="{{ route('contributor.field-observations.index') }}"
-            photo-upload-url="{{ route('api.photo-uploads.store') }}"
-            photo-remove-url="{{ route('api.photo-uploads.destroy') }}"
             :licenses="{{ json_encode(\App\License::getOptions()) }}"
             :sexes="{{ json_encode(\App\Observation::SEX_OPTIONS) }}"
             :observation-types="{{ App\ObservationType::all() }}"

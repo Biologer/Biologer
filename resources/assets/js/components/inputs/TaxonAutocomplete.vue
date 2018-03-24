@@ -119,6 +119,10 @@ export default {
             this.$emit('input', value);
 
             this.fetchData()
+        },
+
+        focusOnInput() {
+          this.$el.querySelector('input').focus();
         }
     }
 }

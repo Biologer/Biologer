@@ -251,14 +251,13 @@ class FieldObservation extends Model
     public function addPhotos($photos, $license)
     {
         return $this->photos()->saveMany(
-            collect($photos)->map(function ($photo) {
-                return 'uploads/'.auth()->user()->id.'/'.$photo['path'];
-            })->filter(function ($path) {
-                return Storage::disk('public')->exists($path);
-            })->map(function ($path, $index) use ($license, $photos) {
-                return Photo::store($path, [
+            collect($photos)->filter(function ($photo) {
+                return UploadedPhoto::exists($photo['path']);
+            })->map(function ($photo, $index) use ($license, $photos) {
+                return Photo::store(UploadedPhoto::relativePath($photo['path']), [
                     'author' => $this->observation->observer,
                     'license' => $license,
+                    'metadata' => ['exif' => UploadedPhoto::exif($photo['path'])]
                 ], array_get($photos[$index], 'crop'));
             })
         );

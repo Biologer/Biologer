@@ -511,7 +511,6 @@ class AddFieldObservationTest extends TestCase
 
         Passport::actingAs($user = factory(User::class)->create());
         File::image('test-image.jpg', 400, 400)->storeAs("uploads/{$user->id}", 'test-image.jpg', 'public');
-        File::image('test-image2.jpg', 400, 400)->storeAs("uploads/{$user->id}", 'test-image2.jpg', 'public');
 
         $photosCount = Photo::count();
 

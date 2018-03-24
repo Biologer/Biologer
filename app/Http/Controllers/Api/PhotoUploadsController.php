@@ -2,36 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\UploadedPhoto;
+use App\Http\Requests\PhotoUpload;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 
 class PhotoUploadsController extends Controller
 {
     /**
-     * 2MB in KB.
-     *
-     * @var int
-     */
-    const TWO_MEGABYTES = 2048;
-
-    /**
      * Store uploaded photo.
      *
+     * @param  \App\Http\Requests\PhotoUpload  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store()
+    public function store(PhotoUpload $request)
     {
-        request()->validate([
-            'file' => [
-                'required', 'image', 'max:'.static::TWO_MEGABYTES,
-            ],
-        ], [
-            'file.max' => trans('validation.photo_max_2MB'),
-        ]);
-
-        return response()->json([
-            'file' => basename(request()->file('file')->store('uploads/'.auth()->user()->id, 'public')),
-        ]);
+        return $request->process();
     }
 
     /**
@@ -39,11 +24,11 @@ class PhotoUploadsController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy()
+    public function destroy($photo)
     {
-        if (request()->has('file')) {
-            Storage::disk('public')->delete('uploads/'.auth()->user()->id.'/'.request('file'));
-        }
+        abort_unless(UploadedPhoto::exists($photo), 404);
+
+        UploadedPhoto::delete($photo);
 
         return response()->json(null, 204);
     }

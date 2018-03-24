@@ -54,7 +54,6 @@ class Photo extends Model
     public static function store($path, array $data, $crop = null)
     {
         $data['path'] = $path;
-        $data['metadata']['exif'] = @exif_read_data($path);
 
         return static::create($data)->moveToFinalPath()->queueResize($crop);
     }

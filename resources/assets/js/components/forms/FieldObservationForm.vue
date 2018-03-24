@@ -31,8 +31,6 @@
                     <div class="columns">
                         <div class="column is-one-third">
                             <nz-photo-upload
-                                :upload-url="photoUploadUrl"
-                                :remove-url="photoRemoveUrl"
                                 :image-url="getObservationPhotoAttribute(0, 'url')"
                                 :image-path="getObservationPhotoAttribute(0, 'path')"
                                 :text="trans('labels.field_observations.upload')"
@@ -46,8 +44,6 @@
 
                         <div class="column is-one-third">
                             <nz-photo-upload
-                                :upload-url="photoUploadUrl"
-                                :remove-url="photoRemoveUrl"
                                 :image-url="getObservationPhotoAttribute(1, 'url')"
                                 :image-path="getObservationPhotoAttribute(1, 'path')"
                                 :text="trans('labels.field_observations.upload')"
@@ -61,8 +57,6 @@
 
                         <div class="column is-one-third">
                             <nz-photo-upload
-                                :upload-url="photoUploadUrl"
-                                :remove-url="photoRemoveUrl"
                                 :image-url="getObservationPhotoAttribute(2, 'url')"
                                 :image-path="getObservationPhotoAttribute(2, 'path')"
                                 :text="trans('labels.field_observations.upload')"
@@ -304,16 +298,6 @@ export default {
     mixins: [FormMixin, UserMixin],
 
     props: {
-        photoUploadUrl: {
-            type: String,
-            required: true
-        },
-
-        photoRemoveUrl: {
-            type: String,
-            required: true
-        },
-
         observation: {
             type: Object,
             default() {
@@ -439,7 +423,7 @@ export default {
          */
         hookAfterSubmitWithoutRedirect() {
             // Focus on taxon autocomplete input.
-            this.$refs.taxonAutocomplete.$el.querySelector('input').focus();
+            this.$refs.taxonAutocomplete.focusOnInput();
         },
 
         /**

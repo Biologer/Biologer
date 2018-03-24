@@ -16,7 +16,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('uploads/photos', 'PhotoUploadsController@store')
         ->name('api.photo-uploads.store');
 
-    Route::delete('uploads/photos', 'PhotoUploadsController@destroy')
+    Route::delete('uploads/photos/{photo}', 'PhotoUploadsController@destroy')
         ->name('api.photo-uploads.destroy');
 
     // Taxa

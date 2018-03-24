@@ -91,7 +91,7 @@ return [
 
     'captcha' => 'The :attribute must be valid CAPTCHA.',
 
-    'photo_max_2MB' => 'The filesize of the photo may not be greater than 2 megabytes.',
+    'photo_max' => 'The file size of the photo may not be greater than :size.',
 
     /*
     |--------------------------------------------------------------------------
