@@ -26,5 +26,7 @@
     "Reason": "Reason",
     "Activity Log": "Activity Log",
     "This field is required and can contain max 255 chars.": "This field is required and can contain max 255 chars.",
-    "Whoops, looks like something went wrong.": "Whoops, looks like something went wrong."
+    "Whoops, looks like something went wrong.": "Whoops, looks like something went wrong.",
+    "Use data from photo to fill the form?": "Use data from photo to fill the form?",
+    "Error": "Error"
 }

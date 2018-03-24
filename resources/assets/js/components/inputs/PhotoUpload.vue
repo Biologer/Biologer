@@ -128,17 +128,14 @@ export default {
 				}
 			}).then(response => {
 				this.image.path = response.data.file;
+				this.image.exif = response.data.exif;
 				this.uploading = false;
 				this.progress = 0;
 
 				this.$emit('uploaded', this.image);
 
 				this.reader.readAsDataURL(file)
-			}).catch((error) => {
-				this.handleError(error)
-				this.uploading = false;
-				this.progress = 0;
-			})
+			}).catch(this.handleError);
 		},
 
 		makeForm(file) {
@@ -170,6 +167,12 @@ export default {
 		},
 
 		handleError(error) {
+			this.uploading = false;
+			this.progress = 0;
+			this.image.url = null
+			// Clear the input so we can select the same image if needed.
+			this.$el.querySelector('input[type="file"]').value = '';
+
 			if (!error.response) {
 				return this.$toast.open({
 					duration: 5000,
@@ -179,7 +182,7 @@ export default {
 				})
 			}
 
-			this.error = error.response.data.errors.file[0];
+			this.error = error.response.data.errors.file[0] || this.trans('Error');
 		},
 
 		openCropModal() {

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Support\Exif;
 use Illuminate\Http\UploadedFile;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
@@ -24,31 +25,58 @@ class UploadedPhoto
     }
 
     /**
-     * Get EXIF information of the uploaded photo.
+     * Get raw EXIF information from the uploaded photo.
      *
      * @param  string  $filename
      * @return array|null
      */
     public static function exif($filename)
     {
-        $exif = Image::make(
-            Storage::disk('public')->get(static::relativePath($filename))
-        )->exif();
-
-        return empty($exif) ? null : static::formatExif($exif);
+        return @exif_read_data(static::getAsDataUri($filename), 'EXIF');
     }
 
     /**
-     * Format EXIF information into more readable format
-     *
-     * TODO: Implement formating EXIF information.
-     *
-     * @param  array  $exif
-     * @return array
+     * Get formated and usable EXIF information.
+     * @param  string  $filename
+     * @return array|null
      */
-    protected static function formatExif($exif)
+    public static function formatedExif($filename)
     {
-        return $exif;
+        return (new Exif(static::exif($filename)))->format();
+    }
+
+    /**
+     * Get photo file content as string.
+     *
+     * @param  string  $filename
+     * @return string
+     */
+    protected static function get($filename)
+    {
+        return Storage::disk('public')->get(static::relativePath($filename));
+    }
+
+    /**
+     * Get the photo contend as data uri.
+     *
+     * @param  string  $filename
+     * @return string
+     */
+    protected static function getAsDataUri($filename)
+    {
+        if (! static::exists($filename)) {
+            return;
+        }
+
+        $image = static::get($filename);
+        $size = getimagesizefromstring($image);
+
+        return 'data:'.$size['mime'].';base64,'.base64_encode($image);
+    }
+
+    protected static function absolutePath($filename)
+    {
+        return Storage::disk('public')->path(static::relativePath($filename));
     }
 
     /**

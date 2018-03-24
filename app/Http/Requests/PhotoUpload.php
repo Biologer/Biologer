@@ -57,7 +57,7 @@ class PhotoUpload extends FormRequest
 
         return response()->json([
             'file' => $filename,
-            'exif' => UploadedPhoto::exif($filename),
+            'exif' => UploadedPhoto::formatedExif($filename),
         ]);
     }
 }

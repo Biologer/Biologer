@@ -354,7 +354,8 @@ export default {
             showMoreDetails: false,
             locale: window.App.locale,
             observationTypeSearch: '',
-            shouldClearType: false
+            shouldClearType: false,
+            exifExtracted: false
         };
     },
 
@@ -488,6 +489,8 @@ export default {
             if (availableType) {
                 this.pushSelectedObservationType(availableType);
             }
+
+            this.promtToExtractExifData(image);
         },
 
         /**
@@ -575,6 +578,30 @@ export default {
             selectedObservationTypes.push(type);
 
             this.selectedObservationTypes = selectedObservationTypes;
+        },
+
+        promtToExtractExifData(image) {
+            if (this.exifExtracted || !image.exif) return;
+
+            this.$dialog.confirm({
+                message: this.trans('Use data from photo to fill the form?'),
+                cancelText: this.trans('No'),
+                confirmText: this.trans('Yes'),
+                onConfirm: () => { this.extractExifData(image); },
+                onCancel: () => { this.exifExtracted = true; }
+            });
+        },
+
+        extractExifData(image) {
+            for (let exif in image.exif) {
+                let value = image.exif[exif];
+
+                if (value) {
+                   this.form[exif] = value;
+                }
+            }
+
+            this.exifExtracted = true;
         }
     }
 }
