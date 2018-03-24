@@ -37,17 +37,17 @@ export default {
       default: 'Date'
     },
 
-    dataYear: {
+    year: {
       type: Number,
       default: moment().year()
     },
 
-    dataMonth: {
+    month: {
       type: Number,
       default: moment().month() + 1
     },
 
-    dataDay: {
+    day: {
       type: Number,
       default: moment().date()
     },
@@ -64,14 +64,6 @@ export default {
     },
 
     errors: Object
-  },
-
-  data() {
-    return {
-      year: this.dataYear,
-      month: this.dataMonth,
-      day: this.dataDay,
-    }
   },
 
   computed: {
@@ -133,19 +125,19 @@ export default {
     onYearInput(value) {
       this.year = +value || null;
 
-      this.$emit('year-input', this.year);
+      this.$emit('update:year', this.year);
     },
 
     onMonthInput(value) {
       this.month = value;
 
-      this.$emit('month-input', this.month);
+      this.$emit('update:month', this.month);
     },
 
     onDayInput(value) {
       this.day = value;
 
-      this.$emit('day-input', this.day);
+      this.$emit('update:day', this.day);
     }
   }
 }

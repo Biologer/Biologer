@@ -13,12 +13,9 @@
                     :placeholder="trans('labels.field_observations.search_for_taxon')" />
 
                 <nz-date-input
-                    :data-year="form.year"
-                    :data-month="form.month"
-                    :data-day="form.day"
-                    v-on:year-input="onYearInput"
-                    v-on:month-input="onMonthInput"
-                    v-on:day-input="onDayInput"
+                    :year.sync="form.year"
+                    :month.sync="form.month"
+                    :day.sync="form.day"
                     :errors="form.errors"
                     :label="trans('labels.field_observations.date')"
                     :placeholders="{
@@ -432,33 +429,6 @@ export default {
         },
 
         /**
-         * Handle year input.
-         *
-         * @param {Number} value
-         */
-        onYearInput(value) {
-            this.form.year = value;
-        },
-
-        /**
-         * Handle month input.
-         *
-         * @param {Number} value
-         */
-        onMonthInput(value) {
-            this.form.month = value;
-        },
-
-        /**
-         * Handle daz input.
-         *
-         * @param {Number} value
-         */
-        onDayInput(value) {
-            this.form.day = value;
-        },
-
-        /**
          * Handle taxon veing selected.
          *
          * @param {Object} value
@@ -597,6 +567,7 @@ export default {
         },
 
         extractExifData(image) {
+            console.log(image.exif);
             for (let exif in image.exif) {
                 let value = image.exif[exif];
 
