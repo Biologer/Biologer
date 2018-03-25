@@ -567,7 +567,6 @@ export default {
         },
 
         extractExifData(image) {
-            console.log(image.exif);
             for (let exif in image.exif) {
                 let value = image.exif[exif];
 
