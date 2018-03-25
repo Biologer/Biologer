@@ -19,6 +19,15 @@ class Photo extends Model
     ];
 
     /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'metadata',
+    ];
+
+    /**
      * Field observations the photo is attached to.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
