@@ -256,7 +256,7 @@ class FieldObservation extends Model
                 return Photo::store(UploadedPhoto::relativePath($photo['path']), [
                     'author' => $this->observation->observer,
                     'license' => $license,
-                    'metadata' => ['exif' => UploadedPhoto::exif($photo['path'])],
+                    // 'metadata' => ['exif' => UploadedPhoto::formatedExif($photo['path'])], // TODO: This needs better solution.
                 ], array_get($photos[$index], 'crop'));
             })
         );
