@@ -150,10 +150,8 @@ class StoreFieldObservation extends FormRequest
             'accuracy' => $this->input('accuracy'),
             'elevation' => $this->input('elevation'),
             'created_by_id' => $this->user()->id,
-            'observer' => $this->input('observer') && $this->user()->hasAnyRole(['admin', 'curator'])
-                ? $this->input('observer')
-                : $this->user()->full_name,
-            'identifier' => $this->input('identifier'),
+            'observer' => $this->getObserver(),
+            'identifier' => $this->getIdentifier(),
             'sex' => $this->input('sex'),
             'stage_id' => $this->input('stage_id'),
             'number' => $this->input('number'),
@@ -162,6 +160,36 @@ class StoreFieldObservation extends FormRequest
             'found_on' => $this->input('found_on'),
             'note' => $this->input('note'),
         ];
+    }
+
+    /**
+     * Get observer name.
+     *
+     * @return string|null
+     */
+    protected function getObserver()
+    {
+        return $this->input('observer') && $this->user()->hasAnyRole(['admin', 'curator'])
+            ? $this->input('observer')
+            : $this->user()->full_name;
+    }
+
+    /**
+     * Get identifier name.
+     *
+     * @return string|null
+     */
+    protected function getIdentifier()
+    {
+        $identifier = $this->input('taxon_id') || $this->input('taxon_suggestion')
+            ? $this->user()->full_name
+            : null;
+
+        if ($this->user()->hasRole(['admin', 'curator'])) {
+            return $this->input('identifier') ?: $identifier;
+        }
+
+        return $identifier;
     }
 
     /**

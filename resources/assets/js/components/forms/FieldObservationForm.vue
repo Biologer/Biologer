@@ -215,13 +215,13 @@
                     :label="trans('labels.field_observations.observer')"
                     :type="form.errors.has('observer') ? 'is-danger' : null"
                     :message="form.errors.has('observer') ? form.errors.first('observer') : null"
-                ><b-input v-model="form.observer" /></b-field>
+                ><b-input v-model="form.observer" :placeholder="currentUser.full_name" /></b-field>
 
                 <b-field
                     :label="trans('labels.field_observations.identifier')"
                     :type="form.errors.has('identifier') ? 'is-danger' : null"
                     :message="form.errors.has('identifier') ? form.errors.first('identifier') : null"
-                ><b-input v-model="form.identifier" /></b-field>
+                ><b-input v-model="form.identifier" :placeholder="currentUser.full_name" /></b-field>
             </template>
 
             <div class="columns">
