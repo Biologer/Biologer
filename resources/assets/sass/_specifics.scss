@@ -65,3 +65,8 @@ ul.is-not-done li:before {
     justify-content: center;
     padding: 1rem;
 }
+
+.label .is-dashed {
+    border-bottom: 1px dashed $grey-light;
+    cursor: default;
+}

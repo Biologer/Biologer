@@ -150,9 +150,9 @@
 
             <div class="field">
                 <label for="found_on" class="label">
-                    <b-tooltip :label="trans('labels.field_observations.found_on_tooltip')" multilined dashed>
+                    <span class="is-dashed" v-tooltip="{content: trans('labels.field_observations.found_on_tooltip')}">
                         {{ trans('labels.field_observations.found_on') }}
-                    </b-tooltip>
+                    </span>
                 </label>
 
                 <b-input id="found_on" name="found_on" v-model="form.found_on" />
@@ -186,9 +186,9 @@
 
             <div class="field">
                 <label for="project" class="label">
-                    <b-tooltip :label="trans('labels.field_observations.project_tooltip')" multilined dashed>
+                    <span class="is-dashed" v-tooltip="{content: trans('labels.field_observations.project_tooltip')}">
                         {{ trans('labels.field_observations.project') }}
-                    </b-tooltip>
+                    </span>
                 </label>
 
                 <b-input id="project" name="project" v-model="form.project" />
@@ -262,6 +262,7 @@
                 'is-loading': submittingWithRedirect
             }"
             @click.prevent="submitWithRedirect"
+            v-tooltip="{content: trans('labels.field_observations.save_tooltip')}"
         >
             {{ trans('buttons.save') }}
         </button>
@@ -275,6 +276,7 @@
             }"
             @click.prevent="submitWithoutRedirect"
             v-if="submitMore"
+            v-tooltip="{content: trans('labels.field_observations.save_more_tooltip')}"
         >
             {{ trans('buttons.save_more') }}
         </button>

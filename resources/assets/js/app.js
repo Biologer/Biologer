@@ -2,6 +2,8 @@ import './bootstrap';
 import Vue from 'vue';
 import Buefy from 'buefy';
 import * as VueGoogleMaps from 'vue2-google-maps';
+import { VTooltip } from 'v-tooltip';
+import { setTooltipOptions } from './tooltip';
 
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
@@ -82,6 +84,9 @@ Vue.filter('formatDateTime', function (value) {
 
   return window.moment(value).format('DD.MM.YYYY HH:mm');
 });
+
+setTooltipOptions(VTooltip);
+Vue.directive('tooltip', VTooltip);
 
 const app = new Vue({
     el: '#app'
