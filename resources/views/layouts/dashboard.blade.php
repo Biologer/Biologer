@@ -97,53 +97,7 @@
                 <div class="container is-fluid p-4">
                     <div class="columns">
                         <div class="column is-2">
-                            <aside class="menu">
-                                <p class="menu-label">
-                                    {{ __('navigation.my') }}
-                                </p>
-
-                                <ul class="menu-list">
-                                    <li><a href="{{ route('contributor.field-observations.index') }}">{{ __('navigation.field_observations') }}</a></li>
-                                </ul>
-
-                                @role(['admin', 'curator'])
-                                    <p class="menu-label">
-                                        {{ __('navigation.curator') }}
-                                    </p>
-
-                                    @can('list', \App\FieldObservation::class)
-                                        <ul class="menu-list">
-                                            <li><a href="{{ route('curator.pending-observations.index') }}">{{ __('navigation.pending_observations') }}</a></li>
-                                        </ul>
-
-                                        <ul class="menu-list">
-                                            <li><a href="{{ route('curator.approved-observations.index') }}">{{ __('navigation.approved_observations') }}</a></li>
-                                        </ul>
-
-                                        <ul class="menu-list">
-                                            <li><a href="{{ route('curator.unidentifiable-observations.index') }}">{{ __('navigation.unidentifiable_observations') }}</a></li>
-                                        </ul>
-                                    @endcan
-                                @endrole
-
-                                @role(['admin', 'curator'])
-                                    <p class="menu-label">
-                                        {{ __('navigation.admin') }}
-                                    </p>
-
-                                    @can('list', \App\Taxon::class)
-                                        <ul class="menu-list">
-                                            <li><a href="{{ route('admin.taxa.index') }}">{{ __('navigation.taxa') }}</a></li>
-                                        </ul>
-                                    @endcan
-
-                                    @can('list', \App\User::class)
-                                        <ul class="menu-list">
-                                            <li><a href="{{ route('admin.users.index') }}">{{ __('navigation.users') }}</a></li>
-                                        </ul>
-                                    @endcan
-                                @endrole
-                            </aside>
+                            {!! Menu::sidebar() !!}
                         </div>
 
                         <div class="column">
