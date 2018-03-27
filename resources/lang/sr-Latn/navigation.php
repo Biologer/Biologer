@@ -19,7 +19,7 @@ return [
     'edit_observation' => 'Izmeni nalaz',
     'pending_observations' => 'Nalazi na čekanju',
     'approved_observations' => 'Potvrđeni nalazi',
-    'unidentifiable_observations' => 'Nalazi koje nije moguće identifikovati',
+    'unidentifiable_observations' => 'Nemoguća identifikacija',
     'field_observations' => 'Terenski nalazi',
     'my' => 'Moje',
     'curator' => 'Urednik',

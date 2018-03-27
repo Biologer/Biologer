@@ -15,9 +15,9 @@ class ObservationTypesTableSeeder extends Seeder
     {
         ObservationType::firstOrCreate(['slug' => 'observed'])->update([
             'en' => ['name' => 'Observed'],
-            'hr' => ['name' => 'Uočeno'],
-            'sr' => ['name' => 'Уочено'],
-            'sr-Latn' => ['name' => 'Uočeno'],
+            'hr' => ['name' => 'Posmatrano'],
+            'sr' => ['name' => 'Посматрано'],
+            'sr-Latn' => ['name' => 'Posmatrano'],
         ]);
 
         ObservationType::firstOrCreate(['slug' => 'photographed'])->update([
