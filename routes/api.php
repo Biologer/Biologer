@@ -104,4 +104,10 @@ Route::middleware('auth:api')->group(function () {
             ->middleware('can:list,App\FieldObservation')
             ->name('api.curator.unidentifiable-observations.index');
     });
+
+    Route::prefix('autocomplete')->namespace('Autocomplete')->group(function () {
+        Route::get('users', 'UsersController@index')
+            ->middleware('role:admin,curator')
+            ->name('api.autocomplete.users.index');
+    });
 });

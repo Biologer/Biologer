@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\User;
 use App\Stage;
 use App\Taxon;
 use App\License;
@@ -76,6 +77,8 @@ class UpdateFieldObservation extends FormRequest
             'observation_types_ids' => [
                 'nullable', 'array', Rule::in(ObservationType::pluck('id')->all()),
             ],
+            'observed_by_id' => ['nullable', Rule::exists('users', 'id')],
+            'identified_by_id' => ['nullable', Rule::exists('users', 'id')],
         ];
     }
 
@@ -113,7 +116,7 @@ class UpdateFieldObservation extends FormRequest
      */
     protected function getSpecificObservationData()
     {
-        return [
+        $data = [
             'found_dead' => $this->input('found_dead', false),
             'found_dead_note' => $this->input('found_dead', false) ? $this->input('found_dead_note') : null,
             'license' => $this->input('data_license') ?: $this->user()->settings()->get('data_license'),
@@ -122,6 +125,13 @@ class UpdateFieldObservation extends FormRequest
                 : $this->input('taxon_suggestion'),
             'time' => $this->input('time'),
         ];
+
+        if ($this->user()->hasAnyRole(['admin', 'curator'])) {
+            $data['observed_by_id'] = $this->input('observed_by_id');
+            $data['identified_by_id'] = $this->input('identified_by_id');
+        }
+
+        return $data;
     }
 
     /**
@@ -131,7 +141,7 @@ class UpdateFieldObservation extends FormRequest
      */
     protected function getGeneralObservationData()
     {
-        return [
+        $data = [
             'taxon_id' => $this->input('taxon_id'),
             'year' => $this->input('year'),
             'month' => $this->input('month'),
@@ -142,12 +152,6 @@ class UpdateFieldObservation extends FormRequest
             'mgrs10k' => mgrs10k($this->input('latitude'), $this->input('longitude')),
             'accuracy' => $this->input('accuracy'),
             'elevation' => $this->input('elevation'),
-            'observer' => $this->input('observer') && $this->user()->hasAnyRole(['admin', 'curator'])
-                ? $this->input('observer')
-                : $this->user()->full_name,
-            'identifier' => $this->input('identifier') && $this->user()->hasAnyRole(['admin', 'curator'])
-                ? $this->input('identifier')
-                : null,
             'sex' => $this->input('sex'),
             'number' => $this->input('number'),
             'stage_id' => $this->input('stage_id'),
@@ -155,6 +159,13 @@ class UpdateFieldObservation extends FormRequest
             'found_on' => $this->input('found_on'),
             'note' => $this->input('note'),
         ];
+
+        if ($this->user()->hasAnyRole(['admin', 'curator'])) {
+            $data['observer'] = $this->getObserver();
+            $data['identifier'] = $this->getIdentifier();
+        }
+
+        return $data;
     }
 
     /**
@@ -183,5 +194,33 @@ class UpdateFieldObservation extends FormRequest
     protected function syncRelations(FieldObservation $fieldObservation)
     {
         $fieldObservation->observation->types()->sync($this->input('observation_types_ids', []));
+    }
+
+    /**
+     * Get observer name.
+     *
+     * @return string|null
+     */
+    protected function getObserver()
+    {
+        if ($this->input('observed_by_id')) {
+            return optional(User::find($this->input('observed_by_id')))->full_name;
+        }
+
+        return $this->input('observer');
+    }
+
+    /**
+     * Get identifier name.
+     *
+     * @return string|null
+     */
+    protected function getIdentifier()
+    {
+        if ($this->input('identified_by_id')) {
+            return optional(User::find($this->input('identified_by_id')))->full_name;
+        }
+
+        return $this->input('identifier');
     }
 }

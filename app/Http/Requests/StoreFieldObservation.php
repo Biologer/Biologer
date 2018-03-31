@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\User;
 use App\Stage;
 use App\Taxon;
 use App\License;
@@ -77,6 +78,8 @@ class StoreFieldObservation extends FormRequest
             'observation_types_ids' => [
                 'nullable', 'array', Rule::in(ObservationType::pluck('id')->all()),
             ],
+            'observed_by_id' => ['nullable', Rule::exists('users', 'id')],
+            'identified_by_id' => ['nullable', Rule::exists('users', 'id')],
         ];
     }
 
@@ -128,6 +131,8 @@ class StoreFieldObservation extends FormRequest
             'found_dead' => $this->input('found_dead', false),
             'found_dead_note' => $this->input('found_dead', false) ? $this->input('found_dead_note') : null,
             'time' => $this->input('time'),
+            'observed_by_id' => $this->getObservedBy(),
+            'identified_by_id' => $this->getIdentifedBy(),
         ];
     }
 
@@ -163,12 +168,30 @@ class StoreFieldObservation extends FormRequest
     }
 
     /**
+     * Get ID of observer name.
+     *
+     * @return string|null
+     */
+    protected function getObservedBy()
+    {
+        if (! $this->user()->hasAnyRole(['admin', 'curator'])) {
+            return $this->user()->id;
+        }
+
+        return $this->input('observed_by_id') ?: $this->user()->id;
+    }
+
+    /**
      * Get observer name.
      *
      * @return string|null
      */
     protected function getObserver()
     {
+        if ($this->input('observed_by_id')) {
+            return User::find($this->input('observed_by_id'))->full_name;
+        }
+
         return $this->input('observer') && $this->user()->hasAnyRole(['admin', 'curator'])
             ? $this->input('observer')
             : $this->user()->full_name;
@@ -181,15 +204,41 @@ class StoreFieldObservation extends FormRequest
      */
     protected function getIdentifier()
     {
-        $identifier = $this->input('taxon_id') || $this->input('taxon_suggestion')
-            ? $this->user()->full_name
-            : null;
-
-        if ($this->user()->hasRole(['admin', 'curator'])) {
-            return $this->input('identifier') ?: $identifier;
+        if (! $this->user()->hasRole(['admin', 'curator'])) {
+            return $this->isIdentified() ? $this->user()->full_name : null;
         }
 
-        return $identifier;
+        return $this->input('identified_by_id')
+                ? User::find($this->input('identified_by_id'))->full_name
+                : $this->input('identifier');
+    }
+
+    /**
+     * Get ID of identifier.
+     *
+     * @return int|null
+     */
+    protected function getIdentifedBy()
+    {
+        if (! $this->isIdentified()) {
+            return;
+        }
+
+        if (! $this->user()->hasAnyRole(['admin', 'curator'])) {
+            return $this->user()->id;
+        }
+
+        return $this->input('identified_by_id') ?: $this->user()->id;
+    }
+
+    /**
+     * Check if the observation has been identified.
+     *
+     * @return bool
+     */
+    protected function isIdentified()
+    {
+        return $this->input('taxon_id') || $this->input('taxon_suggestion');
     }
 
     /**

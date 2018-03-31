@@ -27,6 +27,7 @@ class ApprovedObservationsController extends Controller
     {
         $fieldObservation = FieldObservation::with([
             'observation.taxon.curators', 'observation.taxon.stages',
+            'observedBy', 'identifiedBy',
         ])->approved()->findOrFail($approvedObservation);
 
         $this->authorize('update', $fieldObservation);

@@ -27,6 +27,7 @@ class PendingObservationsController extends Controller
     {
         $fieldObservation = FieldObservation::with([
             'observation.taxon.curators', 'observation.taxon.stages',
+            'observedBy', 'identifiedBy',
         ])->pending()->findOrFail($pendingObservation);
 
         $this->authorize('update', $fieldObservation);

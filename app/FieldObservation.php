@@ -98,6 +98,16 @@ class FieldObservation extends Model
         return $this->morphMany(Activity::class, 'subject')->latest();
     }
 
+    public function observedBy()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function identifiedBy()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     /**
      * Scope the query to get identifiable observations.
      *
@@ -220,6 +230,16 @@ class FieldObservation extends Model
     public function setTimeAttribute($value)
     {
         $this->forgetMemoized('time')->attributes['time'] = $value;
+    }
+
+    public function getObserverAttribute($value)
+    {
+        return optional($this->observedBy)->full_name ?: $value;
+    }
+
+    public function getIdentifierAttribute($value)
+    {
+        return optional($this->identifiedBy)->full_name ?: $value;
     }
 
     /**
@@ -428,8 +448,8 @@ class FieldObservation extends Model
             'accuracy' => $this->observation->accuracy,
             'elevation' => $this->observation->elevation,
             'photos' => $this->photos,
-            'observer' => $this->observation->observer,
-            'identifier' => $this->observation->identifier,
+            'observer' => $this->observedBy ? $this->observedBy->full_name : $this->observation->observer,
+            'identifier' => $this->identifiedBy ? $this->identifiedBy->full_name : $this->observation->identifier,
             'license' => $this->license,
             'sex' => $this->observation->sex,
             'stage_id' => $this->observation->stage_id,
@@ -444,6 +464,10 @@ class FieldObservation extends Model
             'status' => $this->status,
             'activity' => $this->activity,
             'types' => $this->observation->types,
+            'observed_by_id' => $this->observed_by_id,
+            'observed_by' => $this->observedBy,
+            'identified_by_id' => $this->identified_by_id,
+            'identified_by' => $this->identifiedBy,
         ];
     }
 

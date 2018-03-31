@@ -211,17 +211,26 @@
             ><b-input type="textarea" v-model="form.found_dead_note" /></b-field>
 
             <template v-if="isCuratorOrAdmin">
-                <b-field
-                    :label="trans('labels.field_observations.observer')"
-                    :type="form.errors.has('observer') ? 'is-danger' : null"
+                <nz-user-autocomplete
+                    v-model="form.observer"
+                    @select="onObserverSelect"
+                    :error="form.errors.has('observer')"
                     :message="form.errors.has('observer') ? form.errors.first('observer') : null"
-                ><b-input v-model="form.observer" :placeholder="currentUser.full_name" /></b-field>
+                    :user="observation.observed_by"
+                    :label="trans('labels.field_observations.observer')"
+                    :placeholder="currentUser.full_name"
+                    autofocus
+                />
 
-                <b-field
-                    :label="trans('labels.field_observations.identifier')"
-                    :type="form.errors.has('identifier') ? 'is-danger' : null"
+                <nz-user-autocomplete
+                    v-model="form.identifier"
+                    @select="onIdentifierSelect"
+                    :error="form.errors.has('identifier')"
                     :message="form.errors.has('identifier') ? form.errors.first('identifier') : null"
-                ><b-input v-model="form.identifier" :placeholder="currentUser.full_name" /></b-field>
+                    :user="observation.identified_by"
+                    :label="trans('labels.field_observations.identifier')"
+                    autofocus
+                />
             </template>
 
             <div class="columns">
@@ -326,7 +335,11 @@ export default {
                     data_license: null,
                     image_license: null,
                     time: null,
-                    types: []
+                    types: [],
+                    observed_by_id: null,
+                    observed_by: null,
+                    identified_by_id: null,
+                    identified_by: null
                 };
             }
         },
@@ -387,7 +400,11 @@ export default {
         },
 
         shouldDisableImageLicenseField() {
-          return !this.form.photos.filter(photo => !photo.id).length
+            return !this.form.photos.filter(photo => !photo.id).length;
+        },
+
+        isIdentified() {
+            return !!(this.form.taxon_id || this.form.taxon_suggestion);
         }
     },
 
@@ -578,6 +595,16 @@ export default {
             }
 
             this.exifExtracted = true;
+        },
+
+        onObserverSelect(user) {
+          this.form.observed_by = user || null;
+          this.form.observed_by_id = user ? user.id : null;
+        },
+
+        onIdentifierSelect(user) {
+          this.form.identified_by = user || null;
+          this.form.identified_by_id = user ? user.id : null;
         }
     }
 }

@@ -27,6 +27,7 @@ class UnidentifiableObservationsController extends Controller
     {
         $fieldObservation = FieldObservation::with([
             'observation.taxon.curators', 'observation.taxon.stages',
+            'observedBy', 'identifiedBy',
         ])->unidentifiable()->findOrFail($unidentifiableObservation);
 
         $this->authorize('update', $fieldObservation);

@@ -23,7 +23,7 @@ class FieldObservationLog
      */
     protected function getChangedData(FieldObservation $fieldObservation, array $oldData, $photoSync)
     {
-        $excluded = ['taxon_id', 'mgrs10k', 'time'];
+        $excluded = ['taxon_id', 'mgrs10k', 'time', 'observed_by_id', 'identified_by_id'];
         $changed = array_merge(
             array_keys($fieldObservation->observation->getChanges()),
             array_keys($fieldObservation->getChanges())

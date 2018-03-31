@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Concerns\HasRoles;
+use App\Filters\Filterable;
 use App\Concerns\CanMemoize;
 use App\Concerns\Verifiable;
 use Laravel\Passport\HasApiTokens;
@@ -12,7 +13,7 @@ use App\Notifications\ResetPassword as ResetPasswordNotification;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, CanMemoize, HasRoles, Notifiable, Verifiable;
+    use HasApiTokens, CanMemoize, HasRoles, Notifiable, Verifiable, Filterable;
 
     /**
      * The attributes that are mass assignable.
@@ -57,6 +58,13 @@ class User extends Authenticatable
      */
     protected $appends = ['full_name'];
 
+    protected function filters()
+    {
+        return [
+            'name' => \App\Filters\User\NameLike::class,
+        ];
+    }
+
     /**
      * Observations entered by the user.
      *
@@ -99,9 +107,20 @@ class User extends Authenticatable
     }
 
     /**
+     * Sort the users by their name.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSortByName($query)
+    {
+        return $query->orderBy('first_name')->orderBy('last_name');
+    }
+
+    /**
      * Get user settings object.
      *
-     * @return Settings
+     * @return \App\Settings
      */
     public function settings()
     {
