@@ -409,11 +409,7 @@ export default {
     },
 
     created() {
-        if (!this.selectedObservationTypes.length) {
-            this.pushSelectedObservationType(
-                _.find(this.availableObservationTypes, { slug: 'observed' })
-            );
-        }
+        this.setDefaultObservationType();
     },
 
     methods: {
@@ -443,6 +439,7 @@ export default {
          * Performa after submit without redirect is successful.
          */
         hookAfterSubmitWithoutRedirect() {
+            this.setDefaultObservationType();
             // Focus on taxon autocomplete input.
             this.$refs.taxonAutocomplete.focusOnInput();
         },
@@ -465,6 +462,9 @@ export default {
             }
         },
 
+        /**
+         * Set time.
+         */
         onTimeInput(value) {
             this.form.time = value ? moment(value).format('HH:mm') : null;
         },
@@ -483,7 +483,7 @@ export default {
                 this.pushSelectedObservationType(availableType);
             }
 
-            this.promtToExtractExifData(image);
+            this.promptToExtractExifData(image);
         },
 
         /**
@@ -565,6 +565,11 @@ export default {
             }
         },
 
+        /**
+         * Add observation type to selections.
+         *
+         * @param  {Object} type
+         */
         pushSelectedObservationType(type) {
             const selectedObservationTypes = this.selectedObservationTypes;
 
@@ -573,7 +578,12 @@ export default {
             this.selectedObservationTypes = selectedObservationTypes;
         },
 
-        promtToExtractExifData(image) {
+        /**
+         * Ask the user to use EXIF data to populate the fields.
+         *
+         * @param  {Object} image
+         */
+        promptToExtractExifData(image) {
             if (this.exifExtracted || !image.exif) return;
 
             this.$dialog.confirm({
@@ -585,6 +595,11 @@ export default {
             });
         },
 
+        /**
+         * Fill the fields with EXIF data.
+         *
+         * @param  {Object} image
+         */
         extractExifData(image) {
             for (let exif in image.exif) {
                 let value = image.exif[exif];
@@ -597,14 +612,31 @@ export default {
             this.exifExtracted = true;
         },
 
+        /**
+         * Select observer.
+         */
         onObserverSelect(user) {
-          this.form.observed_by = user || null;
-          this.form.observed_by_id = user ? user.id : null;
+            this.form.observed_by = user || null;
+            this.form.observed_by_id = user ? user.id : null;
         },
 
+        /**
+         * Select identifier.
+         */
         onIdentifierSelect(user) {
-          this.form.identified_by = user || null;
-          this.form.identified_by_id = user ? user.id : null;
+            this.form.identified_by = user || null;
+            this.form.identified_by_id = user ? user.id : null;
+        },
+
+        /**
+         * Set default observation type.
+         */
+        setDefaultObservationType() {
+            if (!this.selectedObservationTypes.length) {
+                this.pushSelectedObservationType(
+                    _.find(this.availableObservationTypes, { slug: 'observed' })
+                );
+            }
         }
     }
 }

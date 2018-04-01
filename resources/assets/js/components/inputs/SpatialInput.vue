@@ -6,6 +6,7 @@
                 :zoom="center.zoom"
                 @click="setMarker"
                 @zoom_changed="onZoomChanged"
+                :options="{streetViewControl:false}"
             >
                 <gmap-marker
                     :position="position"
