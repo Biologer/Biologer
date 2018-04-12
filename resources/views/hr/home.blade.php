@@ -21,7 +21,7 @@
                     <li>Registraciju korisnika</li>
                     <li>Unos podataka (kroz veb softver)</li>
                     <li>Prevod programa na više jezika</li>
-                    <li>Aplikaciju za Android uređaje (beta). <a href="https://drive.google.com/open?id=1nIwqk2hycKkr-ZvU2FfZrrObZaLVF1ho" target="_blank">Preuzmite</a></li>
+                    <li>Aplikaciju za Android uređaje (beta). <a href="{{ config('biologer.android_app_url') }}" target="_blank">Preuzmite</a></li>
                 </ul>
             </div>
             <div class="column is-size-5">

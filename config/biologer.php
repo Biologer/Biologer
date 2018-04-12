@@ -26,4 +26,6 @@ return [
             ],
         ],
     ],
+
+    'android_app_url' => env('ANDROID_APP_URL'),
 ];
