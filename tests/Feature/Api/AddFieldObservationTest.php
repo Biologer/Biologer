@@ -5,11 +5,11 @@ namespace Tests\Feature\Api;
 use App\User;
 use App\Photo;
 use App\Taxon;
-use Carbon\Carbon;
 use Tests\TestCase;
 use App\Observation;
 use App\FieldObservation;
 use Laravel\Passport\Passport;
+use Illuminate\Support\Carbon;
 use App\Jobs\ResizeUploadedPhoto;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Queue;
@@ -619,5 +619,46 @@ class AddFieldObservationTest extends TestCase
         ]))->assertValidationErrors('time');
 
         FieldObservation::assertCount($fieldObservationsCount);
+    }
+
+    /** @test */
+    public function admin_can_submit_observer_by_users_id()
+    {
+        $this->seed('RolesTableSeeder');
+        $user = factory(User::class)->create()->assignRole('admin');
+        $anotherUser = factory(User::class)->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
+        Passport::actingAs($user);
+
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'observed_by_id' => $anotherUser->id,
+        ]));
+
+        $response->assertStatus(201);
+
+        $fieldObservation = FieldObservation::latest()->first();
+        $this->assertTrue($fieldObservation->observedBy->is($anotherUser));
+        $this->assertEquals($fieldObservation->observer, 'Jane Doe');
+    }
+
+    /** @test */
+    public function admin_can_submit_identifier_by_users_id_if_there_is_identification()
+    {
+        $this->seed('RolesTableSeeder');
+        $user = factory(User::class)->create()->assignRole('admin');
+        $anotherUser = factory(User::class)->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
+        $taxon = factory(Taxon::class)->create();
+
+        Passport::actingAs($user);
+
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'taxon_id' => $taxon->id,
+            'identified_by_id' => $anotherUser->id,
+        ]));
+
+        $response->assertStatus(201);
+
+        $fieldObservation = FieldObservation::latest()->first();
+        $this->assertTrue($fieldObservation->identifiedBy->is($anotherUser));
+        $this->assertEquals($fieldObservation->identifier, 'Jane Doe');
     }
 }

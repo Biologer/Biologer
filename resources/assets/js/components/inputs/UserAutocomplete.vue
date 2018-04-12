@@ -12,6 +12,7 @@
           :placeholder="placeholder"
           expanded
           :autofocus="autofocus"
+          :disabled="disabled"
       >
         <template slot-scope="props">
           <div class="media">
@@ -59,7 +60,8 @@ export default {
             default: null
         },
         except: {},
-        autofocus: Boolean
+        autofocus: Boolean,
+        disabled: Boolean
     },
 
     data() {

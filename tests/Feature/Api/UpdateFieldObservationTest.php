@@ -360,4 +360,54 @@ class UpdateFieldObservationTest extends TestCase
 
         $response->assertJsonValidationErrors(['photos.0.id', 'photos.0.path']);
     }
+
+    /** @test */
+    public function admin_can_submit_observer_by_users_id()
+    {
+        $this->seed('RolesTableSeeder');
+        $user = factory(User::class)->create()->assignRole('admin');
+        $anotherUser = factory(User::class)->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
+        Passport::actingAs($user);
+
+        $fieldObservation = ObservationFactory::createUnapprovedFieldObservation();
+
+        $response = $this->putJson(
+            "/api/field-observations/{$fieldObservation->id}",
+            $this->validParams([
+                'observed_by_id' => $anotherUser->id,
+            ])
+        );
+
+        $response->assertSuccessful();
+
+        tap($fieldObservation->fresh(), function ($fieldObservation) use ($anotherUser) {
+            $this->assertTrue($fieldObservation->observedBy->is($anotherUser));
+            $this->assertEquals($fieldObservation->observer, 'Jane Doe');
+        });
+    }
+
+    /** @test */
+    public function admin_can_submit_identifier_by_users_id()
+    {
+        $this->seed('RolesTableSeeder');
+        $user = factory(User::class)->create()->assignRole('admin');
+        $anotherUser = factory(User::class)->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
+        Passport::actingAs($user);
+
+        $fieldObservation = ObservationFactory::createUnapprovedFieldObservation();
+
+        $response = $this->putJson(
+            "/api/field-observations/{$fieldObservation->id}",
+            $this->validParams([
+                'identified_by_id' => $anotherUser->id,
+            ])
+        );
+
+        $response->assertSuccessful();
+
+        tap($fieldObservation->fresh(), function ($fieldObservation) use ($anotherUser) {
+            $this->assertTrue($fieldObservation->identifiedBy->is($anotherUser));
+            $this->assertEquals($fieldObservation->identifier, 'Jane Doe');
+        });
+    }
 }

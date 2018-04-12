@@ -219,7 +219,6 @@
                     :user="observation.observed_by"
                     :label="trans('labels.field_observations.observer')"
                     :placeholder="currentUser.full_name"
-                    autofocus
                 />
 
                 <nz-user-autocomplete
@@ -229,7 +228,7 @@
                     :message="form.errors.has('identifier') ? form.errors.first('identifier') : null"
                     :user="observation.identified_by"
                     :label="trans('labels.field_observations.identifier')"
-                    autofocus
+                    :disabled="!isIdentified"
                 />
             </template>
 
@@ -541,7 +540,8 @@ export default {
         getAttributesToKeep() {
             return [
                 'location', 'accuracy', 'elevation', 'latitude', 'longitude',
-                'year', 'month', 'day', 'project'
+                'year', 'month', 'day', 'project', 'observer', 'observed_by',
+                'observed_by_id',
             ];
         },
 
