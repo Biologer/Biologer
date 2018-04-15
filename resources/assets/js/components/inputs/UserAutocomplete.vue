@@ -110,11 +110,28 @@ export default {
         onInput(value) {
             this.$emit('input', value);
 
+            const currentValue = this.getValue(this.selected)
+            if (currentValue && currentValue !== value) {
+                this.onSelect(null);
+            }
+
             this.fetchData()
         },
 
         focusOnInput() {
           this.$el.querySelector('input').focus();
+        },
+
+        /**
+         * Return display text for the input.
+         * If object, get value from path, or else just the value.
+         */
+        getValue(option) {
+            if (!option) return
+
+            return typeof option === 'object'
+                ? _.get(option, 'full_name')
+                : option;
         }
     }
 }
