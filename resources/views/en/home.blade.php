@@ -21,7 +21,10 @@
                     <li>User registration</li>
                     <li>Data input (through the web interface)</li>
                     <li>Translations to multiple languages</li>
-                    <li>Android application (beta). <a href="{{ config('biologer.android_app_url') }}" target="_blank">Download</a></li>
+                    <li>
+                        First stable Android app is ready (<a href="{{ config('biologer.android_app_url') }}" target="_blank">download v0.1</a>).<br/>
+                        <small>If upgrading from beta, please ensure to delete all app data during upgrade.</small>
+                    </li>
                 </ul>
             </div>
             <div class="column is-size-5">
