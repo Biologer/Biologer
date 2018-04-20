@@ -22,7 +22,7 @@
                     <li>Unos podataka (kroz veb softver)</li>
                     <li>Prevod programa na više jezika</li>
                     <li>
-                        Spremna je prva stabilna Android aplikacija (<a href="{{ config('biologer.android_app_url') }}" target="_blank">preuzmite v0.1</a>).<br/>
+                        Spremna je prva stabilna Android aplikacija (<a href="{{ config('biologer.android_app_url') }}" target="_blank">preuzmite v{{ config('biologer.android_app_version') }}</a>).<br/>
                         <small>Ukoliko ste prešli sa beta verzije  obrišite podatke iz aplikacije.</small>
                     </li>
                 </ul>
