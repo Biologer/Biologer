@@ -25,6 +25,13 @@ return [
     'curator' => 'Urednik',
     'admin' => 'Administrator',
     'taxa' => 'Taksoni',
+    'new_taxon' => 'Nov takson',
+    'edit_taxon' => 'Izmeni takson',
     'users' => 'Korisnici',
+    'edit_user' => 'Izmeni korisnika',
     'reset_password' => 'Resetovanje lozinke',
+    'verify' => 'Verifikacija',
+    'view_groups' => 'Grupe za pregled',
+    'new_view_group' => 'Nova grupa za pregled',
+    'edit_view_group' => 'Izmeni grupu za pregled',
 ];

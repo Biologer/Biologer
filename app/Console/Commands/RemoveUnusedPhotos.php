@@ -31,7 +31,7 @@ class RemoveUnusedPhotos extends Command
     {
         $this->warn('Removing unused photos...');
 
-        Photo::doesntHave('fieldObservations')->olderThanDay()->get()->each->delete();
+        Photo::doesntHave('observations')->olderThanDay()->get()->each->delete();
 
         $this->info('Unused photos have been removed!');
     }

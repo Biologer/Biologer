@@ -16,8 +16,8 @@ class CreateViewGroupsTable extends Migration
         Schema::create('view_groups', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('parent_id')->nullable();
-            $table->string('name')->unique();
-            $table->string('image_path')->nullable();
+            $table->string('image_url')->nullable();
+            $table->unsignedInteger('sort_order')->nullable();
             $table->timestamps();
         });
     }

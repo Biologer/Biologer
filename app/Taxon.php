@@ -9,6 +9,7 @@ use Spatie\Activitylog\Models\Activity;
 class Taxon extends Model
 {
     use Concerns\CanBeCurated,
+        Concerns\CanMemoize,
         Concerns\HasAncestry,
         Concerns\HasTranslatableAttributes,
         Filterable,
@@ -101,6 +102,7 @@ class Taxon extends Model
     ];
 
     public $translatedAttributes = ['native_name', 'description'];
+    public $useTranslationFallback = false;
 
     /**
      * Filters that can be used on queries.
@@ -267,17 +269,34 @@ class Taxon extends Model
     }
 
     /**
-     * Get list of MGRS fields the taxon was observed at.
+     * Get complete list of MGRS fields the taxon was observed at.
      *
      * @return array
      */
-    public function mgrs()
+    public function mgrs10k()
     {
-        return $this->approvedObservations()
-                    ->pluck('mgrs10k')
-                    ->unique()
-                    ->values()
-                    ->all();
+        return $this->memoize('mgrs', function () {
+            return Observation::approved()
+                ->whereIn('taxon_id', $this->selfAndDescendantsIds())
+                ->pluck('mgrs10k');
+        });
+    }
+
+    /**
+     * Get confirmed photos of taxon and its descendants.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function publicPhotos()
+    {
+        return $this->memoize('publicPhotos', function () {
+            return Observation::approved()
+                ->whereIn('taxon_id', $this->selfAndDescendantsIds())
+                ->with('publicPhotos')
+                ->get()
+                ->pluck('publicPhotos')
+                ->flatten();
+        });
     }
 
     /**

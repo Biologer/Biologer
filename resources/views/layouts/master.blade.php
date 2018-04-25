@@ -6,7 +6,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name') }}</title>
+        @if(empty($title))
+            <title>{{ config('app.name') }}</title>
+        @else
+            <title>{{ $title.' | '.config('app.name') }}</title>
+        @endif
+
+        <link rel="shortcut icon" sizes="16x16" href="/favicon.ico">
+        <link rel="shortcut icon" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="shortcut icon" sizes="64x64" href="/favicon-64x64.png">
+        <link rel="shortcut icon" sizes="96x96" href="/favicon-96x96.png">
 
         @stack('styles')
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">

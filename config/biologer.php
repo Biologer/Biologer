@@ -7,6 +7,8 @@ return [
 
     'max_upload_size' => (int) env('MAX_UPLOAD_SIZE', 2048),
 
+    'watermark' => env('WATERMARK_FILE', resource_path('assets/svg/logo-white.svg')),
+
     'territory' => env('MAP_TERRITORY', 'Serbia'),
 
     'territories' => [

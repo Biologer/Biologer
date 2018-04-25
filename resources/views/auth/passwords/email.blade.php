@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main', ['title' => __('navigation.reset_password')])
 
 @section('content')
 <section class="hero min-h-screen bg-light is-bold">

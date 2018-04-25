@@ -152,6 +152,16 @@ class Observation extends Model
     }
 
     /**
+     * Public photos of the observation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function publicPhotos()
+    {
+        return $this->photos()->public();
+    }
+
+    /**
      * Add a comment to the observation.
      *
      * @param  string  $comment

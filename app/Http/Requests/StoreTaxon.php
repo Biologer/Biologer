@@ -59,6 +59,8 @@ class StoreTaxon extends FormRequest
                 'required',
                 Rule::in(RedList::CATEGORIES),
             ],
+            'native_name' => ['required', 'array'],
+            'description' => ['required', 'array'],
         ];
     }
 

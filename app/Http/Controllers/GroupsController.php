@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use App\ViewGroup;
 
-class HomeController extends Controller
+class GroupsController extends Controller
 {
     /**
-     * Display the main website page.
+     * Display page to browse groups.
      *
      * @return \Illuminate\Http\View
      */
     public function index()
     {
-        return view('home', [
+        return view('groups.index', [
             'rootGroups' => ViewGroup::roots()->with('groups')->get(),
         ]);
     }

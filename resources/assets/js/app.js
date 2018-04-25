@@ -1,4 +1,5 @@
 import './bootstrap';
+import './bootstrap';
 import Vue from 'vue';
 import Buefy from 'buefy';
 import * as VueGoogleMaps from 'vue2-google-maps';
@@ -10,6 +11,7 @@ import Sidebar from './components/Sidebar';
 import Captcha from './components/Captcha';
 import ImageModal from './components/ImageModal';
 import ImageCropModal from './components/ImageCropModal';
+import Slider from './components/Slider';
 
 import DateInput from './components/inputs/DateInput';
 import PhotoUpload from './components/inputs/PhotoUpload';
@@ -21,10 +23,12 @@ import Table from './components/table/Table';
 import TaxaTable from './components/tables/TaxaTable';
 import UsersTable from './components/tables/UsersTable';
 import FieldObservationsTable from './components/tables/FieldObservationsTable';
+import ViewGroupsTable from './components/tables/ViewGroupsTable';
 
 import UserForm from './components/forms/UserForm';
 import TaxonForm from './components/forms/TaxonForm';
 import FieldObservationForm from './components/forms/FieldObservationForm';
+import ViewGroupForm from './components/forms/ViewGroupForm';
 
 import FieldObservationActivityLog from './components/activity/FieldObservationActivityLog';
 import TaxonActivityLog from './components/activity/TaxonActivityLog';
@@ -53,10 +57,13 @@ Vue.component(Sidebar.name, Sidebar);
 Vue.component(Captcha.name, Captcha);
 Vue.component(ImageModal.name, ImageModal);
 Vue.component(ImageCropModal.name, ImageCropModal);
+Vue.component(Slider.name, Slider);
 Vue.component(DateInput.name, DateInput);
 Vue.component(Table.name, Table);
 Vue.component(TaxaTable.name, TaxaTable);
 Vue.component(UsersTable.name, UsersTable);
+Vue.component(FieldObservationsTable.name, FieldObservationsTable);
+Vue.component(ViewGroupsTable.name, ViewGroupsTable);
 Vue.component(PhotoUpload.name, PhotoUpload);
 Vue.component(SpatialInput.name, SpatialInput);
 Vue.component(TaxonAutocomplete.name, TaxonAutocomplete);
@@ -64,7 +71,7 @@ Vue.component(UserAutocomplete.name, UserAutocomplete);
 Vue.component(FieldObservationForm.name, FieldObservationForm);
 Vue.component(TaxonForm.name, TaxonForm);
 Vue.component(UserForm.name, UserForm);
-Vue.component(FieldObservationsTable.name, FieldObservationsTable);
+Vue.component(ViewGroupForm.name, ViewGroupForm);
 
 Vue.component(FieldObservationActivityLog.name, FieldObservationActivityLog);
 Vue.component(TaxonActivityLog.name, TaxonActivityLog);

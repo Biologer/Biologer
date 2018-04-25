@@ -2,8 +2,31 @@
 
 namespace App;
 
+use App\Concerns\CanMemoize;
+use Dimsav\Translatable\Translatable;
+use App\Concerns\HasTranslatableAttributes;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 class ViewGroup extends Model
 {
+    use CanMemoize, HasTranslatableAttributes, Translatable;
+
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $appends = ['name', 'description'];
+
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['translations'];
+
+    public $translatedAttributes = ['name', 'description'];
+
     /**
      * Query only main groups. We'll use these for tabs.
      *
@@ -35,8 +58,105 @@ class ViewGroup extends Model
         return $this->belongsToMany(Taxon::class);
     }
 
+    /**
+     * Description translation in current locale.
+     *
+     * @return string
+     */
+    public function getDescriptionAttribute()
+    {
+        return $this->translateOrNew($this->locale())->description;
+    }
+
+    /**
+     * Name translation in current locale.
+     *
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return $this->translateOrNew($this->locale())->name;
+    }
+
+    /**
+     * Check if group is root.
+     *
+     * @return bool
+     */
+    public function isRoot()
+    {
+        return empty($this->parent_id);
+    }
+
+    /**
+     * IDs of species related to the group through connected taxa.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function speciesIds()
+    {
+        return $this->memoize('speciesIds', function () {
+            return $this->taxa->map->selfAndDescendingSpeciesIds()->flatten();
+        });
+    }
+
+    /**
+     * Get all species that are part of the group.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function species()
     {
-        // TODO: Implement
+        return $this->memoize('species', function () {
+            return Taxon::with('ancestors')->whereIn('id', $this->speciesIds())->get();
+        });
+    }
+
+    /**
+     * Find species that is inside the group or throw exception.
+     *
+     * @param  int|string  $speciesId
+     * @return \App\Taxon
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function findOrFail($speciesId)
+    {
+        if (! $this->speciesIds()->contains($speciesId)) {
+            throw new ModelNotFoundException("Species with the ID of {$speciesId} is not in this group.");
+        }
+
+        return $this->findSpecies($speciesId);
+    }
+
+    /**
+     * Get the species paginator for given species id.
+     *
+     * @param  int  $speciesId
+     * @return \App\Taxon|null
+     */
+    protected function findSpecies($speciesId)
+    {
+        $species = Taxon::with('ancestors')->species()->where('id', $speciesId)->first();
+
+        if (! $species) {
+            return;
+        }
+
+        return new SpeciesGroupPaginator($this, $species);
+    }
+
+    /**
+     * Get first species in the group.
+     *
+     * @return \App\Taxon|null
+     */
+    public function firstSpecies()
+    {
+        if (! ($id = $this->speciesIds()->first())) {
+            return;
+        }
+
+        return $this->findSpecies($id);
     }
 }

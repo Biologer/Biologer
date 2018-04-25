@@ -39,7 +39,7 @@ trait HasAncestry
             $this->getModelNameLower().'_ancestors',
             'model_id',
             'ancestor_id'
-        );
+        )->orderBy('rank_level' ,'desc');
     }
 
     /**
@@ -54,7 +54,7 @@ trait HasAncestry
             $this->getModelNameLower().'_ancestors',
             'ancestor_id',
             'model_id'
-        );
+        )->orderByAncestry();
     }
 
     /**
@@ -76,6 +76,17 @@ trait HasAncestry
     public function scopeSpecies($query)
     {
         return $query->where('rank_level', static::RANKS['species']);
+    }
+
+    /**
+     * Scope the query to get only species or taxa of lower ranks.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOrderByAncestry($query)
+    {
+        return $query->orderBy('ancestry')->orderBy('name');
     }
 
     /**
@@ -158,6 +169,22 @@ trait HasAncestry
         return $this->descendingSpecies->prepend($this);
     }
 
+    public function selfAndDescendingSpeciesIds()
+    {
+        $ids = $this->descendingSpecies()->pluck('id');
+
+        if ($this->rank !== 'species') {
+            return $ids;
+        }
+
+        return $ids->prepend($this->id);
+    }
+
+    public function selfAndDescendantsIds()
+    {
+        return $this->descendants()->pluck('id')->prepend($this->id);
+    }
+
     /**
      * Rebuild ancestry of entire tree.
      *
@@ -214,6 +241,11 @@ trait HasAncestry
         $this->update(['ancestry' => $this->generateAncestryCache()]);
     }
 
+    /**
+     * Rebuild ancestry cache from this species down to it's last descendant.
+     *
+     * @return $this
+     */
     public function rebuildAncestryCacheDown()
     {
         $this->descendants()
@@ -232,7 +264,7 @@ trait HasAncestry
      */
     protected function generateAncestryCache()
     {
-        return $this->ancestors->sortByDesc('rank_level')->pluck('id')->implode('/');
+        return $this->ancestors->sortByDesc('rank_level')->pluck('id')->push($this->id)->implode('/');
     }
 
     /**

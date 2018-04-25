@@ -26,6 +26,13 @@ return [
     'curator' => 'Curator',
     'admin' => 'admin',
     'taxa' => 'Taxa',
+    'new_taxon' => 'New Taxon',
+    'edit_taxon' => 'Edit Taxon',
     'users' => 'Users',
+    'edit_user' => 'Edit User',
     'reset_password' => 'Reset Password',
+    'verify' => 'Verify',
+    'view_groups' => 'View Groups',
+    'new_view_group' => 'New View Group',
+    'edit_view_group' => 'Edit View Group',
 ];

@@ -1,0 +1,118 @@
+.slider {
+    img {
+        vertical-align: middle;
+        max-height: 300px;
+    }
+    /* Slideshow container */
+    .slide-container {
+        width: 100%;
+        position: relative;
+        margin: auto auto 1rem;
+    }
+
+    .slide {
+        -webkit-animation-name: fade;
+        -webkit-animation-duration: 1.5s;
+        animation-name: fade;
+        animation-duration: 1.5s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 300px;
+    }
+    /* Next & previous buttons */
+    .next,
+    .prev {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        margin-top: -22px;
+        color: rgba(10,10,10,0.7);
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        background-color: rgba(255,255,255,0.4);
+    }
+    /* Position the "next button" to the right */
+    .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+    }
+    /* On hover, add a black background color with a little bit see-through */
+    .next:hover,
+    .prev:hover {
+        background-color: rgba(0,0,0,0.8);
+        color: $white;
+    }
+
+    .dots {
+        text-align: center;
+    }
+    /* The dots/bullets/indicators */
+    .dot {
+        cursor: pointer;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.6s ease;
+
+        &.active,
+        &:hover {
+            background-color: #717171;
+        }
+    }
+    /* Fading animation */
+    @-webkit-keyframes fade {
+        from {
+            opacity: 0.4;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+    @keyframes fade {
+        from {
+            opacity: 0.4;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+    /* On smaller screens, decrease text size */
+    @media only screen and (max-width: 300px) {
+        .next,
+        .prev {
+            font-size: 11px;
+        }
+    }
+}
+@include tablet() {
+    .slider {
+        .slide {
+            height: 400px;
+        }
+
+        img {
+            max-height: 400px;
+        }
+    }
+}
+@include desktop() {
+    .slider {
+        .slide {
+            height: 500px;
+        }
+
+        img {
+            max-height: 500px;
+        }
+    }
+}

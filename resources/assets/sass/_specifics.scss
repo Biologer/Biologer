@@ -70,3 +70,10 @@ ul.is-not-done li:before {
     border-bottom: 1px dashed $grey-light;
     cursor: default;
 }
+
+@media screen and (max-width: $desktop) {
+    .container {
+        padding-left: $gap;
+        padding-right: $gap;
+    }
+}

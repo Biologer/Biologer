@@ -16,6 +16,7 @@ class Photo extends Model
      */
     protected $casts = [
         'metadata' => 'collection',
+        'license' => 'integer',
     ];
 
     /**
@@ -28,18 +29,44 @@ class Photo extends Model
     ];
 
     /**
-     * Field observations the photo is attached to.
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'public_url',
+    ];
+
+    /**
+     * Observations the photo is attached to.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function fieldObservations()
+    public function observations()
     {
-        return $this->belongsToMany(FieldObservation::class);
+        return $this->belongsToMany(Observation::class);
     }
 
+    /**
+     * Scope the query to get only photos older than a day.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeOlderThanDay($query)
     {
         return $query->where('updated_at', '<', Carbon::yesterday());
+    }
+
+    /**
+     * Scope the query to get only public photos.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePublic($query)
+    {
+        return $query->where('license', '<=', License::PARTIALLY_OPEN);
     }
 
     /**
@@ -50,6 +77,50 @@ class Photo extends Model
     public function getUrlAttribute()
     {
         return $this->attribute['url'] ?: Storage::disk('public')->url($this->path);
+    }
+
+    /**
+     * Public URL for viewing on the site.
+     *
+     * @return string|null
+     */
+    public function getPublicUrlAttribute()
+    {
+        if (License::CLOSED === $this->license) {
+            return;
+        }
+
+        if (License::PARTIALLY_OPEN === $this->license) {
+            return $this->watermarkedUrl();
+        }
+
+        return $this->url;
+    }
+
+    /**
+     * URL of watermarked photo.
+     *
+     * @return string|null
+     */
+    protected function watermarkedUrl()
+    {
+        $path = $this->watermarkedPath();
+
+        if (! Storage::disk('public')->exists($path)) {
+            return;
+        }
+
+        return Storage::disk('public')->url($path);
+    }
+
+    /**
+     * File path where the watermark should be stored.
+     *
+     * @return string
+     */
+    public function watermarkedPath()
+    {
+        return $this->finalPath('w'.$this->filename());
     }
 
     /**
@@ -86,6 +157,16 @@ class Photo extends Model
     }
 
     /**
+     * Watermark the photo.
+     *
+     * @return bool
+     */
+    public function watermark()
+    {
+        return app(Watermark::class)->applyTo($this);
+    }
+
+    /**
      * Get the content of the image file.
      *
      * @return string
@@ -113,14 +194,31 @@ class Photo extends Model
      */
     public function moveToFinalPath()
     {
-        $newPath = 'photos/'.$this->id.'/'.basename($this->path);
-
-        Storage::disk('public')->move($this->path, $newPath);
+        Storage::disk('public')->move($this->path, $path = $this->finalPath());
 
         return tap($this)->update([
-            'path' => $newPath,
-            'url' => Storage::disk('public')->url($newPath),
+            'path' => $path,
+            'url' => Storage::disk('public')->url($path),
         ]);
+    }
+
+    /**
+     * Get final path of the image.
+     * @param  string|null  $filename
+     * @return string
+     */
+    protected function finalPath($filename = null) {
+        return 'photos/'.$this->id.'/'.($filename ?? $this->filename());
+    }
+
+    /**
+     * Get base file name.
+     *
+     * @return string
+     */
+    protected function filename()
+    {
+        return basename($this->path);
     }
 
     /**

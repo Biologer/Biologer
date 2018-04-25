@@ -16,8 +16,11 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 ])->group(function () {
     Route::auth();
 
-    Route::get('/', 'HomeController@index');
+    Route::view('/', 'home');
     Route::get('taxa/{taxon}', 'TaxaController@show');
+    Route::get('groups', 'GroupsController@index')->name('groups');
+    Route::get('groups/{group}/species/{species}', 'GroupSpeciesController@show')->name('groups.species.show');
+
 
     Route::view('pages/sponsors', 'pages.sponsors')->name('pages.sponsors');
 
@@ -74,6 +77,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
         Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
             Route::get('taxa', 'TaxaController@index')
+                ->middleware('role:admin,curator')
                 ->name('taxa.index');
 
             Route::get('taxa/{taxon}/edit', 'TaxaController@edit')
@@ -95,6 +99,18 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::put('users/{user}', 'UsersController@update')
                 ->middleware('can:update,user')
                 ->name('users.update');
+
+            Route::get('view-groups', 'ViewGroupsController@index')
+                ->middleware('role:admin')
+                ->name('view-groups.index');
+
+            Route::get('view-groups/new', 'ViewGroupsController@create')
+                ->middleware('can:create,App\ViewGroup')
+                ->name('view-groups.create');
+
+            Route::get('view-groups/{group}/edit', 'ViewGroupsController@edit')
+                ->middleware('can:update,group')
+                ->name('view-groups.edit');
         });
     });
 });

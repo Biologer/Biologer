@@ -1,21 +1,19 @@
-@extends('layouts.master')
+@extends('layouts.master', ['title' => __('navigation.register')])
 
 @section('body')
 <nav class="navbar has-shadow border-t-4 border-primary">
-    <div class="container">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="{{ url('/') }}">
-                <img src="{{ asset('img/logo.svg') }}" alt="{{ config('app.name') }}" class="navbar-logo">
-            </a>
-        </div>
+    <div class="navbar-brand">
+        <a class="navbar-item" href="{{ url('/') }}">
+            <img src="{{ asset('img/logo.svg') }}" alt="{{ config('app.name') }}" class="navbar-logo">
+        </a>
+    </div>
 
-        <div class="navbar-menu">
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <a href="{{ route('login') }}" class="button is-outlined is-secondary">
-                        {{ __('navigation.login') }}
-                    </a>
-                </div>
+    <div class="navbar-menu">
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <a href="{{ route('login') }}" class="button is-outlined is-secondary">
+                    {{ __('navigation.login') }}
+                </a>
             </div>
         </div>
     </div>

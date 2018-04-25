@@ -32,7 +32,7 @@ class UsersController extends Controller
      */
     public function store()
     {
-        //
+        // New users are created through registration form.
     }
 
     /**
@@ -60,8 +60,10 @@ class UsersController extends Controller
             'institution' => ['nullable', 'string', 'max:191'],
             'roles_ids' => ['array'],
             'roles_ids.*' => [Rule::in(Role::pluck('id')->all())],
-            'curated_taxa_ids' => ['array'],
-            'curated_taxa_ids.*' => [Rule::in(Taxon::pluck('id')->all())],
+            'curated_taxa_ids' => [
+                'array',
+                Rule::in(Taxon::pluck('id')->all())
+            ],
         ]);
 
         $user->update(request(['first_name', 'last_name', 'institution']));

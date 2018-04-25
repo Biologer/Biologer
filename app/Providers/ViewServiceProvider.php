@@ -74,6 +74,10 @@ class ViewServiceProvider extends ServiceProvider
                         ['list', \App\User::class],
                         'admin.users.index',
                         __('navigation.users')
+                    )->routeIfCan(
+                        ['list', \App\ViewGroup::class],
+                        'admin.view-groups.index',
+                        __('navigation.view_groups')
                     )->setActiveClass('is-active')
                     ->setActiveClassOnLink()
                     ->setActiveFromRequest()

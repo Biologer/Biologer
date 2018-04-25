@@ -15,11 +15,11 @@ use Illuminate\Support\Facades\Artisan;
 */
 
 Artisan::command('ancestry:rebuild', function () {
-    $this->line('Rebuilding ancestry connections.');
+    $this->warn('Rebuilding ancestry connections...');
     Taxon::rebuildAncestry();
 
-    $this->line('Caching ancestry path.');
+    $this->warn('Caching ancestry path...');
     Taxon::rebuildAncestryCache();
 
-    $this->info('Finished rebuilding and caching ancestry.');
-})->describe('Rebuild ancestry and cache ancestry path.');
+    $this->info('Finished rebuilding and caching ancestry!');
+})->describe('Rebuild ancestry and cache ancestry paths.');

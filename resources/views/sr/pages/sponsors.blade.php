@@ -1,7 +1,7 @@
-@extends('layouts.main')
+@extends('layouts.main', ['title' => __('navigation.sponsors')])
 
 @section('content')
-    <section class="section has-text-centered">
+    <section class="section has-text-centered min-h-screen">
         <img src="https://www.rufford.org/sites/all/themes/rufford/img/rufford.jpg" alt="Rufford" class="image mx-auto">
 
         Развој апликације финансиран средствима "Rufford Small Grants" пројекта бр. 20507-B

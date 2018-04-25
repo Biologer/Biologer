@@ -18,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\RedList' => 'App\Policies\RedListPolicy',
         'App\Taxon' => 'App\Policies\TaxonPolicy',
         'App\User' => 'App\Policies\UserPolicy',
+        'App\ViewGroup' => 'App\Policies\ViewGroupPolicy',
     ];
 
     /**

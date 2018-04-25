@@ -60,6 +60,8 @@ class UpdateTaxon extends FormRequest
                 Rule::in(RedList::CATEGORIES),
             ],
             'reason' => ['required', 'string', 'max:255'],
+            'native_name' => ['required', 'array'],
+            'description' => ['required', 'array'],
         ];
     }
 

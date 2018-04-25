@@ -39,3 +39,39 @@
         bottom: 4px;
     }
 }
+
+.pagination {
+    &.is-species {
+        .pagination-title {
+            align-items: baseline;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+    }
+}
+
+@include tablet() {
+    .pagination {
+        &.is-species {
+            .pagination-title {
+                flex-grow: 1;
+                flex-shrink: 1;
+                justify-content: flex-start;
+                order: 1;
+            }
+        }
+    }
+};
+
+@include mobile() {
+    .pagination {
+        &.is-species {
+            .pagination-title {
+                flex: none;
+                width: 100%;
+            }
+        }
+    }
+}

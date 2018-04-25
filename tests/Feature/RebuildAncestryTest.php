@@ -37,15 +37,15 @@ class RebuildAncestryTest extends TestCase
         $this->artisan('ancestry:rebuild');
 
         $class->ancestors->assertCount(0);
-        $this->assertEmpty($class->fresh()->ancestry);
+        $this->assertEquals($class->id, $class->fresh()->ancestry);
 
         $family->ancestors->assertCount(1);
         $family->ancestors->assertContains($class);
-        $this->assertEquals($class->id, $family->fresh()->ancestry);
+        $this->assertEquals("{$class->id}/{$family->id}", $family->fresh()->ancestry);
 
         $genus->ancestors->assertCount(2);
         $genus->ancestors->assertContains($class);
         $genus->ancestors->assertContains($family);
-        $this->assertEquals("{$class->id}/{$family->id}", $genus->fresh()->ancestry);
+        $this->assertEquals("{$class->id}/{$family->id}/{$genus->id}", $genus->fresh()->ancestry);
     }
 }

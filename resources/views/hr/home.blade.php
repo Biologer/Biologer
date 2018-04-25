@@ -14,6 +14,12 @@
             kakve probleme ili imate nove ideje, slobodno nam ih pošaljite.</p>
 
         <div class="columns">
+            <div class="column is-full-mobile is-one-third is-offset-one-third">
+                <a href="{{ route('groups') }}" class="button is-primary is-outlined is-fullwidth"><b>Pregledaj</b></a>
+            </div>
+        </div>
+
+        <div class="columns">
             <div class="column is-size-5">
                 <p>Već smo napravili:</p>
 

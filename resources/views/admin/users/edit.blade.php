@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.dashboard', ['title' => __('navigation.edit_user')])
 
 @section('content')
     <div class="box">

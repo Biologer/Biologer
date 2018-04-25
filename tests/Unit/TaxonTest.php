@@ -89,7 +89,7 @@ class TaxonTest extends TestCase
 
         $this->assertEquals(
             ['EQ54', 'AE13'],
-            $taxon->mgrs(),
+            $taxon->mgrs10k()->unique()->values()->all(),
             'MGRS fields do not match.'
         );
     }
@@ -183,7 +183,7 @@ class TaxonTest extends TestCase
 
         $taxon->ancestors->assertContains($root);
         $taxon->ancestors->assertContains($parent);
-        $this->assertEquals("{$root->id}/{$parent->id}", $taxon->ancestry);
+        $this->assertEquals("{$root->id}/{$parent->id}/{$taxon->id}", $taxon->ancestry);
     }
 
     /** @test */
@@ -199,7 +199,7 @@ class TaxonTest extends TestCase
         $parent->fresh()->update(['parent_id' => $root2->id]);
 
         tap($parent->fresh(), function ($parent) use ($root2) {
-            $this->assertEquals($root2->id, $parent->ancestry);
+            $this->assertEquals("{$root2->id}/{$parent->id}", $parent->ancestry);
             $parent->ancestors->assertContains($root2);
         });
 
@@ -207,7 +207,7 @@ class TaxonTest extends TestCase
             $taxon->ancestors->assertDoesntContain($root1);
             $taxon->ancestors->assertContains($root2);
             $taxon->ancestors->assertContains($parent);
-            $this->assertEquals("{$root2->id}/{$parent->id}", $taxon->ancestry);
+            $this->assertEquals("{$root2->id}/{$parent->id}/{$taxon->id}", $taxon->ancestry);
         });
     }
 }

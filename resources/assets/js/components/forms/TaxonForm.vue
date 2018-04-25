@@ -209,7 +209,7 @@ import FormMixin from '../../mixins/FormMixin';
 function defaultTranslations() {
     const value = {};
 
-    _.keys(window.supportedLocales).forEach(locale => {
+    _.keys(window.App.supportedLocales).forEach(locale => {
         value[locale] = null;
     });
 

@@ -82,6 +82,25 @@ Route::middleware('auth:api')->group(function () {
         ->middleware('can:delete,user')
         ->name('api.users.destroy');
 
+    // Taxa
+    Route::get('view-groups', 'ViewGroupsController@index')
+        ->name('api.view-groups.index');
+
+    Route::post('view-groups', 'ViewGroupsController@store')
+        ->middleware('can:create,App\ViewGroup')
+        ->name('api.view-groups.store');
+
+    Route::get('view-groups/{group}', 'ViewGroupsController@show')
+        ->name('api.view-groups.show');
+
+    Route::put('view-groups/{group}', 'ViewGroupsController@update')
+        ->middleware('can:update,group')
+        ->name('api.view-groups.update');
+
+    Route::delete('view-groups/{group}', 'ViewGroupsController@destroy')
+        ->middleware('can:delete,group')
+        ->name('api.view-groups.destroy');
+
     // My
     Route::prefix('my')->namespace('My')->group(function () {
         Route::get('field-observations', 'FieldObservationsController@index')
