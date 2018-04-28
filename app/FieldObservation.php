@@ -90,7 +90,7 @@ class FieldObservation extends Model
      */
     public function photos()
     {
-        return $this->belongsToMany(Photo::class);
+        return $this->observation->photos();
     }
 
     public function activity()

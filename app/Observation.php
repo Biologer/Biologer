@@ -142,6 +142,16 @@ class Observation extends Model
     }
 
     /**
+     * Photos of the observation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function photos()
+    {
+        return $this->belongsToMany(Photo::class);
+    }
+
+    /**
      * Add a comment to the observation.
      *
      * @param  string  $comment
