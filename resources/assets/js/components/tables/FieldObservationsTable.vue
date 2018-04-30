@@ -96,6 +96,7 @@
                         class="column is-half"
                         v-model="newFilter.observer"
                         :label="trans('labels.field_observations.observer')"
+                        placeholder=""
                     />
 
                     <b-field :label="trans('labels.field_observations.status')" class="column is-half" v-if="showStatus">
