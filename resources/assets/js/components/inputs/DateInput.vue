@@ -63,7 +63,10 @@ export default {
       }
     },
 
-    errors: Object
+    errors: {
+      type: Object,
+      default: () => ({ has: () => false })
+    }
   },
 
   computed: {
@@ -104,7 +107,7 @@ export default {
   watch: {
     year() {
       if (this.year > moment().year() || this.months.length < this.month -1)  {
-          this.month = null;
+          this.onMonthInput(null);
       }
 
       this.truncateDay();
@@ -118,26 +121,20 @@ export default {
   methods: {
     truncateDay() {
       if (this.days.length < this.day)  {
-          this.day = null;
+          this.onDayInput(null);
       }
     },
 
     onYearInput(value) {
-      this.year = +value || null;
-
-      this.$emit('update:year', this.year);
+      this.$emit('update:year', +value || null);
     },
 
     onMonthInput(value) {
-      this.month = value;
-
-      this.$emit('update:month', this.month);
+      this.$emit('update:month', value);
     },
 
     onDayInput(value) {
-      this.day = value;
-
-      this.$emit('update:day', this.day);
+      this.$emit('update:day', value);
     }
   }
 }

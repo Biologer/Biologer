@@ -1,6 +1,15 @@
 <template>
     <div class="field-observations-table">
-        <div class="buttons" v-if="hasActions">
+        <div class="buttons">
+            <button
+                type="button"
+                class="button"
+                @click="showFilter = !showFilter"
+            >
+                <b-icon icon="filter"></b-icon>
+                <span>{{ trans('buttons.filters') }}</span>
+            </button>
+
             <button
                 type="button"
                 class="button"
@@ -40,6 +49,82 @@
                 <span>{{ trans('buttons.move_to_pending') }}</span>
             </button>
         </div>
+
+        <b-collapse :open="showFilter" class="mt-4">
+            <form @submit.prevent="applyFilter">
+                <div class="columns is-multiline">
+                    <nz-taxon-autocomplete v-model="newFilter.taxon" class="column is-half"
+                          :label="trans('labels.field_observations.taxon')"
+                          :placeholder="trans('labels.field_observations.search_for_taxon')" />
+
+                      <b-field :label="trans('labels.field_observations.date')" class="column is-half">
+                          <b-field expanded grouped>
+                              <b-field expanded>
+                                  <b-input
+                                    :placeholder="trans('labels.field_observations.year')"
+                                    v-model="newFilter.year"
+                                ></b-input>
+                            </b-field>
+
+                            <b-field expanded>
+                                <b-select
+                                    :placeholder="trans('labels.field_observations.month')"
+                                    v-model="newFilter.month"
+                                    expanded
+                                >
+                                    <option :value="null"></option>
+
+                                    <option v-for="(month, index) in months" :value="(index + 1)" v-text="month"></option>
+                                </b-select>
+                            </b-field>
+
+                            <b-field expanded>
+                                <b-select
+                                    :placeholder="trans('labels.field_observations.day')"
+                                    v-model="newFilter.day"
+                                    expanded
+                                >
+                                    <option :value="null"></option>
+
+                                    <option v-for="day in days" :value="day" v-text="day"></option>
+                                </b-select>
+                            </b-field>
+                        </b-field>
+                    </b-field>
+
+                    <nz-user-autocomplete
+                        class="column is-half"
+                        v-model="newFilter.observer"
+                        :label="trans('labels.field_observations.observer')"
+                    />
+
+                    <b-field :label="trans('labels.field_observations.status')" class="column is-half" v-if="showStatus">
+                        <b-select v-model="newFilter.status" expanded>
+                            <option :value="null"></option>
+                            <option
+                                v-for="(status, index) in ['approved', 'unidentifiable', 'pending']"
+                                :value="status"
+                                :key="index"
+                                v-text="trans(`labels.field_observations.statuses.${status}`)">
+                            </option>
+                        </b-select>
+                    </b-field>
+
+                    <b-field :label="trans('labels.field_observations.photos')" class="column is-half">
+                        <b-select v-model="newFilter.photos" expanded>
+                            <option :value="null"></option>
+                            <option value="yes">{{ trans('Yes') }}</option>
+                            <option value="no">{{ trans('No') }}</option>
+                        </b-select>
+                    </b-field>
+                </div>
+
+                <button type="button" class="button is-primary is-outlined" @click="applyFilter">{{ trans('buttons.apply') }}</button>
+                <button type="button" class="button" @click="clearFilter">{{ trans('buttons.clear') }}</button>
+            </form>
+        </b-collapse>
+
+        <hr>
 
         <nz-table
             :data="data"
@@ -163,9 +248,12 @@
 
 <script>
 import axios from 'axios';
+import FilterableTableMixin from '../../mixins/FilterableTableMixin';
 
 export default {
     name: 'nzFieldObservationsTable',
+
+    mixins: [FilterableTableMixin],
 
     props: {
         perPageOptions: {
@@ -220,7 +308,21 @@ export default {
             return this.approvable
               || this.markableAsUnidentifiable
               || this.movableToPending;
-        }
+        },
+
+        months() {
+          return moment.months();
+        },
+
+        days() {
+          return _.range(1, 31);
+        },
+    },
+
+    created() {
+        this.loadAsyncData()
+
+        this.$on('filter', this.loadAsyncData);
     },
 
     methods: {
@@ -230,7 +332,8 @@ export default {
             return axios.get(route(this.listRoute, {
                 sort_by: `${this.sortField}.${this.sortOrder}`,
                 page: this.page,
-                per_page:this.perPage
+                per_page:this.perPage,
+                ...this.filter
             })).then(({ data }) => {
                 this.data = [];
                 this.total = data.meta.total;
@@ -480,7 +583,19 @@ export default {
                 duration: 5000
             });
             this.loadAsyncData();
-        }
+        },
+
+        filterDefaults() {
+            return {
+                status: null,
+                taxon: null,
+                year: null,
+                month: null,
+                day: null,
+                photos: null,
+                observer: null
+            };
+        },
     },
 
     filters: {
@@ -492,10 +607,6 @@ export default {
                 ? value.substr(0, length) + '...'
                 : value
         }
-    },
-
-    mounted() {
-        this.loadAsyncData()
     }
 }
 </script>

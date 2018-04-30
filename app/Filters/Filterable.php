@@ -16,7 +16,7 @@ trait Filterable
         foreach ($request->all() as $param => $value) {
             if (array_key_exists($param, $filters)
                 && $value && class_exists($filters[$param])) {
-                $query = (new $filters[$param]())->apply($query, $value);
+                $query = (new $filters[$param]())->apply($query, $value, $param);
             }
         }
 

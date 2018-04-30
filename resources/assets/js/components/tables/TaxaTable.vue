@@ -1,6 +1,6 @@
 <template>
     <div class="taxa-table">
-        <form @submit.prevent="applyFilter">
+        <div class="buttons">
             <button
                 type="button"
                 class="button"
@@ -9,29 +9,31 @@
                 <b-icon icon="filter"></b-icon>
                 <span>{{ trans('buttons.filters') }}</span>
             </button>
-            <b-collapse :open="showFilter" class="mt-4">
+        </div>
+        <b-collapse :open="showFilter" class="mt-4">
+            <form @submit.prevent="applyFilter">
                 <div class="columns">
-                    <b-field :label="trans('labels.taxa.rank')" class="column">
-                        <b-select v-model="newFilter.rank" expanded>
-                            <option value=""></option>
-                            <option
-                                v-for="(rank, index) in ranks"
-                                :value="rank.value"
-                                :key="index"
-                                v-text="rank.label">
-                            </option>
-                        </b-select>
-                    </b-field>
+                  <b-field :label="trans('labels.taxa.rank')" class="column">
+                      <b-select v-model="newFilter.rank" expanded>
+                          <option value=""></option>
+                          <option
+                              v-for="(rank, index) in ranks"
+                              :value="rank.value"
+                              :key="index"
+                              v-text="rank.label">
+                          </option>
+                      </b-select>
+                  </b-field>
 
-                    <b-field :label="trans('labels.taxa.name')" class="column">
-                        <b-input v-model="newFilter.name"></b-input>
-                    </b-field>
+                  <b-field :label="trans('labels.taxa.name')" class="column">
+                      <b-input v-model="newFilter.name"></b-input>
+                  </b-field>
                 </div>
 
                 <button type="submit" class="button is-primary is-outlined" @click="applyFilter">{{ trans('buttons.apply') }}</button>
                 <button type="button" class="button" @click="clearFilter">{{ trans('buttons.clear') }}</button>
-            </b-collapse>
-        </form>
+            </form>
+        </b-collapse>
 
         <hr>
 
@@ -111,9 +113,12 @@
 
 <script>
 import axios from 'axios';
+import FilterableTableMixin from '../../mixins/FilterableTableMixin';
 
 export default {
     name: 'nzTaxaTable',
+
+    mixins: [FilterableTableMixin],
 
     props: {
         perPageOptions: {
@@ -147,21 +152,14 @@ export default {
             page: 1,
             perPage: this.perPageOptions[0],
             checkedRows: [],
-            showFilter: false,
-            filter: {
-                name: '',
-                rank_level: ''
-            },
-            newFilter: {
-                name: '',
-                rank_level: ''
-            },
             activityLog: []
         };
     },
 
-    mounted() {
+    created() {
         this.loadAsyncData()
+
+        this.$on('filter', this.loadAsyncData);
     },
 
     methods: {
@@ -203,30 +201,6 @@ export default {
             this.loadAsyncData()
         },
 
-        clearFilter() {
-            for (let field in this.newFilter) {
-                this.newFilter[field] = ''
-            }
-
-            this.applyFilter()
-        },
-
-        applyFilter() {
-            let reload = false;
-
-            for (let field in this.newFilter) {
-                if (this.filter[field] !== this.newFilter[field]) {
-                    reload = true;
-                }
-
-                this.filter[field] = this.newFilter[field];
-            }
-
-            if (reload) {
-                this.loadAsyncData()
-            }
-        },
-
         onPerPageChange(perPage) {
             if (perPage === this.perPage) return;
 
@@ -262,6 +236,13 @@ export default {
 
         openActivityLogModal(row) {
             this.activityLog = row.activity;
+        },
+
+        filterDefaults() {
+            return {
+                name: '',
+                rank_level: ''
+            };
         }
     }
 }

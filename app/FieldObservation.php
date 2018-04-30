@@ -59,6 +59,13 @@ class FieldObservation extends Model
     {
         return [
             'id' => \App\Filters\Id::class,
+            'taxon' => \App\Filters\FieldObservation\Taxon::class,
+            'year' => \App\Filters\Attribute::class,
+            'month' => \App\Filters\Attribute::class,
+            'day' => \App\Filters\Attribute::class,
+            'status' => \App\Filters\FieldObservation\Status::class,
+            'photos' => \App\Filters\FieldObservation\Photos::class,
+            'observer' => \App\Filters\FieldObservation\Observer::class,
             'sort_by' => \App\Filters\SortBy::class,
         ];
     }

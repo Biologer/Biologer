@@ -36,6 +36,7 @@
                                 @removed="onPhotoRemoved"
                                 @cropped="onPhotoCropped"
                                 :errors="form.errors"
+                                ref="photoUpload-1"
                             ></nz-photo-upload>
                         </div>
 
@@ -49,6 +50,7 @@
                                 @removed="onPhotoRemoved"
                                 @cropped="onPhotoCropped"
                                 :errors="form.errors"
+                                ref="photoUpload-2"
                             ></nz-photo-upload>
                         </div>
 
@@ -62,6 +64,7 @@
                                 @removed="onPhotoRemoved"
                                 @cropped="onPhotoCropped"
                                 :errors="form.errors"
+                                ref="photoUpload-3"
                             ></nz-photo-upload>
                         </div>
                     </div>
@@ -439,8 +442,18 @@ export default {
          */
         hookAfterSubmitWithoutRedirect() {
             this.setDefaultObservationType();
+            this.clearPhotos();
             // Focus on taxon autocomplete input.
             this.$refs.taxonAutocomplete.focusOnInput();
+        },
+
+        /**
+         * Clear all photos.
+         */
+        clearPhotos() {
+            _.range(1, 3).forEach(number => {
+                this.$refs[`photoUpload-${number}`].clearPhoto();
+            });
         },
 
         /**
