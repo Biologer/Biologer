@@ -73,7 +73,7 @@ return [
         'map' => 'Mapa',
         'latitude' => 'Geografska širina',
         'longitude' => 'Geografska dužina',
-        'accuracy_m' => 'Preciznost/Prečnik (m)',
+        'accuracy_m' => 'Preciznost/Poluprečnik (m)',
         'accuracy' => 'Preciznost',
         'elevation_m' => 'Nadmorska visina (m)',
         'elevation' => 'Nadmorska visina',
