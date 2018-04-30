@@ -1,6 +1,5 @@
 <?php
 
-use App\Taxon;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -13,13 +12,3 @@ use Illuminate\Support\Facades\Artisan;
 | simple approach to interacting with each command's IO methods.
 |
 */
-
-Artisan::command('ancestry:rebuild', function () {
-    $this->warn('Rebuilding ancestry connections...');
-    Taxon::rebuildAncestry();
-
-    $this->warn('Caching ancestry path...');
-    Taxon::rebuildAncestryCache();
-
-    $this->info('Finished rebuilding and caching ancestry!');
-})->describe('Rebuild ancestry and cache ancestry paths.');
