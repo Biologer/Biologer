@@ -1,18 +1,24 @@
 .map {
     width: 100%;
-    max-height: 300px;
+    text-align: center;
 
     svg {
         width: 100%;
         max-height: 300px;
     }
+
+    img {
+        height: 100%;
+    }
 }
 
 @include tablet() {
     .map {
-        max-height: 400px;
-
         svg {
+            max-height: 400px;
+        }
+
+        img {
             max-height: 400px;
         }
     }
@@ -20,9 +26,11 @@
 
 @include desktop() {
     .map {
-        max-height: 500px;
-
         svg {
+            max-height: 500px;
+        }
+
+        img {
             max-height: 500px;
         }
     }

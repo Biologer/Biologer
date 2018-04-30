@@ -2,8 +2,7 @@
 
 namespace App\Providers;
 
-use App\Maps\Mgrs10kMap;
-
+use App\Maps\BasicMgrs10kMap;
 use Illuminate\Support\ServiceProvider;
 
 class MapServiceProvider extends ServiceProvider
@@ -32,8 +31,8 @@ class MapServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('map.mgrs10k', function () {
-            return new Mgrs10kMap($this->app['config']['biologer.territory']);
+        $this->app->singleton('map.mgrs10k.basic', function () {
+            return new BasicMgrs10kMap($this->app['config']['biologer.territory']);
         });
     }
 
@@ -45,7 +44,7 @@ class MapServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            'map.mgrs10k',
+            'map.mgrs10k.basic',
         ];
     }
 }

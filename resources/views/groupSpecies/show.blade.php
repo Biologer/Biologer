@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="column map flex-center">
-                    {!! app('map.mgrs10k')->render($species->mgrs10k()) !!}
+                    {!! app('map.mgrs10k.basic')->render($species->mgrs10k()) !!}
                 </div>
             </div>
         </section>
