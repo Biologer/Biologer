@@ -75,5 +75,10 @@ ul.is-not-done li:before {
     .container {
         padding-left: $gap;
         padding-right: $gap;
+
+        .navbar & {
+            padding-left: 0;
+            padding-right: 0;
+        }
     }
 }
