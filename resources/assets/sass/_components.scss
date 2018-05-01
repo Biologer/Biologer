@@ -75,3 +75,15 @@
         }
     }
 }
+
+.wysiwyg {
+    max-width: 100%;
+
+    trix-editor {
+        word-break: break-all;
+
+        ol, ul {
+            padding-left: 1rem;
+        }
+    }
+}

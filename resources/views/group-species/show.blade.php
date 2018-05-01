@@ -39,7 +39,8 @@
                     </div>
 
                     <div>
-                        {!! nl2br(e($species->description)) !!}
+                        {{-- It's sanitized in accessor method, so don't worry ;) --}}
+                        {!! $species->description !!}
                     </div>
                 </div>
 

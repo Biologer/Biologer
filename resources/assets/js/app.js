@@ -18,6 +18,7 @@ import PhotoUpload from './components/inputs/PhotoUpload';
 import SpatialInput from './components/inputs/SpatialInput';
 import TaxonAutocomplete from './components/inputs/TaxonAutocomplete';
 import UserAutocomplete from './components/inputs/UserAutocomplete';
+import Wysiwyg from './components/inputs/Wysiwyg';
 
 import Table from './components/table/Table';
 import TaxaTable from './components/tables/TaxaTable';
@@ -68,6 +69,7 @@ Vue.component(PhotoUpload.name, PhotoUpload);
 Vue.component(SpatialInput.name, SpatialInput);
 Vue.component(TaxonAutocomplete.name, TaxonAutocomplete);
 Vue.component(UserAutocomplete.name, UserAutocomplete);
+Vue.component(Wysiwyg.name, Wysiwyg);
 Vue.component(FieldObservationForm.name, FieldObservationForm);
 Vue.component(TaxonForm.name, TaxonForm);
 Vue.component(UserForm.name, UserForm);
