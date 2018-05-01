@@ -9,6 +9,7 @@
             empty="{{ __('No data...') }}"
             @role(['admin', 'curator'])
             show-activity-log
+            show-observer
             @endrole
             markable-as-unidentifiable
             mark-as-unidentifiable-route="api.unidentifiable-field-observations-batch.store"

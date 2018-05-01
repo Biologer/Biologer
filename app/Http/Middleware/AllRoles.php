@@ -15,7 +15,7 @@ class AllRoles
      */
     public function handle($request, Closure $next, ...$roles)
     {
-        abort_unless($request->user()->hasAllRoles($roles), 403);
+        abort_unless($request->user()->hasAllRoles($roles), 403, 'Unauthorized');
 
         return $next($request);
     }

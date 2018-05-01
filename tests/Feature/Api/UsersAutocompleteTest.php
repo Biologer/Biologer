@@ -23,7 +23,7 @@ class UsersAutocompleteTest extends TestCase
     public function can_fetch_basic_users_list_for_autocomplete()
     {
         $user = factory(User::class)->create();
-        $user->assignRole('admin');
+        $user->assignRoles('admin');
         Passport::actingAs($user);
 
         $userJane = factory(User::class)->create([
@@ -61,7 +61,7 @@ class UsersAutocompleteTest extends TestCase
     public function user_list_is_paginated()
     {
         $user = factory(User::class)->create();
-        $user->assignRole('admin');
+        $user->assignRoles('admin');
         Passport::actingAs($user);
 
         factory(User::class, 20)->create();
@@ -79,7 +79,7 @@ class UsersAutocompleteTest extends TestCase
             'first_name' => 'Test',
             'last_name' => 'User',
         ]);
-        $user->assignRole('admin');
+        $user->assignRoles('admin');
         Passport::actingAs($user);
 
         $userJane = factory(User::class)->create([

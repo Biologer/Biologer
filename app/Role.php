@@ -23,4 +23,15 @@ class Role extends Model
     {
         return static::where('name', $name)->first();
     }
+
+    /**
+     * Find all roles that have given names.
+     *
+     * @param  array|string  $names
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function findAllByName($names)
+    {
+        return static::whereIn('name', $names)->get();
+    }
 }

@@ -10,7 +10,7 @@ class GroupSpeciesController extends Controller
     {
         abort_if($group->isRoot(), 404, 'Invalid group');
 
-        return view('groupSpecies.show', [
+        return view('group-species.show', [
             'species' => $group->findOrFail($species),
         ]);
     }

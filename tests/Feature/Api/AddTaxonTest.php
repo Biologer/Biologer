@@ -75,7 +75,7 @@ class AddTaxonTest extends TestCase
     /** @test */
     public function user_with_the_role_of_admin_can_create_taxon()
     {
-        Passport::actingAs(factory(User::class)->create()->assignRole('admin'));
+        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
         $stages = factory(Stage::class, 2)->create();
         $conservationLegislations = factory(ConservationLegislation::class, 2)->create();
         $conservationDocuments = factory(ConservationDocument::class, 2)->create();
@@ -115,7 +115,7 @@ class AddTaxonTest extends TestCase
     /** @test */
     public function curator_can_create_taxon_that_is_child_of_taxon_they_curate()
     {
-        $user = factory(User::class)->create()->assignRole('curator');
+        $user = factory(User::class)->create()->assignRoles('curator');
         $parentTaxon = factory(Taxon::class)->create();
         $parentTaxon->curators()->attach($user);
         Passport::actingAs($user);
@@ -131,7 +131,7 @@ class AddTaxonTest extends TestCase
     /** @test */
     public function curator_cannot_create_taxon_if_parent_taxon_is_not_curated_by_them()
     {
-        $user = factory(User::class)->create()->assignRole('curator');
+        $user = factory(User::class)->create()->assignRoles('curator');
         $parentTaxon = factory(Taxon::class)->create();
         Passport::actingAs($user);
 

@@ -5,8 +5,8 @@
         <nz-field-observation-form
             action="{{ route('api.field-observations.update', $observation) }}"
             method="PUT"
-            redirect-url="{{ route('curator.unidentifiable-observations.index') }}"
-            cancel-url="{{ route('curator.unidentifiable-observations.index') }}"
+            redirect-url="{{ route('admin.field-observations.index') }}"
+            cancel-url="{{ route('admin.field-observations.index') }}"
             :licenses="{{ json_encode(\App\License::getOptions()) }}"
             :sexes="{{ json_encode(\App\Observation::SEX_OPTIONS) }}"
             :observation-types="{{ $observationTypes }}"
@@ -16,9 +16,7 @@
             should-ask-reason
             should-confirm-cancel
             submit-only-dirty
-            @role(['admin', 'curator'])
             show-observer-identifier
-            @endrole
         ></nz-field-observation-form>
     </div>
 @endsection
@@ -27,7 +25,7 @@
     <div class="breadcrumb" aria-label="breadcrumbs">
         <ul>
             <li><a href="{{ route('contributor.index') }}">{{ __('navigation.dashboard') }}</a></li>
-            <li><a href="{{ route('curator.unidentifiable-observations.index') }}">{{ __('navigation.unidentifiable_observations') }}</a></li>
+            <li><a href="{{ route('admin.field-observations.index') }}">{{ __('navigation.all_field_observations') }}</a></li>
             <li class="is-active"><a>{{ __('navigation.edit') }}</a></li>
         </ul>
     </div>

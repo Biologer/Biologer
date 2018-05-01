@@ -67,6 +67,10 @@ class ViewServiceProvider extends ServiceProvider
                     ->prepend('<p class="menu-label">'.__('navigation.admin').'</p>')
                     ->addClass('menu-list')
                     ->routeIfCan(
+                        ['list', \App\FieldObservation::class],
+                        'admin.field-observations.index',
+                        __('navigation.all_field_observations')
+                    )->routeIfCan(
                         ['list', \App\Taxon::class],
                         'admin.taxa.index',
                         __('navigation.taxa')

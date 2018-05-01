@@ -25,7 +25,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
     public function authenticated_user_that_curates_the_taxa_of_all_the_unapproved_field_observation_can_approve_them()
     {
         $this->withoutExceptionHandling();
-        $user = factory(User::class)->create()->assignRole('curator');
+        $user = factory(User::class)->create()->assignRoles('curator');
         Passport::actingAs($user);
         $taxon = factory(Taxon::class)->create();
         $taxon->curators()->attach($user);
@@ -52,7 +52,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
     /** @test */
     public function if_one_field_observation_is_approvable_it_will_be_approved()
     {
-        $user = factory(User::class)->create()->assignRole('curator');
+        $user = factory(User::class)->create()->assignRoles('curator');
         Passport::actingAs($user);
         $taxon = factory(Taxon::class)->create();
         $taxon->curators()->attach($user);
@@ -82,7 +82,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
     /** @test */
     public function even_one_invalid_field_observation_returns_validation_error()
     {
-        $user = factory(User::class)->create()->assignRole('curator');
+        $user = factory(User::class)->create()->assignRoles('curator');
         Passport::actingAs($user);
         $taxon = factory(Taxon::class)->create();
         $taxon->curators()->attach($user);

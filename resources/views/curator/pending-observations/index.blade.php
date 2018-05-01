@@ -9,6 +9,7 @@
             empty="{{ __('No data...') }}"
             @role(['admin', 'curator'])
             show-activity-log
+            show-observer
             @endrole
             approvable
             approve-route="api.approved-field-observations-batch.store"

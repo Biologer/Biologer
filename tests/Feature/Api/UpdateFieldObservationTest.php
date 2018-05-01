@@ -254,7 +254,7 @@ class UpdateFieldObservationTest extends TestCase
     /** @test */
     public function field_observation_can_be_updated_by_admin()
     {
-        $user = factory(User::class)->create()->assignRole('admin');
+        $user = factory(User::class)->create()->assignRoles('admin');
         Passport::actingAs($user);
         $fieldObservation = ObservationFactory::createFieldObservation([
             'created_by_id' => $user->id,
@@ -365,7 +365,7 @@ class UpdateFieldObservationTest extends TestCase
     public function admin_can_submit_observer_by_users_id()
     {
         $this->seed('RolesTableSeeder');
-        $user = factory(User::class)->create()->assignRole('admin');
+        $user = factory(User::class)->create()->assignRoles('admin');
         $anotherUser = factory(User::class)->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
         Passport::actingAs($user);
 
@@ -390,7 +390,7 @@ class UpdateFieldObservationTest extends TestCase
     public function admin_can_submit_identifier_by_users_id()
     {
         $this->seed('RolesTableSeeder');
-        $user = factory(User::class)->create()->assignRole('admin');
+        $user = factory(User::class)->create()->assignRoles('admin');
         $anotherUser = factory(User::class)->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
         Passport::actingAs($user);
 

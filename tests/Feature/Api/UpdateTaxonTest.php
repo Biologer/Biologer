@@ -87,7 +87,7 @@ class UpdateTaxonTest extends TestCase
             'allochthonous' => false,
             'invasive' => false,
         ]);
-        Passport::actingAs(factory(User::class)->create()->assignRole('admin'));
+        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
         $stages = factory(Stage::class, 2)->create();
         $conservationLegislations = factory(ConservationLegislation::class, 2)->create();
         $conservationDocuments = factory(ConservationDocument::class, 2)->create();
@@ -129,7 +129,7 @@ class UpdateTaxonTest extends TestCase
     public function curator_can_update_taxon_that_they_curate()
     {
         $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create()->assignRole('curator');
+        $user = factory(User::class)->create()->assignRoles('curator');
         $taxon->curators()->attach($user);
         Passport::actingAs($user);
 
@@ -146,7 +146,7 @@ class UpdateTaxonTest extends TestCase
     public function curator_cannot_update_taxon_that_is_not_curated_by_them()
     {
         $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create()->assignRole('curator');
+        $user = factory(User::class)->create()->assignRoles('curator');
         Passport::actingAs($user);
 
         $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([

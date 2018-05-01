@@ -22,6 +22,7 @@ return [
     'approved_observations' => 'Потврђени налази',
     'unidentifiable_observations' => 'Немогућа идентификација',
     'field_observations' => 'Теренски налази',
+    'all_field_observations' => 'Сви теренски налази',
     'my' => 'Моје',
     'curator' => 'Уредник',
     'admin' => 'Администратор',

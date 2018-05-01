@@ -39,7 +39,7 @@ class MoveFieldObservationsToPending extends TestCase
     /** @test */
     public function authenticated_user_that_curates_the_taxa_of_all_the_field_observation_can_mark_them_as_unapprovable()
     {
-        $user = factory(User::class)->create()->assignRole('curator');
+        $user = factory(User::class)->create()->assignRoles('curator');
         Passport::actingAs($user);
         $taxon = factory(Taxon::class)->create();
         $taxon->curators()->attach($user);

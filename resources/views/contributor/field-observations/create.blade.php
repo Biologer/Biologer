@@ -12,6 +12,9 @@
             :observation-types="{{ App\ObservationType::all() }}"
             submit-more
             should-confirm-cancel
+            @role(['admin', 'curator'])
+            show-observer-identifier
+            @endrole
         ></nz-fild-observation-form>
     </div>
 @endsection

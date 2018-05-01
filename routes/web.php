@@ -54,28 +54,42 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
         Route::prefix('curator')->namespace('Curator')->name('curator.')->group(function () {
             Route::get('pending-observations', 'PendingObservationsController@index')
+                ->middleware('role:curator,admin')
                 ->middleware('can:list,App\FieldObservation')
                 ->name('pending-observations.index');
 
             Route::get('pending-observations/{pendingObservation}/edit', 'PendingObservationsController@edit')
+                ->middleware('role:curator,admin')
                 ->name('pending-observations.edit');
 
             Route::get('approved-observations', 'ApprovedObservationsController@index')
+                ->middleware('role:curator,admin')
                 ->middleware('can:list,App\FieldObservation')
                 ->name('approved-observations.index');
 
             Route::get('approved-observations/{approvedObservation}/edit', 'ApprovedObservationsController@edit')
+                ->middleware('role:curator,admin')
                 ->name('approved-observations.edit');
 
             Route::get('unidentifiable-observations', 'UnidentifiableObservationsController@index')
+                ->middleware('role:curator,admin')
                 ->middleware('can:list,App\FieldObservation')
                 ->name('unidentifiable-observations.index');
 
             Route::get('unidentifiable-observations/{unidentifiableObservation}/edit', 'UnidentifiableObservationsController@edit')
+                ->middleware('role:curator,admin')
                 ->name('unidentifiable-observations.edit');
         });
 
         Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
+            Route::get('field-observations', 'FieldObservationsController@index')
+                ->middleware('role:admin')
+                ->name('field-observations.index');
+
+            Route::get('field-observations/{fieldObservation}/edit', 'FieldObservationsController@edit')
+                ->middleware('role:admin')
+                ->name('field-observations.edit');
+
             Route::get('taxa', 'TaxaController@index')
                 ->middleware('role:admin,curator')
                 ->name('taxa.index');

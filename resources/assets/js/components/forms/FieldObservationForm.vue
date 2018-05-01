@@ -213,7 +213,7 @@
                 :message="form.errors.has('found_dead_note') ? form.errors.first('found_dead_note') : null"
             ><b-input type="textarea" v-model="form.found_dead_note" /></b-field>
 
-            <template v-if="isCuratorOrAdmin">
+            <template v-if="showObserverIdentifier">
                 <nz-user-autocomplete
                     v-model="form.observer"
                     @select="onObserverSelect"
@@ -359,7 +359,9 @@ export default {
         observationTypes: {
             type: Array,
             default: () => []
-        }
+        },
+
+        showObserverIdentifier: Boolean
     },
 
     data() {

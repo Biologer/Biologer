@@ -60,15 +60,36 @@ trait HasRoles
     }
 
     /**
-     * Assign given role to user.
+     * Assign given roles to user.
      *
-     * @param  string  $role
+     * @param  array|string  $roles
      * @return $this
      */
-    public function assignRole($role)
+    public function assignRoles($roles)
     {
-        $this->roles()->attach(Role::findByName($role));
+        if (is_string($roles)) {
+            $roles = func_get_args();
+        }
 
-        return $this;
+        $this->roles()->attach(Role::findAllByName($roles));
+
+        return $this->load('roles');
+    }
+
+    /**
+     * Revoke given roles to user.
+     *
+     * @param  array|string  $roles
+     * @return $this
+     */
+    public function revokeRoles($roles)
+    {
+        if (is_string($roles)) {
+            $roles = func_get_args();
+        }
+
+        $this->roles()->detach(Role::findAllByName($roles));
+
+        return $this->load('roles');
     }
 }

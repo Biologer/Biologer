@@ -10,6 +10,7 @@
             show-status
             @role(['admin', 'curator'])
             show-activity-log
+            show-observer
             @endrole
         />
     </div>

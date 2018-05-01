@@ -93,6 +93,7 @@
                     </b-field>
 
                     <nz-user-autocomplete
+                        v-if="showObserver"
                         class="column is-half"
                         v-model="newFilter.observer"
                         :label="trans('labels.field_observations.observer')"
@@ -169,12 +170,14 @@
                     {{ row.day }}
                 </b-table-column>
 
-                <b-table-column field="observer" :label="trans('labels.field_observations.observer')" sortable>
+                <b-table-column field="observer" :label="trans('labels.field_observations.observer')" sortable v-if="showObserver">
                     {{ row.observer }}
                 </b-table-column>
 
                 <b-table-column field="status" :label="trans('labels.field_observations.status')" v-if="showStatus">
-                    <span :class="determineStatusClass(row.status)"><b-icon :icon="determineStatusIcon(row.status)" /></span>
+                    <span :class="determineStatusClass(row.status)" :title="trans(`labels.field_observations.statuses.${row.status}`)">
+                        <b-icon :icon="determineStatusIcon(row.status)" />
+                    </span>
                 </b-table-column>
 
                 <b-table-column :label="trans('labels.actions')">
@@ -280,7 +283,8 @@ export default {
         markableAsUnidentifiable: Boolean,
         movableToPending: Boolean,
         showStatus: Boolean,
-        showActivityLog: Boolean
+        showActivityLog: Boolean,
+        showObserver: Boolean
     },
 
     data() {
@@ -611,3 +615,4 @@ export default {
     }
 }
 </script>
+bio

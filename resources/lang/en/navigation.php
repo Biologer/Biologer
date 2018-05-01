@@ -22,6 +22,7 @@ return [
     'approved_observations' => 'Approved Observations',
     'unidentifiable_observations' => 'Unidentifiable Observations',
     'field_observations' => 'Field Observations',
+    'all_field_observations' => 'All Field Observations',
     'my' => 'My',
     'curator' => 'Curator',
     'admin' => 'admin',

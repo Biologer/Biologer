@@ -38,6 +38,11 @@ Route::middleware('auth:api')->group(function () {
         ->name('api.taxa.destroy');
 
     // Field observations
+    Route::get('field-observations', 'FieldObservationsController@index')
+        ->middleware('role:admin')
+        ->middleware('can:list,App\FieldObservation')
+        ->name('api.field-observations.index');
+
     Route::post('field-observations', 'FieldObservationsController@store')
         ->name('api.field-observations.store');
 

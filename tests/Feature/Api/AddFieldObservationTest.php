@@ -625,7 +625,7 @@ class AddFieldObservationTest extends TestCase
     public function admin_can_submit_observer_by_users_id()
     {
         $this->seed('RolesTableSeeder');
-        $user = factory(User::class)->create()->assignRole('admin');
+        $user = factory(User::class)->create()->assignRoles('admin');
         $anotherUser = factory(User::class)->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
         Passport::actingAs($user);
 
@@ -644,7 +644,7 @@ class AddFieldObservationTest extends TestCase
     public function admin_can_submit_identifier_by_users_id_if_there_is_identification()
     {
         $this->seed('RolesTableSeeder');
-        $user = factory(User::class)->create()->assignRole('admin');
+        $user = factory(User::class)->create()->assignRoles('admin');
         $anotherUser = factory(User::class)->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
         $taxon = factory(Taxon::class)->create();
 

@@ -16,7 +16,10 @@
             should-ask-reason
             should-confirm-cancel
             submit-only-dirty
-        ></nz-fild-observation-form>
+            @role(['admin', 'curator'])
+            show-observer-identifier
+            @endrole
+        ></nz-field-observation-form>
     </div>
 @endsection
 

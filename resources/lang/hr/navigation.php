@@ -21,6 +21,7 @@ return [
     'approved_observations' => 'Potvrđeni nalazi',
     'unidentifiable_observations' => 'Nemoguća identifikacija',
     'field_observations' => 'Terenski nalazi',
+    'all_field_observations' => 'Svi terenski nalazi',
     'my' => 'Moje',
     'curator' => 'Urednik',
     'admin' => 'Administrator',
