@@ -12,9 +12,9 @@ return [
     |
     */
 
-    'failed' => 'Podaci ne odgovaraju ni jednom nalogu.',
-    'throttle' => 'Previše neuspelih pokušaja. Pokušajte ponovo za :seconds sekundi.',
+    'failed' => 'Podaci ne odgovaraju nijednom nalogu.',
+    'throttle' => 'Previše neuspjelih pokušaja. Pokušajte ponovno za :seconds sekundi.',
 
-    'verification_link_sent' => 'Poslali smo verifikacioni link na Vašu e-mail adresu.',
+    'verification_link_sent' => 'Poslali smo verifikacijski link na Vašu e-mail adresu.',
     'verify_email' => 'Molimo Vas da prvo potvrdite Vašu e-mail adresu.',
 ];

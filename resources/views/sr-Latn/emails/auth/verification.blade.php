@@ -1,5 +1,5 @@
 @component('mail::message')
-Poštovani {{ $verificationToken->user->full_name }},
+Poštovani/a {{ $verificationToken->user->full_name }},
 
 Primili smo Vaš zahtev za registraciju na sajt {{ config('app.name') }}.
 

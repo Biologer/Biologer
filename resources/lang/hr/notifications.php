@@ -5,6 +5,6 @@ return [
         'whoops' => 'Ups!',
         'hello' => 'Zdravo!',
         'regards' => 'Srdačno',
-        'subcopy' => 'Ako ne možete kliknuti na dugme ":actionText", kopirajte link ispod nalepite ga u Vaš brauzer: [:actionUrl](:actionUrl)',
+        'subcopy' => 'Ako ne možete kliknuti na dugme ":actionText", kopirajte link ispod i zalijepite ga u Vaš preglednik: [:actionUrl](:actionUrl)',
     ],
 ];

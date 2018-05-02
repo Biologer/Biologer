@@ -2,8 +2,8 @@
 
 return [
     'added_record' => 'je dodao/la unos',
-    'changed' => 'je izmenio/la',
+    'changed' => 'je izmijenio/la',
     'approved' => 'je odobrio/la',
-    'marked_unidentifiable' => 'je označio/la da nija moguća identifikacija',
-    'moved_to_pending' => 'je premestio/la na čekanje',
+    'marked_unidentifiable' => 'je označio/la da nije moguća identifikacija',
+    'moved_to_pending' => 'je premjestio/la na čekanje',
 ];

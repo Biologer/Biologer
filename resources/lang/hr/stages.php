@@ -2,8 +2,8 @@
 
 return [
     'egg' => 'Jaje',
-    'larva' => 'Larva',
-    'pupa' => 'Lutka',
-    'juvenile' => 'Mladunac',
-    'adult' => 'Odrasli',
+    'larva' => 'Ličinka',
+    'pupa' => 'Kukuljica',
+    'juvenile' => 'Juvenilna jedinka',
+    'adult' => 'Odrasla jedinka',
 ];

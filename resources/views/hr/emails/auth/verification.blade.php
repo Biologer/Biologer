@@ -1,16 +1,16 @@
 @component('mail::message')
-Poštovani {{ $verificationToken->user->full_name }},
+Poštovani/a {{ $verificationToken->user->full_name }},
 
-Primili smo Vaš zahtev za registraciju na sajt {{ config('app.name') }}.
+Primili smo Vaš zahtjev za registraciju na stranicu {{ config('app.name') }}.
 
 @component('mail::button', ['url' => route('auth.verify.verify', $verificationToken)])
 Potvrdite nalog
 @endcomponent
 
-Ako imate problema sa klikom na dugme idite na ovu veb adresu:
+Ako imate problema s klikom na dugme, kliknite na ovu poveznicu:
 [{{ route('auth.verify.verify', $verificationToken) }}]({{ route('auth.verify.verify', $verificationToken) }})
 
-U slučaju da niste poslali zahtev za registraciju, ignorišite ovu poruku ili je prijavite na e-mail adresu:
+U slučaju da niste poslali zahtev za registraciju, zanemarite ovu poruku ili je prijavite na e-mail adresu:
 [{{ config('mail.reply_address') }}](mailto:{{ config('mail.reply_address') }})
 
 Srdačan pozdrav,
