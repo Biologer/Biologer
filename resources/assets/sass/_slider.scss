@@ -48,10 +48,10 @@
         color: $white;
     }
 
+    /* The dots/bullets/indicators */
     .dots {
         text-align: center;
     }
-    /* The dots/bullets/indicators */
     .dot {
         cursor: pointer;
         height: 15px;
@@ -67,6 +67,52 @@
             background-color: #717171;
         }
     }
+
+    .thumbnails {
+        align-items: center;
+
+        .tn-item {
+            text-align: center;
+            position: relative;
+
+            .inner-shadow {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+            }
+
+            &.active .inner-shadow {
+                box-shadow: inset 0 0 10px 3px $secondary;
+            }
+        }
+
+        .thumbnail {
+
+        }
+
+        img {
+            height: 50px;
+        }
+
+        .tn-transform-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .tn-prev, .tn-next {
+            text-align: center;
+            width: 2rem;
+            color: rgba(10,10,10,0.7);
+        }
+
+        .tn-prev:hover, .tn-next:hover {
+            color: #717171;
+            cursor: pointer;
+        }
+    }
+
     /* Fading animation */
     @-webkit-keyframes fade {
         from {

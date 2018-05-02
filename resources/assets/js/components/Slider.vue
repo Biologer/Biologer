@@ -3,8 +3,8 @@
     <!-- Slideshow container -->
     <div class="slide-container">
         <!-- Full-width images with number and caption text -->
-        <div class="slide" v-for="(image, index) in items"  v-show="isCurrent(index)">
-            <img :src="image">
+        <div class="slide" v-for="(image, index) in items" v-show="isCurrent(index)">
+            <img v-lazy="image">
         </div>
 
         <!-- Next and previous buttons -->
@@ -12,8 +12,22 @@
         <a class="next" @click="goToNextSlide" v-if="moreThanOne">&#10095;</a>
     </div>
 
+    <tn-slider class='thumbnails' :index='item' :count='thumbnailNumber' v-if="withThumbnails && moreThanOne">
+        <p slot='tn-prev' class='prev-icon'>&#10094;</p>
+            <tn-item
+                v-for='(image,i) in items'
+                :key="i"
+                @on-item-click='setCurrentSlide(i)'
+                :class="{'active': isCurrent(i)}"
+            >
+                <img v-lazy="image">
+                <div class="inner-shadow"></div>
+            </tn-item>
+        <p slot='tn-next' class='next-icon'>&#10095;</p>
+    </tn-slider>
+
     <!-- The dots/circles -->
-    <div class="dots" v-if="moreThanOne">
+    <div class="dots" v-else-if="moreThanOne">
         <div
             v-for="(image, index) in items"
             class="dot"
@@ -25,13 +39,31 @@
 </template>
 
 <script>
+import 'thumbnail-slider/dist/thumbnailSlider.css'
+import { TnSlider, TnItem } from 'thumbnail-slider';
+
 export default {
     name: 'nzSlider',
+
+    components: {
+        'tn-item': TnItem,
+        'tn-slider': TnSlider,
+    },
 
     props: {
         items: {
             type: Array,
             default: () => []
+        },
+
+        withThumbnails: {
+          type: Boolean,
+          default: true
+        },
+
+        thumbnailNumber: {
+            type: Number,
+            default: 9
         }
     },
 

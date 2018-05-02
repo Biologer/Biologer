@@ -5,6 +5,7 @@ import Buefy from 'buefy';
 import * as VueGoogleMaps from 'vue2-google-maps';
 import { VTooltip } from 'v-tooltip';
 import { setTooltipOptions } from './tooltip';
+import VueLazyload from 'vue-lazyload';
 
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
@@ -36,6 +37,7 @@ import TaxonActivityLog from './components/activity/TaxonActivityLog';
 
 window.Vue = Vue;
 
+Vue.use(VueLazyload);
 Vue.use(Buefy, { defaultIconPack: 'fa' });
 
 // Config Google Maps
