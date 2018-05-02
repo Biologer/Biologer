@@ -87,3 +87,24 @@
         }
     }
 }
+
+.cookie-consent {
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: $white;
+    box-shadow: 0 -2px 3px rgba($black, 0.1);
+    padding: .75rem 1.5rem;
+}
+
+.cookie-consent__message, .cookie-consent__agree {
+    display: flex;
+    align-items: center;
+}
+
+@include mobile() {
+    .cookie-consent__message, .cookie-consent__agree {
+        justify-content: center;
+    }
+}
