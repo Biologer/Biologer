@@ -209,6 +209,22 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
+    public function month_is_stored_as_an_integer()
+    {
+        Passport::actingAs(factory(User::class)->create());
+
+        $this->withoutExceptionHandling();
+        $this->postJson('api/field-observations', $this->validParams([
+            'year' => date('Y'),
+            'month' => '04',
+        ]));
+
+        $observation = Observation::latest()->first();
+
+        $this->assertSame(4, $observation->month);
+    }
+
+    /** @test */
     public function day_cannot_be_in_the_future_longer_than_a_day()
     {
         Passport::actingAs(factory(User::class)->make());

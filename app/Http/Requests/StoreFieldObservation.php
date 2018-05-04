@@ -40,13 +40,13 @@ class StoreFieldObservation extends FormRequest
             'month' => [
                 'bail',
                 'nullable',
-                'integer',
+                // 'integer',
                 new Month($this->input('year')),
             ],
             'day' => [
                 'bail',
                 'nullable',
-                'integer',
+                // 'integer',
                 new Day($this->input('year'), $this->input('month')),
             ],
             'latitude' => ['required', 'numeric', 'between:-90,90'],
@@ -148,8 +148,8 @@ class StoreFieldObservation extends FormRequest
         return [
             'taxon_id' => $this->input('taxon_id'),
             'year' => $this->input('year'),
-            'month' => $this->input('month'),
-            'day' => $this->input('day'),
+            'month' => $this->input('month') ? (int) $this->input('month') : null,
+            'day' => $this->input('day') ? (int) $this->input('day') : null,
             'location' => $this->input('location'),
             'latitude' => $this->input('latitude'),
             'longitude' => $this->input('longitude'),
