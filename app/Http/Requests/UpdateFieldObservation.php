@@ -41,13 +41,13 @@ class UpdateFieldObservation extends FormRequest
             'month' => [
                 'bail',
                 'nullable',
-                // 'integer',
+                'numeric',
                 new Month($this->input('year')),
             ],
             'day' => [
                 'bail',
                 'nullable',
-                // 'integer',
+                'numeric',
                 new Day($this->input('year'), $this->input('month')),
             ],
             'latitude' => ['required', 'numeric', 'between:-90,90'],
