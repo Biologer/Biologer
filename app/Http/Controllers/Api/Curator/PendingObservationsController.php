@@ -17,6 +17,7 @@ class PendingObservationsController extends Controller
     {
         $query = FieldObservation::with([
             'observation.taxon', 'photos', 'activity.causer',
+            'observation.types.translations', 'observedBy', 'identifiedBy',
         ])->pending()->curatedBy(auth()->user())->filter(request());
 
         if (request()->has('page')) {

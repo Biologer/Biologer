@@ -19,7 +19,8 @@ class FieldObservationsController extends Controller
     {
         $query = FieldObservation::with([
              'observation.taxon', 'photos', 'activity.causer',
-         ])->filter(request())->orderBy('id');
+             'observation.types.translations', 'observedBy', 'identifiedBy',
+        ])->filter(request())->orderBy('id');
 
         if (request()->has('page')) {
             return FieldObservationResource::collection(

@@ -17,6 +17,7 @@ class ApprovedObservationsController extends Controller
     {
         $query = FieldObservation::with([
             'observation.taxon', 'photos', 'activity.causer',
+            'observation.types.translations', 'observedBy', 'identifiedBy',
         ])->approved()->curatedBy(auth()->user())->filter(request());
 
         if (request()->has('page')) {

@@ -17,6 +17,7 @@ class FieldObservationsController extends Controller
     {
         $query = FieldObservation::createdBy(auth()->user())->with([
             'observation.taxon', 'photos', 'activity.causer',
+            'observation.types.translations', 'observedBy', 'identifiedBy',
         ])->filter(request())->orderBy('id');
 
         if (request()->has('page')) {
