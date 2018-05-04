@@ -17,8 +17,8 @@ class CreateObservationsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('taxon_id')->nullable();
             $table->string('year');
-            $table->char('month', 2)->nullable();
-            $table->char('day', 2)->nullable();
+            $table->unsignedTinyInteger('month')->nullable();
+            $table->unsignedTinyInteger('day')->nullable();
             $table->string('location')->nullable();
             $table->double('latitude', 15, 12);
             $table->double('longitude', 15, 12);

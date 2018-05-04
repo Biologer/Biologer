@@ -40,11 +40,13 @@ class StoreFieldObservation extends FormRequest
             'month' => [
                 'bail',
                 'nullable',
+                'integer',
                 new Month($this->input('year')),
             ],
             'day' => [
                 'bail',
                 'nullable',
+                'integer',
                 new Day($this->input('year'), $this->input('month')),
             ],
             'latitude' => ['required', 'numeric', 'between:-90,90'],
