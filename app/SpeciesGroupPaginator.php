@@ -41,6 +41,18 @@ class SpeciesGroupPaginator
     }
 
     /**
+     * Get URL of species list for group.
+     *
+     * @return string
+     */
+    public function indexUrl()
+    {
+        return route('groups.species.index', [
+            'group' => $this->group->id,
+        ]);
+    }
+
+    /**
      * The URL for the next page, or null.
      *
      * @return string|null
@@ -147,6 +159,16 @@ class SpeciesGroupPaginator
     public function current()
     {
         return $this->species;
+    }
+
+    /**
+     * Get group.
+     *
+     * @return \App\ViewGroup
+     */
+    public function group()
+    {
+        return $this->group;
     }
 
     /**

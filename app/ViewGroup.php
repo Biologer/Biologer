@@ -113,6 +113,16 @@ class ViewGroup extends Model
     }
 
     /**
+     * Get paginated list of species inside the group.
+     *
+     * @return \Illuminate\Pagination\Paginator
+     */
+    public function paginatedSpeciesList($perPage = 30)
+    {
+        return Taxon::whereIn('id', $this->speciesIds())->paginate($perPage);
+    }
+
+    /**
      * Find species that is inside the group or throw exception.
      *
      * @param  int|string  $speciesId

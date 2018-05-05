@@ -42,7 +42,7 @@
 
 .pagination {
     &.is-species {
-        .pagination-title {
+        .pagination-title, .pagination-search {
             align-items: baseline;
             display: flex;
             justify-content: center;
@@ -55,11 +55,31 @@
 @include tablet() {
     .pagination {
         &.is-species {
-            .pagination-title {
+            .pagination-title, .pagination-search {
                 flex-grow: 1;
                 flex-shrink: 1;
                 justify-content: flex-start;
                 order: 1;
+            }
+
+            .pagination-search {
+                justify-content: flex-end;
+                order: 2;
+                margin-right: 0.5rem;
+
+                .button {
+                    flex: none;
+                    margin-left: 0.25em;
+                    margin-right: 0.25em;
+                }
+            }
+
+            .pagination-previous {
+                order: 3;
+            }
+
+            .pagination-next {
+                order: 4;
             }
         }
     }
@@ -68,9 +88,19 @@
 @include mobile() {
     .pagination {
         &.is-species {
-            .pagination-title {
+            .pagination-title, .pagination-search {
                 flex: none;
                 width: 100%;
+            }
+
+            .pagination-search {
+                margin-top: 0.75rem;
+                
+                .button {
+                    flex: 1;
+                    margin-left: 0.25em;
+                    margin-right: 0.25em;
+                }
             }
         }
     }

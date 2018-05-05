@@ -10,17 +10,25 @@
                 @endif
             </h1>
 
-            @unless($species->isFirst())
-                <a href="{{ $species->previousUrl() }}" class="pagination-previous">
-                    &#10094;
+            <div class="pagination-search">
+                <a href="{{ route('groups.index') }}" class="button" title="{{ __('navigation.groups') }}">
+                    @include('components.icon', ['icon' => 'th'])
+                    <span class="is-hidden-tablet-only">{{ __('navigation.groups') }}</span>
                 </a>
-            @endunless
 
-            @unless($species->isLast())
-                <a href="{{ $species->nextUrl() }}" class="pagination-next">
-                    &#10095;
+                <a href="{{ $species->indexUrl() }}" class="button" title="{{ __('navigation.species_list') }}">
+                    @include('components.icon', ['icon' => 'list'])
+                    <span class="is-hidden-tablet-only">{{ __('navigation.species_list') }}</span>
                 </a>
-            @endunless
+            </div>
+
+            <a href="{{ $species->previousUrl() }}" class="pagination-previous"{{ $species->isFirst() ? ' disabled aria-disabled="true"' : '' }}>
+                &#10094;
+            </a>
+
+            <a href="{{ $species->nextUrl() }}" class="pagination-next"{{ $species->isLast() ? ' disabled aria-disabled="true"' : '' }}>
+                &#10095;
+            </a>
         </nav>
 
         <section class="mb-16">

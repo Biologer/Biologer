@@ -36,4 +36,6 @@ return [
     'view_groups' => 'Групе за преглед',
     'new_view_group' => 'Нова група за преглед',
     'edit_view_group' => 'Измени групу за преглед',
+    'groups' => 'Групе',
+    'species_list' => 'Листа врста',
 ];

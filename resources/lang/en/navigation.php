@@ -36,4 +36,7 @@ return [
     'view_groups' => 'View Groups',
     'new_view_group' => 'New View Group',
     'edit_view_group' => 'Edit View Group',
+    'groups' => 'Groups',
+    'species_list' => 'Species List',
+
 ];

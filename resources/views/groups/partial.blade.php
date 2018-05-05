@@ -1,9 +1,7 @@
-@foreach($groups->chunk(3) as $chunk)
-    <div class="columns">
-        @foreach($chunk as $group)
-            <div class="column has-text-centered">
-                <a href="{{ $group->firstSpecies()->url() }}">{{ $group->name }}</a>
-            </div>
-        @endforeach
-    </div>
-@endforeach
+<div class="columns is-multiline">
+    @foreach($groups as $group)
+        <div class="column is-one-third has-text-centered">
+            <a href="{{ $group->firstSpecies()->url() }}">{{ $group->name }}</a>
+        </div>
+    @endforeach
+</div>

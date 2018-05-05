@@ -37,4 +37,6 @@ return [
     'view_groups' => 'Skupine za prijegled',
     'new_view_group' => 'Nova skupina za prijegled',
     'edit_view_group' => 'Izmijeni skupinu za prijegled',
+    'groups' => 'Skupine',
+    'species_list' => 'Spisak vrsta',
 ];

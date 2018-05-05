@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Watermark;
 
 use Illuminate\Support\Collection;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
@@ -32,6 +33,9 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('slug', function ($attribute, $value) {
             return preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)$/', $value);
         });
+
+        Paginator::defaultView('pagination::bulma');
+        Paginator::defaultSimpleView('pagination::bulma');
     }
 
     /**

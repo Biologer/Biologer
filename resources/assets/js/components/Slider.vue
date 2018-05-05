@@ -13,17 +13,16 @@
     </div>
 
     <tn-slider class='thumbnails' :index='item' :count='thumbnailNumber' v-if="withThumbnails && moreThanOne">
-        <p slot='tn-prev' class='prev-icon'>&#10094;</p>
-            <tn-item
-                v-for='(image,i) in items'
-                :key="i"
-                @on-item-click='setCurrentSlide(i)'
-                :class="{'active': isCurrent(i)}"
-            >
-                <img v-lazy="image">
-                <div class="inner-shadow"></div>
-            </tn-item>
-        <p slot='tn-next' class='next-icon'>&#10095;</p>
+        <tn-item
+            v-for='(image,i) in items'
+            :key="i"
+            @on-item-click='setCurrentSlide(i)'
+            :class="{'active': isCurrent(i)}"
+        >
+            <img v-lazy="image">
+
+            <div class="inner-shadow"></div>
+        </tn-item>
     </tn-slider>
 
     <!-- The dots/circles -->
@@ -63,7 +62,7 @@ export default {
 
         thumbnailNumber: {
             type: Number,
-            default: 9
+            default: 5
         }
     },
 

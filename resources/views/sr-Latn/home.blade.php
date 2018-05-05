@@ -15,7 +15,7 @@
 
         <div class="columns">
             <div class="column is-full-mobile is-one-third is-offset-one-third">
-                <a href="{{ route('groups') }}" class="button is-primary is-outlined is-fullwidth"><b>Pregledaj</b></a>
+                <a href="{{ route('groups.index') }}" class="button is-primary is-outlined is-fullwidth"><b>Pregledaj</b></a>
             </div>
         </div>
 

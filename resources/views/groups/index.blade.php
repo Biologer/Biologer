@@ -3,7 +3,7 @@
 @section('content')
     <section class="section min-h-screen">
         @if($rootGroups->count() > 1)
-            <b-tabs type="is-boxed" position="is-centered" class="block" v-cloak>
+            <b-tabs type="is-boxed" position="is-centered" class="block is-in-container" v-cloak>
                 @foreach($rootGroups as $rootGroup)
                     <b-tab-item label="{{ $rootGroup->name }}">
                         @include('groups.partial', ['groups' => $rootGroup->groups])

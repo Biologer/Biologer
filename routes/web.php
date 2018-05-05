@@ -18,8 +18,9 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
     Route::view('/', 'home');
     Route::get('taxa/{taxon}', 'TaxaController@show');
-    Route::get('groups', 'GroupsController@index')->name('groups');
+    Route::get('groups', 'GroupsController@index')->name('groups.index');
     Route::get('groups/{group}/species/{species}', 'GroupSpeciesController@show')->name('groups.species.show');
+    Route::get('groups/{group}/species', 'GroupSpeciesController@index')->name('groups.species.index');
 
 
     Route::view('pages/sponsors', 'pages.sponsors')->name('pages.sponsors');
