@@ -39,5 +39,6 @@ return [
     'groups' => 'Groups',
     'species_list' => 'Species List',
     'find_in_group' => 'Find in group',
+    'gallery' => 'Gallery',
 
 ];

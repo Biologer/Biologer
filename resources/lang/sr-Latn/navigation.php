@@ -38,4 +38,6 @@ return [
     'groups' => 'Grupe',
     'species_list' => 'Lista vrsta',
     'find_in_group' => 'Pronađi u grupi',
+    'gallery' => 'Galerija',
+
 ];

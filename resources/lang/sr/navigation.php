@@ -39,5 +39,6 @@ return [
     'groups' => 'Групе',
     'species_list' => 'Листа врста',
     'find_in_group' => 'Пронађи у групи',
-    
+    'gallery' => 'Галерија',
+
 ];
