@@ -126,8 +126,10 @@ class ViewGroup extends Model
             ->with('descendants');
 
         if (! empty($name)) {
-            $query->where('name', 'like', "%{$name}%")
-                ->orWhereTranslationLike('native_name', "%{$name}%");
+            $query->where(function ($query) use ($name) {
+                return $query->where('name', 'like', "%{$name}%")
+                    ->orWhereTranslationLike('native_name', "%{$name}%");
+            });
         }
 
         return $query;
