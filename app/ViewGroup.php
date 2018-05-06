@@ -101,6 +101,39 @@ class ViewGroup extends Model
     }
 
     /**
+     * Get IDs of all taxa related to the group through connected taxa.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    protected function allTaxaIds()
+    {
+        return $this->memoize('allTaxaIds', function () {
+            return $this->taxa->map->selfAndDescendantsIds()->flatten();
+        });
+    }
+
+    /**
+     * Get all taxa that are species or higher and have given name.
+     *
+     * @param  string|null  $name
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function allTaxaHigherOrEqualSpeciesRank($name = null)
+    {
+        $query = Taxon::whereIn('id', $this->allTaxaIds())
+            ->speciesOrHigher()
+            ->orderByAncestry()
+            ->with('descendants');
+
+        if (! empty($name)) {
+            $query->where('name', 'like', "%{$name}%")
+                ->orWhereTranslationLike('native_name', "%{$name}%");
+        }
+
+        return $query;
+    }
+
+    /**
      * Get all species that are part of the group.
      *
      * @return \Illuminate\Database\Eloquent\Collection
@@ -115,6 +148,7 @@ class ViewGroup extends Model
     /**
      * Get paginated list of species inside the group.
      *
+     * @param  int  $perPage
      * @return \Illuminate\Pagination\Paginator
      */
     public function paginatedSpeciesList($perPage = 30)

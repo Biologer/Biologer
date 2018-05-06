@@ -38,5 +38,6 @@ return [
     'edit_view_group' => 'Edit View Group',
     'groups' => 'Groups',
     'species_list' => 'Species List',
+    'find_in_group' => 'Find in group',
 
 ];

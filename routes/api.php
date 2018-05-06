@@ -11,6 +11,9 @@
 |
 */
 
+Route::get('groups/{group}/taxa', 'GroupTaxaController@index')
+    ->name('api.groups.taxa.index');
+
 Route::middleware('auth:api')->group(function () {
     // Uploads
     Route::post('uploads/photos', 'PhotoUploadsController@store')

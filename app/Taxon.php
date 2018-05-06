@@ -228,6 +228,17 @@ class Taxon extends Model
     }
 
     /**
+     * Scope the query to get only species or taxa of higher ranks.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSpeciesOrHigher($query)
+    {
+        return $query->where('rank_level', '>=', static::RANKS['species']);
+    }
+
+    /**
      * When setting rank, set it's level as well.
      *
      * @param string  $value
@@ -266,6 +277,11 @@ class Taxon extends Model
     public function getDescriptionAttribute()
     {
         return $this->translateOrNew($this->locale())->description;
+    }
+
+    public function isSpecies()
+    {
+        return $this->rank === 'species';
     }
 
     /**

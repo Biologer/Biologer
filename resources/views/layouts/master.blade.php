@@ -29,7 +29,11 @@
     <body>
         <div id="app">
             @yield('body')
+
+            <portal-target name="modals"></portal-target>
         </div>
+
+        @include('cookieConsent::index')
 
         @stack('beforeScripts')
         <script src="{{ mix('js/app.js') }}"></script>

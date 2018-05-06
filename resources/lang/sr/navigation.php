@@ -38,4 +38,6 @@ return [
     'edit_view_group' => 'Измени групу за преглед',
     'groups' => 'Групе',
     'species_list' => 'Листа врста',
+    'find_in_group' => 'Пронађи у групи',
+    
 ];

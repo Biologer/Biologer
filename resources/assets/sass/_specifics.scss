@@ -89,3 +89,13 @@ ul.is-not-done li:before {
         margin-right: -1.5rem;
     }
 }
+
+
+@include tablet-only {
+    .button.has-text-hidden-tablet-only {
+        .icon:first-child {
+            margin-right: 0;
+            margin-left: 0;
+        }
+    }
+}

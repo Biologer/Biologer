@@ -51,9 +51,9 @@ export default {
             type: Object,
             default: null
         },
-        path: {
+        url: {
             type: String,
-            default: 'api.taxa.index'
+            default: route('api.taxa.index')
         },
         value: {
             type: String,
@@ -101,7 +101,7 @@ export default {
                 params.except = this.except;
             }
 
-            axios.get(route('api.taxa.index'), { params }).then(({ data }) => {
+            axios.get(this.url, { params }).then(({ data }) => {
                 data.data.forEach((item) => this.data.push(item));
                 this.loading = false;
             }, response => {

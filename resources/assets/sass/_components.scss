@@ -95,7 +95,7 @@
 
             .pagination-search {
                 margin-top: 0.75rem;
-                
+
                 .button {
                     flex: 1;
                     margin-left: 0.25em;
@@ -136,5 +136,11 @@
 @include mobile() {
     .cookie-consent__message, .cookie-consent__agree {
         justify-content: center;
+    }
+}
+
+.group-taxa-search {
+    &.modal-card, .modal-card-body {
+        overflow: visible;
     }
 }

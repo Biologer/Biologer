@@ -11,15 +11,17 @@
             </h1>
 
             <div class="pagination-search">
-                <a href="{{ route('groups.index') }}" class="button" title="{{ __('navigation.groups') }}">
+                <a href="{{ route('groups.index') }}" class="button has-text-hidden-tablet-only" title="{{ __('navigation.groups') }}">
                     @include('components.icon', ['icon' => 'th'])
                     <span class="is-hidden-tablet-only">{{ __('navigation.groups') }}</span>
                 </a>
 
-                <a href="{{ $species->indexUrl() }}" class="button" title="{{ __('navigation.species_list') }}">
+                <a href="{{ $species->indexUrl() }}" class="button has-text-hidden-tablet-only" title="{{ __('navigation.species_list') }}">
                     @include('components.icon', ['icon' => 'list'])
                     <span class="is-hidden-tablet-only">{{ __('navigation.species_list') }}</span>
                 </a>
+
+                <nz-group-taxa-search-button :group="{{ $species->group()->id }}" />
             </div>
 
             <a href="{{ $species->previousUrl() }}" class="pagination-previous"{{ $species->isFirst() ? ' disabled aria-disabled="true"' : '' }}>

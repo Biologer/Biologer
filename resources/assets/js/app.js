@@ -13,6 +13,7 @@ import Captcha from './components/Captcha';
 import ImageModal from './components/ImageModal';
 import ImageCropModal from './components/ImageCropModal';
 import Slider from './components/Slider';
+import GroupTaxaSearchButton from './components/GroupTaxaSearchButton';
 
 import DateInput from './components/inputs/DateInput';
 import PhotoUpload from './components/inputs/PhotoUpload';
@@ -61,6 +62,7 @@ Vue.component(Captcha.name, Captcha);
 Vue.component(ImageModal.name, ImageModal);
 Vue.component(ImageCropModal.name, ImageCropModal);
 Vue.component(Slider.name, Slider);
+Vue.component(GroupTaxaSearchButton.name, GroupTaxaSearchButton);
 Vue.component(DateInput.name, DateInput);
 Vue.component(Table.name, Table);
 Vue.component(TaxaTable.name, TaxaTable);

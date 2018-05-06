@@ -104,6 +104,7 @@ class UserVerificationTest extends TestCase
     /** @test */
     public function can_see_verify_page()
     {
+        $this->withoutExceptionHandling();
         $user = factory(User::class)->states('unverified')->create([
             'email' => 'test@example.com',
         ]);
