@@ -7,6 +7,7 @@ use App\Http\Requests\StoreTaxon;
 use App\Http\Requests\UpdateTaxon;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaxonResource;
+use App\Http\Resources\TaxonCollectionResource;
 
 class TaxaController extends Controller
 {
@@ -25,7 +26,7 @@ class TaxaController extends Controller
             );
         }
 
-        return TaxonResource::collection($taxa->get());
+        return new TaxonCollectionResource($taxa->get());
     }
 
     /**

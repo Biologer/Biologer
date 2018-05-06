@@ -6,6 +6,7 @@ use App\User;
 use App\Taxon;
 use Tests\TestCase;
 use Laravel\Passport\Passport;
+use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TaxaTest extends TestCase
@@ -61,5 +62,48 @@ class TaxaTest extends TestCase
         $response->assertStatus(200);
         $this->assertArrayHasKey('data', $response->json());
         $this->assertCount(3, $response->json()['data']);
+    }
+
+    /** @test */
+    public function returns_timestamp_of_last_update_to_taxa_tree()
+    {
+        $taxa = factory(Taxon::class, 5)->create();
+
+        $now = Carbon::now();
+        Carbon::setTestNow($now);
+        $taxa->first()->touch();
+
+        Passport::actingAs(factory(User::class)->make());
+
+        $response = $this->getJson('/api/taxa');
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            'meta' => [ 'last_updated_at' => $now->timestamp ],
+        ]);
+    }
+
+    /** @test */
+    public function can_get_only_taxa_updated_after_given_timestamp()
+    {
+        Carbon::setTestNow($yesterday = Carbon::yesterday());
+        $taxa = factory(Taxon::class, 5)->create();
+
+        Carbon::setTestNow();
+        $taxa->first()->touch();
+
+        Passport::actingAs(factory(User::class)->make());
+
+        $response = $this->getJson('/api/taxa?'.http_build_query([
+            'updated_after' => Carbon::now()->timestamp,
+        ]));
+
+        $response->assertStatus(200);
+        $this->assertCount(1, $response->json('data'));
+        $response->assertJson([
+            'data' => [
+                ['id' => $taxa->first()->id],
+            ],
+        ]);
     }
 }

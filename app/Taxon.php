@@ -117,6 +117,7 @@ class Taxon extends Model
             'sort_by' => \App\Filters\SortBy::class,
             'except' => \App\Filters\ExceptIds::class,
             'rank' => \App\Filters\Taxon\Rank::class,
+            'updated_after' => \App\Filters\Taxon\UpdatedAfter::class,
         ];
     }
 
