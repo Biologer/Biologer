@@ -29,8 +29,6 @@
     <body>
         <div id="app">
             @yield('body')
-
-            <portal-target name="modals"></portal-target>
         </div>
 
         @include('cookieConsent::index')

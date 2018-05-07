@@ -127,8 +127,6 @@
                     </div>
                 </div>
             </footer>
-
-            <portal-target name="modals"></portal-target>
         </div>
 
         @include('cookieConsent::index')

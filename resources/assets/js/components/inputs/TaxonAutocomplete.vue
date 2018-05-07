@@ -53,7 +53,7 @@ export default {
         },
         url: {
             type: String,
-            default: route('api.taxa.index')
+            default: () => route('api.taxa.index')
         },
         value: {
             type: String,
