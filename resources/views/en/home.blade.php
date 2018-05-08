@@ -29,7 +29,7 @@
                     <li>Translations to multiple languages</li>
                     <li>
                         First stable Android app is ready (<a href="{{ config('biologer.android_app_url') }}" target="_blank">download v{{ config('biologer.android_app_version') }}</a>).<br/>
-                        <small>If upgrading from beta, please ensure to delete all app data during upgrade.</small>
+                        <small><b>IMPORTANT!</b> Please upgrade to the latest version in order to fix the issue with data loss.</small>
                     </li>
                 </ul>
             </div>
