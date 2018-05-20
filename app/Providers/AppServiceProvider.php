@@ -8,7 +8,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,10 +27,6 @@ class AppServiceProvider extends ServiceProvider
 
         Collection::macro('collect', function ($key, $default = null) {
             return new static($this->get($key, $default));
-        });
-
-        Validator::extend('slug', function ($attribute, $value) {
-            return preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)$/', $value);
         });
 
         Paginator::defaultView('pagination::bulma');
