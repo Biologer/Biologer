@@ -22,8 +22,10 @@ class UsersAutocompleteTest extends TestCase
     /** @test */
     public function can_fetch_basic_users_list_for_autocomplete()
     {
-        $user = factory(User::class)->create();
-        $user->assignRoles('admin');
+        $user = factory(User::class)->create([
+            'first_name' => 'X',
+            'last_name' => 'Y'
+        ])->assignRoles('admin');
         Passport::actingAs($user);
 
         $userJane = factory(User::class)->create([
@@ -41,20 +43,18 @@ class UsersAutocompleteTest extends TestCase
         $response = $this->get('/api/autocomplete/users');
 
         $response->assertSuccessful();
-        $response->assertJson([
-            'data' => [
-                [
-                    'id' => $userJane->id,
-                    'full_name' => 'Jane Doe',
-                    'email' => 'jane@example.com'
-                ],
-                [
-                    'id' => $userJohn->id,
-                    'full_name' => 'John Doe',
-                    'email' => 'john@example.com'
-                ],
+        $this->assertArraySubset([
+            [
+                'id' => $userJane->id,
+                'full_name' => 'Jane Doe',
+                'email' => 'jane@example.com'
             ],
-        ]);
+            [
+                'id' => $userJohn->id,
+                'full_name' => 'John Doe',
+                'email' => 'john@example.com'
+            ],
+        ], $response->json('data'));
     }
 
     /** @test */
