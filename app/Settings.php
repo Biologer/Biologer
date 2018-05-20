@@ -97,7 +97,9 @@ class Settings
             array_only($attributes, array_keys($this->settings))
         );
 
-        return tap($this)->persist();
+        $this->persist();
+
+        return $this;
     }
 
     /**
