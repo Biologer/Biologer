@@ -57,7 +57,7 @@ class FieldObservationLog
                     // We need it with the key of "data_license", not "license".
                     $data['data_license'] = [
                         'value' => $value,
-                        'label' => 'licenses.'.License::findById($value)['name'],
+                        'label' => 'licenses.'.License::findById($value)->name,
                     ];
                 } elseif ('found_dead' === $key) {
                     $data[$key] = ['value' => $value, 'label' => $value ? 'Yes' : 'No'];

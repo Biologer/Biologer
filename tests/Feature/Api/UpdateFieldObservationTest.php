@@ -110,7 +110,7 @@ class UpdateFieldObservationTest extends TestCase
             'elevation' => 500,
         ], [
             'taxon_suggestion' => $taxon->name,
-            'license' => License::findByName('CC BY-SA 4.0')['id'],
+            'license' => License::findByName('CC BY-SA 4.0')->id,
             'found_dead' => true,
             'found_dead_note' => 'Note on dead',
             'time' => '09:00',
@@ -131,7 +131,7 @@ class UpdateFieldObservationTest extends TestCase
                 'taxon_suggestion' => 'New taxon suggestion',
                 'reason' => 'Just testin\' :)',
                 'stage_id' => null,
-                'data_license' => License::findByName('CC BY-NC-SA 4.0')['id'],
+                'data_license' => License::findByName('CC BY-NC-SA 4.0')->id,
                 'found_dead' => false,
                 'time' => null,
                 'photos' => [],
@@ -296,7 +296,7 @@ class UpdateFieldObservationTest extends TestCase
             'created_by_id' => $user->id,
             'elevation' => 500,
         ], [
-            'license' => License::findByName('CC BY-SA 4.0')['id'],
+            'license' => License::findByName('CC BY-SA 4.0')->id,
             'found_dead' => true,
             'found_dead_note' => 'Note on dead',
             'time' => '09:00',
@@ -339,7 +339,7 @@ class UpdateFieldObservationTest extends TestCase
             'created_by_id' => $user->id,
             'elevation' => 500,
         ], [
-            'license' => License::findByName('CC BY-SA 4.0')['id'],
+            'license' => License::findByName('CC BY-SA 4.0')->id,
             'found_dead' => true,
             'found_dead_note' => 'Note on dead',
             'time' => '09:00',
