@@ -27,7 +27,7 @@ class Settings
     /**
      * Create a new settings instance.
      *
-     * @param User  $user
+     * @param  \App\User  $user
      */
     public function __construct(User $user)
     {
@@ -116,7 +116,7 @@ class Settings
      * @param  string  $key
      * @return mixed
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function __get($key)
     {
