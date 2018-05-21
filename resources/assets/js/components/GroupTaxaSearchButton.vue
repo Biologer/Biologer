@@ -30,14 +30,18 @@ export default {
 
     methods: {
         showModal() {
-            this.$modal.open({
+            const modal = this.$modal.open({
                 parent: this,
                 component: nzGroupTaxaSearch,
                 hasModalCard: true,
                 props: {
                     group: this.group
                 }
-            })
+            });
+
+            this.$nextTick(() => {
+                modal.$el.querySelector('input').focus();
+            });
         }
     }
 }
