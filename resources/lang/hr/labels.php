@@ -80,6 +80,7 @@ return [
         'location' => 'Lokacija',
         'details' => 'Detalji',
         'more_details' => 'Više detalja',
+        'less_details' => 'Manje detalja',
         'note' => 'Bilješka',
         'number' => 'Broj',
         'project' => 'Projekt',

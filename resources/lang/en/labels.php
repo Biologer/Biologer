@@ -80,6 +80,7 @@ return [
         'location' => 'Location',
         'details' => 'Details',
         'more_details' => 'More Details',
+        'less_details' => 'Less Details',
         'note' => 'Note',
         'number' => 'Number',
         'project' => 'Project',

@@ -78,6 +78,7 @@ return [
         'location' => 'Локација',
         'details' => 'Детаљи',
         'more_details' => 'Више детаља',
+        'less_details' => 'Мање детаља',
         'note' => 'Белешка',
         'number' => 'Број',
         'project' => 'Пројекат',

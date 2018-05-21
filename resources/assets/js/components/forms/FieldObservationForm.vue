@@ -88,7 +88,7 @@
             class="button is-text"
             @click="showMoreDetails = !showMoreDetails"
         >
-            {{ trans('labels.field_observations.more_details') }}
+            {{ showMoreDetails ? trans('labels.field_observations.less_details') : trans('labels.field_observations.more_details') }}
         </button>
 
         <div class="mt-4" v-show="showMoreDetails">
