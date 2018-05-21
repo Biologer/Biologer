@@ -114,11 +114,12 @@
 <script>
 import axios from 'axios';
 import FilterableTableMixin from '../../mixins/FilterableTableMixin';
+import PersistentTableMixin from '../../mixins/PersistentTableMixin';
 
 export default {
     name: 'nzTaxaTable',
 
-    mixins: [FilterableTableMixin],
+    mixins: [FilterableTableMixin, PersistentTableMixin],
 
     props: {
         perPageOptions: {
@@ -157,9 +158,8 @@ export default {
     },
 
     created() {
-        this.loadAsyncData()
-
-        this.$on('filter', this.loadAsyncData);
+        this.restoreState();
+        this.loadAsyncData();
     },
 
     methods: {

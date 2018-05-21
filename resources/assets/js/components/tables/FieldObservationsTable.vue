@@ -253,11 +253,12 @@
 <script>
 import axios from 'axios';
 import FilterableTableMixin from '../../mixins/FilterableTableMixin';
+import PersistentTableMixin from '../../mixins/PersistentTableMixin';
 
 export default {
     name: 'nzFieldObservationsTable',
 
-    mixins: [FilterableTableMixin],
+    mixins: [FilterableTableMixin, PersistentTableMixin],
 
     props: {
         perPageOptions: {
@@ -325,9 +326,8 @@ export default {
     },
 
     created() {
-        this.loadAsyncData()
-
-        this.$on('filter', this.loadAsyncData);
+        this.restoreState();
+        this.loadAsyncData();
     },
 
     methods: {
@@ -366,6 +366,8 @@ export default {
             this.sortField = field
             this.sortOrder = order
 
+            this.saveState();
+
             this.loadAsyncData()
         },
 
@@ -373,6 +375,8 @@ export default {
             if (perPage === this.perPage) return;
 
             this.perPage = perPage;
+
+            this.saveState();
 
             this.loadAsyncData();
         },

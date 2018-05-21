@@ -62,9 +62,12 @@
 
 <script>
 import axios from 'axios';
+import PersistentTableMixin from '../../mixins/PersistentTableMixin';
 
 export default {
     name: 'nzUsersTable',
+
+    mixins: [PersistentTableMixin],
 
     props: {
         perPageOptions: {
@@ -100,8 +103,9 @@ export default {
         };
     },
 
-    mounted() {
-        this.loadAsyncData()
+    created() {
+        this.restoreState();
+        this.loadAsyncData();
     },
 
     methods: {
@@ -136,10 +140,12 @@ export default {
          * Handle sort event
          */
         onSort(field, order) {
-            this.sortField = field
-            this.sortOrder = order
+            this.sortField = field;
+            this.sortOrder = order;
 
-            this.loadAsyncData()
+            this.saveState();
+
+            this.loadAsyncData();
         },
 
         clearFilter() {
@@ -170,6 +176,8 @@ export default {
             if (perPage === this.perPage) return;
 
             this.perPage = perPage;
+
+            this.saveState();
 
             this.loadAsyncData();
         },
