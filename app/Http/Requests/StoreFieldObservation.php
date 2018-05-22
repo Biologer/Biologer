@@ -61,7 +61,6 @@ class StoreFieldObservation extends FormRequest
             'found_dead' => ['nullable', 'boolean'],
             'found_dead_note' => ['nullable'],
             'data_license' => ['nullable', Rule::in(License::ids()->all())],
-            'data_license' => ['nullable', Rule::in(License::ids()->all())],
             'image_license' => ['nullable', Rule::in(License::ids()->all())],
             'photos' => [
                 'nullable',
@@ -165,7 +164,6 @@ class StoreFieldObservation extends FormRequest
             'note' => $this->input('note'),
             'project' => $this->input('project'),
             'found_on' => $this->input('found_on'),
-            'note' => $this->input('note'),
         ];
     }
 
