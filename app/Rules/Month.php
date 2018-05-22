@@ -15,6 +15,7 @@ class Month implements Rule
     /**
      * Create a new rule instance.
      *
+     * @param  int  $year
      * @return void
      */
     public function __construct($year)
@@ -54,6 +55,11 @@ class Month implements Rule
         return 'Invalid month.';
     }
 
+    /**
+     * Check if year is valid year.
+     *
+     * @return bool
+     */
     protected function yearIsValid()
     {
         return $this->year && is_numeric($this->year) && $this->year > 0;
