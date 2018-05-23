@@ -4,7 +4,6 @@ define('PHP_VERSION_REQUIRED', '7.1.3');
 
 $strOk   = '<span class="ok">&#10004;</span>';
 $strFail = '<span class="fail">X</span>';
-$strUnknown = '?';
 
 $requirements = array();
 
