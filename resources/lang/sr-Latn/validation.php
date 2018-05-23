@@ -91,6 +91,8 @@ return [
 
     'photo_max' => 'Veličina fajla fotografije ne sme biti veća od :size.',
 
+    'field_observation_cannot_be_approved' => 'Neki terenski nalazi ne mogu biti odobreni.',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

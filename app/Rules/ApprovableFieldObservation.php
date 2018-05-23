@@ -28,6 +28,6 @@ class ApprovableFieldObservation implements Rule
      */
     public function message()
     {
-        return 'Field observation/s cannot be approved.';
+        return trans('validation.field_observation_cannot_be_approved');
     }
 }

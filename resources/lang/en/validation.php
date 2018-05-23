@@ -93,6 +93,8 @@ return [
 
     'photo_max' => 'The file size of the photo may not be greater than :size.',
 
+    'field_observation_cannot_be_approved' => 'Some field observations cannot be approved.',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
