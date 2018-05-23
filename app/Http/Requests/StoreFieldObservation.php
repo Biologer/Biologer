@@ -126,9 +126,7 @@ class StoreFieldObservation extends FormRequest
     {
         return [
             'license' => $this->input('data_license') ?: $this->user()->settings()->get('data_license'),
-            'taxon_suggestion' => $this->input('taxon_id')
-                ? Taxon::find($this->input('taxon_id'))->name
-                : $this->input('taxon_suggestion'),
+            'taxon_suggestion' => $this->getTaxonName(),
             'found_dead' => $this->input('found_dead', false),
             'found_dead_note' => $this->input('found_dead', false) ? $this->input('found_dead_note') : null,
             'time' => $this->input('time'),
@@ -164,7 +162,20 @@ class StoreFieldObservation extends FormRequest
             'note' => $this->input('note'),
             'project' => $this->input('project'),
             'found_on' => $this->input('found_on'),
+            'original_identification' => $this->getTaxonName(),
         ];
+    }
+
+    /**
+     * Get the taxon name.
+     *
+     * @return string|null
+     */
+    protected function getTaxonName()
+    {
+        return $this->input('taxon_id')
+            ? Taxon::find($this->input('taxon_id'))->name
+            : $this->input('taxon_suggestion');
     }
 
     /**

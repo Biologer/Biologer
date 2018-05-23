@@ -102,6 +102,7 @@ class AddFieldObservationTest extends TestCase
             $this->assertEquals(2, $observation->number);
             $this->assertEquals('The Big Project', $observation->project);
             $this->assertEquals('Leaf of birch', $observation->found_on);
+            $this->assertEquals('Cerambyx cerdo', $observation->original_identification);
         });
     }
 
