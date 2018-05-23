@@ -328,6 +328,8 @@ export default {
     created() {
         this.restoreState();
         this.loadAsyncData();
+
+        this.$on('filter', this.loadAsyncData);
     },
 
     methods: {
