@@ -39,7 +39,7 @@ trait HasAncestry
             $this->getModelNameLower().'_ancestors',
             'model_id',
             'ancestor_id'
-        )->orderBy('rank_level' ,'desc');
+        )->orderBy('rank_level', 'desc');
     }
 
     /**

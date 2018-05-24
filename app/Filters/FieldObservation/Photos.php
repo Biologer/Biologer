@@ -2,8 +2,6 @@
 
 namespace App\Filters\FieldObservation;
 
-use App\FieldObservation;
-
 class Photos
 {
     public function apply($query, $value)

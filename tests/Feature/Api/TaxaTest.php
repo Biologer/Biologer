@@ -5,8 +5,8 @@ namespace Tests\Feature\Api;
 use App\User;
 use App\Taxon;
 use Tests\TestCase;
-use Laravel\Passport\Passport;
 use Illuminate\Support\Carbon;
+use Laravel\Passport\Passport;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TaxaTest extends TestCase
@@ -79,7 +79,7 @@ class TaxaTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJson([
-            'meta' => [ 'last_updated_at' => $now->timestamp ],
+            'meta' => ['last_updated_at' => $now->timestamp],
         ]);
     }
 

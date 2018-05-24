@@ -81,7 +81,7 @@ return [
             \Spatie\Backup\Notifications\Notifications\CleanupHasFailed::class => [],
             \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class => [],
             \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFound::class => [],
-            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful::class => []
+            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful::class => [],
         ],
 
         /*

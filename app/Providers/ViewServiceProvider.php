@@ -38,53 +38,58 @@ class ViewServiceProvider extends ServiceProvider
                 ->setWrapperTag('aside')
                 ->withoutParentTag()
                 ->addClass('menu')
-                ->add(Menu::new()
-                    ->prepend('<p class="menu-label">'.__('navigation.my').'</p>')
-                    ->addClass('menu-list')
-                    ->route('contributor.field-observations.index', __('navigation.field_observations'))
-                    ->setActiveClass('is-active')
-                    ->setActiveClassOnLink()
-                    ->setActiveFromRequest()
-                )->addIf(optional(auth()->user())->hasAnyRole(['admin', 'curator']), Menu::new()
-                    ->prepend('<p class="menu-label">'.__('navigation.curator').'</p>')
-                    ->addClass('menu-list')
-                    ->routeIfCan(
-                        ['list', \App\FieldObservation::class],
-                        'curator.pending-observations.index',
-                        __('navigation.pending_observations')
-                    )->routeIfCan(
-                        ['list', \App\FieldObservation::class],
-                        'curator.approved-observations.index',
-                        __('navigation.approved_observations')
-                    )->routeIfCan(
-                        ['list', \App\FieldObservation::class],
-                        'curator.unidentifiable-observations.index',
-                        __('navigation.unidentifiable_observations')
-                    )->setActiveClass('is-active')
-                    ->setActiveClassOnLink()
-                    ->setActiveFromRequest()
-                )->addIf(optional(auth()->user())->hasAnyRole(['admin', 'curator']), Menu::new()
-                    ->prepend('<p class="menu-label">'.__('navigation.admin').'</p>')
-                    ->addClass('menu-list')
-                    ->routeIfCan(
-                        ['list', \App\FieldObservation::class],
-                        'admin.field-observations.index',
-                        __('navigation.all_field_observations')
-                    )->routeIfCan(
-                        ['list', \App\Taxon::class],
-                        'admin.taxa.index',
-                        __('navigation.taxa')
-                    )->routeIfCan(
-                        ['list', \App\User::class],
-                        'admin.users.index',
-                        __('navigation.users')
-                    )->routeIfCan(
-                        ['list', \App\ViewGroup::class],
-                        'admin.view-groups.index',
-                        __('navigation.view_groups')
-                    )->setActiveClass('is-active')
-                    ->setActiveClassOnLink()
-                    ->setActiveFromRequest()
+                ->add(
+                    Menu::new()
+                        ->prepend('<p class="menu-label">'.__('navigation.my').'</p>')
+                        ->addClass('menu-list')
+                        ->route('contributor.field-observations.index', __('navigation.field_observations'))
+                        ->setActiveClass('is-active')
+                        ->setActiveClassOnLink()
+                        ->setActiveFromRequest()
+                )->addIf(
+                    optional(auth()->user())->hasAnyRole(['admin', 'curator']),
+                    Menu::new()
+                        ->prepend('<p class="menu-label">'.__('navigation.curator').'</p>')
+                        ->addClass('menu-list')
+                        ->routeIfCan(
+                            ['list', \App\FieldObservation::class],
+                            'curator.pending-observations.index',
+                            __('navigation.pending_observations')
+                        )->routeIfCan(
+                            ['list', \App\FieldObservation::class],
+                            'curator.approved-observations.index',
+                            __('navigation.approved_observations')
+                        )->routeIfCan(
+                            ['list', \App\FieldObservation::class],
+                            'curator.unidentifiable-observations.index',
+                            __('navigation.unidentifiable_observations')
+                        )->setActiveClass('is-active')
+                        ->setActiveClassOnLink()
+                        ->setActiveFromRequest()
+                )->addIf(
+                    optional(auth()->user())->hasAnyRole(['admin', 'curator']),
+                    Menu::new()
+                        ->prepend('<p class="menu-label">'.__('navigation.admin').'</p>')
+                        ->addClass('menu-list')
+                        ->routeIfCan(
+                            ['list', \App\FieldObservation::class],
+                            'admin.field-observations.index',
+                            __('navigation.all_field_observations')
+                        )->routeIfCan(
+                            ['list', \App\Taxon::class],
+                            'admin.taxa.index',
+                            __('navigation.taxa')
+                        )->routeIfCan(
+                            ['list', \App\User::class],
+                            'admin.users.index',
+                            __('navigation.users')
+                        )->routeIfCan(
+                            ['list', \App\ViewGroup::class],
+                            'admin.view-groups.index',
+                            __('navigation.view_groups')
+                        )->setActiveClass('is-active')
+                        ->setActiveClassOnLink()
+                        ->setActiveFromRequest()
                 );
         });
     }

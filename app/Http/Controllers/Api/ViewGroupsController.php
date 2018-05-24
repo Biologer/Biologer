@@ -41,7 +41,7 @@ class ViewGroupsController extends Controller
             'description' => ['required', 'array'],
             'taxa_ids' => [
                 'array',
-                Rule::in(Taxon::pluck('id')->all())
+                Rule::in(Taxon::pluck('id')->all()),
             ],
         ]);
 
@@ -79,7 +79,7 @@ class ViewGroupsController extends Controller
             'description' => ['required', 'array'],
             'taxa_ids' => [
                 'array',
-                Rule::in(Taxon::pluck('id')->all())
+                Rule::in(Taxon::pluck('id')->all()),
             ],
         ]);
 

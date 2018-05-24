@@ -62,7 +62,7 @@ class UsersController extends Controller
             'roles_ids.*' => [Rule::in(Role::pluck('id')->all())],
             'curated_taxa_ids' => [
                 'array',
-                Rule::in(Taxon::pluck('id')->all())
+                Rule::in(Taxon::pluck('id')->all()),
             ],
         ]);
 

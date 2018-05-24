@@ -10,8 +10,8 @@ class SpeciesGroupPaginator
     protected $group;
 
     /**
-    * @var \App\Taxon
-    */
+     * @var \App\Taxon
+     */
     protected $species;
 
     /**
@@ -60,7 +60,7 @@ class SpeciesGroupPaginator
     public function nextUrl()
     {
         if ($this->isLast()) {
-            return null;
+            return;
         }
 
         return $this->url($this->nextId());
@@ -79,7 +79,7 @@ class SpeciesGroupPaginator
     public function previousUrl()
     {
         if ($this->isFirst()) {
-            return null;
+            return;
         }
 
         return $this->url($this->previousId());

@@ -99,7 +99,8 @@ abstract class AbstractMgrs10kMap
      * @return array
      */
     protected function extractWidthAndHeight(SVGDocumentFragment $document)
-    {   $matches = [];
+    {
+        $matches = [];
 
         preg_match(
             '/^\d*\ \d* (\d*) (\d*)$/',
@@ -219,7 +220,7 @@ abstract class AbstractMgrs10kMap
             $imagick->readImageBlob($svg);
         }
 
-        $imagick->setImageFormat("png24");
+        $imagick->setImageFormat('png24');
 
         $png = $imagick->getImagesBlob();
 

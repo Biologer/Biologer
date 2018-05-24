@@ -4,8 +4,8 @@ namespace Tests\Unit\Jobs;
 
 use App\Photo;
 use Tests\TestCase;
-use App\Jobs\ProcessUploadedPhoto;
 use Illuminate\Http\Testing\File;
+use App\Jobs\ProcessUploadedPhoto;
 use Illuminate\Support\Facades\Storage;
 
 class ProcessUploadedPhotoTest extends TestCase

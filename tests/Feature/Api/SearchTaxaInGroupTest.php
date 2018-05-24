@@ -37,7 +37,7 @@ class SearchTaxaInGroupTest extends TestCase
             'data' => [
                 ['id' => $genus->id, 'name' => 'Cerambyx', 'first_species_id' => $species->id],
                 ['id' => $species->id, 'name' => 'Cerambyx cerdo', 'first_species_id' => $species->id],
-            ]
+            ],
         ]);
     }
 }

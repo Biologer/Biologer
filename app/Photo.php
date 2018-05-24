@@ -207,7 +207,8 @@ class Photo extends Model
      * @param  string|null  $filename
      * @return string
      */
-    protected function finalPath($filename = null) {
+    protected function finalPath($filename = null)
+    {
         return 'photos/'.$this->id.'/'.($filename ?? $this->filename());
     }
 

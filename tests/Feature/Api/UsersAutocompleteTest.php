@@ -24,7 +24,7 @@ class UsersAutocompleteTest extends TestCase
     {
         $user = factory(User::class)->create([
             'first_name' => 'X',
-            'last_name' => 'Y'
+            'last_name' => 'Y',
         ])->assignRoles('admin');
         Passport::actingAs($user);
 
@@ -47,12 +47,12 @@ class UsersAutocompleteTest extends TestCase
             [
                 'id' => $userJane->id,
                 'full_name' => 'Jane Doe',
-                'email' => 'jane@example.com'
+                'email' => 'jane@example.com',
             ],
             [
                 'id' => $userJohn->id,
                 'full_name' => 'John Doe',
-                'email' => 'john@example.com'
+                'email' => 'john@example.com',
             ],
         ], $response->json('data'));
     }
@@ -95,7 +95,7 @@ class UsersAutocompleteTest extends TestCase
         ]);
 
         $response = $this->get('/api/autocomplete/users?'.http_build_query([
-            'name' => 'Jane John'
+            'name' => 'Jane John',
         ]));
 
         $response->assertSuccessful();

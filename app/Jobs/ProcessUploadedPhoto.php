@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Photo;
 use App\License;
-use App\Watermark;
 use Illuminate\Bus\Queueable;
 use Intervention\Image\Facades\Image;
 use Illuminate\Queue\SerializesModels;
