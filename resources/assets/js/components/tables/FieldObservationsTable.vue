@@ -222,6 +222,7 @@
             </template>
 
             <template slot="bottom-left">
+              <div class="level-item">
                 <b-field>
                     <b-select :value="perPage" @input="onPerPageChange" placeholder="Per page">
                         <option
@@ -231,6 +232,9 @@
                             v-text="option"/>
                     </b-select>
                 </b-field>
+              </div>
+
+              <div class="level-item">{{ showing }}</div>
             </template>
         </nz-table>
 
@@ -291,6 +295,7 @@ export default {
     data() {
         return {
             data: [],
+            meta: null,
             total: 0,
             loading: false,
             sortField: 'id',
@@ -317,12 +322,22 @@ export default {
         },
 
         months() {
-          return moment.months();
+            return moment.months();
         },
 
         days() {
-          return _.range(1, 31);
+            return _.range(1, 31);
         },
+
+        showing() {
+            if (!this.meta) return;
+
+            return this.trans('labels.tables.from_to_total', {
+                from: _.get(this.meta, 'from'),
+                to: _.get(this.meta, 'to'),
+                total: _.get(this.meta, 'total')
+            });
+        }
     },
 
     created() {
@@ -345,9 +360,11 @@ export default {
                 this.data = [];
                 this.total = data.meta.total;
                 data.data.forEach((item) => this.data.push(item));
+                this.meta = data.meta;
                 this.loading = false;
-            }, response => {
+            }, (response) => {
                 this.data = [];
+                this.meta = null;
                 this.total = 0;
                 this.loading = false;
             });

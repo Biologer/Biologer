@@ -4,6 +4,10 @@ return [
     'id' => 'ID',
     'actions' => 'Akcije',
 
+    'tables' => [
+        'from_to_total' => 'Prikazuje se :from-:to od ukupno :total',
+    ],
+
     'login' => [
         'email' => 'E-pošta',
         'password' => 'Lozinka',

@@ -4,6 +4,10 @@ return [
     'id' => 'ID',
     'actions' => 'Actions',
 
+    'tables' => [
+        'from_to_total' => 'Showing :from-:to of :total',
+    ],
+
     'login' => [
         'email' => 'Email',
         'password' => 'Password',
