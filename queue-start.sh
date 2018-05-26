@@ -15,6 +15,6 @@ else
 fi
 
 if [ $run == true ]; then
-    number=$(/usr/local/bin/php $dir/artisan queue:work > /dev/null & echo $!)
+    number=$(/usr/local/bin/php $dir/artisan queue:work --tries 3 > /dev/null & echo $!)
     echo "$number" > $queue
 fi
