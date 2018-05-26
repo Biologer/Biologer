@@ -7,13 +7,21 @@ use Illuminate\Contracts\Validation\Rule;
 
 class Day implements Rule
 {
+    /**
+     * @var int|string
+     */
     protected $year;
 
+    /**
+     * @var int|string
+     */
     protected $month;
 
     /**
      * Create a new rule instance.
      *
+     * @param  int|string  $year
+     * @param  int|string  $month
      * @return void
      */
     public function __construct($year, $month)
@@ -52,14 +60,24 @@ class Day implements Rule
      */
     public function message()
     {
-        return 'Invalid day.';
+        return trans('validation.day');
     }
 
+    /**
+     * Check if year is valid.
+     *
+     * @return bool
+     */
     protected function yearIsValid()
     {
         return $this->year && is_numeric($this->year) && $this->year > 0;
     }
 
+    /**
+     * Check if month is valid.
+     *
+     * @return bool
+     */
     protected function monthIsValid()
     {
         return $this->month && is_numeric($this->month) && $this->month > 0;

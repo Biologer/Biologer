@@ -67,7 +67,7 @@ return [
     'numeric' => 'Polje :attribute mora biti broj.',
     'present' => 'The :attribute field must be present.',
     'regex' => 'Format polja :attribute nije validan.',
-    'required' => 'Polje je obavezno.',
+    'required' => 'Polje :attribute je obavezno.',
     'required_if' => 'Polje :attribute je potrebno kada polje :other sadrži :value.',
     'required_unless' => 'The :attribute field is required unless :other is in :values.',
     'required_with' => 'Polje :attribute je potrebno kada polje :values je prisutan.',
@@ -92,6 +92,9 @@ return [
     'photo_max' => 'Veličina datoteke fotografije ne sme biti veća od :size.',
 
     'field_observation_cannot_be_approved' => 'Neki terenski nalazi ne mogu biti odobreni.',
+    'day' => 'Dan nije ispravan.',
+    'month' => 'Mesec nije ispravan.',
+    'year' => 'Godina nije ispravan.',
 
     /*
     |--------------------------------------------------------------------------

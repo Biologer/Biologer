@@ -52,7 +52,7 @@ class Month implements Rule
      */
     public function message()
     {
-        return 'Invalid month.';
+        return trans('validation.month');
     }
 
     /**
