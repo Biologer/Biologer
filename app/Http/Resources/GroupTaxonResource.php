@@ -23,6 +23,7 @@ class GroupTaxonResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'native_name' => $this->native_name,
             'first_species_id' => $firstSpeciesId,
         ];
     }

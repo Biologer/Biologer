@@ -22,7 +22,7 @@
             </div>
 
             <div class="media-content">
-              {{ props.option.name }}
+              {{ props.option.name }}{{ props.option.native_name ? ` (${props.option.native_name})` : ''}}
             </div>
           </div>
         </template>
