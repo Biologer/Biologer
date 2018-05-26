@@ -63,6 +63,7 @@ return [
 
     'field_observations' => [
         'taxon' => 'Taxon',
+        'original_identification' => 'Original Identification',
         'search_for_taxon' => 'Search for taxon...',
         'date' => 'Date',
         'year' => 'Year',

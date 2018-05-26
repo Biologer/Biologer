@@ -63,6 +63,7 @@ return [
 
     'field_observations' => [
         'taxon' => 'Svojta',
+        'original_identification' => 'Originalna identifikacija',
         'search_for_taxon' => 'Traži svojtu...',
         'date' => 'Datum',
         'year' => 'Godina',

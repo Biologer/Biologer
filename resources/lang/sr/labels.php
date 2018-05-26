@@ -61,6 +61,7 @@ return [
 
     'field_observations' => [
         'taxon' => 'Таксон',
+        'original_identification' => 'Оригинална идентификација',
         'search_for_taxon' => 'Тражи таксон...',
         'date' => 'Датум',
         'year' => 'Година',
