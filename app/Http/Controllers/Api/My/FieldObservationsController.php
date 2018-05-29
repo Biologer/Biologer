@@ -16,7 +16,7 @@ class FieldObservationsController extends Controller
     public function index()
     {
         $query = FieldObservation::createdBy(auth()->user())->with([
-            'observation.taxon', 'photos', 'activity.causer',
+            'observation.taxon', 'observation.photos', 'activity.causer',
             'observation.types.translations', 'observedBy', 'identifiedBy',
         ])->filter(request())->orderBy('id');
 

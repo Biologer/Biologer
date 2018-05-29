@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Photo;
-
 use Illuminate\Console\Command;
 
 class RemoveUnusedPhotos extends Command

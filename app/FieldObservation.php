@@ -454,7 +454,7 @@ class FieldObservation extends Model
             'mgrs10k' => $this->observation->mgrs10k,
             'accuracy' => $this->observation->accuracy,
             'elevation' => $this->observation->elevation,
-            'photos' => $this->photos,
+            'photos' => $this->observation->photos,
             'observer' => $this->observer,
             'identifier' => $this->identifier,
             'license' => $this->license,

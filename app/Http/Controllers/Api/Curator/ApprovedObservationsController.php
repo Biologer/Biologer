@@ -16,7 +16,7 @@ class ApprovedObservationsController extends Controller
     public function index()
     {
         $query = FieldObservation::with([
-            'observation.taxon', 'photos', 'activity.causer',
+            'observation.taxon', 'observation.photos', 'activity.causer',
             'observation.types.translations', 'observedBy', 'identifiedBy',
         ])->approved()->curatedBy(auth()->user())->filter(request());
 
