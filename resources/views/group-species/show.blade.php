@@ -24,13 +24,26 @@
                 <nz-group-taxa-search-button :group="{{ $species->group()->id }}" />
             </div>
 
-            <a href="{{ $species->previousUrl() }}" class="pagination-previous"{{ $species->isFirst() ? ' disabled aria-disabled="true"' : '' }}>
-                &#10094;
-            </a>
+            @if($species->isFirst())
+                <span class="pagination-previous" disabled aria-disabled="true">
+                    &#10094;
+                </span>
+            @else
+                <a href="{{ $species->previousUrl() }}" class="pagination-previous">
+                    &#10094;
+                </a>
+            @endif
 
-            <a href="{{ $species->nextUrl() }}" class="pagination-next"{{ $species->isLast() ? ' disabled aria-disabled="true"' : '' }}>
-                &#10095;
-            </a>
+
+            @if($species->isLast())
+                <span class="pagination-next" disabled aria-disabled="true">
+                    &#10095;
+                </span>
+            @else
+                <a href="{{ $species->nextUrl() }}" class="pagination-next">
+                    &#10095;
+                </a>
+            @endif
         </nav>
 
         <section class="mb-16">
