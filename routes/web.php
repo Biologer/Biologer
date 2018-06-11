@@ -54,6 +54,9 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::get('field-observations/{fieldObservation}/edit', 'FieldObservationsController@edit')
                 ->middleware('can:update,fieldObservation')
                 ->name('field-observations.edit');
+
+            Route::get('field-observations/import', 'FieldObservationsImportController@index')
+                ->name('field-observations-import.index');
         });
 
         Route::prefix('curator')->namespace('Curator')->name('curator.')->group(function () {

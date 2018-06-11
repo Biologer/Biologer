@@ -64,6 +64,13 @@ Route::middleware('auth:api')->group(function () {
     Route::post('field-observations/export', 'FieldObservationExportsController@store')
         ->name('api.field-observation-exports.store');
 
+    // Field observations import
+    Route::post('field-observation-imports', 'FieldObservationImportsController@store')
+        ->name('api.field-observation-imports.store');
+
+    Route::get('field-observation-imports/{import}', 'FieldObservationImportsController@show')
+        ->name('api.field-observation-imports.show');
+
     // Approved field observations
     Route::post('approved-field-observations/batch', 'ApprovedFieldObservationsBatchController@store')
         ->name('api.approved-field-observations-batch.store');

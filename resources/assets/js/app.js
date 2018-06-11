@@ -1,5 +1,4 @@
 import './bootstrap';
-import './bootstrap';
 import Vue from 'vue';
 import Buefy from 'buefy';
 import * as VueGoogleMaps from 'vue2-google-maps';
@@ -14,6 +13,7 @@ import ImageModal from './components/ImageModal';
 import ImageCropModal from './components/ImageCropModal';
 import Slider from './components/Slider';
 import GroupTaxaSearchButton from './components/GroupTaxaSearchButton';
+import Transfer from './components/Transfer';
 
 import DateInput from './components/inputs/DateInput';
 import PhotoUpload from './components/inputs/PhotoUpload';
@@ -38,6 +38,8 @@ import FieldObservationActivityLog from './components/activity/FieldObservationA
 import TaxonActivityLog from './components/activity/TaxonActivityLog';
 
 import CustomExport from './components/exports/CustomExport';
+
+import FieldObservationsImport from './components/imports/FieldObservationsImport';
 
 window.Vue = Vue;
 
@@ -69,6 +71,7 @@ Vue.component(ImageModal.name, ImageModal);
 Vue.component(ImageCropModal.name, ImageCropModal);
 Vue.component(Slider.name, Slider);
 Vue.component(GroupTaxaSearchButton.name, GroupTaxaSearchButton);
+Vue.component(Transfer.name, Transfer);
 
 Vue.component(Table.name, Table);
 Vue.component(TaxaTable.name, TaxaTable);
@@ -93,6 +96,8 @@ Vue.component(FieldObservationActivityLog.name, FieldObservationActivityLog);
 Vue.component(TaxonActivityLog.name, TaxonActivityLog);
 
 Vue.component(CustomExport.name, CustomExport);
+
+Vue.component(FieldObservationsImport.name, FieldObservationsImport);
 
 Vue.prototype.trans = (string, args = {}) => {
     let value = window.App.i18n[string] || string;

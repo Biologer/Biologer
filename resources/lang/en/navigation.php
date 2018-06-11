@@ -23,6 +23,8 @@ return [
     'unidentifiable_observations' => 'Unidentifiable Observations',
     'field_observations' => 'Field Observations',
     'all_field_observations' => 'All Field Observations',
+    'field_observations_import' => 'Field Observations Import',
+    'import' => 'Import',
     'my' => 'My',
     'curator' => 'Curator',
     'admin' => 'admin',

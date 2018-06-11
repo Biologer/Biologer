@@ -148,4 +148,14 @@ return [
         'finished' => 'Готово! Можете преузети извезен фајл.',
         'columns' => 'Колоне',
     ],
+
+    'imports' => [
+        'choose_columns' => 'Одабери колоне',
+        'select_csv_file' => 'Одабери CSV фајл',
+        'available' => 'Доступне',
+        'chosen' => 'Одабране',
+        'import' => 'Увези',
+        'row_number' => 'Број реда',
+        'error' => 'Грешка',
+    ],
 ];

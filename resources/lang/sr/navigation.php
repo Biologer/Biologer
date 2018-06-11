@@ -23,6 +23,8 @@ return [
     'unidentifiable_observations' => 'Немогућа идентификација',
     'field_observations' => 'Теренски налази',
     'all_field_observations' => 'Сви теренски налази',
+    'field_observations_import' => 'Увоз теренских налаза',
+    'import' => 'Увоз',
     'my' => 'Моје',
     'curator' => 'Уредник',
     'admin' => 'Администратор',

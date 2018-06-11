@@ -1,3 +1,5 @@
+import Form from 'form-backend-validation';
+
 export default {
     name: 'nzFieldObservationForm',
 

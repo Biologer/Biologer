@@ -10,4 +10,15 @@ class Stage extends Model
     {
         return trans('stages.'.$this->name);
     }
+
+    /**
+     * Find the stage by name.
+     *
+     * @param  string  $name
+     * @return self
+     */
+    public static function findByName($name)
+    {
+        return static::where('name', $name)->first();
+    }
 }

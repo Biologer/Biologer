@@ -24,6 +24,8 @@ return [
     'unidentifiable_observations' => 'Nemoguća identifikacija',
     'field_observations' => 'Terenski nalazi',
     'all_field_observations' => 'Svi terenski nalazi',
+    'field_observations_import' => 'Uvoz terenskih nalaza',
+    'import' => 'Uvoz',
     'my' => 'Moje',
     'curator' => 'Urednik',
     'admin' => 'Administrator',

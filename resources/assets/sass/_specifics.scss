@@ -111,6 +111,13 @@ ul.is-not-done li:before {
     }
 }
 
+.is-danger .table thead tr:first-child {
+    background-color: #ff3860;
+
+    th {
+      color: #ffffff;
+    }
+}
 
 @include tablet-only {
     .button.has-text-hidden-tablet-only {

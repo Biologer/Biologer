@@ -150,4 +150,14 @@ return [
         'finished' => 'Finished! You can now download you export.',
         'columns' => 'Columns',
     ],
+
+    'imports' => [
+        'choose_columns' => 'Choose Columns',
+        'select_csv_file' => 'Select CSV file',
+        'available' => 'Available',
+        'chosen' => 'Chosen',
+        'import' => 'Import',
+        'row_number' => 'Row Number',
+        'error' => 'Error',
+    ],
 ];
