@@ -10,7 +10,8 @@
                 autofocus
                 :url="url"
                 :label="trans('labels.field_observations.taxon')"
-                :placeholder="trans('labels.field_observations.search_for_taxon')" />
+                :placeholder="trans('labels.field_observations.search_for_taxon')"
+                @enter="visitLink"/>
         </section>
 
         <footer class="modal-card-foot" style="justify-content: flex-end">
@@ -55,6 +56,12 @@ export default {
     methods: {
         onTaxonSelect(taxon) {
             this.selected = taxon;
+        },
+
+        visitLink() {
+            if (this.link) {
+                window.location.href = this.link;
+            }
         }
     }
 }

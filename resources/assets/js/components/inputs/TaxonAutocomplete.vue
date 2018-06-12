@@ -4,6 +4,7 @@
       <img width="32" :src="this.selected.thumbnail_url" v-if="haveThumbnail">
 
       <b-autocomplete
+          ref="autocomplete"
           :value="value"
           :data="data"
           field="name"
@@ -14,6 +15,7 @@
           :placeholder="placeholder"
           expanded
           :autofocus="autofocus"
+          @keydown.native.enter="enterPressed"
       >
         <template slot-scope="props">
           <div class="media">
@@ -140,6 +142,12 @@ export default {
             return typeof option === 'object'
                 ? _.get(option, 'name')
                 : option;
+        },
+
+        enterPressed() {
+            if (!this.$refs.autocomplete.isActive) {
+                this.$emit('enter');
+            }
         }
     }
 }
