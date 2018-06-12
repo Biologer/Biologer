@@ -28,7 +28,7 @@ class Taxon extends Model
         // 'subclass' => 47,
         // 'superorder' => 43,
         'order' => 40,
-        // 'suborder' => 37,
+        'suborder' => 37,
         // 'infraorder' => 35,
         // 'superfamily' => 33,
         // 'epifamily' => 32,
