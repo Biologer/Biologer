@@ -37,7 +37,7 @@
 
         <hr>
 
-        <b-table
+        <nz-table
             :data="data"
             :loading="loading"
 
@@ -99,7 +99,7 @@
 
                 <div class="level-item">{{ showing }}</div>
             </template>
-        </b-table>
+        </nz-table>
 
         <b-modal :active="activityLog.length > 0" @close="activityLog = []">
             <div class="modal-card">

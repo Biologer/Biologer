@@ -33,12 +33,11 @@
                                 <template v-else>{{ column.label }}</template>
 
                                 <b-icon
-                                    v-show="currentSortColumn === column"
-                                    icon="arrow-up"
-                                    both
+                                    v-if="column.sortable"
+                                    :icon="sortIcon(column)"
                                     size="is-small"
-                                    :class="{ 'is-desc': !isAsc }">
-                                </b-icon>
+                                    :class="{'has-text-grey-light': currentSortColumn !== column}"
+                                />
                             </div>
                         </th>
                     </tr>
@@ -617,6 +616,14 @@
                         this.sort(column, true)
                     }
                 })
+            },
+
+            sortIcon(column) {
+                if (this.currentSortColumn !== column) {
+                    return 'sort'
+                }
+
+                return this.isAsc ? 'sort-asc' : 'sort-desc'
             }
         },
 

@@ -1,6 +1,6 @@
 <template>
     <div class="users-table">
-        <b-table
+        <nz-table
             :data="data"
             :loading="loading"
 
@@ -60,7 +60,7 @@
 
                 <div class="level-item">{{ showing }}</div>
             </template>
-        </b-table>
+        </nz-table>
     </div>
 </template>
 
