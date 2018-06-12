@@ -38,7 +38,7 @@
                     {{ props.row.institution }}
                 </b-table-column>
 
-                <b-table-column :label="trans('labels.actions')" width="100">
+                <b-table-column width="150" numeric>
                     <a :href="editLink(props.row)"><b-icon icon="edit"></b-icon></a>
 
                     <a @click="confirmRemove(props.row)"><b-icon icon="trash"></b-icon></a>

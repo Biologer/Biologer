@@ -1,53 +1,64 @@
 <template>
     <div class="field-observations-table">
-        <div class="buttons">
-            <button
-                type="button"
-                class="button"
-                @click="showFilter = !showFilter"
-            >
-                <b-icon icon="filter" :class="{'has-text-primary': filterIsActive}" />
-                <span>{{ trans('buttons.filters') }}</span>
-            </button>
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <button
+                        type="button"
+                        class="button is-touch-full"
+                        @click="showFilter = !showFilter"
+                    >
+                        <b-icon icon="filter" :class="{'has-text-primary': filterIsActive}" />
+                        <span>{{ trans('buttons.filters') }}</span>
+                    </button>
+                </div>
+            </div>
 
-            <button
-                type="button"
-                class="button"
-                :class="{'is-loading': approving}"
-                :disabled="!checkedRows.length"
-                @click="confirmApprove"
-                v-if="approvable"
-            >
-                <b-icon icon="check" class="has-text-success" v-if="!approving"></b-icon>
+            <div class="level-right" v-if="hasActions">
+                <div class="level-item">
+                    <b-dropdown position="is-bottom-left">
+                        <button
+                            class="button is-touch-full"
+                            slot="trigger"
+                            :class="{'is-loading': actionRunning}"
+                        >
+                            <span>{{ trans('labels.actions') }}</span>
 
-                <span>{{ trans('buttons.approve') }}</span>
-            </button>
+                            <b-icon icon="angle-down"></b-icon>
+                        </button>
 
-            <button
-                type="button"
-                class="button"
-                :class="{'is-loading': markingAsUnidentifiable}"
-                :disabled="!checkedRows.length"
-                @click="confirmMarkingAsUnidentifiable"
-                v-if="markableAsUnidentifiable"
-            >
-                <b-icon icon="times" class="has-text-danger" v-if="!markingAsUnidentifiable"></b-icon>
+                        <b-dropdown-item
+                            :disabled="!checkedRows.length"
+                            @click="confirmApprove"
+                            v-if="approvable"
+                        >
+                            <b-icon icon="check" class="has-text-success" />
 
-                <span>{{ trans('buttons.unidentifiable') }}</span>
-            </button>
+                            <span>{{ trans('buttons.approve') }}</span>
+                        </b-dropdown-item>
 
-            <button
-                type="button"
-                class="button"
-                :class="{'is-loading': movingToPending}"
-                :disabled="!checkedRows.length"
-                @click="confirmMoveToPending"
-                v-if="movableToPending"
-            >
-                <b-icon icon="question" class="has-text-warning" v-if="!movingToPending"></b-icon>
+                        <b-dropdown-item
+                            :disabled="!checkedRows.length"
+                            @click="confirmMarkingAsUnidentifiable"
+                            v-if="markableAsUnidentifiable"
+                        >
+                            <b-icon icon="times" class="has-text-danger" />
 
-                <span>{{ trans('buttons.move_to_pending') }}</span>
-            </button>
+                            <span>{{ trans('buttons.unidentifiable') }}</span>
+                        </b-dropdown-item>
+
+                        <b-dropdown-item
+                            :disabled="!checkedRows.length"
+                            @click="confirmMoveToPending"
+                            v-if="movableToPending"
+                        >
+                            <b-icon icon="question" class="has-text-warning" />
+
+                            <span>{{ trans('buttons.move_to_pending') }}</span>
+                        </b-dropdown-item>
+                    </b-dropdown>
+                  </div>
+            </div>
         </div>
 
         <b-collapse :open="showFilter" class="mt-4">
@@ -180,7 +191,7 @@
                     </span>
                 </b-table-column>
 
-                <b-table-column :label="trans('labels.actions')">
+                <b-table-column width="150" numeric>
                     <a @click="openImageModal(row.photos)" v-if="row.photos.length"><b-icon icon="photo" /></a>
 
                     <a @click="openActivityLogModal(row)" v-if="showActivityLog" :title="trans('Activity Log')"><b-icon icon="history" /></a>
@@ -337,6 +348,14 @@ export default {
                 to: _.get(this.meta, 'to'),
                 total: _.get(this.meta, 'total')
             });
+        },
+
+        hasActions() {
+            return this.approvable || this.markableAsUnidentifiable || this.movableToPending;
+        },
+
+        actionRunning() {
+            return this.approving || this.movingToPending || this.markingAsUnidentifiable;
         }
     },
 

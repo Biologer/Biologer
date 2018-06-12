@@ -1,15 +1,20 @@
 <template>
     <div class="taxa-table">
-        <div class="buttons">
-            <button
-                type="button"
-                class="button"
-                @click="showFilter = !showFilter"
-            >
-                <b-icon icon="filter" :class="{'has-text-primary': filterIsActive}" />
-                <span>{{ trans('buttons.filters') }}</span>
-            </button>
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <button
+                        type="button"
+                        class="button is-touch-full"
+                        @click="showFilter = !showFilter"
+                    >
+                        <b-icon icon="filter" :class="{'has-text-primary': filterIsActive}" />
+                        <span>{{ trans('buttons.filters') }}</span>
+                    </button>
+                </div>
+            </div>
         </div>
+
         <b-collapse :open="showFilter" class="mt-4">
             <form @submit.prevent="applyFilter">
                 <div class="columns">
@@ -67,7 +72,7 @@
                     {{ row.name + (row.native_name ? ` (${row.native_name})` : '') }}
                 </b-table-column>
 
-                <b-table-column :label="trans('labels.actions')" width="100">
+                <b-table-column width="150" numeric>
                     <a @click="openActivityLogModal(row)" v-if="showActivityLog && row.activity.length > 0" :title="trans('Activity Log')"><b-icon icon="history" /></a>
 
                     <a :href="editLink(row)"><b-icon icon="edit"></b-icon></a>
