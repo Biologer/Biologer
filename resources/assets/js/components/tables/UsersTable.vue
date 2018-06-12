@@ -30,6 +30,14 @@
                     {{ props.row.last_name }}
                 </b-table-column>
 
+                <b-table-column field="email" :label="trans('labels.users.email')" sortable>
+                    {{ props.row.email }}
+                </b-table-column>
+
+                <b-table-column field="institution" :label="trans('labels.users.institution')" sortable>
+                    {{ props.row.institution }}
+                </b-table-column>
+
                 <b-table-column :label="trans('labels.actions')" width="100">
                     <a :href="editLink(props.row)"><b-icon icon="edit"></b-icon></a>
 

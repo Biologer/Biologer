@@ -41,6 +41,7 @@ return [
         'institution' => 'Institucija',
         'roles' => 'Uloge',
         'curated_taxa' => 'Svojte koje uređuje',
+        'email' => 'E-pošta',
     ],
 
     'taxa' => [

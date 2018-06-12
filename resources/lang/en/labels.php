@@ -41,6 +41,7 @@ return [
         'institution' => 'Institution',
         'roles' => 'Roles',
         'curated_taxa' => 'Curated Taxa',
+        'email' => 'Email',
     ],
 
     'taxa' => [
