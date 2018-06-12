@@ -8,7 +8,7 @@
                         class="button is-touch-full"
                         @click="showFilter = !showFilter"
                     >
-                        <b-icon icon="filter" :class="{'has-text-primary': filterIsActive}" />
+                        <b-icon icon="filter" :class="[filterIsActive ? 'has-text-primary' : 'has-text-grey-light']" />
                         <span>{{ trans('buttons.filters') }}</span>
                     </button>
                 </div>

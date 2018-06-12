@@ -5,9 +5,11 @@
         @click="showModal"
         :title="trans('navigation.find_in_group')"
     >
-        <span class="icon">
-            <i class="fa fa-search" />
-        </span>
+        <b-icon
+            icon="search"
+            size="is-small"
+            class="has-text-grey"
+        />
 
         <span class="is-hidden-tablet-only">
           {{ trans('navigation.find_in_group') }}

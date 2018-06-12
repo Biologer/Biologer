@@ -8,7 +8,12 @@
                         class="button is-touch-full"
                         @click="showFilter = !showFilter"
                     >
-                        <b-icon icon="filter" :class="{'has-text-primary': filterIsActive}" />
+                        <b-icon
+                            icon="filter"
+                            :size="filterIsActive ? null : 'is-small'"
+                            :class="[filterIsActive ? 'has-text-primary' : 'has-text-grey']"
+                        />
+
                         <span>{{ trans('buttons.filters') }}</span>
                     </button>
                 </div>
@@ -24,7 +29,9 @@
                         >
                             <span>{{ trans('labels.actions') }}</span>
 
-                            <b-icon icon="angle-down"></b-icon>
+                            <span class="icon has-text-grey">
+                                <i class="fa fa-angle-down"></i>
+                            </span>
                         </button>
 
                         <b-dropdown-item

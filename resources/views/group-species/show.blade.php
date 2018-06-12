@@ -12,12 +12,18 @@
 
             <div class="pagination-search">
                 <a href="{{ route('groups.index') }}" class="button has-text-hidden-tablet-only" title="{{ __('navigation.groups') }}">
-                    @include('components.icon', ['icon' => 'th'])
+                    <span class="icon has-text-grey">
+                        <i class="fa fa-th"></i>
+                    </span>
+
                     <span class="is-hidden-tablet-only">{{ __('navigation.groups') }}</span>
                 </a>
 
                 <a href="{{ $species->indexUrl() }}" class="button has-text-hidden-tablet-only" title="{{ __('navigation.species_list') }}">
-                    @include('components.icon', ['icon' => 'list'])
+                    <span class="icon has-text-grey">
+                        <i class="fa fa-list"></i>
+                    </span>
+
                     <span class="is-hidden-tablet-only">{{ __('navigation.species_list') }}</span>
                 </a>
 
