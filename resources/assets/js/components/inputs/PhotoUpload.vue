@@ -20,8 +20,11 @@
 
 	<div class="card" v-else>
 		<div class="card-image">
-			<figure class="image is-4by3">
+			<figure class="image has-magnifier is-4by3" @click="showModal = true">
 				<img :src="thumbnailUrl" alt="Uploaded photo">
+				<div class="image-magnifier">
+					<b-icon icon="expand" size="is-medium" />
+				</div>
 			</figure>
 	  </div>
 
@@ -33,6 +36,8 @@
 		</footer>
 
 		<nz-image-crop-modal :active.sync="showCropModal" :crop.sync="image.crop" :image-url="image.url" v-if="haveImage"/>
+
+		<nz-image-modal :items="[thumbnailUrl]" v-if="showModal" @close="showModal = false"/>
 	</div>
 </template>
 
@@ -60,7 +65,8 @@ export default {
 			progress: 0,
 			hasExisting: !!this.imageUrl,
 			error: null,
-			showCropModal: false
+			showCropModal: false,
+			showModal: false
     };
   },
 

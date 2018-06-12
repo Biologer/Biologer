@@ -6,6 +6,27 @@
     display: flex;
 }
 
+.image-magnifier {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba($grey-dark, 0.3);
+    color: rgba($white, .7);
+}
+
+.has-magnifier:hover {
+    cursor: zoom-in;
+
+    .image-magnifier {
+        display: flex;
+    }
+}
+
 .delete.is-danger {
     background-color: $danger;
 }
