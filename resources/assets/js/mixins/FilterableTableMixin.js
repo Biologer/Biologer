@@ -4,6 +4,7 @@ export default {
           showFilter: false,
           filter: this.filterDefaults(),
           newFilter: this.filterDefaults(),
+          filterIsActive: false,
       };
     },
 
@@ -16,6 +17,7 @@ export default {
             this.newFilter = this.filterDefaults();
 
             this.applyFilter();
+            this.filterIsActive = false;
         },
 
         applyFilter() {
@@ -32,6 +34,8 @@ export default {
             if (reload) {
                 this.$emit('filter');
             }
+
+            this.filterIsActive = true;
         }
     }
 };

@@ -6,7 +6,7 @@
                 class="button"
                 @click="showFilter = !showFilter"
             >
-                <b-icon icon="filter"></b-icon>
+                <b-icon icon="filter" :class="{'has-text-primary': filterIsActive}" />
                 <span>{{ trans('buttons.filters') }}</span>
             </button>
         </div>
@@ -262,7 +262,7 @@ export default {
         filterDefaults() {
             return {
                 name: '',
-                rank_level: ''
+                rank: ''
             };
         }
     }
