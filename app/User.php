@@ -62,6 +62,7 @@ class User extends Authenticatable
     {
         return [
             'name' => \App\Filters\User\NameLike::class,
+            'sort_by' => \App\Filters\SortBy::class,
         ];
     }
 

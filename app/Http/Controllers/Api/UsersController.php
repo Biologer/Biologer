@@ -20,11 +20,11 @@ class UsersController extends Controller
     {
         if (request()->has('page')) {
             return UserResource::collection(
-                User::paginate(request('per_page', 15))
+                User::filter(request())->paginate(request('per_page', 15))
             );
         }
 
-        return UserResource::collection(User::all());
+        return UserResource::collection(User::filter(request())->get());
     }
 
     /**
