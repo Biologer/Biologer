@@ -1,8 +1,17 @@
 {
-    "name": "nikazooz/biologer",
+    "name": "biologer/biologer",
     "description": "Database of wildlife of Serbia",
     "keywords": ["biologer", "reptile", "amphibia", "butterfly", "insect", "serbia"],
     "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nenad Živanović",
+            "email": "nen.zivanovic@gmail.com",
+            "homepage": "https://nenadzivanovic.in.rs",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": "^7.1.3",
         "czim/laravel-localization-route-cache": "^0.9.6",
