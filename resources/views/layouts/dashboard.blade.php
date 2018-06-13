@@ -27,7 +27,7 @@
         @stack('headerScripts')
     </head>
     <body class="bg-light">
-        <div id="app">
+        <div id="app" class="is-flex flex-col min-h-screen">
             <nz-navbar inline-template>
                 <nav class="navbar is-primary">
                     <div class="container is-fluid">
@@ -102,7 +102,7 @@
                 </div>
             </div>
 
-            <div class="bg-light">
+            <div class="bg-light flex-1">
                 <div class="container is-fluid p-4">
                     <div class="columns">
                         <div class="column is-2">

@@ -21,7 +21,7 @@
     </div>
 </nav>
 
-<section class="hero min-h-screen bg-light is-bold">
+<section class="flex-1 hero bg-light is-bold">
     <div class="hero-body">
         <div class="container">
             <div class="columns">

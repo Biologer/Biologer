@@ -95,7 +95,9 @@
         </nav>
     </nz-navbar>
 
-    @yield('content')
+    <div class="flex-1">
+        @yield('content')
+    </div>
 
     <footer class="footer">
         <div class="container">

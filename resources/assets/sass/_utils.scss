@@ -19,6 +19,14 @@
     justify-content: center;
 }
 
+.flex-1 {
+    flex: 1;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
 .is-underlined {
     text-decoration: underline;
 }

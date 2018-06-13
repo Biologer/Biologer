@@ -27,7 +27,7 @@
         @stack('headerScripts')
     </head>
     <body>
-        <div id="app">
+        <div id="app" class="is-flex flex-col min-h-screen">
             @yield('body')
         </div>
 

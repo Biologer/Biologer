@@ -1,7 +1,7 @@
 @extends('layouts.main', ['title' => __('navigation.view_groups')])
 
 @section('content')
-    <section class="section min-h-screen">
+    <section class="section">
         @if($rootGroups->count() > 1)
             <b-tabs type="is-boxed" position="is-centered" class="block is-in-container" v-cloak>
                 @foreach($rootGroups as $rootGroup)
