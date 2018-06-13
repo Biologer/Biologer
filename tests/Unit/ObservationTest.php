@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Photo;
 use Tests\TestCase;
 use App\Observation;
 use Tests\ObservationFactory;
@@ -44,5 +45,19 @@ class ObservationTest extends TestCase
         $observation->unapprove();
 
         $this->assertFalse($observation->isApproved());
+    }
+
+    /** @test */
+    public function updating_observer_updates_author_of_related_photos()
+    {
+        $observation = ObservationFactory::createFieldObservation()->observation;
+        $photo = $observation->photos()->save(factory(Photo::class)->make([
+            'path' => 'fake-path/image.jpg',
+            'author' => 'test author',
+        ]));
+
+        $observation->update(['observer' => 'New observer']);
+
+        $this->assertEquals('New observer', $photo->fresh()->author);
     }
 }

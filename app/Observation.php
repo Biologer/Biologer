@@ -242,4 +242,21 @@ class Observation extends Model
     {
         return $this->taxon ? $this->taxon->isCuratedBy($user) : true;
     }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($model) {
+            // Observer is the author of the photos, we need to update accordingly.
+            if ($model->isDirty('observer')) {
+                $model->photos()->update(['author' => $model->observer]);
+            }
+        });
+    }
 }
