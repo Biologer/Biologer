@@ -12,6 +12,7 @@ use App\Rules\Month;
 use App\ObservationType;
 use App\FieldObservation;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use App\ActivityLog\FieldObservationLog;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -92,23 +93,25 @@ class UpdateFieldObservation extends FormRequest
      */
     public function save(FieldObservation $fieldObservation)
     {
-        $oldData = $fieldObservation->toArray();
+        return DB::transaction(function () use ($fieldObservation) {
+            $oldData = $fieldObservation->toArray();
 
-        $fieldObservation->observation->update($this->getGeneralObservationData());
-        $fieldObservation->update($this->getSpecificObservationData());
+            $fieldObservation->observation->update($this->getGeneralObservationData());
+            $fieldObservation->update($this->getSpecificObservationData());
 
-        $photoSync = $fieldObservation->syncPhotos(
-            collect($this->input('photos', [])),
-            $this->input('image_license') ?: $this->user()->settings()->get('image_license')
-        );
+            $photoSync = $fieldObservation->syncPhotos(
+                collect($this->input('photos', [])),
+                $this->input('image_license') ?: $this->user()->settings()->get('image_license')
+            );
 
-        $this->syncRelations($fieldObservation);
+            $this->syncRelations($fieldObservation);
 
-        $this->logActivity($fieldObservation, $oldData, $photoSync);
+            $this->logActivity($fieldObservation, $oldData, $photoSync);
 
-        $fieldObservation->moveToPending();
+            $fieldObservation->moveToPending();
 
-        return $fieldObservation;
+            return $fieldObservation;
+        });
     }
 
     /**

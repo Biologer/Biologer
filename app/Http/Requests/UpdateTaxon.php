@@ -9,6 +9,7 @@ use App\ConservationDocument;
 use App\Support\Localization;
 use Illuminate\Validation\Rule;
 use App\ConservationLegislation;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -85,23 +86,25 @@ class UpdateTaxon extends FormRequest
      */
     public function save(Taxon $taxon)
     {
-        $oldData = $taxon->load([
-            'parent', 'stages', 'conservationLegislations', 'redLists',
-            'conservationDocuments',
-        ])->toArray();
+        return DB::transaction(function () use ($taxon) {
+            $oldData = $taxon->load([
+                'parent', 'stages', 'conservationLegislations', 'redLists',
+                'conservationDocuments',
+            ])->toArray();
 
-        $taxon->update(array_merge($this->only([
-            'name', 'parent_id', 'rank', 'fe_old_id', 'fe_id', 'restricted',
-            'allochthonous', 'invasive', 'author',
-        ]), Localization::transformTranslations($this->only([
-            'description', 'native_name',
-        ]))));
+            $taxon->update(array_merge($this->only([
+                'name', 'parent_id', 'rank', 'fe_old_id', 'fe_id', 'restricted',
+                'allochthonous', 'invasive', 'author',
+            ]), Localization::transformTranslations($this->only([
+                'description', 'native_name',
+            ]))));
 
-        $this->syncRelations($taxon);
+            $this->syncRelations($taxon);
 
-        $this->logUpdatedActivity($taxon, $oldData);
+            $this->logUpdatedActivity($taxon, $oldData);
 
-        return $taxon;
+            return $taxon;
+        });
     }
 
     /**

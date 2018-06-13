@@ -12,6 +12,7 @@ use App\Rules\Month;
 use App\ObservationType;
 use App\FieldObservation;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreFieldObservation extends FormRequest
@@ -91,15 +92,17 @@ class StoreFieldObservation extends FormRequest
      */
     public function save()
     {
-        return tap($this->createObservation(), function ($observation) {
-            $observation->addPhotos(
-                collect($this->input('photos', [])),
-                $this->input('image_license') ?: $this->user()->settings()->get('image_license')
-            );
+        return DB::transaction(function () {
+            return tap($this->createObservation(), function ($observation) {
+                $observation->addPhotos(
+                    collect($this->input('photos', [])),
+                    $this->input('image_license') ?: $this->user()->settings()->get('image_license')
+                );
 
-            $this->syncRelations($observation);
+                $this->syncRelations($observation);
 
-            $this->logActivity($observation);
+                $this->logActivity($observation);
+            });
         });
     }
 

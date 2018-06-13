@@ -9,6 +9,7 @@ use App\ConservationDocument;
 use App\Support\Localization;
 use Illuminate\Validation\Rule;
 use App\ConservationLegislation;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -127,9 +128,11 @@ class StoreTaxon extends FormRequest
      */
     public function save()
     {
-        return tap($this->createTaxon(), function ($taxon) {
-            $this->syncRelations($taxon);
-            $this->logCreatedActivity($taxon);
+        return DB::transaction(function () {
+            return tap($this->createTaxon(), function ($taxon) {
+                $this->syncRelations($taxon);
+                $this->logCreatedActivity($taxon);
+            });
         });
     }
 
