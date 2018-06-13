@@ -279,12 +279,12 @@ class FieldObservation extends Model
         return $this->photos()->saveMany(
             collect($photos)->filter(function ($photo) {
                 return UploadedPhoto::exists($photo['path']);
-            })->map(function ($photo, $index) use ($license, $photos) {
+            })->map(function ($photo) use ($license) {
                 return Photo::store(UploadedPhoto::relativePath($photo['path']), [
                     'author' => $this->observation->observer,
                     'license' => $license,
                     // 'metadata' => ['exif' => UploadedPhoto::formatedExif($photo['path'])], // TODO: This needs better solution.
-                ], array_get($photos[$index], 'crop'));
+                ], array_get($photo, 'crop'));
             })
         );
     }
