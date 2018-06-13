@@ -33,5 +33,12 @@ class ObservationTypesTableSeeder extends Seeder
             'sr' => ['name' => 'Оглашавање'],
             'sr-Latn' => ['name' => 'Oglašavanje'],
         ]);
+
+        ObservationType::firstOrCreate(['slug' => 'exuviae'])->update([
+            'en' => ['name' => 'Exuviae'],
+            'hr' => ['name' => 'Egzuvija'],
+            'sr' => ['name' => 'Егзувија'],
+            'sr-Latn' => ['name' => 'Egzuvija'],
+        ]);
     }
 }
