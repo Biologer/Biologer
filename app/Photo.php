@@ -76,7 +76,7 @@ class Photo extends Model
      */
     public function getUrlAttribute()
     {
-        return $this->attribute['url'] ?: Storage::disk('public')->url($this->path);
+        return $this->attribute['url'] ?: $this->filesystem()->url($this->path);
     }
 
     /**
@@ -106,11 +106,11 @@ class Photo extends Model
     {
         $path = $this->watermarkedPath();
 
-        if (! Storage::disk('public')->exists($path)) {
+        if (! $this->filesystem()->exists($path)) {
             return;
         }
 
-        return Storage::disk('public')->url($path);
+        return $this->filesystem()->url($path);
     }
 
     /**
@@ -173,7 +173,7 @@ class Photo extends Model
      */
     public function getContent()
     {
-        return Storage::disk('public')->get($this->path);
+        return $this->filesystem()->get($this->path);
     }
 
     /**
@@ -184,7 +184,7 @@ class Photo extends Model
      */
     public function putContent($content)
     {
-        return Storage::disk('public')->put($this->path, $content);
+        return $this->filesystem()->put($this->path, $content);
     }
 
     /**
@@ -194,16 +194,17 @@ class Photo extends Model
      */
     public function moveToFinalPath()
     {
-        Storage::disk('public')->move($this->path, $path = $this->finalPath());
+        $this->filesystem()->move($this->path, $path = $this->finalPath());
 
         return tap($this)->update([
             'path' => $path,
-            'url' => Storage::disk('public')->url($path),
+            'url' => $this->filesystem()->url($path),
         ]);
     }
 
     /**
      * Get final path of the image.
+     *
      * @param  string|null  $filename
      * @return string
      */
@@ -244,7 +245,7 @@ class Photo extends Model
      */
     public function absolutePath()
     {
-        return Storage::disk('public')->path($this->path);
+        return $this->filesystem()->path($this->path);
     }
 
     /**
@@ -254,7 +255,17 @@ class Photo extends Model
      */
     public function removeFile()
     {
-        return Storage::disk('public')->delete($this->path);
+        return $this->filesystem()->delete($this->path);
+    }
+
+    /**
+     * Get filesystem used for storing the photos.
+     *
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     */
+    protected function filesystem()
+    {
+        return Storage::disk('public');
     }
 
     /**
