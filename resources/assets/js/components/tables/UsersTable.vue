@@ -107,7 +107,7 @@ export default {
             meta: null,
             total: 0,
             loading: false,
-            sortField: 'name',
+            sortField: 'id',
             sortOrder: 'asc',
             defaultSortOrder: 'asc',
             page: 1,
