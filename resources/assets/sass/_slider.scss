@@ -20,6 +20,17 @@
         align-items: center;
         height: 300px;
     }
+    .slide-image-container {
+        position: relative;
+    }
+    .slide-caption {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 1rem;
+        background-color: rgba($white, .75);
+        text-align: center;
+    }
     /* Next & previous buttons */
     .next,
     .prev {

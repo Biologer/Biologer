@@ -212,6 +212,11 @@ class Taxon extends Model
         return $this->belongsToMany(Stage::class);
     }
 
+    /**
+     * Actovity log.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function activity()
     {
         return $this->morphMany(Activity::class, 'subject')->latest();

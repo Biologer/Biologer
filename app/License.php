@@ -147,4 +147,14 @@ class License
     {
         return static::all()->where('name', $name)->first();
     }
+
+    /**
+     * Get name translation.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return trans('licenses.'.$this->name);
+    }
 }

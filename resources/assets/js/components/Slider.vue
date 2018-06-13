@@ -4,7 +4,11 @@
     <div class="slide-container">
         <!-- Full-width images with number and caption text -->
         <div class="slide" v-for="(image, index) in items" v-show="isCurrent(index)">
-            <img v-lazy="image">
+            <div class="slide-image-container">
+                <img v-lazy="image.url">
+
+                <div class="slide-caption" v-if="image.caption" v-html="image.caption"></div>
+            </div>
         </div>
 
         <!-- Next and previous buttons -->
@@ -19,7 +23,7 @@
             @on-item-click='setCurrentSlide(i)'
             :class="{'active': isCurrent(i)}"
         >
-            <img v-lazy="image">
+            <img v-lazy="image.url">
 
             <div class="inner-shadow"></div>
         </tn-item>

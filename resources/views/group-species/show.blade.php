@@ -79,11 +79,11 @@
             </div>
         </section>
 
-        @if($species->publicPhotos()->pluck('public_url')->filter()->count() > 0)
+        @if($photos->isNotEmpty())
             <section class="mb-4">
                 <h2 class="is-size-3 mb-2 has-text-centered">{{ __('navigation.gallery') }}</h2>
 
-                <nz-slider :items="{{ json_encode($species->publicPhotos()->pluck('public_url')->filter()->values()->all()) }}"></nz-slider>
+                <nz-slider :items="{{ $photos }}"></nz-slider>
             </section>
         @endif
     </div>

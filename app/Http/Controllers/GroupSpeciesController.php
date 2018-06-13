@@ -33,8 +33,12 @@ class GroupSpeciesController extends Controller
     {
         abort_if($group->isRoot(), 404, 'Invalid group');
 
+        $species = $group->findOrFail($species);
+        $photos = $species->publicPhotos()->filter->public_url->map->forGallery();
+
         return view('group-species.show', [
-            'species' => $group->findOrFail($species),
+            'species' => $species,
+            'photos' => $photos,
         ]);
     }
 }

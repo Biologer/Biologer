@@ -70,6 +70,26 @@ class Photo extends Model
     }
 
     /**
+     * Get translated license name.
+     *
+     * @return string
+     */
+    public function getLicenseNameAttribute()
+    {
+        return $this->license()->name();
+    }
+
+    /**
+     * Get photo license instance.
+     *
+     * @return \App\License
+     */
+    protected function license()
+    {
+        return License::findById($this->license);
+    }
+
+    /**
      * Accessor for url.
      *
      * @return string
@@ -266,6 +286,19 @@ class Photo extends Model
     protected function filesystem()
     {
         return Storage::disk('public');
+    }
+
+    /**
+     * Map to array containing information for gallery.
+     *
+     * @return array
+     */
+    public function forGallery()
+    {
+        return [
+            'url' => $this->public_url,
+            'caption' => "&copy; {$this->author} ({$this->license_name})",
+        ];
     }
 
     /**
