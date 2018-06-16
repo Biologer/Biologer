@@ -19,7 +19,7 @@
                     <tr>
                         <th v-if="detailed" width="40px"></th>
                         <th class="checkbox-cell" v-if="checkable">
-                            <input type="checkbox" :checked="isAllChecked" @change="checkAll">
+                            <b-checkbox :value="isAllChecked" @change.native="checkAll" />
                         </th>
                         <th v-for="(column, index) in columns"
                             v-if="column.visible"
@@ -62,7 +62,7 @@
                             </td>
 
                             <td class="checkbox-cell" v-if="checkable">
-                                <input type="checkbox" :checked="isRowChecked(row)" @click="checkRow($event, row, index)">
+                                <b-checkbox :value="isRowChecked(row)" @click.native.prevent="checkRow($event, row, index)" />
                             </td>
 
                             <slot :row="row" :index="index"></slot>
