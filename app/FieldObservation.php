@@ -58,7 +58,7 @@ class FieldObservation extends Model
     protected function filters()
     {
         return [
-            'id' => \App\Filters\Id::class,
+            'id' => \App\Filters\Ids::class,
             'taxon' => \App\Filters\FieldObservation\Taxon::class,
             'year' => \App\Filters\Attribute::class,
             'month' => \App\Filters\Attribute::class,
@@ -241,12 +241,12 @@ class FieldObservation extends Model
 
     public function getObserverAttribute($value)
     {
-        return optional($this->observedBy)->full_name ?: $value;
+        return optional($this->observedBy)->full_name ?: $this->observation->observer;
     }
 
     public function getIdentifierAttribute($value)
     {
-        return optional($this->identifiedBy)->full_name ?: $value;
+        return optional($this->identifiedBy)->full_name ?: $this->observation->identifier;
     }
 
     /**
@@ -265,6 +265,21 @@ class FieldObservation extends Model
         }
 
         return static::STATUS_PENDING;
+    }
+
+    public function getStatusTranslationAttribute()
+    {
+        return trans('labels.field_observations.statuses.'.$this->status);
+    }
+
+    /**
+     * Get translated license name.
+     *
+     * @return string
+     */
+    public function getLicenseTranslationAttribute()
+    {
+        return trans('licenses.'.License::findById($this->license)->name);
     }
 
     /**

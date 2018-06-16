@@ -53,6 +53,6 @@ class ResetPasswordController extends Controller
         }
 
         return redirect($this->redirectPath())
-            ->with('status', trans($response));
+            ->with('status', __($response));
     }
 }

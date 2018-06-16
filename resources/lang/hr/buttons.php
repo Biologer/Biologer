@@ -23,4 +23,6 @@ return [
     'stay_on_page' => 'Ostani na stranici',
     'leave_page' => 'Napusti stranicu',
     'confirm' => 'Potvrdi',
+    'export' => 'Izvezi',
+    'download' => 'Preuzmi',
 ];

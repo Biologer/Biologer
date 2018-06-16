@@ -109,10 +109,16 @@ Route::middleware('auth:api')->group(function () {
         ->middleware('can:delete,group')
         ->name('api.view-groups.destroy');
 
+    Route::get('exports/{export}', 'ExportsController@show')
+        ->name('api.exports.show');
+
     // My
     Route::prefix('my')->namespace('My')->group(function () {
         Route::get('field-observations', 'FieldObservationsController@index')
             ->name('api.my.field-observations.index');
+
+        Route::post('field-observations/export', 'FieldObservationExportsController@store')
+            ->name('api.my.field-observation-exports.store');
 
         Route::get('profile', 'ProfileController@show')
             ->name('api.my.profile.show');

@@ -12,6 +12,8 @@
             show-activity-log
             show-observer
             @endrole
+            export-url="{{ route('api.my.field-observation-exports.store') }}"
+            :export-columns="{{ $exportColumns }}"
         />
     </div>
 @endsection

@@ -107,6 +107,16 @@ class Observation extends Model
     }
 
     /**
+     * Stage of the specimen observed.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function stage()
+    {
+        return $this->belongsTo(Stage::class);
+    }
+
+    /**
      * Details of different observation types.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
@@ -159,6 +169,16 @@ class Observation extends Model
     public function publicPhotos()
     {
         return $this->photos()->public();
+    }
+
+    /**
+     * Get sex translation.
+     *
+     * @return string
+     */
+    public function getSexTranslationAttribute()
+    {
+        return $this->sex ? trans('labels.sexes.'.$this->sex) : null;
     }
 
     /**

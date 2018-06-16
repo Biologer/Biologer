@@ -63,6 +63,15 @@
 
                             <span>{{ trans('buttons.move_to_pending') }}</span>
                         </b-dropdown-item>
+
+                        <b-dropdown-item
+                            @click="openExportModal"
+                            v-if="exportable"
+                        >
+                            <b-icon icon="download" class="has-text-grey" />
+
+                            <span>{{ trans('buttons.export') }}</span>
+                        </b-dropdown-item>
                     </b-dropdown>
                   </div>
             </div>
@@ -92,7 +101,7 @@
                                 >
                                     <option :value="null"></option>
 
-                                    <option v-for="(month, index) in months" :value="(index + 1)" v-text="month"></option>
+                                    <option v-for="(month, index) in months" :key="index" :value="(index + 1)" v-text="month"></option>
                                 </b-select>
                             </b-field>
 
@@ -104,7 +113,7 @@
                                 >
                                     <option :value="null"></option>
 
-                                    <option v-for="day in days" :value="day" v-text="day"></option>
+                                    <option v-for="day in days" :value="day" :key="day" v-text="day"></option>
                                 </b-select>
                             </b-field>
                         </b-field>
@@ -269,6 +278,17 @@
                 </div>
             </div>
         </b-modal>
+
+        <b-modal :active="showExportModal" @close="showExportModal = false" has-modal-card :can-cancel="[]">
+            <nz-custom-export
+              :checked="checkedIds"
+              :filter="filter"
+              :columns="exportColumns"
+              :url="exportUrl"
+              @cancel="showExportModal = false"
+              @done="onExportDone"
+            />
+        </b-modal>
     </div>
 </template>
 
@@ -276,6 +296,7 @@
 import axios from 'axios';
 import FilterableTableMixin from '../../mixins/FilterableTableMixin';
 import PersistentTableMixin from '../../mixins/PersistentTableMixin';
+import ExportDownloadModal from '../exports/ExportDownloadModal';
 
 export default {
     name: 'nzFieldObservationsTable',
@@ -307,7 +328,12 @@ export default {
         movableToPending: Boolean,
         showStatus: Boolean,
         showActivityLog: Boolean,
-        showObserver: Boolean
+        showObserver: Boolean,
+        exportUrl: String,
+        exportColumns: {
+          type: Array,
+          default: () => []
+        }
     },
 
     data() {
@@ -328,7 +354,8 @@ export default {
             approving: false,
             markingAsUnidentifiable: false,
             movingToPending: false,
-            activityLog: []
+            activityLog: [],
+            showExportModal: false
         };
     },
 
@@ -358,11 +385,22 @@ export default {
         },
 
         hasActions() {
-            return this.approvable || this.markableAsUnidentifiable || this.movableToPending;
+            return this.approvable
+              || this.markableAsUnidentifiable
+              || this.movableToPending
+              || this.exportable;
         },
 
         actionRunning() {
             return this.approving || this.movingToPending || this.markingAsUnidentifiable;
+        },
+
+        checkedIds() {
+            return this.checkedRows.map(row => row.id);
+        },
+
+        exportable() {
+          return !!(this.exportUrl && this.exportColumns.length);
         }
     },
 
@@ -650,6 +688,24 @@ export default {
                 observer: null
             };
         },
+
+        openExportModal() {
+            this.showExportModal = true;
+        },
+
+        onExportDone(finishedExport) {
+            this.showExportModal = false;
+
+            this.$modal.open({
+                parent: this,
+                component: ExportDownloadModal,
+                canCancel: [],
+                hasModalCard: true,
+                props: {
+                  url: finishedExport.url,
+                }
+            });
+        }
     },
 
     filters: {
@@ -664,4 +720,3 @@ export default {
     }
 }
 </script>
-bio

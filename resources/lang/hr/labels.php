@@ -8,6 +8,16 @@ return [
         'from_to_total' => 'Prikazuje se :from-:to od ukupno :total',
     ],
 
+    'sexes' => [
+        'male' => 'Mužjak',
+        'female' => 'Ženka',
+    ],
+
+    'transfer' => [
+        'available' => 'Dostupne',
+        'chosen' => 'Odabrane',
+    ],
+
     'login' => [
         'email' => 'E-pošta',
         'password' => 'Lozinka',
@@ -128,5 +138,15 @@ return [
         'parent' => 'Viša grupa',
         'description' => 'Opis',
         'taxa' => 'Taksoni',
+    ],
+
+    'exports' => [
+        'title' => 'Izvoz',
+        'processing' => 'Izvoz u toku... Ovo može potrajati.',
+        'only_checked' => 'Izvezi samo čekirane',
+        'apply_filters' => 'Primeni filtere',
+        'with_header' => 'Sa nazivima kolona',
+        'finished' => 'Gotovo! Možete preuzeti izvezen fajl.',
+        'columns' => 'Kolone',
     ],
 ];

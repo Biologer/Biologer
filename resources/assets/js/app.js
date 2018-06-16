@@ -21,6 +21,7 @@ import SpatialInput from './components/inputs/SpatialInput';
 import TaxonAutocomplete from './components/inputs/TaxonAutocomplete';
 import UserAutocomplete from './components/inputs/UserAutocomplete';
 import Wysiwyg from './components/inputs/Wysiwyg';
+import ColumnsPicker from './components/inputs/ColumnsPicker';
 
 import Table from './components/table/Table';
 import TaxaTable from './components/tables/TaxaTable';
@@ -35,6 +36,8 @@ import ViewGroupForm from './components/forms/ViewGroupForm';
 
 import FieldObservationActivityLog from './components/activity/FieldObservationActivityLog';
 import TaxonActivityLog from './components/activity/TaxonActivityLog';
+
+import CustomExport from './components/exports/CustomExport';
 
 window.Vue = Vue;
 
@@ -63,17 +66,21 @@ Vue.component(ImageModal.name, ImageModal);
 Vue.component(ImageCropModal.name, ImageCropModal);
 Vue.component(Slider.name, Slider);
 Vue.component(GroupTaxaSearchButton.name, GroupTaxaSearchButton);
-Vue.component(DateInput.name, DateInput);
+
 Vue.component(Table.name, Table);
 Vue.component(TaxaTable.name, TaxaTable);
 Vue.component(UsersTable.name, UsersTable);
 Vue.component(FieldObservationsTable.name, FieldObservationsTable);
 Vue.component(ViewGroupsTable.name, ViewGroupsTable);
+
+Vue.component(DateInput.name, DateInput);
 Vue.component(PhotoUpload.name, PhotoUpload);
 Vue.component(SpatialInput.name, SpatialInput);
 Vue.component(TaxonAutocomplete.name, TaxonAutocomplete);
 Vue.component(UserAutocomplete.name, UserAutocomplete);
 Vue.component(Wysiwyg.name, Wysiwyg);
+Vue.component(ColumnsPicker.name, ColumnsPicker);
+
 Vue.component(FieldObservationForm.name, FieldObservationForm);
 Vue.component(TaxonForm.name, TaxonForm);
 Vue.component(UserForm.name, UserForm);
@@ -81,6 +88,8 @@ Vue.component(ViewGroupForm.name, ViewGroupForm);
 
 Vue.component(FieldObservationActivityLog.name, FieldObservationActivityLog);
 Vue.component(TaxonActivityLog.name, TaxonActivityLog);
+
+Vue.component(CustomExport.name, CustomExport);
 
 Vue.prototype.trans = (string, args = {}) => {
     let value = window.App.i18n[string] || string;

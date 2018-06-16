@@ -14,6 +14,7 @@
     ],
     "require": {
         "php": "^7.1.3",
+        "box/spout": "^2.7",
         "czim/laravel-localization-route-cache": "^0.9.6",
         "dimsav/laravel-translatable": "^9.0",
         "fideloper/proxy": "~4.0",
@@ -23,6 +24,7 @@
         "laravel/tinker": "^1.0",
         "mcamara/laravel-localization": "^1.3",
         "meyfa/php-svg": "^0.8.0",
+        "myclabs/php-enum": "^1.6",
         "nikazooz/laravel-captcha": "^0.1.0",
         "php-coord/php-coord": "^2.1",
         "sofa/eloquence-mappable": "^5.6",

@@ -114,7 +114,7 @@
                     >
                         <b-select v-model="form.sex" expanded>
                             <option :value="null">{{ trans('labels.field_observations.choose_a_value') }}</option>
-                            <option v-for="sex in sexes" :value="sex" v-text="trans('labels.field_observations.'+sex)"></option>
+                            <option v-for="sex in sexes" :value="sex" v-text="trans('labels.sexes.'+sex)"></option>
                         </b-select>
                     </b-field>
                 </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Contributor;
 
 use App\FieldObservation;
 use App\Http\Controllers\Controller;
+use App\Exports\ContributorFieldObservationsExport;
 
 class FieldObservationsController extends Controller
 {
@@ -14,7 +15,9 @@ class FieldObservationsController extends Controller
      */
     public function index()
     {
-        return view('contributor.field-observations.index');
+        return view('contributor.field-observations.index', [
+            'exportColumns' => ContributorFieldObservationsExport::availableColumnData(),
+        ]);
     }
 
     /**

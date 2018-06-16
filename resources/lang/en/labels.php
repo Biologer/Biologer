@@ -8,6 +8,16 @@ return [
         'from_to_total' => 'Showing :from-:to of :total',
     ],
 
+    'sexes' => [
+        'male' => 'Male',
+        'female' => 'Female',
+    ],
+
+    'transfer' => [
+        'available' => 'Available',
+        'chosen' => 'Chosen',
+    ],
+
     'login' => [
         'email' => 'Email',
         'password' => 'Password',
@@ -128,5 +138,15 @@ return [
         'parent' => 'Parent',
         'description' => 'Description',
         'taxa' => 'Taxa',
+    ],
+
+    'exports' => [
+        'title' => 'Export',
+        'processing' => 'Exporting... This may take a while.',
+        'only_checked' => 'Only export checked',
+        'apply_filters' => 'Apply filters',
+        'with_header' => 'With header',
+        'finished' => 'Finished! You can now download you export.',
+        'columns' => 'Columns',
     ],
 ];

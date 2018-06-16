@@ -23,4 +23,6 @@ return [
     'stay_on_page' => 'Stay on page',
     'leave_page' => 'Leave page',
     'confirm' => 'Confirm',
+    'export' => 'Export',
+    'download' => 'Download',
 ];

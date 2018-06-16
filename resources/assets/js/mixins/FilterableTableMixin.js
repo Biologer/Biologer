@@ -23,13 +23,13 @@ export default {
         applyFilter() {
             let reload = false;
 
-            for (let field in this.newFilter) {
-                if (this.filter[field] !== this.newFilter[field]) {
-                    reload = true;
-                }
+            Object.keys(this.newFilter).forEach((field) => {
+              if (this.filter[field] !== this.newFilter[field]) {
+                  reload = true;
+              }
 
-                this.filter[field] = this.newFilter[field];
-            }
+              this.filter[field] = this.newFilter[field];
+            });
 
             if (reload) {
                 this.$emit('filter');
