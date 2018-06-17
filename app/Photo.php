@@ -273,9 +273,10 @@ class Photo extends Model
      *
      * @return void
      */
-    public function removeFile()
+    public function removeFiles()
     {
-        return $this->filesystem()->delete($this->path);
+        $this->filesystem()->delete($this->path);
+        $this->filesystem()->delete($this->watermarkedPath());
     }
 
     /**
@@ -310,8 +311,8 @@ class Photo extends Model
     {
         parent::boot();
 
-        static::deleting(function ($model) {
-            $model->removeFile();
+        static::deleted(function ($model) {
+            $model->removeFiles();
         });
     }
 }

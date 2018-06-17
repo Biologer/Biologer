@@ -278,5 +278,9 @@ class Observation extends Model
                 $model->photos()->update(['author' => $model->observer]);
             }
         });
+
+        static::deleting(function ($model) {
+            $model->photos->delete();
+        });
     }
 }
