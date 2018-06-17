@@ -180,6 +180,10 @@ class Exif
     {
         $temp = explode('/', $value);
 
-        return $temp[0] / (isset($temp[1]) ? $temp[1] : 1);
+        if (isset($temp[1]) && '0' === $temp[1]) {
+            return;
+        }
+
+        return $temp[0] / $temp[1] ?? 1;
     }
 }
