@@ -239,11 +239,22 @@ class FieldObservation extends Model
         $this->forgetMemoized('time')->attributes['time'] = $value;
     }
 
+    /**
+     * Get observation observer name.
+     *
+     * @param  string  $value
+     * @return string
+     */
     public function getObserverAttribute($value)
     {
         return optional($this->observedBy)->full_name ?: $this->observation->observer;
     }
 
+    /**
+     * Get observation identifier name.
+     * @param  string  $value
+     * @return string
+     */
     public function getIdentifierAttribute($value)
     {
         return optional($this->identifiedBy)->full_name ?: $this->observation->identifier;
@@ -267,6 +278,11 @@ class FieldObservation extends Model
         return static::STATUS_PENDING;
     }
 
+    /**
+     * Get translated status.
+     *
+     * @return string
+     */
     public function getStatusTranslationAttribute()
     {
         return trans('labels.field_observations.statuses.'.$this->status);
@@ -298,7 +314,6 @@ class FieldObservation extends Model
                 return Photo::store(UploadedPhoto::relativePath($photo['path']), [
                     'author' => $this->observation->observer,
                     'license' => $license,
-                    // 'metadata' => ['exif' => UploadedPhoto::formatedExif($photo['path'])], // TODO: This needs better solution.
                 ], array_get($photo, 'crop'));
             })
         );
