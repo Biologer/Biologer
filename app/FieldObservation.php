@@ -242,20 +242,19 @@ class FieldObservation extends Model
     /**
      * Get observation observer name.
      *
-     * @param  string  $value
      * @return string
      */
-    public function getObserverAttribute($value)
+    public function getObserverAttribute()
     {
         return optional($this->observedBy)->full_name ?: $this->observation->observer;
     }
 
     /**
      * Get observation identifier name.
-     * @param  string  $value
+     *
      * @return string
      */
-    public function getIdentifierAttribute($value)
+    public function getIdentifierAttribute()
     {
         return optional($this->identifiedBy)->full_name ?: $this->observation->identifier;
     }
