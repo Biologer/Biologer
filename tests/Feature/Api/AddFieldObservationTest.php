@@ -10,8 +10,8 @@ use App\Observation;
 use App\FieldObservation;
 use Illuminate\Support\Carbon;
 use Laravel\Passport\Passport;
-use App\Jobs\ProcessUploadedPhoto;
 use Illuminate\Http\Testing\File;
+use App\Jobs\ProcessUploadedPhoto;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -677,5 +677,26 @@ class AddFieldObservationTest extends TestCase
         $fieldObservation = FieldObservation::latest()->first();
         $this->assertTrue($fieldObservation->identifiedBy->is($anotherUser));
         $this->assertEquals($fieldObservation->identifier, 'Jane Doe');
+    }
+
+    /** @test */
+    public function unless_identifier_is_provided_user_will_be_assigned_as_identifier_if_the_observation_has_some_identification()
+    {
+        $user = factory(User::class)->create();
+        $taxon = factory(Taxon::class)->create();
+
+        Passport::actingAs($user);
+
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'taxon_id' => $taxon->id,
+            'identified_by_id' => null,
+            'identifier' => null,
+        ]));
+
+        $response->assertStatus(201);
+
+        $fieldObservation = FieldObservation::latest()->first();
+        $this->assertTrue($fieldObservation->identifiedBy->is($user));
+        $this->assertEquals($fieldObservation->identifier, $user->full_name);
     }
 }
