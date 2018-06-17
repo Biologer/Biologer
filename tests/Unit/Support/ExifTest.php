@@ -3,7 +3,6 @@
 namespace Tests\Unit\Support;
 
 use App\Support\Exif;
-
 use PHPUnit\Framework\TestCase;
 
 class ExifTest extends TestCase
@@ -12,7 +11,7 @@ class ExifTest extends TestCase
     public function can_extract_date_time_data()
     {
         $exif = new Exif([
-            'DateTimeOriginal' => '2018:01:01 10:00:00'
+            'DateTimeOriginal' => '2018:01:01 10:00:00',
         ]);
 
         $this->assertArraySubset([
