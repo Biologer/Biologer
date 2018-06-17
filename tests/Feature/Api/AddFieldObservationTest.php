@@ -10,7 +10,7 @@ use App\Observation;
 use App\FieldObservation;
 use Illuminate\Support\Carbon;
 use Laravel\Passport\Passport;
-use App\Jobs\ResizeUploadedPhoto;
+use App\Jobs\ProcessUploadedPhoto;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
@@ -519,7 +519,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
-    public function photos_are_queued_to_be_resized_if_needed()
+    public function photos_are_queued_to_be_processed_if_needed()
     {
         config(['alciphron.photo_size_dimension' => 800]);
 
@@ -543,7 +543,7 @@ class AddFieldObservationTest extends TestCase
 
         Photo::assertCount($photosCount + 1);
         $photo = Photo::latest()->first();
-        Queue::assertPushed(ResizeUploadedPhoto::class, function ($job) use ($photo) {
+        Queue::assertPushed(ProcessUploadedPhoto::class, function ($job) use ($photo) {
             return $job->photo->is($photo)
                 && $job->crop === ['width' => 100, 'height' => 100, 'x' => 100, 'y' => 100];
         });

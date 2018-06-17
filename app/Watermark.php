@@ -3,7 +3,7 @@
 namespace App;
 
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class Watermark
 {
@@ -31,26 +31,38 @@ class Watermark
             return false;
         }
 
-        $image = Image::make($photo->getContent());
-        $watermarkWidth = floor($image->width() * 0.8);
-        $image->insert($this->getWatermark($watermarkWidth), 'center');
+        try {
+            $image = Image::make($photo->getContent());
 
-        return Storage::disk('public')->put(
-            $photo->watermarkedPath(),
-            (string) $image->encode()
-        );
+            $image->insert($this->getWatermarkFor($image), 'center');
+
+            return $photo->putWatermarkedContent($image->encode()->getEncoded());
+        } catch (FileNotFoundException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Calculate the width for watermark.
+     *
+     * @param  \Intervention\Image\Image  $image
+     * @return int
+     */
+    protected function calculateWatermarkWidth($image)
+    {
+        return floor($image->width() * 0.8);
     }
 
     /**
      * Prepare watermark.
      *
-     * @param  int  $width
+     * @param  \Intervention\Image\Image  $image
      * @return \Intervention\Image\Image
      */
-    protected function getWatermark($width)
+    protected function getWatermarkFor($image)
     {
         return Image::make($this->watermark)->opacity(50)
-            ->resize($width, null, function ($constraint) {
+            ->resize($this->calculateWatermarkWidth($image), null, function ($constraint) {
                 $constraint->aspectRatio();
             });
     }

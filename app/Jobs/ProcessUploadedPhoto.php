@@ -48,10 +48,6 @@ class ProcessUploadedPhoto implements ShouldQueue
         $image = Image::make($this->photo->getContent());
         $shouldResize = $this->shouldResize($image);
 
-        if (! $this->crop && ! $shouldResize) {
-            return;
-        }
-
         if ($this->crop) {
             $image = $image->crop(
                 $this->crop['width'],
@@ -65,9 +61,11 @@ class ProcessUploadedPhoto implements ShouldQueue
             $image = $this->resize($image);
         }
 
-        $this->photo->putContent((string) $image->encode());
+        if ($this->crop || $shouldResize) {
+            $this->photo->putContent($image->encode()->getEncoded());
+        }
 
-        if (License::PARTIALLY_OPEN === $this->photo->license) {
+        if ($this->photo->needsToBeWatermarked()) {
             $this->photo->watermark();
         }
     }

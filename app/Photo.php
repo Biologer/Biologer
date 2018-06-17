@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Support\Carbon;
-use App\Jobs\ResizeUploadedPhoto;
+use App\Jobs\ProcessUploadedPhoto;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
@@ -155,7 +155,7 @@ class Photo extends Model
     {
         $data['path'] = $path;
 
-        return static::create($data)->moveToFinalPath()->queueResize($crop);
+        return static::create($data)->moveToFinalPath()->queueProcessing($crop);
     }
 
     /**
@@ -184,6 +184,27 @@ class Photo extends Model
     public function watermark()
     {
         return app(Watermark::class)->applyTo($this);
+    }
+
+    /**
+     * Check if watermarked image exists.
+     *
+     * @return bool
+     */
+    public function alreadyWatermarked()
+    {
+        return $this->filesystem()->exists($this->watermarkedPath());
+    }
+
+    /**
+     * Store the watermarked photo.
+     *
+     * @param  string|resource  $content
+     * @return bool
+     */
+    public function putWatermarkedContent($content)
+    {
+        return $this->filesystem()->put($this->watermarkedPath(), $content);
     }
 
     /**
@@ -249,13 +270,21 @@ class Photo extends Model
      * @param  array  $crop
      * @return $this
      */
-    public function queueResize($crop)
+    public function queueProcessing($crop)
     {
-        if ($crop || config('biologer.photo_resize_dimension')) {
-            ResizeUploadedPhoto::dispatch($this, $crop);
-        }
+        ProcessUploadedPhoto::dispatch($this, $crop);
 
         return $this;
+    }
+
+    /**
+     * Check if photo needs to be watermarked.
+     *
+     * @return bool
+     */
+    public function needsToBeWatermarked()
+    {
+        return License::PARTIALLY_OPEN === $this->license;
     }
 
     /**
