@@ -22,6 +22,10 @@
     }
     .slide-image-container {
         position: relative;
+
+        img[lazy="loading"] + .slide-caption {
+            display: none;
+        }
     }
     .slide-caption {
         position: absolute;
