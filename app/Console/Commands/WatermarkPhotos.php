@@ -13,7 +13,7 @@ class WatermarkPhotos extends Command
      *
      * @var string
      */
-    protected $signature = 'photos:watermark';
+    protected $signature = 'photos:watermark {--all : Watermark all photos, including the ones already watermarked}';
 
     /**
      * The console command description.
@@ -32,7 +32,15 @@ class WatermarkPhotos extends Command
         $this->warn('Starting to watermark photos that require it...');
 
         Photo::where('license', License::PARTIALLY_OPEN)->chunk(100, function ($photos) {
-            $photos->each->watermark();
+            $photos->each(function ($photo) {
+                if (! $this->option('all') && $photo->alreadyWatermarked()) {
+                    return;
+                }
+
+                $this->info('Watermarking photo with ID: '.$photo->id);
+
+                $photo->watermark();
+            });
         });
 
         $this->info('Finished with watermarking photos.');
