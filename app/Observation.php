@@ -280,7 +280,7 @@ class Observation extends Model
         });
 
         static::deleting(function ($model) {
-            $model->photos->delete();
+            $model->photos->each->delete();
         });
     }
 }
