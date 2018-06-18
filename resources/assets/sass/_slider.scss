@@ -23,7 +23,8 @@
     .slide-image-container {
         position: relative;
 
-        img[lazy="loading"] + .slide-caption {
+        img[lazy="loading"] + .slide-caption,
+        img[lazy="error"] + .slide-caption {
             display: none;
         }
     }
