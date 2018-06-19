@@ -12,6 +12,7 @@ class Mgrs
     const NORTHING_OFFSET = 10000000.0;
     const GRIDSQUARE_SET_COL_SIZE = 8;
     const GRIDSQUARE_SET_ROW_SIZE = 20;
+    const METERS_IN_10K = 10000;
 
     /**
      * Letters' groups for 100k easting.
@@ -47,11 +48,12 @@ class Mgrs
      *
      * @param  float  $latitude
      * @param  float  $longitude
+     * @param  float  $altitude
      * @return self
      */
-    public static function makeFromLatLong($latitude, $longitude)
+    public static function makeFromLatLong($latitude, $longitude, $altitude = 0)
     {
-        $latLong = new LatLng($latitude, $longitude, 0, RefEll::wgs84());
+        $latLong = new LatLng($latitude, $longitude, $altitude, RefEll::wgs84());
 
         try {
             return new static($latLong->toUTMRef());
@@ -199,14 +201,31 @@ class Mgrs
      */
     protected function applyPrecision($value, $precision)
     {
-        $result = '';
         $val = floor((round($value) % self::BLOCK_SIZE) / pow(10, (5 - (int) $precision)));
 
-        for ($i = strlen(strval($val)); $i < $precision; ++$i) {
-            $result .= '0';
-        }
-        $result .= $val;
+        return str_pad(strval($val), $precision, '0', STR_PAD_RIGHT);
+    }
 
-        return $result;
+    /**
+     * Get LatLng instance with coordinates of 10k square center.
+     *
+     * @return \PHPCoord\LatLng
+     */
+    public function centerOf10kLatLng()
+    {
+        // Starting point of 10k square
+        $startX = $this->utm->getX() - ($this->utm->getX() % static::METERS_IN_10K);
+        $startY = $this->utm->getY() - ($this->utm->getY() % static::METERS_IN_10K);
+
+        // Center point of 10k square
+        $centerX = $startX + static::METERS_IN_10K / 2;
+        $centerY = $startY + static::METERS_IN_10K / 2;
+
+        // UTMRef instance with coordinates of 10k square center point
+        $utm = clone $this->utm;
+        $utm->setX($centerX);
+        $utm->setY($centerY);
+
+        return $utm->toLatLng();
     }
 }
