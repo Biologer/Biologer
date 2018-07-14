@@ -63,7 +63,7 @@ trait CanBeCurated
      */
     public function ancestorIsCuratedBy(User $user)
     {
-        return $this->ancestors->load('curators')->contains(function ($ancestor) use ($user) {
+        return $this->ancestors->loadMissing('curators')->contains(function ($ancestor) use ($user) {
             return $ancestor->isDirectlyCuratedBy($user);
         });
     }

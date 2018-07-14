@@ -73,11 +73,11 @@
                 </b-table-column>
 
                 <b-table-column width="150" numeric>
-                    <a @click="openActivityLogModal(row)" v-if="showActivityLog && row.activity.length > 0" :title="trans('Activity Log')"><b-icon icon="history" /></a>
+                    <a @click="openActivityLogModal(row)" v-if="showActivityLog && row.activity && row.activity.length > 0" :title="trans('Activity Log')"><b-icon icon="history" /></a>
 
-                    <a :href="editLink(row)"><b-icon icon="edit"></b-icon></a>
+                    <a :href="editLink(row)" v-if="row.can_edit"><b-icon icon="edit"></b-icon></a>
 
-                    <a @click="confirmRemove(row)"><b-icon icon="trash"></b-icon></a>
+                    <a @click="confirmRemove(row)" v-if="row.can_delete"><b-icon icon="trash"></b-icon></a>
                 </b-table-column>
             </template>
 

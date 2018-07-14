@@ -15,8 +15,21 @@ class TaxonCollectionResource extends ResourceCollection
      */
     public function toArray($request)
     {
+        $user = $request->user();
+        $data = $this->collection;
+
+        if ($user->hasAnyRole(['admin', 'curator'])) {
+            $data = $this->collection->map(function ($taxon) use ($user) {
+                $taxon->can_edit = $user->can('update', $taxon);
+                $taxon->can_delete = $user->can('delete', $taxon);
+
+                return $taxon->makeVisible(['can_edit', 'can_delete'])
+                    ->makeHidden(['curators', 'ancestors']);
+            });
+        }
+
         return [
-            'data' => $this->collection,
+            'data' => $data,
             'meta' => [
                 'last_updated_at' => Taxon::latest('updated_at')->first()->updated_at->timestamp,
             ],

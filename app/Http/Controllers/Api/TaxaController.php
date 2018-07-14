@@ -18,10 +18,12 @@ class TaxaController extends Controller
      */
     public function index()
     {
-        $taxa = Taxon::with(['parent', 'stages', 'activity.causer'])->filter(request())->orderBy('id');
+        $taxa = Taxon::with([
+            'parent', 'stages', 'activity.causer', 'curators', 'ancestors.curators',
+        ])->filter(request())->orderBy('id');
 
         if (request()->has('page')) {
-            return TaxonResource::collection(
+            return new TaxonCollectionResource(
                 $taxa->paginate(request('per_page', 15))
             );
         }
