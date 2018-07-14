@@ -33,6 +33,7 @@ return [
         'password' => 'Лозинка',
         'password_confirmation' => 'Поновите лозинку',
         'verification_code' => 'Верификациони код',
+        'accept' => 'Слажем се са <a href=":url" title="Политика приватности" target="_blank">Политиком приватности</a>',
     ],
 
     'forgot_password' => [

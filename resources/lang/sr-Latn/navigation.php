@@ -39,5 +39,8 @@ return [
     'species_list' => 'Lista vrsta',
     'find_in_group' => 'Pronađi u grupi',
     'gallery' => 'Galerija',
+    'privacy_policy' => 'Politika privatnosti',
+    'partially_open_license' => 'Delimično otvorena licensa',
+    'closed_license' => 'Zatvorena licenca',
 
 ];

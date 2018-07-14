@@ -155,6 +155,17 @@
                                 <p class="help{{ $errors->has('captcha_verification_code') ? ' is-danger' : '' }}">{{ $errors->first('captcha_verification_code') }}</p>
                             </div>
 
+                            <div class="field is-required">
+                                <label class="checkbox is-not-custom">
+                                    <input type="checkbox"
+                                        name="accept"
+                                        {{ old('accept') ? ' checked' : '' }}>
+                                    {!! __('labels.register.accept', ['url' => route('pages.privacy-policy')]) !!}
+                                </label>
+
+                                <p class="help{{ $errors->has('accept') ? ' is-danger' : '' }}">{{ $errors->first('accept') }}</p>
+                            </div>
+
                             <hr>
 
                             <div class="field">
@@ -170,15 +181,5 @@
     </div>
 </section>
 
-<footer class="footer">
-    <div class="container">
-        <div class="level">
-            <div class="level-left"></div>
-
-            <div class="level-right">
-                @include('components.languageSelector')
-            </div>
-        </div>
-    </div>
-</footer>
+@include('partials.footer')
 @endsection

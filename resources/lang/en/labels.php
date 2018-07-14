@@ -33,6 +33,7 @@ return [
         'password' => 'Password',
         'password_confirmation' => 'Repeat Password',
         'verification_code' => 'Verification Code',
+        'accept' => 'I agree with the <a href=":url" title="Privacy Policy" target="_blank">Privacy Policy</a>',
     ],
 
     'forgot_password' => [

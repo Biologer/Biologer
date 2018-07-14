@@ -26,6 +26,7 @@ class UserRegistrationTest extends TestCase
             'data_license' => 10,
             'image_license' => 20,
             'captcha_verification_code' => Captcha::getVerificationCode(),
+            'accept' => true,
         ], $overrides);
     }
 
@@ -271,6 +272,24 @@ class UserRegistrationTest extends TestCase
 
         $response->assertRedirect('/register');
         $response->assertSessionHasErrors(['image_license']);
+
+        User::assertCount(0);
+        Mail::assertNotSent(VerificationEmail::class);
+        Mail::assertNotQueued(VerificationEmail::class);
+    }
+
+    /** @test */
+    public function user_is_required_to_accept_terms_of_service_and_privacy_policy()
+    {
+        Mail::fake();
+        User::assertCount(0);
+
+        $response = $this->from('/register')->post('/register', $this->validParams([
+            'accept' => false,
+        ]));
+
+        $response->assertRedirect('/register');
+        $response->assertSessionHasErrors(['accept']);
 
         User::assertCount(0);
         Mail::assertNotSent(VerificationEmail::class);

@@ -40,5 +40,8 @@ return [
     'species_list' => 'Species List',
     'find_in_group' => 'Find in group',
     'gallery' => 'Gallery',
+    'privacy_policy' => 'Privacy Policy',
+    'partially_open_license' => 'Partially Open License',
+    'closed_license' => 'Closed License',
 
 ];

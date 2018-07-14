@@ -24,6 +24,9 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
 
     Route::view('pages/sponsors', 'pages.sponsors')->name('pages.sponsors');
+    Route::view('pages/privacy-policy', 'pages.privacy-policy')->name('pages.privacy-policy');
+    Route::view('pages/partially-open-license', 'pages.partially-open-license')->name('pages.partially-open-license');
+    Route::view('pages/closed-license', 'pages.closed-license')->name('pages.closed-license');
 
     Route::middleware('guest')->group(function () {
         Route::get('verify/{email}', 'Auth\VerificationController@show')->name('auth.verify.show');

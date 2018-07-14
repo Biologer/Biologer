@@ -66,6 +66,7 @@ class RegisterController extends Controller
                 'required',
                 Rule::in(License::ids()->all()),
             ],
+            'accept' => ['required', 'accepted'],
         ]);
     }
 

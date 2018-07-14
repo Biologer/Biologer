@@ -98,15 +98,5 @@
     </div>
 </section>
 
-<footer class="footer">
-    <div class="container">
-        <div class="level">
-            <div class="level-left"></div>
-
-            <div class="level-right">
-                @include('components.languageSelector')
-            </div>
-        </div>
-    </div>
-</footer>
+@include('partials.footer')
 @endsection

@@ -33,6 +33,7 @@ return [
         'password' => 'Lozinka',
         'password_confirmation' => 'Ponovite lozinku',
         'verification_code' => 'Verifikacioni kod',
+        'accept' => 'Slažem se sa <a href=":url" title="Politika privatnosti" target="_blank">Politikom privatnosti</a>',
     ],
 
     'forgot_password' => [
