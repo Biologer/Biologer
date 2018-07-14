@@ -26,7 +26,6 @@ class ViewGroupPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\User  $model
      * @return mixed
      */
     public function list(User $user)

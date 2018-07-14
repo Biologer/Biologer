@@ -71,8 +71,8 @@ class ViewServiceProvider extends ServiceProvider
                     Menu::new()
                         ->prepend('<p class="menu-label">'.__('navigation.admin').'</p>')
                         ->addClass('menu-list')
-                        ->routeIfCan(
-                            ['list', \App\FieldObservation::class],
+                        ->routeIf(
+                            auth()->user()->hasRole('admin'),
                             'admin.field-observations.index',
                             __('navigation.all_field_observations')
                         )->routeIfCan(
@@ -83,8 +83,8 @@ class ViewServiceProvider extends ServiceProvider
                             ['list', \App\User::class],
                             'admin.users.index',
                             __('navigation.users')
-                        )->routeIfCan(
-                            ['list', \App\ViewGroup::class],
+                        )->routeIf(
+                            auth()->user()->hasRole('admin'),
                             'admin.view-groups.index',
                             __('navigation.view_groups')
                         )->setActiveClass('is-active')

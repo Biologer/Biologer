@@ -27,7 +27,6 @@ class FieldObservationPolicy
      * Determine whether the user can list the field observation.
      *
      * @param  \App\User  $user
-     * @param  \App\FieldObservation  $fieldObservation
      * @return mixed
      */
     public function list(User $user)
