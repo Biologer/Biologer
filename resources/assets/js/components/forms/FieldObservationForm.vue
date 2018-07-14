@@ -556,7 +556,7 @@ export default {
             return [
                 'location', 'accuracy', 'elevation', 'latitude', 'longitude',
                 'year', 'month', 'day', 'project', 'observer', 'observed_by',
-                'observed_by_id',
+                'observed_by_id', 'data_license', 'image_license',
             ];
         },
 
