@@ -78,6 +78,12 @@ export default {
         }
     },
 
+    watch: {
+        user(value) {
+            this.selected = value;
+        }
+    },
+
     methods: {
         fetchData: _.debounce(function() {
             if (!this.value) return;

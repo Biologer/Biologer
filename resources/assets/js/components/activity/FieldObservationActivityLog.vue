@@ -37,7 +37,7 @@ export default {
     methods: {
         chooseActivityComponent(activity) {
             const component = `nz-activity-field-observation-${activity.description.split('_').join('-')}`;
-            console.log(component);
+
             return component;
         },
     }

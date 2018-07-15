@@ -96,8 +96,8 @@ class UpdateFieldObservation extends FormRequest
         return DB::transaction(function () use ($fieldObservation) {
             $oldData = $fieldObservation->toArray();
 
-            $fieldObservation->update($this->getSpecificObservationData($fieldObservation));
-            $fieldObservation->observation->update($this->getGeneralObservationData($fieldObservation));
+            $fieldObservation->update($this->getSpecificObservationData());
+            $fieldObservation->observation->update($this->getGeneralObservationData());
 
             $photoSync = $fieldObservation->syncPhotos(
                 collect($this->input('photos', [])),
@@ -117,10 +117,9 @@ class UpdateFieldObservation extends FormRequest
     /**
      * Get observation data specific to field observation from the request.
      *
-     * @param  \App\FieldObservation  $fieldObservation
      * @return array
      */
-    protected function getSpecificObservationData($fieldObservation)
+    protected function getSpecificObservationData()
     {
         $data = [
             'found_dead' => $this->input('found_dead', false),
@@ -130,11 +129,11 @@ class UpdateFieldObservation extends FormRequest
                 ? Taxon::find($this->input('taxon_id'))->name
                 : $this->input('taxon_suggestion'),
             'time' => $this->input('time'),
-            'identified_by_id' => $this->getIdentifiedBy($fieldObservation),
         ];
 
         if ($this->user()->hasAnyRole(['admin', 'curator'])) {
             $data['observed_by_id'] = $this->input('observed_by_id');
+            $data['identified_by_id'] = $this->input('identified_by_id');
         }
 
         return $data;
@@ -143,12 +142,11 @@ class UpdateFieldObservation extends FormRequest
     /**
      * Get general observation data from the request.
      *
-     * @param  \App\FieldObservation  $fieldObservation
      * @return array
      */
-    protected function getGeneralObservationData($fieldObservation)
+    protected function getGeneralObservationData()
     {
-        return [
+        $data = [
             'taxon_id' => $this->input('taxon_id'),
             'year' => $this->input('year'),
             'month' => $this->input('month') ? (int) $this->input('month') : null,
@@ -165,9 +163,14 @@ class UpdateFieldObservation extends FormRequest
             'project' => $this->input('project'),
             'found_on' => $this->input('found_on'),
             'note' => $this->input('note'),
-            'observer' => $this->getObserver($fieldObservation),
-            'identifier' => $this->getIdentifier($fieldObservation),
         ];
+
+        if ($this->user()->hasAnyRole(['admin', 'curator'])) {
+            $data['observer'] = $this->getObserver();
+            $data['identifier'] = $this->getIdentifier();
+        }
+
+        return $data;
     }
 
     /**
@@ -201,73 +204,30 @@ class UpdateFieldObservation extends FormRequest
     /**
      * Get observer name.
      *
-     * @param  \App\FieldObservation  $fieldObservation
      * @return string|null
      */
-    protected function getObserver($fieldObservation)
+    protected function getObserver()
     {
-        if (! $this->user()->hasAnyRole(['admin', 'curator'])) {
-            return $fieldObservation->observer;
+        if (! $this->input('observed_by_id')) {
+            return $this->input('observer');
         }
 
-        if ($this->input('observed_by_id')) {
-            return optional(User::find($this->input('observed_by_id')))->full_name ?? $this->input('observer');
-        }
-
-        return $this->input('observer');
+        return optional(User::find($this->input('observed_by_id')))->full_name
+            ?? $this->input('observer');
     }
 
     /**
      * Get identifier name.
      *
-     * @param  \App\FieldObservation  $fieldObservation
      * @return string|null
      */
-    protected function getIdentifier($fieldObservation)
+    protected function getIdentifier()
     {
-        $identifier = $fieldObservation->identifier;
-
-        $privilegedUser = $this->user()->hasAnyRole(['admin', 'curator']);
-        if ($privilegedUser && $this->input('identified_by_id')) {
-            $identifier = optional(User::find($this->input('identified_by_id')))->full_name;
+        if (! $this->input('identified_by_id')) {
+            return $this->input('identifier');
         }
 
-        if ($privilegedUser && ! $identifier) {
-            $identifier = $this->input('identifier');
-        }
-
-
-        if (! $identifier && $this->identificationChanged($fieldObservation)) {
-            $identifier = $this->user()->full_name;
-        }
-
-        return $identifier;
-    }
-
-    protected function getIdentifiedBy($fieldObservation)
-    {
-        $identifiedById = $fieldObservation->identifier_by_id;
-
-        if ($this->user()->hasAnyRole(['admin', 'curator']) && $this->input('identified_by_id')) {
-            $identifiedById = $this->input('identified_by_id');
-        }
-
-        if (! $identifiedById && ! $fieldObservation->identifier && $this->identificationChanged($fieldObservation)) {
-            $identifiedById = $this->user()->id;
-        }
-
-        return $identifiedById;
-    }
-
-    /**
-     * Check if the observation has been identified.
-     *
-     * @param  \App\FieldObservation  $fieldObservation
-     * @return bool
-     */
-    protected function identificationChanged($fieldObservation)
-    {
-        return $this->input('taxon_id') !== $fieldObservation->observation->taxon_id
-            || $fieldObservation->taxon_suggestion !== $this->input('taxon_suggestion');
+        return optional(User::find($this->input('identified_by_id')))->full_name
+            ?? $this->input('identifier');
     }
 }

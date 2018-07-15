@@ -219,7 +219,7 @@
                     @select="onObserverSelect"
                     :error="form.errors.has('observer')"
                     :message="form.errors.has('observer') ? form.errors.first('observer') : null"
-                    :user="observation.observed_by"
+                    :user="form.observed_by"
                     :label="trans('labels.field_observations.observer')"
                     :placeholder="currentUser.full_name"
                 />
@@ -229,7 +229,7 @@
                     @select="onIdentifierSelect"
                     :error="form.errors.has('identifier')"
                     :message="form.errors.has('identifier') ? form.errors.first('identifier') : null"
-                    :user="observation.identified_by"
+                    :user="form.identified_by"
                     :label="trans('labels.field_observations.identifier')"
                     :disabled="!isIdentified"
                 />
@@ -409,6 +409,15 @@ export default {
 
         isIdentified() {
             return !!(this.form.taxon_id || this.form.taxon_suggestion);
+        },
+
+        /**
+         * Check if identification is changed compared to the original observation.
+         * @return {Boolean}
+         */
+        identificationChanged() {
+            return this.form.taxon_id != this.observation.taxon_id ||
+              this.form.taxon_suggestion != this.observation.taxon_suggestion;
         }
     },
 
@@ -466,6 +475,7 @@ export default {
         onTaxonSelect(taxon) {
             this.form.taxon = taxon || null;
             this.form.taxon_id = taxon ? taxon.id : null;
+            this.form.taxon_suggestion = taxon ? taxon.name : null;
 
             const invalidStage = !collect(this.stages).contains(stage => {
                 return stage.id === this.form.stage_id;
@@ -474,6 +484,8 @@ export default {
             if (invalidStage) {
               this.form.stage_id = null
             }
+
+            this.updateIdentifier();
         },
 
         /**
@@ -633,6 +645,7 @@ export default {
         onObserverSelect(user) {
             this.form.observed_by = user || null;
             this.form.observed_by_id = user ? user.id : null;
+            this.form.observer = user ? user.full_name : null;
         },
 
         /**
@@ -641,6 +654,7 @@ export default {
         onIdentifierSelect(user) {
             this.form.identified_by = user || null;
             this.form.identified_by_id = user ? user.id : null;
+            this.form.identifier = user ? user.full_name : null;
         },
 
         /**
@@ -652,6 +666,19 @@ export default {
                     _.find(this.availableObservationTypes, { slug: 'observed' })
                 );
             }
+        },
+
+        /**
+         * Update identifier based on identification change.
+         */
+        updateIdentifier() {
+            let identifier = this.observation.identified_by;
+
+            if (this.identificationChanged) {
+              identifier = this.isIdentified ? window.App.User : null;
+            }
+
+            this.onIdentifierSelect(identifier);
         }
     }
 }
