@@ -28,10 +28,12 @@ class TaxonCollectionResource extends ResourceCollection
             });
         }
 
+        $latestUpdatedTaxon = Taxon::latest('updated_at')->first();
+
         return [
             'data' => $data,
             'meta' => [
-                'last_updated_at' => Taxon::latest('updated_at')->first()->updated_at->timestamp,
+                'last_updated_at' => $latestUpdatedTaxon ? $latestUpdatedTaxon->updated_at->timestamp : 0,
             ],
         ];
     }
