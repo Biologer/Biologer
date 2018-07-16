@@ -329,6 +329,44 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     /** @test */
+    public function updating_photo_license()
+    {
+        Storage::fake('public');
+
+        $user = factory(User::class)->create();
+
+        $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
+            'created_by_id' => $user->id,
+            'elevation' => 500,
+        ], [
+            'license' => License::CC_BY_SA,
+            'found_dead' => true,
+            'found_dead_note' => 'Note on dead',
+            'time' => '09:00',
+        ]);
+
+        $existingPhoto = factory(Photo::class)->create(['license' => License::CC_BY_SA]);
+        $fieldObservation->photos()->sync($existingPhoto);
+
+        Passport::actingAs($user);
+
+        $this->putJson(
+            "/api/field-observations/{$fieldObservation->id}",
+            $this->validParams([
+                'photos' => [
+                    [
+                        'id' => $existingPhoto->id,
+                        'license' => License::CLOSED
+                    ],
+                ],
+            ])
+        );
+
+        $this->assertEquals(1, $fieldObservation->photos->count());
+        $this->assertEquals(License::CLOSED, $fieldObservation->photos->first()->license);
+    }
+
+    /** @test */
     public function either_id_or_path_must_be_given_when_updating_photos()
     {
         Storage::fake('public');

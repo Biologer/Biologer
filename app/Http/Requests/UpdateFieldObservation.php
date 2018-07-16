@@ -63,7 +63,6 @@ class UpdateFieldObservation extends FormRequest
             'found_dead' => ['nullable', 'boolean'],
             'found_dead_note' => ['nullable'],
             'data_license' => ['nullable', Rule::in(License::ids()->all())],
-            'image_license' => ['nullable', Rule::in(License::ids()->all())],
             'photos' => ['nullable', 'array', 'max:'.config('biologer.photos_per_observation')],
             'photos.*.id' => ['required_without:photos.*.path', 'integer'],
             'photos.*.path' => ['required_without:photos.*.id', 'string'],
@@ -72,6 +71,7 @@ class UpdateFieldObservation extends FormRequest
             'photos.*.crop.y' => ['required_with:photos.*.crop', 'integer'],
             'photos.*.crop.width' => ['required_with:photos.*.crop', 'integer'],
             'photos.*.crop.height' => ['required_with:photos.*.crop', 'integer'],
+            'photos.*.license' => ['nullable', Rule::in(License::ids()->all())],
             'time' => ['nullable' ,'date_format:H:i'],
             'project' => ['nullable', 'string', 'max:191'],
             'found_on' => ['nullable', 'string', 'max:191'],
@@ -98,17 +98,22 @@ class UpdateFieldObservation extends FormRequest
 
             $fieldObservation->update($this->getSpecificObservationData());
             $fieldObservation->observation->update($this->getGeneralObservationData());
-
             $photoSync = $fieldObservation->syncPhotos(
                 collect($this->input('photos', [])),
-                $this->input('image_license') ?: $this->user()->settings()->get('image_license')
+                $this->user()->settings()->get('image_license')
             );
 
             $this->syncRelations($fieldObservation);
 
-            $this->logActivity($fieldObservation, $oldData, $photoSync);
+            $beforeUpdate = FieldObservationLog::changes($fieldObservation, $oldData, $photoSync);
 
-            $fieldObservation->moveToPending();
+            // Log activity and move to pending only if something more than
+            // updating photo license occurred.
+            if (! empty($beforeUpdate)) {
+                $this->logActivity($fieldObservation, $beforeUpdate);
+
+                $fieldObservation->moveToPending();
+            }
 
             return $fieldObservation;
         });
@@ -177,15 +182,14 @@ class UpdateFieldObservation extends FormRequest
      * Log update activity for field observation.
      *
      * @param  \App\FieldObservation  $fieldObservation
-     * @param  array  $oldData
-     * @param  array  $photoSync
+     * @param  array  $beforeChange
      * @return void
      */
-    protected function logActivity(FieldObservation $fieldObservation, array $oldData, $photoSync)
+    protected function logActivity(FieldObservation $fieldObservation, array $beforeChange)
     {
         activity()->performedOn($fieldObservation)
            ->causedBy($this->user())
-           ->withProperty('old', FieldObservationLog::changes($fieldObservation, $oldData, $photoSync))
+           ->withProperty('old', $beforeChange)
            ->withProperty('reason', $this->input('reason'))
            ->log('updated');
     }

@@ -6,7 +6,7 @@
     min-height: 100vh;
 }
 
-.is-fullwidth {
+.is-fullwidth, .w-full {
     width: 100%
 }
 
@@ -19,12 +19,20 @@
     justify-content: center;
 }
 
+.flex {
+    display: flex;
+}
+
 .flex-1 {
     flex: 1;
 }
 
 .flex-col {
     flex-direction: column;
+}
+
+.justify-between {
+    justify-content: space-between;
 }
 
 .is-underlined {

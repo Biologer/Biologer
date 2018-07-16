@@ -5,7 +5,7 @@
 				<div class="has-text-centered">
 					<div>
 						<b-icon
-							:icon="icon"
+							icon="upload"
 							size="is-medium">
 						</b-icon>
 					</div>
@@ -29,10 +29,19 @@
 	  </div>
 
 		<footer class="card-footer" v-if="haveImage">
-			<p class="card-footer-item">
-				<button type="button" class="button is-outlined is-small mr-2" @click="openCropModal" @close="closeCropModal"><b-icon icon="crop" /></button>
-				<button type="button" class="delete is-danger is-medium" @click="remove" v-if="image.path"></button>
-			</p>
+			<div class="card-footer-item flex-col">
+				<div class="mb-4 w-full flex justify-between">
+					<button type="button" class="button is-outlined is-small mr-2" @click="openCropModal" @close="closeCropModal"><b-icon icon="crop" /></button>
+					<button type="button" class="delete is-danger is-medium" @click="remove" v-if="image.path"></button>
+				</div>
+
+				<div class="w-full">
+					<b-select :value="image.license" @input="handleLicenseChanged" expanded>
+						<option :value="null">{{ trans('labels.field_observations.default') }}</option>
+						<option v-for="(label, value) in licenses" :value="value" v-text="label"></option>
+					</b-select>
+				</div>
+			</div>
 		</footer>
 
 		<nz-image-crop-modal :active.sync="showCropModal" :crop.sync="image.crop" :image-url="image.url" v-if="haveImage"/>
@@ -45,19 +54,33 @@
 export default {
 	name: 'nzPhotoUpload',
 
-  props: [
-		'imageUrl',
-		'imagePath',
-		'text',
-		'icon'
-  ],
+  props: {
+		imageUrl: {
+			type: String,
+			default: null
+		},
+		imagePath: {
+			type: String,
+			default: null
+		},
+		imageLicense: {
+			type: [Number, String],
+			default: null
+		},
+		licenses: {
+			type: Object,
+			required: true
+		},
+		text: String
+	},
 
   data() {
     return {
     	image: {
 				url: this.imageUrl,
 				path: this.imagePath,
-				crop: null
+				crop: null,
+				license: this.imageLicense
 			},
 			croppedImageUrl: null,
 			reader: null,
@@ -135,6 +158,7 @@ export default {
 			}).then(response => {
 				this.image.path = response.data.file;
 				this.image.exif = response.data.exif;
+				this.image.license = null;
 				this.uploading = false;
 				this.progress = 0;
 
@@ -169,6 +193,7 @@ export default {
 			this.image.path = null;
 			this.image.url = null;
 			this.image.crop = null;
+			this.image.license = null;
 			this.croppedImageUrl = null;
 		},
 
@@ -214,6 +239,16 @@ export default {
   		context.drawImage(image, -crop.x, -crop.y);
 
 			this.croppedImageUrl = canvas.toDataURL();
+		},
+
+		/**
+		 * Handle license change.
+		 *
+		 * @param {String|Number} license
+		 */
+		handleLicenseChanged(license) {
+			this.image.license = license;
+			this.$emit('license-changed', license);
 		}
 	}
 }

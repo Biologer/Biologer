@@ -30,11 +30,13 @@
                             <nz-photo-upload
                                 :image-url="getObservationPhotoAttribute(0, 'url')"
                                 :image-path="getObservationPhotoAttribute(0, 'path')"
+                                :image-license="getObservationPhotoAttribute(0, 'license')"
+                                :licenses="licenses"
                                 :text="trans('labels.field_observations.upload')"
-                                icon="upload"
                                 @uploaded="onPhotoUploaded"
                                 @removed="onPhotoRemoved"
                                 @cropped="onPhotoCropped"
+                                @license-changed="onLicenseChanged(0, $event)"
                                 :errors="form.errors"
                                 ref="photoUpload-1"
                             ></nz-photo-upload>
@@ -44,11 +46,13 @@
                             <nz-photo-upload
                                 :image-url="getObservationPhotoAttribute(1, 'url')"
                                 :image-path="getObservationPhotoAttribute(1, 'path')"
+                                :image-license="getObservationPhotoAttribute(1, 'license')"
+                                :licenses="licenses"
                                 :text="trans('labels.field_observations.upload')"
-                                icon="upload"
                                 @uploaded="onPhotoUploaded"
                                 @removed="onPhotoRemoved"
                                 @cropped="onPhotoCropped"
+                                @license-changed="onLicenseChanged(1, $event)"
                                 :errors="form.errors"
                                 ref="photoUpload-2"
                             ></nz-photo-upload>
@@ -58,11 +62,13 @@
                             <nz-photo-upload
                                 :image-url="getObservationPhotoAttribute(2, 'url')"
                                 :image-path="getObservationPhotoAttribute(2, 'path')"
+                                :image-license="getObservationPhotoAttribute(2, 'license')"
+                                :licenses="licenses"
                                 :text="trans('labels.field_observations.upload')"
-                                icon="upload"
                                 @uploaded="onPhotoUploaded"
                                 @removed="onPhotoRemoved"
                                 @cropped="onPhotoCropped"
+                                @license-changed="onLicenseChanged(2, $event)"
                                 :errors="form.errors"
                                 ref="photoUpload-3"
                             ></nz-photo-upload>
@@ -248,19 +254,6 @@
                         </b-select>
                     </b-field>
                 </div>
-
-                <div class="column">
-                    <b-field
-                        :label="trans('labels.field_observations.image_license')"
-                        :type="form.errors.has('image_license') ? 'is-danger' : null"
-                        :message="form.errors.has('image_license') ? form.errors.first('image_license') : null"
-                    >
-                        <b-select v-model="form.image_license" expanded :disabled="shouldDisableImageLicenseField">
-                            <option :value="null">{{ trans('labels.field_observations.default') }}</option>
-                            <option v-for="(label, value) in licenses" :value="value" v-text="label"></option>
-                        </b-select>
-                    </b-field>
-                </div>
             </div>
         </div>
 
@@ -401,10 +394,6 @@ export default {
                 return !_.includes(this.form.observation_types_ids, type.id)
                     && type.name.toLowerCase().includes(this.observationTypeSearch.toLowerCase());
             });
-        },
-
-        shouldDisableImageLicenseField() {
-            return !this.form.photos.filter(photo => !photo.id).length;
         },
 
         isIdentified() {
@@ -679,6 +668,20 @@ export default {
             }
 
             this.onIdentifierSelect(identifier);
+        },
+
+        /**
+         * Change photo license.
+         *
+         * @param {Number} photoIndex
+         * @param {Number} license
+         */
+        onLicenseChanged(photoIndex, license) {
+          const photo = _.cloneDeep(this.form.photos[photoIndex]);
+
+          photo.license = license;
+
+          this.form.photos[photoIndex] = photo;
         }
     }
 }

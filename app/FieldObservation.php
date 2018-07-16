@@ -301,18 +301,18 @@ class FieldObservation extends Model
      * Add photos to the observation, using photos' paths.
      *
      * @param  array  $photos Paths
-     * @param  int  $license
+     * @param  int  $defaultLicense
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function addPhotos($photos, $license)
+    public function addPhotos($photos, $defaultLicense)
     {
         return $this->photos()->saveMany(
             collect($photos)->filter(function ($photo) {
                 return UploadedPhoto::exists($photo['path']);
-            })->map(function ($photo) use ($license) {
+            })->map(function ($photo) use ($defaultLicense) {
                 return Photo::store(UploadedPhoto::relativePath($photo['path']), [
                     'author' => $this->observation->observer,
-                    'license' => $license,
+                    'license' => empty($photo['license']) ? $defaultLicense : $photo['license'],
                 ], array_get($photo, 'crop'));
             })
         );
@@ -322,10 +322,10 @@ class FieldObservation extends Model
      * Remove unused photos and and add new ones.
      *
      * @param  array  $photos
-     * @param  int  $license
+     * @param  int  $defaultLicense
      * @return void
      */
-    public function syncPhotos($photos, $license)
+    public function syncPhotos($photos, $defaultLicense)
     {
         $result = [
             'cropped' => [],
@@ -334,6 +334,7 @@ class FieldObservation extends Model
         ];
 
         $current = $this->photos()->get();
+
 
         // Removing
         $current->whereNotIn('id', $photos->pluck('id'))->each(function ($photo) use (&$result) {
@@ -344,8 +345,14 @@ class FieldObservation extends Model
         // Cropping old
         $old = $current->pluck('id')->intersect($photos->pluck('id'));
 
-        $current->whereIn('id', $old)->each(function ($photo) use ($photos, &$result) {
-            $crop = array_get($photos->where('path', $photo->path)->first(), 'crop');
+        $current->whereIn('id', $old)->each(function ($photo) use ($photos, &$result, $defaultLicense) {
+            $updatedPhoto = $photos->where('id', $photo->id)->first();
+
+            if (array_key_exists('license', $updatedPhoto) && $updatedPhoto['license'] != $photo->license) {
+                $photo->update(['license' => $updatedPhoto['license'] ?? $defaultLicense]);
+            }
+
+            $crop = array_get($updatedPhoto, 'crop');
 
             if ($crop) {
                 $photo->crop($crop['width'], $crop['height'], $crop['x'], $crop['y']);
@@ -357,7 +364,8 @@ class FieldObservation extends Model
         $new = $photos->filter(function ($photo) {
             return empty(array_get($photo, 'id'));
         });
-        $result['added'] = $this->addPhotos($new, $license)->all();
+
+        $result['added'] = $this->addPhotos($new, $defaultLicense)->all();
 
         return $result;
     }
