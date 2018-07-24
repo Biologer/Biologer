@@ -197,7 +197,7 @@ abstract class BaseExport
      * Database query to get the data for export.
      *
      * @param  \App\Export  $export
-     * @return \Illuminate\Database\Query\Builder
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder
      */
     abstract protected function query(Export $export);
 

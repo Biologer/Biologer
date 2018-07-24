@@ -33,6 +33,7 @@ class FieldObservationsController extends Controller
     /**
      * Show form to edit field observation.
      *
+     * @param  \App\FieldObservation  $fieldObservation
      * @return \Illuminate\View\View
      */
     public function edit(FieldObservation $fieldObservation)
