@@ -61,6 +61,9 @@ Route::middleware('auth:api')->group(function () {
         ->middleware('can:delete,fieldObservation')
         ->name('api.field-observations.destroy');
 
+    Route::post('field-observations/export', 'FieldObservationExportsController@store')
+        ->name('api.field-observation-exports.store');
+
     // Approved field observations
     Route::post('approved-field-observations/batch', 'ApprovedFieldObservationsBatchController@store')
         ->name('api.approved-field-observations-batch.store');
@@ -129,13 +132,22 @@ Route::middleware('auth:api')->group(function () {
             ->middleware('can:list,App\FieldObservation')
             ->name('api.curator.pending-observations.index');
 
+        Route::post('pending-observations/export', 'PendingObservationExportsController@store')
+            ->name('api.curator.pending-observation-exports.store');
+
         Route::get('approved-observations', 'ApprovedObservationsController@index')
             ->middleware('can:list,App\FieldObservation')
             ->name('api.curator.approved-observations.index');
 
+        Route::post('approved-observations/export', 'ApprovedObservationExportsController@store')
+            ->name('api.curator.approved-observation-exports.store');
+
         Route::get('unidentifiable-observations', 'UnidentifiableObservationsController@index')
             ->middleware('can:list,App\FieldObservation')
             ->name('api.curator.unidentifiable-observations.index');
+
+        Route::post('unidentifiable-observations/export', 'UnidentifiableObservationExportsController@store')
+            ->name('api.curator.unidentifiable-observation-exports.store');
     });
 
     Route::prefix('autocomplete')->namespace('Autocomplete')->group(function () {

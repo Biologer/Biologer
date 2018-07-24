@@ -15,6 +15,8 @@
             mark-as-unidentifiable-route="api.unidentifiable-field-observations-batch.store"
             movable-to-pending
             move-to-pending-route="api.pending-field-observations-batch.store"
+            export-url="{{ route('api.curator.approved-observation-exports.store') }}"
+            :export-columns="{{ $exportColumns }}"
         />
     </div>
 @endsection

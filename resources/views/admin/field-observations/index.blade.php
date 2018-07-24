@@ -16,6 +16,8 @@
             approvable
             approve-route="api.approved-field-observations-batch.store"
             show-status
+            export-url="{{ route('api.field-observation-exports.store') }}"
+            :export-columns="{{ $exportColumns }}"
         />
     </div>
 @endsection

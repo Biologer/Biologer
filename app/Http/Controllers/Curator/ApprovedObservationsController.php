@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Curator;
 
 use App\FieldObservation;
 use App\Http\Controllers\Controller;
+use App\Exports\CuratorApprovedFieldObservationsExport;
 
 class ApprovedObservationsController extends Controller
 {
@@ -14,7 +15,9 @@ class ApprovedObservationsController extends Controller
      */
     public function index()
     {
-        return view('curator.approved-observations.index');
+        return view('curator.approved-observations.index', [
+            'exportColumns' => CuratorApprovedFieldObservationsExport::availableColumnData(),
+        ]);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\FieldObservation;
 use App\Http\Controllers\Controller;
+use App\Exports\FieldObservationsExport;
 
 class FieldObservationsController extends Controller
 {
@@ -14,7 +15,9 @@ class FieldObservationsController extends Controller
      */
     public function index()
     {
-        return view('admin.field-observations.index');
+        return view('admin.field-observations.index', [
+            'exportColumns' => FieldObservationsExport::availableColumnData(),
+        ]);
     }
 
     /**

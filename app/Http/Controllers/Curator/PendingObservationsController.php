@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Curator;
 
 use App\FieldObservation;
 use App\Http\Controllers\Controller;
+use App\Exports\CuratorPendingFieldObservationsExport;
 
 class PendingObservationsController extends Controller
 {
@@ -14,7 +15,9 @@ class PendingObservationsController extends Controller
      */
     public function index()
     {
-        return view('curator.pending-observations.index');
+        return view('curator.pending-observations.index', [
+            'exportColumns' => CuratorPendingFieldObservationsExport::availableColumnData(),
+        ]);
     }
 
     /**

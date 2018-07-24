@@ -14,27 +14,26 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Exports\CuratorUnidentifiableFieldObservationsExport;
 
-use App\Exports\ContributorFieldObservationsExport;
-
-class ExportingContributorFieldObservationsTest extends TestCase
+class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    public function contributors_can_export_their_observations()
+    public function curator_can_export_unidentifiable_field_observations_they_curate()
     {
         Queue::fake();
         Passport::actingAs($user = factory(User::class)->create());
 
-        $response = $this->postJson('/api/my/field-observations/export', [
+        $response = $this->postJson('/api/curator/unidentifiable-observations/export', [
             'columns' => ['id', 'taxon'],
             'with_header' => false,
         ]);
 
         $response->assertSuccessful();
         Queue::assertPushed(PerformExport::class, function ($job) use ($user) {
-            return $job->export->type === ContributorFieldObservationsExport::class
+            return $job->export->type === CuratorUnidentifiableFieldObservationsExport::class
                 && $job->export->user->is($user)
                 && $job->export->filter->isEmpty()
                 && $job->export->columns === ['id', 'taxon']
@@ -48,7 +47,7 @@ class ExportingContributorFieldObservationsTest extends TestCase
         Queue::fake();
         Passport::actingAs($user = factory(User::class)->create());
 
-        $response = $this->postJson('/api/my/field-observations/export');
+        $response = $this->postJson('/api/curator/unidentifiable-observations/export');
 
         $response->assertJsonValidationErrors('columns');
         Queue::assertNotPushed(PerformExport::class);
@@ -60,7 +59,7 @@ class ExportingContributorFieldObservationsTest extends TestCase
         Queue::fake();
         Passport::actingAs($user = factory(User::class)->create());
 
-        $response = $this->postJson('/api/my/field-observations/export', [
+        $response = $this->postJson('/api/curator/unidentifiable-observations/export', [
             'columns' => 'string',
         ]);
 
@@ -74,7 +73,7 @@ class ExportingContributorFieldObservationsTest extends TestCase
         Queue::fake();
         Passport::actingAs($user = factory(User::class)->create());
 
-        $response = $this->postJson('/api/my/field-observations/export', [
+        $response = $this->postJson('/api/curator/unidentifiable-observations/export', [
             'columns' => [],
         ]);
 
@@ -88,7 +87,7 @@ class ExportingContributorFieldObservationsTest extends TestCase
         Queue::fake();
         Passport::actingAs($user = factory(User::class)->create());
 
-        $response = $this->postJson('/api/my/field-observations/export', [
+        $response = $this->postJson('/api/curator/unidentifiable-observations/export', [
             'columns' => ['invalid'],
         ]);
 
@@ -97,17 +96,18 @@ class ExportingContributorFieldObservationsTest extends TestCase
     }
 
     /** @test */
-    public function contributors_field_observations_are_exported_to_a_csv_file()
+    public function curators_unidentifiable_field_observations_are_exported_to_a_csv_file()
     {
-        Storage::fake('local');
         Storage::fake('public');
         $this->seed('StagesTableSeeder');
 
-        $this->actingAs($user = factory(User::class)->create());
+        $taxon = factory(Taxon::class)->create(['name' => 'Test taxon']);
+        $this->actingAs($user = factory(User::class)->create()->assignRoles('curator'));
+        $taxon->addCurator($user);
 
         $observation = ObservationFactory::createFieldObservation([
             'created_by_id' => $user,
-            'taxon_id' => factory(Taxon::class)->create(['name' => 'Test taxon']),
+            'taxon_id' => $taxon,
             'year' => 2001,
             'month' => 2,
             'day' => 23,
@@ -124,16 +124,17 @@ class ExportingContributorFieldObservationsTest extends TestCase
             'number' => 2,
             'note' => 'Test note',
             'project' => 'Test project',
-            'approved_at' => now(),
             'found_on' => 'Ground',
+            'approved_at' => null,
         ], [
             'time' => '10:23',
             'license' => License::CC_BY_SA,
             'found_dead' => true,
             'found_dead_note' => 'Found dead',
+            'unidentifiable' => true,
         ]);
 
-        $export = ContributorFieldObservationsExport::create([
+        $export = CuratorUnidentifiableFieldObservationsExport::create([
             'id', 'taxon', 'identifier', 'observer', 'sex', 'year', 'month',
             'day', 'latitude', 'longitude', 'location', 'accuracy', 'elevation',
             'stage', 'number', 'note', 'project', 'found_on', 'status',
@@ -149,7 +150,7 @@ class ExportingContributorFieldObservationsTest extends TestCase
             .'Location,Accuracy,Elevation,Stage,Number,Note,Project,"Found On",Status'."\n"
             .$observation->id.',"Test taxon","Test identifier","Test observer",'
             .'Male,2001,2,23,12.3456,12.3456,"Test location",12,123,Larva,2,'
-            .'"Test note","Test project",Ground,Approved'."\n",
+            .'"Test note","Test project",Ground,Unidentifiable'."\n",
             Storage::disk('public')->get($export->path())
         );
     }
