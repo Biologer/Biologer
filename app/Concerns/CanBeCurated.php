@@ -67,4 +67,17 @@ trait CanBeCurated
             return $ancestor->isDirectlyCuratedBy($user);
         });
     }
+
+    /**
+     * Add curator for this taxon.
+     *
+     * @param  \App\User  $user
+     * @return self
+     */
+    public function addCurator(User $user)
+    {
+        $this->curators()->attach($user);
+
+        return $this;
+    }
 }
