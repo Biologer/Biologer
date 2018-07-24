@@ -20,15 +20,17 @@ class PendingObservationsController extends Controller
     /**
      * Display form to edit pending observations.
      *
-     * @param  int|string  $id
+     * @param  \App\FieldObservation $fieldObservation
      * @return \Illuminate\View\View
      */
-    public function edit($pendingObservation)
+    public function edit(FieldObservation $fieldObservation)
     {
-        $fieldObservation = FieldObservation::with([
+        abort_unless($fieldObservation->isPending(), 404);
+
+        $fieldObservation->load([
             'observation.taxon.curators', 'observation.taxon.stages',
             'observedBy', 'identifiedBy',
-        ])->pending()->findOrFail($pendingObservation);
+        ]);
 
         $this->authorize('update', $fieldObservation);
 
