@@ -4,9 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Support\Carbon;
-
 use Illuminate\Http\Testing\File;
-
 use Illuminate\Support\Facades\Storage;
 
 class CleaningOldUploads extends TestCase
