@@ -167,8 +167,6 @@ class UpdateTaxon extends FormRequest
                 if ($this->translationIsChanged('native_name', collect($value), $taxon->translations)) {
                     $data['native_name'] = null;
                 }
-            } elseif ('red_lists' === $key && $this->redListsAreChanged($taxon, collect($value))) {
-                $data[$key] = null;
             } elseif (in_array($key, $changed)) {
                 if ('parent_id' === $key) {
                     $data['parent'] = $oldData['parent'] ? $oldData['parent']['name'] : $value;
@@ -223,7 +221,8 @@ class UpdateTaxon extends FormRequest
             && $oldValue->pluck('id')->diff($taxon->redLists->pluck('id'))->isNotEmpty()
             || $oldValue->filter(function ($oldRedList) use ($taxon) {
                 return $taxon->redLists->contains(function ($redList) use ($oldRedList) {
-                    return $redList->is($oldRedList) && $redList->pivot->category === $oldRedList->pivot->category;
+                    return $redList->id === $oldRedList['id']
+                        && $redList->pivot->category === array_get($oldRedList, 'pivot.category');
                 });
             })->count() !== $oldValue->count());
     }
