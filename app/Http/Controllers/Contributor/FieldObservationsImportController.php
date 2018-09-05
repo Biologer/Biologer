@@ -3,36 +3,22 @@
 namespace App\Http\Controllers\Contributor;
 
 use App\Import;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Importing\FieldObservationImport;
 
 class FieldObservationsImportController extends Controller
 {
     /**
-     * @var \App\Importing\FieldObservationImport
-     */
-    protected $fieldObservationImport;
-
-    /**
-     * Create controller instance.
-     *
-     * @param  \App\Importing\FieldObservationImport  $fieldObservationImport
-     * @return void
-     */
-    public function __construct(FieldObservationImport $fieldObservationImport)
-    {
-        $this->fieldObservationImport = $fieldObservationImport;
-    }
-
-    /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return view('contributor.field-observations-import.index', [
-            'columns' => $this->fieldObservationImport->allColumns(),
+            'columns' => FieldObservationImport::columns($request->user()),
             'import' => Import::inProgress()->latest()->first(),
         ]);
     }

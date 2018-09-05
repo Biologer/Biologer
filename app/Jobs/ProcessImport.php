@@ -43,17 +43,11 @@ class ProcessImport implements ShouldQueue
      */
     public function handle()
     {
-        // Set locale from import so we have translated validation messages.
-        app()->setLocale($this->import->lang);
-
         // Resolve the importer based on the type stored in the import entity.
-        $importer = app($this->import->type);
-
-        $importer->parse($this->import);
-        $importer->validate($this->import);
+        $importer = $this->import->makeImporter()->parse()->validate();
 
         if ($this->import->status()->validationPassed()) {
-            $importer->store($this->import);
+            $importer->store();
         }
     }
 }

@@ -49,7 +49,7 @@
     </div>
 
     <b-collapse :open="showColumnsSelection">
-      <nz-transfer :items="columns" v-model="selectedColumns"/>
+      <nz-columns-picker :columns="columns" v-model="selectedColumns"/>
     </b-collapse>
 
     <b-table
@@ -146,6 +146,7 @@ export default {
 
       this.resetForm()
       this.importing = true
+      this.currentImport = null
 
       axios.post('/api/field-observation-imports', this.makeForm())
         .then(this.handleSuccessfulSubmit)

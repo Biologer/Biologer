@@ -22,7 +22,6 @@ class ImportingFieldObservationsTest extends TestCase
         parent::setUp();
 
         Storage::fake('local');
-        Storage::fake('public');
     }
 
     /**

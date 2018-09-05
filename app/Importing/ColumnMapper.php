@@ -7,16 +7,16 @@ use App\Import;
 class ColumnMapper
 {
     /**
-     * @var \App\Import
+     * @var array
      */
-    protected $import;
+    protected $columns;
 
     /**
-     * @param  \App\Import  $import
+     * @param  array  $columns
      */
-    public function __construct(Import $import)
+    public function __construct(array $columns)
     {
-        $this->import = $import;
+        $this->columns = $columns;
     }
 
     /**
@@ -29,7 +29,7 @@ class ColumnMapper
     {
         $mapped = [];
 
-        foreach ($this->import->columns as $index => $column) {
+        foreach ($this->columns as $index => $column) {
             $mapped[$column] = $row[$index] ?? null;
         }
 

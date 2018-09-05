@@ -12,105 +12,130 @@ use Illuminate\Support\Facades\Storage;
 abstract class BaseImport
 {
     /**
+     * Import model instance.
+     *
+     * @var \App\Import
+     */
+    private $import;
+
+    /**
+     * Construct importer.
+     *
+     * @param  \App\Import  $import
+     */
+    public function __construct(Import $import)
+    {
+        $this->import = $import;
+    }
+
+    /**
+     * Get import model instance.
+     *
+     * @return \App\Import
+     */
+    public function model()
+    {
+        return $this->import;
+    }
+
+    /**
      * Definition of all calumns with their labels.
      *
+     * @param  \App\User|null  $user
      * @return \Illuminate\Support\Collection
      */
-    abstract public function allColumns();
+    abstract static public function columns($user = null);
 
     /**
      * List of all columns.
      *
+     * @param  \App\User|null  $user
      * @return array
      */
-    public function columns()
+    public static function availableColumns($user = null)
     {
-        return static::allColumns()->pluck('value');
+        return static::columns($user)->pluck('value');
     }
 
     /**
      * List of required columns.
      *
+     * @param  \App\User|null  $user
      * @return array
      */
-    public function requiredColumns()
+    public static function requiredColumns($user = null)
     {
-        return static::allColumns()->filter->required->pluck('value');
+        return static::columns($user)->filter->required->pluck('value');
     }
 
     /**
      * Queue import processing.
      *
-     * @param  string  $path
-     * @param  array  $columns
+     * @param  \Illuminate\Http\Request  $request
      * @return \App\Import
      */
-    public function queue($path, array $columns)
+    public static function fromRequest($request)
     {
-        $import = $this->createFromPath($path, $columns);
-
-        ProcessImport::dispatch($import);
-
-        return $import;
+        return tap(static::createFromRequest($request), function ($import) {
+            ProcessImport::dispatch($import);
+        });
     }
 
     /**
-     * Create new import model from file path and columns.
+     * Create new import using data from request.
      *
-     * @param  string  $path
-     * @param  array  $columns
+     * @param  \Illuminate\Http\Request  $request
      * @return \App\Import
      */
-    public function createFromPath($path, array $columns)
+    protected static function createFromRequest($request)
     {
         return Import::create([
             'type' => static::class,
-            'columns' => $columns,
-            'path' => $path,
-            'user_id' => auth()->id(),
+            'columns' => $request->input('columns', []),
+            'path' => $request->file('file')->store('imports'),
+            'user_id' => $request->user()->id,
             'lang' => app()->getLocale(),
+            'has_heading' => $request->input('has_heading', false),
         ]);
     }
 
     /**
      * Parse the uploaded CSV into JSON collection.
      *
-     * @param  \App\Import  $import
-     * @return \App\Import
+     * @return $this
      */
-    public function parse(Import $import)
+    public function parse()
     {
         // Update status to parsing.
-        $import->updateStatusToParsing();
+        $this->model()->updateStatusToParsing();
 
-        Storage::disk('public')->put($import->parsedPath(), '');
+        Storage::disk('public')->put($this->model()->parsedPath(), '');
 
-        $writer = new JsonCollectionStreamWriter($import->parsedAbsolutePath());
+        $writer = new JsonCollectionStreamWriter($this->model()->parsedAbsolutePath());
 
-        $this->read($import, function ($item) use ($writer) {
+        $this->read(function ($item) use ($writer) {
             $writer->add($item);
         });
 
         $writer->close();
 
-        $import->updateStatusToParsed();
+        $this->model()->updateStatusToParsed();
 
-        return $import;
+        return $this;
     }
 
     /**
      * Read uploaded CSV and parse the row.
      *
-     * @param  \App\Import  $import
      * @param  callable  $callback
      * @return void
      */
-    protected function read(Import $import, callable $callback)
+    protected function read(callable $callback)
     {
         $reader = ReaderFactory::create(Type::CSV);
-        $reader->open($import->absolutePath());
+        $reader->open($this->model()->absolutePath());
 
-        $mapper = new ColumnMapper($import);
+        $mapper = new ColumnMapper($this->model()->columns);
 
         foreach ($reader->getSheetIterator() as $sheet) {
             foreach ($sheet->getRowIterator() as $row) {
@@ -127,24 +152,23 @@ abstract class BaseImport
     /**
      * Validate the parsed import.
      *
-     * @param  \App\Import  $import
-     * @return \App\Import
+     * @return $this
      */
-    public function validate(Import $import)
+    public function validate()
     {
-        if (! $import->status()->parsed()) {
+        if (! $this->model()->status()->parsed()) {
             throw new \Exception('Import must be parsed before it can be validated!');
         }
 
-        $import->updateStatusToValidating();
+        $this->model()->updateStatusToValidating();
 
         $passed = true;
         $rowNumber = 1;
 
-        $writer = new JsonCollectionStreamWriter($import->errorsAbsolutePath());
+        $writer = new JsonCollectionStreamWriter($this->model()->errorsAbsolutePath());
 
-        $this->readParsed($import, function ($item) use ($writer, &$rowNumber, &$passed) {
-            $validator = $this->makeValidator($item);
+        $this->readParsed(function ($item) use ($writer, &$rowNumber, &$passed) {
+            $validator = $this->setValidatorLocale($this->makeValidator($item));
 
             if ($validator->fails()) {
                 $passed = false;
@@ -164,21 +188,20 @@ abstract class BaseImport
 
         $writer->close();
 
-        $import->updateValidationStatus($passed);
+        $this->model()->updateValidationStatus($passed);
 
-        return $import;
+        return $this;
     }
 
     /**
      * Read parsed import data.
      *
-     * @param  \App\Import  $import
      * @param  callable  $callback
      * @return void
      */
-    protected function readParsed(Import $import, callable $callback)
+    protected function readParsed(callable $callback)
     {
-        (new JsonCollectionStreamReader($import->parsedAbsolutePath()))->read($callback);
+        (new JsonCollectionStreamReader($this->model()->parsedAbsolutePath()))->read($callback);
     }
 
     /**
@@ -190,44 +213,55 @@ abstract class BaseImport
     abstract protected function makeValidator(array $data);
 
     /**
+     * Set validator locale to use language set for import.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return \Illuminate\Validation\Validator
+     */
+    protected function setValidatorLocale($validator)
+    {
+        $validator->getTranslator()->setLocale($this->import->lang);
+
+        return $validator;
+    }
+
+    /**
      * Store import in DB.
      *
-     * @param  \App\Import  $import
      * @return void
      */
-    public function store(Import $import)
+    public function store()
     {
-        if (! $import->status()->validationPassed()) {
+        if (! $this->model()->status()->validationPassed()) {
             throw new \Exception('Cannot store this import! Either validation didn\'t pass or it has already been stored.');
         }
 
-        $import->updateStatusToSaving();
+        $this->model()->updateStatusToSaving();
 
         DB::beginTransaction();
 
         try {
-            $this->readParsed($import, function ($item) use ($import) {
-                $this->storeSingleItem($import, $item);
+            $this->readParsed(function ($item) {
+                $this->storeSingleItem($item);
             });
 
-            $import->updateStatusToSaved();
+            $this->model()->updateStatusToSaved();
         } catch (\Exception $e) {
             DB::rollBack();
 
-            $import->updateStatusToSavingFailed();
+            $this->model()->updateStatusToSavingFailed();
         }
 
         DB::commit();
 
-        return $import;
+        return $this->import;
     }
 
     /**
      * Store data from single CSV row.
      *
-     * @param  \App\Import  $import
      * @param  array  $item
      * @return void
      */
-    abstract protected function storeSingleItem(Import $import, array $item);
+    abstract protected function storeSingleItem(array $item);
 }

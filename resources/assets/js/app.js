@@ -13,7 +13,6 @@ import ImageModal from './components/ImageModal';
 import ImageCropModal from './components/ImageCropModal';
 import Slider from './components/Slider';
 import GroupTaxaSearchButton from './components/GroupTaxaSearchButton';
-import Transfer from './components/Transfer';
 
 import DateInput from './components/inputs/DateInput';
 import PhotoUpload from './components/inputs/PhotoUpload';
@@ -71,7 +70,6 @@ Vue.component(ImageModal.name, ImageModal);
 Vue.component(ImageCropModal.name, ImageCropModal);
 Vue.component(Slider.name, Slider);
 Vue.component(GroupTaxaSearchButton.name, GroupTaxaSearchButton);
-Vue.component(Transfer.name, Transfer);
 
 Vue.component(Table.name, Table);
 Vue.component(TaxaTable.name, TaxaTable);

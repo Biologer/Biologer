@@ -21,6 +21,7 @@ class CreateImportsTable extends Migration
             $table->string('path');
             $table->text('columns');
             $table->string('lang');
+            $table->boolean('has_heading')->default(false);
             $table->timestamps();
         });
     }

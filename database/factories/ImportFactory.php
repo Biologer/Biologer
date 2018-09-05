@@ -9,7 +9,7 @@ $factory->define(Import::class, function (Faker $faker) {
     return [
         'status' => ImportStatus::PROCESSING_QUEUED,
         'type' => FieldObservationImport::class,
-        'columns' => (new FieldObservationImport)->requiredColumns(),
+        'columns' => FieldObservationImport::requiredColumns(),
         'lang' => app()->getLocale(),
     ];
 });

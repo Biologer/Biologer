@@ -6,12 +6,11 @@ use App\User;
 use App\Taxon;
 use App\Import;
 use Tests\TestCase;
+use Tests\FakeImporter;
 use App\FieldObservation;
-use App\Importing\BaseImport;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use App\Importing\FieldObservationImport;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ImportingTest extends TestCase
@@ -25,39 +24,6 @@ class ImportingTest extends TestCase
         parent::setUp();
 
         Storage::fake('local');
-        Storage::fake('public');
-
-        $this->importer = new class extends BaseImport {
-            public function allColumns()
-            {
-                return [
-                    ['value' => 'a', 'label' => 'A', 'required' => false],
-                    ['value' => 'b', 'label' => 'B', 'required' => true],
-                    ['value' => 'c', 'label' => 'C', 'required' => false],
-                ];
-            }
-
-            protected function makeValidator($data)
-            {
-                return Validator::make($data, [
-                    'a' => 'nullable|numeric|min:2',
-                    'b' => 'required|string',
-                    'c' => 'nullable|string',
-                ]);
-            }
-
-            protected function storeSingleItem($import, $item)
-            {
-                //
-            }
-        };
-    }
-
-    protected function tearDown()
-    {
-        parent::tearDown();
-
-        unset($this->importer);
     }
 
     /**
@@ -77,10 +43,10 @@ class ImportingTest extends TestCase
         return $file;
     }
 
-    protected function createImport(array $columns = [], $contents = null, $user = null)
+    protected function createImport($type, array $columns = [], $contents = null, $user = null)
     {
         return Import::create([
-            'type' => FieldObservationImport::class,
+            'type' => $type,
             'columns' => $columns,
             'path' => $this->validFile($contents)->store('imports'),
             'user_id' => $user ? $user->id : 1,
@@ -91,14 +57,14 @@ class ImportingTest extends TestCase
     /** @test */
     public function it_can_parse_csv_file_and_map_the_columns()
     {
-        $import = $this->createImport(['a', 'b', 'c']);
+        $import = $this->createImport(FakeImporter::class, ['a', 'b', 'c']);
 
-        $this->importer->parse($import);
+        $import->makeImporter()->parse();
 
         $this->assertTrue($import->status()->parsed());
-        Storage::disk('public')->assertExists($import->parsedPath());
+        Storage::assertExists($import->parsedPath());
 
-        $contents = Storage::disk('public')->get($import->parsedPath());
+        $contents = Storage::get($import->parsedPath());
         $this->assertEquals([
             [
                 'a' => '3',
@@ -116,9 +82,9 @@ class ImportingTest extends TestCase
     /** @test */
     public function it_can_validate_processed_import_and_pass_if_there_are_not_errors()
     {
-        $import = $this->createImport(['a', 'b', 'c']);
+        $import = $this->createImport(FakeImporter::class, ['a', 'b', 'c']);
 
-        $this->importer->validate($this->importer->parse($import));
+        $import->makeImporter()->parse()->validate();
 
         $this->assertTrue($import->status()->validationPassed());
     }
@@ -127,13 +93,13 @@ class ImportingTest extends TestCase
     public function it_can_validate_processed_import_and_fail_if_there_are_errors()
     {
         $content = "1,Cerambix cerdo,Note\n2,,Other note\n1,,LastNote";
-        $import = $this->createImport(['a', 'b', 'c'], $content);
+        $import = $this->createImport(FakeImporter::class, ['a', 'b', 'c'], $content);
 
-        $this->importer->validate($this->importer->parse($import));
+        $import->makeImporter()->parse()->validate();
 
         $this->assertTrue($import->status()->validationFailed());
-        Storage::disk('public')->assertExists($import->errorsPath());
-        $contents = Storage::disk('public')->get($import->errorsPath());
+        Storage::assertExists($import->errorsPath());
+        $contents = Storage::get($import->errorsPath());
 
         $expectedRowNumbers = [1, 2, 3, 3];
         $expectedRowColumns = ['a', 'b', 'a', 'b'];
@@ -153,15 +119,12 @@ class ImportingTest extends TestCase
         $user = factory(User::class)->create();
         $fieldObservationsCount = FieldObservation::count();
 
-        $import = $this->createImport([
+        $import = $this->createImport(FieldObservationImport::class, [
             'latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon', 'original_identification',
         ], '21.123123,42.123123,560,2018,5,22,Cerambyx cerdo,Cerambyx sp.', $user);
 
         // Perform all the steps
-        $importer = app(FieldObservationImport::class);
-        $importer->parse($import);
-        $importer->validate($import);
-        $importer->store($import);
+        $import->makeImporter()->parse()->validate()->store();
 
         $this->assertTrue($import->fresh()->status()->saved());
         FieldObservation::assertCount($fieldObservationsCount + 1);
@@ -185,15 +148,12 @@ class ImportingTest extends TestCase
         $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
         $user = factory(User::class)->create();
 
-        $import = $this->createImport([
+        $import = $this->createImport(FieldObservationImport::class, [
             'latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon',
         ], '21.123123,42.123123,560,2018,5,22,Cerambyx cerdo', $user);
 
         // Perform all the steps
-        $importer = app(FieldObservationImport::class);
-        $importer->parse($import);
-        $importer->validate($import);
-        $importer->store($import);
+        $import->makeImporter()->parse()->validate()->store();
 
         $fieldObservation = FieldObservation::latest()->first();
 

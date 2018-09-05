@@ -22,7 +22,6 @@ class ProcessImportTest extends TestCase
         parent::setUp();
 
         Storage::fake('local');
-        Storage::fake('public');
     }
 
     /**
@@ -43,7 +42,7 @@ class ProcessImportTest extends TestCase
     }
 
     /** @test */
-    public function it_can_performs_the_processing_of_field_observation_import()
+    public function it_can_perform_processing_of_field_observation_import()
     {
         $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
         $user = factory(User::class)->create();
@@ -53,7 +52,7 @@ class ProcessImportTest extends TestCase
             'type' => FieldObservationImport::class,
             'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon'],
             'path' => $this->validFile('21.123123,42.123123,560,2018,5,22,Cerambyx cerdo')->store('imports'),
-            'user_id' => $user ? $user->id : 1,
+            'user_id' => $user->id,
         ]);
 
         ProcessImport::dispatch($import);

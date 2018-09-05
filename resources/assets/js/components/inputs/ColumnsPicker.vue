@@ -7,13 +7,27 @@
       <sortable-item v-for="(item,index) in items" :key="item.value">
         <sortable-handle>
           <div class="panel-block">
+            <label
+              class="b-checkbox checkbox"
+              :tabindex="item.required ? false : 0"
+              @keydown.prevent.space="$event.target.click()">
+              <input
+                v-model="checkedColumns"
+                type="checkbox"
+                :disabled="item.required"
+                :required="item.required"
+                :value="item.value">
+              <span class="check" />
+              <span class="control-label">{{ item.label }}</span>
+            </label>
+<!--
             <b-checkbox
               v-model="checkedColumns"
               :native-value="item.value"
               :disabled="item.required"
             >
               {{ item.label }}
-            </b-checkbox>
+            </b-checkbox> -->
           </div>
         </sortable-handle>
       </sortable-item>
@@ -110,6 +124,12 @@ export default {
     .sortable-handle {
       &:hover {
         cursor: move;
+      }
+    }
+
+    .b-checkbox {
+      input[type="checkbox"][disabled] + .check {
+          opacity: 0.5;
       }
     }
   }

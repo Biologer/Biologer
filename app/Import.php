@@ -25,6 +25,7 @@ class Import extends Model
      */
     protected $casts = [
         'columns' => 'array',
+        'has_heading' => 'boolean',
     ];
 
     /**
@@ -63,7 +64,9 @@ class Import extends Model
      */
     public function getErrorsUrlAttribute()
     {
-        return $this->errorsUrl();
+        if ($this->status()->validationFailed()) {
+            return route('api.field-observation-imports.errors', $this);
+        }
     }
 
     /**
@@ -93,7 +96,7 @@ class Import extends Model
      */
     public function parsedAbsolutePath()
     {
-        return Storage::disk('public')->path($this->parsedPath());
+        return Storage::path($this->parsedPath());
     }
 
     /**
@@ -103,7 +106,7 @@ class Import extends Model
      */
     public function parsedUrl()
     {
-        return Storage::disk('public')->url($this->parsedPath());
+        return Storage::url($this->parsedPath());
     }
 
     /**
@@ -123,17 +126,12 @@ class Import extends Model
      */
     public function errorsAbsolutePath()
     {
-        return Storage::disk('public')->path($this->errorsPath());
+        return Storage::path($this->errorsPath());
     }
 
-    /**
-     * URL to file validation errors.
-     *
-     * @return string
-     */
-    public function errorsUrl()
+    public function errorsResponse()
     {
-        return Storage::disk('public')->url($this->errorsPath());
+        return Storage::response($this->errorsPath());
     }
 
     /**
@@ -254,5 +252,10 @@ class Import extends Model
     public function updateStatusToSavingFailed()
     {
         $this->updateStatus(ImportStatus::SAVING_FAILED);
+    }
+
+    public function makeImporter()
+    {
+        return app()->makeWith($this->type, ['import' => $this]);
     }
 }

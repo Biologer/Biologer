@@ -4,7 +4,6 @@ namespace App\Importing;
 
 use App\Stage;
 use App\Taxon;
-use App\Import;
 use App\Rules\Day;
 use App\Observation;
 use App\Rules\Month;
@@ -17,9 +16,10 @@ class FieldObservationImport extends BaseImport
     /**
      * Definition of all calumns with their labels.
      *
+     * @param  \App\User|null  $user
      * @return \Illuminate\Support\Collection
      */
-    public function allColumns()
+    public static function columns($user = null)
     {
         return collect([
             [
@@ -127,8 +127,8 @@ class FieldObservationImport extends BaseImport
                 'value' => 'original_identification',
                 'required' => false,
             ],
-        ])->pipe(function ($columns) {
-            if (auth()->user()->hasAnyRole(['admin', 'curator'])) {
+        ])->pipe(function ($columns) use ($user) {
+            if (! $user || optional($user)->hasAnyRole(['admin', 'curator'])) {
                 return $columns;
             }
 
@@ -209,36 +209,34 @@ class FieldObservationImport extends BaseImport
     /**
      * Store data from single CSV row.
      *
-     * @param  \App\Import  $import
      * @param  array  $item
      * @return void
      */
-    protected function storeSingleItem(Import $import, array $item)
+    protected function storeSingleItem(array $item)
     {
         $fieldObservation = FieldObservation::create(
-            $this->getSpecificObservationData($import, $item)
+            $this->getSpecificObservationData($item)
         );
 
         $fieldObservation->observation()->save(
-            new Observation($this->getGeneralObservationData($import, $item))
+            new Observation($this->getGeneralObservationData($item))
         );
 
         activity()->performedOn($fieldObservation)
-            ->causedBy($import->user)
+            ->causedBy($this->model()->user)
             ->log('created');
     }
 
     /**
      * Get observation data specific to field observation from the request.
      *
-     * @param  \App\Import  $import
      * @param  array  $item
      * @return array
      */
-    protected function getSpecificObservationData(Import $import, array $item)
+    protected function getSpecificObservationData(array $item)
     {
         return [
-            'license' => array_get($item, 'data_license', $import->user->settings()->get('data_license')),
+            'license' => array_get($item, 'data_license', $this->model()->user->settings()->get('data_license')),
             'taxon_suggestion' => array_get($item, 'taxon'),
             'found_dead' => array_get($item, 'found_dead', false),
             'found_dead_note' => array_get($item, 'found_dead', false) ? array_get($item, 'found_dead_note', null) : null,
@@ -249,11 +247,10 @@ class FieldObservationImport extends BaseImport
     /**
      * Get general observation data from the request.
      *
-     * @param  \App\Import  $import
      * @param  array  $item
      * @return array
      */
-    protected function getGeneralObservationData(Import $import, array $item)
+    protected function getGeneralObservationData(array $item)
     {
         return [
             'taxon_id' => optional(Taxon::findByName(array_get($item, 'taxon')))->id,
@@ -266,9 +263,9 @@ class FieldObservationImport extends BaseImport
             'mgrs10k' => mgrs10k(array_get($item, 'latitude'), array_get($item, 'longitude')),
             'accuracy' => array_get($item, 'accuracy'),
             'elevation' => array_get($item, 'elevation'),
-            'created_by_id' => $import->user_id,
-            'observer' => $this->getObserver($import, $item),
-            'identifier' => $this->getIdentifier($import, $item),
+            'created_by_id' => $this->model()->user_id,
+            'observer' => $this->getObserver($item),
+            'identifier' => $this->getIdentifier($item),
             'sex' => array_get($item, 'sex'),
             'number' => array_get($item, 'number'),
             'note' => array_get($item, 'note'),
@@ -282,27 +279,25 @@ class FieldObservationImport extends BaseImport
     /**
      * Get observer name.
      *
-     * @param  \App\Import  $import
      * @param  array  $data
      * @return string|null
      */
-    protected function getObserver(Import $import, array $data)
+    protected function getObserver(array $data)
     {
-        return array_get($data, 'observer') && $import->user->hasAnyRole(['admin', 'curator'])
+        return array_get($data, 'observer') && $this->model()->user->hasAnyRole(['admin', 'curator'])
             ? array_get($data, 'observer')
-            : $import->user->full_name;
+            : $this->model()->user->full_name;
     }
 
     /**
      * Get identifier name.
      *
-     * @param  \App\Import  $import
      * @param  array  $data
      * @return string|null
      */
-    protected function getIdentifier(Import $import, array $data)
+    protected function getIdentifier(array $data)
     {
-        if (! $import->user->hasRole(['admin', 'curator'])) {
+        if (! $this->model()->user->hasRole(['admin', 'curator'])) {
             return;
         }
 
