@@ -20,14 +20,8 @@
               <span class="check" />
               <span class="control-label">{{ item.label }}</span>
             </label>
-<!--
-            <b-checkbox
-              v-model="checkedColumns"
-              :native-value="item.value"
-              :disabled="item.required"
-            >
-              {{ item.label }}
-            </b-checkbox> -->
+
+            <b-icon icon="arrows-v" size="is-small"/>
           </div>
         </sortable-handle>
       </sortable-item>
@@ -115,6 +109,8 @@ export default {
       &:hover {
         cursor: default;
       }
+
+      justify-content: space-between;
     }
 
     .panel-heading {
