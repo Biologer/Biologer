@@ -61,7 +61,8 @@ Route::middleware('auth:api')->group(function () {
         ->middleware('can:delete,fieldObservation')
         ->name('api.field-observations.destroy');
 
-    Route::post('field-observations/export', 'FieldObservationExportsController@store')
+    // Field observation exports
+    Route::post('field-observation-exports', 'FieldObservationExportsController@store')
         ->name('api.field-observation-exports.store');
 
     // Field observations import

@@ -8,7 +8,7 @@
           <template v-if="processing">
               {{ trans('labels.exports.processing') }}
 
-              <b-icon icon="spinner" custom-class="fa-spin"/>
+              <span class="loader mr-2 is-inline-block"></span>
           </template>
 
           <template v-else>
