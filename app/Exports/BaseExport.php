@@ -119,9 +119,9 @@ abstract class BaseExport
         $path = 'exports/'.str_random();
 
         // Make sure the file exists
-        Storage::disk('local')->put($path, null);
+        Storage::put($path, null);
 
-        return Storage::disk('local')->path($path);
+        return Storage::path($path);
     }
 
     /**

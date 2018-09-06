@@ -109,7 +109,7 @@ abstract class BaseImport
         // Update status to parsing.
         $this->model()->updateStatusToParsing();
 
-        Storage::disk('public')->put($this->model()->parsedPath(), '');
+        Storage::put($this->model()->parsedPath(), '');
 
         $writer = new JsonCollectionStreamWriter($this->model()->parsedAbsolutePath());
 
