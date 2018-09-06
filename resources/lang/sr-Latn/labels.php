@@ -53,6 +53,7 @@ return [
         'roles' => 'Uloge',
         'curated_taxa' => 'Taksoni koje uređuje',
         'email' => 'E-pošta',
+        'search' => 'Traži',
     ],
 
     'taxa' => [

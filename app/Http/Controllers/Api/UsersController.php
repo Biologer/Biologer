@@ -18,13 +18,16 @@ class UsersController extends Controller
      */
     public function index()
     {
-        if (request()->has('page')) {
-            return UserResource::collection(
-                User::filter(request())->paginate(request('per_page', 15))
-            );
-        }
+        $query = User::filter(request(), [
+            'sort_by' => \App\Filters\SortBy::class,
+            'search' => \App\Filters\User\Search::class,
+        ]);
 
-        return UserResource::collection(User::filter(request())->get());
+        $result = request()->has('page')
+            ? $query->paginate(request('per_page', 15))
+            : $query->get();
+
+        return UserResource::collection($result);
     }
 
     /**

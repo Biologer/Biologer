@@ -53,6 +53,7 @@ return [
         'roles' => 'Roles',
         'curated_taxa' => 'Curated Taxa',
         'email' => 'Email',
+        'search' => 'Search',
     ],
 
     'taxa' => [
