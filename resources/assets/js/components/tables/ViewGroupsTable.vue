@@ -9,6 +9,9 @@
             :total="total"
             :per-page="perPage"
             @page-change="onPageChange"
+            @per-page-change="onPerPageChange"
+            :per-page-options="perPageOptions"
+            pagination-on-top
 
             backend-sorting
             :default-sort-direction="defaultSortOrder"
@@ -39,22 +42,6 @@
                         <p>{{ empty }}</p>
                     </div>
                 </section>
-            </template>
-
-            <template slot="bottom-left">
-                <div class="level-item">
-                    <b-field>
-                        <b-select :value="perPage" @input="onPerPageChange" placeholder="Per page">
-                            <option
-                                v-for="(option, index) in perPageOptions"
-                                :value="option"
-                                :key="index"
-                                v-text="option"/>
-                        </b-select>
-                    </b-field>
-                </div>
-
-                <div class="level-item">{{ showing }}</div>
             </template>
         </nz-table>
     </div>
@@ -93,7 +80,6 @@ export default {
     data() {
         return {
             data: [],
-            meta: null,
             total: 0,
             loading: false,
             sortField: 'id',
@@ -103,18 +89,6 @@ export default {
             perPage: this.perPageOptions[0],
             checkedRows: []
         };
-    },
-
-    computed: {
-        showing() {
-            if (!this.meta) return;
-
-            return this.trans('labels.tables.from_to_total', {
-                from: _.get(this.meta, 'from'),
-                to: _.get(this.meta, 'to'),
-                total: _.get(this.meta, 'total')
-            });
-        }
     },
 
     created() {
@@ -131,15 +105,13 @@ export default {
                 page: this.page,
                 per_page: this.perPage,
                 ...this.filter
-            })).then(({ data }) => {
+            })).then(({ data: response }) => {
                 this.data = [];
-                this.total = data.meta.total;
-                data.data.forEach((item) => this.data.push(item));
-                this.meta = data.meta;
+                this.total = response.meta.total;
+                response.data.forEach((item) => this.data.push(item));
                 this.loading = false;
             }, response => {
                 this.data = [];
-                this.meta = null
                 this.total = 0;
                 this.loading = false;
             });

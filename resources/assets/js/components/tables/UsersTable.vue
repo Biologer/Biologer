@@ -1,5 +1,29 @@
 <template>
     <div class="users-table">
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item">
+                  <b-field>
+                      <b-input
+                          :placeholder="trans('labels.users.search')"
+                          :value="search"
+                          @input="performSearch"
+                          icon="search"
+                          expanded
+                      ></b-input>
+
+                      <p class="control" v-if="search">
+                          <span class="button" @click="clearSearch">
+                              <b-icon icon="close" />
+                          </span>
+                      </p>
+                  </b-field>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
         <nz-table
             :data="data"
             :loading="loading"
@@ -9,6 +33,9 @@
             :total="total"
             :per-page="perPage"
             @page-change="onPageChange"
+            @per-page-change="onPerPageChange"
+            :per-page-options="perPageOptions"
+            pagination-on-top
 
             backend-sorting
             :default-sort-direction="defaultSortOrder"
@@ -52,22 +79,6 @@
                     </div>
                 </section>
             </template>
-
-            <template slot="bottom-left">
-                <div class="level-item">
-                    <b-field>
-                        <b-select :value="perPage" @input="onPerPageChange" placeholder="Per page">
-                            <option
-                                v-for="(option, index) in perPageOptions"
-                                :value="option"
-                                :key="index"
-                                v-text="option"/>
-                        </b-select>
-                    </b-field>
-                </div>
-
-                <div class="level-item">{{ showing }}</div>
-            </template>
         </nz-table>
     </div>
 </template>
@@ -104,7 +115,6 @@ export default {
     data() {
         return {
             data: [],
-            meta: null,
             total: 0,
             loading: false,
             sortField: 'id',
@@ -112,20 +122,9 @@ export default {
             defaultSortOrder: 'asc',
             page: 1,
             perPage: this.perPageOptions[0],
-            checkedRows: []
+            checkedRows: [],
+            search: ''
         };
-    },
-
-    computed: {
-        showing() {
-            if (!this.meta) return;
-
-            return this.trans('labels.tables.from_to_total', {
-                from: _.get(this.meta, 'from'),
-                to: _.get(this.meta, 'to'),
-                total: _.get(this.meta, 'total')
-            });
-        }
     },
 
     created() {
@@ -140,16 +139,15 @@ export default {
             return axios.get(route(this.listRoute, {
                 sort_by: `${this.sortField}.${this.sortOrder}`,
                 page: this.page,
-                per_page: this.perPage
-            })).then(({ data }) => {
+                per_page: this.perPage,
+                search: this.search
+            })).then(({ data: response }) => {
                 this.data = [];
-                this.total = data.meta.total;
-                data.data.forEach((item) => this.data.push(item));
-                this.meta = data.meta;
+                this.total = response.meta.total;
+                response.data.forEach((item) => this.data.push(item));
                 this.loading = false;
             }, response => {
                 this.data = [];
-                this.meta = null;
                 this.total = 0;
                 this.loading = false;
             });
@@ -232,6 +230,18 @@ export default {
 
         editLink (row) {
             return route(this.editRoute, row.id);
+        },
+
+        performSearch: _.debounce(function (value) {
+            if (this.search !== value) {
+                this.search = value
+                this.loadAsyncData()
+            }
+        }, 500),
+
+        clearSearch() {
+          this.search = ''
+          this.loadAsyncData()
         }
     }
 }

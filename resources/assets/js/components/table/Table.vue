@@ -8,6 +8,37 @@
             @sort="(column) => sort(column)"
         />
 
+        <div v-if="paginated && paginationOnTop" class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <b-field>
+                        <b-select :value="perPage" @input="onPerPageChange" placeholder="Per page">
+                            <option
+                                v-for="(option, index) in perPageOptions"
+                                :value="option"
+                                :key="index"
+                                v-text="option"/>
+                        </b-select>
+                    </b-field>
+                </div>
+
+                <div class="level-item">{{ showing }}</div>
+            </div>
+
+            <div class="level-right">
+                <div class="level-item">
+                    <b-pagination
+                        :total="newDataTotal"
+                        :per-page="perPage"
+                        :simple="paginationSimple"
+                        :size="paginationSize"
+                        :current="newCurrentPage"
+                        @change="pageChanged">
+                    </b-pagination>
+                </div>
+            </div>
+        </div>
+
         <div class="table-wrapper">
             <table
                 class="table"
@@ -99,7 +130,19 @@
 
         <div v-if="checkable || paginated" class="level">
             <div class="level-left">
-                <slot name="bottom-left"></slot>
+                <div class="level-item">
+                    <b-field>
+                        <b-select :value="perPage" @input="onPerPageChange" placeholder="Per page">
+                            <option
+                                v-for="(option, index) in perPageOptions"
+                                :value="option"
+                                :key="index"
+                                v-text="option"/>
+                        </b-select>
+                    </b-field>
+                </div>
+
+                <div class="level-item">{{ showing }}</div>
             </div>
 
             <div class="level-right">
@@ -119,6 +162,9 @@
 </template>
 
 <script>
+    /**
+     * This component has been forked from Buefy (https://buefy.github.io) table component
+     */
     import { getValueByPath, indexOf } from 'buefy/src/utils/helpers'
     import NzTableMobileSort from './TableMobileSort'
 
@@ -162,7 +208,16 @@
             },
             perPage: {
                 type: [Number, String],
-                default: 20
+                default: 15
+            },
+            perPageOptions: {
+                type: Array,
+                default() {
+                    return [15, 30, 50, 100];
+                },
+                validator(value) {
+                    return value.length;
+                }
             },
             paginationSimple: Boolean,
             paginationSize: String,
@@ -183,7 +238,8 @@
             total: {
                 type: [Number, String],
                 default: 0
-            }
+            },
+            paginationOnTop: Boolean
         },
         data() {
             return {
@@ -336,6 +392,20 @@
                 count += this.detailed ? 1 : 0
 
                 return count
+            },
+
+            showing() {
+                const to = this.newCurrentPage * this.perPage <= this.total
+                    ? this.newCurrentPage * this.perPage
+                    : this.total
+
+                const from = this.newCurrentPage > 1 ? (this.newCurrentPage - 1) * this.perPage + 1 : 1
+
+                return this.total ? this.trans('labels.tables.from_to_total', {
+                    total: this.total,
+                    from,
+                    to
+                }) : '';
             }
         },
         methods: {
@@ -624,6 +694,10 @@
                 }
 
                 return this.isAsc ? 'sort-asc' : 'sort-desc'
+            },
+
+            onPerPageChange(value) {
+              this.$emit('per-page-change', value);
             }
         },
 
