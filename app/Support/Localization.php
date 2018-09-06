@@ -7,6 +7,11 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class Localization
 {
+    /**
+     * Get all translation strings for current locale keyed by dotted string.
+     *
+     * @return array
+     */
     public static function strings()
     {
         $locale = app()->getLocale();
@@ -19,6 +24,12 @@ class Localization
         });
     }
 
+    /**
+     * Load translations from JSON files for locale.
+     *
+     * @param  string  $locale
+     * @return array
+     */
     protected static function loadJson($locale)
     {
         $json = resource_path("lang/{$locale}.json");
@@ -30,6 +41,12 @@ class Localization
         return json_decode(file_get_contents($json), true);
     }
 
+    /**
+     * Load all translations for locale.
+     *
+     * @param  string  $locale
+     * @return array
+     */
     protected static function loadTranslations($locale)
     {
         $strings = [];
@@ -43,12 +60,17 @@ class Localization
         return $strings;
     }
 
+    /**
+     * Get all translations.
+     *
+     * @param  string  $key
+     * @return array
+     */
     public static function getAllTranslations($key)
     {
         $translations = [];
-        $locales = LaravelLocalization::getSupportedLanguagesKeys();
 
-        foreach ($locales as $locale) {
+        foreach (LaravelLocalization::getSupportedLanguagesKeys() as $locale) {
             $translations[$locale] = __($key, [], $locale);
         }
 
@@ -64,14 +86,25 @@ class Localization
     public static function transformTranslations($data)
     {
         $newData = [];
-        $locales = LaravelLocalization::getSupportedLanguagesKeys();
 
-        foreach ($locales as $locale) {
+        foreach (LaravelLocalization::getSupportedLanguagesKeys() as $locale) {
             foreach ($data as $attribute => $values) {
                 $newData[$locale][$attribute] = array_get($values, $locale);
             }
         }
 
         return $newData;
+    }
+
+    /**
+     * Clear localization strings cache.
+     *
+     * @return void
+     */
+    public static function clearCache()
+    {
+        foreach (LaravelLocalization::getSupportedLanguagesKeys() as $locale) {
+            Cache::forget("localizationStrings.{$locale}");
+        }
     }
 }
