@@ -26,7 +26,7 @@ class ExportAllFieldObservationsTest extends TestCase
         Queue::fake();
         Passport::actingAs($user = factory(User::class)->create());
 
-        $response = $this->postJson('/api/field-observations/export', [
+        $response = $this->postJson('/api/field-observation-exports', [
             'columns' => ['id', 'taxon'],
             'with_header' => false,
         ]);
@@ -47,7 +47,7 @@ class ExportAllFieldObservationsTest extends TestCase
         Queue::fake();
         Passport::actingAs($user = factory(User::class)->create());
 
-        $response = $this->postJson('/api/field-observations/export');
+        $response = $this->postJson('/api/field-observation-exports');
 
         $response->assertJsonValidationErrors('columns');
         Queue::assertNotPushed(PerformExport::class);
@@ -59,7 +59,7 @@ class ExportAllFieldObservationsTest extends TestCase
         Queue::fake();
         Passport::actingAs($user = factory(User::class)->create());
 
-        $response = $this->postJson('/api/field-observations/export', [
+        $response = $this->postJson('/api/field-observation-exports', [
             'columns' => 'string',
         ]);
 
@@ -73,7 +73,7 @@ class ExportAllFieldObservationsTest extends TestCase
         Queue::fake();
         Passport::actingAs($user = factory(User::class)->create());
 
-        $response = $this->postJson('/api/field-observations/export', [
+        $response = $this->postJson('/api/field-observation-exports', [
             'columns' => [],
         ]);
 
@@ -87,7 +87,7 @@ class ExportAllFieldObservationsTest extends TestCase
         Queue::fake();
         Passport::actingAs($user = factory(User::class)->create());
 
-        $response = $this->postJson('/api/field-observations/export', [
+        $response = $this->postJson('/api/field-observation-exports', [
             'columns' => ['invalid'],
         ]);
 
