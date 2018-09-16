@@ -34,7 +34,9 @@ class Watermark
         try {
             $image = Image::make($photo->getContent());
 
-            $image->insert($this->getWatermarkFor($image), 'center');
+            $watermark = $this->getWatermarkFor($image);
+
+            $image->insert($watermark, 'top-center', null, $this->verticalOffset($image, $watermark));
 
             return $photo->putWatermarkedContent($image->encode()->getEncoded());
         } catch (FileNotFoundException $e) {
@@ -51,6 +53,19 @@ class Watermark
     protected function calculateWatermarkWidth($image)
     {
         return floor($image->width() * 0.8);
+    }
+
+    /**
+     * Get vertical offset for the watermark.
+     *
+     * @param  \Intervention\Image\Image  $image
+     * @param  \Intervention\Image\Image  $watermark
+     */
+    protected function verticalOffset($image, $watermark)
+    {
+        $heightDiff = $image->height() - $watermark->height();
+
+        return (int) ($heightDiff * 1 / 2);
     }
 
     /**
