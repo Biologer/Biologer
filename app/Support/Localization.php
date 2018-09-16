@@ -10,11 +10,12 @@ class Localization
     /**
      * Get all translation strings for current locale keyed by dotted string.
      *
+     * @param  string|null  $locale
      * @return array
      */
-    public static function strings()
+    public static function strings($locale = null)
     {
-        $locale = app()->getLocale();
+        $locale = $locale ?? app()->getLocale();
 
         return Cache::rememberForever("localizationStrings.{$locale}", function () use ($locale) {
             return array_dot(array_merge(
@@ -105,6 +106,18 @@ class Localization
     {
         foreach (LaravelLocalization::getSupportedLanguagesKeys() as $locale) {
             Cache::forget("localizationStrings.{$locale}");
+        }
+    }
+
+    /**
+     * Cache localization strings.
+     *
+     * @return void
+     */
+    public static function cache()
+    {
+        foreach (LaravelLocalization::getSupportedLanguagesKeys() as $locale) {
+            static::strings($locale);
         }
     }
 }
