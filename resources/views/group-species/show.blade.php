@@ -68,8 +68,14 @@
                     </div>
 
                     <div>
-                        {{-- It's sanitized in accessor method, so don't worry ;) --}}
-                        {!! $species->description !!}
+                        {{-- For some reason checking empty on accessor result returns true even when there is a string --}}
+                        {{-- This solves it --}}
+                        @if (empty($description = $species->description))
+                            {{ __('Text is not available in English yet.') }}
+                        @else
+                            {{-- It was sanitized in accessor method, so don't worry ;) --}}
+                            {!! $description !!}
+                        @endif
                     </div>
                 </div>
 

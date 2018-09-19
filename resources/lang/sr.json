@@ -28,5 +28,6 @@
     "This field is required and can contain max 255 chars.": "Ово поље је обавезно и може садржати највише 255 знакова.",
     "Whoops, looks like something went wrong.": "Упс, изгледа да је нешто пошло наопако.",
     "Use data from photo to fill the form?": "Попуни поља информацијама из фотографије?",
-    "Error": "Грешка"
+    "Error": "Грешка",
+    "Text is not available in English yet.": "Текст још увек није доступан на српском."
 }
