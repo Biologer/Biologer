@@ -7,6 +7,7 @@ use App\Taxon;
 use App\Rules\Day;
 use App\Observation;
 use App\Rules\Month;
+use App\Support\Dataset;
 use App\FieldObservation;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
@@ -127,6 +128,11 @@ class FieldObservationImport extends BaseImport
                 'value' => 'original_identification',
                 'required' => false,
             ],
+            [
+                'label' => trans('labels.field_observations.dataset'),
+                'value' => 'dataset',
+                'required' => false,
+            ],
         ])->pipe(function ($columns) use ($user) {
             if (! $user || optional($user)->hasAnyRole(['admin', 'curator'])) {
                 return $columns;
@@ -180,6 +186,7 @@ class FieldObservationImport extends BaseImport
             'found_on' => ['nullable', 'string', 'max:191'],
             'note' => ['nullable', 'string'],
             'original_identification' => ['nullable', 'string'],
+            'dataset' => ['nullable', 'string'],
         ], [
             'year.date_format' => trans('validation.year'),
         ], [
@@ -203,6 +210,7 @@ class FieldObservationImport extends BaseImport
             'found_on' => trans('labels.field_observations.found_on'),
             'note' => trans('labels.field_observations.note'),
             'original_identification' => trans('labels.field_observations.original_identification'),
+            'dataset' => trans('labels.field_observations.dataset'),
         ]);
     }
 
@@ -273,6 +281,7 @@ class FieldObservationImport extends BaseImport
             'found_on' => array_get($item, 'found_on'),
             'stage_id' => $this->getStageId($item),
             'original_identification' => array_get($item, 'original_identification', array_get($item, 'taxon')),
+            'dataset' => array_get($item, 'dataset') ?? Dataset::default(),
         ];
     }
 

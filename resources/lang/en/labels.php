@@ -121,6 +121,7 @@ return [
         'status' => 'Status',
         'types' => 'Observation Type',
         'types_placeholder' => 'Select Observation Type',
+        'dataset' => 'Dataset',
 
         'male' => 'Male',
         'female' => 'Female',

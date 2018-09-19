@@ -121,6 +121,7 @@ return [
         'status' => 'Status',
         'types' => 'Tip nalaza',
         'types_placeholder' => 'Odaberite tip nalaza',
+        'dataset' => 'Set podataka',
 
         'male' => 'Mužjak',
         'female' => 'Ženka',
