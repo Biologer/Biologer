@@ -16,7 +16,7 @@ class FakeImporter extends BaseImport
         ]);
     }
 
-    protected function makeValidator($data)
+    protected function makeValidator(array $data)
     {
         return Validator::make($data, [
             'a' => 'nullable|numeric|min:2',
@@ -25,7 +25,7 @@ class FakeImporter extends BaseImport
         ]);
     }
 
-    protected function storeSingleItem($item)
+    protected function storeSingleItem(array $item)
     {
         //
     }

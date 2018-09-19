@@ -7,6 +7,8 @@ use Box\Spout\Common\Type;
 use App\Jobs\ProcessImport;
 use Illuminate\Support\Facades\DB;
 use Box\Spout\Reader\ReaderFactory;
+use Box\Spout\Reader\SheetInterface;
+use Box\Spout\Reader\ReaderInterface;
 use Illuminate\Support\Facades\Storage;
 
 abstract class BaseImport
@@ -109,19 +111,40 @@ abstract class BaseImport
         // Update status to parsing.
         $this->model()->updateStatusToParsing();
 
+        $this->readImportAndWriteParsed();
+
+        $this->model()->updateStatusToParsed();
+
+        return $this;
+    }
+
+    /**
+     * Read import and write JSON collection of parsed rows.
+     *
+     * @return void
+     */
+    private function readImportAndWriteParsed()
+    {
+        // Ensure the file exists.
         Storage::put($this->model()->parsedPath(), '');
 
-        $writer = new JsonCollectionStreamWriter($this->model()->parsedAbsolutePath());
+        $writer = $this->makeParsedWriter();
 
         $this->read(function ($item) use ($writer) {
             $writer->add($item);
         });
 
         $writer->close();
+    }
 
-        $this->model()->updateStatusToParsed();
-
-        return $this;
+    /**
+     * Make instance of JSON collection writer for parsed data.
+     *
+     * @return \App\Importing\JsonCollectionStreamWriter
+     */
+    private function makeParsedWriter()
+    {
+         return new JsonCollectionStreamWriter($this->model()->parsedAbsolutePath());
     }
 
     /**
@@ -132,21 +155,76 @@ abstract class BaseImport
      */
     protected function read(callable $callback)
     {
-        $reader = ReaderFactory::create(Type::CSV);
-        $reader->open($this->model()->absolutePath());
+        $reader = $this->makeImportReader();
 
-        $mapper = new ColumnMapper($this->model()->columns);
-
-        foreach ($reader->getSheetIterator() as $sheet) {
-            foreach ($sheet->getRowIterator() as $row) {
-                $callback($mapper->map($row));
-            }
-
-            // Read only one sheet
-            break;
-        }
+        $this->readSpreadsheet($reader, $this->makeColumnMapper(), $callback);
 
         $reader->close();
+    }
+
+    /**
+     * Make reader instance for imported spreadsheet file.
+     *
+     * @return \Box\Spout\Reader\ReaderInterface
+     */
+    private function makeImportReader()
+    {
+        $reader = ReaderFactory::create(Type::CSV);
+
+        $reader->open($this->model()->absolutePath());
+
+        return $reader;
+    }
+
+    /**
+     * Make instance of collumn mapper.
+     *
+     * @return \App\Importing\ColumnMapper
+     */
+    private function makeColumnMapper()
+    {
+        return new ColumnMapper($this->model()->columns);
+    }
+
+    /**
+     * Read rows from import file.
+     *
+     * @param  \Box\Spout\Reader\ReaderInterface  $reader
+     * @param  \App\Importing\ColumnMapper  $mapper
+     * @param  callable  $callback
+     * @return void
+     */
+    private function readSpreadsheet(ReaderInterface $reader, ColumnMapper $mapper, callable $callback)
+    {
+        foreach ($reader->getSheetIterator() as $sheet) {
+            $this->readSingleSheet($sheet, $mapper, $callback);
+
+            // We don't support importing from multiple sheets, so break after the first one.
+            break;
+        }
+    }
+
+    /**
+     * Read single sheed from import file.
+     *
+     * @param  \Box\Spout\Reader\SheetInterface  $sheet
+     * @param  \App\Importing\ColumnMapper  $mapper
+     * @param  callable  $callback
+     * @return void
+     */
+    private function readSingleSheet(SheetInterface $sheet, ColumnMapper $mapper, callable $callback)
+    {
+        $firstRow = true;
+
+        foreach ($sheet->getRowIterator() as $row) {
+            if ($firstRow && $this->model()->has_heading) {
+                $firstRow = false;
+
+                continue;
+            }
+
+            $callback($mapper->map($row));
+        }
     }
 
     /**
@@ -162,35 +240,45 @@ abstract class BaseImport
 
         $this->model()->updateStatusToValidating();
 
+        $this->model()->updateValidationStatus($this->validateParsedAndWriteErrors());
+
+        return $this;
+    }
+
+    /**
+     * Validate parsed data to check if there are any errors in the provided data.
+     * Validation errors are writen in a json collection.
+     *
+     * @return bool
+     */
+    private function validateParsedAndWriteErrors()
+    {
         $passed = true;
         $rowNumber = 1;
 
-        $writer = new JsonCollectionStreamWriter($this->model()->errorsAbsolutePath());
+        $writer = $this->makeValidationErrorWriter();
 
         $this->readParsed(function ($item) use ($writer, &$rowNumber, &$passed) {
-            $validator = $this->setValidatorLocale($this->makeValidator($item));
-
-            if ($validator->fails()) {
+            if (! $this->validateItemAndWriteErrors($item, $writer, $rowNumber)) {
                 $passed = false;
             }
 
-            foreach ($validator->errors()->all() as $error) {
-                $writer->add([
-                    'row' => $rowNumber,
-                    'error' => $error,
-                ]);
-            }
-
             $rowNumber++;
-
-            unset($validator); // Clear the validator instance from memory
         });
 
         $writer->close();
 
-        $this->model()->updateValidationStatus($passed);
+        return $passed;
+    }
 
-        return $this;
+    /**
+     * Make new instance of errors collection writer.
+     *
+     * @return \App\Importing\JsonCollectionStreamWriter
+     */
+    private function makeValidationErrorWriter()
+    {
+        return new JsonCollectionStreamWriter($this->model()->errorsAbsolutePath());
     }
 
     /**
@@ -202,6 +290,45 @@ abstract class BaseImport
     protected function readParsed(callable $callback)
     {
         (new JsonCollectionStreamReader($this->model()->parsedAbsolutePath()))->read($callback);
+    }
+
+    /**
+     * Validate one parsed collection item.
+     *
+     * @param  array  $item
+     * @param  \App\Importing\JsonCollectionStreamWriter  $writer
+     * @param  int  $rowNumber
+     * @return bool
+     */
+    private function validateItemAndWriteErrors($item, $writer, $rowNumber)
+    {
+        $validator = $this->setValidatorLocale($this->makeValidator($item));
+
+        $passed = $validator->passes();
+
+        $this->writeValidatorErrorsForRow($validator, $writer, $rowNumber);
+
+        unset($validator); // Clear the validator instance from memory
+
+        return $passed;
+    }
+
+    /**
+     * Write validator errors for a row.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @param  \App\Importing\JsonCollectionStreamWriter  $writer
+     * @param  int  $rowNumber
+     * @return void
+     */
+    private function writeValidatorErrorsForRow($validator, $writer, $rowNumber)
+    {
+        foreach ($validator->errors()->all() as $error) {
+            $writer->add([
+                'row' => $rowNumber,
+                'error' => $error,
+            ]);
+        }
     }
 
     /**
@@ -238,6 +365,18 @@ abstract class BaseImport
 
         $this->model()->updateStatusToSaving();
 
+        $this->storeParsed();
+
+        return $this->import;
+    }
+
+    /**
+     * Store parsed data in DB.
+     *
+     * @return void
+     */
+    private function storeParsed()
+    {
         DB::beginTransaction();
 
         try {
@@ -253,8 +392,6 @@ abstract class BaseImport
         }
 
         DB::commit();
-
-        return $this->import;
     }
 
     /**

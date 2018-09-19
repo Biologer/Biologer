@@ -19,6 +19,10 @@
         </div>
 
         <div class="level-item">
+          <b-checkbox v-model="hasHeading">{{ trans('labels.imports.has_heading') }}</b-checkbox>
+        </div>
+
+        <div class="level-item">
           <b-field class="file" v-if="!importing">
             <b-upload v-model="files" accept=".csv">
                 <a class="button">
@@ -49,7 +53,7 @@
     </div>
 
     <b-collapse :open="showColumnsSelection">
-      <nz-columns-picker :columns="columns" v-model="selectedColumns"/>
+      <nz-columns-picker :columns="columns" v-model="selectedColumns" :title="trans('labels.imports.columns')"/>
     </b-collapse>
 
     <b-table
@@ -101,6 +105,7 @@ export default {
       validationErrors: [],
       currentErrorsPage: 1,
       submissionErrors: null,
+      hasHeading: false,
     }
   },
 
@@ -160,6 +165,10 @@ export default {
       this.selectedColumns.forEach((column) => {
         form.append('columns[]', column)
       })
+
+      if (this.hasHeading) {
+        form.append('has_heading', 1)
+      }
 
       return form
     },

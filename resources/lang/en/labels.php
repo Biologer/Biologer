@@ -161,5 +161,7 @@ return [
         'import' => 'Import',
         'row_number' => 'Row Number',
         'error' => 'Error',
+        'has_heading' => 'First row contains column titles',
+        'columns' => 'Columns',
     ],
 ];

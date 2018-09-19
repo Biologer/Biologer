@@ -161,5 +161,7 @@ return [
         'import' => 'Uvezi',
         'row_number' => 'Broj reda',
         'error' => 'Greška',
+        'has_heading' => 'Prvi red sadrži nazive kolona',
+        'columns' => 'Kolone',
     ],
 ];

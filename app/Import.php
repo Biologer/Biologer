@@ -129,6 +129,11 @@ class Import extends Model
         return Storage::path($this->errorsPath());
     }
 
+    /**
+     * Make JSON response with validation errors.
+     *
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
     public function errorsResponse()
     {
         return Storage::response($this->errorsPath());

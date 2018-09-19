@@ -61,9 +61,10 @@ abstract class BaseImportController extends Controller
                 'required',
                 'mimes:csv,txt',
                 'max:'.config('biologer.max_upload_size'),
-                new ImportFile(),
+                new ImportFile($request->input('has_heading', false)),
                 new NoImportsInProgress(),
             ],
+            'has_heading' => ['nullable', 'boolean'],
         ]);
 
         return $importer::fromRequest($request);
