@@ -80,9 +80,13 @@
         <b-collapse :open="showFilter" class="mt-4">
             <form @submit.prevent="applyFilter">
                 <div class="columns is-multiline">
-                    <nz-taxon-autocomplete v-model="newFilter.taxon" class="column is-half"
-                        :label="trans('labels.field_observations.taxon')"
-                        :placeholder="trans('labels.field_observations.search_for_taxon')" />
+                    <div class="column is half">
+                      <nz-taxon-autocomplete v-model="newFilter.taxon"
+                          :label="trans('labels.field_observations.taxon')"
+                          :placeholder="trans('labels.field_observations.search_for_taxon')" />
+                      <b-checkbox v-model="newFilter.includeChildTaxa">{{ trans('labels.field_observations.include_lower_taxa') }}</b-checkbox>
+                    </div>
+
 
                     <b-field :label="trans('labels.field_observations.date')" class="column is-half">
                         <b-field expanded grouped>
@@ -659,7 +663,8 @@ export default {
                 month: null,
                 day: null,
                 photos: null,
-                observer: null
+                observer: null,
+                includeChildTaxa: false
             };
         },
 

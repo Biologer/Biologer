@@ -425,7 +425,7 @@ class FieldObservation extends Model
      */
     public function isApproved()
     {
-        return $this->observation->isApproved();
+        return optional($this->observation)->isApproved();
     }
 
     /**

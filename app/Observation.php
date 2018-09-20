@@ -87,6 +87,28 @@ class Observation extends Model
     }
 
     /**
+     * Get only observations for taxon with given scientific or native name,
+     * with ability to include children of matched taxa.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $name
+     * @param  bool  $includeChildren
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeHasTaxonWithScientificOrNativeName($query, $name, $includeChildren = false)
+    {
+        return $query->whereHas('taxon', function ($query) use ($name, $includeChildren) {
+            $query->withScientificOrNativeName($name);
+
+            if ($includeChildren) {
+                $query->orHasAncestorsWithScientificOrNativeName($name);
+            }
+
+            return $query;
+        });
+    }
+
+    /**
      * User that has submited this observation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

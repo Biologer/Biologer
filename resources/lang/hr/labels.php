@@ -134,6 +134,8 @@ return [
 
         'save_tooltip' => 'Čuva trenutni nalaz i vraća vas u listu nalaza. Možete koristiti i prečicu Ctrl + Enter na tipkovnici.',
         'save_more_tooltip' => 'Čuva trenutni nalaz, ali vam omogućava da unesete još podataka s istog mjesta. Možete koristiti i prečicu Ctrl + Shift + Enter na tipkovnici.',
+
+        'include_lower_taxa' => 'Uključujući niže svojte',
     ],
 
     'view_groups' => [

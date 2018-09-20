@@ -245,6 +245,34 @@ class Taxon extends Model
     }
 
     /**
+     * Scope the query to get only taxa with scientific or native name like the one given.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $name
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithScientificOrNativeName($query, $name)
+    {
+        return $query->where('name', 'like', '%'.$name.'%')
+            ->orWhereTranslationLike('native_name', '%'.$name.'%');
+    }
+
+    /**
+     * Scope the query to get only taxa that have ancestors with scientific
+     * or native name like the one given.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $name
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOrHasAncestorsWithScientificOrNativeName($query, $name)
+    {
+        return $query->orWhereHas('ancestors', function ($query) use ($name) {
+            return $query->withScientificOrNativeName($name);
+        });
+    }
+
+    /**
      * When setting rank, set it's level as well.
      *
      * @param string  $value
