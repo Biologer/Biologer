@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Blade;
 use Spatie\Menu\Laravel\Facades\Menu;
 use Illuminate\Support\ServiceProvider;
+use App\Http\ViewComposers\DashboardComposer;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,8 @@ class ViewServiceProvider extends ServiceProvider
         Blade::if('roles', function ($roles) {
             return auth()->user()->hasAllRole(array_wrap($roles));
         });
+
+        View::composer('layouts.dashboard', DashboardComposer::class);
 
         $this->buildSidebarMenu();
     }

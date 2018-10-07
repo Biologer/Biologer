@@ -76,7 +76,7 @@ class AddFieldObservationTest extends TestCase
             'taxon_id' => $taxon->id,
         ]));
 
-        $response->assertStatus(201);
+        $response->assertCreated();
 
         FieldObservation::assertCount($fieldObservationsCount + 1);
         $fieldObservation = FieldObservation::latest()->first();
@@ -116,7 +116,7 @@ class AddFieldObservationTest extends TestCase
 
         $response = $this->postJson('/api/field-observations', $this->validParams());
 
-        $response->assertStatus(201);
+        $response->assertCreated();
 
         FieldObservation::assertCount($fieldObservationsCount + 1);
         $fieldObservation = FieldObservation::latest()->first();
@@ -138,7 +138,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->postJson('/api/field-observations', $this->validParams([
             'source' => '',
-        ]))->assertStatus(201);
+        ]))->assertCreated();
 
         $this->assertEquals('Jane Doe', FieldObservation::latest()->first()->observation->observer);
     }
@@ -405,7 +405,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->postJson('/api/field-observations', $this->validParams([
             'taxon_id' => null,
-        ]))->assertStatus(201);
+        ]))->assertCreated();
 
         FieldObservation::assertCount($fieldObservationsCount + 1);
     }
@@ -432,7 +432,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->postJson('/api/field-observations', $this->validParams([
             'taxon_id' => $taxon->id,
-        ]))->assertStatus(201);
+        ]))->assertCreated();
 
         FieldObservation::assertCount($fieldObservationsCount + 1);
         $this->assertEquals($taxon->id, Observation::first()->taxon_id);
@@ -446,7 +446,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->postJson('/api/field-observations', $this->validParams([
             'taxon_suggestion' => 'Cerambyx cerdo',
-        ]))->assertStatus(201);
+        ]))->assertCreated();
 
         FieldObservation::assertCount($fieldObservationsCount + 1);
         $this->assertEquals('Cerambyx cerdo', FieldObservation::latest()->first()->taxon_suggestion);
@@ -460,7 +460,7 @@ class AddFieldObservationTest extends TestCase
         $this->postJson('/api/field-observations', $this->validParams([
             'latitude' => '43.60599592',
             'longitude' => '21.30373179',
-        ]))->assertStatus(201);
+        ]))->assertCreated();
 
         tap(FieldObservation::first()->observation, function ($observation) {
             $this->assertEquals('34TEP22', $observation->mgrs10k);
@@ -475,7 +475,7 @@ class AddFieldObservationTest extends TestCase
         $this->postJson('/api/field-observations', $this->validParams([
             'latitude' => '85.0',
             'longitude' => '21.30373179',
-        ]))->assertStatus(201);
+        ]))->assertCreated();
 
         tap(FieldObservation::first()->observation, function ($observation) {
             $this->assertNull($observation->mgrs10k);
@@ -508,7 +508,7 @@ class AddFieldObservationTest extends TestCase
             ],
         ]));
 
-        $response->assertStatus(201);
+        $response->assertCreated();
 
         Photo::assertCount($photosCount + 1);
         $photo = Photo::latest()->first();
@@ -539,7 +539,7 @@ class AddFieldObservationTest extends TestCase
                     'crop' => ['width' => 100, 'height' => 100, 'x' => 100, 'y' => 100],
                 ],
             ],
-        ]))->assertStatus(201);
+        ]))->assertCreated();
 
         Photo::assertCount($photosCount + 1);
         $photo = Photo::latest()->first();
@@ -589,7 +589,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->postJson('/api/field-observations', $this->validParams([
             'photos' => null,
-        ]))->assertStatus(201);
+        ]))->assertCreated();
     }
 
     /** @test */
@@ -599,7 +599,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->postJson('/api/field-observations', $this->validParams([
             'sex' => null,
-        ]))->assertStatus(201);
+        ]))->assertCreated();
     }
 
     /** @test */
@@ -622,7 +622,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->postJson('/api/field-observations', $this->validParams([
             'time' => null,
-        ]))->assertStatus(201);
+        ]))->assertCreated();
     }
 
     /** @test */
@@ -650,7 +650,7 @@ class AddFieldObservationTest extends TestCase
             'observed_by_id' => $anotherUser->id,
         ]));
 
-        $response->assertStatus(201);
+        $response->assertCreated();
 
         $fieldObservation = FieldObservation::latest()->first();
         $this->assertTrue($fieldObservation->observedBy->is($anotherUser));
@@ -672,7 +672,7 @@ class AddFieldObservationTest extends TestCase
             'identified_by_id' => $anotherUser->id,
         ]));
 
-        $response->assertStatus(201);
+        $response->assertCreated();
 
         $fieldObservation = FieldObservation::latest()->first();
         $this->assertTrue($fieldObservation->identifiedBy->is($anotherUser));

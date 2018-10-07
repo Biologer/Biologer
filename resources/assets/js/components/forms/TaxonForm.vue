@@ -58,7 +58,6 @@
             <b-tabs size="is-small" class="block" @change="(index) => focusOnTranslation(index, 'description')">
                 <b-tab-item :label="trans('languages.' + data.name)" v-for="(data, locale) in supportedLocales" :key="locale">
                     <nz-wysiwyg v-model="form.description[locale]" :ref="`description-${locale}`" />
-                    <!-- <b-input type="textarea" v-model="form.description[locale]" :id="`description-${locale}`" /> -->
                 </b-tab-item>
             </b-tabs>
         </b-field>

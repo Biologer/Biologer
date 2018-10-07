@@ -22,7 +22,6 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
     Route::get('groups/{group}/species/{species}', 'GroupSpeciesController@show')->name('groups.species.show');
     Route::get('groups/{group}/species', 'GroupSpeciesController@index')->name('groups.species.index');
 
-
     Route::view('pages/sponsors', 'pages.sponsors')->name('pages.sponsors');
     Route::view('pages/privacy-policy', 'pages.privacy-policy')->name('pages.privacy-policy');
     Route::view('pages/partially-open-license', 'pages.partially-open-license')->name('pages.partially-open-license');
@@ -33,6 +32,8 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
         Route::get('verify/token/{verificationToken}', 'Auth\VerificationController@verify')->name('auth.verify.verify');
         Route::post('verify/resend', 'Auth\VerificationController@resend')->name('auth.verify.resend');
     });
+
+    Route::get('announcements/{announcement}', 'AnnouncementsController@show')->name('announcements.show');
 
     Route::middleware('auth')->group(function () {
         Route::prefix('contributor')->namespace('Contributor')->name('contributor.')->group(function () {
@@ -134,6 +135,18 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::get('view-groups/{group}/edit', 'ViewGroupsController@edit')
                 ->middleware('can:update,group')
                 ->name('view-groups.edit');
+
+            Route::get('announcements', 'AnnouncementsController@index')
+                ->middleware('can:list,App\Announcement')
+                ->name('announcements.index');
+
+            Route::get('announcements/new', 'AnnouncementsController@create')
+                ->middleware('can:create,App\Announcement')
+                ->name('announcements.create');
+
+            Route::get('announcements/{announcement}/edit', 'AnnouncementsController@edit')
+                ->middleware('can:update,announcement')
+                ->name('announcements.edit');
         });
     });
 });

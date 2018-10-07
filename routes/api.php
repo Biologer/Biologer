@@ -128,6 +128,28 @@ Route::middleware('auth:api')->group(function () {
     Route::get('exports/{export}', 'ExportsController@show')
         ->name('api.exports.show');
 
+    // Announcements
+    Route::get('announcements', 'AnnouncementsController@index')
+        ->name('api.announcements.index');
+
+    Route::get('announcements/{announcement}', 'AnnouncementsController@show')
+        ->name('api.announcements.show');
+
+    Route::post('announcements', 'AnnouncementsController@store')
+        ->middleware('can:create,App\Announcement')
+        ->name('api.announcements.store');
+
+    Route::put('announcements/{announcement}', 'AnnouncementsController@update')
+        ->middleware('can:update,announcement')
+        ->name('api.announcements.update');
+
+    Route::delete('announcements/{announcement}', 'AnnouncementsController@destroy')
+        ->middleware('can:delete,announcement')
+        ->name('api.announcements.destroy');
+
+    Route::post('read-announcements', 'ReadAnnouncementsController@store')
+        ->name('api.read-announcements.store');
+
     // My
     Route::prefix('my')->namespace('My')->group(function () {
         Route::get('field-observations', 'FieldObservationsController@index')

@@ -1,6 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
+
 <div class="level box">
     <div class="level-item has-text-centered">
         <div>

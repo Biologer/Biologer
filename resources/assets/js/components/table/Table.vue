@@ -83,12 +83,18 @@
                             @click="selectRow(row)"
                             @dblclick="$emit('dblclick', row)">
 
-                            <td v-if="detailed">
-                                <a role="button" @click.stop="toggleDetails(row)">
-                                    <b-icon icon="chevron-right"
+                            <td
+                                v-if="detailed"
+                                class="chevron-cell"
+                            >
+                                <a
+                                    v-if="hasDetailedVisible(row)"
+                                    role="button"
+                                    @click.stop="toggleDetails(row)">
+                                    <b-icon
+                                        icon="chevron-right"
                                         both
-                                        :class="{'is-expanded': isVisibleDetailRow(row)}">
-                                    </b-icon>
+                                        :class="{'is-expanded': isVisibleDetailRow(row)}" />
                                 </a>
                             </td>
 
@@ -229,6 +235,10 @@
             openedDetailed: {
                 type: Array,
                 default: () => []
+            },
+            hasDetailedVisible: {
+                type: Function,
+                default: () => true
             },
             detailKey: {
                 type: String,

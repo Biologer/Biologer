@@ -2,6 +2,8 @@
 
 namespace App\Concerns;
 
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 trait HasTranslatableAttributes
 {
     /**
@@ -12,7 +14,7 @@ trait HasTranslatableAttributes
      */
     public function getAttributeTranslations($attribute)
     {
-        return collect(\LaravelLocalization::getSupportedLanguagesKeys())
+        return collect(LaravelLocalization::getSupportedLanguagesKeys())
             ->mapWithKeys(function ($locale) use ($attribute) {
                 return [$locale => $this->translateOrNew($locale)->{$attribute}];
             });

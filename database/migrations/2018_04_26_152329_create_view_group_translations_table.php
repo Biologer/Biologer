@@ -15,12 +15,12 @@ class CreateViewGroupTranslationsTable extends Migration
     {
         Schema::create('view_group_translations', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('view_group_id')->unsigned();
+            $table->unsignedInteger('view_group_id');
             $table->string('locale')->index();
             $table->string('name')->nullable();
             $table->text('description')->nullable();
 
-            $table->unique(['view_group_id','locale']);
+            $table->unique(['view_group_id', 'locale']);
 
             $table->foreign('view_group_id')
                   ->references('id')

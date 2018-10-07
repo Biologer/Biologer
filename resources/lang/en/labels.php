@@ -3,6 +3,7 @@
 return [
     'id' => 'ID',
     'actions' => 'Actions',
+    'created_at' => 'Created At',
 
     'tables' => [
         'from_to_total' => 'Showing :from-:to of :total',
@@ -165,5 +166,11 @@ return [
         'error' => 'Error',
         'has_heading' => 'First row contains column titles',
         'columns' => 'Columns',
+    ],
+
+    'announcements' => [
+        'title' => 'Title',
+        'message' => 'Message',
+        'private' => 'Private',
     ],
 ];

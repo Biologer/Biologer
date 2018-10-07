@@ -13,6 +13,8 @@ return [
     'preferences' => 'Postavke',
     'dashboard' => 'Kontrolna ploča',
     'notifications' => 'Obavijesti',
+    'announcements' => 'Objave',
+    'new_announcement' => 'Nova objava',
     'new' => 'Novo',
     'add' => 'Dodaj',
     'new_field_observation' => 'Novi terenski unos',

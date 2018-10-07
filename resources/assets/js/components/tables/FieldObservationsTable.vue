@@ -73,7 +73,7 @@
                             <span>{{ trans('buttons.export') }}</span>
                         </b-dropdown-item>
                     </b-dropdown>
-                  </div>
+                </div>
             </div>
         </div>
 

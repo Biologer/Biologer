@@ -64,6 +64,12 @@ abstract class TestCase extends BaseTestCase
      */
     protected function responseMacros()
     {
+        TestResponse::macro('assertCreated', function () {
+            $this->assertStatus(201);
+
+            return $this;
+        });
+
         TestResponse::macro('assertUnauthorized', function () {
             $this->assertStatus(401);
 

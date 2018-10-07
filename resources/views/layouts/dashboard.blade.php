@@ -12,7 +12,7 @@
             <title>{{ $title.' | '.config('app.name') }}</title>
         @endif
 
-        <link rel="shortcut icon" sizes="16x16" href="/favicon.ico">
+        <link rel="shortcut icon" sizes="16x16" href="/favicon-16x16.png">
         <link rel="shortcut icon" sizes="32x32" href="/favicon-32x32.png">
         <link rel="shortcut icon" sizes="64x64" href="/favicon-64x64.png">
         <link rel="shortcut icon" sizes="96x96" href="/favicon-96x96.png">
@@ -28,7 +28,7 @@
     </head>
     <body class="bg-light">
         <div id="app" class="is-flex flex-col min-h-screen">
-            <nz-navbar inline-template>
+            <nz-navbar :has-unread="false" inline-template>
                 <nav class="navbar is-primary">
                     <div class="container is-fluid">
                         <div class="navbar-brand">
@@ -45,12 +45,22 @@
                                 </svg>
                             </a>
 
-                            <a class="navbar-item" href="{{ route('contributor.index') }}" title="{{ __('navigation.dashboard') }}">
+                            <a href="{{ route('contributor.index') }}" class="navbar-item" title="{{ __('navigation.dashboard') }}">
                                 @include('components.icon', ['icon' => 'dashboard'])
                             </a>
 
+                            <a href="{{ route('admin.announcements.index') }}" class="navbar-item" title="{{ __('navigation.announcements') }}">
+                                @include('components.icon', ['icon' => 'bullhorn'])
+                            </a>
+
                             <a class="navbar-item" @click="toggleSidebar" title="{{ __('navigation.notifications') }}">
-                                @include('components.icon', ['icon' => 'bell'])
+                                <span
+                                    class="is-badge-danger is-badge-small"
+                                    :class="{'badge': hasUnreadNotificationsOrAnnouncements}"
+                                    data-badge
+                                >
+                                    @include('components.icon', ['icon' => 'bell'])
+                                </span>
                             </a>
 
                             <div class="navbar-burger" :class="{ 'is-active': active }" @click="toggle">
@@ -84,20 +94,30 @@
                         </div>
                     </div>
 
-                    <nz-sidebar :active="showSidebar" @close="showSidebar = false"></nz-sidebar>
+                    <nz-sidebar
+                        :active="showSidebar"
+                        @close="showSidebar = false"
+                        {{-- :notifications="{{ $notifications }}" --}}
+                    ></nz-sidebar>
                 </nav>
             </nz-navbar>
 
-            <div class="secondary-navbar bg-white py-2 px-4 shadow">
+            <div class="secondary-navbar bg-white shadow">
                 <div class="container is-fluid">
                     <div class="level">
                         <div class="level-left">
-                            @yield('breadcrumbs')
+                            <div class="level-item">
+                                @yield('breadcrumbs')
+                            </div>
                         </div>
 
-                        <div class="level-right">
-                            @yield('createButton')
-                        </div>
+                        @hasSection('createButton')
+                            <div class="level-right">
+                                <div class="level-item">
+                                    @yield('createButton')
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -110,6 +130,10 @@
                         </div>
 
                         <div class="column">
+                            @if(!empty($lastAnnouncement) && !$lastAnnouncement->isRead() && $lastAnnouncement->isTranslated())
+                                <nz-announcement :announcement="{{ $lastAnnouncement }}"></nz-announcement>
+                            @endif
+
                             @yield('content')
                         </div>
                     </div>
@@ -117,6 +141,7 @@
             </div>
 
             @include('partials.footer')
+
         </div>
 
         @include('cookieConsent::index')

@@ -14,7 +14,7 @@ class ViewGroupsController extends Controller
      */
     public function index()
     {
-        return view('admin.viewGroups.index');
+        return view('admin.view-groups.index');
     }
 
     /**
@@ -24,7 +24,7 @@ class ViewGroupsController extends Controller
      */
     public function create()
     {
-        return view('admin.viewGroups.create', [
+        return view('admin.view-groups.create', [
             'rootGroups' => ViewGroup::roots()->get(),
         ]);
     }
@@ -37,7 +37,7 @@ class ViewGroupsController extends Controller
      */
     public function edit(ViewGroup $group)
     {
-        return view('admin.viewGroups.edit', [
+        return view('admin.view-groups.edit', [
             'group' => $group->load('taxa'),
             'rootGroups' => ViewGroup::roots()->where('id', '!=', $group->id)->get(),
         ]);

@@ -6,6 +6,7 @@ $sidebar-z: 19 !default
   display: flex
   flex-direction: column
   background-color: $white
+  color: $grey-darker
   max-width: calc( 100% - 50px )
   position: fixed
   top: 0
@@ -67,9 +68,12 @@ $sidebar-z: 19 !default
   display: block
   padding: .5rem 1rem
 
+  &:not(:last-child)
+    border-bottom: $sidebar-divider
+
 .sidebar-footer
   display: flex
-  justify-content: flex-end
+  justify-content: space-between
   align-items: center
   padding: 0 1rem
   min-height: 4rem

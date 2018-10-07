@@ -1,4 +1,4 @@
-<footer class="footer">
+<footer class="footer bg-light">
     <div class="container">
         <div class="level">
             <div class="level-left">

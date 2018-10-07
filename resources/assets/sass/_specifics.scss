@@ -35,14 +35,6 @@ body {
     min-height: 100vh;
 }
 
-.secondary-navbar {
-    position: relative;
-
-    .level-right:empty {
-        display: none;
-    }
-}
-
 .banner-image {
     height: 10rem;
 }
@@ -92,7 +84,7 @@ ul.is-not-done li:before {
     cursor: default;
 }
 
-@media screen and (max-width: $desktop) {
+@include until-widescreen {
     .container {
         padding-left: $gap;
         padding-right: $gap;
@@ -100,6 +92,40 @@ ul.is-not-done li:before {
         .navbar & {
             padding-left: 0;
             padding-right: 0;
+        }
+    }
+}
+
+.secondary-navbar {
+    position: relative;
+    overflow-x: auto;
+    min-height: $navbar-height;
+    display: flex;
+    align-items: center;
+
+    .container {
+        width: 100%;
+    }
+
+    .breadcrumb {
+        overflow-x: auto;
+        display: flex;
+        align-items: center;
+
+        ul {
+            flex-wrap: nowrap;
+        }
+    }
+
+    .level {
+        width: 100%;
+    }
+}
+
+@include until-widescreen {
+    .secondary-navbar {
+        .container {
+            padding: 1rem 1rem;
         }
     }
 }
@@ -132,4 +158,8 @@ ul.is-not-done li:before {
     .b-checkbox {
         font-size: 1rem;
     }
+}
+
+.message-actions :not(:last-child) {
+  margin-right: 1rem;
 }

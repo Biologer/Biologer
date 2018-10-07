@@ -94,7 +94,7 @@ class AddTaxonTest extends TestCase
             })->all(),
         ]));
 
-        $response->assertStatus(201);
+        $response->assertCreated();
 
         $this->assertNotNull($taxon = Taxon::findByName('Cerambyx cerdo'));
         $this->assertEquals('species', $taxon->rank);
@@ -125,7 +125,7 @@ class AddTaxonTest extends TestCase
             'name' => 'Cerambyx cerdo',
         ]));
 
-        $response->assertStatus(201);
+        $response->assertCreated();
     }
 
     /** @test */

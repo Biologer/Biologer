@@ -1,7 +1,7 @@
 @extends('layouts.master', ['title' => __('navigation.login')])
 
 @section('body')
-<nav class="navbar has-shadow border-t-4 border-primary">
+<nav class="navbar shadow border-t-4 border-primary">
     <div class="container is-fluid">
         <div class="navbar-brand">
             <a class="navbar-item" href="{{ url('/') }}">
@@ -99,4 +99,5 @@
 </section>
 
 @include('partials.footer')
+
 @endsection

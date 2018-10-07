@@ -8,6 +8,7 @@ import VueLazyload from 'vue-lazyload';
 
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
+import Announcement from './components/Announcement';
 import Captcha from './components/Captcha';
 import ImageModal from './components/ImageModal';
 import ImageCropModal from './components/ImageCropModal';
@@ -21,17 +22,20 @@ import TaxonAutocomplete from './components/inputs/TaxonAutocomplete';
 import UserAutocomplete from './components/inputs/UserAutocomplete';
 import Wysiwyg from './components/inputs/Wysiwyg';
 import ColumnsPicker from './components/inputs/ColumnsPicker';
+import DatetimePicker from './components/inputs/DatetimePicker';
 
 import Table from './components/table/Table';
 import TaxaTable from './components/tables/TaxaTable';
 import UsersTable from './components/tables/UsersTable';
 import FieldObservationsTable from './components/tables/FieldObservationsTable';
 import ViewGroupsTable from './components/tables/ViewGroupsTable';
+import AnnouncementsTable from './components/tables/AnnouncementsTable';
 
 import UserForm from './components/forms/UserForm';
 import TaxonForm from './components/forms/TaxonForm';
 import FieldObservationForm from './components/forms/FieldObservationForm';
 import ViewGroupForm from './components/forms/ViewGroupForm';
+import AnnouncementForm from './components/forms/AnnouncementForm';
 
 import FieldObservationActivityLog from './components/activity/FieldObservationActivityLog';
 import TaxonActivityLog from './components/activity/TaxonActivityLog';
@@ -65,6 +69,7 @@ if (window.route) {
 
 Vue.component(Navbar.name, Navbar);
 Vue.component(Sidebar.name, Sidebar);
+Vue.component(Announcement.name, Announcement);
 Vue.component(Captcha.name, Captcha);
 Vue.component(ImageModal.name, ImageModal);
 Vue.component(ImageCropModal.name, ImageCropModal);
@@ -76,6 +81,7 @@ Vue.component(TaxaTable.name, TaxaTable);
 Vue.component(UsersTable.name, UsersTable);
 Vue.component(FieldObservationsTable.name, FieldObservationsTable);
 Vue.component(ViewGroupsTable.name, ViewGroupsTable);
+Vue.component(AnnouncementsTable.name, AnnouncementsTable);
 
 Vue.component(DateInput.name, DateInput);
 Vue.component(PhotoUpload.name, PhotoUpload);
@@ -84,11 +90,13 @@ Vue.component(TaxonAutocomplete.name, TaxonAutocomplete);
 Vue.component(UserAutocomplete.name, UserAutocomplete);
 Vue.component(Wysiwyg.name, Wysiwyg);
 Vue.component(ColumnsPicker.name, ColumnsPicker);
+Vue.component(DatetimePicker.name, DatetimePicker);
 
 Vue.component(FieldObservationForm.name, FieldObservationForm);
 Vue.component(TaxonForm.name, TaxonForm);
 Vue.component(UserForm.name, UserForm);
 Vue.component(ViewGroupForm.name, ViewGroupForm);
+Vue.component(AnnouncementForm.name, AnnouncementForm);
 
 Vue.component(FieldObservationActivityLog.name, FieldObservationActivityLog);
 Vue.component(TaxonActivityLog.name, TaxonActivityLog);
@@ -107,12 +115,12 @@ Vue.prototype.trans = (string, args = {}) => {
     return value;
 };
 
-Vue.filter('formatDateTime', function (value) {
+Vue.filter('formatDateTime', function (value, format = 'DD.MM.YYYY HH:mm') {
   if (!value) return '';
 
   value = value.toString()
 
-  return window.moment(value).format('DD.MM.YYYY HH:mm');
+  return window.moment(value).format(format);
 });
 
 setTooltipOptions(VTooltip);

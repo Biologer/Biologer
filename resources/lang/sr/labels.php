@@ -3,6 +3,7 @@
 return [
     'id' => 'ID',
     'actions' => 'Акције',
+    'created_at' => 'Направљено',
 
     'tables' => [
         'from_to_total' => 'Приказује се :from-:to од укупно :total',
@@ -163,5 +164,11 @@ return [
         'error' => 'Грешка',
         'has_heading' => 'Први ред садржи називе колона',
         'columns' => 'Колоне',
+    ],
+
+    'announcements' => [
+        'title' => 'Наслов',
+        'message' => 'Текст',
+        'private' => 'Само за чланове',
     ],
 ];

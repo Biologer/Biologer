@@ -12,6 +12,7 @@ return [
     'dashboard' => 'Контролна табла',
     'notifications' => 'Обавештења',
     'announcements' => 'Објаве',
+    'new_announcement' => 'Нова објава',
     'new' => 'Ново',
     'add' => 'Додај',
     'new_field_observation' => 'Нови теренски унос',
