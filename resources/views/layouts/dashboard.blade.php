@@ -49,9 +49,11 @@
                                 @include('components.icon', ['icon' => 'dashboard'])
                             </a>
 
-                            <a href="{{ route('admin.announcements.index') }}" class="navbar-item" title="{{ __('navigation.announcements') }}">
-                                @include('components.icon', ['icon' => 'bullhorn'])
-                            </a>
+                            @can ('create', 'App\Announcement')
+                                <a href="{{ route('admin.announcements.index') }}" class="navbar-item" title="{{ __('navigation.announcements') }}">
+                                    @include('components.icon', ['icon' => 'bullhorn'])
+                                </a>
+                            @endcan
 
                             <a class="navbar-item" @click="toggleSidebar" title="{{ __('navigation.notifications') }}">
                                 <span
