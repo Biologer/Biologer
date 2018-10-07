@@ -18,7 +18,7 @@ class CreateAnnouncementsTable extends Migration
             $table->unsignedInteger('creator_id');
             $table->string('creator_name');
             $table->boolean('private')->default(false);
-            $table->text('reads')->nullable()->default('[]');
+            $table->text('reads')->nullable();
             $table->timestamps();
         });
     }
