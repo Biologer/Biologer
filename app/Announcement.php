@@ -144,7 +144,7 @@ class Announcement extends Model
      */
     public function isTranslated()
     {
-        if (!$this->hasTranslation()) {
+        if (! $this->hasTranslation()) {
             return false;
         }
 
@@ -155,5 +155,33 @@ class Announcement extends Model
         }
 
         return true;
+    }
+
+    /**
+     * Scope the query to get only those translated in wanted locale.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string|null  $locale
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeThatAreTranslated($query, $locale = null)
+    {
+        return $query->whereHas('translations', function ($query) use ($locale) {
+            return $query->where('locale', $this->locale($locale))
+                ->whereNotNull('title')
+                ->where('title', '!=', '')
+                ->whereNotNull('message')
+                ->where('message', '!=', '');
+        });
+    }
+
+    /**
+     * Get author's name.
+     *
+     * @return string
+     */
+    public function authorName()
+    {
+        return $this->creator->full_name;
     }
 }

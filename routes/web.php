@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,7 +19,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 ])->group(function () {
     Route::auth();
 
-    Route::view('/', 'home');
+    Route::get('/', 'HomeController@index');
     Route::get('taxa/{taxon}', 'TaxaController@show');
     Route::get('groups', 'GroupsController@index')->name('groups.index');
     Route::get('groups/{group}/species/{species}', 'GroupSpeciesController@show')->name('groups.species.show');
@@ -33,6 +36,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
         Route::post('verify/resend', 'Auth\VerificationController@resend')->name('auth.verify.resend');
     });
 
+    Route::get('announcements', 'AnnouncementsController@index')->name('announcements.index');
     Route::get('announcements/{announcement}', 'AnnouncementsController@show')->name('announcements.show');
 
     Route::middleware('auth')->group(function () {

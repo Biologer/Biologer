@@ -11,7 +11,7 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::filter(request(), [
-            'name' => \App\Filters\User\NameLike::class
+            'name' => \App\Filters\User\NameLike::class,
         ])->sortByName()->paginate(10)->makeHidden([
             // We want to show just id, full name and email.
             'first_name', 'last_name', 'settings', 'institution', 'roles',

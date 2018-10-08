@@ -356,7 +356,7 @@ class UpdateFieldObservationTest extends TestCase
                 'photos' => [
                     [
                         'id' => $existingPhoto->id,
-                        'license' => License::CLOSED
+                        'license' => License::CLOSED,
                     ],
                 ],
             ])

@@ -46,7 +46,7 @@ abstract class BaseImport
      * @param  \App\User|null  $user
      * @return \Illuminate\Support\Collection
      */
-    abstract static public function columns($user = null);
+    abstract public static function columns($user = null);
 
     /**
      * List of all columns.
@@ -144,7 +144,7 @@ abstract class BaseImport
      */
     private function makeParsedWriter()
     {
-         return new JsonCollectionStreamWriter($this->model()->parsedAbsolutePath());
+        return new JsonCollectionStreamWriter($this->model()->parsedAbsolutePath());
     }
 
     /**

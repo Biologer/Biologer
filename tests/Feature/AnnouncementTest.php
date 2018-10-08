@@ -83,7 +83,7 @@ class AnnouncementTest extends TestCase
 
         $this->assertFalse($announcement->isRead());
 
-        $response = $this->postJson("/api/read-announcements", [
+        $response = $this->postJson('/api/read-announcements', [
             'announcement_id' => $announcement->id,
         ])->assertSuccessful();
 

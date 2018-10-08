@@ -46,7 +46,7 @@ class SaveAnnouncement extends FormRequest
         ]));
 
         return collect($translated)->filter(function ($translation) {
-            return !empty($translation['title']) && !empty($translation['message']);
+            return ! empty($translation['title']) && ! empty($translation['message']);
         })->merge($this->only(['private']))->all();
     }
 

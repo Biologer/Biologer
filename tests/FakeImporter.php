@@ -29,4 +29,4 @@ class FakeImporter extends BaseImport
     {
         //
     }
-};
+}

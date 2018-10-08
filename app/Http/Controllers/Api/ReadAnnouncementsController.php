@@ -12,7 +12,7 @@ class ReadAnnouncementsController extends Controller
     public function store()
     {
         request()->validate([
-            'announcement_id' => ['required', Rule::exists('announcements', 'id')]
+            'announcement_id' => ['required', Rule::exists('announcements', 'id')],
         ]);
 
         $announcement = Announcement::find(request('announcement_id'));

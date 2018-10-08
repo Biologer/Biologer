@@ -16,7 +16,7 @@ class MgrsTest extends TestCase
     /** @test */
     public function it_can_calculate_point_with_coordinates_of_mgrs_10k_square_center()
     {
-        $mgrs =  Mgrs::makeFromLatLong(45.247177, 19.813558);
+        $mgrs = Mgrs::makeFromLatLong(45.247177, 19.813558);
         $center = $mgrs->centerOf10kLatLng();
         $centerMgrs = Mgrs::makeFromLatLong($center->getLat(), $center->getLng());
 

@@ -2,8 +2,6 @@
 
 namespace App\Importing;
 
-use App\Import;
-
 class ColumnMapper
 {
     /**
