@@ -29,7 +29,7 @@
 
             <hr>
 
-            <button type="submit" class="button is-primary">{{ trans('labels.announcements.publish') }}</button>
+            <button type="submit" class="button is-primary">{{ isEdit ? trans('buttons.save') : trans('labels.announcements.publish') }}</button>
 
             <a :href="cancelUrl" class="button">{{ trans('buttons.cancel') }}</a>
         </form>
@@ -91,6 +91,10 @@ export default {
     computed: {
         supportedLocales() {
             return window.App.supportedLocales;
+        },
+
+        isEdit() {
+            return this.method.toLowerCase() === 'put'
         }
     },
 

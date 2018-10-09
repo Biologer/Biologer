@@ -13,6 +13,7 @@ return [
     'notifications' => 'Notifications',
     'announcements' => 'Announcements',
     'new_announcement' => 'New Announcement',
+    'edit_announcement' => 'Edit Announcement',
     'new' => 'New',
     'add' => 'Add',
     'new_field_observation' => 'New Field Observation',

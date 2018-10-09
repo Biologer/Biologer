@@ -13,6 +13,7 @@ return [
     'notifications' => 'Обавештења',
     'announcements' => 'Објаве',
     'new_announcement' => 'Нова објава',
+    'edit_announcement' => 'Измени објаву',
     'new' => 'Ново',
     'add' => 'Додај',
     'new_field_observation' => 'Нови теренски унос',

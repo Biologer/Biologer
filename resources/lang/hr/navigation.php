@@ -15,6 +15,7 @@ return [
     'notifications' => 'Obavijesti',
     'announcements' => 'Objave',
     'new_announcement' => 'Nova objava',
+    'edit_announcement' => 'Izmeni objavu',
     'new' => 'Novo',
     'add' => 'Dodaj',
     'new_field_observation' => 'Novi terenski unos',
