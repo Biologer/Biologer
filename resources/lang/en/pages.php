@@ -2,13 +2,10 @@
 
 return [
     'home' => [
-        'browse' => 'Browse',
+        'browse' => 'Browse data',
         'android_link' => 'Andoid App',
         'android_title' => 'Download Andoid App v:version',
-        'welcome' => 'Welcome to our web site working with species observation records in
-            Serbia. Please note that this is only a beta version of the software,
-            so we urge you to be patient. Also, feel free to report any problems or
-            new ideas.',
+        'welcome' => 'Biologer is simple and free software designed for collecting data on biological diversity.',
 
         'announcements' => [
             'title' => 'Latest news',

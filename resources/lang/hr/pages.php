@@ -2,13 +2,10 @@
 
 return [
     'home' => [
-        'browse' => 'Pregledaj',
+        'browse' => 'Pregledaj podatke',
         'android_link' => 'Andoid aplikacija',
         'android_title' => 'Preuzmite Andoid aplikaciju v:version',
-        'welcome' => 'Dobrodošli na našu web stranicu koja prikuplja podatke o rasprostranjenosti
-            vrsta na području Hrvatske. Ova inačica programa još je uvek u fazi
-            testiranja, pa Vas molimo da budete strpljivi. Ukoliko primetite bilo
-            kakve probleme ili imate nove ideje, slobodno nas kontaktirate.',
+        'welcome' => 'Biologer je jednostavan i slobodan softver osmišljen za prikupljanje podataka o biološkoj raznovrsnosti.',
 
         'announcements' => [
             'title' => 'Novosti',
