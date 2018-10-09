@@ -4,50 +4,56 @@
       <span class="loader mr-2"></span>
       <span class="has-loader" v-if="currentImport">{{ importStatus }}</span>
     </div>
-    <div class="level" v-else>
-      <div class="level-left">
-        <div class="level-item">
-          <div class="buttons">
-            <button
-              type="button"
-              class="button is-outlined"
-              :class="[showColumnsSelection ? 'is-primary' : '']"
-              @click="toggleColumns"
-              v-if="!importing"
-            >{{ trans('labels.imports.choose_columns') }}</button>
+    <div v-else>
+      <b-notification type="is-success" :active.sync="showSuccessMessage">
+        {{ trans('imports.success') }}
+      </b-notification>
+
+      <div class="level mb-4">
+        <div class="level-left">
+          <div class="level-item">
+            <div class="buttons">
+              <button
+                type="button"
+                class="button is-outlined"
+                :class="[showColumnsSelection ? 'is-primary' : '']"
+                @click="toggleColumns"
+                v-if="!importing"
+              >{{ trans('labels.imports.choose_columns') }}</button>
+            </div>
+          </div>
+
+          <div class="level-item">
+            <b-checkbox v-model="hasHeading">{{ trans('labels.imports.has_heading') }}</b-checkbox>
+          </div>
+
+          <div class="level-item">
+            <b-field class="file" v-if="!importing">
+              <b-upload v-model="files" accept=".csv">
+                  <a class="button">
+                      <span>{{ trans('labels.imports.select_csv_file') }}</span>
+                  </a>
+              </b-upload>
+              <span class="file-name"
+                  v-if="files && files.length">
+                  {{ files[0].name }}
+              </span>
+            </b-field>
           </div>
         </div>
 
-        <div class="level-item">
-          <b-checkbox v-model="hasHeading">{{ trans('labels.imports.has_heading') }}</b-checkbox>
-        </div>
-
-        <div class="level-item">
-          <b-field class="file" v-if="!importing">
-            <b-upload v-model="files" accept=".csv">
-                <a class="button">
-                    <span>{{ trans('labels.imports.select_csv_file') }}</span>
-                </a>
-            </b-upload>
-            <span class="file-name"
-                v-if="files && files.length">
-                {{ files[0].name }}
-            </span>
-          </b-field>
-        </div>
-      </div>
-
-      <div class="level-right">
-        <div class="level-item">
-          <button
-            type="button"
-            class="button is-primary is-outlined"
-            :disabled="!canSubmit"
-            @click="submit"
-          >
-            <b-icon icon="upload"></b-icon>
-            <span>{{ trans('labels.imports.import') }}</span>
-          </button>
+        <div class="level-right">
+          <div class="level-item">
+            <button
+              type="button"
+              class="button is-primary is-outlined"
+              :disabled="!canSubmit"
+              @click="submit"
+            >
+              <b-icon icon="upload"></b-icon>
+              <span>{{ trans('labels.imports.import') }}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -106,6 +112,7 @@ export default {
       currentErrorsPage: 1,
       submissionErrors: null,
       hasHeading: false,
+      showSuccessMessage: false
     }
   },
 
@@ -261,11 +268,7 @@ export default {
     },
 
     handleStored() {
-      this.$toast.open({
-         duration: 2500,
-         message: this.trans('imports.success'),
-         type: 'is-success'
-      })
+      this.showSuccessMessage = true
 
       clearInterval(this.interval)
       this.importing = false
