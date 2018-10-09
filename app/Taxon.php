@@ -273,6 +273,20 @@ class Taxon extends Model
     }
 
     /**
+     * Scope the query to get only taxa that have ancestor with given ID.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  int  $taxonId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOrHasAncestorWithId($query, $taxonId)
+    {
+        return $query->orWhereHas('ancestors', function ($query) use ($taxonId) {
+            return $query->whereId($taxonId);
+        });
+    }
+
+    /**
      * When setting rank, set it's level as well.
      *
      * @param string  $value

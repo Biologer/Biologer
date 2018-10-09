@@ -14,8 +14,8 @@ trait Filterable
         $filters = $filters ?: $this->filters();
 
         foreach ($request->all() as $param => $value) {
-            $shouldFilter = array_key_exists($param, $filters)
-                && $value && class_exists($filters[$param]);
+            $shouldFilter = array_key_exists($param, $filters) &&
+                $value && class_exists($filters[$param]);
 
             if ($shouldFilter) {
                 $query = (new $filters[$param]())->apply($query, $value, $param, $request);

@@ -95,13 +95,35 @@ class Observation extends Model
      * @param  bool  $includeChildren
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeHasTaxonWithScientificOrNativeName($query, $name, $includeChildren = false)
+    public function scopeForTaxonWithScientificOrNativeName($query, $name, $includeChildren = false)
     {
         return $query->whereHas('taxon', function ($query) use ($name, $includeChildren) {
             $query->withScientificOrNativeName($name);
 
             if ($includeChildren) {
                 $query->orHasAncestorsWithScientificOrNativeName($name);
+            }
+
+            return $query;
+        });
+    }
+
+    /**
+     * Get only observations for taxon with given ID,
+     * with ability to include children of matched taxon.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  int  $taxonId
+     * @param  bool  $includeChildren
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForTaxonWithId($query, $taxonId, $includeChildren = false)
+    {
+        return $query->whereHas('taxon', function ($query) use ($taxonId, $includeChildren) {
+            $query->whereId($taxonId);
+
+            if ($includeChildren) {
+                $query->orHasAncestorWithId($taxonId);
             }
 
             return $query;

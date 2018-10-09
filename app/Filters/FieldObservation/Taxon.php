@@ -9,7 +9,13 @@ class Taxon
         return $query->whereHas('observation', function ($query) use ($value, $request) {
             $includeChildren = filter_var($request->input('includeChildTaxa', false), FILTER_VALIDATE_BOOLEAN);
 
-            return $query->hasTaxonWithScientificOrNativeName($value, $includeChildren);
+            $taxonId = $request->input('taxonId');
+
+            if (! empty($taxonId)) {
+                return $query->forTaxonWithId($taxonId, $includeChildren);
+            }
+
+            return $query->forTaxonWithScientificOrNativeName($value, $includeChildren);
         });
     }
 }

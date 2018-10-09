@@ -81,10 +81,13 @@
             <form @submit.prevent="applyFilter">
                 <div class="columns is-multiline">
                     <div class="column is half">
-                      <nz-taxon-autocomplete v-model="newFilter.taxon"
-                          :label="trans('labels.field_observations.taxon')"
-                          :placeholder="trans('labels.field_observations.search_for_taxon')" />
-                      <b-checkbox v-model="newFilter.includeChildTaxa">{{ trans('labels.field_observations.include_lower_taxa') }}</b-checkbox>
+                        <nz-taxon-autocomplete
+                            @select="onTaxonSelect"
+                            v-model="newFilter.taxon"
+                            :label="trans('labels.field_observations.taxon')"
+                            :placeholder="trans('labels.field_observations.search_for_taxon')"
+                        />
+                        <b-checkbox v-model="newFilter.includeChildTaxa">{{ trans('labels.field_observations.include_lower_taxa') }}</b-checkbox>
                     </div>
 
 
@@ -659,6 +662,7 @@ export default {
             return {
                 status: null,
                 taxon: null,
+                taxonId: null,
                 year: null,
                 month: null,
                 day: null,
@@ -684,6 +688,10 @@ export default {
                   url: finishedExport.url,
                 }
             });
+        },
+
+        onTaxonSelect(taxon) {
+            this.newFilter.taxonId = taxon ? taxon.id : null;
         }
     },
 
