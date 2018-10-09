@@ -31,7 +31,7 @@ class GetFieldObservationsTest extends TestCase
         $response->assertJson([
             'data' => [
                 ['id' => $observation->id, 'taxon_id' => $taxon->id],
-            ]
+            ],
         ]);
     }
 
@@ -59,7 +59,7 @@ class GetFieldObservationsTest extends TestCase
         $response->assertJson([
             'data' => [
                 ['id' => $cerambyxCerdoObservation->id, 'taxon_id' => $cerambyxCerdo->id],
-            ]
+            ],
         ]);
     }
 
@@ -87,7 +87,7 @@ class GetFieldObservationsTest extends TestCase
         $response->assertJson([
             'data' => [
                 ['id' => $cerambyxCerdoObservation->id, 'taxon_id' => $cerambyxCerdo->id],
-            ]
+            ],
         ]);
     }
 
@@ -128,7 +128,7 @@ class GetFieldObservationsTest extends TestCase
             'data' => [
                 ['id' => $cerambyxCerdoObservation->id, 'taxon_id' => $cerambyxCerdo->id],
                 ['id' => $cerambyxScopoliiObservation->id, 'taxon_id' => $cerambyxScopolii->id],
-            ]
+            ],
         ]);
     }
 }
