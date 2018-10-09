@@ -29,7 +29,7 @@
 
             <hr>
 
-            <button type="submit" class="button is-primary">{{ trans('buttons.save') }}</button>
+            <button type="submit" class="button is-primary">{{ trans('labels.announcements.publish') }}</button>
 
             <a :href="cancelUrl" class="button">{{ trans('buttons.cancel') }}</a>
         </form>

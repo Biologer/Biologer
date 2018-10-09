@@ -19,5 +19,6 @@ return [
     'announcements' => [
         'title' => 'Announcements',
         'no_announcements' => 'No announcements',
+        'read' => 'Read news',
     ],
 ];

@@ -19,5 +19,6 @@ return [
     'announcements' => [
         'title' => 'Објаве',
         'no_announcements' => 'Нема објава',
+        'read' => 'Прочитај вест',
     ],
 ];

@@ -172,5 +172,6 @@ return [
         'title' => 'Title',
         'message' => 'Message',
         'private' => 'Private',
+        'publish' => 'Publish',
     ],
 ];

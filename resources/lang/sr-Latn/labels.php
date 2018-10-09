@@ -172,5 +172,6 @@ return [
         'title' => 'Naslov',
         'message' => 'Tekst',
         'private' => 'Samo za članove',
+        'publish' => 'Objavi',
     ],
 ];

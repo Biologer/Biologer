@@ -6,6 +6,6 @@
         </div>
     </div>
     <div class="media-right">
-        <a href="{{ route('announcements.show', $announcement) }}">Read</a>
+        <a href="{{ route('announcements.show', $announcement) }}">{{ __('pages.announcements.read') }}</a>
     </div>
 </article>
