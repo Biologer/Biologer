@@ -1,23 +1,17 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Importing;
 
-use App\User;
-use App\Taxon;
 use App\Import;
 use Tests\TestCase;
 use Tests\FakeImporter;
-use App\FieldObservation;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
-use App\Importing\FieldObservationImport;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ImportingTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected $importer;
 
     protected function setUp()
     {
@@ -110,53 +104,5 @@ class ImportingTest extends TestCase
             $this->assertArrayHasKey('error', $row);
             $this->assertContains($expectedRowColumns[$i], $row['error']);
         }
-    }
-
-    /** @test */
-    public function it_can_store_processed_and_validated_import()
-    {
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create();
-        $fieldObservationsCount = FieldObservation::count();
-
-        $import = $this->createImport(FieldObservationImport::class, [
-            'latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon', 'original_identification',
-        ], '21.123123,42.123123,560,2018,5,22,Cerambyx cerdo,Cerambyx sp.', $user);
-
-        // Perform all the steps
-        $import->makeImporter()->parse()->validate()->store();
-
-        $this->assertTrue($import->fresh()->status()->saved());
-        FieldObservation::assertCount($fieldObservationsCount + 1);
-        $fieldObservation = FieldObservation::latest()->first();
-
-        $this->assertEquals(21.123123, $fieldObservation->observation->latitude);
-        $this->assertEquals(42.123123, $fieldObservation->observation->longitude);
-        $this->assertEquals(560, $fieldObservation->observation->elevation);
-        $this->assertEquals(2018, $fieldObservation->observation->year);
-        $this->assertEquals(5, $fieldObservation->observation->month);
-        $this->assertEquals(22, $fieldObservation->observation->day);
-        $this->assertEquals('Cerambyx cerdo', $fieldObservation->taxon_suggestion);
-        $this->assertEquals('Cerambyx sp.', $fieldObservation->observation->original_identification);
-        $this->assertEquals($taxon->id, $fieldObservation->observation->taxon_id);
-        $this->assertEquals($user->id, $fieldObservation->observation->created_by_id);
-    }
-
-    /** @test */
-    public function if_original_identification_is_not_given_use_the_taxon_name()
-    {
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create();
-
-        $import = $this->createImport(FieldObservationImport::class, [
-            'latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon',
-        ], '21.123123,42.123123,560,2018,5,22,Cerambyx cerdo', $user);
-
-        // Perform all the steps
-        $import->makeImporter()->parse()->validate()->store();
-
-        $fieldObservation = FieldObservation::latest()->first();
-
-        $this->assertEquals('Cerambyx cerdo', $fieldObservation->observation->original_identification);
     }
 }

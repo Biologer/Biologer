@@ -179,7 +179,7 @@ class FieldObservationImport extends BaseImport
             'stage' => ['nullable', Rule::in(Stage::pluck('name')->all())],
             'sex' => ['nullable', Rule::in(Observation::SEX_OPTIONS)],
             'number' => ['nullable', 'integer', 'min:1'],
-            'found_dead' => ['nullable', 'boolean'],
+            'found_dead' => ['nullable', 'string', Rule::in($this->yesNo())],
             'found_dead_note' => ['nullable', 'string'],
             'time' => ['nullable', 'date_format:H:i'],
             'project' => ['nullable', 'string', 'max:191'],
@@ -215,6 +215,18 @@ class FieldObservationImport extends BaseImport
     }
 
     /**
+     * "Yes" and "No" options translated in language the import is using.
+     *
+     * @return array
+     */
+    protected function yesNo()
+    {
+        $lang = $this->model()->lang;
+
+        return [__('Yes', [], $lang), __('No', [], $lang)];
+    }
+
+    /**
      * Store data from single CSV row.
      *
      * @param  array  $item
@@ -229,6 +241,7 @@ class FieldObservationImport extends BaseImport
         $fieldObservation->observation()->save(
             new Observation($this->getGeneralObservationData($item))
         );
+
 
         activity()->performedOn($fieldObservation)
             ->causedBy($this->model()->user)
@@ -246,9 +259,11 @@ class FieldObservationImport extends BaseImport
         return [
             'license' => array_get($item, 'data_license', $this->model()->user->settings()->get('data_license')),
             'taxon_suggestion' => array_get($item, 'taxon'),
-            'found_dead' => array_get($item, 'found_dead', false),
-            'found_dead_note' => array_get($item, 'found_dead', false) ? array_get($item, 'found_dead_note', null) : null,
+            'found_dead' => $this->getFoundDead($item),
+            'found_dead_note' => $this->getFoundDead($item) ? array_get($item, 'found_dead_note', null) : null,
             'time' => array_get($item, 'time', null),
+            'observed_by_id' => $this->getObserverId($item),
+            'identified_by_id' => $this->getIdentifierId($item),
         ];
     }
 
@@ -261,7 +276,7 @@ class FieldObservationImport extends BaseImport
     protected function getGeneralObservationData(array $item)
     {
         return [
-            'taxon_id' => optional(Taxon::findByName(array_get($item, 'taxon')))->id,
+            'taxon_id' => $this->getTaxonId($item),
             'year' => array_get($item, 'year'),
             'month' => array_get($item, 'month'),
             'day' => array_get($item, 'day'),
@@ -286,6 +301,17 @@ class FieldObservationImport extends BaseImport
     }
 
     /**
+     * Get ID of taxon using it's name.
+     *
+     * @param  array  $data
+     * @return int|null
+     */
+    protected function getTaxonId(array $data)
+    {
+        return optional(Taxon::findByName(array_get($data, 'taxon')))->id;
+    }
+
+    /**
      * Get observer name.
      *
      * @param  array  $data
@@ -293,9 +319,24 @@ class FieldObservationImport extends BaseImport
      */
     protected function getObserver(array $data)
     {
-        return array_get($data, 'observer') && $this->model()->user->hasAnyRole(['admin', 'curator'])
-            ? array_get($data, 'observer')
-            : $this->model()->user->full_name;
+        if (! $this->model()->user->hasAnyRole(['admin', 'curator'])) {
+            return $this->model()->user->full_name;
+        }
+
+        return array_get($data, 'observer') ?: $this->model()->user->full_name;
+    }
+
+    /**
+     * Get observer ID.
+     *
+     * @param  array  $data
+     * @return int
+     */
+    protected function getObserverId(array $data)
+    {
+        if ($this->shouldUseCurrentUserId(array_get($data, 'observer'))) {
+            return $this->model()->user->id;
+        }
     }
 
     /**
@@ -306,11 +347,35 @@ class FieldObservationImport extends BaseImport
      */
     protected function getIdentifier(array $data)
     {
-        if (! $this->model()->user->hasRole(['admin', 'curator'])) {
-            return;
+        if (! $this->model()->user->hasAnyRole(['admin', 'curator'])) {
+            return $this->model()->user->full_name;
         }
 
-        return array_get($data, 'identifier');
+        return array_get($data, 'identifier') ?: $this->model()->user->full_name;
+    }
+
+    /**
+     * Get identifier ID.
+     *
+     * @param  array  $data
+     * @return int
+     */
+    protected function getIdentifierId(array $data)
+    {
+        if ($this->shouldUseCurrentUserId(array_get($data, 'identifier'))) {
+            return $this->model()->user->id;
+        }
+    }
+
+    /**
+     * Check if the name matches current user.
+     *
+     * @param  string|null  $name
+     * @return bool
+     */
+    private function shouldUseCurrentUserId($name = null)
+    {
+        return ! $this->model()->user->hasAnyRole(['admin', 'curator']) || ! $name;
     }
 
     /**
@@ -322,5 +387,35 @@ class FieldObservationImport extends BaseImport
     protected function getStageId(array $data)
     {
         return optional(Stage::findByName(array_get($data, 'stage', null)))->id;
+    }
+
+    /**
+     * Get value for "Found Dead" field.
+     *
+     * @param  array  $data
+     * @return bool
+     */
+    protected function getFoundDead(array $data)
+    {
+        $value = array_get($data, 'found_dead', false);
+
+        return $this->isTranslatedYes($value) || filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * Check if the value matches with "Yes" translation.
+     *
+     * @param string $value
+     * @return bool
+     */
+    protected function isTranslatedYes($value)
+    {
+        if (! is_string($value)) {
+            return false;
+        }
+
+        $yes = __('Yes', [], $this->model()->lang);
+
+        return strtolower($yes) === strtolower($value);
     }
 }
