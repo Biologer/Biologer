@@ -123,6 +123,7 @@ return [
         'types' => 'Observation Type',
         'types_placeholder' => 'Select Observation Type',
         'dataset' => 'Dataset',
+        'mgrs10k' => 'MGRS 10K',
 
         'male' => 'Male',
         'female' => 'Female',

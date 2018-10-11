@@ -123,6 +123,7 @@ return [
         'types' => 'Tip nalaza',
         'types_placeholder' => 'Odaberite tip nalaza',
         'dataset' => 'Set podataka',
+        'mgrs10k' => 'MGRS 10K',
 
         'male' => 'Mužjak',
         'female' => 'Ženka',

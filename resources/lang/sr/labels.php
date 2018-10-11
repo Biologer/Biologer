@@ -121,6 +121,7 @@ return [
         'types' => 'Тип налаза',
         'types_placeholder' => 'Одаберите тип налаза',
         'dataset' => 'Сет података',
+        'mgrs10k' => 'MGRS 10K',
 
         'male' => 'Мужјак',
         'female' => 'Женка',
