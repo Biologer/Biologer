@@ -14,15 +14,11 @@ class Settings
     protected $user;
 
     /**
-     * The list of settings with default values.
+     * The list of settings.
      *
      * @var array
      */
-    protected $settings = [
-        'data_license' => 10,
-        'image_license' => 10,
-        'language' => 'en',
-    ];
+    protected $settings = [];
 
     /**
      * Create a new settings instance.
@@ -33,9 +29,23 @@ class Settings
     {
         $this->user = $user;
         $this->settings = array_merge(
-            $this->settings,
+            $this->defaultSettings(),
             is_array($user->settings) ? $user->settings : []
         );
+    }
+
+    /**
+     * Default settings.
+     *
+     * @return array
+     */
+    private function defaultSettings()
+    {
+        return [
+            'data_license' => License::firstId(),
+            'image_license' => License::firstId(),
+            'language' => app()->getLocale(),
+        ];
     }
 
     /**

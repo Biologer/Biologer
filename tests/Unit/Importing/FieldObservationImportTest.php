@@ -5,6 +5,7 @@ namespace Tests\Unit\Importing;
 use App\User;
 use App\Taxon;
 use App\Import;
+use App\License;
 use Tests\TestCase;
 use App\FieldObservation;
 use Illuminate\Http\Testing\File;
@@ -111,6 +112,7 @@ class FieldObservationImportTest extends TestCase
         $this->assertEquals('custom-dataset', $fieldObservation->observation->dataset);
         $this->assertNull($fieldObservation->observedBy);
         $this->assertNull($fieldObservation->identifiedBy);
+        $this->assertEquals(License::CLOSED, $fieldObservation->license);
     }
 
     /** @test */
@@ -161,6 +163,7 @@ class FieldObservationImportTest extends TestCase
             'stage',
             'original_identification',
             'dataset',
+            'license',
         ];
     }
 
@@ -194,6 +197,7 @@ class FieldObservationImportTest extends TestCase
             'adult',
             'Cerambyx sp.',
             'custom-dataset',
+            'Closed',
         ]);
     }
 

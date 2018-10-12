@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'active_licenses' => explode(',', env('ACTIVE_LICENSES', \App\License::ids()->implode(','))),
+
     'photos_per_observation' => 3,
 
     'photo_resize_dimension' => (int) env('PHOTO_RESIZE_DIMENSION', null),

@@ -28,8 +28,8 @@ class PreferencesController extends Controller
     public function update()
     {
         auth()->user()->settings()->merge(request()->validate([
-            'data_license' => [Rule::in(License::ids()->all())],
-            'image_license' => [Rule::in(License::ids()->all())],
+            'data_license' => [Rule::in(License::activeIds())],
+            'image_license' => [Rule::in(License::activeIds())],
         ]));
 
         return back();

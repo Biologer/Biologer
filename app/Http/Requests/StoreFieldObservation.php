@@ -62,7 +62,7 @@ class StoreFieldObservation extends FormRequest
             'number' => ['nullable', 'integer', 'min:1'],
             'found_dead' => ['nullable', 'boolean'],
             'found_dead_note' => ['nullable'],
-            'data_license' => ['nullable', Rule::in(License::ids()->all())],
+            'data_license' => ['nullable', Rule::in(License::activeIds())],
             'photos' => [
                 'nullable',
                 'array',
@@ -73,7 +73,7 @@ class StoreFieldObservation extends FormRequest
             'photos.*.crop.y' => ['required_with:photos.*.crop', 'integer'],
             'photos.*.crop.width' => ['required_with:photos.*.crop', 'integer'],
             'photos.*.crop.height' => ['required_with:photos.*.crop', 'integer'],
-            'photos.*.license' => ['nullable', Rule::in(License::ids()->all())],
+            'photos.*.license' => ['nullable', Rule::in(License::activeIds())],
             'time' => ['nullable', 'date_format:H:i'],
             'project' => ['nullable', 'string', 'max:191'],
             'found_on' => ['nullable', 'string', 'max:191'],

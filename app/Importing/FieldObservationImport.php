@@ -4,6 +4,7 @@ namespace App\Importing;
 
 use App\Stage;
 use App\Taxon;
+use App\License;
 use App\Rules\Day;
 use App\Observation;
 use App\Rules\Month;
@@ -133,6 +134,11 @@ class FieldObservationImport extends BaseImport
                 'value' => 'dataset',
                 'required' => false,
             ],
+            [
+                'label' => trans('labels.field_observations.data_license'),
+                'value' => 'license',
+                'required' => false,
+            ],
         ])->pipe(function ($columns) use ($user) {
             if (! $user || optional($user)->hasAnyRole(['admin', 'curator'])) {
                 return $columns;
@@ -187,6 +193,7 @@ class FieldObservationImport extends BaseImport
             'note' => ['nullable', 'string'],
             'original_identification' => ['nullable', 'string'],
             'dataset' => ['nullable', 'string'],
+            'license' => ['nullable', 'string', Rule::in(License::allActive()->pluck('name'))],
         ], [
             'year.date_format' => trans('validation.year'),
         ], [
@@ -211,6 +218,7 @@ class FieldObservationImport extends BaseImport
             'note' => trans('labels.field_observations.note'),
             'original_identification' => trans('labels.field_observations.original_identification'),
             'dataset' => trans('labels.field_observations.dataset'),
+            'license' => trans('labels.field_observations.data_license'),
         ]);
     }
 
@@ -264,6 +272,7 @@ class FieldObservationImport extends BaseImport
             'time' => array_get($item, 'time', null),
             'observed_by_id' => $this->getObserverId($item),
             'identified_by_id' => $this->getIdentifierId($item),
+            'license' => $this->getLicense($item),
         ];
     }
 
@@ -417,5 +426,18 @@ class FieldObservationImport extends BaseImport
         $yes = __('Yes', [], $this->model()->lang);
 
         return strtolower($yes) === strtolower($value);
+    }
+
+    /**
+     * Get license for the observation.
+     *
+     * @param  array  $data
+     * @return int
+     */
+    protected function getLicense(array $data)
+    {
+        return ($license = array_get($data, 'license'))
+            ? License::findByName($license)->id
+            : $this->model()->user->settings()->get('data_license');
     }
 }

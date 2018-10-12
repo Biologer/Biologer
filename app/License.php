@@ -2,11 +2,15 @@
 
 namespace App;
 
-class License
+use Illuminate\Contracts\Support\Arrayable;
+
+class License implements Arrayable
 {
     const CC_BY_SA = 10;
+    const OPEN = 11;
     const CC_BY_NC_SA = 20;
     const PARTIALLY_OPEN = 30;
+    const CLOSED_FOR_A_PERIOD = 35;
     const CLOSED = 40;
 
     /**
@@ -26,6 +30,11 @@ class License
      */
     protected $fillable = ['id', 'name'];
 
+    /**
+     * Constructor
+     *
+     * @param array $attributes
+     */
     public function __construct(array $attributes)
     {
         $this->fill($attributes);
@@ -66,22 +75,40 @@ class License
     {
         return collect([
             new static([
-                'id' => static::CC_BY_SA,
+                'id' => self::CC_BY_SA,
                 'name' => 'CC BY-SA 4.0',
             ]),
             new static([
-                'id' => static::CC_BY_NC_SA,
+                'id' => self::OPEN,
+                'name' => 'Open',
+            ]),
+            new static([
+                'id' => self::CC_BY_NC_SA,
                 'name' => 'CC BY-NC-SA 4.0',
             ]),
             new static([
-                'id' => static::PARTIALLY_OPEN,
+                'id' => self::PARTIALLY_OPEN,
                 'name' => 'Partially open',
             ]),
             new static([
-                'id' => static::CLOSED,
+                'id' => self::CLOSED_FOR_A_PERIOD,
+                'name' => 'Closed for a period',
+            ]),
+            new static([
+                'id' => self::CLOSED,
                 'name' => 'Closed',
             ]),
         ]);
+    }
+
+    /**
+     * Get all active licenses.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function allActive()
+    {
+        return self::all()->whereIn('id', config('biologer.active_licenses'))->values();
     }
 
     /**
@@ -91,8 +118,8 @@ class License
      */
     public static function getOptions()
     {
-        return static::all()->mapWithKeys(function ($license) {
-            return [$license->id => __("licenses.{$license->name}")];
+        return self::allActive()->mapWithKeys(function ($license) {
+            return [$license->id => $license->name()];
         })->all();
     }
 
@@ -103,7 +130,17 @@ class License
      */
     public static function ids()
     {
-        return static::all()->pluck('id');
+        return self::all()->pluck('id');
+    }
+
+    /**
+     * Get active license IDs.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function activeIds()
+    {
+        return self::allActive()->pluck('id');
     }
 
     /**
@@ -113,7 +150,7 @@ class License
      */
     public static function firstId()
     {
-        return static::ids()->first();
+        return self::activeIds()->first();
     }
 
     /**
@@ -123,7 +160,7 @@ class License
      */
     public static function first()
     {
-        return static::all()->first();
+        return self::allActive()->first();
     }
 
     /**
@@ -134,7 +171,7 @@ class License
      */
     public static function findById($id)
     {
-        return static::all()->where('id', $id)->first();
+        return self::allActive()->where('id', $id)->first();
     }
 
     /**
@@ -145,7 +182,7 @@ class License
      */
     public static function findByName($name)
     {
-        return static::all()->where('name', $name)->first();
+        return self::allActive()->where('name', $name)->first();
     }
 
     /**
@@ -155,6 +192,24 @@ class License
      */
     public function name()
     {
-        return trans('licenses.'.$this->name);
+        return trans('licenses.'.$this->id);
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name(),
+        ];
+    }
+
+    public static function isEnabled($licenseId)
+    {
+        return self::activeIds()->contains($licenseId);
     }
 }
