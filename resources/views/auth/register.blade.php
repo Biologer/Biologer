@@ -132,8 +132,8 @@
 
                             @include('partials.licenses', [
                                 'preferences' => (object) [
-                                    'data_license' => old('data_license', 10),
-                                    'image_license' => old('image_license', 10),
+                                    'data_license' => old('data_license', \App\License::firstId()),
+                                    'image_license' => old('image_license', \App\License::firstId()),
                                 ],
                             ])
 
