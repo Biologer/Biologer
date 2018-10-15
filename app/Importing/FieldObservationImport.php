@@ -57,7 +57,7 @@ class FieldObservationImport extends BaseImport
             [
                 'label' => trans('labels.field_observations.elevation'),
                 'value' => 'elevation',
-                'required' => true,
+                'required' => false,
             ],
             [
                 'label' => trans('labels.field_observations.accuracy'),
@@ -178,11 +178,11 @@ class FieldObservationImport extends BaseImport
             ],
             'latitude' => ['required', 'numeric', 'between:-90,90'],
             'longitude' => ['required', 'numeric', 'between:-180,180'],
-            'elevation' => ['required', 'integer', 'max:10000'],
+            'elevation' => ['nullable', 'integer', 'max:10000'],
             'accuracy' => ['nullable', 'integer', 'max:10000'],
             'observer' => ['nullable', 'string'],
             'identifier' => ['nullable', 'string'],
-            'stage' => ['nullable', Rule::in(Stage::pluck('name')->all())],
+            'stage' => ['nullable', Rule::in(Stage::pluck('name'))],
             'sex' => ['nullable', Rule::in(Observation::SEX_OPTIONS)],
             'number' => ['nullable', 'integer', 'min:1'],
             'found_dead' => ['nullable', 'string', Rule::in($this->yesNo())],
@@ -395,7 +395,7 @@ class FieldObservationImport extends BaseImport
      */
     protected function getStageId(array $data)
     {
-        return optional(Stage::findByName(array_get($data, 'stage', null)))->id;
+        return optional(Stage::findByName(strtolower(array_get($data, 'stage', ''))))->id;
     }
 
     /**
