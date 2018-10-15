@@ -512,6 +512,7 @@ class FieldObservation extends Model
             'observed_by' => $this->observedBy,
             'identified_by_id' => $this->identified_by_id,
             'identified_by' => $this->identifiedBy,
+            'dataset' => $this->observation->dataset,
         ];
     }
 

@@ -10,6 +10,7 @@ use App\Rules\Day;
 use App\Observation;
 use App\Rules\Month;
 use App\ObservationType;
+use App\Support\Dataset;
 use App\FieldObservation;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -82,6 +83,7 @@ class UpdateFieldObservation extends FormRequest
             ],
             'observed_by_id' => ['nullable', Rule::exists('users', 'id')],
             'identified_by_id' => ['nullable', Rule::exists('users', 'id')],
+            'dataset' => ['nullable', 'string', 'max:255'],
         ];
     }
 
@@ -168,6 +170,7 @@ class UpdateFieldObservation extends FormRequest
             'project' => $this->input('project'),
             'found_on' => $this->input('found_on'),
             'note' => $this->input('note'),
+            'dataset' => $this->input('dataset') ?? Dataset::default(),
         ];
 
         if ($this->user()->hasAnyRole(['admin', 'curator'])) {

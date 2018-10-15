@@ -1,7 +1,7 @@
 <template>
     <form :action="action" method="POST" :lang="locale" class="field-observation-form">
-        <div class="columns">
-            <div class="column is-half">
+        <div class="columns is-desktop">
+            <div class="column is-half-desktop">
                 <nz-taxon-autocomplete v-model="form.taxon_suggestion"
                     @select="onTaxonSelect"
                     :taxon="observation.taxon"
@@ -77,7 +77,7 @@
                 </b-field>
             </div>
 
-            <div class="column is-half">
+            <div class="column is-half-desktop">
                 <nz-spatial-input
                     :latitude.sync="form.latitude"
                     :longitude.sync="form.longitude"
@@ -193,21 +193,42 @@
                 </b-timepicker>
             </b-field>
 
-            <div class="field">
-                <label for="project" class="label">
-                    <span class="is-dashed" v-tooltip="{content: trans('labels.field_observations.project_tooltip')}">
-                        {{ trans('labels.field_observations.project') }}
-                    </span>
-                </label>
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label for="project" class="label">
+                            <span class="is-dashed" v-tooltip="{content: trans('labels.field_observations.project_tooltip')}">
+                                {{ trans('labels.field_observations.project') }}
+                            </span>
+                        </label>
 
-                <b-input id="project" name="project" v-model="form.project" />
+                        <b-input id="project" name="project" v-model="form.project" />
 
-                <p
-                    v-if="form.errors.has('project')"
-                    v-html="form.errors.first('project')"
-                    class="help"
-                    :class="{ 'is-danger': form.errors.has('project') }"
-                />
+                        <p
+                            v-if="form.errors.has('project')"
+                            v-html="form.errors.first('project')"
+                            class="help"
+                            :class="{ 'is-danger': form.errors.has('project') }"
+                        />
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="field">
+                        <label for="dataset" class="label">
+                            {{ trans('labels.field_observations.dataset') }}
+                        </label>
+
+                        <b-input id="dataset" name="dataset" v-model="form.dataset" />
+
+                        <p
+                            v-if="form.errors.has('dataset')"
+                            v-html="form.errors.first('dataset')"
+                            class="help"
+                            :class="{ 'is-danger': form.errors.has('dataset') }"
+                        />
+                    </div>
+                </div>
             </div>
 
             <b-checkbox v-model="form.found_dead">{{ trans('labels.field_observations.found_dead') }}</b-checkbox>
@@ -334,7 +355,8 @@ export default {
                     observed_by_id: null,
                     observed_by: null,
                     identified_by_id: null,
-                    identified_by: null
+                    identified_by: null,
+                    dataset: null
                 };
             }
         },
