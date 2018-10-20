@@ -3,14 +3,14 @@
 @section('content')
     <div class="box">
         <nz-field-observation-form
-            action="{{ route('api.field-observations.update', $observation) }}"
+            action="{{ route('api.field-observations.update', $fieldObservation) }}"
             method="PUT"
             redirect-url="{{ route('curator.unidentifiable-observations.index') }}"
             cancel-url="{{ route('curator.unidentifiable-observations.index') }}"
             :licenses="{{ json_encode(\App\License::getOptions()) }}"
             :sexes="{{ json_encode(\App\Observation::SEX_OPTIONS) }}"
             :observation-types="{{ $observationTypes }}"
-            :observation="{{ $observation }}"
+            :observation="{{ $fieldObservation }}"
             should-confirm-submit
             confirm-submit-message="{{ __('Reason for changing data. Please try to be precise in order to keep the track of changes and ensure data verification.') }}"
             should-ask-reason

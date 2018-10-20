@@ -36,7 +36,7 @@ class UnidentifiableObservationsController extends Controller
         $this->authorize('update', $fieldObservation);
 
         return view('curator.unidentifiable-observations.edit', [
-            'observation' => $fieldObservation,
+            'fieldObservation' => $fieldObservation,
             'stages' => \App\Stage::all(),
             'observationTypes' => \App\ObservationType::all(),
         ]);

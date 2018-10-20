@@ -36,7 +36,7 @@ class ApprovedObservationsController extends Controller
         $this->authorize('update', $fieldObservation);
 
         return view('curator.approved-observations.edit', [
-            'observation' => $fieldObservation,
+            'fieldObservation' => $fieldObservation,
             'stages' => \App\Stage::all(),
             'observationTypes' => \App\ObservationType::all(),
         ]);

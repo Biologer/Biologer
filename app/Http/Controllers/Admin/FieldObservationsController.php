@@ -31,7 +31,7 @@ class FieldObservationsController extends Controller
         $this->authorize('update', $fieldObservation);
 
         return view('admin.field-observations.edit', [
-            'observation' => $fieldObservation->load([
+            'fieldObservation' => $fieldObservation->load([
                 'observation.taxon.curators', 'observation.taxon.stages',
                 'observedBy', 'identifiedBy',
             ]),

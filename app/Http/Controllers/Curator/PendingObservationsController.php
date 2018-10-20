@@ -38,7 +38,7 @@ class PendingObservationsController extends Controller
         $this->authorize('update', $fieldObservation);
 
         return view('curator.pending-observations.edit', [
-            'observation' => $fieldObservation,
+            'fieldObservation' => $fieldObservation,
             'stages' => \App\Stage::all(),
             'observationTypes' => \App\ObservationType::all(),
         ]);
