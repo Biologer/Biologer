@@ -294,7 +294,7 @@ class FieldObservation extends Model
      */
     public function getLicenseTranslationAttribute()
     {
-        return trans('licenses.'.License::findById($this->license)->name);
+        return trans('licenses.'.$this->license);
     }
 
     /**
