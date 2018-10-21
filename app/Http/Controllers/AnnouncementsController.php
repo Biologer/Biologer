@@ -13,7 +13,7 @@ class AnnouncementsController
      */
     public function index()
     {
-        $query = Announcement::thatAreTranslated();
+        $query = Announcement::latest()->thatAreTranslated();
 
         if (auth()->guest()) {
             $query->wherePrivate(false);

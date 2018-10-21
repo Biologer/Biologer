@@ -13,7 +13,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $announcements = Announcement::query();
+        $announcements = Announcement::latest();
 
         if (auth()->guest()) {
             $announcements->wherePrivate(false);
