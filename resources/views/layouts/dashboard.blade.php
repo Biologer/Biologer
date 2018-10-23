@@ -28,7 +28,7 @@
     </head>
     <body class="bg-light">
         <div id="app" class="is-flex flex-col min-h-screen">
-            <nz-navbar :has-unread="false" inline-template>
+            <nz-navbar :has-unread="{{ json_encode($unreadNotifications->isNotEmpty()) }}" inline-template>
                 <nav class="navbar is-primary">
                     <div class="container is-fluid">
                         <div class="navbar-brand">
@@ -57,8 +57,8 @@
 
                             <a class="navbar-item" @click="toggleSidebar" title="{{ __('navigation.notifications') }}">
                                 <span
-                                    class="is-badge-danger is-badge-small"
-                                    :class="{'badge': hasUnreadNotificationsOrAnnouncements}"
+                                    class="is-badge-danger is-badge-extra-small"
+                                    :class="{'badge': hasUnreadNotifications}"
                                     data-badge
                                 >
                                     @include('components.icon', ['icon' => 'bell'])
@@ -99,7 +99,8 @@
                     <nz-sidebar
                         :active="showSidebar"
                         @close="showSidebar = false"
-                        {{-- :notifications="{{ $notifications }}" --}}
+                        :notifications="{{ $unreadNotifications }}"
+                        @update:has-unread-notifications="updateNotificationStatus"
                     ></nz-sidebar>
                 </nav>
             </nz-navbar>
@@ -127,7 +128,7 @@
             <div class="bg-light flex-1">
                 <div class="container is-fluid p-4">
                     <div class="columns">
-                        <div class="column is-2">
+                        <div class="column is-3-tablet is-2-desktop">
                             {!! Menu::sidebar() !!}
                         </div>
 

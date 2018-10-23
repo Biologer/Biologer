@@ -300,11 +300,12 @@ class Observation extends Model
      * Check if given user shoud curate observation.
      *
      * @param  \App\User  $user
+     * @param  bool  $evenWithoutTaxa
      * @return bool
      */
-    public function shouldBeCuratedBy(User $user)
+    public function shouldBeCuratedBy(User $user, $evenWithoutTaxa = true)
     {
-        return $this->taxon ? $this->taxon->isCuratedBy($user) : true;
+        return $this->taxon ? $this->taxon->isCuratedBy($user) : $evenWithoutTaxa;
     }
 
     /**

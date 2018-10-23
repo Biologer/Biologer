@@ -1,5 +1,6 @@
 $badge-border-size: .1rem !default
 $badge-border-radius: 1rem !default
+$size-extra-small: .5rem !default
 
 =badge-size($size)
   $badgeSize: $size
@@ -74,6 +75,8 @@ $badge-border-radius: 1rem !default
           color: $color
 
   +badge-size($size-normal)
+  &.is-badge-extra-small
+    +badge-size($size-extra-small)
   &.is-badge-small
     +badge-size($size-small)
   &.is-badge-medium

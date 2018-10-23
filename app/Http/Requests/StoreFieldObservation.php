@@ -15,6 +15,7 @@ use App\FieldObservation;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Notifications\FieldObservationForApproval;
 
 class StoreFieldObservation extends FormRequest
 {
@@ -92,18 +93,20 @@ class StoreFieldObservation extends FormRequest
      *
      * @return \App\Observation
      */
-    public function save()
+    public function store()
     {
         return DB::transaction(function () {
-            return tap($this->createObservation(), function ($observation) {
-                $observation->addPhotos(
+            return tap($this->createObservation(), function ($fieldObservation) {
+                $fieldObservation->addPhotos(
                     collect($this->input('photos', [])),
                     $this->user()->settings()->get('image_license')
                 );
 
-                $this->syncRelations($observation);
+                $this->syncRelations($fieldObservation);
 
-                $this->logActivity($observation);
+                $this->logActivity($fieldObservation);
+
+                // $this->notifyCurators($fieldObservation);
             });
         });
     }
@@ -280,5 +283,24 @@ class StoreFieldObservation extends FormRequest
         activity()->performedOn($fieldObservation)
             ->causedBy($this->user())
             ->log('created');
+    }
+
+    /**
+     * Notify curators of new field observation.
+     *
+     * @param  \App\FieldObservation  $fieldObservation
+     * @return void
+     */
+    private function notifyCurators(FieldObservation $fieldObservation)
+    {
+        if ($fieldObservation->shouldBeCuratedBy($this->user(), false)) {
+            return;
+        }
+
+        $fieldObservation->curators()->each(function ($curator) use ($fieldObservation) {
+            if (! $this->user()->is($curator)) {
+                $curator->notify(new FieldObservationForApproval($fieldObservation));
+            }
+        });
     }
 }

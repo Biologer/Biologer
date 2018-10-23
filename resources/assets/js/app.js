@@ -44,6 +44,8 @@ import CustomExport from './components/exports/CustomExport';
 
 import FieldObservationsImport from './components/imports/FieldObservationsImport';
 
+import FieldObservationApproval from './components/FieldObservationApproval';
+
 window.Vue = Vue;
 
 Vue.use(VueLazyload, {
@@ -105,7 +107,9 @@ Vue.component(CustomExport.name, CustomExport);
 
 Vue.component(FieldObservationsImport.name, FieldObservationsImport);
 
-Vue.prototype.trans = (string, args = {}) => {
+Vue.component(FieldObservationApproval.name, FieldObservationApproval);
+
+Vue.prototype.trans = window.trans = (string, args = {}) => {
     let value = window.App.i18n[string] || string;
 
     _.eachRight(args, (paramVal, paramKey) => {

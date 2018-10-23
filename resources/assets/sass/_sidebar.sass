@@ -65,8 +65,9 @@ $sidebar-z: 19 !default
   overflow-y: auto
 
 .sidebar-block
-  display: block
+  display: flex
   padding: .5rem 1rem
+  transition: all 1s
 
   &:not(:last-child)
     border-bottom: $sidebar-divider
@@ -79,3 +80,11 @@ $sidebar-z: 19 !default
   min-height: 4rem
   background-color: $white
   border-top: $sidebar-divider
+
+.notification-list-enter,
+.notification-list-leave-to
+  opacity: 0
+  transform: translateX(300px)
+
+.notification-list-leave-active
+  position: absolute

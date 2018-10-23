@@ -24,6 +24,7 @@ return [
     'approved_observations' => 'Approved Observations',
     'unidentifiable_observations' => 'Unidentifiable Observations',
     'field_observations' => 'Field Observations',
+    'observation_details' => 'Observation Details',
     'all_field_observations' => 'All Field Observations',
     'field_observations_import' => 'Field Observations Import',
     'import' => 'Import',

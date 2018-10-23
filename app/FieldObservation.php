@@ -453,11 +453,12 @@ class FieldObservation extends Model
      * Check if given user should curate this observation.
      *
      * @param  \App\User  $user
+     * @param  bool  $evenWithoutTaxa
      * @return bool
      */
-    public function shouldBeCuratedBy(User $user)
+    public function shouldBeCuratedBy(User $user, $evenWithoutTaxa = true)
     {
-        return $this->observation->shouldBeCuratedBy($user);
+        return $this->observation->shouldBeCuratedBy($user, $evenWithoutTaxa);
     }
 
     /**
@@ -468,6 +469,40 @@ class FieldObservation extends Model
     public function isAtLeastPartiallyOpenData()
     {
         return $this->license < 40;
+    }
+
+    /**
+     * Get observer's name.
+     *
+     * @return string
+     */
+    public function creatorName()
+    {
+        return $this->observation->creator->full_name;
+    }
+
+    /**
+     * Get curators for the observation.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function curators()
+    {
+        $taxon = $this->observation->taxon;
+
+        if (empty($taxon)) {
+            return User::whereHas('roles', function ($query) {
+                $query->whereName('curator');
+            });
+        }
+
+        $curators = $taxon->load('ancestors.curators')
+            ->ancestors
+            ->pluck('curators')
+            ->push($taxon->curators)
+            ->flatten();
+
+        return \Illuminate\Database\Eloquent\Collection::make($curators)->unique();
     }
 
     /**

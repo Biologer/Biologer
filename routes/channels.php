@@ -1,5 +1,6 @@
 <?php
 
+use App\Import;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -17,6 +18,6 @@ Broadcast::channel('users.{userId}', function ($user, $userId) {
     return (int) $user->id === (int) $userId;
 });
 
-Broadcast::channel('imports.{import}', function ($user, \App\Import $import) {
+Broadcast::channel('imports.{import}', function ($user, Import $import) {
     return (int) $user->id === (int) $import->user_id;
 });

@@ -24,6 +24,7 @@ return [
     'approved_observations' => 'Потврђени налази',
     'unidentifiable_observations' => 'Немогућа идентификација',
     'field_observations' => 'Теренски налази',
+    'observation_details' => 'Детаљи налаза',
     'all_field_observations' => 'Сви теренски налази',
     'field_observations_import' => 'Увоз теренских налаза',
     'import' => 'Увоз',

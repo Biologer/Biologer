@@ -80,6 +80,10 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
                 ->middleware('role:curator,admin')
                 ->name('pending-observations.edit');
 
+            Route::get('pending-observations/{fieldObservation}', 'PendingObservationsController@show')
+                ->middleware('role:curator,admin')
+                ->name('pending-observations.show');
+
             Route::get('approved-observations', 'ApprovedObservationsController@index')
                 ->middleware('role:curator,admin')
                 ->middleware('can:list,App\FieldObservation')

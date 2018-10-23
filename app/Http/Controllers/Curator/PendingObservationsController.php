@@ -21,6 +21,21 @@ class PendingObservationsController extends Controller
     }
 
     /**
+     * Show pending field observation details.
+     *
+     * @param  \App\FieldObservation  $fieldObservation
+     * @return \Illuminate\View\View
+     */
+    public function show(FieldObservation $fieldObservation)
+    {
+        return view('curator.pending-observations.show', [
+            'fieldObservation' => $fieldObservation->load([
+                'observation.taxon',
+            ]),
+        ]);
+    }
+
+    /**
      * Display form to edit pending observations.
      *
      * @param  \App\FieldObservation $fieldObservation

@@ -45,7 +45,7 @@ class PendingFieldObservationsEditTest extends TestCase
 
         $response->assertOk();
         $response->assertViewIs('curator.pending-observations.edit');
-        $response->assertViewHas('observation', function ($viewObservation) use ($observation) {
+        $response->assertViewHas('fieldObservation', function ($viewObservation) use ($observation) {
             return $observation->is($viewObservation);
         });
     }

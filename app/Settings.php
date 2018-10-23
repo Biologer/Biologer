@@ -24,14 +24,30 @@ class Settings
      * Create a new settings instance.
      *
      * @param  \App\User  $user
+     * @return void
      */
     public function __construct(User $user)
     {
         $this->user = $user;
-        $this->settings = array_merge(
-            $this->defaultSettings(),
-            is_array($user->settings) ? $user->settings : []
-        );
+
+        $this->loadSettings(is_array($user->settings) ? $user->settings : []);
+    }
+
+    /**
+     * Load initial settings using values set by user to override defaults.
+     *
+     * @param  array  $userSettings
+     * @return void
+     */
+    private function loadSettings(array $userSettings)
+    {
+        $settings = $this->defaultSettings();
+
+        foreach (array_dot($userSettings) as $key => $value) {
+            array_set($settings, $key, $value);
+        }
+
+        $this->settings = $settings;
     }
 
     /**
@@ -45,29 +61,49 @@ class Settings
             'data_license' => License::firstId(),
             'image_license' => License::firstId(),
             'language' => app()->getLocale(),
+            'notifications' => [
+                'field_observation_approved' => [
+                    'database' => true,
+                    'mail' => false,
+                ],
+                'field_observation_moved_to_pending' => [
+                    'database' => true,
+                    'mail' => false,
+                ],
+                'field_observation_marked_unidentifiable' => [
+                    'database' => true,
+                    'mail' => false,
+                ],
+                'field_observation_for_approval' => [
+                    'database' => true,
+                    'mail' => false,
+                ],
+            ],
         ];
     }
 
     /**
      * Retrieve the given setting.
      *
-     * @param  string $key
-     * @return string
+     * @param  string  $key
+     * @param  mixed  $default
+     * @return mixed
      */
-    public function get($key)
+    public function get($key, $default = null)
     {
-        return array_get($this->settings, $key);
+        return array_get($this->settings, $key, $default);
     }
 
     /**
      * Create and persist a new setting.
      *
-     * @param string $key
-     * @param mixed  $value
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return void
      */
     public function set($key, $value)
     {
-        $this->settings[$key] = $value;
+        array_set($this->settings, $key, $value);
 
         $this->persist();
     }
@@ -75,7 +111,7 @@ class Settings
     /**
      * Determine if the given setting exists.
      *
-     * @param  string $key
+     * @param  string  $key
      * @return bool
      */
     public function has($key)
@@ -144,6 +180,7 @@ class Settings
      *
      * @param  string  $key
      * @param  mixed  $value
+     * @return void
      */
     public function __set($key, $value)
     {

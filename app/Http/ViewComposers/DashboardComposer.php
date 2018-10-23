@@ -16,5 +16,7 @@ class DashboardComposer
     public function compose(View $view)
     {
         $view->with('lastAnnouncement', Announcement::latest()->first());
+
+        $view->with('unreadNotifications', auth()->user()->unreadNotifications);
     }
 }

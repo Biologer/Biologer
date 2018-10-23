@@ -8,6 +8,8 @@ use Tests\TestCase;
 use App\FieldObservation;
 use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\FieldObservationApproved;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class BatchApprovingFieldObservationsTest extends TestCase
@@ -19,6 +21,8 @@ class BatchApprovingFieldObservationsTest extends TestCase
         parent::setUp();
 
         $this->seed('RolesTableSeeder');
+
+        Notification::fake();
     }
 
     /** @test */
@@ -189,5 +193,37 @@ class BatchApprovingFieldObservationsTest extends TestCase
         ]);
 
         $response->assertValidationErrors('field_observation_ids');
+    }
+
+    /** @test */
+    public function creator_is_notified_when_the_observation_is_approved()
+    {
+        $user = factory(User::class)->create();
+        $curator = factory(User::class)->create()->assignRoles('curator');
+
+        $taxon = factory(Taxon::class)->create();
+        $taxon->curators()->attach($curator);
+        $fieldObservations = ObservationFactory::createManyUnnapprovedFieldObservations(3, [
+            'taxon_id' => $taxon->id,
+            'created_by_id' => $user->id,
+        ]);
+
+        Passport::actingAs($curator);
+        $this->postJson('/api/approved-field-observations/batch', [
+            'field_observation_ids' => $fieldObservations->pluck('id')->all(),
+        ])->assertSuccessful();
+
+        Notification::assertTimesSent(3, FieldObservationApproved::class);
+
+        $fieldObservations->each(function ($observation) use ($user, $curator) {
+            Notification::assertSentTo(
+                $user,
+                FieldObservationApproved::class,
+                function ($notification) use ($observation, $curator) {
+                    return $notification->curator->is($curator) &&
+                        $notification->fieldObservation->is($observation);
+                }
+            );
+        });
     }
 }

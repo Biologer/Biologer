@@ -9,14 +9,8 @@ export default {
     return {
       active: false,
       showSidebar: false,
-      hasUnreadNotificationsOrAnnouncements: this.hasUnread
+      hasUnreadNotifications: this.hasUnread
     }
-  },
-
-  created() {
-    this.$root.$on('announcement-read', (announcement) => {
-      this.hasUnreadNotificationsOrAnnouncements = !announcement
-    });
   },
 
   methods: {
@@ -26,6 +20,10 @@ export default {
 
     toggleSidebar() {
         this.showSidebar = !this.showSidebar;
+    },
+
+    updateNotificationStatus(status) {
+      this.hasUnreadNotifications = status;
     }
   }
 }

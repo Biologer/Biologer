@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\My;
 
 use App\FieldObservation;
-
 use App\Jobs\PerformExport;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;

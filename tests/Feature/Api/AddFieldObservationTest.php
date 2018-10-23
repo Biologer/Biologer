@@ -14,11 +14,20 @@ use Illuminate\Http\Testing\File;
 use App\Jobs\ProcessUploadedPhoto;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\FieldObservationForApproval;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AddFieldObservationTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        Notification::fake();
+    }
 
     /**
      * Valid observation data.
@@ -699,4 +708,23 @@ class AddFieldObservationTest extends TestCase
         $this->assertTrue($fieldObservation->identifiedBy->is($user));
         $this->assertEquals($fieldObservation->identifier, $user->full_name);
     }
+
+    // /** @test */
+    // public function curators_are_notified_of_new_field_observation()
+    // {
+    //     $this->seed('RolesTableSeeder');
+    //
+    //     $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
+    //     $curator = factory(User::class)->create()->assignRoles('curator');
+    //     $taxon->curators()->attach($curator);
+    //
+    //     Passport::actingAs(factory(User::class)->create());
+    //     $this->postJson('/api/field-observations', $this->validParams([
+    //         'taxon_id' => $taxon->id,
+    //     ]))->assertCreated();
+    //
+    //     Notification::assertSentTo($curator, FieldObservationForApproval::class, function ($notification) {
+    //         return $notification->fieldObservation->is(FieldObservation::latest()->first());
+    //     });
+    // }
 }

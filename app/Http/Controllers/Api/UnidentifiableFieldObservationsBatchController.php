@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\FieldObservation;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FieldObservationResource;
+use App\Notifications\FieldObservationMarkedUnidentifiable;
 
 class UnidentifiableFieldObservationsBatchController extends Controller
 {
@@ -30,6 +31,7 @@ class UnidentifiableFieldObservationsBatchController extends Controller
 
         $fieldObservations->each(function ($fieldObservation) {
             $this->logActivity($fieldObservation);
+            $this->notifyCreator($fieldObservation);
         });
 
         return FieldObservationResource::collection($fieldObservations);
@@ -43,7 +45,7 @@ class UnidentifiableFieldObservationsBatchController extends Controller
     protected function getFieldObservations()
     {
         return FieldObservation::with([
-            'observation.taxon.curators.roles', 'photos',
+            'observation.creator', 'observation.taxon.curators.roles', 'photos',
         ])->whereIn('id', request('field_observation_ids'))->get();
     }
 
@@ -59,5 +61,20 @@ class UnidentifiableFieldObservationsBatchController extends Controller
            ->causedBy(auth()->user())
            ->withProperty('reason', request('reason'))
            ->log('marked_unidentifiable');
+    }
+
+    /**
+     * Notify the creator that the observation is marked as unidentifiable.
+     *
+     * @param  \App\FieldObservation  $fieldObservation
+     * @return void
+     */
+    private function notifyCreator(FieldObservation $fieldObservation)
+    {
+        $fieldObservation->observation->creator->notify(
+            new FieldObservationMarkedUnidentifiable(
+                $fieldObservation, auth()->user()
+            )
+        );
     }
 }

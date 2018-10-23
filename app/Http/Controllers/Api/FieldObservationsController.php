@@ -39,7 +39,7 @@ class FieldObservationsController extends Controller
      */
     public function store(StoreFieldObservation $form)
     {
-        return new FieldObservationResource($form->save());
+        return new FieldObservationResource($form->store());
     }
 
     /**

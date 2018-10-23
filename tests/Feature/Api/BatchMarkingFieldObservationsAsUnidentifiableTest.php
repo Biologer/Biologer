@@ -8,7 +8,9 @@ use Tests\TestCase;
 use App\FieldObservation;
 use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Notifications\FieldObservationMarkedUnidentifiable;
 
 class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
 {
@@ -19,6 +21,8 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
         parent::setUp();
 
         $this->seed('RolesTableSeeder');
+
+        Notification::fake();
     }
 
     /** @test */
@@ -61,6 +65,39 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
         $fresh->each(function ($fieldObservation) {
             $this->assertTrue($fieldObservation->unidentifiable);
             $this->assertFalse($fieldObservation->isApproved());
+        });
+    }
+
+    /** @test */
+    public function creator_is_notified_when_the_observation_is_marked_as_unidentifiable()
+    {
+        $user = factory(User::class)->create();
+        $curator = factory(User::class)->create()->assignRoles('curator');
+
+        $taxon = factory(Taxon::class)->create();
+        $taxon->curators()->attach($curator);
+        $fieldObservations = ObservationFactory::createManyUnnapprovedFieldObservations(3, [
+            'taxon_id' => $taxon->id,
+            'created_by_id' => $user->id,
+        ]);
+
+        Passport::actingAs($curator);
+        $this->postJson('/api/unidentifiable-field-observations/batch', [
+            'field_observation_ids' => $fieldObservations->pluck('id')->all(),
+            'reason' => 'Testing',
+        ])->assertSuccessful();
+
+        Notification::assertTimesSent(3, FieldObservationMarkedUnidentifiable::class);
+
+        $fieldObservations->each(function ($observation) use ($user, $curator) {
+            Notification::assertSentTo(
+                $user,
+                FieldObservationMarkedUnidentifiable::class,
+                function ($notification) use ($observation, $curator) {
+                    return $notification->curator->is($curator) &&
+                        $notification->fieldObservation->is($observation);
+                }
+            );
         });
     }
 }

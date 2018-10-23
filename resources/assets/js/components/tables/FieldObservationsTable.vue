@@ -222,6 +222,8 @@
 
                     <a @click="openActivityLogModal(row)" v-if="showActivityLog" :title="trans('Activity Log')"><b-icon icon="history" /></a>
 
+                    <a :href="viewLink(row)" v-if="viewRoute" :title="trans('buttons.view')"><b-icon icon="eye" /></a>
+
                     <a :href="editLink(row)" :title="trans('buttons.edit')"><b-icon icon="edit" /></a>
 
                     <a @click="confirmRemove(row)" :title="trans('buttons.delete')"><b-icon icon="trash" /></a>
@@ -308,6 +310,7 @@ export default {
             }
         },
         listRoute: String,
+        viewRoute: String,
         editRoute: String,
         deleteRoute: String,
         approveRoute: String,
@@ -468,6 +471,10 @@ export default {
 
         editLink (row) {
             return route(this.editRoute, row.id);
+        },
+
+        viewLink (row) {
+            return this.viewRoute ? route(this.viewRoute, row.id) : null;
         },
 
         openImageModal(photos, open) {

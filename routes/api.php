@@ -162,6 +162,9 @@ Route::middleware('auth:api')->group(function () {
 
         Route::get('profile', 'ProfileController@show')
             ->name('api.my.profile.show');
+
+        Route::post('read-notifications/batch', 'ReadNotificationsBatchController@store')
+            ->name('api.my.read-notifications-batch.store');
     });
 
     Route::prefix('curator')->namespace('Curator')->group(function () {
