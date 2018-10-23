@@ -21,6 +21,21 @@ class FieldObservationsController extends Controller
     }
 
     /**
+     * Show field observation details.
+     *
+     * @param  \App\FieldObservation  $fieldObservation
+     * @return \Illuminate\View\View
+     */
+    public function show(FieldObservation $fieldObservation)
+    {
+        return view('contributor.field-observations.show', [
+            'fieldObservation' => $fieldObservation->load([
+                'observation.taxon',
+            ]),
+        ]);
+    }
+
+    /**
      * Show page to add new observation.
      *
      * @return \Illuminate\View\View

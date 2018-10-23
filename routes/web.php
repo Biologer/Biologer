@@ -56,6 +56,10 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::get('field-observations/new', 'FieldObservationsController@create')
                 ->name('field-observations.create');
 
+            Route::get('field-observations/{fieldObservation}', 'FieldObservationsController@show')
+                ->middleware('can:view,fieldObservation')
+                ->name('field-observations.show');
+
             Route::get('field-observations/{fieldObservation}/edit', 'FieldObservationsController@edit')
                 ->middleware('can:update,fieldObservation')
                 ->name('field-observations.edit');
