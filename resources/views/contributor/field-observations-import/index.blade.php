@@ -2,6 +2,10 @@
 
 @section('content')
     <div class="box">
+        <div class="message">
+            <div class="message-body">{{ __('pages.field_observations_import.short_info') }}</div>
+        </div>
+
         <nz-field-observations-import :columns="{{ $columns }}" :running-import="{{ $import ?? 'null' }}" />
     </div>
 @endsection
