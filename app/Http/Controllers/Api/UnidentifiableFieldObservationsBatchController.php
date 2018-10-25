@@ -71,10 +71,12 @@ class UnidentifiableFieldObservationsBatchController extends Controller
      */
     private function notifyCreator(FieldObservation $fieldObservation)
     {
-        $fieldObservation->observation->creator->notify(
-            new FieldObservationMarkedUnidentifiable(
-                $fieldObservation, auth()->user()
-            )
-        );
+        $user = auth()->user();
+
+        if (! $user->is($fieldObservation->observation->creator)) {
+            $fieldObservation->observation->creator->notify(
+                new FieldObservationMarkedUnidentifiable($fieldObservation, $user)
+            );
+        }
     }
 }
