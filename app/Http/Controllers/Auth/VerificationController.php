@@ -2,66 +2,40 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use App\VerificationToken;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\VerifiesEmails;
 
 class VerificationController extends Controller
 {
-    /**
-     * Display verify page.
-     *
-     * @param  string  $email
-     * @return \Illuminate\View\View
-     */
-    public function show($email)
-    {
-        $user = User::findByEmail($email);
+    /*
+    |--------------------------------------------------------------------------
+    | Email Verification Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller is responsible for handling email verification for any
+    | user that recently registered with the application. Emails may also
+    | be re-sent if the user didn't receive the original email message.
+    |
+    */
 
-        abort_if($user->verified, 404);
-
-        return view('auth.verify', ['user' => $user]);
-    }
+    use VerifiesEmails;
 
     /**
-     * Verify the user email using provided token.
+     * Where to redirect users after verification.
      *
-     * @param  \App\VerificationToken  $verificationToken
-     * @return \Illuminate\Http\RedirectResponse
+     * @var string
      */
-    public function verify(VerificationToken $verificationToken)
-    {
-        abort_if($verificationToken->userVerified(), 404);
-
-        $verificationToken->markUserAsVerified();
-
-        return redirect()->route('login')
-            ->with('success', 'Your account is now verified.');
-    }
+    protected $redirectTo = '/contributor';
 
     /**
-     * Resend verification token to the user.
+     * Create a new controller instance.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return void
      */
-    public function resend()
+    public function __construct()
     {
-        request()->validate([
-            'email' => [
-                'required',
-                'email',
-                Rule::exists('users', 'email')->where(function ($query) {
-                    return $query->where('verified', false);
-                }),
-            ],
-            'captcha_code' => 'required|captcha',
-        ]);
-
-        User::findByEmail(request('email'))->sendVerificationEmail();
-
-        return redirect()->route('login')
-            ->with('info', 'Verification link has been sent to your email. Please check you inbox.');
+        $this->middleware('auth');
+        $this->middleware('signed')->only('verify');
+        $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 }

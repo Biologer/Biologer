@@ -4,10 +4,10 @@ namespace Tests\Feature;
 
 use App\User;
 use Tests\TestCase;
-use App\Mail\VerificationEmail;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Nikazooz\LaravelCaptcha\Facades\Captcha;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserRegistrationTest extends TestCase
@@ -33,15 +33,14 @@ class UserRegistrationTest extends TestCase
     /** @test */
     public function user_can_register_by_providing_required_information()
     {
-        Mail::fake();
+        Notification::fake();
         User::assertCount(0);
 
         $response = $this->post('/register', $this->validParams());
 
-        $response->assertRedirect('/login');
-        $response->assertSessionHas('info');
+        $response->assertRedirect('/contributor');
 
-        $this->assertTrue(auth()->guest());
+        $this->assertTrue(auth()->check());
 
         User::assertCount(1);
         $user = User::first();
@@ -50,20 +49,16 @@ class UserRegistrationTest extends TestCase
         $this->assertEquals('john@example.com', $user->email);
         $this->assertEquals('Faculty of Science and Mathematics', $user->institution);
         $this->assertTrue(Hash::check('top-secret-password', $user->password));
-        $this->assertFalse($user->verified);
         $this->assertEquals(10, $user->settings()->get('data_license'));
         $this->assertEquals(20, $user->settings()->get('image_license'));
 
-        Mail::assertQueued(VerificationEmail::class, function ($mail) use ($user) {
-            return $mail->hasTo('john@example.com')
-                && $mail->verificationToken->is($user->verificationToken);
-        });
+        Notification::assertSentTo($user, VerifyEmail::class);
     }
 
     /** @test */
     public function first_name_is_required()
     {
-        Mail::fake();
+        Notification::fake();
         User::assertCount(0);
 
         $response = $this->from('/register')->post('/register', $this->validParams([
@@ -74,14 +69,13 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['first_name']);
 
         User::assertCount(0);
-        Mail::assertNotSent(VerificationEmail::class);
-        Mail::assertNotQueued(VerificationEmail::class);
+        Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
     /** @test */
     public function last_name_is_required()
     {
-        Mail::fake();
+        Notification::fake();
         User::assertCount(0);
 
         $response = $this->from('/register')->post('/register', $this->validParams([
@@ -92,14 +86,13 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['last_name']);
 
         User::assertCount(0);
-        Mail::assertNotSent(VerificationEmail::class);
-        Mail::assertNotQueued(VerificationEmail::class);
+        Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
     /** @test */
     public function password_name_is_required()
     {
-        Mail::fake();
+        Notification::fake();
         User::assertCount(0);
 
         $response = $this->from('/register')->post('/register', $this->validParams([
@@ -110,14 +103,13 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['password']);
 
         User::assertCount(0);
-        Mail::assertNotSent(VerificationEmail::class);
-        Mail::assertNotQueued(VerificationEmail::class);
+        Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
     /** @test */
     public function password_must_be_at_least_6_characters_long()
     {
-        Mail::fake();
+        Notification::fake();
         User::assertCount(0);
 
         $response = $this->from('/register')->post('/register', $this->validParams([
@@ -128,14 +120,13 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['password']);
 
         User::assertCount(0);
-        Mail::assertNotSent(VerificationEmail::class);
-        Mail::assertNotQueued(VerificationEmail::class);
+        Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
     /** @test */
     public function password_confirmation_is_required()
     {
-        Mail::fake();
+        Notification::fake();
         User::assertCount(0);
 
         $response = $this->from('/register')->post('/register', $this->validParams([
@@ -147,14 +138,13 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['password']);
 
         User::assertCount(0);
-        Mail::assertNotSent(VerificationEmail::class);
-        Mail::assertNotQueued(VerificationEmail::class);
+        Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
     /** @test */
     public function password_confirmation_must_match_password()
     {
-        Mail::fake();
+        Notification::fake();
         User::assertCount(0);
 
         $response = $this->from('/register')->post('/register', $this->validParams([
@@ -166,14 +156,13 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['password']);
 
         User::assertCount(0);
-        Mail::assertNotSent(VerificationEmail::class);
-        Mail::assertNotQueued(VerificationEmail::class);
+        Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
     /** @test */
     public function captcha_verification_code_is_required()
     {
-        Mail::fake();
+        Notification::fake();
         User::assertCount(0);
 
         $response = $this->from('/register')->post('/register', $this->validParams([
@@ -184,14 +173,13 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['captcha_verification_code']);
 
         User::assertCount(0);
-        Mail::assertNotSent(VerificationEmail::class);
-        Mail::assertNotQueued(VerificationEmail::class);
+        Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
     /** @test */
     public function captcha_verification_code_must_be_valid()
     {
-        Mail::fake();
+        Notification::fake();
         User::assertCount(0);
 
         $response = $this->from('/register')->post('/register', $this->validParams([
@@ -202,14 +190,13 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['captcha_verification_code']);
 
         User::assertCount(0);
-        Mail::assertNotSent(VerificationEmail::class);
-        Mail::assertNotQueued(VerificationEmail::class);
+        Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
     /** @test */
     public function data_license_is_required()
     {
-        Mail::fake();
+        Notification::fake();
         User::assertCount(0);
 
         $response = $this->from('/register')->post('/register', $this->validParams([
@@ -220,14 +207,13 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['data_license']);
 
         User::assertCount(0);
-        Mail::assertNotSent(VerificationEmail::class);
-        Mail::assertNotQueued(VerificationEmail::class);
+        Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
     /** @test */
     public function data_license_can_only_be_one_of_supported()
     {
-        Mail::fake();
+        Notification::fake();
         User::assertCount(0);
 
         $response = $this->from('/register')->post('/register', $this->validParams([
@@ -238,14 +224,13 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['data_license']);
 
         User::assertCount(0);
-        Mail::assertNotSent(VerificationEmail::class);
-        Mail::assertNotQueued(VerificationEmail::class);
+        Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
     /** @test */
     public function image_license_is_required()
     {
-        Mail::fake();
+        Notification::fake();
         User::assertCount(0);
 
         $response = $this->from('/register')->post('/register', $this->validParams([
@@ -256,14 +241,13 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['image_license']);
 
         User::assertCount(0);
-        Mail::assertNotSent(VerificationEmail::class);
-        Mail::assertNotQueued(VerificationEmail::class);
+        Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
     /** @test */
     public function image_license_can_only_be_one_of_supported()
     {
-        Mail::fake();
+        Notification::fake();
         User::assertCount(0);
 
         $response = $this->from('/register')->post('/register', $this->validParams([
@@ -274,14 +258,13 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['image_license']);
 
         User::assertCount(0);
-        Mail::assertNotSent(VerificationEmail::class);
-        Mail::assertNotQueued(VerificationEmail::class);
+        Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
     /** @test */
     public function user_is_required_to_accept_terms_of_service_and_privacy_policy()
     {
-        Mail::fake();
+        Notification::fake();
         User::assertCount(0);
 
         $response = $this->from('/register')->post('/register', $this->validParams([
@@ -292,7 +275,6 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['accept']);
 
         User::assertCount(0);
-        Mail::assertNotSent(VerificationEmail::class);
-        Mail::assertNotQueued(VerificationEmail::class);
+        Notification::assertTimesSent(0, VerifyEmail::class);
     }
 }

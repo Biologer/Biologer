@@ -5,15 +5,14 @@ namespace App;
 use App\Concerns\HasRoles;
 use App\Filters\Filterable;
 use App\Concerns\CanMemoize;
-use App\Concerns\Verifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Notifications\ResetPassword as ResetPasswordNotification;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, CanMemoize, HasRoles, Notifiable, Verifiable, Filterable;
+    use HasApiTokens, CanMemoize, HasRoles, Notifiable, Filterable;
 
     /**
      * The attributes that are mass assignable.
@@ -21,8 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'settings', 'verified',
-        'institution',
+        'first_name', 'last_name', 'email', 'password', 'settings', 'institution',
     ];
 
     /**
@@ -31,7 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'verified', 'created_at', 'updated_at',
+        'password', 'remember_token', 'email_verified_at', 'created_at', 'updated_at',
     ];
 
     /**
@@ -41,7 +39,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'settings' => 'json',
-        'verified' => 'boolean',
     ];
 
     /**
@@ -100,17 +97,6 @@ class User extends Authenticatable
     public function curatedTaxa()
     {
         return $this->belongsToMany(Taxon::class);
-    }
-
-    /**
-     * Send the password reset notification.
-     *
-     * @param  string  $token
-     * @return void
-     */
-    public function sendPasswordResetNotification($token)
-    {
-        $this->notify(new ResetPasswordNotification($token));
     }
 
     /**

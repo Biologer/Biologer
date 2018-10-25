@@ -11,7 +11,7 @@ class LoginTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function user_with_verified_their_email_can_login()
+    public function user_can_login()
     {
         $user = factory(User::class)->create([
             'email' => 'test@example.com',
@@ -29,21 +29,20 @@ class LoginTest extends TestCase
     }
 
     /** @test */
-    public function user_that_has_not_verified_their_email_is_redirected_to_verify_page()
+    public function user_that_has_not_verified_their_email_is_redirected_to_verification_notice_page()
     {
         factory(User::class)->states('unverified')->create([
             'email' => 'test@example.com',
             'password' => bcrypt('top-secret-password'),
         ]);
 
-        $response = $this->from('/login')->post('/login', [
+        $response = $this->followingRedirects()->from('/login')->post('/login', [
             'email' => 'test@example.com',
             'password' => 'top-secret-password',
         ]);
 
-        $response->assertRedirect('login');
-
-        $this->assertTrue(auth()->guest());
+        $response->assertOk();
+        $response->assertViewIs('auth.verify');
     }
 
     /** @test */

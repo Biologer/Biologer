@@ -17,7 +17,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 Route::prefix(LaravelLocalization::setLocale())->middleware([
     'localeCookieRedirect', 'localizationRedirect', 'localeViewPath',
 ])->group(function () {
-    Route::auth();
+    Route::auth(['verify' => true]);
 
     Route::get('/', 'HomeController@index');
     Route::get('taxa/{taxon}', 'TaxaController@show');
@@ -30,16 +30,10 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
     Route::view('pages/partially-open-license', 'pages.partially-open-license')->name('pages.partially-open-license');
     Route::view('pages/closed-license', 'pages.closed-license')->name('pages.closed-license');
 
-    Route::middleware('guest')->group(function () {
-        Route::get('verify/{email}', 'Auth\VerificationController@show')->name('auth.verify.show');
-        Route::get('verify/token/{verificationToken}', 'Auth\VerificationController@verify')->name('auth.verify.verify');
-        Route::post('verify/resend', 'Auth\VerificationController@resend')->name('auth.verify.resend');
-    });
-
     Route::get('announcements', 'AnnouncementsController@index')->name('announcements.index');
     Route::get('announcements/{announcement}', 'AnnouncementsController@show')->name('announcements.show');
 
-    Route::middleware('auth')->group(function () {
+    Route::middleware(['auth', 'verified'])->group(function () {
         Route::prefix('contributor')->namespace('Contributor')->name('contributor.')->group(function () {
             Route::get('/', 'DashboardController@index')
                 ->name('index');

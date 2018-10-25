@@ -23,7 +23,7 @@
                                         name="email"
                                         class="input{{ $errors->has('email') ? ' is-danger' : '' }}"
                                         placeholder="{{ __('labels.reset_password.email') }}"
-                                        value="{{ $email or old('email') }}"
+                                        value="{{ $email ?? old('email') }}"
                                         required
                                         autofocus>
                                 </div>

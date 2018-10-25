@@ -37,21 +37,4 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-
-    /**
-     * The user has been authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return mixed
-     */
-    protected function authenticated(Request $request, $user)
-    {
-        if (! $user->verified) {
-            $this->guard()->logout();
-
-            return redirect()->route('login')
-                ->with('info', trans('auth.verify_email'));
-        }
-    }
 }

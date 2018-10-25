@@ -31,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/login';
+    protected $redirectTo = '/contributor';
 
     /**
      * Create a new controller instance.
@@ -89,22 +89,6 @@ class RegisterController extends Controller
                 'image_license' => (int) $data['image_license'],
                 'language' => app()->getLocale(),
             ],
-            'verified' => false,
         ]);
-    }
-
-    /**
-     * The user has been registered.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return mixed
-     */
-    protected function registered(Request $request, $user)
-    {
-        $this->guard()->logout();
-
-        return redirect()->route('login')
-            ->with('info', trans('auth.verification_link_sent'));
     }
 }

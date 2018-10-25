@@ -1,0 +1,165 @@
+.btn-remove {
+    display: none;
+}
+
+.image:hover .btn-remove {
+    display: flex;
+}
+
+.image-magnifier {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba($grey-dark, 0.3);
+    color: rgba($white, .7);
+}
+
+.has-magnifier:hover {
+    cursor: zoom-in;
+
+    .image-magnifier {
+        display: flex;
+    }
+}
+
+.delete.is-danger {
+    background-color: $danger;
+}
+
+body {
+    min-height: 100vh;
+}
+
+.banner-image {
+    height: 10rem;
+}
+
+.navbar-logo {
+    width: auto;
+    height: 1.75rem;
+
+    &.is-plane {
+        fill: currentColor;
+    }
+}
+
+ul.is-done li:before {
+    content: "\f05d";
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-right: .75rem;
+    color: $primary;
+}
+
+ul.is-not-done li:before {
+    content: "\f05c";
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-right: .75rem;
+    color: $warning;
+}
+
+.field.is-required .label:after {
+    content: '*';
+    color: $danger;
+}
+
+[v-cloak] {
+    display: none;
+}
+
+.croppr-container {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.label .is-dashed {
+    border-bottom: 1px dashed $grey-light;
+    cursor: default;
+}
+
+@include until-widescreen {
+    .container {
+        padding-left: $gap;
+        padding-right: $gap;
+
+        .navbar & {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+}
+
+.secondary-navbar {
+    position: relative;
+    overflow-x: auto;
+    min-height: $navbar-height;
+    display: flex;
+    align-items: center;
+
+    .container {
+        width: 100%;
+    }
+
+    .breadcrumb {
+        overflow-x: auto;
+        display: flex;
+        align-items: center;
+
+        ul {
+            flex-wrap: nowrap;
+        }
+    }
+
+    .level {
+        width: 100%;
+    }
+}
+
+@include until-widescreen {
+    .secondary-navbar {
+        .container {
+            padding: 1rem 1rem;
+        }
+    }
+}
+
+.tabs {
+    .is-in-container & {
+        margin-left: -1.5rem;
+        margin-right: -1.5rem;
+    }
+}
+
+.is-danger .table thead tr:first-child {
+    background-color: #ff3860;
+
+    th {
+      color: #ffffff;
+    }
+}
+
+@include tablet-only {
+    .button.has-text-hidden-tablet-only {
+        .icon:first-child {
+            margin-right: 0;
+            margin-left: 0;
+        }
+    }
+}
+
+.panel-heading {
+    .b-checkbox {
+        font-size: 1rem;
+    }
+}
+
+.message-actions :not(:last-child) {
+  margin-right: 1rem;
+}

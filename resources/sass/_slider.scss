@@ -1,0 +1,204 @@
+.slider {
+    img {
+        vertical-align: middle;
+        max-height: 300px;
+    }
+    /* Slideshow container */
+    .slide-container {
+        width: 100%;
+        position: relative;
+        margin: auto auto 1rem;
+    }
+
+    .slide {
+        -webkit-animation-name: fade;
+        -webkit-animation-duration: 1.5s;
+        animation-name: fade;
+        animation-duration: 1.5s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 300px;
+    }
+    .slide-image-container {
+        position: relative;
+
+        img[lazy="loading"] + .slide-caption,
+        img[lazy="error"] + .slide-caption {
+            display: none;
+        }
+    }
+    .slide-caption {
+        position: relative;
+        bottom: 0;
+        width: 100%;
+        padding: 1rem;
+        background-color: rgba($white, .75);
+        text-align: center;
+    }
+    /* Next & previous buttons */
+    .next,
+    .prev {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        margin-top: -22px;
+        color: rgba(10,10,10,0.7);
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        background-color: rgba(255,255,255,0.4);
+    }
+    /* Position the "next button" to the right */
+    .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+    }
+    /* On hover, add a black background color with a little bit see-through */
+    .next:hover,
+    .prev:hover {
+        background-color: rgba(0,0,0,0.8);
+        color: $white;
+    }
+
+    /* The dots/bullets/indicators */
+    .dots {
+        text-align: center;
+    }
+    .dot {
+        cursor: pointer;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.6s ease;
+
+        &.active,
+        &:hover {
+            background-color: #717171;
+        }
+    }
+
+    .thumbnails {
+        align-items: center;
+
+        .tn-item {
+            text-align: center;
+            position: relative;
+            margin-right: .5rem;
+            margin-left: .5rem;
+
+            &:last-child {
+                margin-right: 0;
+            }
+
+            &:first-child {
+                margin-left: 0;
+            }
+
+            .inner-shadow {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                background-color: rgba($white, .75);
+            }
+
+            &.active .inner-shadow {
+                background-color: transparent;
+            }
+        }
+
+        .thumbnail {
+
+        }
+
+        img {
+            height: 50px;
+        }
+
+        .tn-transform-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .tn-prev, .tn-next {
+            text-align: center;
+            width: 2rem;
+            color: rgba(10,10,10,0.7);
+        }
+
+        .tn-prev:hover, .tn-next:hover {
+            color: #717171;
+            cursor: pointer;
+        }
+    }
+
+    /* Fading animation */
+    @-webkit-keyframes fade {
+        from {
+            opacity: 0.4;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+    @keyframes fade {
+        from {
+            opacity: 0.4;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+    /* On smaller screens, decrease text size */
+    @media only screen and (max-width: 300px) {
+        .next,
+        .prev {
+            font-size: 11px;
+        }
+    }
+}
+@include tablet() {
+    .slider {
+        .slide {
+            min-height: 400px;
+
+            .slide-image-container {
+                .slide-caption {
+                    display: none;
+                    position: absolute;
+                }
+
+                &:hover {
+                    .slide-caption {
+                       display: block;
+                   }
+                }
+            }
+        }
+
+        img {
+            max-height: 400px;
+        }
+    }
+}
+@include desktop() {
+    .slider {
+        .slide {
+            min-height: 500px;
+        }
+
+        img {
+            max-height: 500px;
+        }
+    }
+}

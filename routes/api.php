@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('groups/{group}/taxa', 'GroupTaxaController@index')
     ->name('api.groups.taxa.index');
 
-Route::middleware('auth:api')->group(function () {
+Route::middleware(['auth:api', 'verified'])->group(function () {
     // Uploads
     Route::post('uploads/photos', 'PhotoUploadsController@store')
         ->name('api.photo-uploads.store');
