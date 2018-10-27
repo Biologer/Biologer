@@ -110,6 +110,12 @@ class Photo extends Model
             return;
         }
 
+        if (License::CLOSED_FOR_A_PERIOD === $this->license) {
+            $openAt = $this->created_at->copy()->addYears(config('biologer.license_closed_period', 3));
+
+            return now()->gt($openAt) ? $this->url : null;
+        }
+
         if (License::PARTIALLY_OPEN === $this->license) {
             return $this->watermarkedUrl();
         }
