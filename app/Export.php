@@ -89,11 +89,22 @@ class Export extends Model
         return "exports/{$this->user_id}/{$this->filename}";
     }
 
+    /**
+     * Perform the export.
+     *
+     * @return void
+     */
     public function perform()
     {
         app($this->type)->export($this);
     }
 
+    /**
+     * Move export file from temporary to final path.
+     *
+     * @param  string  $tempFilePath
+     * @return void
+     */
     public function moveToFinalPath($tempFilePath)
     {
         $tempFile = fopen($tempFilePath, 'r');

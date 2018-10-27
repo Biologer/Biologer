@@ -81,35 +81,40 @@ class FieldObservation extends Model
     }
 
     /**
-     * Comments related to observation.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function comments()
-    {
-        return $this->observation->comments();
-    }
-
-    /**
      * Photos of the observation.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function photos()
     {
         return $this->observation->photos();
     }
 
+    /**
+     * Activity recorded on the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function activity()
     {
         return $this->morphMany(Activity::class, 'subject')->latest();
     }
 
+    /**
+     * User that made the observation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function observedBy()
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * User that has identified field observation taxon.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function identifiedBy()
     {
         return $this->belongsTo(User::class);
