@@ -24,11 +24,16 @@ class License implements Arrayable
     public $name;
 
     /**
+     * @var string
+     */
+    public $link;
+
+    /**
      * List of attributes of the License object that can be set.
      *
      * @var array
      */
-    protected $fillable = ['id', 'name'];
+    protected $fillable = ['id', 'name', 'link'];
 
     /**
      * Constructor
@@ -77,26 +82,32 @@ class License implements Arrayable
             new static([
                 'id' => self::CC_BY_SA,
                 'name' => 'CC BY-SA 4.0',
+                'link' => 'https://creativecommons.org/licenses/by-sa/4.0/'
             ]),
             new static([
                 'id' => self::OPEN,
                 'name' => 'Open',
+                'link' => ''
             ]),
             new static([
                 'id' => self::CC_BY_NC_SA,
                 'name' => 'CC BY-NC-SA 4.0',
+                'link' => 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
             ]),
             new static([
                 'id' => self::PARTIALLY_OPEN,
                 'name' => 'Partially open',
+                'link' => config('app.url').'/pages/partially-open-license',
             ]),
             new static([
                 'id' => self::CLOSED_FOR_A_PERIOD,
                 'name' => 'Closed for a period',
+                'link' => ''
             ]),
             new static([
                 'id' => self::CLOSED,
                 'name' => 'Closed',
+                'link' => config('app.url').('/pages/closed-license')
             ]),
         ]);
     }
@@ -205,9 +216,16 @@ class License implements Arrayable
         return [
             'id' => $this->id,
             'name' => $this->name(),
+            'link' => $this->link,
         ];
     }
 
+    /**
+     * Check if license is enabled.
+     *
+     * @param  int  $licenseId
+     * @return bool
+     */
     public static function isEnabled($licenseId)
     {
         return self::activeIds()->contains($licenseId);
