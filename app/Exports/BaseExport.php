@@ -19,7 +19,7 @@ abstract class BaseExport
      * @param  bool  $withHeader
      * @return \App\Export
      */
-    public static function create(array $columns, array $filter, $withHeader)
+    public static function create(array $columns, array $filter, $withHeader = false)
     {
         return Export::create([
             'type' => static::class,
@@ -83,6 +83,8 @@ abstract class BaseExport
      */
     public function export(Export $export)
     {
+        $oldLocale = app()->getLocale();
+
         $export->updateStatusToExporting();
         // Use locale that the user was using when they requested export.
         app()->setLocale($export->locale);
@@ -95,6 +97,9 @@ abstract class BaseExport
             $export->updateStatusToFailed();
 
             throw $e;
+        } finally {
+            // Restore old locale
+            app()->setLocale($oldLocale);
         }
     }
 

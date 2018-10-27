@@ -511,6 +511,16 @@ class FieldObservation extends Model
     }
 
     /**
+     * Get data license instance.
+     *
+     * @return \App\License|null
+     */
+    public function license()
+    {
+        return License::findById($this->license);
+    }
+
+    /**
      * Convert the model instance to an array.
      *
      * @return array

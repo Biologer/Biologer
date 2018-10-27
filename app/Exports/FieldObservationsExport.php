@@ -186,7 +186,7 @@ class FieldObservationsExport extends BaseExport
             'found_dead' => $item->found_dead ? __('Yes') : __('No'),
             'found_dead_note' => $item->found_dead_note,
             'status' => $item->status_translation,
-            'types' => $item->observation->types->pluck('name')->implode(','),
+            'types' => $item->observation->types->pluck('name')->implode(', '),
         ];
     }
 }

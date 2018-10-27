@@ -15,6 +15,13 @@ class PerformExport implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
+     * Run the job 10 minutes before killing the process.
+     *
+     * @var int
+     */
+    public $timeout = 600;
+
+    /**
      * @var \App\Export
      */
     public $export;
