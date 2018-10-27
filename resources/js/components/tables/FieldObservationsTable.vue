@@ -276,7 +276,7 @@
         </b-modal>
 
         <b-modal :active="showExportModal" @close="showExportModal = false" has-modal-card :can-cancel="[]">
-            <nz-custom-export
+            <nz-export-modal
               :checked="checkedIds"
               :filter="filter"
               :columns="exportColumns"
@@ -686,15 +686,23 @@ export default {
         onExportDone(finishedExport) {
             this.showExportModal = false;
 
-            this.$modal.open({
-                parent: this,
-                component: ExportDownloadModal,
-                canCancel: [],
-                hasModalCard: true,
-                props: {
-                  url: finishedExport.url,
-                }
-            });
+            if (finishedExport.url) {
+                this.$modal.open({
+                    parent: this,
+                    component: ExportDownloadModal,
+                    canCancel: [],
+                    hasModalCard: true,
+                    props: {
+                      url: finishedExport.url,
+                    }
+                });
+            } else {
+                this.$toast.open({
+                    duration: 0,
+                    message: `Something's not good, also I'm on bottom`,
+                    type: 'is-danger'
+                })
+            }
         },
 
         onTaxonSelect(taxon) {

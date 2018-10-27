@@ -41,6 +41,7 @@ import FieldObservationActivityLog from './components/activity/FieldObservationA
 import TaxonActivityLog from './components/activity/TaxonActivityLog';
 
 import CustomExport from './components/exports/CustomExport';
+import ExportModal from './components/exports/ExportModal';
 
 import FieldObservationsImport from './components/imports/FieldObservationsImport';
 
@@ -104,6 +105,7 @@ Vue.component(FieldObservationActivityLog.name, FieldObservationActivityLog);
 Vue.component(TaxonActivityLog.name, TaxonActivityLog);
 
 Vue.component(CustomExport.name, CustomExport);
+Vue.component(ExportModal.name, ExportModal);
 
 Vue.component(FieldObservationsImport.name, FieldObservationsImport);
 
