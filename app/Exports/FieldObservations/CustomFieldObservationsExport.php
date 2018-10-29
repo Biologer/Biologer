@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\FieldObservations;
 
 use App\Export;
 use App\FieldObservation;
+use App\Exports\BaseExport;
 use Illuminate\Support\Collection;
 
-class FieldObservationsExport extends BaseExport
+class CustomFieldObservationsExport extends BaseExport
 {
     /**
      * Column labels and names.

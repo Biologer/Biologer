@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\FieldObservations;
 
 use App\Export;
 
-class CuratorUnidentifiableFieldObservationsExport extends FieldObservationsExport
+class CuratorPendingFieldObservationsCustomExport extends CustomFieldObservationsExport
 {
     /**
      * Database query to get the data for export.
@@ -14,6 +14,6 @@ class CuratorUnidentifiableFieldObservationsExport extends FieldObservationsExpo
      */
     protected function query(Export $export)
     {
-        return parent::query($export)->curatedBy($export->user)->unidentifiable();
+        return parent::query($export)->curatedBy($export->user)->pending();
     }
 }

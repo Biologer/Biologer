@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Exports;
+namespace Tests\Unit\Exports\FieldObservations;
 
 use App\User;
 use App\Stage;
@@ -9,26 +9,30 @@ use App\License;
 use Tests\TestCase;
 use App\Jobs\PerformExport;
 use Tests\ObservationFactory;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Exports\ContributorFieldObservationsExport;
+use App\Exports\FieldObservations\CuratorApprovedFieldObservationsCustomExport;
 
-class ContributorFieldObservationsExportTest extends TestCase
+class CuratorApprovedFieldObservationsCustomExportTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    public function contributors_field_observations_are_exported_to_a_csv_file()
+    public function curated_approved_field_observations_are_exported_to_a_csv_file()
     {
-        Storage::fake('public');
+        Carbon::setTestNow(Carbon::now());
+        Storage::fake('local');
         $this->seed('StagesTableSeeder');
 
         $this->actingAs($user = factory(User::class)->create());
+        $taxon = factory(Taxon::class)->create(['name' => 'Test taxon']);
+        $user->curatedTaxa()->attach($taxon);
 
         $observation = ObservationFactory::createFieldObservation([
-            'created_by_id' => $user,
-            'taxon_id' => factory(Taxon::class)->create(['name' => 'Test taxon']),
+            'created_by_id' => factory(User::class)->create()->id,
+            'taxon_id' => $taxon->id,
             'year' => 2001,
             'month' => 2,
             'day' => 23,
@@ -54,7 +58,7 @@ class ContributorFieldObservationsExportTest extends TestCase
             'found_dead_note' => 'Found dead',
         ]);
 
-        $export = ContributorFieldObservationsExport::create([
+        $export = CuratorApprovedFieldObservationsCustomExport::create([
             'id', 'taxon', 'identifier', 'observer', 'sex', 'year', 'month',
             'day', 'latitude', 'longitude', 'location', 'accuracy', 'elevation',
             'stage', 'number', 'note', 'project', 'found_on', 'status',
@@ -62,7 +66,7 @@ class ContributorFieldObservationsExportTest extends TestCase
 
         (new PerformExport($export))->handle();
 
-        Storage::disk('public')->assertExists($export->path());
+        Storage::disk('local')->assertExists($export->path());
 
         $this->assertEquals(
             EncodingHelper::BOM_UTF8
@@ -71,7 +75,7 @@ class ContributorFieldObservationsExportTest extends TestCase
             .$observation->id.',"Test taxon","Test identifier","Test observer",'
             .'Male,2001,2,23,12.3456,12.3456,"Test location",12,123,Larva,2,'
             .'"Test note","Test project",Ground,Approved'."\n",
-            Storage::disk('public')->get($export->path())
+            Storage::disk('local')->get($export->path())
         );
     }
 }

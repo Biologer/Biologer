@@ -3,18 +3,13 @@
 namespace Tests\Feature\Api;
 
 use App\User;
-use App\Stage;
-use App\Taxon;
-use App\License;
 use Tests\TestCase;
 use App\Jobs\PerformExport;
-use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Queue;
-use Illuminate\Support\Facades\Storage;
-use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Exports\CuratorPendingFieldObservationsExport;
+use App\Exports\FieldObservations\CuratorPendingFieldObservationsCustomExport;
+use App\Exports\FieldObservations\CuratorPendingFieldObservationsDarwinCoreExport;
 
 class ExportCuratorPendingFieldObservationsTest extends TestCase
 {
@@ -29,11 +24,12 @@ class ExportCuratorPendingFieldObservationsTest extends TestCase
         $response = $this->postJson('/api/curator/pending-observations/export', [
             'columns' => ['id', 'taxon'],
             'with_header' => false,
+            'type' => 'custom',
         ]);
 
         $response->assertSuccessful();
         Queue::assertPushed(PerformExport::class, function ($job) use ($user) {
-            return $job->export->type === CuratorPendingFieldObservationsExport::class
+            return $job->export->type === CuratorPendingFieldObservationsCustomExport::class
                 && $job->export->user->is($user)
                 && $job->export->filter->isEmpty()
                 && $job->export->columns === ['id', 'taxon']
@@ -47,9 +43,37 @@ class ExportCuratorPendingFieldObservationsTest extends TestCase
         Queue::fake();
         Passport::actingAs($user = factory(User::class)->create());
 
-        $response = $this->postJson('/api/curator/pending-observations/export');
+        $response = $this->postJson('/api/curator/pending-observations/export', [
+            'type' => 'custom',
+        ]);
 
         $response->assertJsonValidationErrors('columns');
+        Queue::assertNotPushed(PerformExport::class);
+    }
+
+    /** @test */
+    public function type_is_required()
+    {
+        Queue::fake();
+        Passport::actingAs($user = factory(User::class)->create());
+
+        $response = $this->postJson('/api/curator/pending-observations/export');
+
+        $response->assertJsonValidationErrors('type');
+        Queue::assertNotPushed(PerformExport::class);
+    }
+
+    /** @test */
+    public function type_must_be_valid()
+    {
+        Queue::fake();
+        Passport::actingAs($user = factory(User::class)->create());
+
+        $response = $this->postJson('/api/curator/pending-observations/export', [
+            'type' => 'invalid',
+        ]);
+
+        $response->assertJsonValidationErrors('type');
         Queue::assertNotPushed(PerformExport::class);
     }
 
@@ -61,6 +85,7 @@ class ExportCuratorPendingFieldObservationsTest extends TestCase
 
         $response = $this->postJson('/api/curator/pending-observations/export', [
             'columns' => 'string',
+            'type' => 'custom',
         ]);
 
         $response->assertJsonValidationErrors('columns');
@@ -75,6 +100,7 @@ class ExportCuratorPendingFieldObservationsTest extends TestCase
 
         $response = $this->postJson('/api/curator/pending-observations/export', [
             'columns' => [],
+            'type' => 'custom',
         ]);
 
         $response->assertJsonValidationErrors('columns');
@@ -89,6 +115,7 @@ class ExportCuratorPendingFieldObservationsTest extends TestCase
 
         $response = $this->postJson('/api/curator/pending-observations/export', [
             'columns' => ['invalid'],
+            'type' => 'custom',
         ]);
 
         $response->assertJsonValidationErrors('columns');
@@ -96,60 +123,22 @@ class ExportCuratorPendingFieldObservationsTest extends TestCase
     }
 
     /** @test */
-    public function curators_pending_field_observations_are_exported_to_a_csv_file()
+    public function curator_can_export_pending_observations_using_darwin_core_standard()
     {
-        Storage::fake('public');
-        $this->seed('StagesTableSeeder');
+        Queue::fake();
+        Passport::actingAs($user = factory(User::class)->create());
 
-        $taxon = factory(Taxon::class)->create(['name' => 'Test taxon']);
-        $this->actingAs($user = factory(User::class)->create()->assignRoles('curator'));
-        $taxon->addCurator($user);
-
-        $observation = ObservationFactory::createUnapprovedFieldObservation([
-            'created_by_id' => $user,
-            'taxon_id' => $taxon,
-            'year' => 2001,
-            'month' => 2,
-            'day' => 23,
-            'latitude' => 12.3456,
-            'longitude' => 12.3456,
-            'location' => 'Test location',
-            'mgrs10k' => '34TEST34',
-            'accuracy' => 12,
-            'elevation' => 123,
-            'sex' => 'male',
-            'observer' => 'Test observer',
-            'identifier' => 'Test identifier',
-            'stage_id' => Stage::where('name', 'larva')->first(),
-            'number' => 2,
-            'note' => 'Test note',
-            'project' => 'Test project',
-            'found_on' => 'Ground',
-        ], [
-            'time' => '10:23',
-            'license' => License::CC_BY_SA,
-            'found_dead' => true,
-            'found_dead_note' => 'Found dead',
+        $response = $this->postJson('/api/curator/pending-observations/export', [
+            'type' => 'darwin_core',
         ]);
 
-        $export = CuratorPendingFieldObservationsExport::create([
-            'id', 'taxon', 'identifier', 'observer', 'sex', 'year', 'month',
-            'day', 'latitude', 'longitude', 'location', 'accuracy', 'elevation',
-            'stage', 'number', 'note', 'project', 'found_on', 'status',
-        ], [], true);
-
-        (new PerformExport($export))->handle();
-
-        Storage::disk('public')->assertExists($export->path());
-
-        $this->assertEquals(
-            EncodingHelper::BOM_UTF8
-            .'ID,Taxon,Identifier,Observer,Sex,Year,Month,Day,Latitude,Longitude,'
-            .'Location,Accuracy,Elevation,Stage,Number,Note,Project,"Found On",Status'."\n"
-            .$observation->id.',"Test taxon","Test identifier","Test observer",'
-            .'Male,2001,2,23,12.3456,12.3456,"Test location",12,123,Larva,2,'
-            .'"Test note","Test project",Ground,Pending'."\n",
-            Storage::disk('public')->get($export->path())
-        );
+        $response->assertSuccessful();
+        Queue::assertPushed(PerformExport::class, function ($job) use ($user) {
+            return $job->export->type === CuratorPendingFieldObservationsDarwinCoreExport::class &&
+                $job->export->user->is($user) &&
+                $job->export->filter->isEmpty() &&
+                $job->export->columns === CuratorPendingFieldObservationsDarwinCoreExport::availableColumns()->all() &&
+                $job->export->with_header === true;
+        });
     }
 }

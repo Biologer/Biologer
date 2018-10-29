@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Exports;
+namespace Tests\Unit\Exports\FieldObservations;
 
 use App\User;
 use App\Stage;
@@ -10,10 +10,11 @@ use Tests\TestCase;
 use App\ObservationType;
 use App\Jobs\PerformExport;
 use Tests\ObservationFactory;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Exports\ContributorFieldObservationsDarwinCoreExport;
+use App\Exports\FieldObservations\ContributorFieldObservationsDarwinCoreExport;
 
 class ContributorFieldObservationsDarwinCoreExportTest extends TestCase
 {
@@ -22,7 +23,8 @@ class ContributorFieldObservationsDarwinCoreExportTest extends TestCase
     /** @test */
     public function contributors_field_observations_are_exported_in_darwin_core_to_a_csv_file()
     {
-        Storage::fake('public');
+        Carbon::setTestNow(Carbon::now());
+        Storage::fake('local');
         $this->seed('StagesTableSeeder');
         $this->seed('ObservationTypesTableSeeder');
 
@@ -65,7 +67,7 @@ class ContributorFieldObservationsDarwinCoreExportTest extends TestCase
 
         (new PerformExport($export))->handle();
 
-        Storage::disk('public')->assertExists($export->path());
+        Storage::disk('local')->assertExists($export->path());
 
         $expectedKeyValuePairs = collect($this->csvContent($observation));
 
@@ -73,7 +75,7 @@ class ContributorFieldObservationsDarwinCoreExportTest extends TestCase
             EncodingHelper::BOM_UTF8.
             $expectedKeyValuePairs->keys()->implode(',')."\n".
             $expectedKeyValuePairs->implode(',')."\n",
-            Storage::disk('public')->get($export->path())
+            Storage::disk('local')->get($export->path())
         );
     }
 
@@ -123,7 +125,7 @@ class ContributorFieldObservationsDarwinCoreExportTest extends TestCase
         return factory(Taxon::class)->create([
             'parent_id' => $species->id,
             'name' => 'Cerambyx cerdo cerdo',
-            'author' => 'Lineus 1758',
+            'author' => 'Linnaeus 1758',
             'rank' => 'subspecies',
         ]);
     }
@@ -140,10 +142,10 @@ class ContributorFieldObservationsDarwinCoreExportTest extends TestCase
             'genus' => 'Cerambyx',
             'specificEpithet' => 'cerdo',
             'species' => '"Cerambyx cerdo"',
-            'scientificNameAuthorship' => '"Lineus 1758"',
+            'scientificNameAuthorship' => '"Linnaeus 1758"',
             'infraspecificEpithet' => 'cerdo',
             'scientificName' => '"Cerambyx cerdo cerdo"',
-            'acceptedNameUsage' => '"Cerambyx cerdo cerdo Lineus 1758"',
+            'acceptedNameUsage' => '"Cerambyx cerdo cerdo Linnaeus 1758"',
             'previousIdentifications' => '',
             'taxonRank' => 'subspecies',
             'vernacularName' => '',

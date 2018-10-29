@@ -47,7 +47,7 @@ class FieldObservationMovedToPending extends Notification implements ShouldQueue
 
         if ($notifiable->settings()->get('notifications.field_observation_moved_to_pending.database')) {
             $channels = array_merge($channels, ['broadcast', 'database']);
-        };
+        }
 
         return $channels;
     }

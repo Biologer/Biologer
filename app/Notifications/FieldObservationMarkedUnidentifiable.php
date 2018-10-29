@@ -47,7 +47,7 @@ class FieldObservationMarkedUnidentifiable extends Notification implements Shoul
 
         if ($notifiable->settings()->get('notifications.field_observation_marked_unidentifiable.database')) {
             $channels = array_merge($channels, ['broadcast', 'database']);
-        };
+        }
 
         return $channels;
     }

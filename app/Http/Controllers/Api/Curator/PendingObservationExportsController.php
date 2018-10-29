@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers\Api\Curator;
 
-use App\FieldObservation;
-use App\Http\Controllers\Api\BaseExportController;
-use App\Exports\CuratorPendingFieldObservationsExport;
+use App\Http\Controllers\Api\FieldObservationExportsController;
+use App\Exports\FieldObservations\CuratorPendingFieldObservationsExport;
+use App\Exports\FieldObservations\CuratorPendingFieldObservationsCustomExport;
 
-class PendingObservationExportsController extends BaseExportController
+class PendingObservationExportsController extends FieldObservationExportsController
 {
-    protected function type()
+    public function __construct(CuratorPendingFieldObservationsExport $fieldObservationsExport)
     {
-        return CuratorPendingFieldObservationsExport::class;
+        parent::__construct($fieldObservationsExport);
     }
 
-    protected function filters()
-    {
-        return array_keys(FieldObservation::filters());
-    }
-
+    /**
+     * Columns that can be exported.
+     *
+     * @return string
+     */
     protected function columns()
     {
-        return CuratorPendingFieldObservationsExport::availableColumns();
+        return CuratorPendingFieldObservationsCustomExport::availableColumns();
     }
 }

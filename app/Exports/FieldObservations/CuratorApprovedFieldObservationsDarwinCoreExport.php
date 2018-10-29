@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\FieldObservations;
 
 use App\Export;
 
-class CuratorApprovedFieldObservationsExport extends FieldObservationsExport
+class CuratorApprovedFieldObservationsDarwinCoreExport extends DarwinCoreFieldObservationsExport
 {
     /**
      * Database query to get the data for export.

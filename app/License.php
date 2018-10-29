@@ -36,7 +36,7 @@ class License implements Arrayable
     protected $fillable = ['id', 'name', 'link'];
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $attributes
      */
@@ -82,17 +82,17 @@ class License implements Arrayable
             new static([
                 'id' => self::CC_BY_SA,
                 'name' => 'CC BY-SA 4.0',
-                'link' => 'https://creativecommons.org/licenses/by-sa/4.0/'
+                'link' => 'https://creativecommons.org/licenses/by-sa/4.0/',
             ]),
             new static([
                 'id' => self::OPEN,
                 'name' => 'Open',
-                'link' => ''
+                'link' => '',
             ]),
             new static([
                 'id' => self::CC_BY_NC_SA,
                 'name' => 'CC BY-NC-SA 4.0',
-                'link' => 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
+                'link' => 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
             ]),
             new static([
                 'id' => self::PARTIALLY_OPEN,
@@ -102,12 +102,12 @@ class License implements Arrayable
             new static([
                 'id' => self::CLOSED_FOR_A_PERIOD,
                 'name' => 'Closed for a period',
-                'link' => ''
+                'link' => '',
             ]),
             new static([
                 'id' => self::CLOSED,
                 'name' => 'Closed',
-                'link' => config('app.url').('/pages/closed-license')
+                'link' => config('app.url').('/pages/closed-license'),
             ]),
         ]);
     }

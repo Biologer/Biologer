@@ -6,6 +6,7 @@ use App\Photo;
 use Tests\TestCase;
 use App\Observation;
 use Tests\ObservationFactory;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ObservationTest extends TestCase
@@ -50,6 +51,7 @@ class ObservationTest extends TestCase
     /** @test */
     public function updating_observer_updates_author_of_related_photos()
     {
+        Storage::fake('public');
         $observation = ObservationFactory::createFieldObservation()->observation;
         $photo = $observation->photos()->save(factory(Photo::class)->make([
             'path' => 'fake-path/image.jpg',

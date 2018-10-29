@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Curator;
 
 use App\FieldObservation;
 use App\Http\Controllers\Controller;
-use App\Exports\CuratorUnidentifiableFieldObservationsExport;
+use App\Exports\FieldObservations\CuratorUnidentifiableFieldObservationsCustomExport;
 
 class UnidentifiableObservationsController extends Controller
 {
@@ -16,7 +16,7 @@ class UnidentifiableObservationsController extends Controller
     public function index()
     {
         return view('curator.unidentifiable-observations.index', [
-            'exportColumns' => CuratorUnidentifiableFieldObservationsExport::availableColumnData(),
+            'exportColumns' => CuratorUnidentifiableFieldObservationsCustomExport::availableColumnData(),
         ]);
     }
 

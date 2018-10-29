@@ -66,7 +66,17 @@ class Export extends Model
             return;
         }
 
-        return $this->filesystem()->url($this->path());
+        return route('export-download', $this);
+    }
+
+    /**
+     * Download response for the export file.
+     *
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    public function download()
+    {
+        return $this->filesystem()->download($this->path(), $this->filename);
     }
 
     /**
@@ -76,7 +86,7 @@ class Export extends Model
      */
     protected function filesystem()
     {
-        return Storage::disk('public');
+        return Storage::disk('local');
     }
 
     /**

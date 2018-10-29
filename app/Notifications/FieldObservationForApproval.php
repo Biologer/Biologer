@@ -6,7 +6,6 @@ use App\FieldObservation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class FieldObservationForApproval extends Notification implements ShouldQueue
 {
@@ -40,7 +39,7 @@ class FieldObservationForApproval extends Notification implements ShouldQueue
 
         if ($notifiable->settings()->get('notifications.field_observation_for_approval.database')) {
             $channels = array_merge($channels, ['broadcast', 'database']);
-        };
+        }
 
         return $channels;
     }

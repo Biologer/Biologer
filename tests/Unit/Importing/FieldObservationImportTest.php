@@ -211,7 +211,7 @@ class FieldObservationImportTest extends TestCase
     {
         $file = File::fake()->create('import.csv');
 
-        file_put_contents($file->getPathname(),$contents ?? $this->defaultContents());
+        file_put_contents($file->getPathname(), $contents ?? $this->defaultContents());
 
         return $file;
     }

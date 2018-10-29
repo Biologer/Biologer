@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Query\Builder;
 use PHPUnit\Framework\Assert as PHPUnit;
@@ -23,6 +24,19 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->registerMacros();
+    }
+
+    /**
+     * Clean up the testing environment before the next test.
+     *
+     * @return void
+     */
+    protected function tearDown()
+    {
+        // Clear "now" set in previous tests
+        Carbon::setTestNow();
+
+        parent::tearDown();
     }
 
     /**

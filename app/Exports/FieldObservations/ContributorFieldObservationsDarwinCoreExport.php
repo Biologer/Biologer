@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\FieldObservations;
 
 use App\Export;
 
-class ContributorFieldObservationsExport extends FieldObservationsExport
+class ContributorFieldObservationsDarwinCoreExport extends DarwinCoreFieldObservationsExport
 {
     /**
      * Database query to get the data for export.
      *
      * @param  \App\Export  $export
-     * @return \Illuminate\Database\Query\Builder
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder
      */
     protected function query(Export $export)
     {

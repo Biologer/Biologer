@@ -47,7 +47,7 @@ class FieldObservationApproved extends Notification implements ShouldQueue
 
         if ($notifiable->settings()->get('notifications.field_observation_approved.database')) {
             $channels = array_merge($channels, ['broadcast', 'database']);
-        };
+        }
 
         return $channels;
     }

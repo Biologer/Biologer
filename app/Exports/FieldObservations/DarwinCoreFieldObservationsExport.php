@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\FieldObservations;
 
 use App\Taxon;
 use App\Export;
 use App\FieldObservation;
+use App\Exports\BaseExport;
 
-class ContributorFieldObservationsDarwinCoreExport extends BaseExport
+class DarwinCoreFieldObservationsExport extends BaseExport
 {
     public static function createFiltered($filters = [])
     {
@@ -109,8 +110,8 @@ class ContributorFieldObservationsDarwinCoreExport extends BaseExport
         return FieldObservation::with([
             'observation.taxon.ancestors', 'observation.photos', 'observedBy',
             'identifiedBy', 'observation.types.translations', 'observation.stage',
-            'activity'
-        ])->filter($export->filter)->orderBy('id')->createdBy($export->user);
+            'activity',
+        ])->filter($export->filter)->orderBy('id');
     }
 
     /**
@@ -137,14 +138,14 @@ class ContributorFieldObservationsDarwinCoreExport extends BaseExport
             'infraspecificEpithet' => $this->extractInfraspeciesEpithet($taxon),
             'scientificName' => $this->firstIdentification($item),
             'acceptedNameUsage' => implode(' ', array_filter([optional($taxon)->name, optional($taxon)->author])),
-            'previousIdentifications' => '', // TODO: Get previous identifications
+            'previousIdentifications' => $this->previousIdentifications($item),
             'taxonRank' => optional($taxon)->rank,
             'vernacularName' => $this->getTaxonNativeName($taxon, 'en'),
             'vernacularNameSerbian' => $this->getTaxonNativeName($taxon, 'sr'),
             'vernacularNameSerbian_latin' => $this->getTaxonNativeName($taxon, 'sr-Latn'),
             'vernacularNameCroatian' => $this->getTaxonNativeName($taxon, 'hr'),
-            'taxonomicStatus' => 'valid',
-            'identifiedBy' => $item->observation->identifier,
+            'taxonomicStatus' => $taxon ? 'valid' : '',
+            'identifiedBy' => $taxon ? $item->observation->identifier : '',
             'dateIdentified' => optional($this->identifiedAt($item))->toIso8601String(),
             'basisOfRecord' => 'HumanObservation',
             'dcterms:type' => $item->observation->photos->isNotEmpty() ? 'StillImage' : 'Event',
@@ -228,7 +229,7 @@ class ContributorFieldObservationsDarwinCoreExport extends BaseExport
      */
     private function extractInfraspeciesEpithet($taxon)
     {
-        if (!$taxon || $taxon->rank_level >= Taxon::RANKS['species']) {
+        if (! $taxon || $taxon->rank_level >= Taxon::RANKS['species']) {
             return '';
         }
 
@@ -247,7 +248,7 @@ class ContributorFieldObservationsDarwinCoreExport extends BaseExport
      */
     private function extractSpeciesEpithet($taxon)
     {
-        if (!$taxon || $taxon->rank_level >= Taxon::RANKS['genus']) {
+        if (! $taxon || $taxon->rank_level >= Taxon::RANKS['genus']) {
             return '';
         }
 
@@ -264,8 +265,6 @@ class ContributorFieldObservationsDarwinCoreExport extends BaseExport
      */
     private function firstIdentification($fieldObservation)
     {
-        $taxon = $fieldObservation->observation->taxon;
-
         $activity = $fieldObservation->activity->last(function ($activity) {
             return $activity->changes()->collect('old')->has('taxon');
         });
@@ -274,7 +273,16 @@ class ContributorFieldObservationsDarwinCoreExport extends BaseExport
             return $activity->changes()->collect('old')->get('taxon');
         }
 
+        $taxon = $fieldObservation->observation->taxon;
+
         return $taxon ? $taxon->name : '';
+    }
+
+    private function previousIdentifications($fieldObservation)
+    {
+        return $fieldObservation->activity->map(function ($activity) {
+            return $activity->changes()->collect('old')->get('taxon');
+        })->filter()->implode('|');
     }
 
     private function identifiedAt($fieldObservation)
@@ -296,8 +304,10 @@ class ContributorFieldObservationsDarwinCoreExport extends BaseExport
 
     private function getTaxonNativeName($taxon, $locale)
     {
-        $translation = optional($taxon)->translateOrNew($locale);
+        if (! $taxon) {
+            return '';
+        }
 
-        return $translation ? $translation->name : '';
+        return $taxon->translateOrNew($locale)->name;
     }
 }
