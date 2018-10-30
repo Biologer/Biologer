@@ -32,7 +32,9 @@ class MapServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('map.mgrs10k.basic', function () {
-            return new BasicMgrs10kMap($this->app['config']['biologer.territory']);
+            $territory = strtolower($this->app['config']['biologer.territory']);
+
+            return BasicMgrs10kMap::fromPath(resource_path("maps/mgrs10k/{$territory}.svg"));
         });
     }
 

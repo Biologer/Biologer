@@ -2,7 +2,7 @@
 
 namespace App\Maps;
 
-use SVG\SVGImage;
+use SVG\SVG;
 use SVG\Nodes\SVGNode;
 use Illuminate\Support\Collection;
 use SVG\Nodes\Structures\SVGDocumentFragment;
@@ -12,15 +12,33 @@ abstract class AbstractMgrs10kMap
     const IMAGE_HEIGHT = 1000;
 
     /**
-     * Territory name.
+     * Map file path
      *
      * @var string
      */
-    protected $territory;
+    protected $contents;
 
-    public function __construct($territory)
+    /**
+     * Create Map instance.
+     *
+     * @param  string  $contents
+     */
+    public function __construct($contents)
     {
-        $this->territory = $territory;
+        $this->contents = $contents;
+    }
+
+    /**
+     * Get map contents from path.
+     *
+     * @param  string  $path
+     * @return self
+     */
+    public static function fromPath($path)
+    {
+        $contents = file_exists($path) ? file_get_contents($path) : null;
+
+        return new static($contents);
     }
 
     /**
@@ -31,18 +49,16 @@ abstract class AbstractMgrs10kMap
      */
     public function render(Collection $mgrs10k)
     {
-        if (! $this->mapExists()) {
-            return;
+        if ($this->mapLoaded()) {
+            return $this->processImage($mgrs10k)->__toString();
         }
-
-        return $this->processImage($mgrs10k)->__toString();
     }
 
     /**
      * Process the SVG image.
      *
      * @param  \Illuminate\Support\Collection  $mgrs10k
-     * @return \SVG\SVGImage
+     * @return \SVG\SVG
      */
     protected function processImage(Collection $mgrs10k)
     {
@@ -129,8 +145,8 @@ abstract class AbstractMgrs10kMap
     /**
      * Set attributes to SVG document.
      *
-     * @param \SVG\Nodes\Structures\SVGDocumentFragment  $document
-     * @param array
+     * @param  \SVG\Nodes\Structures\SVGDocumentFragment  $document
+     * @param  array  $attributes
      */
     protected function setAttributesToDocument(SVGDocumentFragment $document, $attributes = [])
     {
@@ -142,11 +158,11 @@ abstract class AbstractMgrs10kMap
     /**
      * Make instance of dom crawler.
      *
-     * @return \SVG\SVGImage
+     * @return \SVG\SVG
      */
     protected function makeImage()
     {
-        return SVGImage::fromString($this->mapContents());
+        return SVG::fromString($this->contents);
     }
 
     /**
@@ -159,33 +175,13 @@ abstract class AbstractMgrs10kMap
     abstract protected function handleNode(SVGNode $node, Collection $mgrs10k);
 
     /**
-     * Get map contents.
-     *
-     * @return string
-     */
-    protected function mapContents()
-    {
-        return file_get_contents($this->filePath());
-    }
-
-    /**
      * Check if map exists.
      *
      * @return bool
      */
-    protected function mapExists()
+    protected function mapLoaded()
     {
-        return file_exists($this->filePath());
-    }
-
-    /**
-     * Get name of the view that holds the base.
-     *
-     * @return string
-     */
-    protected function filePath()
-    {
-        return resource_path('maps/mgrs10k/'.strtolower($this->territory).'.svg');
+        return ! empty($this->contents);
     }
 
     /**
@@ -196,11 +192,9 @@ abstract class AbstractMgrs10kMap
      */
     public function toDataUrl(Collection $mgrs10k)
     {
-        if (! $this->mapExists()) {
-            return;
+        if ($this->mapLoaded()) {
+            return 'data:image/svg+xml;base64,'.base64_encode($this->render($mgrs10k));
         }
-
-        return 'data:image/svg+xml;base64,'.base64_encode($this->render($mgrs10k));
     }
 
     /**
@@ -238,10 +232,8 @@ abstract class AbstractMgrs10kMap
      */
     public function toPngDataUrl(Collection $mgrs10k)
     {
-        if (! $this->mapExists()) {
-            return;
+        if ($this->mapLoaded()) {
+            return 'data:image/png;base64,'.base64_encode($this->renderPng($mgrs10k));
         }
-
-        return 'data:image/png;base64,'.base64_encode($this->renderPng($mgrs10k));
     }
 }
