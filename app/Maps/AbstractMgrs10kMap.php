@@ -12,7 +12,7 @@ abstract class AbstractMgrs10kMap
     const IMAGE_HEIGHT = 1000;
 
     /**
-     * Map file path
+     * Map file path.
      *
      * @var string
      */
