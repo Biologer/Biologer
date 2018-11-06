@@ -60,6 +60,8 @@ class FieldObservation extends Model
         return [
             'id' => \App\Filters\Ids::class,
             'taxon' => \App\Filters\FieldObservation\Taxon::class,
+            'taxonId' => \App\Filters\NullFilter::class,
+            'includeChildTaxa' => \App\Filters\NullFilter::class,
             'year' => \App\Filters\Attribute::class,
             'month' => \App\Filters\Attribute::class,
             'day' => \App\Filters\Attribute::class,
