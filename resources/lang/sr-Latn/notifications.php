@@ -15,9 +15,9 @@ return [
     'no_new_notifications' => 'Nema novih obaveštenja.',
 
     'field_observations' => [
-        'approved' => ':curatorName je odobrio tvoj nalaz.',
-        'for_approval' => ':contributorName je uneo nov nalaz.',
-        'marked_as_unidentifiable' => ':curatorName je označio da tvoj nalaz ne može da se identifikuje.',
-        'moved_to_pending' => ':curatorName je pomerio tvoj nalaz na čekanje potvrde.',
+        'approved' => ':curatorName je odobrio/la tvoj nalaz.',
+        'for_approval' => ':contributorName je uneo/la nov nalaz.',
+        'marked_as_unidentifiable' => ':curatorName je označio/la da tvoj nalaz ne može da se identifikuje.',
+        'moved_to_pending' => ':curatorName je pomerio/la tvoj nalaz na čekanje potvrde.',
     ],
 ];
