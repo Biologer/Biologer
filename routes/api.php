@@ -68,6 +68,9 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->name('api.field-observation-exports.store');
 
     if (config('features.importing')) {
+        Route::post('cancelled-imports', 'CancelledImportsController@store')
+            ->name('api.cancelled-imports.store');
+
         // Field observations import
         Route::post('field-observation-imports', 'FieldObservationImportsController@store')
             ->name('api.field-observation-imports.store');

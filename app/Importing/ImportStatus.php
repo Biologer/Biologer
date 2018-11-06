@@ -13,6 +13,7 @@ class ImportStatus extends \MyCLabs\Enum\Enum
     const SAVING = 'saving';
     const SAVING_FAILED = 'saving_failed';
     const SAVED = 'saved';
+    const CANCELLED = 'cancelled';
 
     /**
      * Check if import status is "parsed".
@@ -21,7 +22,7 @@ class ImportStatus extends \MyCLabs\Enum\Enum
      */
     public function parsed()
     {
-        return $this->getValue() === static::PARSED;
+        return $this->getValue() === self::PARSED;
     }
 
     /**
@@ -31,7 +32,7 @@ class ImportStatus extends \MyCLabs\Enum\Enum
      */
     public function validationFailed()
     {
-        return $this->getValue() === static::VALIDATION_FAILED;
+        return $this->getValue() === self::VALIDATION_FAILED;
     }
 
     /**
@@ -41,7 +42,7 @@ class ImportStatus extends \MyCLabs\Enum\Enum
      */
     public function validationPassed()
     {
-        return $this->getValue() === static::VALIDATION_PASSED;
+        return $this->getValue() === self::VALIDATION_PASSED;
     }
 
     /**
@@ -51,7 +52,17 @@ class ImportStatus extends \MyCLabs\Enum\Enum
      */
     public function saved()
     {
-        return $this->getValue() === static::SAVED;
+        return $this->getValue() === self::SAVED;
+    }
+
+    /**
+     * Check if import is "cancelled".
+     *
+     * @return bool
+     */
+    public function cancelled()
+    {
+        return $this->getValue() === self::CANCELLED;
     }
 
     /**
@@ -63,9 +74,26 @@ class ImportStatus extends \MyCLabs\Enum\Enum
     public static function doneStatuses()
     {
         return [
-            static::VALIDATION_FAILED,
-            static::SAVING_FAILED,
-            static::SAVED,
+            self::VALIDATION_FAILED,
+            self::SAVING_FAILED,
+            self::SAVED,
+            self::CANCELLED,
+        ];
+    }
+
+    /**
+     * Statuses at which import can be cancelled.
+     *
+     * @return array
+     */
+    public static function cancellableStatuses()
+    {
+        return [
+            self::PROCESSING_QUEUED,
+            self::PARSING,
+            self::PARSED,
+            self::VALIDATING,
+            self::VALIDATION_PASSED,
         ];
     }
 }

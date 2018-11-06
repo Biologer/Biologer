@@ -1,8 +1,17 @@
 <template>
   <div class="field-observations-import">
-    <div class="is-flex is-flex-center" v-if="importing" >
-      <span class="loader mr-2"></span>
-      <span class="has-loader" v-if="currentImport">{{ importStatus }}</span>
+    <div class="is-flex is-flex-center flex-col" v-if="importing">
+      <div class="is-flex is-flex-center">
+        <span class="loader mr-2"></span>
+        <span class="has-loader" v-if="currentImport">{{ importStatus }}</span>
+      </div>
+
+      <button
+        type="button"
+        class="button is-text has-text-danger"
+        v-if="cancellable"
+        @click="cancel"
+      >{{ trans('buttons.cancel') }}</button>
     </div>
     <div v-else>
       <b-notification type="is-success" :active.sync="showSuccessMessage">
@@ -98,7 +107,12 @@ export default {
       default: () => []
     },
 
-    runningImport: Object
+    runningImport: Object,
+
+    cancellableStatuses: {
+      type: Array,
+      default: () => []
+    }
   },
 
   data() {
@@ -112,7 +126,8 @@ export default {
       currentErrorsPage: 1,
       submissionErrors: null,
       hasHeading: false,
-      showSuccessMessage: false
+      showSuccessMessage: false,
+      cancelling: false,
     }
   },
 
@@ -133,10 +148,20 @@ export default {
       return _.get(this.currentImport, 'status') === 'saving_failed'
     },
 
+    cancelled() {
+      return _.get(this.currentImport, 'status') === 'cancelled'
+    },
+
     importStatus() {
       const status = _.get(this.currentImport, 'status')
 
       return this.trans(`imports.status.${status}`)
+    },
+
+    cancellable() {
+      return this.currentImport &&
+        this.cancellableStatuses.includes(this.currentImport.status) &&
+        !this.cancelling
     }
   },
 
@@ -223,6 +248,10 @@ export default {
           return this.handleFailedSaving()
         }
 
+        if (this.cancelled) {
+          return this.stopCheckingImport()
+        }
+
         if (this.saved) {
           this.handleStored()
         }
@@ -242,14 +271,11 @@ export default {
          type: 'is-danger'
       })
 
-      this.importing = false
       this.showColumnsSelection = false
-
-      clearInterval(this.interval)
 
       this.showValiadtionErrors()
 
-      return this.currentImport
+      this.stopCheckingImport()
     },
 
     handleFailedSaving() {
@@ -259,17 +285,34 @@ export default {
          type: 'is-danger'
       })
 
-      this.importing = false
       this.showColumnsSelection = false
 
-      clearInterval(this.interval)
-
-      return this.currentImport
+      this.stopCheckingImport()
     },
 
     handleStored() {
       this.showSuccessMessage = true
 
+      this.stopCheckingImport()
+    },
+
+    cancel() {
+      if (!this.cancellable) return
+
+      this.cancelling = true
+
+      axios.post('/api/cancelled-imports', {
+        import_id: this.currentImport.id,
+      }).then(() => {
+        this.cancelling = false
+
+        this.stopCheckingImport()
+      }).catch(() => {
+        this.cancelling = false
+      })
+    },
+
+    stopCheckingImport() {
       clearInterval(this.interval)
       this.importing = false
       this.currentImport = null

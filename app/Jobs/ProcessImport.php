@@ -43,6 +43,10 @@ class ProcessImport implements ShouldQueue
      */
     public function handle()
     {
+        if ($this->import->refresh()->status()->cancelled()) {
+            return;
+        }
+
         // Resolve the importer based on the type stored in the import entity.
         $importer = $this->import->makeImporter()->parse()->validate();
 

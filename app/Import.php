@@ -250,6 +250,18 @@ class Import extends Model
     }
 
     /**
+     * Cancel import.
+     *
+     * @return self
+     */
+    public function cancel()
+    {
+        $this->updateStatus(ImportStatus::CANCELLED);
+
+        return $this;
+    }
+
+    /**
      * Update status to "saving_failed".
      *
      * @return void
@@ -259,6 +271,11 @@ class Import extends Model
         $this->updateStatus(ImportStatus::SAVING_FAILED);
     }
 
+    /**
+     * Make importer instance.
+     *
+     * @return \App\Importing\BaseImport
+     */
     public function makeImporter()
     {
         return app()->makeWith($this->type, ['import' => $this]);

@@ -6,7 +6,11 @@
             <div class="message-body">{{ __('pages.field_observations_import.short_info') }}</div>
         </div>
 
-        <nz-field-observations-import :columns="{{ $columns }}" :running-import="{{ $import ?? 'null' }}" />
+        <nz-field-observations-import
+            :columns="{{ $columns }}"
+            :running-import="{{ $import ?? 'null' }}"
+            :cancellable-statuses="{{ $cancellableStatuses }}"
+        />
     </div>
 @endsection
 

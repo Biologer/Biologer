@@ -108,12 +108,16 @@ abstract class BaseImport
      */
     public function parse()
     {
+        if ($this->import->refresh()->status()->cancelled()) {
+            return $this;
+        }
+
         // Update status to parsing.
-        $this->model()->updateStatusToParsing();
+        $this->import->updateStatusToParsing();
 
         $this->readImportAndWriteParsed();
 
-        $this->model()->updateStatusToParsed();
+        $this->import->updateStatusToParsed();
 
         return $this;
     }
@@ -126,7 +130,7 @@ abstract class BaseImport
     private function readImportAndWriteParsed()
     {
         // Ensure the file exists.
-        Storage::put($this->model()->parsedPath(), '');
+        Storage::put($this->import->parsedPath(), '');
 
         $writer = $this->makeParsedWriter();
 
@@ -144,7 +148,7 @@ abstract class BaseImport
      */
     private function makeParsedWriter()
     {
-        return new JsonCollectionStreamWriter($this->model()->parsedAbsolutePath());
+        return new JsonCollectionStreamWriter($this->import->parsedAbsolutePath());
     }
 
     /**
@@ -171,7 +175,7 @@ abstract class BaseImport
     {
         $reader = ReaderFactory::create(Type::CSV);
 
-        $reader->open($this->model()->absolutePath());
+        $reader->open($this->import->absolutePath());
 
         return $reader;
     }
@@ -183,7 +187,7 @@ abstract class BaseImport
      */
     private function makeColumnMapper()
     {
-        return new ColumnMapper($this->model()->columns);
+        return new ColumnMapper($this->import->columns);
     }
 
     /**
@@ -217,7 +221,7 @@ abstract class BaseImport
         $firstRow = true;
 
         foreach ($sheet->getRowIterator() as $row) {
-            if ($firstRow && $this->model()->has_heading) {
+            if ($firstRow && $this->import->has_heading) {
                 $firstRow = false;
 
                 continue;
@@ -234,13 +238,17 @@ abstract class BaseImport
      */
     public function validate()
     {
-        if (! $this->model()->status()->parsed()) {
+        if ($this->import->refresh()->status()->cancelled()) {
+            return $this;
+        }
+
+        if (! $this->import->status()->parsed()) {
             throw new \Exception('Import must be parsed before it can be validated!');
         }
 
-        $this->model()->updateStatusToValidating();
+        $this->import->updateStatusToValidating();
 
-        $this->model()->updateValidationStatus($this->validateParsedAndWriteErrors());
+        $this->import->updateValidationStatus($this->validateParsedAndWriteErrors());
 
         return $this;
     }
@@ -278,7 +286,7 @@ abstract class BaseImport
      */
     private function makeValidationErrorWriter()
     {
-        return new JsonCollectionStreamWriter($this->model()->errorsAbsolutePath());
+        return new JsonCollectionStreamWriter($this->import->errorsAbsolutePath());
     }
 
     /**
@@ -289,7 +297,7 @@ abstract class BaseImport
      */
     protected function readParsed(callable $callback)
     {
-        (new JsonCollectionStreamReader($this->model()->parsedAbsolutePath()))->read($callback);
+        (new JsonCollectionStreamReader($this->import->parsedAbsolutePath()))->read($callback);
     }
 
     /**
@@ -359,11 +367,15 @@ abstract class BaseImport
      */
     public function store()
     {
-        if (! $this->model()->status()->validationPassed()) {
+        if ($this->import->refresh()->status()->cancelled()) {
+            return $this->import;
+        }
+
+        if (! $this->import->status()->validationPassed()) {
             throw new \Exception('Cannot store this import! Either validation didn\'t pass or it has already been stored.');
         }
 
-        $this->model()->updateStatusToSaving();
+        $this->import->updateStatusToSaving();
 
         $this->storeParsed();
 
@@ -384,11 +396,11 @@ abstract class BaseImport
                 $this->storeSingleItem($item);
             });
 
-            $this->model()->updateStatusToSaved();
+            $this->import->updateStatusToSaved();
         } catch (\Exception $e) {
             DB::rollBack();
 
-            $this->model()->updateStatusToSavingFailed();
+            $this->import->updateStatusToSavingFailed();
         }
 
         DB::commit();
