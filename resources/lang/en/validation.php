@@ -121,6 +121,7 @@ return [
     'day' => 'Invalid day.',
     'month' => 'Invalid month.',
     'year' => 'Invalid year.',
+    'decimal' => 'The :attribute must be a decimal number.',
 
     /*
     |--------------------------------------------------------------------------

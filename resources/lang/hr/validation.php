@@ -95,6 +95,7 @@ return [
     'day' => 'Dan nije ispravan.',
     'month' => 'Mesec nije ispravan.',
     'year' => 'Godina nije ispravan.',
+    'decimal' => 'Polje :attribute mora biti decimalni broj.',
 
     /*
     |--------------------------------------------------------------------------

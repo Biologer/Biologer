@@ -9,6 +9,7 @@ use App\License;
 use App\Rules\Day;
 use App\Observation;
 use App\Rules\Month;
+use App\Rules\Decimal;
 use App\ObservationType;
 use App\Support\Dataset;
 use App\FieldObservation;
@@ -52,8 +53,8 @@ class UpdateFieldObservation extends FormRequest
                 'numeric',
                 new Day($this->input('year'), $this->input('month')),
             ],
-            'latitude' => ['required', 'numeric', 'between:-90,90'],
-            'longitude' => ['required', 'numeric', 'between:-180,180'],
+            'latitude' => ['required', new Decimal(['min' => -90, 'max' => 90])],
+            'longitude' => ['required', new Decimal(['min' => -180, 'max' => 180])],
             'elevation' => ['required', 'integer', 'max:10000'],
             'accuracy' => ['nullable', 'integer', 'max:10000'],
             'observer' => ['nullable', 'string'],
@@ -153,15 +154,18 @@ class UpdateFieldObservation extends FormRequest
      */
     protected function getGeneralObservationData()
     {
+        $latitude = (float) str_replace(',', '.', $this->input('latitude'));
+        $longitude = (float) str_replace(',', '.', $this->input('longitude'));
+
         $data = [
             'taxon_id' => $this->input('taxon_id'),
             'year' => $this->input('year'),
             'month' => $this->input('month') ? (int) $this->input('month') : null,
             'day' => $this->input('day') ? (int) $this->input('day') : null,
             'location' => $this->input('location'),
-            'latitude' => $this->input('latitude'),
-            'longitude' => $this->input('longitude'),
-            'mgrs10k' => mgrs10k($this->input('latitude'), $this->input('longitude')),
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            'mgrs10k' => mgrs10k($latitude, $longitude),
             'accuracy' => $this->input('accuracy'),
             'elevation' => $this->input('elevation'),
             'sex' => $this->input('sex'),

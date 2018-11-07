@@ -8,6 +8,7 @@ use App\License;
 use App\Rules\Day;
 use App\Observation;
 use App\Rules\Month;
+use App\Rules\Decimal;
 use App\Support\Dataset;
 use App\FieldObservation;
 use Illuminate\Validation\Rule;
@@ -176,8 +177,8 @@ class FieldObservationImport extends BaseImport
                 'numeric',
                 new Day(array_get($data, 'year'), array_get($data, 'month')),
             ],
-            'latitude' => ['required', 'numeric', 'between:-90,90'],
-            'longitude' => ['required', 'numeric', 'between:-180,180'],
+            'latitude' => ['required', new Decimal(['min' => -90, 'max' => 90])],
+            'longitude' => ['required', new Decimal(['min' => -180, 'max' => 180])],
             'elevation' => ['nullable', 'integer', 'max:10000'],
             'accuracy' => ['nullable', 'integer', 'max:10000'],
             'observer' => ['nullable', 'string'],
@@ -290,8 +291,8 @@ class FieldObservationImport extends BaseImport
             'month' => array_get($item, 'month'),
             'day' => array_get($item, 'day'),
             'location' => array_get($item, 'location'),
-            'latitude' => array_get($item, 'latitude'),
-            'longitude' => array_get($item, 'longitude'),
+            'latitude' => (float) str_replace(',', '.', array_get($item, 'latitude')),
+            'longitude' => (float) str_replace(',', '.', array_get($item, 'longitude')),
             'mgrs10k' => mgrs10k(array_get($item, 'latitude'), array_get($item, 'longitude')),
             'accuracy' => array_get($item, 'accuracy'),
             'elevation' => array_get($item, 'elevation'),
