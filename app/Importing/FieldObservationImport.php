@@ -138,7 +138,7 @@ class FieldObservationImport extends BaseImport
             [
                 'label' => trans('labels.field_observations.data_license'),
                 'value' => 'license',
-                'required' => false,
+                'required' => true,
             ],
         ])->pipe(function ($columns) use ($user) {
             if (! $user || optional($user)->hasAnyRole(['admin', 'curator'])) {

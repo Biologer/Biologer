@@ -34,7 +34,7 @@ class ImportingFieldObservationsTest extends TestCase
     {
         $file = File::fake()->create('import.csv');
 
-        file_put_contents($file->getPathname(), $contents ?? '21.1212,42.12121,350,2018,5,23,Cerambyx cerdo');
+        file_put_contents($file->getPathname(), $contents ?? '21.1212,42.12121,350,2018,5,23,Cerambyx cerdo,"CC BY-SA 4.0"');
 
         return $file;
     }
@@ -54,7 +54,7 @@ class ImportingFieldObservationsTest extends TestCase
         Passport::actingAs(factory(User::class)->create());
 
         $response = $this->postJson('/api/field-observation-imports', [
-            'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon'],
+            'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon', 'license'],
             'file' => $this->validFile(),
         ]);
 
@@ -151,7 +151,7 @@ class ImportingFieldObservationsTest extends TestCase
         Passport::actingAs($user = factory(User::class)->create());
 
         $response = $this->postJson('/api/field-observation-imports', [
-            'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon'],
+            'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon', 'license'],
             'file' => $this->validFile(),
         ])->assertSuccessful();
 
