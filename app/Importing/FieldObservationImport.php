@@ -147,7 +147,7 @@ class FieldObservationImport extends BaseImport
 
             return $columns->filter(function ($column) {
                 return ! in_array($column['value'], ['identifier', 'observer']);
-            });
+            })->values();
         });
     }
 
