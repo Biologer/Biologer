@@ -65,6 +65,7 @@ abstract class BaseImportController extends Controller
                 new NoImportsInProgress(),
             ],
             'has_heading' => ['nullable', 'boolean'],
+            'user_id' => ['nullable', Rule::exists('users', 'id')],
         ]);
 
         return $importer::fromRequest($request);

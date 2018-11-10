@@ -10,6 +10,9 @@
             :columns="{{ $columns }}"
             :running-import="{{ $import ?? 'null' }}"
             :cancellable-statuses="{{ $cancellableStatuses }}"
+            @role(['admin', 'curator'])
+            can-submit-for-user
+            @endrole
         />
     </div>
 @endsection

@@ -194,4 +194,77 @@ class ImportingFieldObservationsTest extends TestCase
         $this->getJson("/api/field-observation-imports/{$import->id}")
             ->assertNotFound();
     }
+
+    /**
+     * @param  string  $role
+     * @test
+     * @dataProvider roles
+     */
+    public function admins_and_curators_can_submit_data_to_be_imported_for_someone_else($role)
+    {
+        Queue::fake();
+        $this->seed('RolesTableSeeder');
+
+        $anotherUser = factory(User::class)->create();
+
+        Passport::actingAs(factory(User::class)->create()->assignRoles($role));
+
+        $response = $this->postJson('/api/field-observation-imports', [
+            'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon', 'license'],
+            'file' => $this->validFile(),
+            'user_id' => $anotherUser->id,
+        ])->assertSuccessful();
+
+        $import = Import::find($response->json('id'));
+
+        $this->assertEquals($anotherUser->id, $import->for_user_id);
+        Queue::assertPushed(ProcessImport::class, function ($job) use ($import) {
+            return $job->import->is($import);
+        });
+    }
+
+    public function roles()
+    {
+        return [
+            ['admin'],
+            ['curator'],
+        ];
+    }
+
+    /** @test */
+    public function user_that_should_be_owner_must_exist()
+    {
+        Queue::fake();
+
+        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+
+        $response = $this->postJson('/api/field-observation-imports', [
+            'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon', 'license'],
+            'file' => $this->validFile(),
+            'user_id' => 99999999,
+        ])->assertValidationErrors('user_id');
+    }
+
+    /** @test */
+    public function contributor_cannot_sumbit_import_for_someone_else()
+    {
+        Queue::fake();
+
+        $anotherUser = factory(User::class)->create();
+
+        Passport::actingAs(factory(User::class)->create());
+
+        $response = $this->postJson('/api/field-observation-imports', [
+            'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon', 'license'],
+            'file' => $this->validFile(),
+            'user_id' => $anotherUser->id,
+        ])->assertSuccessful();
+
+        $import = Import::find($response->json('id'));
+
+        $this->assertNull($import->for_user_id);
+        Queue::assertPushed(ProcessImport::class, function ($job) use ($import) {
+            return $job->import->is($import);
+        });
+    }
 }

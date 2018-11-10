@@ -296,7 +296,7 @@ class FieldObservationImport extends BaseImport
             'mgrs10k' => mgrs10k(array_get($item, 'latitude'), array_get($item, 'longitude')),
             'accuracy' => array_get($item, 'accuracy'),
             'elevation' => array_get($item, 'elevation'),
-            'created_by_id' => $this->model()->user_id,
+            'created_by_id' => $this->model()->for_user_id ?: $this->model()->user_id,
             'observer' => $this->getObserver($item),
             'identifier' => $this->getIdentifier($item),
             'sex' => array_get($item, 'sex'),

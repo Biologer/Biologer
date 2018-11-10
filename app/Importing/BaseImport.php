@@ -91,11 +91,14 @@ abstract class BaseImport
      */
     protected static function createFromRequest($request)
     {
+        $user = $request->user();
+
         return Import::create([
             'type' => static::class,
             'columns' => $request->input('columns', []),
             'path' => $request->file('file')->store('imports'),
-            'user_id' => $request->user()->id,
+            'user_id' => $user->id,
+            'for_user_id' => $user->hasAnyRole(['admin', 'curator']) ? $request->input('user_id') : null,
             'lang' => app()->getLocale(),
             'has_heading' => $request->input('has_heading', false),
         ]);

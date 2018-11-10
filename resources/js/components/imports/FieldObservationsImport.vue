@@ -18,6 +18,14 @@
         {{ trans('imports.success') }}
       </b-notification>
 
+      <nz-user-autocomplete
+        v-if="canSubmitForUser"
+        :label="trans('labels.imports.user')"
+        :placeholder="userFullName"
+        @select="setUserId"
+        v-model="user"
+      />
+
       <div class="level mb-4">
         <div class="level-left">
           <div class="level-item">
@@ -112,7 +120,9 @@ export default {
     cancellableStatuses: {
       type: Array,
       default: () => []
-    }
+    },
+
+    canSubmitForUser: Boolean
   },
 
   data() {
@@ -128,6 +138,8 @@ export default {
       hasHeading: false,
       showSuccessMessage: false,
       cancelling: false,
+      userId: null,
+      user: null
     }
   },
 
@@ -162,6 +174,10 @@ export default {
       return this.currentImport &&
         this.cancellableStatuses.includes(this.currentImport.status) &&
         !this.cancelling
+    },
+
+    userFullName() {
+      return window.App.User.full_name
     }
   },
 
@@ -201,6 +217,8 @@ export default {
       if (this.hasHeading) {
         form.append('has_heading', 1)
       }
+
+      form.append('user_id', this.userId || '')
 
       return form
     },
@@ -316,6 +334,10 @@ export default {
       clearInterval(this.interval)
       this.importing = false
       this.currentImport = null
+    },
+
+    setUserId(userId) {
+      this.userId = userId ? userId.id : null
     }
   }
 }
