@@ -167,6 +167,7 @@ return [
         'error' => 'Greška',
         'has_heading' => 'Prvi red sadrži nazive kolona',
         'columns' => 'Kolone',
+        'user' => 'Za korisnika',
     ],
 
     'announcements' => [

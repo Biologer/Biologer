@@ -165,6 +165,7 @@ return [
         'error' => 'Грешка',
         'has_heading' => 'Први ред садржи називе колона',
         'columns' => 'Колоне',
+        'user' => 'За корисника',
     ],
 
     'announcements' => [
