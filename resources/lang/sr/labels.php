@@ -151,13 +151,13 @@ return [
         'only_checked' => 'Извези само чекиране',
         'apply_filters' => 'Примени филтере',
         'with_header' => 'Са називима колона',
-        'finished' => 'Готово! Можете преузети извезен фајл.',
+        'finished' => 'Готово! Можете преузети извезену датотеку.',
         'columns' => 'Колоне',
     ],
 
     'imports' => [
         'choose_columns' => 'Одабери колоне',
-        'select_csv_file' => 'Одабери CSV фајл',
+        'select_csv_file' => 'Одабери CSV датотеку',
         'available' => 'Доступне',
         'chosen' => 'Одабране',
         'import' => 'Увези',

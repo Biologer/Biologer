@@ -153,13 +153,13 @@ return [
         'only_checked' => 'Izvezi samo čekirane',
         'apply_filters' => 'Primeni filtere',
         'with_header' => 'Sa nazivima kolona',
-        'finished' => 'Gotovo! Možete preuzeti izvezen fajl.',
+        'finished' => 'Gotovo! Možete preuzeti izvezenu datoteku.',
         'columns' => 'Kolone',
     ],
 
     'imports' => [
         'choose_columns' => 'Odaberi kolone',
-        'select_csv_file' => 'Odaberi CSV fajl',
+        'select_csv_file' => 'Odaberi CSV datoteku',
         'available' => 'Dostupne',
         'chosen' => 'Odabrane',
         'import' => 'Uvezi',
