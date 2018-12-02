@@ -25,8 +25,18 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
     Route::get('groups/{group}/species/{species}', 'GroupSpeciesController@show')->name('groups.species.show');
     Route::get('groups/{group}/species', 'GroupSpeciesController@index')->name('groups.species.index');
 
-    Route::view('pages/sponsors', 'pages.sponsors')->name('pages.sponsors');
+    // About pages
+    Route::view('pages/about/about-project', 'pages.about.about-project')->name('pages.about.about-project');
+    Route::view('pages/about/project-team', 'pages.about.project-team')->name('pages.about.project-team');
+    Route::view('pages/about/organizations', 'pages.about.organizations')->name('pages.about.organizations');
+    Route::get('pages/about/local-community', 'AboutPagesController@localCommunity')->name('pages.about.local-community');
+    Route::view('pages/about/biodiversity-data', 'pages.about.biodiversity-data')->name('pages.about.biodiversity-data');
+    Route::view('pages/about/development-supporters', 'pages.about.development-supporters')->name('pages.about.development-supporters');
+
+    // Legal
     Route::view('pages/privacy-policy', 'pages.privacy-policy')->name('pages.privacy-policy');
+
+    // Licenses
     Route::view('pages/partially-open-license', 'pages.partially-open-license')->name('pages.partially-open-license');
     Route::view('pages/closed-license', 'pages.closed-license')->name('pages.closed-license');
 

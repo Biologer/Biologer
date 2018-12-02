@@ -51,4 +51,10 @@ return [
     'partially_open_license' => 'Delimično otvorena licensa',
     'closed_license' => 'Zatvorena licenca',
 
+    'about_project' => 'O projektu',
+    'project_team' => 'Projektni tim',
+    'organizations' => 'Organizacije',
+    'local_community' => 'Lokalna zajednica',
+    'biodiversity_data' => 'Podaci o biodiverzitetu',
+    'development_supporters' => 'Razvoj podržali',
 ];

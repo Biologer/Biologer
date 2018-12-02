@@ -49,4 +49,10 @@ return [
     'partially_open_license' => 'Partially Open License',
     'closed_license' => 'Closed License',
 
+    'about_project' => 'The Project',
+    'project_team' => 'Project Team',
+    'organizations' => 'Organizations',
+    'local_community' => 'Local Community',
+    'biodiversity_data' => 'Biodiversity Data',
+    'development_supporters' => 'Development Supporters',
 ];

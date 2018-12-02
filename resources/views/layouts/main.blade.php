@@ -24,8 +24,23 @@
                             </a>
 
                             <div class="navbar-dropdown is-boxed is-right">
-                                <a class="navbar-item" href="{{ route('pages.sponsors') }}">
-                                    {{ __('navigation.sponsors') }}
+                                <a class="navbar-item" href="{{ route('pages.about.about-project') }}">
+                                    {{ __('navigation.about_project') }}
+                                </a>
+                                <a class="navbar-item" href="{{ route('pages.about.project-team') }}">
+                                    {{ __('navigation.project_team') }}
+                                </a>
+                                <a class="navbar-item" href="{{ route('pages.about.organizations') }}">
+                                    {{ __('navigation.organizations') }}
+                                </a>
+                                <a class="navbar-item" href="{{ route('pages.about.local-community') }}">
+                                    {{ __('navigation.local_community') }}
+                                </a>
+                                <a class="navbar-item" href="{{ route('pages.about.biodiversity-data') }}">
+                                    {{ __('navigation.biodiversity_data') }}
+                                </a>
+                                <a class="navbar-item" href="{{ route('pages.about.development-supporters') }}">
+                                    {{ __('navigation.development_supporters') }}
                                 </a>
                             </div>
                         </div>

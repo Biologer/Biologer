@@ -7,7 +7,7 @@
         </div>
     </section>
 
-    <div class="container pb-8">
+    <div class="container py-8 px-16">
         <p class="is-size-4 mb-8">{{ __('pages.home.welcome') }}</p>
 
         <div class="columns">

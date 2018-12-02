@@ -17,6 +17,32 @@ trait HasRoles
     }
 
     /**
+     * Scope the query to get only users with role of curator.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAdmins($query)
+    {
+        return $query->whereHas('roles', function ($query) {
+            return $query->where('name', 'admin');
+        });
+    }
+
+    /**
+     * Scope the query to get only users with role of curator.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCurators($query)
+    {
+        return $query->whereHas('roles', function ($query) {
+            return $query->where('name', 'curator');
+        });
+    }
+
+    /**
      * Get names of roles the user has.
      *
      * @return \Illuminate\Support\Collection
