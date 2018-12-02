@@ -38,5 +38,5 @@ return [
         'name' => env('COMMUNITY_NAME'),
         'country' => env('COMMUNITY_COUNTRY'),
         'address' => env('COMMUNITY_ADDRESS'),
-    ]
+    ],
 ];

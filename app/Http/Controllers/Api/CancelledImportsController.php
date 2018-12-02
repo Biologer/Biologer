@@ -15,7 +15,7 @@ class CancelledImportsController extends Controller
         $request->validate([
             'import_id' => ['required', Rule::exists('imports', 'id')->where(function ($query) {
                 $query->whereIn('status', ImportStatus::cancellableStatuses());
-            })]
+            })],
         ]);
 
         return Import::find($request->input('import_id'))->cancel();
