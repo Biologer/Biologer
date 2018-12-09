@@ -3,8 +3,8 @@
 return [
     'home' => [
         'browse' => 'Browse data',
-        'android_link' => 'Andoid App',
-        'android_title' => 'Download Andoid App v:version',
+        'android_link' => 'Android App',
+        'android_title' => 'Download Android App v:version',
         'welcome' => 'Biologer is simple and free software designed for collecting data on biological diversity.',
 
         'announcements' => [
