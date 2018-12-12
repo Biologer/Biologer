@@ -18,7 +18,7 @@
     "The given data was invalid.": "Dani podaci nisu ispravni.",
     "Some fields have errors": "Neka polja imaju greške",
     "Saved successfully": "Uspješno pohranjeno",
-    "<strong>Note:</strong> Changes to licence preferences will act as defaults for newly added observations and photos, and will not affect old entries.": "<strong>Napomena:</strong> Izmjene u postavkama licence će biti primjenjene kao podrazumijevane vrijednosti za nove unose i fotografije, te neće imati utjecaja na stare.",
+    "<strong>Note:</strong> Changes to license preferences will act as defaults for newly added observations and photos, and will not affect old entries.": "<strong>Napomena:</strong> Izmjene u postavkama licence će biti primjenjene kao podrazumijevane vrijednosti za nove unose i fotografije, te neće imati utjecaja na stare.",
     "No data...": "Nema podataka...",
     "Are you sure you want to delete this record?": "Jeste li sigurni da želite obrisati ovaj unos?",
     "Record deleted": "Unos obrisan",
