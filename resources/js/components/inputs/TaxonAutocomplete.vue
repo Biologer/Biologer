@@ -97,6 +97,7 @@ export default {
 
             let params = {
                 name: this.value,
+                limit: 20,
             };
 
             if (this.except) {

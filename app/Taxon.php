@@ -118,6 +118,7 @@ class Taxon extends Model
             'except' => \App\Filters\ExceptIds::class,
             'rank' => \App\Filters\Taxon\Rank::class,
             'updated_after' => \App\Filters\Taxon\UpdatedAfter::class,
+            'limit' => \App\Filters\Limit::class,
         ];
     }
 
