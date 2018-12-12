@@ -15,7 +15,7 @@ return [
     'superclass' => 'Надкласа',
     'class' => 'Класа',
     'subclass' => 'Подкласа',
-    'superorder' => 'Надред`',
+    'superorder' => 'Надред',
     'order' => 'Ред',
     'suborder' => 'Подред',
     'infraorder' => 'Инфраред',

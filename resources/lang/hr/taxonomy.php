@@ -17,7 +17,7 @@ return [
     'subclass' => 'Podrazred',
     'superorder' => 'Nadred',
     'order' => 'Red',
-    'suborder' => 'Podred`',
+    'suborder' => 'Podred',
     'infraorder' => 'Infrared',
     'superfamily' => 'Natporodica',
     'epifamily' => 'Epiporodica',

@@ -17,7 +17,7 @@ return [
     'subclass' => 'Podklasa',
     'superorder' => 'Nadred',
     'order' => 'Red',
-    'suborder' => 'Podred`',
+    'suborder' => 'Podred',
     'infraorder' => 'Infrared',
     'superfamily' => 'Nadfamilija',
     'epifamily' => 'Epifamilija',
