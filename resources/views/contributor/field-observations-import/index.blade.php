@@ -26,3 +26,7 @@
         </ul>
     </div>
 @endsection
+
+@section('navigationActions')
+    <a href="{{ route('contributor.field-observations-import.guide') }}"><i class="fa fa-question"></i> {{ __('Help') }}</a>
+@endsection

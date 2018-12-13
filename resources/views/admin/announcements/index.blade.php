@@ -20,7 +20,7 @@
     </div>
 @endsection
 
-@section('createButton')
+@section('navigationActions')
     <a href="{{ route('admin.announcements.create') }}" class="button is-secondary is-outlined">
         @include('components.icon', ['icon' => 'plus'])
         <span>{{ __('navigation.new_announcement') }}</span>

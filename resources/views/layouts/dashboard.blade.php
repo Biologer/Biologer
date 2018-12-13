@@ -114,10 +114,10 @@
                             </div>
                         </div>
 
-                        @hasSection('createButton')
+                        @hasSection('navigationActions')
                             <div class="level-right">
                                 <div class="level-item">
-                                    @yield('createButton')
+                                    @yield('navigationActions')
                                 </div>
                             </div>
                         @endif

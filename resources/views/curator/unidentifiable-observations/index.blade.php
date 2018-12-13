@@ -30,7 +30,7 @@
     </div>
 @endsection
 
-@section('createButton')
+@section('navigationActions')
     <a href="{{ route('contributor.field-observations.create') }}" class="button is-secondary is-outlined">
         @include('components.icon', ['icon' => 'plus'])
         <span>{{ __('navigation.new_field_observation') }}</span>

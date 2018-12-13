@@ -38,7 +38,7 @@
 </div>
 @endsection
 
-@section('createButton')
+@section('navigationActions')
 <a class="button is-secondary is-outlined" href="{{ route('contributor.field-observations.create') }}">
     <span class="icon">
         <svg version="1.1" viewBox="0 0 15 25" xmlns="http://www.w3.org/2000/svg">

@@ -66,6 +66,9 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             if (config('features.importing')) {
                 Route::get('field-observations/import', 'FieldObservationsImportController@index')
                     ->name('field-observations-import.index');
+
+                Route::view('field-observations/import/guide', 'contributor.field-observations-import.guide')
+                    ->name('field-observations-import.guide');
             }
 
             Route::get('field-observations/{fieldObservation}', 'FieldObservationsController@show')
