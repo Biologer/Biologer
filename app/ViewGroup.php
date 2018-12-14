@@ -200,7 +200,7 @@ class ViewGroup extends Model
     public function firstSpecies()
     {
         if (! ($id = $this->speciesIds()->first())) {
-            return;
+            return optional();
         }
 
         return $this->findSpecies($id);
