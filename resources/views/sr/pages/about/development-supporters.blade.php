@@ -18,13 +18,13 @@
 
             <div class="columns mb-4">
                 <div class="column flex is-flex-center">
-                    <img src="{{ asset('img/organizations/mava-foundation.jpg') }}" alt="Mava Foundation" class="image mx-auto" style="max-height: 300px">
+                    <img src="{{ asset('img/organizations/mava-foundation.jpg') }}" alt="Mava фондација" class="image mx-auto" style="max-height: 300px">
                 </div>
                 <div class="column flex is-flex-center">
-                    <img src="{{ asset('img/organizations/udruga-hyla.jpg') }}" alt="Association Hyla" class="image mx-auto" style="max-height: 300px">
+                    <img src="{{ asset('img/organizations/udruga-hyla.jpg') }}" alt="Удружење Hyla" class="image mx-auto" style="max-height: 300px">
                 </div>
                 <div class="column flex is-flex-center">
-                    <img src="{{ asset('img/organizations/biolosko-drustvo-sava-petrovic.png') }}" alt='Biological Society "Dr Sava Petrović"' class="image mx-auto" style="max-height: 300px">
+                    <img src="{{ asset('img/organizations/biolosko-drustvo-sava-petrovic.png') }}" alt='Биолошко друштво "Др Сава Петровић"' class="image mx-auto" style="max-height: 300px">
                 </div>
             </div>
 
@@ -41,7 +41,7 @@
                 <div class="column flex is-flex-center">
                     <img
                         src="{{ asset('img/organizations/ministarstvo-prosvete-nauke-i-tehnoloskog-razvoja-srbija.png') }}"
-                        alt="Ministry of Education, Science and Technological Development of Republic of Serbia"
+                        alt="Министарство просвете, науке и технолошког развоја Републике Србије"
                         class="image mx-auto"
                         style="max-height: 300px"
                     >
@@ -49,7 +49,7 @@
                 <div class="column flex is-flex-center">
                     <img
                         src="{{ asset('img/organizations/pmf-nis.jpg') }}"
-                        alt="Faculty of Sciences, University of Niš"
+                        alt="Природно-математички факултет, Универзитет у Нишу"
                         class="image mx-auto"
                         style="max-height: 300px"
                     >
@@ -57,7 +57,7 @@
                 <div class="column flex is-flex-center">
                     <img
                         src="{{ asset('img/organizations/bioloski-fakultet-beograd.png') }}"
-                        alt="Faculty of Biology, University of Belgrade"
+                        alt="Биолошки факултет, Универзитет у Београду"
                         class="image mx-auto"
                         style="max-height: 300px"
                     >

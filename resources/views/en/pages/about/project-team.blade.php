@@ -16,14 +16,14 @@
                 two Administrators of the local Biologer platform. The members of the
                 project team are at the same time the representatives of the Organisations
                 that support the work of the platform:
-
-                <ol>
-                    <li>Miloš Popović – Coordinator for development of Biologer platform (Faculty of Sciences and Mathematics, University of Niš).</li>
-                    <li>Nenad Živanović – Coordinator for software development and developer of the Biologer web software.</li>
-                    <li>Ana Golubović – Coordinator for development of Biologer platform in Serbia (Faculty of Biology, University of Belgrade).</li>
-                    <li>Mladen Zadravec – Coordinator for development of Biologer platform in Croatia (Organisation Hyla, Zagreb).</li>
-                </ol>
             </p>
+
+            <ol>
+                <li>Miloš Popović – Coordinator for development of Biologer platform (Faculty of Sciences and Mathematics, University of Niš).</li>
+                <li>Nenad Živanović – Coordinator for software development and developer of the Biologer web software.</li>
+                <li>Ana Golubović – Coordinator for development of Biologer platform in Serbia (Faculty of Biology, University of Belgrade).</li>
+                <li>Mladen Zadravec – Coordinator for development of Biologer platform in Croatia (Organisation Hyla, Zagreb).</li>
+            </ol>
         </div>
     </section>
 @endsection

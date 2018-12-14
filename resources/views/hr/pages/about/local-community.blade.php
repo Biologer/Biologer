@@ -12,14 +12,14 @@
             </p>
 
             <p>
-                <b>Administratori</b> su lica koja upravljaju bazom podataka, imaju
-                uvid u sve podatke u okviru lokalne Biologer platforme i zaduženi
-                su za celokupnu organizaciju Lokalne zajednice. Početni tim Administratora
-                odobrava Projektni tim prilikom pokretanja nove Lokalne zajednice.
-                Novi Administratori se obično biraju iz redova Urednika, za šta je
-                neophodna saglasnost 2/3 postojećih Administratora. Administratori
-                imaju pravo da raspolažu svim podacima i da donose odluke o njihovom
-                korišćenju (u skladu sa licencama koje izaberu Korisnici).
+                <b>Administratori</b> su osobe koje upravljaju bazom podataka,
+                imaju uvid u sve podatke u okviru lokalne Biologer platforme i
+                zaduženi su za cjelokupnu organizaciju Lokalne zajednice.
+                Početni tim Administratora odobrava Projektni tim prilikom pokretanja
+                nove Lokalne zajednice. Novi Administratori se obično biraju iz redova
+                Urednika, za što je neophodna suglasnost 2/3 postojećih Administratora.
+                Administratori imaju pravo da raspolažu svim podacima i da donose
+                odluke o njihovom korištenju (u skladu sa licencama koje izaberu Korisnici).
             </p>
 
             <p>
@@ -33,21 +33,21 @@
             </p>
 
             <p>
-                <b>Urednici</b> su taksonomski eksperti za određene grupe organizama
-                koji pregledaju pristigle podatke, odobravaju ih, po potrebi koriguju
-                ili proglašavaju nemogućim za identifikaciju. Urednici su eksperti
+                <b>Urednici</b> taksonomski stručnjaci za određene skupine organizama
+                koji pregledaju pristigle podatke, odobravaju ih, po potrebi ispravljaju
+                ili proglašavaju nemogućim za identifikaciju. Urednici su stručnjaci
                 sa dugogodišnjim iskustvom u terenskom radu i dokazanim poznavanjem
-                određenih grupa organizama. Urednike taksonomskih grupa u svakoj Lokalnoj
+                određenih skupina organizama. Urednike taksonomskih skupina u svakoj Lokalnoj
                 zajednici biraju Administratori iz redova Korisnika. Dodavanje novih
                 Urednika mora prihvatiti 2/3 postojećih Urednika određene taksonomske
-                grupe, kao i 2/3 Administratora. Urednici imaju pravo da raspolažu
-                podacima nad kojima su nadležni, i da donose odluke o njihovom korišćenju
+                skupine, kao i 2/3 Administratora. Urednici imaju pravo na raspolaganje
+                podacima nad kojima su nadležni, i da donose odluke o njihovom korištenju
                 (u skladu sa licencama koje izaberu Korisnici).
             </p>
 
             <p>
                 Uređivački tim Lokalne zajednice „{{ config('biologer.community.name') }}“ se sastoji od
-                {{ $curators->count() }} ljudi koji pokrivaju {{ $taxonomicGroupsCount }} taksonomskih grupa, i to:
+                {{ $curators->count() }} ljudi koji pokrivaju {{ $taxonomicGroupsCount }} taksonomskih skupina, i to:
 
                 <ul>
                     @foreach ($curators as $curator)
@@ -58,9 +58,9 @@
 
             <p>
                 <b>Korisnici</b> su svi članovi Lokalne zajednice, a status Korisnika
-                se stiče prilikom registracije na veb platformu. U Korisnike se ubrajaju
+                se stječe prilikom registracije na web platformu. U Korisnike se ubrajaju
                 i Urednici i Administratori. Korisnici čine Biologer zajednicu i njihovim
-                zalaganjem dolazimo do vrednih podataka o rasprostranjenju taksona na određenom
+                zalaganjem dolazimo do vrijednih podataka o rasprostranjenosti vrsta na određenom
                 geografskom području.
             </p>
 

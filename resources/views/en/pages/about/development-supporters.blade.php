@@ -30,9 +30,9 @@
 
             <p>
                 Further development of the application is financially supported by
-                the <a href="http://mava-foundation.org/">MAVA</a> fundation through the project
+                the <a href="http://mava-foundation.org/">MAVA Fundation</a> through the project
                 <a href="http://www.hhdhyla.hr/projektii/aktualni-projekti">"The Dinaric Arc Karst biodiversity conservation programme"</a>,
-                lead by the organisation <a href="http://www.hhdhyla.hr/">Hyla</a>.
+                lead by the <a href="http://www.hhdhyla.hr/">Association Hyla</a>.
                 The software development for this project is realised through the
                 <a href="http://bddsp.org.rs/">Biological society "Dr Sava Petrović"</a>.
             </p>

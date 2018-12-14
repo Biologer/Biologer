@@ -18,22 +18,22 @@
 
             <div class="columns mb-4">
                 <div class="column flex is-flex-center">
-                    <img src="{{ asset('img/organizations/mava-foundation.jpg') }}" alt="Mava Foundation" class="image mx-auto" style="max-height: 300px">
+                    <img src="{{ asset('img/organizations/mava-foundation.jpg') }}" alt="MAVA Fondacija" class="image mx-auto" style="max-height: 300px">
                 </div>
                 <div class="column flex is-flex-center">
-                    <img src="{{ asset('img/organizations/udruga-hyla.jpg') }}" alt="Association Hyla" class="image mx-auto" style="max-height: 300px">
+                    <img src="{{ asset('img/organizations/udruga-hyla.jpg') }}" alt="Udruga Hyla" class="image mx-auto" style="max-height: 300px">
                 </div>
                 <div class="column flex is-flex-center">
-                    <img src="{{ asset('img/organizations/biolosko-drustvo-sava-petrovic.png') }}" alt='Biological Society "Dr Sava Petrović"' class="image mx-auto" style="max-height: 300px">
+                    <img src="{{ asset('img/organizations/biolosko-drustvo-sava-petrovic.png') }}" alt='Biološko društvo "Dr Sava Petrović"' class="image mx-auto" style="max-height: 300px">
                 </div>
             </div>
 
             <p>
-                Dalji razvoj aplikacije podržan je sredstvima fondacije
+                Daljnji razvoj aplikacije podržan je sredstvima fondacije
                 <a href="http://mava-foundation.org/">MAVA</a> preko
-                <a href="http://www.hhdhyla.hr/projektii/aktualni-projekti">„Projekta zaštite biodiverziteta na krečnjacima Dinarskog masiva“</a>,
-                koji realizuje udruženje <a href="http://www.hhdhyla.hr/">Hila</a>.
-                Razvoj softvera za potrebe projekta sprovodi
+                <a href="http://www.hhdhyla.hr/projektii/aktualni-projekti">„KARST – The Dinaric Arc Karst biodiversity conservation programme“</a>,
+                koji realizuje udruga <a href="http://www.hhdhyla.hr/">Hyla</a>.
+                Razvoj softvera za potrebe projekta provodi
                 <a href="http://bddsp.org.rs/">Biološko društvo „Dr Sava Petrović“</a>.
             </p>
 
@@ -41,7 +41,7 @@
                 <div class="column flex is-flex-center">
                     <img
                         src="{{ asset('img/organizations/ministarstvo-prosvete-nauke-i-tehnoloskog-razvoja-srbija.png') }}"
-                        alt="Ministry of Education, Science and Technological Development of Republic of Serbia"
+                        alt="Ministarstvo prosvete, nauke i tehnološkog razvoja Republike Srbije"
                         class="image mx-auto"
                         style="max-height: 300px"
                     >
@@ -49,7 +49,7 @@
                 <div class="column flex is-flex-center">
                     <img
                         src="{{ asset('img/organizations/pmf-nis.jpg') }}"
-                        alt="Faculty of Sciences, University of Niš"
+                        alt="Prirodno-matematički fakultet, Univerzitet u Nišu"
                         class="image mx-auto"
                         style="max-height: 300px"
                     >
@@ -57,7 +57,7 @@
                 <div class="column flex is-flex-center">
                     <img
                         src="{{ asset('img/organizations/bioloski-fakultet-beograd.png') }}"
-                        alt="Faculty of Biology, University of Belgrade"
+                        alt="Biološki fakultet, Univerzitet u Beogradu"
                         class="image mx-auto"
                         style="max-height: 300px"
                     >
@@ -81,9 +81,9 @@
             <h2>Pojedinci koji su doprineli razvoju projekta Biologer</h2>
 
             <p>
-                Miloš Popović – Vođa projekta, organizacija portala i podataka, grafički dizajn.<br>
+                Miloš Popović – Voditelj projekta, organizacija portala i podataka, grafički dizajn.<br>
                 Ana Golubović – Organizacija portala.<br>
-                Nenad Živanović – Softversko rešenje za Biologer platformu.<br>
+                Nenad Živanović – Softversko rješenje za Biologer platformu.<br>
                 Marko Nikolić – Legislativa Biologer zajednice.<br>
                 Branko Jovanović – Razvoj Android aplikacije.
             </p>
