@@ -44,9 +44,6 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
     Route::get('announcements/{announcement}', 'AnnouncementsController@show')->name('announcements.show');
 
     Route::middleware(['auth', 'verified'])->group(function () {
-        Route::get('exports/{export}/download', 'ExportDownloadController')
-            ->name('export-download');
-
         Route::prefix('contributor')->namespace('Contributor')->name('contributor.')->group(function () {
             Route::get('/', 'DashboardController@index')
                 ->name('index');
@@ -172,3 +169,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
         });
     });
 });
+
+Route::get('exports/{export}/download', 'ExportDownloadController')
+    ->middleware(['auth', 'verified'])
+    ->name('export-download');
