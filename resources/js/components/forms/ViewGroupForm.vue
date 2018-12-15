@@ -29,7 +29,19 @@
                 autocomplete
                 field="name"
                 @typing="onTaxonNameInput"
-            ></b-taginput>
+            />
+        </b-field>
+
+        <b-field :label="trans('labels.view_groups.image')">
+            <nz-photo-upload
+                :image-url="form.image_url"
+            		:image-path="form.image_path"
+            		:licenses="{}"
+            		:with-license="false"
+                :with-crop="false"
+                @uploaded="onImageUploaded"
+                @removed="onImageRemoved"
+            />
         </b-field>
 
         <hr>
@@ -128,6 +140,8 @@ export default {
                 parent_id: this.group.parent_id,
                 name: this.names,
                 description: this.descriptions,
+                image_url: this.group.image_url,
+                image_path: this.group.image_path,
                 taxa_ids: this.group.taxa.map(taxon => taxon.id)
             }, {
                 resetOnSuccess: false
@@ -158,7 +172,16 @@ export default {
 
         onTaxonNameInput: _.debounce(function (name) {
             return this.fetchTaxa(name)
-        }, 500)
+        }, 500),
+
+        onImageUploaded(image) {
+            this.form.image_path = image.path;
+        },
+
+        onImageRemoved() {
+          this.form.image_url = null;
+          this.form.image_path = null;
+        }
     }
 }
 </script>

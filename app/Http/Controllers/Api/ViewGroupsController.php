@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Taxon;
 use App\ViewGroup;
-use App\Support\Localization;
-use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SaveViewGroup;
 use App\Http\Resources\ViewGroupResource;
 
 class ViewGroupsController extends Controller
@@ -29,26 +27,13 @@ class ViewGroupsController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\SaveViewGroup  $request
+     * @return \App\Http\Resources\ViewGroupResource
      */
-    public function store()
+    public function store(SaveViewGroup $request)
     {
-        request()->validate([
-            'parent_id' => [
-                'nullable',
-                Rule::exists('view_groups', 'id')->whereNull('parent_id'),
-            ],
-            'name' => ['required', 'array', 'min:1'],
-            'description' => ['required', 'array'],
-            'taxa_ids' => [
-                'array',
-                Rule::in(Taxon::pluck('id')->all()),
-            ],
-        ]);
-
-        $group = ViewGroup::create($this->getData());
-        $group->taxa()->sync(request('taxa_ids', []));
-
-        return new ViewGroupResource($group);
+        return new ViewGroupResource($request->save(new ViewGroup));
     }
 
     /**
@@ -66,27 +51,12 @@ class ViewGroupsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\ViewGroup  $group
+     * @param  \App\Http\Requests\SaveViewGroup  $request
      * @return \App\Http\Resources\ViewGroupResource
      */
-    public function update(ViewGroup $group)
+    public function update(ViewGroup $group, SaveViewGroup $request)
     {
-        request()->validate([
-            'parent_id' => [
-                'nullable',
-                Rule::exists('view_groups', 'id')->whereNull('parent_id'),
-            ],
-            'name' => ['required', 'array'],
-            'description' => ['required', 'array'],
-            'taxa_ids' => [
-                'array',
-                Rule::in(Taxon::pluck('id')->all()),
-            ],
-        ]);
-
-        $group->update($this->getData());
-        $group->taxa()->sync(request('taxa_ids', []));
-
-        return new ViewGroupResource($group);
+        return new ViewGroupResource($request->save($group));
     }
 
     /**
@@ -100,19 +70,5 @@ class ViewGroupsController extends Controller
         $group->delete();
 
         return response()->json(null, 204);
-    }
-
-    /**
-     * Get data from request.
-     *
-     * @return array
-     */
-    protected function getData()
-    {
-        return array_merge(request()->only([
-            'parent_id',
-        ]), Localization::transformTranslations(request()->only([
-            'name', 'description',
-        ])));
     }
 }

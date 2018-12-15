@@ -4,6 +4,7 @@ namespace App;
 
 use App\Concerns\CanMemoize;
 use Dimsav\Translatable\Translatable;
+use Illuminate\Support\Facades\Storage;
 use App\Concerns\HasTranslatableAttributes;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -204,5 +205,31 @@ class ViewGroup extends Model
         }
 
         return $this->findSpecies($id);
+    }
+
+    /**
+     * Save the image to the disk.
+     *
+     * @param  string  $originalName
+     * @param  string|resource  $image
+     * @return string
+     */
+    public static function saveImageToDisk($originalName, $image)
+    {
+        $path = 'groups/'.str_random().'-'.$originalName;
+
+        Storage::disk('public')->put($path, $image);
+
+        return Storage::disk('public')->url($path);
+    }
+
+    /**
+     * Get URL of image that should be used as default when the group has no image chosen.
+     *
+     * @return string
+     */
+    public static function defaultImage()
+    {
+        return asset('img/default-image.svg');
     }
 }

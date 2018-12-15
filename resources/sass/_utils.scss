@@ -6,12 +6,32 @@
     min-height: 100vh;
 }
 
+.h-4 {
+    height: 1rem;
+}
+
+.h-5 {
+    height: 1.25rem;
+}
+
+.is-fullheight, .h-full {
+    height: 100%
+}
+
+.min-h-full {
+    min-height: 100%;
+}
+
 .is-fullwidth, .w-full {
     width: 100%
 }
 
-.is-fullheight {
-    height: 100%
+.w-5 {
+    height: 1.25rem;
+}
+
+.max-w-12 {
+    max-width: 3rem;
 }
 
 .is-flex-center {
@@ -196,4 +216,17 @@
     .is-touch-full {
         width: 100%;
     }
+}
+
+.hover\:shadow-link:hover {
+    box-shadow: 0 2px 3px rgba($link, 0.4), 0 0 0 1px rgba($link, 0.5);
+}
+
+.rounded {
+    border-radius: .25rem;
+}
+
+.rounded-t {
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
 }

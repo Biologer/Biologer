@@ -144,3 +144,34 @@
         overflow: visible;
     }
 }
+
+.view-group-card {
+    width: 100%;
+    display: flex;
+    border-radius: .25rem;
+    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.view-group-card__image {
+    height: 6rem;
+    width: 6rem;
+    flex: none;
+    background-size: cover;
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+    text-align: center;
+    overflow: hidden;
+}
+
+.view-group-card__content {
+    background-color: $white;
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+    padding: 1rem;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.5;
+    color: $black;
+}

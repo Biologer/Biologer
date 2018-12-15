@@ -31,11 +31,20 @@
 		<footer class="card-footer" v-if="haveImage">
 			<div class="card-footer-item flex-col">
 				<div class="mb-4 w-full flex justify-between">
-					<button type="button" class="button is-outlined is-small mr-2" @click="openCropModal" @close="closeCropModal"><b-icon icon="crop" /></button>
-					<button type="button" class="delete is-danger is-medium" @click="remove" v-if="image.path"></button>
+					<button
+            type="button"
+            class="button is-outlined is-small mr-2"
+            v-if="withCrop"
+            @click="openCropModal"
+            @close="closeCropModal"
+          >
+            <b-icon icon="crop" />
+          </button>
+
+					<button type="button" class="delete is-danger is-medium" @click="remove" v-if="image.path || hasExisting"></button>
 				</div>
 
-				<div class="w-full">
+				<div class="w-full" v-if="withLicense">
 					<b-select :value="image.license" @input="handleLicenseChanged" expanded>
 						<option :value="null">{{ trans('labels.field_observations.default') }}</option>
 						<option v-for="(label, value) in licenses" :value="value" v-text="label"></option>
@@ -71,7 +80,15 @@ export default {
 			type: Object,
 			required: true
 		},
-		text: String
+		text: String,
+		withLicense: {
+      type: Boolean,
+      default: true
+    },
+    withCrop: {
+      type: Boolean,
+      default: true
+    }
 	},
 
   data() {
