@@ -81,6 +81,13 @@
 
                 <div class="column map flex-center">
                     {!! app('map.mgrs10k.basic')->render($species->mgrs10k()) !!}
+
+                    <nz-occurrence-chart
+                        class="mt-8"
+                        elevation-label="{{ __('Elevation') }}"
+                        :available-stages="{{ $species->stages->pluck('name') }}"
+                        :data="{{ $species->occurrence() }}"
+                    />
                 </div>
             </div>
         </section>

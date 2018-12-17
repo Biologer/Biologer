@@ -47,6 +47,8 @@ import FieldObservationsImport from './components/imports/FieldObservationsImpor
 
 import FieldObservationApproval from './components/FieldObservationApproval';
 
+import OccurrenceChart from './components/OccurrenceChart';
+
 window.Vue = Vue;
 
 Vue.use(VueLazyload, {
@@ -110,6 +112,8 @@ Vue.component(ExportModal.name, ExportModal);
 Vue.component(FieldObservationsImport.name, FieldObservationsImport);
 
 Vue.component(FieldObservationApproval.name, FieldObservationApproval);
+
+Vue.component(OccurrenceChart.name, OccurrenceChart);
 
 Vue.prototype.trans = window.trans = (string, args = {}) => {
     let value = window.App.i18n[string] || string;

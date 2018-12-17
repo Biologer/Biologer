@@ -348,6 +348,34 @@ class Taxon extends Model
     }
 
     /**
+     * Get occurrence data (date, elevation and stage) for taxon to present it on the chart.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function occurrence()
+    {
+        return $this->memoize('occurrence', function () {
+            return Observation::query()
+                ->approved()
+                ->whereIn('taxon_id', $this->selfAndDescendantsIds())
+                ->withCompleteDate()
+                ->with('stage')
+                ->select('elevation' ,'year', 'month', 'day', 'stage_id')
+                ->get()
+                ->map(function ($observation) {
+                    $month = str_pad($observation->month, 2, "0", STR_PAD_LEFT);
+                    $day = str_pad($observation->day, 2, "0", STR_PAD_LEFT);
+
+                    return [
+                        'elevation' => $observation->elevation,
+                        'date' => $observation->year.'-'.$month.'-'.$day,
+                        'stage' => $observation->stage ? $observation->stage->name : 'adult',
+                    ];
+                });
+        });
+    }
+
+    /**
      * Get confirmed photos of taxon and its descendants.
      *
      * @return \Illuminate\Database\Eloquent\Collection

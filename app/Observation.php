@@ -66,9 +66,11 @@ class Observation extends Model
      */
     public function scopeWithCompleteDate($query)
     {
-        return $query->whereNotNull('year')
-            ->whereNotNull('month')
-            ->whereNotNull('day');
+        return $query->where(function ($query) {
+            return $query->whereNotNull('year')
+                ->whereNotNull('month')
+                ->whereNotNull('day');
+        });
     }
 
     /**
