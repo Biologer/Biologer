@@ -1,7 +1,7 @@
 @extends('layouts.main', ['title' => 'Development supported'])
 
 @section('content')
-    <section class="section content has-text-justified">
+    <section class="section content">
         <div class="container">
             <h1>Development supported</h1>
 
@@ -9,7 +9,7 @@
 
             <img src="https://www.rufford.org/sites/all/themes/rufford/img/rufford.jpg" alt="Rufford" class="image mx-auto mb-4">
 
-            <p>
+            <p class="has-text-justified">
                 The development was initiated with financial support from
                 <a href="https://www.rufford.org/">Rufford Small Grants foundation</a>,
                 through projects No. <a href="https://www.rufford.org/projects/ana_golubovi%C4%87_0">20507-B</a>
@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <p>
+            <p class="has-text-justified">
                 Further development of the application is financially supported by
                 the <a href="http://mava-foundation.org/">MAVA Fundation</a> through the project
                 <a href="http://www.hhdhyla.hr/projektii/aktualni-projekti">"The Dinaric Arc Karst biodiversity conservation programme"</a>,
@@ -64,7 +64,7 @@
                 </div>
             </div>
 
-            <p>
+            <p class="has-text-justified">
                 The work of Miloš Popović is supported by the founds from the
                 Ministry of Education, Science and Technological Development of
                 Republic of Serbia, project No.
@@ -72,7 +72,7 @@
                 through the Department of Biology and Ecology, Faculty of Sciences, University of Niš.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 The work of Ana Golubović is supported by the founds from the
                 Ministry of Education, Science and Technological Development of
                 Republic of Serbia, project No.

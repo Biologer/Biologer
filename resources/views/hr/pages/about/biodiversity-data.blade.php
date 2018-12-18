@@ -1,11 +1,11 @@
 @extends('layouts.main', ['title' => 'Podaci o biodiverzitetu'])
 
 @section('content')
-    <section class="section content has-text-justified">
+    <section class="section content">
         <div class="container">
             <h1>Podaci o bioraznolikosti</h1>
 
-            <p>
+            <p class="has-text-justified">
                 Termin bioraznolikost prvi put se spominje početkom osamdesetih godina
                 i u širem smislu označava sveobuhvatnu raznolikost biljaka, životinja,
                 gljiva i mikroorganizama na planeti Zemlji. Prema Konvenciji o biološkoj
@@ -21,7 +21,7 @@
                 resursa, različite vrste zagađenja, kao i naseljavanje invazivnih i alohtonih vrsta.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Prikupljanje podataka o biološkoj raznolikosti jedne zemlje osnovni
                 je korak ka procjeni vrijednosti prirodnog bogatstva i planiranju mjera
                 zaštite bioraznolikosti. Projekt Biologer je namijenjen upravo tome.
@@ -32,7 +32,7 @@
                 koraka: unos, verifikacija i prikaz podatka.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Unos je nalaz vrste, koji se sastoji od niza podataka prikupljenih na
                 terenu, iz znanstvene zbirke ili stručne literature. Jedan unos može
                 sadržavati podatke poput: naziva vrste, geografske širine i dužine,
@@ -44,7 +44,7 @@
                 zatvorene licence, pošto time umanjuju upotrebljivost nalaza.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Svi podaci uneseni u bazu dolaze do drugog koraka, verifikacije nalaza od
                 strane Urednika. U cilju pouzdane verifikacije nalaza, poželjno je da
                 Korisnici dostave što više informacija o nalazima sa terena. Urednici
@@ -53,7 +53,7 @@
                 podatke koji mogu doprinijeti određivanju vrsta.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Treći korak je kartografski prikaz podataka ostalim Korisnicima baze
                 i trećim osobama. Prikaz podataka reguliran je ranije navedenim licencama.
                 Precizne informacije o svakom pojedinačnom podatku imaju: Korisnik koji je

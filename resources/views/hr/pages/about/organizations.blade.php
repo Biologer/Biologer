@@ -1,11 +1,11 @@
 @extends('layouts.main', ['title' => 'Organizacije'])
 
 @section('content')
-    <section class="section content has-text-justified">
+    <section class="section content">
         <div class="container">
             <h1>Organizacije</h1>
 
-            <p>
+            <p class="has-text-justified">
                 Organizacije uključene u Biologer zajednicu iskazale su želju daljnjeg
                 razvoja projekta Biologer i mogu, u skladu sa svojim mogućnostima,
                 pomoći u realizaciji aktivnosti koje Projektni tim podržava. Organizacije
@@ -14,7 +14,7 @@
                 kadrovsku i tehničku podršku za razvoj Biologer softvera i poticaj Biologer zajednice.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Biologer zajednica je slobodna za pristup organizacijama koje dijele
                 misiju Biologer zajednice. Zainteresirane organizacije (državne ustanove,
                 privatne tvrtke, organizacije civilnog društva itd.) mogu se pridružiti
@@ -30,13 +30,13 @@
                 i uskladiti ga s ciljevima, misijom i vizijom vaše organizacije.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Organizacije mogu delegirati svog predstavnika u Projektni tim,
                 a konačnu odluku o uključenju novih članova u Projektni tim donosi 2/3
                 postojećih članova Projektnog tima.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Nakon dobivanja suglasnosti Projektnog tima, partnerske organizacije
                 će biti istaknute na ovoj stranici, čime Organizacije službeno postaju
                 dio Biologer zajednice.

@@ -1,11 +1,11 @@
 @extends('layouts.main', ['title' => 'Project Biologer'])
 
 @section('content')
-    <section class="section content has-text-justified">
+    <section class="section content">
         <div class="container">
             <h1>Project Biologer</h1>
 
-            <p>
+            <p class="has-text-justified">
                 The Biologer project was created as interactive platform with free
                 content, intended for collecting and digitalising the knowledge
                 about biological diversity of Eastern Europe. The platform is
@@ -13,7 +13,7 @@
                 of the Biologer community.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Biologer community, standing behind Biologer project, is consisted
                 of the <b>Project team</b> and the <b>Local communities</b>. Project team works
                 on software development, organisation and structuring the data,
@@ -28,7 +28,7 @@
 
             <h2>Mission</h2>
 
-            <p>
+            <p class="has-text-justified">
                 Empowering Biologer community and developing the software to create
                 the biggest database about biological community in the region.
                 Using taxonomic experts and motivated development team to enable collecting,
@@ -39,7 +39,7 @@
 
             <h2>Vision</h2>
 
-            <p>
+            <p class="has-text-justified">
                 Our vision is to be a part of Biologer community that works on further
                 development and enhancement of the biggest database on biological
                 diversity in the region, to work on software development and to provide
@@ -48,7 +48,7 @@
 
             <h2>Biologer software</h2>
 
-            <p>
+            <p class="has-text-justified">
                 Program behind Biloger is a free software issued under
                 <a href="https://opensource.org/licenses/MIT">MIT license</a>.
                 Biologer web software and Biologer Android application are available

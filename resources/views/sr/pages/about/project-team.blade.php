@@ -1,11 +1,11 @@
 @extends('layouts.main', ['title' => 'Пројектни тим'])
 
 @section('content')
-    <section class="section content has-text-justified">
+    <section class="section content">
         <div class="container">
             <h1>Пројектни тим</h1>
 
-            <p>
+            <p class="has-text-justified">
                 Изворни Пројектни тим чини група ентузијаста која је покренула пројекат Биологер.
                 Пројектни тим има највећа овлашћења у Заједници. Пројектни тим директно одлучује
                 о правцима даљег развоја платформе Биологер. За укључење нових људи у

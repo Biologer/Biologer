@@ -1,7 +1,7 @@
 @extends('layouts.main', ['title' => 'Local community'])
 
 @section('content')
-    <section class="section content has-text-justified">
+    <section class="section content">
         <div class="container">
             <h1>Local community</h1>
 
@@ -11,7 +11,7 @@
                 Address: {{ config('biologer.community.address') }}.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 <b>Administrators</b> are persons that manages the database, have the overview
                 in all the data from local Biologer platform and are in charge for entire
                 organisation of the Local community. The initial Administration team is
@@ -22,17 +22,17 @@
                 usage (in accordance with the licenses chosen by the Users).
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Administrators of the Local community "{{ config('biologer.community.name') }}" are:
-
-                <ul>
-                    @foreach ($admins as $admin)
-                        <li>{{ $admin->full_name }}</li>
-                    @endforeach
-                </ul>
             </p>
 
-            <p>
+            <ul>
+                @foreach ($admins as $admin)
+                    <li>{{ $admin->full_name }}</li>
+                @endforeach
+            </ul>
+
+            <p class="has-text-justified">
                 <b>Editors</b> are taxonomic experts for certain groups of organisms and they
                 are in charge of reviewing upcoming data, approving and correcting the
                 records or making the record impossible to identify. Editors are experts
@@ -45,25 +45,26 @@
                 licenses chosen by the Users).
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Editorial team in Local community "{{ config('biologer.community.name') }}" is made of
                 {{ $curators->count() }} persons in charge of {{ $taxonomicGroupsCount }} taxonomic groups:
 
-                <ul>
-                    @foreach ($curators as $curator)
-                        <li>{{ $curator->full_name }} - {{ $curator->curatedTaxa->pluck('name')->implode(', ') }}</li>
-                    @endforeach
-                </ul>
             </p>
 
-            <p>
+            <ul>
+                @foreach ($curators as $curator)
+                    <li>{{ $curator->full_name }} - {{ $curator->curatedTaxa->pluck('name')->implode(', ') }}</li>
+                @endforeach
+            </ul>
+
+            <p class="has-text-justified">
                 <b>Users</b> are all the members of Local community, and this status has bean
                 given after the registration on the web platform. Editors and Administrators
                 are also Users. Users make Biologer community and their devotion is reason
                 for gathering valuable data about distribution of taxa in certain geographic area.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Biologer community "{{ config('biologer.community.name') }}" has {{ $usersCount }} Users,
                 that have gathered {{ $observationsCount }} data about our biological diversity.
             </p>

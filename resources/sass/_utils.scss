@@ -83,6 +83,10 @@
     border-color: $primary;
 }
 
+.m-1 {
+    margin: .25em;
+}
+
 .m-2 {
     margin: .5em;
 }
@@ -112,6 +116,14 @@
 
 .mr-2 {
     margin-right: .5rem;
+}
+
+.mb-2 {
+    margin-bottom: .5rem;
+}
+
+.mb-1 {
+    margin-bottom: .25rem;
 }
 
 .mb-4 {
@@ -181,6 +193,30 @@
 
 .pb-8 {
     padding-bottom: 2rem;
+}
+
+@include tablet() {
+    .tablet\:px-4 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+@include desktop() {
+    .desktop\:px-4 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .desktop\:px-16 {
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
+
+    .desktop\:px-0 {
+        padding-left: 0;
+        padding-right: 0;
+    }
 }
 
 .align-middle {

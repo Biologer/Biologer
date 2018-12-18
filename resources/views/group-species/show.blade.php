@@ -1,7 +1,7 @@
 @extends('layouts.main', ['title' => $species->name])
 
 @section('content')
-    <div class="container pb-8">
+    <div class="container pb-8 px-4 desktop:px-0">
         <nav class="pagination is-species mb-8 mt-4" role="navigation" aria-label="pagination">
             <h1 class="is-size-3 pagination-title">
                 <i>{{ $species->name }}</i>&nbsp;
@@ -11,7 +11,7 @@
             </h1>
 
             <div class="pagination-search">
-                <a href="{{ route('groups.index') }}" class="button has-text-hidden-tablet-only" title="{{ __('navigation.groups') }}">
+                <a href="{{ route('groups.index') }}" class="button has-text-hidden-tablet-only m-1" title="{{ __('navigation.groups') }}">
                     <span class="icon has-text-grey">
                         <i class="fa fa-th"></i>
                     </span>
@@ -19,7 +19,7 @@
                     <span class="is-hidden-tablet-only">{{ __('navigation.groups') }}</span>
                 </a>
 
-                <a href="{{ $species->indexUrl() }}" class="button has-text-hidden-tablet-only" title="{{ __('navigation.species_list') }}">
+                <a href="{{ $species->indexUrl() }}" class="button has-text-hidden-tablet-only m-1" title="{{ __('navigation.species_list') }}">
                     <span class="icon has-text-grey">
                         <i class="fa fa-list"></i>
                     </span>

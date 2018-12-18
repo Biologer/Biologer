@@ -1,7 +1,7 @@
 @extends('layouts.main', ['title' => 'Lokalna zajednica'])
 
 @section('content')
-    <section class="section content has-text-justified">
+    <section class="section content">
         <div class="container">
             <h1>Lokalna zajednica</h1>
 
@@ -11,7 +11,7 @@
                 Adresa: {{ config('biologer.community.address') }}.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 <b>Administratori</b> su lica koja upravljaju bazom podataka, imaju
                 uvid u sve podatke u okviru lokalne Biologer platforme i zaduženi
                 su za celokupnu organizaciju Lokalne zajednice. Početni tim Administratora
@@ -22,17 +22,17 @@
                 korišćenju (u skladu sa licencama koje izaberu Korisnici).
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Administratori Lokalne zajednice „{{ config('biologer.community.name') }}“ su:
-
-                <ul>
-                    @foreach ($admins as $admin)
-                        <li>{{ $admin->full_name }}</li>
-                    @endforeach
-                </ul>
             </p>
 
-            <p>
+            <ul>
+                @foreach ($admins as $admin)
+                    <li>{{ $admin->full_name }}</li>
+                @endforeach
+            </ul>
+
+            <p class="has-text-justified">
                 <b>Urednici</b> su taksonomski eksperti za određene grupe organizama
                 koji pregledaju pristigle podatke, odobravaju ih, po potrebi koriguju
                 ili proglašavaju nemogućim za identifikaciju. Urednici su eksperti
@@ -45,18 +45,18 @@
                 (u skladu sa licencama koje izaberu Korisnici).
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Uređivački tim Lokalne zajednice „{{ config('biologer.community.name') }}“ se sastoji od
                 {{ $curators->count() }} ljudi koji pokrivaju {{ $taxonomicGroupsCount }} taksonomskih grupa, i to:
-
-                <ul>
-                    @foreach ($curators as $curator)
-                        <li>{{ $curator->full_name }} - {{ $curator->curatedTaxa->pluck('name')->implode(', ') }}</li>
-                    @endforeach
-                </ul>
             </p>
 
-            <p>
+            <ul>
+                @foreach ($curators as $curator)
+                    <li>{{ $curator->full_name }} - {{ $curator->curatedTaxa->pluck('name')->implode(', ') }}</li>
+                @endforeach
+            </ul>
+
+            <p class="has-text-justified">
                 <b>Korisnici</b> su svi članovi Lokalne zajednice, a status Korisnika
                 se stiče prilikom registracije na veb platformu. U Korisnike se ubrajaju
                 i Urednici i Administratori. Korisnici čine Biologer zajednicu i njihovim
@@ -64,7 +64,7 @@
                 geografskom području.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Biologer zajednica „{{ config('biologer.community.name') }}“ broji {{ $usersCount }} Korisnika,
                 koji su prikupili {{ $observationsCount }} podataka o našoj biološkoj raznovrsnosti.
             </p>

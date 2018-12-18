@@ -1,11 +1,11 @@
 @extends('layouts.main', ['title' => 'Biodiversity data'])
 
 @section('content')
-    <section class="section content has-text-justified">
+    <section class="section content">
         <div class="container">
             <h1>Biodiversity data</h1>
 
-            <p>
+            <p class="has-text-justified">
                 The term biodiversity has bean mentioned for the first time in eighties,
                 denoting the overall variability in plants, animals, fungus and micro-organisms
                 on the planet Earth. According to the Convention on biological diversity,
@@ -21,7 +21,7 @@
                 different kinds of pollutions and introduction of invasive and allochthonous species.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Collecting data on biological diversity in one country is a basic step
                 for evaluation of natural resources and planning the measures for
                 biodiversity protection. The project Biologer is intended to do exactly this.
@@ -32,7 +32,7 @@
                 entry, verification and display of data.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Each entry of a taxon is consisted from the series of data gathered
                 in the field, from the scientific collection or literature. One entry
                 can hold data such as: taxa name, longitude, latitude, photo of the record,
@@ -44,7 +44,7 @@
                 since this diminishes the usability of the records.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 All this data entered in a database are reaching the second step,
                 the verification by the Editors. To make identification of the records
                 more reliable, the Users are advised to send as much data as possible
@@ -53,7 +53,7 @@
                 records and this can sometimes help identification of the taxa.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 The third step is display of geographic data to other Users and third parties.
                 The Display of data is regulated with previously mentioned licences.
                 More precise informations about each individual record are available to the

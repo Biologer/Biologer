@@ -5,7 +5,7 @@
         <div class="container">
             <h1>Project team</h1>
 
-            <p>
+            <p class="has-text-justified">
                 The original Project team was made of a few enthusiasts that decided
                 to run the project Biologer. Project team has the highest authority
                 in the Biologer community. Project team directly decides about further

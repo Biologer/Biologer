@@ -1,18 +1,18 @@
 @extends('layouts.main', ['title' => 'Projekat Biologer'])
 
 @section('content')
-    <section class="section content has-text-justified">
+    <section class="section content">
         <div class="container">
             <h1>Projekt Biologer</h1>
 
-            <p>
+            <p class="has-text-justified">
                 Projekt Biologer je nastao kao interaktivna platforma slobodnog
                 sadržaja namijenjena prikupljanju i digitalizaciji znanja o biološkoj
                 raznolikosti na području Istočne Europe. Platforma se zasniva na korištenju
                 i razvoju softvera Biologer i dobrovoljnom radu Biologer zajednice.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Biologer zajednica, koja stoji iza projekta Biologer, sačinjena je od
                 <b>Projektnog tima</b> i <b>Lokalnih zajednica</b>. Projektni tim
                 radi na razvoju softvera, organizaciji i strukturiranju podataka,
@@ -27,7 +27,7 @@
 
             <h2>Misija</h2>
 
-            <p>
+            <p class="has-text-justified">
                 Osnaživanjem Biologer zajednice i razvojem softvera stvoriti najveću
                 bazu podataka o biološkoj raznolikosti u regiji. Uz taksonomske
                 stručnjake i motiviran tim koji radi na razvoju platforme omogućiti
@@ -38,7 +38,7 @@
 
             <h2>Vizija</h2>
 
-            <p>
+            <p class="has-text-justified">
                 Naša vizija je da budemo dio Biologer zajednice koja radi na razvoju
                 i unapređenju najveće baze podataka o biološkoj raznolikosti u regionu,
                 da radimo na razvoju softvera i osiguramo najbolje uvjete za rad Biologer zajednice.
@@ -46,7 +46,7 @@
 
             <h2>Biologer softver</h2>
 
-            <p>
+            <p class="has-text-justified">
                 Programi koji pokreću Biologer predstavljaju slobodan softver izdan pod
                 <a href="https://opensource.org/licenses/MIT">MIT licencom</a>.
                 Biologer web softver kao i Biologer aplikacija za Android uređaje su dostupni

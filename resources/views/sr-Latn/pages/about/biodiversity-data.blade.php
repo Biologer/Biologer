@@ -1,11 +1,11 @@
 @extends('layouts.main', ['title' => 'Podaci o biodiverzitetu'])
 
 @section('content')
-    <section class="section content has-text-justified">
+    <section class="section content">
         <div class="container">
             <h1>Podaci o biodiverzitetu</h1>
 
-            <p>
+            <p class="has-text-justified">
                 Termin biodiverzitet prvi put se pominje početkom osamdesetih godina
                 i u širem smislu označava sveobuhvatnu varijabilnost biljaka, životinja,
                 gljiva i mikroorganizama na planeti Zemlji. Prema Konvenciji o biološkoj
@@ -21,7 +21,7 @@
                 različite vrste zagađivanja, kao i naseljavanje invazivnih i alohtonih vrsta.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Prikupljanje podataka o biološkoj raznovrsnosti jedne zemlje osnovni je
                 korak ka valorizaciji prirodnog bogatstva i planiranju mera zaštite biodiverziteta.
                 Projekat Biologer je namenjen upravo tome. Biologer zajednica radi na
@@ -31,7 +31,7 @@
                 tri osnovna koraka: unos, verifikacija i prikaz podatka.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Unos je nalaz taksona, koji se sastoji od niza podataka prikupljenih na terenu,
                 iz naučne zbirke ili stručne literature. Jedan unos može sadržati podatke poput:
                 naziva taksona, geografske širine i dužine, fotografije nalaza, nadmorske
@@ -42,7 +42,7 @@
                 zatvorene licence, pošto time umanjuju upotrebljivost nalaza.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Svi podaci uneseni u bazu dolaze do drugog koraka, verifikacije nalaza od
                 strane Urednika. U cilju pouzdane verifikacije nalaza poželjno je da
                 Korisnici dostave što više informacija o nalazima sa terena. Urednici
@@ -51,7 +51,7 @@
                 podatke koji mogu doprineti identifikaciji taksona.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Treći korak jeste kartografski prikaz podataka ostalim Korisnicima baze i
                 trećim licima. Prikaz podataka regulisan je ranije navedenim licencama.
                 Precizne informacije o svakom pojedinačnom podatku imaju: Korisnik koji je

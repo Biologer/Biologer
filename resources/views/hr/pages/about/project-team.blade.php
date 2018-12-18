@@ -5,7 +5,7 @@
         <div class="container">
             <h1>Projektni tim</h1>
 
-            <p>
+            <p class="has-text-justified">
                 Izvorni Projektni tim čini grupa entuzijasta koja je pokrenula projekt Biologer.
                 Projektni tim ima najveće ovlasti u Zajednici. Projektni tim direktno odlučuje
                 o smjeru daljnjeg razvoja platforme Biologer. Za uključenje novih ljudi u

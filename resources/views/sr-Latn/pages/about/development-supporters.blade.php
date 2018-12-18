@@ -1,7 +1,7 @@
 @extends('layouts.main', ['title' => 'Razvoj podržali'])
 
 @section('content')
-    <section class="section content has-text-justified">
+    <section class="section content">
         <div class="container">
             <h1>Razvoj podržali</h1>
 
@@ -9,7 +9,7 @@
 
             <img src="https://www.rufford.org/sites/all/themes/rufford/img/rufford.jpg" alt="Rufford" class="image mx-auto mb-4">
 
-            <p>
+            <p class="has-text-justified">
                 Razvoj aplikacije je pokrenut sredstvima fondacije
                 <a href="https://www.rufford.org/">Raford, mali grantovi</a>,
                 preko projekta br. <a href="https://www.rufford.org/projects/ana_golubovi%C4%87_0">20507-B</a>
@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <p>
+            <p class="has-text-justified">
                 Dalji razvoj aplikacije podržan je sredstvima
                 <a href="http://mava-foundation.org/">Fondacije MAVA</a> preko
                 <a href="http://www.hhdhyla.hr/projektii/aktualni-projekti">„Projekta zaštite biodiverziteta na krečnjacima Dinarskog masiva“</a>,
@@ -64,14 +64,14 @@
                 </div>
             </div>
 
-            <p>
+            <p class="has-text-justified">
                 Rad Miloša Popovića podržan je sredstvima Ministarstva prosvete,
                 nauke i tehnološkog razvoja Republike Srbije, projekat br.
                 <a href="http://www.ibiss.bg.ac.rs/index.php/sr-yu/projekti/item/305-173025-evolucija-u-heterogenim-sredinama-mehanizmi-adaptacija-biomonitoring-i-konzervacija-biodiverziteta">173025</a>,
                 preko Departmana za biologiju i ekologiju, Prirodno-matematičkog fakulteta, Univerziteta u Nišu.
             </p>
 
-            <p>
+            <p class="has-text-justified">
                 Rad Ane Golubović podržan je sredstvima Ministarstva prosvete,
                 nauke i tehnološkog razvoja Republike Srbije, projekat br.
                 <a href="http://www.ibiss.bg.ac.rs/index.php/sr-yu/projekti/item/308-173043-diverzitet-vodozamaca-i-gmizavaca-balkana-evolucioni-aspekti-i-konzervacija">173043</a>,
