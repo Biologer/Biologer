@@ -2,45 +2,45 @@
   <div class="">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
       <g>
+        <rect x="70" y="30" width="62" height="500" fill="#ffffff"></rect>
+        <text x="101" y="560" font-size="25" fill="#000000" text-anchor="middle">I</text>
+
+        <rect x="132" y="30" width="56" height="500" fill="#eeeeee"></rect>
+        <text x="160" y="560" font-size="25" fill="#000000" text-anchor="middle">II</text>
+
+        <rect x="188" y="30" width="62" height="500" fill="#ffffff"></rect>
+        <text x="219" y="560" font-size="25" fill="#000000" text-anchor="middle">III</text>
+
+        <rect x="250" y="30" width="60" height="500" fill="#eeeeee"></rect>
+        <text x="280" y="560" font-size="25" fill="#000000" text-anchor="middle">IV</text>
+
+        <rect x="310" y="30" width="62" height="500" fill="#ffffff"></rect>
+        <text x="341" y="560" font-size="25" fill="#000000" text-anchor="middle">V</text>
+
+        <rect x="372" y="30" width="60" height="500" fill="#eeeeee"></rect>
+        <text x="402" y="560" font-size="25" fill="#000000" text-anchor="middle">VI</text>
+
+        <rect x="432" y="30" width="62" height="500" fill="#ffffff"></rect>
+        <text x="463" y="560" font-size="25" fill="#000000" text-anchor="middle">VII</text>
+
+        <rect x="494" y="30" width="62" height="500" fill="#eeeeee"></rect>
+        <text x="525" y="560" font-size="25" fill="#000000" text-anchor="middle">VIII</text>
+
+        <rect x="556" y="30" width="60" height="500" fill="#ffffff"></rect>
+        <text x="586" y="560" font-size="25" fill="#000000" text-anchor="middle">IX</text>
+
+        <rect x="616" y="30" width="62" height="500" fill="#eeeeee"></rect>
+        <text x="647" y="560" font-size="25" fill="#000000" text-anchor="middle">X</text>
+
+        <rect x="678" y="30" width="60" height="500" fill="#ffffff"></rect>
+        <text x="708" y="560" font-size="25" fill="#000000" text-anchor="middle">XI</text>
+
+        <rect x="738" y="30" width="62" height="500" fill="#eeeeee"></rect>
+        <text x="769" y="560" font-size="25" fill="#000000" text-anchor="middle">XII</text>
+
         <line x1="70" y1="10" x2="70" y2="530" stroke-width="2" stroke="#222222" />
         <path d="M70 7 L65 15 L75 15 Z" />
         <text x="80" y="25" font-size="20" fill="#000000">{{ elevationLabel }} (m)</text>
-
-        <rect x="71" y="30" width="62" height="500" fill="#ffffff"></rect>
-        <text x="102" y="560" font-size="25" fill="#000000" text-anchor="middle">I</text>
-
-        <rect x="133" y="30" width="56" height="500" fill="#eeeeee"></rect>
-        <text x="161" y="560" font-size="25" fill="#000000" text-anchor="middle">II</text>
-
-        <rect x="189" y="30" width="62" height="500" fill="#ffffff"></rect>
-        <text x="220" y="560" font-size="25" fill="#000000" text-anchor="middle">III</text>
-
-        <rect x="251" y="30" width="60" height="500" fill="#eeeeee"></rect>
-        <text x="281" y="560" font-size="25" fill="#000000" text-anchor="middle">IV</text>
-
-        <rect x="311" y="30" width="62" height="500" fill="#ffffff"></rect>
-        <text x="342" y="560" font-size="25" fill="#000000" text-anchor="middle">V</text>
-
-        <rect x="373" y="30" width="60" height="500" fill="#eeeeee"></rect>
-        <text x="403" y="560" font-size="25" fill="#000000" text-anchor="middle">VI</text>
-
-        <rect x="433" y="30" width="62" height="500" fill="#ffffff"></rect>
-        <text x="464" y="560" font-size="25" fill="#000000" text-anchor="middle">VII</text>
-
-        <rect x="495" y="30" width="62" height="500" fill="#eeeeee"></rect>
-        <text x="526" y="560" font-size="25" fill="#000000" text-anchor="middle">VIII</text>
-
-        <rect x="557" y="30" width="60" height="500" fill="#ffffff"></rect>
-        <text x="587" y="560" font-size="25" fill="#000000" text-anchor="middle">IX</text>
-
-        <rect x="617" y="30" width="62" height="500" fill="#eeeeee"></rect>
-        <text x="648" y="560" font-size="25" fill="#000000" text-anchor="middle">X</text>
-
-        <rect x="679" y="30" width="60" height="500" fill="#ffffff"></rect>
-        <text x="709" y="560" font-size="25" fill="#000000" text-anchor="middle">XI</text>
-
-        <rect x="739" y="30" width="62" height="500" fill="#eeeeee"></rect>
-        <text x="770" y="560" font-size="25" fill="#000000" text-anchor="middle">XII</text>
 
         <text x="400" y="590" font-size="20" fill="#000000" dominant-baseline="middle" text-anchor="middle">{{ monthsLabel }}</text>
 
@@ -81,7 +81,7 @@
 
 <script>
 const TOTAL_YEAR_SPACE = 730
-const START_YEAR_FROM = 71
+const START_YEAR_FROM = 70
 
 const ELEVATION_START = 529
 const ELEVATION_END = 30
@@ -144,7 +144,7 @@ export default {
      * @return {Number}
      */
     currentDateLineX() {
-      return this.xForDate(moment())
+      return this.xForDate(moment()) - 1 // fixed by the stroke width of the line
     },
 
     /**
