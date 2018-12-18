@@ -6,41 +6,41 @@
         <path d="M70 7 L65 15 L75 15 Z" />
         <text x="80" y="25" font-size="20" fill="#000000">{{ elevationLabel }} (m)</text>
 
-        <rect x="71" y="30" width="61" height="500" fill="#ffffff" />
-        <text x="96" y="560" font-size="25" fill="#000000">I</text>
+        <rect x="71" y="30" width="62" height="500" fill="#ffffff"></rect>
+        <text x="102" y="560" font-size="25" fill="#000000" text-anchor="middle">I</text>
 
-        <rect x="131" y="30" width="61" height="500" fill="#eeeeee" />
-        <text x="154" y="560" font-size="25" fill="#000000">II</text>
+        <rect x="133" y="30" width="56" height="500" fill="#eeeeee"></rect>
+        <text x="161" y="560" font-size="25" fill="#000000" text-anchor="middle">II</text>
 
-        <rect x="190" y="30" width="61" height="500" fill="#ffffff" />
-        <text x="213" y="560" font-size="25" fill="#000000">III</text>
+        <rect x="189" y="30" width="62" height="500" fill="#ffffff"></rect>
+        <text x="220" y="560" font-size="25" fill="#000000" text-anchor="middle">III</text>
 
-        <rect x="251" y="30" width="61" height="500" fill="#eeeeee" />
-        <text x="269" y="560" font-size="25" fill="#000000">IV</text>
+        <rect x="251" y="30" width="60" height="500" fill="#eeeeee"></rect>
+        <text x="281" y="560" font-size="25" fill="#000000" text-anchor="middle">IV</text>
 
-        <rect x="311" y="30" width="61" height="500" fill="#ffffff" />
-        <text x="333" y="560" font-size="25" fill="#000000">V</text>
+        <rect x="311" y="30" width="62" height="500" fill="#ffffff"></rect>
+        <text x="342" y="560" font-size="25" fill="#000000" text-anchor="middle">V</text>
 
-        <rect x="372" y="30" width="61" height="500" fill="#eeeeee" />
-        <text x="389" y="560" font-size="25" fill="#000000">VI</text>
+        <rect x="373" y="30" width="60" height="500" fill="#eeeeee"></rect>
+        <text x="403" y="560" font-size="25" fill="#000000" text-anchor="middle">VI</text>
 
-        <rect x="433" y="30" width="61" height="500" fill="#ffffff" />
-        <text x="446" y="560" font-size="25" fill="#000000">VII</text>
+        <rect x="433" y="30" width="62" height="500" fill="#ffffff"></rect>
+        <text x="464" y="560" font-size="25" fill="#000000" text-anchor="middle">VII</text>
 
-        <rect x="494" y="30" width="61" height="500" fill="#eeeeee" />
-        <text x="507" y="560" font-size="25" fill="#000000">VIII</text>
+        <rect x="495" y="30" width="62" height="500" fill="#eeeeee"></rect>
+        <text x="526" y="560" font-size="25" fill="#000000" text-anchor="middle">VIII</text>
 
-        <rect x="555" y="30" width="61" height="500" fill="#ffffff" />
-        <text x="572" y="560" font-size="25" fill="#000000">IX</text>
+        <rect x="557" y="30" width="60" height="500" fill="#ffffff"></rect>
+        <text x="587" y="560" font-size="25" fill="#000000" text-anchor="middle">IX</text>
 
-        <rect x="616" y="30" width="61" height="500" fill="#eeeeee" />
-        <text x="637" y="560" font-size="25" fill="#000000">X</text>
+        <rect x="617" y="30" width="62" height="500" fill="#eeeeee"></rect>
+        <text x="648" y="560" font-size="25" fill="#000000" text-anchor="middle">X</text>
 
-        <rect x="678" y="30" width="61" height="500" fill="#ffffff" />
-        <text x="695" y="560" font-size="25" fill="#000000">XI</text>
+        <rect x="679" y="30" width="60" height="500" fill="#ffffff"></rect>
+        <text x="709" y="560" font-size="25" fill="#000000" text-anchor="middle">XI</text>
 
-        <rect x="739" y="30" width="61" height="500" fill="#eeeeee" />
-        <text x="753" y="560" font-size="25" fill="#000000">XII</text>
+        <rect x="739" y="30" width="62" height="500" fill="#eeeeee"></rect>
+        <text x="770" y="560" font-size="25" fill="#000000" text-anchor="middle">XII</text>
 
         <text x="400" y="590" font-size="20" fill="#000000" dominant-baseline="middle" text-anchor="middle">{{ monthsLabel }}</text>
 
