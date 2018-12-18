@@ -206,7 +206,7 @@ export default {
     bottomElevationValue() {
       const step = this.topElevationValue / 4
 
-      return this.minElevation === 0 ? 0 : parseInt(Math.floor(this.minElevation / step)) * step
+      return this.minElevation >= 0 ? 0 : parseInt(Math.floor(this.minElevation / step)) * step
     },
 
     /**
