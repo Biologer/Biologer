@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 575">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
       <g>
         <line x1="70" y1="10" x2="70" y2="530" stroke-width="2" stroke="#222222" />
         <path d="M70 7 L65 15 L75 15 Z" />
@@ -42,6 +42,7 @@
         <rect x="739" y="30" width="61" height="500" fill="#eeeeee" />
         <text x="753" y="560" font-size="25" fill="#000000">XII</text>
 
+        <text x="400" y="590" font-size="20" fill="#000000" dominant-baseline="middle" text-anchor="middle">{{ monthsLabel }}</text>
 
         <template v-for="(elevation, index) in negativeElevations">
           <line x1="60" :y1="elevation.y" x2="800" :y2="elevation.y" stroke-width="1" :stroke="(index + 1) % 2 ? '#555555' : '#222222'" />
@@ -103,6 +104,11 @@ export default {
     elevationLabel: {
       type: String,
       default: 'Elevation'
+    },
+
+    monthsLabel: {
+      type: String,
+      default: 'Months'
     },
 
     availableStages: {

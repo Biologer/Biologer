@@ -85,6 +85,7 @@
                     <nz-occurrence-chart
                         class="mt-8"
                         elevation-label="{{ __('Elevation') }}"
+                        months-label="{{ __('Months') }}"
                         :available-stages="{{ $species->stages->pluck('name') }}"
                         :data="{{ $species->occurrence() }}"
                     />
