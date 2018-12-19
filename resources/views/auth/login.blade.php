@@ -3,10 +3,16 @@
 @section('body')
 <nav class="navbar shadow border-t-4 border-primary">
     <div class="container is-fluid">
-        <div class="navbar-brand">
+        <div class="navbar-brand justify-between">
             <a class="navbar-item" href="{{ url('/') }}">
                 <img src="{{ asset('img/logo.svg') }}" alt="{{ config('app.name') }}" class="navbar-logo">
             </a>
+
+            <div class="navbar-item is-hidden-desktop">
+                <a href="{{ route('register') }}" class="button is-outlined is-secondary">
+                    {{ __('navigation.register') }}
+                </a>
+            </div>
         </div>
 
         <div class="navbar-menu">
@@ -25,7 +31,7 @@
     <div class="hero-body">
         <div class="container">
             <div class="columns">
-                <div class="column is-4 is-offset-4">
+                <div class="column is-half-tablet is-one-third-desktop is-offset-one-quarter-tablet is-offset-one-third-desktop">
                     <h1 class="title">
                       {{ __('navigation.login') }}
                     </h1>

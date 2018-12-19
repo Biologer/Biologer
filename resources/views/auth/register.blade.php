@@ -3,10 +3,16 @@
 @section('body')
 <nav class="navbar shadow border-t-4 border-primary">
     <div class="container is-fluid">
-        <div class="navbar-brand">
+        <div class="navbar-brand justify-between">
             <a class="navbar-item" href="{{ url('/') }}">
                 <img src="{{ asset('img/logo.svg') }}" alt="{{ config('app.name') }}" class="navbar-logo">
             </a>
+
+            <div class="navbar-item is-hidden-desktop">
+                <a href="{{ route('login') }}" class="button is-outlined is-secondary">
+                    {{ __('navigation.login') }}
+                </a>
+            </div>
         </div>
 
         <div class="navbar-menu">
