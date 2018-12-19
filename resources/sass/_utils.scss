@@ -51,6 +51,12 @@
     flex-direction: column;
 }
 
+@include tablet() {
+    .tablet\:flex-row {
+        flex-direction: row;
+    }
+}
+
 .justify-between {
     justify-content: space-between;
 }
@@ -99,6 +105,13 @@
 .mx-2 {
     margin-left: .5em;
     margin-right: .5em;
+}
+
+@include tablet() {
+    .tablet\:mx-2 {
+        margin-left: .5em;
+        margin-right: .5em;
+    }
 }
 
 .my-2 {
