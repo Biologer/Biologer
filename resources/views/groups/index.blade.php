@@ -1,9 +1,9 @@
 @extends('layouts.main', ['title' => __('navigation.view_groups')])
 
 @section('content')
-    <section class="section">
+    <section class="mt-8">
         @if($rootGroups->count() > 1)
-            <b-tabs type="is-boxed" position="is-centered" class="block is-in-container" v-cloak>
+            <b-tabs type="is-boxed" position="is-centered" class="block" v-cloak>
                 @foreach($rootGroups as $rootGroup)
                     <b-tab-item>
                         <div slot="header" class="flex is-flex-center">
