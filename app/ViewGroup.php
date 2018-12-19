@@ -184,11 +184,7 @@ class ViewGroup extends Model
      */
     protected function findSpecies($speciesId)
     {
-        $species = Taxon::with('ancestors')->species()->where('id', $speciesId)->first();
-
-        if (! $species) {
-            return;
-        }
+        $species = Taxon::with('ancestors')->species()->where('id', $speciesId)->firstOrFail();
 
         return new SpeciesGroupPaginator($this, $species);
     }
