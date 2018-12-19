@@ -1,7 +1,7 @@
 @extends('layouts.main', ['title' => 'Projektni tim'])
 
 @section('content')
-    <section class="section content has-text-justified">
+    <section class="section content">
         <div class="container">
             <h1>Projektni tim</h1>
 
