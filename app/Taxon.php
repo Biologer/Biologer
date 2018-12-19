@@ -5,6 +5,7 @@ namespace App;
 use App\Filters\Filterable;
 use Dimsav\Translatable\Translatable;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class Taxon extends Model
 {
@@ -406,6 +407,34 @@ class Taxon extends Model
                 'label' => trans('taxonomy.'.$rank),
             ];
         }, array_keys(static::RANKS), static::RANKS);
+    }
+
+    /**
+     * Get species IDs for all ancestors, including them.
+     *
+     * @param  \Illuminate\Database\Eloquent\Collection  $ancestors
+     * @return \Illuminate\Support\Collection
+     */
+    public static function getSpeciesIdsForAncestors(EloquentCollection $ancestors)
+    {
+        return self::whereHas('ancestors', function ($query) use ($ancestors) {
+            return $query->whereIn('id', $ancestors->pluck('id'));
+        })->species()->pluck('id')->concat($ancestors->filter(function ($ancestor) {
+            return $ancestor->isSpecies();
+        })->pluck('id'));
+    }
+
+    /**
+     * Get IDs of descendants of given taxa and their own IDs.
+     *
+     * @param  \Illuminate\Database\Eloquent\Collection  $ancestors
+     * @return \Illuminate\Support\Collection
+     */
+    public static function getSelfAndDescendantIdsForAncestors(EloquentCollection $ancestors)
+    {
+        return self::whereHas('ancestors', function ($query) use ($ancestors) {
+            return $query->whereIn('id', $ancestors->pluck('id'));
+        })->pluck('id')->concat($ancestors->pluck('id'));
     }
 
     /**

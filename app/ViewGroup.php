@@ -97,7 +97,7 @@ class ViewGroup extends Model
     public function speciesIds()
     {
         return $this->memoize('speciesIds', function () {
-            return $this->taxa->map->selfAndDescendingSpeciesIds()->flatten();
+            return Taxon::getSpeciesIdsForAncestors($this->taxa);
         });
     }
 
@@ -109,7 +109,7 @@ class ViewGroup extends Model
     protected function allTaxaIds()
     {
         return $this->memoize('allTaxaIds', function () {
-            return $this->taxa->map->selfAndDescendantsIds()->flatten();
+            return Taxon::getSelfAndDescendantIdsForAncestors($this->taxa);
         });
     }
 
