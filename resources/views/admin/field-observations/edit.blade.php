@@ -26,6 +26,7 @@
         <ul>
             <li><a href="{{ route('contributor.index') }}">{{ __('navigation.dashboard') }}</a></li>
             <li><a href="{{ route('admin.field-observations.index') }}">{{ __('navigation.all_field_observations') }}</a></li>
+            <li><a href="{{ route('admin.field-observations.show', $fieldObservation) }}">{{ $fieldObservation->id }}</a></li>
             <li class="is-active"><a>{{ __('navigation.edit') }}</a></li>
         </ul>
     </div>

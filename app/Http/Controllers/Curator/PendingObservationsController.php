@@ -28,6 +28,8 @@ class PendingObservationsController extends Controller
      */
     public function show(FieldObservation $fieldObservation)
     {
+        $this->authorize('view', $fieldObservation);
+
         return view('curator.pending-observations.show', [
             'fieldObservation' => $fieldObservation->load([
                 'observation.taxon',

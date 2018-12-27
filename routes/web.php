@@ -100,6 +100,10 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
                 ->middleware('role:curator,admin')
                 ->name('approved-observations.edit');
 
+            Route::get('approved-observations/{fieldObservation}', 'ApprovedObservationsController@show')
+                ->middleware('role:curator,admin')
+                ->name('approved-observations.show');
+
             Route::get('unidentifiable-observations', 'UnidentifiableObservationsController@index')
                 ->middleware('role:curator,admin')
                 ->middleware('can:list,App\FieldObservation')
@@ -108,6 +112,10 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::get('unidentifiable-observations/{unidentifiableObservation}/edit', 'UnidentifiableObservationsController@edit')
                 ->middleware('role:curator,admin')
                 ->name('unidentifiable-observations.edit');
+
+            Route::get('unidentifiable-observations/{fieldObservation}', 'UnidentifiableObservationsController@show')
+                ->middleware('role:curator,admin')
+                ->name('unidentifiable-observations.show');
         });
 
         Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
@@ -118,6 +126,10 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::get('field-observations/{fieldObservation}/edit', 'FieldObservationsController@edit')
                 ->middleware('role:admin')
                 ->name('field-observations.edit');
+
+            Route::get('field-observations/{fieldObservation}', 'FieldObservationsController@show')
+                ->middleware('role:admin')
+                ->name('field-observations.show');
 
             Route::get('taxa', 'TaxaController@index')
                 ->middleware('role:admin,curator')

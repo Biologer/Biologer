@@ -4,6 +4,7 @@
     <div class="box">
         <nz-field-observations-table
             list-route="api.curator.unidentifiable-observations.index"
+            view-route="curator.unidentifiable-observations.show"
             edit-route="curator.unidentifiable-observations.edit"
             delete-route="api.field-observations.destroy"
             empty="{{ __('No data...') }}"

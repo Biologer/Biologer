@@ -21,6 +21,23 @@ class UnidentifiableObservationsController extends Controller
     }
 
     /**
+     * Show unidentifiable field observation details.
+     *
+     * @param  \App\FieldObservation  $fieldObservation
+     * @return \Illuminate\View\View
+     */
+    public function show(FieldObservation $fieldObservation)
+    {
+        $this->authorize('view', $fieldObservation);
+
+        return view('curator.unidentifiable-observations.show', [
+            'fieldObservation' => $fieldObservation->load([
+                'observation.taxon',
+            ]),
+        ]);
+    }
+
+    /**
      * Display form to edit pending observations.
      *
      * @param  int|string  $unidentifiableObservation

@@ -4,6 +4,7 @@
     <div class="box">
         <nz-field-observations-table
             list-route="api.field-observations.index"
+            view-route="admin.field-observations.show"
             edit-route="admin.field-observations.edit"
             delete-route="api.field-observations.destroy"
             empty="{{ __('No data...') }}"

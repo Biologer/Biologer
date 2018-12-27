@@ -28,6 +28,7 @@
         <ul>
             <li><a href="{{ route('contributor.index') }}">{{ __('navigation.dashboard') }}</a></li>
             <li><a href="{{ route('curator.unidentifiable-observations.index') }}">{{ __('navigation.unidentifiable_observations') }}</a></li>
+            <li><a href="{{ route('curator.unidentifiable-observations.show', $fieldObservation) }}">{{ $fieldObservation->id }}</a></li>
             <li class="is-active"><a>{{ __('navigation.edit') }}</a></li>
         </ul>
     </div>

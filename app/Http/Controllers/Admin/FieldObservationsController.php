@@ -21,6 +21,23 @@ class FieldObservationsController extends Controller
     }
 
     /**
+     * Show field observation details.
+     *
+     * @param  \App\FieldObservation  $fieldObservation
+     * @return \Illuminate\View\View
+     */
+    public function show(FieldObservation $fieldObservation)
+    {
+        $this->authorize('view', $fieldObservation);
+
+        return view('admin.field-observations.show', [
+            'fieldObservation' => $fieldObservation->load([
+                'observation.taxon',
+            ]),
+        ]);
+    }
+
+    /**
      * Display form to edit pending observations.
      *
      * @param  \App\FieldObservation  $fieldObservation

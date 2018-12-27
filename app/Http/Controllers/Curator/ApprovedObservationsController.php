@@ -21,6 +21,23 @@ class ApprovedObservationsController extends Controller
     }
 
     /**
+     * Show approved field observation details.
+     *
+     * @param  \App\FieldObservation  $fieldObservation
+     * @return \Illuminate\View\View
+     */
+    public function show(FieldObservation $fieldObservation)
+    {
+        $this->authorize('view', $fieldObservation);
+
+        return view('curator.approved-observations.show', [
+            'fieldObservation' => $fieldObservation->load([
+                'observation.taxon',
+            ]),
+        ]);
+    }
+
+    /**
      * Display form to edit pending observations.
      *
      * @param  int|string  $approvedObservation

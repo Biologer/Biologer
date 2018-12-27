@@ -53,6 +53,7 @@ class FieldObservation extends Model
         'observer' => 'observation.observer',
         'taxon_name' => 'observation.taxon.name',
         'year' => 'observation.year',
+        'mgrs10k' => 'observation.mgrs10k',
     ];
 
     protected function filters()
