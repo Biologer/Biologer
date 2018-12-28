@@ -40,7 +40,7 @@
 
         <tr>
             <td><b>{{ __('labels.field_observations.mgrs10k') }}</b></td>
-            <td class="is-fullwidth">{{ $fieldObservation->observation->mgrs10k }}</td>
+            <td class="is-fullwidth">{{ preg_replace('/^[0-9]+[a-zA-Z]/', '$0 ', $fieldObservation->observation->mgrs10k) }}</td>
         </tr>
 
         <tr>
