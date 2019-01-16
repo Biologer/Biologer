@@ -102,7 +102,18 @@ class Taxon extends Model
         'restricted' => 'boolean',
     ];
 
+    /**
+     * Attributes that are translated.
+     *
+     * @var array
+     */
     public $translatedAttributes = ['native_name', 'description'];
+
+    /**
+     * Should translation fallback be used.
+     *
+     * @var bool
+     */
     public $useTranslationFallback = false;
 
     /**
@@ -329,6 +340,11 @@ class Taxon extends Model
         return $this->translateOrNew($this->locale())->description;
     }
 
+    /**
+     * Check if taxon is a species.
+     *
+     * @return bool
+     */
     public function isSpecies()
     {
         return $this->rank === 'species';
@@ -417,11 +433,11 @@ class Taxon extends Model
      */
     public static function getSpeciesIdsForAncestors(EloquentCollection $ancestors)
     {
-        return self::whereHas('ancestors', function ($query) use ($ancestors) {
-            return $query->whereIn('id', $ancestors->pluck('id'));
-        })->species()->pluck('id')->concat($ancestors->filter(function ($ancestor) {
-            return $ancestor->isSpecies();
-        })->pluck('id'));
+        return self::where(function ($query) use ($ancestors) {
+            $query->whereHas('ancestors', function ($query) use ($ancestors) {
+                return $query->whereIn('id', $ancestors->pluck('id'));
+            })->orWhereIn('id', $ancestors->pluck('id'));
+        })->species()->orderByAncestry()->pluck('id');
     }
 
     /**
@@ -432,9 +448,11 @@ class Taxon extends Model
      */
     public static function getSelfAndDescendantIdsForAncestors(EloquentCollection $ancestors)
     {
-        return self::whereHas('ancestors', function ($query) use ($ancestors) {
-            return $query->whereIn('id', $ancestors->pluck('id'));
-        })->pluck('id')->concat($ancestors->pluck('id'));
+        return self::where(function ($query) use ($ancestors) {
+            $query->whereHas('ancestors', function ($query) use ($ancestors) {
+                return $query->whereIn('id', $ancestors->pluck('id'));
+            })->orWhereIn('id', $ancestors->pluck('id'));
+        })->orderByAncestry()->pluck('id');
     }
 
     /**

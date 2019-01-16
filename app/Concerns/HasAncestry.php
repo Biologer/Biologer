@@ -36,10 +36,20 @@ trait HasAncestry
     {
         return $this->belongsToMany(
             static::class,
-            $this->getModelNameLower().'_ancestors',
+            $this->ancestorsPivotTableName(),
             'model_id',
             'ancestor_id'
         )->orderBy('rank_level', 'desc');
+    }
+
+    /**
+     * Get name of ancestors pivot table.
+     *
+     * @return string
+     */
+    private function ancestorsPivotTableName()
+    {
+        return $this->getModelNameLower().'_ancestors';
     }
 
     /**
@@ -51,7 +61,7 @@ trait HasAncestry
     {
         return $this->belongsToMany(
             static::class,
-            $this->getModelNameLower().'_ancestors',
+            $this->ancestorsPivotTableName(),
             'ancestor_id',
             'model_id'
         )->orderByAncestry();
@@ -79,14 +89,30 @@ trait HasAncestry
     }
 
     /**
-     * Scope the query to get only species or taxa of lower ranks.
+     * Sort the query by the name of each ancestor in the ancestry tree.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOrderByAncestry($query)
     {
-        return $query->orderBy('ancestry')->orderBy('name');
+        $subquery = static::query()
+            // We can't expect ancestors to be sorted how we want them before we concatenate
+            // their names, and while MySQL supports `ORDER BY` inside `GROUP_CONCAT`,
+            // SQLite doesn't. That's why we use derived table that is already
+            // sorted properly (by rank level, descending).
+            ->fromSub(static::query()->orderBy('rank_level', 'desc'), 'ancestors')
+            ->selectRaw('GROUP_CONCAT(`ancestors`.`name`)')
+            ->whereIn('ancestors.id', function ($query) {
+                $query->select('ancestor_id')
+                    ->from($this->ancestorsPivotTableName())
+                    ->whereColumn('model_id', $this->getQualifiedKeyName());
+            });
+
+        return $query->select(['*'])
+            ->selectSub($subquery, 'ancestors_names')
+            ->orderBy('ancestors_names')
+            ->orderBy('name');
     }
 
     /**

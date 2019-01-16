@@ -26,6 +26,11 @@ class ViewGroup extends Model
      */
     protected $with = ['translations'];
 
+    /**
+     * Attributes that are translated.
+     *
+     * @var array
+     */
     public $translatedAttributes = ['name', 'description'];
 
     /**
@@ -144,7 +149,7 @@ class ViewGroup extends Model
     public function species()
     {
         return $this->memoize('species', function () {
-            return Taxon::with('ancestors')->whereIn('id', $this->speciesIds())->get();
+            return Taxon::with('ancestors')->whereIn('id', $this->speciesIds())->orderByAncestry()->get();
         });
     }
 
@@ -156,7 +161,7 @@ class ViewGroup extends Model
      */
     public function paginatedSpeciesList($perPage = 30)
     {
-        return Taxon::whereIn('id', $this->speciesIds())->paginate($perPage);
+        return Taxon::whereIn('id', $this->speciesIds())->orderByAncestry()->paginate($perPage);
     }
 
     /**
