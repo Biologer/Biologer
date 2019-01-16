@@ -4,7 +4,7 @@ return [
     'home' => [
         'browse' => 'Прегледај податке',
         'android_link' => 'Android апликацијa',
-        'android_title' => 'Преузмите Android апликацију v:version',
+        'android_title' => 'Преузмите Android апликацију',
         'welcome' => 'Биологер је једноставан и слободан софтвер осмишљен за прикупљање података о биолошкој разноврсности.',
 
         'announcements' => [

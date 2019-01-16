@@ -16,7 +16,7 @@
             </div>
 
             <div class="column is-full-mobile is-one-third">
-                <a href="{{ config('biologer.android_app_url') }}" class="button is-outlined is-fullwidth" target="_blank" title="{{ __('pages.home.android_title', ['version' => config('biologer.android_app_version')]) }}">
+                <a href="{{ config('biologer.android_app_url') }}" class="button is-outlined is-fullwidth" target="_blank" title="{{ __('pages.home.android_title') }}">
                     <i class="fa fa-android mr-2"></i> {{ __('pages.home.android_link') }}
                 </a>
             </div>

@@ -32,7 +32,6 @@ return [
     ],
 
     'android_app_url' => env('ANDROID_APP_URL'),
-    'android_app_version' => env('ANDROID_APP_VERSION'),
 
     'community' => [
         'name' => env('COMMUNITY_NAME'),
