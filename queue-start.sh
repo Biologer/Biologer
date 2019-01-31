@@ -6,7 +6,7 @@ run=false
 
 if [ -e $queue ]; then
     pid=$(< $queue)
-    result=$(ps -p "$pid" --no-heading | awk '{print $1}')
+    result=$(ps -p "$pid" | awk 'NR>1' | awk '{print $1}')
     if [ "$result" == '' ]; then
         run=true
     fi
