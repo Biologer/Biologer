@@ -59,7 +59,7 @@ class StoreFieldObservation extends FormRequest
             'accuracy' => ['nullable', 'integer', 'max:10000'],
             'observer' => ['nullable', 'string'],
             'identifier' => ['nullable', 'string'],
-            'stage_id' => ['nullable', Rule::in(Stage::pluck('id')->all())],
+            'stage_id' => ['nullable', Rule::in(Stage::pluck('id'))],
             'sex' => ['nullable', Rule::in(Observation::SEX_OPTIONS)],
             'number' => ['nullable', 'integer', 'min:1'],
             'found_dead' => ['nullable', 'boolean'],
@@ -81,7 +81,7 @@ class StoreFieldObservation extends FormRequest
             'found_on' => ['nullable', 'string', 'max:191'],
             'note' => ['nullable', 'string'],
             'observation_types_ids' => [
-                'nullable', 'array', Rule::in(ObservationType::pluck('id')->all()),
+                'nullable', 'array', Rule::in(ObservationType::pluck('id')),
             ],
             'observed_by_id' => ['nullable', Rule::exists('users', 'id')],
             'identified_by_id' => ['nullable', Rule::exists('users', 'id')],
@@ -115,7 +115,7 @@ class StoreFieldObservation extends FormRequest
     /**
      * Create observation.
      *
-     * @return \App\Observation
+     * @return \App\FieldObservation
      */
     protected function createObservation()
     {

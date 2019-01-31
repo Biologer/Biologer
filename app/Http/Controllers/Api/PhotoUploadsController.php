@@ -22,6 +22,7 @@ class PhotoUploadsController extends Controller
     /**
      * Delete uploaded photo.
      *
+     * @param  string  $photo
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($photo)
