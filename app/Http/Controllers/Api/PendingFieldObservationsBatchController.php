@@ -19,7 +19,7 @@ class PendingFieldObservationsBatchController extends Controller
         ]);
 
         $fieldObservations = FieldObservation::with([
-            'observation.creator', 'observation.taxon.curators.roles', 'observation.photos',
+            'observation.creator', 'observation.taxon.curators.roles',
         ])->whereIn('id', request('field_observation_ids'))->get();
 
         $fieldObservations->each(function ($fieldObservation) {

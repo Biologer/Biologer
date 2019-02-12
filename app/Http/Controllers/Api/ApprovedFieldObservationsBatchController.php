@@ -47,7 +47,7 @@ class ApprovedFieldObservationsBatchController extends Controller
     protected function getFieldObservations()
     {
         return FieldObservation::approvable()->with([
-            'observation.creator', 'observation.taxon.curators.roles', 'photos',
+            'observation.creator', 'observation.taxon.curators.roles',
         ])->whereIn('id', request('field_observation_ids'))->get();
     }
 
