@@ -145,6 +145,7 @@ return [
         'parent' => 'Viša grupa',
         'description' => 'Opis',
         'taxa' => 'Taksoni',
+        'image' => 'Slika',
     ],
 
     'exports' => [

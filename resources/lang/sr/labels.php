@@ -143,6 +143,7 @@ return [
         'parent' => 'Виша група',
         'description' => 'Опис',
         'taxa' => 'Таксони',
+        'image' => 'Слика',
     ],
 
     'exports' => [

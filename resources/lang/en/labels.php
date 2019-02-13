@@ -145,6 +145,7 @@ return [
         'parent' => 'Parent',
         'description' => 'Description',
         'taxa' => 'Taxa',
+        'image' => 'Image',
     ],
 
     'exports' => [
