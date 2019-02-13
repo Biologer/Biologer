@@ -20,8 +20,8 @@
 
 	<div class="card" v-else>
 		<div class="card-image">
-			<figure class="image has-magnifier is-4by3" @click="showModal = true">
-				<img :src="thumbnailUrl" alt="Uploaded photo">
+			<figure class="has-magnifier has-text-centered" @click="showModal = true">
+				<img :src="thumbnailUrl" alt="Uploaded photo" class="max-h-36" />
 				<div class="image-magnifier">
 					<b-icon icon="expand" size="is-medium" />
 				</div>
