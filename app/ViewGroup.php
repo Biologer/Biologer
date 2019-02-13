@@ -13,6 +13,15 @@ class ViewGroup extends Model
     use CanMemoize, HasTranslatableAttributes, Translatable;
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'parent_id' => 'integer',
+    ];
+
+    /**
      * The relations to eager load on every query.
      *
      * @var array
