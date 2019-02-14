@@ -66,7 +66,7 @@
       </g>
 
       <!-- Current day of year -->
-      <line :x1="currentDateLineX" y1="20" :x2="currentDateLineX" y2="528" stroke-width="1" stroke="#00aa00" />
+      <line :x1="currentDateLineX" y1="30" :x2="currentDateLineX" y2="528" stroke-width="1" stroke="#00aa00" />
     </svg>
 
     <div class="flex flex-col is-flex-center">
