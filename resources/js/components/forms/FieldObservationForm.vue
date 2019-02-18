@@ -2,7 +2,8 @@
     <form :action="action" method="POST" :lang="locale" class="field-observation-form">
         <div class="columns is-desktop">
             <div class="column is-half-desktop">
-                <nz-taxon-autocomplete v-model="form.taxon_suggestion"
+                <nz-taxon-autocomplete
+                    v-model="form.taxon_suggestion"
                     @select="onTaxonSelect"
                     :taxon="observation.taxon"
                     :error="form.errors.has('taxon_id')"

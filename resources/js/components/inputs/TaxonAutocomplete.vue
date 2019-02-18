@@ -119,12 +119,12 @@ export default {
         },
 
         onInput(value) {
-            this.$emit('input', value);
-
             const currentValue = this.getValue(this.selected)
             if (currentValue && currentValue !== value) {
                 this.onSelect(null);
             }
+
+            this.$emit('input', value);
 
             this.fetchData()
         },
