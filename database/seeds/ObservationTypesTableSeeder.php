@@ -15,14 +15,14 @@ class ObservationTypesTableSeeder extends Seeder
     {
         ObservationType::firstOrCreate(['slug' => 'observed'])->update([
             'en' => ['name' => 'Observed'],
-            'hr' => ['name' => 'Posmatrano'],
+            'hr' => ['name' => 'Opaženo'],
             'sr' => ['name' => 'Посматрано'],
             'sr-Latn' => ['name' => 'Posmatrano'],
         ]);
 
         ObservationType::firstOrCreate(['slug' => 'photographed'])->update([
             'en' => ['name' => 'Photographed'],
-            'hr' => ['name' => 'Fotografisano'],
+            'hr' => ['name' => 'Fotografirano'],
             'sr' => ['name' => 'Фотографисано'],
             'sr-Latn' => ['name' => 'Fotografisano'],
         ]);
