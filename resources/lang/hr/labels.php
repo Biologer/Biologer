@@ -85,7 +85,7 @@ return [
         'search_for_taxon' => 'Traži svojtu...',
         'date' => 'Datum',
         'year' => 'Godina',
-        'month' => 'Mesec',
+        'month' => 'Mjesec',
         'day' => 'Dan',
         'photos' => 'Fotografije',
         'upload' => 'Učitaj',

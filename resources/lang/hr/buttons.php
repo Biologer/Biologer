@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'save' => 'Sačuvaj',
-    'save_more' => 'Sačuvaj (još)',
-    'cancel' => 'Otkaži',
+    'save' => 'Spremi',
+    'save_more' => 'Spremi (još)',
+    'cancel' => 'Odbaci',
     'filters' => 'Filteri',
     'apply' => 'Primijeni',
     'clear' => 'Očisti',

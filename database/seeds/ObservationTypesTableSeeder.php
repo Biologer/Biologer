@@ -29,14 +29,14 @@ class ObservationTypesTableSeeder extends Seeder
 
         ObservationType::firstOrCreate(['slug' => 'call'])->update([
             'en' => ['name' => 'Call'],
-            'hr' => ['name' => 'Oglašavanje'],
+            'hr' => ['name' => 'Glasanje'],
             'sr' => ['name' => 'Оглашавање'],
             'sr-Latn' => ['name' => 'Oglašavanje'],
         ]);
 
         ObservationType::firstOrCreate(['slug' => 'exuviae'])->update([
             'en' => ['name' => 'Exuviae'],
-            'hr' => ['name' => 'Egzuvija'],
+            'hr' => ['name' => 'Svlak'],
             'sr' => ['name' => 'Егзувија'],
             'sr-Latn' => ['name' => 'Egzuvija'],
         ]);
