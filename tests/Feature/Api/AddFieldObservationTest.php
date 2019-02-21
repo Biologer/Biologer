@@ -663,6 +663,7 @@ class AddFieldObservationTest extends TestCase
         $response = $this->postJson('/api/field-observations', $this->validParams([
             'taxon_id' => $taxon->id,
             'identified_by_id' => $anotherUser->id,
+            'identifier' => 'Some other name',
         ]));
 
         $response->assertCreated();

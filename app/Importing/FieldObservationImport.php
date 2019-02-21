@@ -285,15 +285,18 @@ class FieldObservationImport extends BaseImport
      */
     protected function getGeneralObservationData(array $item)
     {
+        $latitude = (float) str_replace(',', '.', array_get($item, 'latitude'));
+        $longitude = (float) str_replace(',', '.', array_get($item, 'longitude'));
+
         return [
             'taxon_id' => $this->getTaxonId($item),
             'year' => array_get($item, 'year'),
             'month' => array_get($item, 'month') ?: null,
             'day' => array_get($item, 'day') ?: null,
             'location' => array_get($item, 'location') ?: null,
-            'latitude' => (float) str_replace(',', '.', array_get($item, 'latitude')),
-            'longitude' => (float) str_replace(',', '.', array_get($item, 'longitude')),
-            'mgrs10k' => mgrs10k(array_get($item, 'latitude'), array_get($item, 'longitude')),
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            'mgrs10k' => mgrs10k($latitude, $longitude),
             'accuracy' => array_get($item, 'accuracy') ?: null,
             'elevation' => array_get($item, 'elevation') ?: null,
             'created_by_id' => $this->model()->for_user_id ?: $this->model()->user_id,
