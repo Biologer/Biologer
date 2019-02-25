@@ -41,8 +41,8 @@
 
             <p class="has-text-justified">
                 Our vision is to be a part of Biologer community that works on further
-                development and enhancement of the biggest database on biological
-                diversity in the region, to work on software development and to provide
+                development and enhancement of the biggest database on biodiversity in
+                the region, to work on software development and to provide
                 the best conditions for the Biologer community.
             </p>
 
@@ -52,7 +52,7 @@
                 Program behind Biloger is a free software issued under
                 <a href="https://opensource.org/licenses/MIT">MIT license</a>.
                 Biologer web software and Biologer Android application are available
-                through <a href="https://github.com/Biologer">GitHub</a>.
+                on <a href="https://github.com/Biologer">GitHub</a>.
             </p>
         </div>
     </section>

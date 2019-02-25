@@ -47,7 +47,7 @@
 
             <h2>Organisations that support Biologer development</h2>
 
-            <p>The funding organisations:</p>
+            <p>The founding organisations:</p>
 
             <p>Other organisations:</p>
         </div>
