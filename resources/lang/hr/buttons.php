@@ -2,7 +2,7 @@
 
 return [
     'save' => 'Spremi',
-    'save_more' => 'Spremi (još)',
+    'save_more' => 'Spremi i ostani na stranici',
     'cancel' => 'Odbaci',
     'filters' => 'Filteri',
     'apply' => 'Primijeni',
