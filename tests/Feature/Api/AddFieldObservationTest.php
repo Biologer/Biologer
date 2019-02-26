@@ -671,6 +671,7 @@ class AddFieldObservationTest extends TestCase
         $fieldObservation = FieldObservation::latest()->first();
         $this->assertTrue($fieldObservation->identifiedBy->is($anotherUser));
         $this->assertEquals($fieldObservation->identifier, 'Jane Doe');
+        $this->assertEquals($fieldObservation->observation->identifier, 'Jane Doe');
     }
 
     /** @test */

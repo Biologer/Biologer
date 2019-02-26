@@ -117,12 +117,12 @@
 
         <tr>
             <td><b>{{ __('labels.field_observations.observer') }}</b></td>
-            <td class="is-fullwidth">{{ $fieldObservation->observation->observer }}</td>
+            <td class="is-fullwidth">{{ $fieldObservation->observer }}</td>
         </tr>
 
         <tr>
             <td><b>{{ __('labels.field_observations.identifier') }}</b></td>
-            <td class="is-fullwidth">{{ $fieldObservation->observation->identifier }}</td>
+            <td class="is-fullwidth">{{ $fieldObservation->identifier }}</td>
         </tr>
 
         <tr>

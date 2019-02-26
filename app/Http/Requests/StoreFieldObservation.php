@@ -212,13 +212,7 @@ class StoreFieldObservation extends FormRequest
      */
     protected function getObserver()
     {
-        if ($this->input('observed_by_id')) {
-            return User::find($this->input('observed_by_id'))->full_name;
-        }
-
-        return $this->input('observer') && $this->user()->hasAnyRole(['admin', 'curator'])
-            ? $this->input('observer')
-            : $this->user()->full_name;
+        return User::find($this->getObservedBy())->full_name;
     }
 
     /**
@@ -228,7 +222,7 @@ class StoreFieldObservation extends FormRequest
      */
     protected function getIdentifier()
     {
-        if (! $this->user()->hasRole(['admin', 'curator'])) {
+        if (! $this->user()->hasAnyRole(['admin', 'curator'])) {
             return $this->isIdentified() ? $this->user()->full_name : null;
         }
 
@@ -252,7 +246,13 @@ class StoreFieldObservation extends FormRequest
             return $this->user()->id;
         }
 
-        return $this->input('identified_by_id') ?: $this->user()->id;
+        if ($this->input('identified_by_id')) {
+            return $this->input('identified_by_id');
+        }
+
+        if (! $this->input('identifier')) {
+            return $this->user()->id;
+        }
     }
 
     /**
