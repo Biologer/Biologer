@@ -51,7 +51,7 @@ return [
 
     'about_project' => 'О пројекту',
     'project_team' => 'Пројектни тим',
-    'organizations' => 'Организације',
+    'organisations' => 'Организације',
     'local_community' => 'Локална заједница',
     'biodiversity_data' => 'Подаци о биодиверзитету',
     'development_supporters' => 'Развој подржали',

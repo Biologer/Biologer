@@ -50,7 +50,7 @@ return [
 
     'about_project' => 'O projektu',
     'project_team' => 'Projektni tim',
-    'organizations' => 'Organizacije',
+    'organisations' => 'Organizacije',
     'local_community' => 'Lokalna zajednica',
     'biodiversity_data' => 'Podaci o biodiverzitetu',
     'development_supporters' => 'Razvoj podržali',

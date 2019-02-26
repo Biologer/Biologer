@@ -1,9 +1,9 @@
-@extends('layouts.main', ['title' => 'Organizations'])
+@extends('layouts.main', ['title' => 'Organisations'])
 
 @section('content')
     <section class="section content">
         <div class="container">
-            <h1>Organizations</h1>
+            <h1>Organisations</h1>
 
             <p class="has-text-justified">
                 Organisations involved in Biologer community have shown their willingness

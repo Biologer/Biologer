@@ -30,8 +30,8 @@
                                 <a class="navbar-item" href="{{ route('pages.about.project-team') }}">
                                     {{ __('navigation.project_team') }}
                                 </a>
-                                <a class="navbar-item" href="{{ route('pages.about.organizations') }}">
-                                    {{ __('navigation.organizations') }}
+                                <a class="navbar-item" href="{{ route('pages.about.organisations') }}">
+                                    {{ __('navigation.organisations') }}
                                 </a>
                                 <a class="navbar-item" href="{{ route('pages.about.local-community') }}">
                                     {{ __('navigation.local_community') }}

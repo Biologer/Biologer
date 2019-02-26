@@ -18,13 +18,13 @@
 
             <div class="columns mb-4">
                 <div class="column flex is-flex-center">
-                    <img src="{{ asset('img/organizations/mava-foundation.jpg') }}" alt="Mava Foundation" class="image mx-auto" style="max-height: 300px">
+                    <img src="{{ asset('img/organisations/mava-foundation.jpg') }}" alt="Mava Foundation" class="image mx-auto" style="max-height: 300px">
                 </div>
                 <div class="column flex is-flex-center">
-                    <img src="{{ asset('img/organizations/udruga-hyla.jpg') }}" alt="Association Hyla" class="image mx-auto" style="max-height: 300px">
+                    <img src="{{ asset('img/organisations/udruga-hyla.jpg') }}" alt="Association Hyla" class="image mx-auto" style="max-height: 300px">
                 </div>
                 <div class="column flex is-flex-center">
-                    <img src="{{ asset('img/organizations/biolosko-drustvo-sava-petrovic.png') }}" alt='Biological Society "Dr Sava Petrović"' class="image mx-auto" style="max-height: 300px">
+                    <img src="{{ asset('img/organisations/biolosko-drustvo-sava-petrovic.png') }}" alt='Biological Society "Dr Sava Petrović"' class="image mx-auto" style="max-height: 300px">
                 </div>
             </div>
 
@@ -40,7 +40,7 @@
             <div class="columns mb-4">
                 <div class="column flex is-flex-center">
                     <img
-                        src="{{ asset('img/organizations/ministarstvo-prosvete-nauke-i-tehnoloskog-razvoja-srbija.png') }}"
+                        src="{{ asset('img/organisations/ministarstvo-prosvete-nauke-i-tehnoloskog-razvoja-srbija.png') }}"
                         alt="Ministry of Education, Science and Technological Development of Republic of Serbia"
                         class="image mx-auto"
                         style="max-height: 300px"
@@ -48,7 +48,7 @@
                 </div>
                 <div class="column flex is-flex-center">
                     <img
-                        src="{{ asset('img/organizations/pmf-nis.jpg') }}"
+                        src="{{ asset('img/organisations/pmf-nis.jpg') }}"
                         alt="Faculty of Sciences, University of Niš"
                         class="image mx-auto"
                         style="max-height: 300px"
@@ -56,7 +56,7 @@
                 </div>
                 <div class="column flex is-flex-center">
                     <img
-                        src="{{ asset('img/organizations/bioloski-fakultet-beograd.png') }}"
+                        src="{{ asset('img/organisations/bioloski-fakultet-beograd.png') }}"
                         alt="Faculty of Biology, University of Belgrade"
                         class="image mx-auto"
                         style="max-height: 300px"
