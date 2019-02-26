@@ -54,17 +54,28 @@
                                 </article>
                             @endif
 
+                            @if ($errors->isNotEmpty())
+                                <article class="message is-danger">
+                                    <div class="message-body">
+                                        <ul>
+                                            @foreach ($errors->all() as $message)
+                                                <li>{{ $message }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </article>
+                            @endif
+
                             <div class="field">
                                 <label class="label">{{ __('labels.login.email') }}</label>
                                 <div class="control">
                                     <input type="email"
                                         name="email"
-                                        class="input{{ $errors->has('email') ? ' is-danger' : '' }}"
+                                        class="input"
                                         placeholder="{{ __('labels.login.email') }}"
                                         value="{{ old('email') }}"
                                         autofocus>
                                 </div>
-                                <p class="help{{ $errors->has('email') ? ' is-danger' : '' }}">{{ $errors->first('email') }}</p>
                             </div>
 
                             <div class="field">
@@ -72,10 +83,9 @@
                                 <div class="control">
                                     <input type="password"
                                         name="password"
-                                        class="input{{ $errors->has('password') ? ' is-danger' : '' }}"
+                                        class="input"
                                         placeholder="{{ __('labels.login.password') }}">
                                 </div>
-                                <p class="help{{ $errors->has('password') ? ' is-danger' : '' }}">{{ $errors->first('password') }}</p>
                             </div>
 
                             <div class="field">

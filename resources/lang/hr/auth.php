@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'failed' => 'Podaci ne odgovaraju nijednom nalogu.',
+    'failed' => 'Adresa E-pošte ili lozinka nisu ispravni.',
     'throttle' => 'Previše neuspjelih pokušaja. Pokušajte ponovno za :seconds sekundi.',
 
     'verification_link_sent' => 'Poslali smo verifikacijski link na Vašu e-mail adresu.',
