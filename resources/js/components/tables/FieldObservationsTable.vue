@@ -84,6 +84,7 @@
                         <nz-taxon-autocomplete
                             @select="onTaxonSelect"
                             v-model="newFilter.taxon"
+                            :taxon="newFilter.selectedTaxon"
                             :label="trans('labels.field_observations.taxon')"
                             :placeholder="trans('labels.field_observations.search_for_taxon')"
                         />
@@ -170,6 +171,7 @@
             backend-pagination
             :total="total"
             :per-page="perPage"
+            :current-page="page"
             @page-change="onPageChange"
             @per-page-change="onPerPageChange"
             :per-page-options="perPageOptions"
@@ -394,18 +396,22 @@ export default {
         this.restoreState();
         this.loadAsyncData();
 
-        this.$on('filter', this.loadAsyncData);
+        this.$on('filter', () => {
+            this.saveState()
+            this.loadAsyncData()
+        });
     },
 
     methods: {
         loadAsyncData() {
             this.loading = true;
+            const { selectedTaxon, ...filter } = this.filter
 
             return axios.get(route(this.listRoute, {
+                ...filter,
                 sort_by: `${this.sortField}.${this.sortOrder}`,
                 page: this.page,
-                per_page:this.perPage,
-                ...this.filter
+                per_page:this.perPage
             })).then(({ data: response }) => {
                 this.data = [];
                 this.total = response.meta.total;
@@ -418,11 +424,21 @@ export default {
             });
         },
 
+        getPersistantKeys() {
+            return [
+                'sortField', 'sortOrder', 'perPage', 'page',
+                'newFilter', 'filter', 'filterIsActive'
+            ]
+        },
+
         /*
          * Handle page-change event
          */
         onPageChange(page) {
             this.page = page
+
+            this.saveState()
+
             this.loadAsyncData()
         },
 
@@ -433,19 +449,19 @@ export default {
             this.sortField = field
             this.sortOrder = order
 
-            this.saveState();
+            this.saveState()
 
             this.loadAsyncData()
         },
 
         onPerPageChange(perPage) {
-            if (perPage === this.perPage) return;
+            if (perPage === this.perPage) return
 
-            this.perPage = perPage;
+            this.perPage = perPage
 
-            this.saveState();
+            this.saveState()
 
-            this.loadAsyncData();
+            this.loadAsyncData()
         },
 
         confirmRemove(row) {
@@ -675,7 +691,8 @@ export default {
                 day: null,
                 photos: null,
                 observer: null,
-                includeChildTaxa: false
+                includeChildTaxa: false,
+                selectedTaxon: null
             };
         },
 
@@ -707,6 +724,7 @@ export default {
 
         onTaxonSelect(taxon) {
             this.newFilter.taxonId = taxon ? taxon.id : null;
+            this.newFilter.selectedTaxon = taxon;
         }
     },
 

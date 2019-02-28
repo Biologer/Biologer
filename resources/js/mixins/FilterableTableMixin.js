@@ -16,11 +16,10 @@ export default {
         clearFilter() {
             this.newFilter = this.filterDefaults();
 
-            this.applyFilter();
-            this.filterIsActive = false;
+            this.applyFilter(false);
         },
 
-        applyFilter() {
+        applyFilter(filterIsActive = true) {
             let reload = false;
 
             Object.keys(this.newFilter).forEach((field) => {
@@ -31,11 +30,11 @@ export default {
               this.filter[field] = this.newFilter[field];
             });
 
+            this.filterIsActive = filterIsActive;
+
             if (reload) {
                 this.$emit('filter');
             }
-
-            this.filterIsActive = true;
         }
     }
 };

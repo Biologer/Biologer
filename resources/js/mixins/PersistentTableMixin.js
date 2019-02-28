@@ -1,4 +1,4 @@
-import expiringStorage from '../expiring-storage';
+import expiringStorage from '../expiring-storage'
 
 export default {
     props: {
@@ -10,29 +10,35 @@ export default {
         storageKey() {
             return this.cacheKey
                 ? `nz-table.${this.cacheKey}`
-                : `nz-table.${window.location.host}${window.location.pathname}${this.cacheKey}`;
+                : `nz-table.${window.location.host}${window.location.pathname}`
         },
     },
 
     methods: {
+        getPersistantKeys() {
+            return [
+                'sortField', 'sortOrder', 'perPage'
+            ]
+        },
+
         saveState() {
-            expiringStorage.set(this.storageKey, _.pick(this.$data, [
-              'sortField', 'sortOrder', 'perPage'
-            ]), this.cacheLifetime);
+            expiringStorage.set(this.storageKey, _.pick(this.$data, this.getPersistantKeys()), this.cacheLifetime)
         },
 
         restoreState() {
             const previousState = expiringStorage.get(this.storageKey);
 
             if (previousState === null) {
-                return;
+                return
             }
 
-            this.sortField = previousState.sortField;
-            this.sortOrder = previousState.sortOrder;
-            this.perPage = previousState.perPage;
+            this.getPersistantKeys().forEach(key => {
+                if (previousState[key] !== undefined) {
+                    this.$set(this, key, previousState[key])
+                }
+            })
 
-            this.saveState();
+            this.saveState()
         },
     }
 }
