@@ -63,7 +63,7 @@ class StoreFieldObservation extends FormRequest
             'sex' => ['nullable', Rule::in(Observation::SEX_OPTIONS)],
             'number' => ['nullable', 'integer', 'min:1'],
             'found_dead' => ['nullable', 'boolean'],
-            'found_dead_note' => ['nullable'],
+            'found_dead_note' => ['nullable', 'string', 'max:1000'],
             'data_license' => ['nullable', Rule::in(License::activeIds())],
             'photos' => [
                 'nullable',

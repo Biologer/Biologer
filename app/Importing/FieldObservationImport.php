@@ -187,7 +187,7 @@ class FieldObservationImport extends BaseImport
             'sex' => ['nullable', Rule::in(Observation::SEX_OPTIONS)],
             'number' => ['nullable', 'integer', 'min:1'],
             'found_dead' => ['nullable', 'string', Rule::in($this->yesNo())],
-            'found_dead_note' => ['nullable', 'string'],
+            'found_dead_note' => ['nullable', 'string', 'max:1000'],
             'time' => ['nullable', 'date_format:H:i'],
             'project' => ['nullable', 'string', 'max:191'],
             'found_on' => ['nullable', 'string', 'max:191'],
