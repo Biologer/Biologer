@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Importing;
 
+use App\DEM\ReaderInterface;
+
 use App\User;
 use App\Taxon;
 use App\Import;
@@ -131,6 +133,31 @@ class FieldObservationImportTest extends TestCase
         $fieldObservation = FieldObservation::latest()->first();
 
         $this->assertEquals('Cerambyx cerdo', $fieldObservation->observation->original_identification);
+    }
+
+    /** @test */
+    public function if_elevation_is_missing_try_using_dem_reader_to_get_elevation()
+    {
+        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
+        $user = factory(User::class)->create();
+
+        $import = $this->createImport(FieldObservationImport::class, [
+            'latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon',
+        ], '21.123123,42.123123,,2018,5,22,Cerambyx cerdo', $user);
+
+        $fakeDEMReader = new class implements ReaderInterface {
+            public function getElevation($latitude, $longitude)
+            {
+                return 300;
+            }
+        };
+
+        // Perform all the steps
+        $import->makeImporter()->setDEMReader($fakeDEMReader)->parse()->validate()->store();
+
+        $fieldObservation = FieldObservation::latest()->first();
+
+        $this->assertEquals(300, $fieldObservation->observation->elevation);
     }
 
     /**

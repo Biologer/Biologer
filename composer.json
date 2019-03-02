@@ -29,6 +29,7 @@
         "myclabs/php-enum": "^1.6",
         "nikazooz/laravel-captcha": "^0.1.0",
         "php-coord/php-coord": "^2.1",
+        "runalyze/dem-reader": "^1.1",
         "sofa/eloquence-mappable": "^5.6",
         "spatie/laravel-activitylog": "^2.5",
         "spatie/laravel-backup": "^5.5",

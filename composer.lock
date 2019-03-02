@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "907858c3f267dbcb99989e811f928539",
+    "content-hash": "c7853c8e5e9e9d351ca5ea89ad3446f4",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -3357,6 +3357,40 @@
                 "uuid"
             ],
             "time": "2018-07-19T23:38:55+00:00"
+        },
+        {
+            "name": "runalyze/dem-reader",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Runalyze/dem-reader.git",
+                "reference": "acc7a48e3b90cd8ea8c07cf620c69b46d1095a1f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Runalyze/dem-reader/zipball/acc7a48e3b90cd8ea8c07cf620c69b46d1095a1f",
+                "reference": "acc7a48e3b90cd8ea8c07cf620c69b46d1095a1f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^1.11",
+                "phpunit/phpunit": "4.8.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Runalyze\\DEM\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Read digital elevation files such as GeoTIFF files for srtm data or similar.",
+            "time": "2017-06-09T19:56:57+00:00"
         },
         {
             "name": "salsify/json-streaming-parser",

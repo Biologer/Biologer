@@ -11,11 +11,44 @@ use App\Rules\Month;
 use App\Rules\Decimal;
 use App\Support\Dataset;
 use App\FieldObservation;
+use App\DEM\ReaderInterface;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
 class FieldObservationImport extends BaseImport
 {
+    /**
+     * @var \App\DEM\ReaderInterface
+     */
+    protected $demReader;
+
+    /**
+     * Create new importer instance.
+     *
+     * @param  \App\Import  $import
+     * @param  \App\DEM\ReaderInterface  $demReader
+     * @return void
+     */
+    public function __construct($import, ReaderInterface $demReader)
+    {
+        parent::__construct($import);
+
+        $this->setDEMReader($demReader);
+    }
+
+    /**
+     * Set DEM reader instance to get missing elevation.
+     *
+     * @param  \App\DEM\ReaderInterface  $demReader
+     * @return self
+     */
+    public function setDEMReader(ReaderInterface $demReader)
+    {
+        $this->demReader = $demReader;
+
+        return $this;
+    }
+
     /**
      * Definition of all calumns with their labels.
      *
@@ -285,8 +318,8 @@ class FieldObservationImport extends BaseImport
      */
     protected function getGeneralObservationData(array $item)
     {
-        $latitude = (float) str_replace(',', '.', array_get($item, 'latitude'));
-        $longitude = (float) str_replace(',', '.', array_get($item, 'longitude'));
+        $latitude = $this->getLatitude($item);
+        $longitude = $this->getLongitude($item);
 
         return [
             'taxon_id' => $this->getTaxonId($item),
@@ -298,7 +331,7 @@ class FieldObservationImport extends BaseImport
             'longitude' => $longitude,
             'mgrs10k' => mgrs10k($latitude, $longitude),
             'accuracy' => array_get($item, 'accuracy') ?: null,
-            'elevation' => array_get($item, 'elevation') ?: null,
+            'elevation' => $this->getElevation($item),
             'created_by_id' => $this->model()->for_user_id ?: $this->model()->user_id,
             'observer' => $this->getObserver($item),
             'identifier' => $this->getIdentifier($item),
@@ -322,6 +355,50 @@ class FieldObservationImport extends BaseImport
     protected function getTaxonId(array $data)
     {
         return optional(Taxon::findByName(array_get($data, 'taxon')))->id;
+    }
+
+    /**
+     * Get latitude.
+     *
+     * @param  array  $data
+     * @return float
+     */
+    protected function getLatitude(array $data)
+    {
+        return (float) str_replace(',', '.', array_get($data, 'latitude'));
+    }
+
+    /**
+     * Get longitude.
+     *
+     * @param  array  $data
+     * @return float
+     */
+    protected function getLongitude(array $data)
+    {
+        return (float) str_replace(',', '.', array_get($data, 'longitude'));
+    }
+
+    /**
+     * Get elevation.
+     *
+     * @param  array  $data
+     * @return |int|null
+     */
+    protected function getElevation(array $data)
+    {
+        $elevation = array_get($data, 'elevation');
+
+        if (is_numeric($elevation)) {
+            return $elevation;
+        }
+
+        if ($this->demReader) {
+            return $this->demReader->getElevation(
+                $this->getLatitude($data),
+                $this->getLongitude($data)
+            );
+        }
     }
 
     /**

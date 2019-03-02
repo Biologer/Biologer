@@ -67,6 +67,8 @@ You can use something like `supervisord` or `pm2` to make sure the process stays
 
 ### Assets
 
+#### Front-end
+
 Installing Biologer's front-end dependencies requires `yarn`.
 
 ```
@@ -84,10 +86,16 @@ Available build tasks are defined in `package.json`
 
 Code ships with assets built for production present in `public` directory by default.
 
-### Customisation
+#### DEM
+
+Biologer allows users to import large sets of observations. If some of those are missing elevation, Biologer will try to get it by searching DEM with latitude and longitude. Files holding such information are not distributed with Biologer and need to be downloaded separately from [http://srtm.csi.cgiar.org/](http://srtm.csi.cgiar.org/).
+
+After downloading files for needed areas, place them in a single location without changing the names of the files. Default location for that is `resources/srtm`, but any other path can be used. In case you use a different path, you need to set `SRTM_PATH` in the `.env` file with that path.
+
+### Customization
 
 To add a new territory, add it to configuration in `config/biologer.php` using existing ones as an example and set it to be used in `.env` file. Also, you must provide map in SVG format that contains administrative borders and MGRS 10k fields (located in `resources/maps/mgrs10k`), so it can be used in the app. Check out existing ones to see how the SVG must be structured.
 
-## Licence
+## License
 
 Biologer is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)

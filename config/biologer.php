@@ -38,4 +38,6 @@ return [
         'country' => env('COMMUNITY_COUNTRY'),
         'address' => env('COMMUNITY_ADDRESS'),
     ],
+
+    'srtm_path' => env('SRTM_PATH', resource_path('srtm')),
 ];
