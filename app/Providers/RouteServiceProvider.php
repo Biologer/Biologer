@@ -3,11 +3,12 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Traits\LoadsTranslatedCachedRoutes;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    use \Czim\LaravelLocalizationRouteCache\Traits\LoadsTranslatedCachedRoutes;
+    use LoadsTranslatedCachedRoutes;
 
     /**
      * This namespace is applied to your controller routes.

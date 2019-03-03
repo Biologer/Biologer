@@ -163,7 +163,7 @@ return [
         /*
          * Package Service Providers...
          */
-         Czim\LaravelLocalizationRouteCache\LaravelLocalizationServiceProvider::class,
+
 
         /*
          * Application Service Providers...
