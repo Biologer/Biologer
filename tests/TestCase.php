@@ -19,7 +19,7 @@ abstract class TestCase extends BaseTestCase
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -31,7 +31,7 @@ abstract class TestCase extends BaseTestCase
      *
      * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // Clear "now" set in previous tests
         Carbon::setTestNow();

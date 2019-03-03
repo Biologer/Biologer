@@ -17,7 +17,7 @@ class JsonCollectionStreamWriterTest extends TestCase
     /**
      * This method is called before each test.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

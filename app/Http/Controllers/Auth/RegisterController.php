@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\License;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -56,16 +55,10 @@ class RegisterController extends Controller
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'institution' => ['nullable', 'string'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
             'captcha_verification_code' => ['required', 'captcha'],
-            'data_license' => [
-                'required',
-                Rule::in(License::activeIds()),
-            ],
-            'image_license' => [
-                'required',
-                Rule::in(License::activeIds()),
-            ],
+            'data_license' => ['required', Rule::in(License::activeIds())],
+            'image_license' => ['required', Rule::in(License::activeIds())],
             'accept' => ['required', 'accepted'],
         ]);
     }
