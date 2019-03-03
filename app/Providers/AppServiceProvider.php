@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Mcamara\LaravelLocalization\LaravelLocalization;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -41,6 +42,16 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(Watermark::class, function () {
             return new Watermark($this->app['config']['biologer.watermark']);
+        });
+
+        // Temporary hack until the bug is fixed in the package.
+        $this->app->singleton(LaravelLocalization::class, function () {
+            return new class extends LaravelLocalization {
+                protected function getForcedLocale()
+                {
+                    return getenv(static::ENV_ROUTE_KEY);
+                }
+            };
         });
     }
 }
