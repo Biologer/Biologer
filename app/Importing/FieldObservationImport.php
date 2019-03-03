@@ -11,6 +11,7 @@ use App\Rules\Month;
 use App\Rules\Decimal;
 use App\Support\Dataset;
 use App\FieldObservation;
+use Illuminate\Support\Arr;
 use App\DEM\ReaderInterface;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
@@ -202,13 +203,13 @@ class FieldObservationImport extends BaseImport
                 'bail',
                 'nullable',
                 'numeric',
-                new Month(array_get($data, 'year')),
+                new Month(Arr::get($data, 'year')),
             ],
             'day' => [
                 'bail',
                 'nullable',
                 'numeric',
-                new Day(array_get($data, 'year'), array_get($data, 'month')),
+                new Day(Arr::get($data, 'year'), Arr::get($data, 'month')),
             ],
             'latitude' => ['required', new Decimal(['min' => -90, 'max' => 90])],
             'longitude' => ['required', new Decimal(['min' => -180, 'max' => 180])],
@@ -299,11 +300,11 @@ class FieldObservationImport extends BaseImport
     protected function getSpecificObservationData(array $item)
     {
         return [
-            'license' => array_get($item, 'data_license') ?: $this->model()->user->settings()->get('data_license'),
-            'taxon_suggestion' => array_get($item, 'taxon') ?: null,
+            'license' => Arr::get($item, 'data_license') ?: $this->model()->user->settings()->get('data_license'),
+            'taxon_suggestion' => Arr::get($item, 'taxon') ?: null,
             'found_dead' => $this->getFoundDead($item),
-            'found_dead_note' => $this->getFoundDead($item) ? array_get($item, 'found_dead_note') : null,
-            'time' => array_get($item, 'time') ?: null,
+            'found_dead_note' => $this->getFoundDead($item) ? Arr::get($item, 'found_dead_note') : null,
+            'time' => Arr::get($item, 'time') ?: null,
             'observed_by_id' => $this->getObserverId($item),
             'identified_by_id' => $this->getIdentifierId($item),
             'license' => $this->getLicense($item),
@@ -323,26 +324,26 @@ class FieldObservationImport extends BaseImport
 
         return [
             'taxon_id' => $this->getTaxonId($item),
-            'year' => array_get($item, 'year'),
-            'month' => array_get($item, 'month') ?: null,
-            'day' => array_get($item, 'day') ?: null,
-            'location' => array_get($item, 'location') ?: null,
+            'year' => Arr::get($item, 'year'),
+            'month' => Arr::get($item, 'month') ?: null,
+            'day' => Arr::get($item, 'day') ?: null,
+            'location' => Arr::get($item, 'location') ?: null,
             'latitude' => $latitude,
             'longitude' => $longitude,
             'mgrs10k' => mgrs10k($latitude, $longitude),
-            'accuracy' => array_get($item, 'accuracy') ?: null,
+            'accuracy' => Arr::get($item, 'accuracy') ?: null,
             'elevation' => $this->getElevation($item),
             'created_by_id' => $this->model()->for_user_id ?: $this->model()->user_id,
             'observer' => $this->getObserver($item),
             'identifier' => $this->getIdentifier($item),
-            'sex' => array_get($item, 'sex') ?: null,
-            'number' => array_get($item, 'number') ?: null,
-            'note' => array_get($item, 'note') ?: null,
-            'project' => array_get($item, 'project') ?: null,
-            'found_on' => array_get($item, 'found_on') ?: null,
+            'sex' => Arr::get($item, 'sex') ?: null,
+            'number' => Arr::get($item, 'number') ?: null,
+            'note' => Arr::get($item, 'note') ?: null,
+            'project' => Arr::get($item, 'project') ?: null,
+            'found_on' => Arr::get($item, 'found_on') ?: null,
             'stage_id' => $this->getStageId($item),
-            'original_identification' => array_get($item, 'original_identification', array_get($item, 'taxon')),
-            'dataset' => array_get($item, 'dataset') ?? Dataset::default(),
+            'original_identification' => Arr::get($item, 'original_identification', Arr::get($item, 'taxon')),
+            'dataset' => Arr::get($item, 'dataset') ?? Dataset::default(),
         ];
     }
 
@@ -354,7 +355,7 @@ class FieldObservationImport extends BaseImport
      */
     protected function getTaxonId(array $data)
     {
-        return optional(Taxon::findByName(array_get($data, 'taxon')))->id;
+        return optional(Taxon::findByName(Arr::get($data, 'taxon')))->id;
     }
 
     /**
@@ -365,7 +366,7 @@ class FieldObservationImport extends BaseImport
      */
     protected function getLatitude(array $data)
     {
-        return (float) str_replace(',', '.', array_get($data, 'latitude'));
+        return (float) str_replace(',', '.', Arr::get($data, 'latitude'));
     }
 
     /**
@@ -376,7 +377,7 @@ class FieldObservationImport extends BaseImport
      */
     protected function getLongitude(array $data)
     {
-        return (float) str_replace(',', '.', array_get($data, 'longitude'));
+        return (float) str_replace(',', '.', Arr::get($data, 'longitude'));
     }
 
     /**
@@ -387,7 +388,7 @@ class FieldObservationImport extends BaseImport
      */
     protected function getElevation(array $data)
     {
-        $elevation = array_get($data, 'elevation');
+        $elevation = Arr::get($data, 'elevation');
 
         if (is_numeric($elevation)) {
             return $elevation;
@@ -413,7 +414,7 @@ class FieldObservationImport extends BaseImport
             return $this->model()->user->full_name;
         }
 
-        return array_get($data, 'observer') ?: $this->model()->user->full_name;
+        return Arr::get($data, 'observer') ?: $this->model()->user->full_name;
     }
 
     /**
@@ -424,7 +425,7 @@ class FieldObservationImport extends BaseImport
      */
     protected function getObserverId(array $data)
     {
-        if ($this->shouldUseCurrentUserId(array_get($data, 'observer'))) {
+        if ($this->shouldUseCurrentUserId(Arr::get($data, 'observer'))) {
             return $this->model()->user->id;
         }
     }
@@ -441,7 +442,7 @@ class FieldObservationImport extends BaseImport
             return $this->model()->user->full_name;
         }
 
-        return array_get($data, 'identifier') ?: $this->model()->user->full_name;
+        return Arr::get($data, 'identifier') ?: $this->model()->user->full_name;
     }
 
     /**
@@ -452,7 +453,7 @@ class FieldObservationImport extends BaseImport
      */
     protected function getIdentifierId(array $data)
     {
-        if ($this->shouldUseCurrentUserId(array_get($data, 'identifier'))) {
+        if ($this->shouldUseCurrentUserId(Arr::get($data, 'identifier'))) {
             return $this->model()->user->id;
         }
     }
@@ -476,7 +477,7 @@ class FieldObservationImport extends BaseImport
      */
     protected function getStageId(array $data)
     {
-        return optional(Stage::findByName(strtolower(array_get($data, 'stage', ''))))->id;
+        return optional(Stage::findByName(strtolower(Arr::get($data, 'stage', ''))))->id;
     }
 
     /**
@@ -487,7 +488,7 @@ class FieldObservationImport extends BaseImport
      */
     protected function getFoundDead(array $data)
     {
-        $value = array_get($data, 'found_dead', false);
+        $value = Arr::get($data, 'found_dead', false);
 
         return $this->isTranslatedYes($value) || filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
@@ -517,7 +518,7 @@ class FieldObservationImport extends BaseImport
      */
     protected function getLicense(array $data)
     {
-        return ($license = array_get($data, 'license'))
+        return ($license = Arr::get($data, 'license'))
             ? License::findByName($license)->id
             : $this->model()->user->settings()->get('data_license');
     }

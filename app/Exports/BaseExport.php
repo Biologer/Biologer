@@ -4,6 +4,8 @@ namespace App\Exports;
 
 use App\Export;
 use Box\Spout\Common\Type;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Box\Spout\Writer\WriterFactory;
 use Box\Spout\Writer\WriterInterface;
@@ -25,7 +27,7 @@ abstract class BaseExport
             'type' => static::class,
             'filter' => collect($filter),
             'user_id' => auth()->id(),
-            'filename' => str_random().'.csv',
+            'filename' => Str::random().'.csv',
             'status' => ExportStatus::QUEUED,
             'columns' => $columns,
             'locale' => app()->getLocale(),
@@ -121,7 +123,7 @@ abstract class BaseExport
      */
     private function tempFilePath()
     {
-        $path = 'exports/'.str_random();
+        $path = 'exports/'.Str::random();
 
         // Make sure the file exists
         Storage::put($path, null);
@@ -223,7 +225,7 @@ abstract class BaseExport
     private function takeColumns(array $data, $columns)
     {
         return array_map(function ($column) use ($data) {
-            return array_get($data, $column);
+            return Arr::get($data, $column);
         }, $columns);
     }
 }

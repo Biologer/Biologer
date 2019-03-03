@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\FieldObservation;
+use Illuminate\Support\Arr;
 use Illuminate\Contracts\Validation\Rule;
 
 class ApprovableFieldObservation implements Rule
@@ -17,7 +18,7 @@ class ApprovableFieldObservation implements Rule
     public function passes($attribute, $value)
     {
         return FieldObservation::approvable()
-            ->whereIn('id', array_wrap($value))
+            ->whereIn('id', Arr::wrap($value))
             ->count() > 0;
     }
 

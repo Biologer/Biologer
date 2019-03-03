@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Blade;
 use Spatie\Menu\Laravel\Facades\Menu;
@@ -18,11 +19,11 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         Blade::if('role', function ($roles) {
-            return auth()->user()->hasAnyRole(array_wrap($roles));
+            return auth()->user()->hasAnyRole(Arr::wrap($roles));
         });
 
         Blade::if('roles', function ($roles) {
-            return auth()->user()->hasAllRole(array_wrap($roles));
+            return auth()->user()->hasAllRole(Arr::wrap($roles));
         });
 
         View::composer('layouts.dashboard', DashboardComposer::class);

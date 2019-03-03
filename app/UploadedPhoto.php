@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Support\Exif;
+use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,7 +19,7 @@ class UploadedPhoto
     {
         return basename($file->storeAs(
             static::relativePath(),
-            str_random().'-'.$file->getClientOriginalName(),
+            Str::random().'-'.$file->getClientOriginalName(),
             'public'
         ));
     }

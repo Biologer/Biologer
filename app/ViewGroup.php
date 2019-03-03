@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Str;
 use App\Concerns\CanMemoize;
 use Dimsav\Translatable\Translatable;
 use Illuminate\Support\Facades\Storage;
@@ -226,7 +227,7 @@ class ViewGroup extends Model
      */
     public static function saveImageToDisk($originalName, $image)
     {
-        $path = 'groups/'.str_random().'-'.$originalName;
+        $path = 'groups/'.Str::random().'-'.$originalName;
 
         Storage::disk('public')->put($path, $image);
 

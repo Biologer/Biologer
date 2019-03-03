@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Stage;
 use App\Taxon;
 use App\RedList;
+use Illuminate\Support\Arr;
 use App\ConservationDocument;
 use App\Support\Localization;
 use Illuminate\Validation\Rule;
@@ -222,7 +223,7 @@ class UpdateTaxon extends FormRequest
             || $oldValue->filter(function ($oldRedList) use ($taxon) {
                 return $taxon->redLists->contains(function ($redList) use ($oldRedList) {
                     return $redList->id === $oldRedList['id']
-                        && $redList->pivot->category === array_get($oldRedList, 'pivot.category');
+                        && $redList->pivot->category === Arr::get($oldRedList, 'pivot.category');
                 });
             })->count() !== $oldValue->count());
     }

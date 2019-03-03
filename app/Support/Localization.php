@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -18,7 +19,7 @@ class Localization
         $locale = $locale ?? app()->getLocale();
 
         return Cache::rememberForever("localizationStrings.{$locale}", function () use ($locale) {
-            return array_dot(array_merge(
+            return Arr::dot(array_merge(
                 static::loadJson($locale),
                 static::loadTranslations($locale)
             ));
@@ -90,7 +91,7 @@ class Localization
 
         foreach (LaravelLocalization::getSupportedLanguagesKeys() as $locale) {
             foreach ($data as $attribute => $values) {
-                $newData[$locale][$attribute] = array_get($values, $locale);
+                $newData[$locale][$attribute] = Arr::get($values, $locale);
             }
         }
 

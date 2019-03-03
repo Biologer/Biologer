@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Filters\Filterable;
+use Illuminate\Support\Arr;
 use App\Concerns\CanMemoize;
 use Sofa\Eloquence\Mappable;
 use Sofa\Eloquence\Eloquence;
@@ -321,7 +322,7 @@ class FieldObservation extends Model
                 return Photo::store(UploadedPhoto::relativePath($photo['path']), [
                     'author' => $this->observation->observer,
                     'license' => empty($photo['license']) ? $defaultLicense : $photo['license'],
-                ], array_get($photo, 'crop'));
+                ], Arr::get($photo, 'crop'));
             })
         );
     }
@@ -360,7 +361,7 @@ class FieldObservation extends Model
                 $photo->update(['license' => $updatedPhoto['license'] ?? $defaultLicense]);
             }
 
-            $crop = array_get($updatedPhoto, 'crop');
+            $crop = Arr::get($updatedPhoto, 'crop');
 
             if ($crop) {
                 $photo->crop($crop['width'], $crop['height'], $crop['x'], $crop['y']);
@@ -370,7 +371,7 @@ class FieldObservation extends Model
 
         // Adding new
         $new = $photos->filter(function ($photo) {
-            return empty(array_get($photo, 'id'));
+            return empty(Arr::get($photo, 'id'));
         });
 
         $result['added'] = $this->addPhotos($new, $defaultLicense)->all();

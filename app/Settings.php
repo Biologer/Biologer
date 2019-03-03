@@ -3,6 +3,7 @@
 namespace App;
 
 use Exception;
+use Illuminate\Support\Arr;
 
 class Settings
 {
@@ -43,8 +44,8 @@ class Settings
     {
         $settings = $this->defaultSettings();
 
-        foreach (array_dot($userSettings) as $key => $value) {
-            array_set($settings, $key, $value);
+        foreach (Arr::dot($userSettings) as $key => $value) {
+            Arr::set($settings, $key, $value);
         }
 
         $this->settings = $settings;
@@ -91,7 +92,7 @@ class Settings
      */
     public function get($key, $default = null)
     {
-        return array_get($this->settings, $key, $default);
+        return Arr::get($this->settings, $key, $default);
     }
 
     /**
@@ -103,7 +104,7 @@ class Settings
      */
     public function set($key, $value)
     {
-        array_set($this->settings, $key, $value);
+        Arr::set($this->settings, $key, $value);
 
         $this->persist();
     }
@@ -140,7 +141,7 @@ class Settings
     {
         $this->settings = array_merge(
             $this->settings,
-            array_only($attributes, array_keys($this->settings))
+            Arr::only($attributes, array_keys($this->settings))
         );
 
         $this->persist();
