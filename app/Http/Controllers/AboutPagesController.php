@@ -12,7 +12,7 @@ class AboutPagesController extends Controller
     public function localCommunity()
     {
         // We cache data for local community page so we don't hit database more than needed.
-        $viewData = Cache::remember('localCommunityPageData', 1, function () {
+        $viewData = Cache::remember('localCommunityPageData', now()->addMinutes(5), function () {
             return $this->getLocalCommunityData();
         });
 
