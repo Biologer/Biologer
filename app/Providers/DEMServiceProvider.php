@@ -7,8 +7,9 @@ use App\DEM\MemoizingReader;
 use App\DEM\ReaderInterface;
 use Illuminate\Support\ServiceProvider;
 use Runalyze\DEM\Provider\GeoTIFF\SRTM4Provider;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
-class DEMServiceProvider extends ServiceProvider
+class DEMServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Register any application services.
@@ -22,5 +23,17 @@ class DEMServiceProvider extends ServiceProvider
                 new SRTM4Provider($app['config']->get('biologer.srtm_path'))
             ));
         });
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [
+            ReaderInterface::class
+        ];
     }
 }

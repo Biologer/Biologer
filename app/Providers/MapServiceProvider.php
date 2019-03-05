@@ -4,16 +4,10 @@ namespace App\Providers;
 
 use App\Maps\BasicMgrs10kMap;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
-class MapServiceProvider extends ServiceProvider
+class MapServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
-
     /**
      * Bootstrap services.
      *
