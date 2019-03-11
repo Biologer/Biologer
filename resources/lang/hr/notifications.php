@@ -8,11 +8,11 @@ return [
         'subcopy' => 'Ako ne možete kliknuti na dugme ":actionText", kopirajte link ispod i zalijepite ga u Vaš preglednik: [:actionUrl](:actionUrl)',
     ],
 
-    'title' => 'Obaveštenja',
+    'title' => 'Obavjesti',
 
     'mark_as_read' => 'Označi kao pročitano',
-    'mark_all_as_read' => 'Označi svije kao pročitano',
-    'no_new_notifications' => 'Nema novih obaveštenja.',
+    'mark_all_as_read' => 'Označi sve kao pročitano',
+    'no_new_notifications' => 'Nema novih obavjesti.',
 
     'field_observations' => [
         'approved' => ':curatorName je odobrio/la tvoj nalaz.',
