@@ -6,7 +6,7 @@ use Exception;
 use RuntimeException;
 use Runalyze\DEM\Provider\ProviderInterface;
 
-class RunalyzeReader implements ReaderInterface
+class RunalyzeReader implements Reader
 {
     /**
      * @var \Runalyze\DEM\Provider\ProviderInterface[]

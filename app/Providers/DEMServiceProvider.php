@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use App\DEM\Reader;
 use App\DEM\RunalyzeReader;
 use App\DEM\MemoizingReader;
-use App\DEM\ReaderInterface;
 use Illuminate\Support\ServiceProvider;
 use Runalyze\DEM\Provider\GeoTIFF\SRTM4Provider;
 use Illuminate\Contracts\Support\DeferrableProvider;
@@ -18,7 +18,7 @@ class DEMServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     public function register()
     {
-        $this->app->bind(ReaderInterface::class, function ($app) {
+        $this->app->bind(Reader::class, function ($app) {
             return new MemoizingReader(new RunalyzeReader(
                 new SRTM4Provider($app['config']->get('biologer.srtm_path'))
             ));
@@ -33,7 +33,7 @@ class DEMServiceProvider extends ServiceProvider implements DeferrableProvider
     public function provides()
     {
         return [
-            ReaderInterface::class
+            Reader::class
         ];
     }
 }

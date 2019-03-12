@@ -2,14 +2,13 @@
 
 namespace Tests\Unit\Importing;
 
-use App\DEM\ReaderInterface;
-
 use App\User;
 use App\Taxon;
 use App\Import;
 use App\License;
 use Tests\TestCase;
 use App\FieldObservation;
+use App\DEM\Reader as DEMReader;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use App\Importing\FieldObservationImport;
@@ -145,7 +144,7 @@ class FieldObservationImportTest extends TestCase
             'latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon',
         ], '21.123123,42.123123,,2018,5,22,Cerambyx cerdo', $user);
 
-        $fakeDEMReader = new class implements ReaderInterface {
+        $fakeDEMReader = new class implements DEMReader {
             public function getElevation($latitude, $longitude)
             {
                 return 300;

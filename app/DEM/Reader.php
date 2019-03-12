@@ -2,7 +2,7 @@
 
 namespace App\DEM;
 
-interface ReaderInterface
+interface Reader
 {
     /**
      * Get elevation in meters for given coordinates.

@@ -12,14 +12,14 @@ use App\Rules\Decimal;
 use App\Support\Dataset;
 use App\FieldObservation;
 use Illuminate\Support\Arr;
-use App\DEM\ReaderInterface;
 use Illuminate\Validation\Rule;
+use App\DEM\Reader as DEMReader;
 use Illuminate\Support\Facades\Validator;
 
 class FieldObservationImport extends BaseImport
 {
     /**
-     * @var \App\DEM\ReaderInterface
+     * @var \App\DEM\Reader
      */
     protected $demReader;
 
@@ -27,10 +27,10 @@ class FieldObservationImport extends BaseImport
      * Create new importer instance.
      *
      * @param  \App\Import  $import
-     * @param  \App\DEM\ReaderInterface  $demReader
+     * @param  \App\DEM\Reader  $demReader
      * @return void
      */
-    public function __construct($import, ReaderInterface $demReader)
+    public function __construct($import, DEMReader $demReader)
     {
         parent::__construct($import);
 
@@ -40,10 +40,10 @@ class FieldObservationImport extends BaseImport
     /**
      * Set DEM reader instance to get missing elevation.
      *
-     * @param  \App\DEM\ReaderInterface  $demReader
+     * @param  \App\DEM\Reader  $demReader
      * @return self
      */
-    public function setDEMReader(ReaderInterface $demReader)
+    public function setDEMReader(DEMReader $demReader)
     {
         $this->demReader = $demReader;
 

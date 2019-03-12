@@ -2,10 +2,10 @@
 
 namespace App\DEM;
 
-class MemoizingReader implements ReaderInterface
+class MemoizingReader implements Reader
 {
     /**
-     * @var \App\DEM\ReaderInterface
+     * @var \App\DEM\Reader
      */
     protected $reader;
 
@@ -17,10 +17,10 @@ class MemoizingReader implements ReaderInterface
     /**
      * Create reader instance.
      *
-     * @param  \App\DEM\ReaderInterface  $reader
+     * @param  \App\DEM\Reader  $reader
      * @return void
      */
-    public function __construct(ReaderInterface $reader)
+    public function __construct(Reader $reader)
     {
         $this->reader = $reader;
     }
@@ -52,6 +52,6 @@ class MemoizingReader implements ReaderInterface
      */
     protected function cacheKey($latitude, $longitude)
     {
-        return $latitude.','.$longitude;
+        return sha1($latitude.','.$longitude);
     }
 }

@@ -3,8 +3,8 @@
 namespace Tests\Feature\Api;
 
 use App\User;
+use App\DEM\Reader;
 use Tests\TestCase;
-use App\DEM\ReaderInterface;
 use Laravel\Passport\Passport;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -17,14 +17,14 @@ class GetElevationTest extends TestCase
      */
     public function can_calculate_elevations_based_on_latitude_and_longitude()
     {
-        $fakeReader = new class implements ReaderInterface {
+        $fakeReader = new class implements Reader {
             public function getElevation($latitude, $longitude)
             {
                 return 300;
             }
         };
 
-        app()->instance(ReaderInterface::class, $fakeReader);
+        app()->instance(Reader::class, $fakeReader);
 
         Passport::actingAs(factory(User::class)->create());
 
