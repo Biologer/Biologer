@@ -202,7 +202,13 @@ class StoreFieldObservation extends FormRequest
             return $this->user()->id;
         }
 
-        return $this->input('observed_by_id') ?: $this->user()->id;
+        if ($this->input('observed_by_id')) {
+            return $this->input('observed_by_id');
+        }
+
+        if (! $this->input('observer')) {
+            return $this->user()->id;
+        }
     }
 
     /**
@@ -212,7 +218,11 @@ class StoreFieldObservation extends FormRequest
      */
     protected function getObserver()
     {
-        return User::find($this->getObservedBy())->full_name;
+        if ($this->getObservedBy()) {
+            return User::find($this->getObservedBy())->full_name;
+        }
+
+        return $this->input('observer');
     }
 
     /**

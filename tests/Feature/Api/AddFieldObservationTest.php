@@ -651,6 +651,25 @@ class AddFieldObservationTest extends TestCase
     }
 
     /** @test */
+    public function admin_can_submit_observer_without_existing_user()
+    {
+        $this->seed('RolesTableSeeder');
+        $user = factory(User::class)->create()->assignRoles('admin');
+        Passport::actingAs($user);
+
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'observed_by_id' => null,
+            'observer' => 'Jane Doe',
+        ]));
+
+        $response->assertCreated();
+
+        $fieldObservation = FieldObservation::latest()->first();
+        $this->assertNull($fieldObservation->observed_by_id);
+        $this->assertEquals($fieldObservation->observer, 'Jane Doe');
+    }
+
+    /** @test */
     public function admin_can_submit_identifier_by_users_id_if_there_is_identification()
     {
         $this->seed('RolesTableSeeder');
