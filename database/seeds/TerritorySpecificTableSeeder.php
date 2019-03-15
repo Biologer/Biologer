@@ -44,6 +44,20 @@ class TerritorySpecificTableSeeder extends Seeder
 
     public function runForCroatia()
     {
+        ConservationLegislation::firstOrCreate(['slug' => 'croatia'])->update([
+            'en' => ['name' => 'Protected in Croatia', 'description' => 'Code of regulations on strictly protected and protected wild species of plants, animals and fungi'],
+            'hr' => ['name' => 'Strogo zaštićena (HR)', 'description' => 'Prilog 1 Pravilnika o strogo zaštićenim vrstama ("Narodne novine", br. 144/13 i 73/16)'],
+            'sr' => ['name' => 'Строго заштићена (Хрватска)', 'description' => 'Прилог 1 Правилника о строго заштићеним врстама ("Народне новине", бр. 144/13 i 73/16)'],
+            'sr-Latn' => ['name' => 'Strogo zaštićena (HR)', 'description' => 'Prilog 1 Pravilnika strogo zaštićenim vrstama ("Narodne novine", br. 144/13 i 73/16)'],
+        ]);
+
+        RedList::firstOrCreate(['slug' => 'EU'])->update([
+            'en' => ['name' => 'European Union'],
+            'hr' => ['name' => 'Europska unija'],
+            'sr' => ['name' => 'Европска унија'],
+            'sr-Latn' => ['name' => 'Evropska unija'],
+        ]);
+
         RedList::firstOrCreate(['slug' => 'croatia'])->update([
             'en' => ['name' => 'Croatia'],
             'hr' => ['name' => 'Hrvatska'],
