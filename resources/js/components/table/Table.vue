@@ -4,7 +4,7 @@
             v-if="mobileCards && hasSortableColumns"
             :current-sort-column="currentSortColumn"
             :is-asc="isAsc"
-            :columns="columns"
+            :columns="newColumns"
             @sort="(column) => sort(column)"
         />
 
@@ -46,13 +46,13 @@
                 :tabindex="!focusable ? false : 0"
                 @keydown.prevent.up="pressedArrow(-1)"
                 @keydown.prevent.down="pressedArrow(1)">
-                <thead v-if="columns.length">
+                <thead v-if="newColumns.length">
                     <tr>
                         <th v-if="detailed" width="40px"></th>
                         <th class="checkbox-cell" v-if="checkable">
                             <b-checkbox :value="isAllChecked" @change.native="checkAll" />
                         </th>
-                        <th v-for="(column, index) in columns"
+                        <th v-for="(column, index) in newColumns"
                             v-if="column.visible"
                             :key="index"
                             :class="{ 'is-current-sort': currentSortColumn === column, 'is-sortable': column.sortable }"
@@ -102,7 +102,26 @@
                                 <b-checkbox :value="isRowChecked(row)" @click.native.prevent="checkRow($event, row, index)" />
                             </td>
 
-                            <slot :row="row" :index="index"></slot>
+                            <slot
+                                v-if="$scopedSlots.default"
+                                :row="row"
+                                :index="index"
+                            />
+                            <template v-else>
+                                <b-table-column
+                                    v-for="column in newColumns"
+                                    v-bind="column"
+                                    :key="column.field"
+                                    internal>
+                                    <span
+                                        v-if="column.renderHtml"
+                                        v-html="getValueByPath(row, column.field)"
+                                    />
+                                    <template v-else>
+                                        {{ getValueByPath(row, column.field) }}
+                                    </template>
+                                </b-table-column>
+                            </template>
                         </tr>
 
                         <!-- Do not add `key` here (breaks details) -->
@@ -253,7 +272,7 @@
         },
         data() {
             return {
-                columns: [],
+                newColumns: [],
                 visibleDetailRows: this.openedDetailed,
                 newData: this.data,
                 newDataTotal: this.backendPagination ? this.total : this.data.length,
@@ -276,15 +295,15 @@
              */
             data(value) {
                 // Save columns before resetting
-                const columns = this.columns
+                const newColumns = this.newColumns
 
-                this.columns = []
+                this.newColumns = []
                 this.newData = value
 
                 // Prevent table from being headless, data could change and created hook
                 // on column might not trigger
                 this.$nextTick(() => {
-                    if (!this.columns.length) this.columns = columns
+                    if (!this.newColumns.length) this.newColumns = newColumns
                 })
 
                 if (!this.backendSorting) {
@@ -316,14 +335,14 @@
             /**
              * When columns change, call initSort only first time (For example async data).
              */
-            columns(columns) {
-                if (columns.length && this.firstTimeSort) {
+            newColumns(newColumns) {
+                if (newColumns.length && this.firstTimeSort) {
                     this.initSort()
                     this.firstTimeSort = false
-                } else if (columns.length) {
-                    for (let i = 0; i < columns.length; i++) {
-                        if (columns[i].newKey === this.currentSortColumn.newKey) {
-                            this.currentSortColumn = columns[i]
+                } else if (newColumns.length) {
+                    for (let i = 0; i < newColumns.length; i++) {
+                        if (newColumns[i].newKey === this.currentSortColumn.newKey) {
+                            this.currentSortColumn = newColumns[i]
                             break
                         }
                     }
@@ -388,7 +407,7 @@
              * Check if has any sortable column.
              */
             hasSortableColumns() {
-                return this.columns.some(column => {
+                return this.newColumns.some(column => {
                     return column.sortable
                 })
             },
@@ -397,7 +416,7 @@
              * Return total column count based if it's checkable or expanded
              */
             columnCount() {
-                let count = this.columns.length
+                let count = this.newColumns.length
                 count += this.checkable ? 1 : 0
                 count += this.detailed ? 1 : 0
 
@@ -690,7 +709,7 @@
                     sortField = this.defaultSort
                 }
 
-                this.columns.forEach(column => {
+                this.newColumns.forEach(column => {
                     if (column.field === sortField) {
                         this.isAsc = sortDirection.toLowerCase() !== 'desc'
                         this.sort(column, true)
