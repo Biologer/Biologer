@@ -146,6 +146,7 @@ return [
         'description' => 'Opis',
         'taxa' => 'Taksoni',
         'image' => 'Slika',
+        'only_observed_taxa' => 'Samo opažene svojte',
     ],
 
     'exports' => [

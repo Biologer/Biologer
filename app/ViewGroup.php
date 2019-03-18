@@ -20,6 +20,8 @@ class ViewGroup extends Model
      */
     protected $casts = [
         'parent_id' => 'integer',
+        'sort_order' => 'integer',
+        'only_observed_taxa' => 'boolean',
     ];
 
     /**
@@ -112,7 +114,7 @@ class ViewGroup extends Model
     public function speciesIds()
     {
         return $this->memoize('speciesIds', function () {
-            return Taxon::getSpeciesIdsForAncestors($this->taxa);
+            return Taxon::getSpeciesIdsForAncestors($this->taxa, $this->only_observed_taxa);
         });
     }
 
@@ -124,7 +126,7 @@ class ViewGroup extends Model
     protected function allTaxaIds()
     {
         return $this->memoize('allTaxaIds', function () {
-            return Taxon::getSelfAndDescendantIdsForAncestors($this->taxa);
+            return Taxon::getSelfAndDescendantIdsForAncestors($this->taxa, $this->only_observed_taxa);
         });
     }
 

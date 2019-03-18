@@ -429,30 +429,36 @@ class Taxon extends Model
      * Get species IDs for all ancestors, including them.
      *
      * @param  \Illuminate\Database\Eloquent\Collection  $ancestors
+     * @param  bool  $onlyObserved
      * @return \Illuminate\Support\Collection
      */
-    public static function getSpeciesIdsForAncestors(EloquentCollection $ancestors)
+    public static function getSpeciesIdsForAncestors(EloquentCollection $ancestors, $onlyObserved = false)
     {
         return self::where(function ($query) use ($ancestors) {
-            $query->whereHas('ancestors', function ($query) use ($ancestors) {
+            return $query->whereHas('ancestors', function ($query) use ($ancestors) {
                 return $query->whereIn('id', $ancestors->pluck('id'));
             })->orWhereIn('id', $ancestors->pluck('id'));
-        })->species()->orderByAncestry()->pluck('id');
+        })->species()->orderByAncestry()->when($onlyObserved, function ($query) {
+            return $query->has('observations');
+        })->pluck('id');
     }
 
     /**
      * Get IDs of descendants of given taxa and their own IDs.
      *
      * @param  \Illuminate\Database\Eloquent\Collection  $ancestors
+     * @param  bool  $onlyObserved
      * @return \Illuminate\Support\Collection
      */
-    public static function getSelfAndDescendantIdsForAncestors(EloquentCollection $ancestors)
+    public static function getSelfAndDescendantIdsForAncestors(EloquentCollection $ancestors, $onlyObserved = false)
     {
         return self::where(function ($query) use ($ancestors) {
-            $query->whereHas('ancestors', function ($query) use ($ancestors) {
+            return $query->whereHas('ancestors', function ($query) use ($ancestors) {
                 return $query->whereIn('id', $ancestors->pluck('id'));
             })->orWhereIn('id', $ancestors->pluck('id'));
-        })->orderByAncestry()->pluck('id');
+        })->orderByAncestry()->when($onlyObserved, function ($query) {
+            return $query->has('observations');
+        })->pluck('id');
     }
 
     /**

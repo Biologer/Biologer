@@ -38,6 +38,7 @@ class SaveViewGroup extends FormRequest
             'description' => ['required', 'array'],
             'image_url' => ['nullable', 'string', 'max:255'],
             'image_path' => ['nullable', 'string', 'max:255'],
+            'only_observed_taxa' => ['nullable', 'boolean'],
             'taxa_ids' => [
                 'array',
                 Rule::in(Taxon::pluck('id')->all()),
@@ -73,7 +74,7 @@ class SaveViewGroup extends FormRequest
     protected function getData()
     {
         return array_merge(request()->only([
-            'parent_id',
+            'parent_id', 'only_observed_taxa',
         ]), Localization::transformTranslations(request()->only([
             'name', 'description',
         ])));

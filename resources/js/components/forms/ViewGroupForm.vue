@@ -23,14 +23,20 @@
             </b-tabs>
         </b-field>
 
-        <b-field :label="trans('labels.view_groups.taxa')" v-if="!isRoot">
-            <b-taginput v-model="taxa"
-                :data="filteredTaxa"
-                autocomplete
-                field="name"
-                @typing="onTaxonNameInput"
-            />
-        </b-field>
+        <template v-if="!isRoot">
+          <b-field :label="trans('labels.view_groups.taxa')">
+              <b-taginput v-model="taxa"
+                  :data="filteredTaxa"
+                  autocomplete
+                  field="name"
+                  @typing="onTaxonNameInput"
+              />
+          </b-field>
+
+          <b-field>
+            <b-checkbox v-model="form.only_observed_taxa">{{ trans('labels.view_groups.only_observed_taxa') }}</b-checkbox>
+          </b-field>
+        </template>
 
         <b-field :label="trans('labels.view_groups.image')">
             <nz-photo-upload
@@ -85,6 +91,7 @@ export default {
             default() {
                 return {
                     parent_id: null,
+                    only_observed_taxa: false,
                     taxa: []
                 };
             }
@@ -142,6 +149,7 @@ export default {
                 description: this.descriptions,
                 image_url: this.group.image_url,
                 image_path: this.group.image_path,
+                only_observed_taxa: this.group.only_observed_taxa,
                 taxa_ids: this.group.taxa.map(taxon => taxon.id)
             }, {
                 resetOnSuccess: false

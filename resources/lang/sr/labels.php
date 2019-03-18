@@ -144,6 +144,7 @@ return [
         'description' => 'Опис',
         'taxa' => 'Таксони',
         'image' => 'Слика',
+        'only_observed_taxa' => 'Само опажени таксони',
     ],
 
     'exports' => [

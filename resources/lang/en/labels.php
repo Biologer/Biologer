@@ -146,6 +146,7 @@ return [
         'description' => 'Description',
         'taxa' => 'Taxa',
         'image' => 'Image',
+        'only_observed_taxa' => 'Only observed taxa',
     ],
 
     'exports' => [
