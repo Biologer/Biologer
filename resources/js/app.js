@@ -31,6 +31,7 @@ import FieldObservationsTable from './components/tables/FieldObservationsTable';
 import ViewGroupsTable from './components/tables/ViewGroupsTable';
 import AnnouncementsTable from './components/tables/AnnouncementsTable';
 
+import RegistrationForm from './components/forms/RegistrationForm';
 import UserForm from './components/forms/UserForm';
 import TaxonForm from './components/forms/TaxonForm';
 import FieldObservationForm from './components/forms/FieldObservationForm';
@@ -97,6 +98,7 @@ Vue.component(Wysiwyg.name, Wysiwyg);
 Vue.component(ColumnsPicker.name, ColumnsPicker);
 Vue.component(DatetimePicker.name, DatetimePicker);
 
+Vue.component(RegistrationForm.name, RegistrationForm);
 Vue.component(FieldObservationForm.name, FieldObservationForm);
 Vue.component(TaxonForm.name, TaxonForm);
 Vue.component(UserForm.name, UserForm);
