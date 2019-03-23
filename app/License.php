@@ -97,7 +97,7 @@ class License implements Arrayable
             new static([
                 'id' => self::PARTIALLY_OPEN,
                 'name' => 'Partially open',
-                'link' => config('app.url').'/pages/partially-open-license',
+                'link' => config('app.url').'/licenses/partially-open-license',
             ]),
             new static([
                 'id' => self::CLOSED_FOR_A_PERIOD,
@@ -107,7 +107,7 @@ class License implements Arrayable
             new static([
                 'id' => self::CLOSED,
                 'name' => 'Closed',
-                'link' => config('app.url').('/pages/closed-license'),
+                'link' => config('app.url').'/licenses/closed-license',
             ]),
         ]);
     }

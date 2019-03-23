@@ -37,8 +37,8 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
     Route::view('pages/privacy-policy', 'pages.privacy-policy')->name('pages.privacy-policy');
 
     // Licenses
-    Route::view('pages/partially-open-license', 'pages.partially-open-license')->name('pages.partially-open-license');
-    Route::view('pages/closed-license', 'pages.closed-license')->name('pages.closed-license');
+    Route::view('licenses/partially-open-license', 'licenses.partially-open-license')->name('licenses.partially-open-license');
+    Route::view('licenses/closed-license', 'licenses.closed-license')->name('licenses.closed-license');
 
     Route::get('announcements', 'AnnouncementsController@index')->name('announcements.index');
     Route::get('announcements/{announcement}', 'AnnouncementsController@show')->name('announcements.show');

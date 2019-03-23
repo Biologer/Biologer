@@ -12,7 +12,7 @@
                         multilined>
                         <label class="radio">
                             <input type="radio" name="data_license" value="{{ \App\License::CC_BY_SA }}"{{ $preferences->data_license == \App\License::CC_BY_SA ? ' checked' : '' }}>
-                            Open Data (<a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike</a> licence)
+                            Open Data (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike</a> licence)
                         </label>
                     </b-tooltip>
                 @endif
@@ -25,7 +25,7 @@
                         multilined>
                         <label class="radio">
                             <input type="radio" name="data_license" value="{{ \App\License::OPEN }}"{{ $preferences->data_license == \App\License::OPEN ? ' checked' : '' }}>
-                            Open Data (<a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike</a> licence)
+                            Open Data (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike</a> licence)
                         </label>
                     </b-tooltip>
                 @endif
@@ -38,7 +38,7 @@
                         multilined>
                         <label class="radio">
                             <input type="radio" name="data_license" value="{{ \App\License::CC_BY_NC_SA }}"{{ $preferences->data_license == \App\License::CC_BY_NC_SA ? ' checked' : '' }}>
-                            Open Data (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike</a> licence)
+                            Open Data (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons Attribution-NonCommercial-ShareAlike</a> licence)
                         </label>
                     </b-tooltip>
                 @endif
@@ -51,7 +51,7 @@
                         multilined>
                         <label class="radio">
                             <input type="radio" name="data_license" value="{{ \App\License::PARTIALLY_OPEN }}"{{ $preferences->data_license == \App\License::PARTIALLY_OPEN ? ' checked' : '' }}>
-                            Partially open data (in resolution of 10x10 km2). <a href="{{ route('pages.partially-open-license') }}" target="_blank">Read more</a>
+                            Partially open data (in resolution of 10x10 km2). <a href="{{ route('licenses.partially-open-license') }}" target="_blank">Read more</a>
                         </label>
                     </b-tooltip>
                 @endif
@@ -64,7 +64,7 @@
                         multilined>
                         <label class="radio">
                             <input type="radio" name="data_license" value="{{ \App\License::CLOSED_FOR_A_PERIOD }}"{{ $preferences->data_license == \App\License::CLOSED_FOR_A_PERIOD ? ' checked' : '' }}>
-                            ‎Closed Data (not shown on the maps). <a href="{{ route('pages.closed-license') }}" target="_blank">Read more</a>
+                            ‎Closed Data (not shown on the maps). <a href="{{ route('licenses.closed-license') }}" target="_blank">Read more</a>
                         </label>
                     </b-tooltip>
                 @endif
@@ -77,7 +77,7 @@
                         multilined>
                         <label class="radio">
                             <input type="radio" name="data_license" value="{{ \App\License::CLOSED }}"{{ $preferences->data_license == \App\License::CLOSED ? ' checked' : '' }}>
-                            ‎Closed Data (not shown on the maps). <a href="{{ route('pages.closed-license') }}" target="_blank">Read more</a>
+                            ‎Closed Data (not shown on the maps). <a href="{{ route('licenses.closed-license') }}" target="_blank">Read more</a>
                         </label>
                     </b-tooltip>
                 @endif
@@ -98,7 +98,7 @@
                         multilined>
                         <label class="radio">
                             <input type="radio" name="image_license" value="{{ \App\License::CC_BY_SA }}"{{ $preferences->image_license == \App\License::CC_BY_SA ? ' checked' : '' }}>
-                            Share images (<a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike</a> licence)
+                            Share images (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike</a> licence)
                         </label>
                     </b-tooltip>
                 @endif
@@ -111,7 +111,7 @@
                         multilined>
                         <label class="radio">
                             <input type="radio" name="image_license" value="{{ \App\License::OPEN }}"{{ $preferences->image_license == \App\License::OPEN ? ' checked' : '' }}>
-                            Share images (<a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike</a> licence)
+                            Share images (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike</a> licence)
                         </label>
                     </b-tooltip>
                 @endif
@@ -123,7 +123,7 @@
                         multilined>
                         <label class="radio">
                             <input type="radio" name="image_license" value="{{ \App\License::CC_BY_NC_SA }}"{{ $preferences->image_license == \App\License::CC_BY_NC_SA ? ' checked' : '' }}>
-                            Share images (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike</a> licence)
+                            Share images (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons Attribution-NonCommercial-ShareAlike</a> licence)
                         </label>
                     </b-tooltip>
                 @endif
