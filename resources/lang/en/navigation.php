@@ -46,6 +46,7 @@ return [
     'find_in_group' => 'Find in group',
     'gallery' => 'Gallery',
     'privacy_policy' => 'Privacy Policy',
+    'licenses' => 'Licenses',
     'partially_open_license' => 'Partially Open License',
     'closed_license' => 'Closed License',
 

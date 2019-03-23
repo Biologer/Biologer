@@ -46,6 +46,7 @@ return [
     'find_in_group' => 'Пронађи у групи',
     'gallery' => 'Галерија',
     'privacy_policy' => 'Политика приватности',
+    'licenses' => 'Лиценце',
     'partially_open_license' => 'Делимично отворена лиценца',
     'closed_license' => 'Затворена лиценца',
 
