@@ -154,6 +154,10 @@
                             <option value="no">{{ trans('No') }}</option>
                         </b-select>
                     </b-field>
+
+                    <b-field :label="trans('labels.field_observations.project')" class="column is-half">
+                        <b-input v-model="newFilter.project" expanded />
+                    </b-field>
                 </div>
 
                 <button type="button" class="button is-primary is-outlined" @click="applyFilter">{{ trans('buttons.apply') }}</button>
@@ -692,7 +696,8 @@ export default {
                 photos: null,
                 observer: null,
                 includeChildTaxa: false,
-                selectedTaxon: null
+                selectedTaxon: null,
+                project: null
             };
         },
 

@@ -71,6 +71,7 @@ class FieldObservation extends Model
             'photos' => \App\Filters\FieldObservation\Photos::class,
             'observer' => \App\Filters\FieldObservation\Observer::class,
             'sort_by' => \App\Filters\SortBy::class,
+            'project' => \App\Filters\FieldObservation\Project::class,
         ];
     }
 
