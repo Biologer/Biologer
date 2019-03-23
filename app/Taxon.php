@@ -377,11 +377,11 @@ class Taxon extends Model
                 ->whereIn('taxon_id', $this->selfAndDescendantsIds())
                 ->withCompleteDate()
                 ->with('stage')
-                ->select('elevation' ,'year', 'month', 'day', 'stage_id')
+                ->select('elevation', 'year', 'month', 'day', 'stage_id')
                 ->get()
                 ->map(function ($observation) {
-                    $month = str_pad($observation->month, 2, "0", STR_PAD_LEFT);
-                    $day = str_pad($observation->day, 2, "0", STR_PAD_LEFT);
+                    $month = str_pad($observation->month, 2, '0', STR_PAD_LEFT);
+                    $day = str_pad($observation->day, 2, '0', STR_PAD_LEFT);
 
                     return [
                         'elevation' => $observation->elevation,

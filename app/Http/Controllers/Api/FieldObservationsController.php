@@ -24,8 +24,8 @@ class FieldObservationsController extends Controller
 
         if (request()->has('page')) {
             return FieldObservationResource::collection(
-                 $query->paginate(request('per_page', 15))
-             );
+                $query->paginate(request('per_page', 15))
+            );
         }
 
         return FieldObservationResource::collection($query->get());

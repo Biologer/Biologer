@@ -33,7 +33,7 @@ class DEMServiceProvider extends ServiceProvider implements DeferrableProvider
     public function provides()
     {
         return [
-            Reader::class
+            Reader::class,
         ];
     }
 }

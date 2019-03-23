@@ -15,8 +15,8 @@ class ElevationController extends Controller
             'longitude' => ['required', 'numeric', 'between:-180,180'],
         ]);
 
-       return [
-           'elevation' => $reader->getElevation($data['latitude'], $data['longitude'])
+        return [
+           'elevation' => $reader->getElevation($data['latitude'], $data['longitude']),
        ];
     }
 }

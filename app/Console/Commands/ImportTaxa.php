@@ -67,7 +67,7 @@ class ImportTaxa extends Command
         $this->fetchRelated();
 
         DB::transaction(function () use ($path) {
-             $this->createSpecies($this->extractDataFromFile($path));
+            $this->createSpecies($this->extractDataFromFile($path));
         });
 
         $this->info('Done!');
@@ -98,7 +98,7 @@ class ImportTaxa extends Command
         $rows = [];
         $rowNumber = 1;
 
-        while(! feof($file)) {
+        while (! feof($file)) {
             $row = fgetcsv($file);
 
             if ($rowNumber === 1) {
@@ -127,7 +127,7 @@ class ImportTaxa extends Command
     {
         $data = [];
 
-        foreach($columns as $index => $column) {
+        foreach ($columns as $index => $column) {
             $data[$column] = $row[$index] ?? null;
         }
 
@@ -158,7 +158,7 @@ class ImportTaxa extends Command
     {
         $tree = $this->buildWorkingTree($taxon);
 
-        if (!empty($tree)) {
+        if (! empty($tree)) {
             // We assume that the rest of available information describes the
             // lowest ranked taxon in the row.
             $last = end($tree);
@@ -204,7 +204,9 @@ class ImportTaxa extends Command
         foreach ($ranks as $rank) {
             $name = $this->getNameForRank($rank, $taxon);
 
-            if (!$name) continue;
+            if (! $name) {
+                continue;
+            }
 
             $tree[] = [
                 'name' => $name,
@@ -226,16 +228,16 @@ class ImportTaxa extends Command
     protected function getNameForRank($rank, $taxon)
     {
         if ($this->option('compose-species-name')) {
-            if ($rank === 'subspecies' && !empty($taxon['genus'] && !empty($taxon['species']) && !empty($taxon['subspecies']))) {
+            if ($rank === 'subspecies' && ! empty($taxon['genus'] && ! empty($taxon['species']) && ! empty($taxon['subspecies']))) {
                 return implode(' ', array_filter([
                     $taxon['genus'],
                     empty($taxon['subgenus']) ? null : '('.$taxon['subgenus'].')',
                     $taxon['species'],
-                    $taxon['subspecies']
+                    $taxon['subspecies'],
                 ]));
             }
 
-            if ($rank === 'species' && !empty($taxon['genus'] && !empty($taxon['species']))) {
+            if ($rank === 'species' && ! empty($taxon['genus'] && ! empty($taxon['species']))) {
                 return implode(' ', array_filter([
                     $taxon['genus'],
                     empty($taxon['subgenus']) ? null : '('.$taxon['subgenus'].')',
@@ -313,7 +315,7 @@ class ImportTaxa extends Command
             // Connect the taxon with it's parent to establish ancestry.
             $current->parent_id = $last ? $last->id : null;
 
-            if ($current->isDirty() || !$current->exists) {
+            if ($current->isDirty() || ! $current->exists) {
                 $current->save();
                 $this->info('Stored taxon: '.$current->name);
             }
@@ -321,7 +323,7 @@ class ImportTaxa extends Command
             // If we wanted to attribute the taxa tree to a user,
             // this is the place we do it, adding an entry to
             // activity log.
-            if (!$current->exists && $this->user) {
+            if (! $current->exists && $this->user) {
                 activity()->performedOn($current)
                     ->causedBy($this->user)
                     ->log('created');
@@ -346,12 +348,12 @@ class ImportTaxa extends Command
         $conservationLegislationSlugs = [];
 
         foreach ($data as $key => $value) {
-            if (starts_with($key, 'red_list_') && !empty($value)) {
-                $redList = $this->redLists->where('slug', str_replace('red_list_' , '', $key))->first();
+            if (starts_with($key, 'red_list_') && ! empty($value)) {
+                $redList = $this->redLists->where('slug', str_replace('red_list_', '', $key))->first();
 
                 $taxon->redLists()->attach($redList, ['category' => $value]);
-            } elseif (starts_with($key, 'conservation_legislation_') && !empty($value)) {
-                $conservationLegislationSlugs[] = str_replace('conservation_legislation_' , '', $key);
+            } elseif (starts_with($key, 'conservation_legislation_') && ! empty($value)) {
+                $conservationLegislationSlugs[] = str_replace('conservation_legislation_', '', $key);
             }
         }
 
