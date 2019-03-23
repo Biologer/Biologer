@@ -150,10 +150,8 @@ export default {
 			this.$refs.input.click();
 		},
 
-		onInput(files) {
+		onInput(file) {
 			this.error = null;
-
-			let file = files[0];
 
 			if (!file) {
 				return;
