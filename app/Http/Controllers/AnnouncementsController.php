@@ -41,7 +41,6 @@ class AnnouncementsController
 
     private function shouldHide($announcement)
     {
-        return ! $announcement->isTranslated() ||
-            ($announcement->private && auth()->guest());
+        return ! $announcement->isTranslated() || ($announcement->private && auth()->guest());
     }
 }

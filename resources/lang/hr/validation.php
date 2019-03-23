@@ -96,6 +96,7 @@ return [
     'month' => 'Mesec nije ispravan.',
     'year' => 'Godina nije ispravan.',
     'decimal' => 'Polje :attribute mora biti decimalni broj.',
+    'contains_non_empty' => 'Polje :attribute mora sadržati barem jednu popunjenu opciju.',
 
     /*
     |--------------------------------------------------------------------------

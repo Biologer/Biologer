@@ -35,6 +35,20 @@ class ValidationServiceProvider extends ServiceProvider
             return count(array_diff($parameters, $value)) == 0;
         });
 
+        Validator::extend('contains_non_empty', function ($attribute, $value, $parameters, $validator) {
+            if (! $validator->hasRule($attribute, 'Array') || ! is_array($value)) {
+                return false;
+            }
+
+            foreach ($value as $element) {
+                if (! empty($element)) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
+
         Rule::macro('contain', function ($values) {
             if ($values instanceof Collection) {
                 $values = $values->toArray();

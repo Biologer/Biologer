@@ -21,6 +21,12 @@ class AnnouncementTranslation extends Model
      */
     protected $fillable = ['title', 'message'];
 
+    /**
+     * Strip forbidden tags from announcement message.
+     *
+     * @param  string  $value
+     * @return string
+     */
     public function getMessageAttribute($value)
     {
         return Purify::clean($value);

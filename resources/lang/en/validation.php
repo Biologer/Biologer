@@ -122,6 +122,7 @@ return [
     'month' => 'Invalid month.',
     'year' => 'Invalid year.',
     'decimal' => 'The :attribute must be a decimal number.',
+    'contains_non_empty' => 'The :attribute must contain at least one non-empty item.',
 
     /*
     |--------------------------------------------------------------------------

@@ -24,7 +24,7 @@
                 </b-table-column>
 
                 <b-table-column field="title" :label="trans('labels.announcements.title')" sortable>
-                    {{ props.row.title }}
+                    {{ props.row.title || '--' }}
                 </b-table-column>
 
                 <b-table-column field="created_at" :label="trans('labels.created_at')" sortable>

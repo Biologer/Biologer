@@ -73,11 +73,21 @@ class Announcement extends Model
         return $this->isRead();
     }
 
+    /**
+     * Title translated to current locale.
+     *
+     * @return string
+     */
     public function getTitleAttribute()
     {
         return $this->translateOrNew($this->locale())->title;
     }
 
+    /**
+     * Message translated to current locale.
+     *
+     * @return string
+     */
     public function getMessageAttribute()
     {
         return $this->translateOrNew($this->locale())->message;

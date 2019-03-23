@@ -26,10 +26,10 @@ class SaveAnnouncement extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'array'],
-            'title.*' => ['string', 'max:150'],
-            'message' => ['required', 'array'],
-            'message.*' => ['string'],
+            'title' => ['required', 'array', 'contains_non_empty'],
+            'title.*' => ['nullable', 'string', 'max:150'],
+            'message' => ['required', 'array', 'contains_non_empty'],
+            'message.*' => ['nullable', 'string'],
             'private' => ['nullable', 'boolean'],
         ];
     }
@@ -68,6 +68,17 @@ class SaveAnnouncement extends FormRequest
      */
     public function update(Announcement $announcement)
     {
-        return tap($announcement)->update($this->getData());
+        $data = $this->getData();
+        $keys = array_keys($data);
+
+        $localesToRemove = $announcement->translations->pluck('locale')->reject(function ($locale) use ($keys) {
+            return in_array($locale, $keys);
+        });
+
+        if ($localesToRemove->isNotEmpty()) {
+            $announcement->deleteTranslations($localesToRemove->all());
+        }
+
+        return tap($announcement)->update($data);
     }
 }
