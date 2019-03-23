@@ -24,13 +24,28 @@ class ConservationDocument extends Model
      */
     protected $appends = ['name', 'description'];
 
+    /**
+     * Attributes that can be translated.
+     *
+     * @var array
+     */
     public $translatedAttributes = ['name', 'description'];
 
+    /**
+     * Get translated conservation document name.
+     *
+     * @return string|null
+     */
     public function getNameAttribute()
     {
         return $this->translateOrNew($this->locale())->name;
     }
 
+    /**
+     * Get translated conservation document description.
+     *
+     * @return string|null
+     */
     public function getDescriptionAttribute()
     {
         return $this->translateOrNew($this->locale())->description;

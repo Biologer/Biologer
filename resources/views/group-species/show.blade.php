@@ -67,7 +67,7 @@
                         @endforeach
                     </div>
 
-                    <div>
+                    <div class="mb-8">
                         {{-- For some reason checking empty on accessor result returns true even when there is a string --}}
                         {{-- This solves it --}}
                         @if (empty($description = $species->description))
@@ -77,6 +77,51 @@
                             {!! $description !!}
                         @endif
                     </div>
+
+                    @if ($species->redLists->isNotEmpty())
+                        <div class="mb-4">
+                            <h4>{{ __('labels.taxa.red_lists') }}</h4>
+
+                            <div class="field is-grouped is-grouped-multiline">
+                                @foreach ($species->redLists as $redList)
+                                    <div class="control">
+                                        <div class="tags has-addons">
+                                            <span class="tag">{{ $redList->name }}</span>
+                                            <span class="tag is-info">{{ $redList->pivot->category }}</span>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    @if ($species->conservationLegislations->isNotEmpty())
+                        <div class="mb-4">
+                            <h4>{{ __('labels.taxa.conservation_legislations') }}</h4>
+
+                            <div>
+                                @foreach ($species->conservationLegislations as $conservationLegislation)
+                                    <span class="tag" v-tooltip="{content: {{ json_encode($conservationLegislation->description) }}}">
+                                        {{ $conservationLegislation->name }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    @if ($species->conservationDocuments->isNotEmpty())
+                        <div class="mb-4">
+                            <h4>{{ __('labels.taxa.conservation_documents') }}</h4>
+
+                            <div>
+                                @foreach ($species->conservationDocuments as $conservationDocument)
+                                    <span class="tag" v-tooltip="{content: {{ json_encode($conservationDocument->description) }}}">
+                                        {{ $conservationDocument->name }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="column map flex-center">

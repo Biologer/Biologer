@@ -41,6 +41,11 @@ class RedList extends Model
         return $this->belongsToMany(Taxon::class)->withPivot('category');
     }
 
+    /**
+     * Get translated name
+     *
+     * @return string|null
+     */
     public function getNameAttribute()
     {
         return $this->translateOrNew($this->locale())->name;
