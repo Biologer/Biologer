@@ -14,7 +14,7 @@ class AlterViewGroupsTableAddOnlyObservedTaxaColumn extends Migration
     public function up()
     {
         Schema::table('view_groups', function (Blueprint $table) {
-            $table->boolean('only_observed_taxa')->after('sort_order');
+            $table->boolean('only_observed_taxa')->after('sort_order')->default(false);
         });
     }
 
