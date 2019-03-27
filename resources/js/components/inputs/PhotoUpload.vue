@@ -60,6 +60,8 @@
 </template>
 
 <script>
+import loadImage from 'blueimp-load-image'
+
 export default {
 	name: 'nzPhotoUpload',
 
@@ -133,19 +135,7 @@ export default {
 		}
 	},
 
-	created() {
-		this.initFileReader();
-	},
-
 	methods: {
-		initFileReader() {
-			this.reader = new FileReader();
-
-			this.reader.addEventListener('load', () => {
-				this.image.url = this.reader.result;
-			});
-		},
-
 		selectImage() {
 			this.$refs.input.click();
 		},
@@ -179,7 +169,9 @@ export default {
 
 				this.$emit('uploaded', this.image);
 
-				this.reader.readAsDataURL(file)
+        loadImage(file, canvas => {
+          this.image.url = canvas.toDataURL()
+        }, { orientation: true })
 			}).catch(this.handleError);
 		},
 

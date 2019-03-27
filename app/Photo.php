@@ -154,10 +154,10 @@ class Photo extends Model
      *
      * @param  string  $path
      * @param  array  $data
-     * @param  array|null  $crop
+     * @param  array  $crop
      * @return self
      */
-    public static function store($path, array $data, $crop = null)
+    public static function store($path, array $data, $crop = [])
     {
         $data['path'] = $path;
 
@@ -221,6 +221,16 @@ class Photo extends Model
     public function getContent()
     {
         return $this->filesystem()->get($this->path);
+    }
+
+    /**
+     * Get read stream.
+     *
+     * @return resource
+     */
+    public function getReadStream()
+    {
+        return $this->filesystem()->readStream($this->path);
     }
 
     /**

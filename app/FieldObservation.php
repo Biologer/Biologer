@@ -323,7 +323,7 @@ class FieldObservation extends Model
                 return Photo::store(UploadedPhoto::relativePath($photo['path']), [
                     'author' => $this->observation->observer,
                     'license' => empty($photo['license']) ? $defaultLicense : $photo['license'],
-                ], Arr::get($photo, 'crop'));
+                ], Arr::get($photo, 'crop', []));
             })
         );
     }

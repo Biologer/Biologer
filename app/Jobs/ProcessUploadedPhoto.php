@@ -28,10 +28,10 @@ class ProcessUploadedPhoto implements ShouldQueue
      * Create a new job instance.
      *
      * @param  \App\Photo  $photo
-     * @param  array|null  $crop
+     * @param  array  $crop
      * @return void
      */
-    public function __construct(Photo $photo, $crop = null)
+    public function __construct(Photo $photo, $crop = [])
     {
         $this->photo = $photo;
         $this->crop = $crop;
@@ -44,8 +44,14 @@ class ProcessUploadedPhoto implements ShouldQueue
      */
     public function handle()
     {
-        $image = Image::make($this->photo->getContent());
+        // We need to open image from path in order to have access to EXIF
+        // so we copy it to a temporary file in the local filesystem.
+        $image = Image::make($tempPath = $this->copyToTemporaryPath());
+
         $shouldResize = $this->shouldResize($image);
+        $shouldOrientate = $image->exif('Orientation') > 1;
+
+        $image = $image->orientate();
 
         if ($this->crop) {
             $image = $image->crop(
@@ -60,13 +66,38 @@ class ProcessUploadedPhoto implements ShouldQueue
             $image = $this->resize($image);
         }
 
-        if ($this->crop || $shouldResize) {
+        if ($this->crop || $shouldResize || $shouldOrientate) {
             $this->photo->putContent($image->encode()->getEncoded());
         }
+
+        // Cleanup. We don't need leftover files.
+        @unlink($tempPath);
+        $image->destroy();
+        unset($image);
 
         if ($this->photo->needsToBeWatermarked()) {
             $this->photo->watermark();
         }
+    }
+
+    /**
+     * Copy photo to temporary path that we can use to manipulate it.
+     *
+     * @return string
+     */
+    protected function copyToTemporaryPath()
+    {
+        $tempPath = tempnam(sys_get_temp_dir(), 'BiologerPhoto');
+
+        $source = $this->photo->getReadStream();
+        $destination = fopen($tempPath, 'wb+');
+
+        stream_copy_to_stream($source, $destination);
+
+        fclose($source);
+        fclose($destination);
+
+        return $tempPath;
     }
 
     /**

@@ -71,7 +71,7 @@ class UploadedPhoto
         $image = static::get($filename);
         $size = getimagesizefromstring($image);
 
-        return 'data:'.$size['mime'].';base64,'.base64_encode($image);
+        return sprintf('data:%s;base64,%s', $size['mime'], base64_encode($image));
     }
 
     protected static function absolutePath($filename)
