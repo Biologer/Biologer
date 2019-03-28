@@ -42,7 +42,7 @@ class RedList extends Model
     }
 
     /**
-     * Get translated name
+     * Get translated name.
      *
      * @return string|null
      */
