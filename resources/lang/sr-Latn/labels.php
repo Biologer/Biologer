@@ -104,6 +104,7 @@ return [
         'number' => 'Broj',
         'project' => 'Projekat',
         'project_tooltip' => 'Ako su podaci prikupljeni u okviru projekta, ovde upišite naziv/broj projekta.',
+        'habitat' => 'Stanište',
         'found_on' => 'Nađeno na',
         'found_on_tooltip' => 'Možete popuniti ovo polje ako je vrsta nađena na domaćinu (npr. latinski naziv biljke hraniteljkegusenice), izmet (npr. izmet koze za skarabeje), strvina (za tvrdokrilce strvinare), itd.',
         'sex' => 'Pol',

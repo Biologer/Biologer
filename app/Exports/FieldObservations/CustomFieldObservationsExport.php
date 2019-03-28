@@ -98,6 +98,10 @@ class CustomFieldObservationsExport extends BaseExport
                 'value' => 'project',
             ],
             [
+                'label' => trans('labels.field_observations.habitat'),
+                'value' => 'habitat',
+            ],
+            [
                 'label' => trans('labels.field_observations.found_on'),
                 'value' => 'found_on',
             ],
@@ -183,6 +187,7 @@ class CustomFieldObservationsExport extends BaseExport
             'number' => $item->observation->number,
             'note' => $item->observation->note,
             'project' => $item->observation->project,
+            'habitat' => $item->observation->habitat,
             'found_on' => $item->observation->found_on,
             'found_dead' => $item->found_dead ? __('Yes') : __('No'),
             'found_dead_note' => $item->found_dead_note,

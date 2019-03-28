@@ -78,6 +78,7 @@ class StoreFieldObservation extends FormRequest
             'photos.*.license' => ['nullable', Rule::in(License::activeIds())],
             'time' => ['nullable', 'date_format:H:i'],
             'project' => ['nullable', 'string', 'max:191'],
+            'habitat' => ['nullable', 'string', 'max:191'],
             'found_on' => ['nullable', 'string', 'max:191'],
             'note' => ['nullable', 'string'],
             'observation_types_ids' => [
@@ -173,6 +174,7 @@ class StoreFieldObservation extends FormRequest
             'number' => $this->input('number'),
             'note' => $this->input('note'),
             'project' => $this->input('project'),
+            'habitat' => $this->input('habitat'),
             'found_on' => $this->input('found_on'),
             'original_identification' => $this->getTaxonName(),
             'dataset' => $this->input('dataset') ?? Dataset::default(),

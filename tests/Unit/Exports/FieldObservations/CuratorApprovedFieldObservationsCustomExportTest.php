@@ -50,6 +50,7 @@ class CuratorApprovedFieldObservationsCustomExportTest extends TestCase
             'note' => 'Test note',
             'project' => 'Test project',
             'approved_at' => now(),
+            'habitat' => 'Forest',
             'found_on' => 'Ground',
         ], [
             'time' => '10:23',
@@ -61,7 +62,7 @@ class CuratorApprovedFieldObservationsCustomExportTest extends TestCase
         $export = CuratorApprovedFieldObservationsCustomExport::create([
             'id', 'taxon', 'identifier', 'observer', 'sex', 'year', 'month',
             'day', 'latitude', 'longitude', 'location', 'accuracy', 'elevation',
-            'stage', 'number', 'note', 'project', 'found_on', 'status',
+            'stage', 'number', 'note', 'project', 'habitat', 'found_on', 'status',
         ], [], true);
 
         (new PerformExport($export))->handle();
@@ -71,10 +72,10 @@ class CuratorApprovedFieldObservationsCustomExportTest extends TestCase
         $this->assertEquals(
             EncodingHelper::BOM_UTF8
             .'ID,Taxon,Identifier,Observer,Sex,Year,Month,Day,Latitude,Longitude,'
-            .'Location,Accuracy,Elevation,Stage,Number,Note,Project,"Found On",Status'."\n"
+            .'Location,Accuracy,Elevation,Stage,Number,Note,Project,Habitat,"Found On",Status'."\n"
             .$observation->id.',"Test taxon","Test identifier","Test observer",'
             .'Male,2001,2,23,12.3456,12.3456,"Test location",12,123,Larva,2,'
-            .'"Test note","Test project",Ground,Approved'."\n",
+            .'"Test note","Test project",Forest,Ground,Approved'."\n",
             Storage::disk('local')->get($export->path())
         );
     }

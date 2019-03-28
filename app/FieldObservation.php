@@ -555,6 +555,7 @@ class FieldObservation extends Model
             'number' => $this->observation->number,
             'note' => $this->observation->note,
             'project' => $this->observation->project,
+            'habitat' => $this->observation->habitat,
             'found_on' => $this->observation->found_on,
             'found_dead' => $this->found_dead,
             'found_dead_note' => $this->found_dead_note,

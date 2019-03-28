@@ -54,6 +54,7 @@ class AddFieldObservationTest extends TestCase
             'number' => '2',
             'time' => '12:00',
             'project' => 'The Big Project',
+            'habitat' => 'Swamp',
             'found_on' => 'Leaf of birch',
         ], $overrides);
     }
@@ -110,6 +111,7 @@ class AddFieldObservationTest extends TestCase
             $this->assertEquals('male', $observation->sex);
             $this->assertEquals(2, $observation->number);
             $this->assertEquals('The Big Project', $observation->project);
+            $this->assertEquals('Swamp', $observation->habitat);
             $this->assertEquals('Leaf of birch', $observation->found_on);
             $this->assertEquals('Cerambyx cerdo', $observation->original_identification);
         });

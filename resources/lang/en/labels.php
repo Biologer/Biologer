@@ -104,6 +104,7 @@ return [
         'number' => 'Number',
         'project' => 'Project',
         'project_tooltip' => 'If the data is gathered in the course of a project write the project name/number here.',
+        'habitat' => 'Habitat',
         'found_on' => 'Found On',
         'found_on_tooltip' => 'You can fill this field if the species is observed on a host (i.e. latin name of the caterpillar host plant), dung (i.e. goat dung for scarabs), carrion (for carrion beetles), etc.',
         'sex' => 'Sex',

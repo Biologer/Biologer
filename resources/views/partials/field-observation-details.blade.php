@@ -84,6 +84,11 @@
         </tr>
 
         <tr>
+            <td><b>{{ __('labels.field_observations.habitat') }}</b></td>
+            <td class="is-fullwidth">{{ $fieldObservation->observation->habitat }}</td>
+        </tr>
+
+        <tr>
             <td><b>{{ __('labels.field_observations.found_on') }}</b></td>
             <td class="is-fullwidth">{{ $fieldObservation->observation->found_on }}</td>
         </tr>

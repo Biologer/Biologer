@@ -63,6 +63,7 @@ class FieldObservationImportTest extends TestCase
         $this->assertEquals('male', $fieldObservation->observation->sex);
         $this->assertEquals(2, $fieldObservation->observation->number);
         $this->assertEquals('Project name', $fieldObservation->observation->project);
+        $this->assertEquals('Mountain', $fieldObservation->observation->habitat);
         $this->assertEquals('Pine tree', $fieldObservation->observation->found_on);
         $this->assertEquals('adult', $fieldObservation->observation->stage->name);
         $this->assertEquals('custom-dataset', $fieldObservation->observation->dataset);
@@ -108,6 +109,7 @@ class FieldObservationImportTest extends TestCase
         $this->assertEquals('male', $fieldObservation->observation->sex);
         $this->assertEquals(2, $fieldObservation->observation->number);
         $this->assertEquals('Project name', $fieldObservation->observation->project);
+        $this->assertEquals('Mountain', $fieldObservation->observation->habitat);
         $this->assertEquals('Pine tree', $fieldObservation->observation->found_on);
         $this->assertEquals('adult', $fieldObservation->observation->stage->name);
         $this->assertEquals('custom-dataset', $fieldObservation->observation->dataset);
@@ -185,6 +187,7 @@ class FieldObservationImportTest extends TestCase
             'sex',
             'number',
             'project',
+            'habitat',
             'found_on',
             'stage',
             'original_identification',
@@ -219,6 +222,7 @@ class FieldObservationImportTest extends TestCase
             'male',
             '2',
             'Project name',
+            'Mountain',
             'Pine tree',
             'adult',
             'Cerambyx sp.',

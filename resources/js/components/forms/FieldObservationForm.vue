@@ -103,10 +103,11 @@
                 <div class="column">
                     <b-field
                         :label="trans('labels.field_observations.stage')"
+                        label-for="stage"
                         :type="form.errors.has('stage_id') ? 'is-danger' : null"
                         :message="form.errors.has('stage_id') ? form.errors.first('stage_id') : null"
                     >
-                        <b-select v-model="form.stage_id" :disabled="!stages.length" expanded>
+                        <b-select id="stage" v-model="form.stage_id" :disabled="!stages.length" expanded>
                             <option :value="null">{{ trans('labels.field_observations.choose_a_stage') }}</option>
                             <option v-for="stage in stages" :value="stage.id" :key="stage.id" v-text="trans('stages.'+stage.name)"></option>
                         </b-select>
@@ -148,15 +149,27 @@
 
             <b-field
                 :label="trans('labels.field_observations.number')"
+                label-for="number"
                 :type="form.errors.has('number') ? 'is-danger' : null"
                 :message="form.errors.has('number') ? form.errors.first('number') : null"
-            ><b-input type="number" v-model="form.number" /></b-field>
+            ><b-input id="number" type="number" v-model="form.number" /></b-field>
 
             <b-field
                 :label="trans('labels.field_observations.note')"
+                label-for="note"
                 :error="form.errors.has('note')"
                 :message="form.errors.has('note') ? form.errors.first('note') : null"
-            ><b-input type="textarea" v-model="form.note" /></b-field>
+            ><b-input id="note" type="textarea" v-model="form.note" /></b-field>
+
+
+            <b-field
+                :label="trans('labels.field_observations.habitat')"
+                label-for="habitat"
+                :error="form.errors.has('habitat')"
+                :message="form.errors.has('habitat') ? form.errors.first('habitat') : null"
+            >
+                <b-input id="habitat" name="habitat" v-model="form.habitat" />
+            </b-field>
 
             <div class="field">
                 <label for="found_on" class="label">
@@ -177,10 +190,12 @@
 
             <b-field
                 :label="trans('labels.field_observations.time')"
+                label-for="time"
                 :type="form.errors.has('time') ? 'is-danger' : null"
                 :message="form.errors.has('time') ? form.errors.first('time') : null"
             >
                 <b-timepicker
+                    id="time"
                     :value="time"
                     @input="onTimeInput"
                     :placeholder="trans('labels.field_observations.click_to_select')"
@@ -215,20 +230,14 @@
                 </div>
 
                 <div class="column">
-                    <div class="field">
-                        <label for="dataset" class="label">
-                            {{ trans('labels.field_observations.dataset') }}
-                        </label>
-
+                    <b-field
+                        :label="trans('labels.field_observations.dataset')"
+                        label-for="dataset"
+                        :type="form.errors.has('dataset') ? 'is-danger' : null"
+                        :message="form.errors.has('dataset') ? form.errors.first('dataset') : null"
+                    >
                         <b-input id="dataset" name="dataset" v-model="form.dataset" />
-
-                        <p
-                            v-if="form.errors.has('dataset')"
-                            v-html="form.errors.first('dataset')"
-                            class="help"
-                            :class="{ 'is-danger': form.errors.has('dataset') }"
-                        />
-                    </div>
+                    </b-field>
                 </div>
             </div>
 
@@ -236,10 +245,13 @@
 
             <b-field
                 :label="trans('labels.field_observations.found_dead_note')"
+                label-for="found_dead_note"
                 v-if="form.found_dead"
                 :error="form.errors.has('found_dead_note')"
                 :message="form.errors.has('found_dead_note') ? form.errors.first('found_dead_note') : null"
-            ><b-input type="textarea" v-model="form.found_dead_note" /></b-field>
+            >
+                <b-input id="found_dead_note" type="textarea" v-model="form.found_dead_note" />
+            </b-field>
 
             <template v-if="showObserverIdentifier">
                 <nz-user-autocomplete
@@ -267,10 +279,11 @@
                 <div class="column">
                     <b-field
                         :label="trans('labels.field_observations.data_license')"
+                        label-for="data_license"
                         :type="form.errors.has('data_license') ? 'is-danger' : null"
                         :message="form.errors.has('data_license') ? form.errors.first('data_license') : null"
                     >
-                        <b-select v-model="form.data_license" expanded>
+                        <b-select id="data_license" v-model="form.data_license" expanded>
                             <option :value="null">{{ trans('labels.field_observations.default') }}</option>
                             <option v-for="(label, value) in licenses" :value="value" v-text="label"></option>
                         </b-select>
@@ -345,6 +358,7 @@ export default {
                     sex: null,
                     number: null,
                     project: null,
+                    habitat: null,
                     found_on: null,
                     stage_id: null,
                     found_dead: false,
