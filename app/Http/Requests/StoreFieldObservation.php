@@ -178,6 +178,7 @@ class StoreFieldObservation extends FormRequest
             'found_on' => $this->input('found_on'),
             'original_identification' => $this->getTaxonName(),
             'dataset' => $this->input('dataset') ?? Dataset::default(),
+            'client_name' => $this->getClientName(),
         ];
     }
 
@@ -318,5 +319,20 @@ class StoreFieldObservation extends FormRequest
                 $curator->notify(new FieldObservationForApproval($fieldObservation));
             }
         });
+    }
+
+    private function getClientName()
+    {
+        $token = $this->user()->token();
+
+        if (!$token) {
+            return;
+        }
+
+        if ($token->transient()) {
+            return sprintf('%s Website', config('app.name'));
+        }
+
+        return $token->getClient()->getName();
     }
 }

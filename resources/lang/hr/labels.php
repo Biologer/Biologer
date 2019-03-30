@@ -139,6 +139,8 @@ return [
         'save_more_tooltip' => 'Čuva trenutni nalaz, ali vam omogućava da unesete još podataka s istog mjesta. Možete koristiti i prečicu Ctrl + Shift + Enter na tipkovnici.',
 
         'include_lower_taxa' => 'Uključujući niže svojte',
+
+        'submitted_using' => 'Poslato preko',
     ],
 
     'view_groups' => [

@@ -139,6 +139,8 @@ return [
         'save_more_tooltip' => 'Saves current observations, but allows you to enter more data from the same place. You can also use keyboard shortcut: Ctrl+Shift+Enter.',
 
         'include_lower_taxa' => 'Include lower taxa',
+
+        'submitted_using' => 'Submitted Using',
     ],
 
     'view_groups' => [

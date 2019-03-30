@@ -134,5 +134,10 @@
             <td><b>{{ __('labels.field_observations.data_license') }}</b></td>
             <td class="is-fullwidth">{{ $fieldObservation->license_translation }}</td>
         </tr>
+
+        <tr>
+            <td><b>{{ __('labels.field_observations.submitted_using') }}</b></td>
+            <td class="is-fullwidth">{{ $fieldObservation->observation->client_name ?? __('Unknown') }}</td>
+        </tr>
     </tbody>
 </table>

@@ -59,6 +59,28 @@ class AddFieldObservationTest extends TestCase
         ], $overrides);
     }
 
+    private function setTestClientMock($user)
+    {
+        $user->token()->shouldReceive('getClient')->andReturn(new class {
+            public function getName()
+            {
+                return 'Test Client App';
+            }
+        });
+
+        return $user;
+    }
+
+    private function createAuthenticatedUser($data = [])
+    {
+        return $this->setTestClientMock(Passport::actingAs(factory(User::class)->create($data)));
+    }
+
+    private function makeAuthenticatedUser($data = [])
+    {
+        return $this->setTestClientMock(Passport::actingAs(factory(User::class)->make($data)));
+    }
+
     /** @test */
     public function guests_cannot_add_new_field_observations()
     {
@@ -77,8 +99,7 @@ class AddFieldObservationTest extends TestCase
     public function authenticated_user_can_add_field_observation()
     {
         $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create();
-        Passport::actingAs($user);
+        $user = $this->createAuthenticatedUser();
 
         $fieldObservationsCount = FieldObservation::count();
 
@@ -114,15 +135,14 @@ class AddFieldObservationTest extends TestCase
             $this->assertEquals('Swamp', $observation->habitat);
             $this->assertEquals('Leaf of birch', $observation->found_on);
             $this->assertEquals('Cerambyx cerdo', $observation->original_identification);
+            $this->assertEquals('Test Client App', $observation->client_name);
         });
     }
 
     /** @test */
     public function activity_log_entry_is_added_when_field_observation_is_added()
     {
-        $user = factory(User::class)->create();
-        Passport::actingAs($user);
-
+        $user = $this->createAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
 
         $response = $this->postJson('/api/field-observations', $this->validParams());
@@ -142,10 +162,10 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function users_full_name_as_source_when_source_is_not_provided()
     {
-        Passport::actingAs(factory(User::class)->create([
+        $this->createAuthenticatedUser([
             'first_name' => 'Jane',
             'last_name' => 'Doe',
-        ]));
+        ]);
 
         $this->postJson('/api/field-observations', $this->validParams([
             'source' => '',
@@ -154,10 +174,15 @@ class AddFieldObservationTest extends TestCase
         $this->assertEquals('Jane Doe', FieldObservation::latest()->first()->observation->observer);
     }
 
-    /** @test */
-    public function year_is_required_when_adding_field_observation()
+    /**
+     * @test
+     * @dataProvider invalidYearData
+     *
+     * @param mixed $year
+     */
+    public function year_is_validated($year)
     {
-        Passport::actingAs(factory(User::class)->make());
+        $this->makeAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
 
         $this->postJson('/api/field-observations', $this->validParams([
@@ -167,209 +192,160 @@ class AddFieldObservationTest extends TestCase
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
-    /** @test */
-    public function year_must_be_valid_year()
+    public function invalidYearData()
     {
-        Passport::actingAs(factory(User::class)->make());
-
-        $this->postJson('/api/field-observations', $this->validParams([
-            'year' => '1aa2',
-        ]))->assertValidationErrors('year');
+        return [
+            'Cannot be null' => [null],
+            'Cannot be empty string' => [''],
+            'Cannot be random string' => ['1aa2'],
+            'Cannot be in the future' => [date('Y') + 1],
+        ];
     }
 
-    /** @test */
-    public function year_cannot_be_in_the_future()
+    /**
+     * @test
+     * @dataProvider invalidMonthData
+     *
+     * @param mixed $month
+     */
+    public function month_is_validated($month)
     {
-        Passport::actingAs(factory(User::class)->make());
-
-        $this->postJson('api/field-observations', $this->validParams([
-            'year' => date('Y') + 1,
-        ]))->assertValidationErrors('year');
-    }
-
-    /** @test */
-    public function month_cannot_be_in_the_future()
-    {
-        Passport::actingAs(factory(User::class)->make());
+        $this->makeAuthenticatedUser();
 
         $this->postJson('api/field-observations', $this->validParams([
             'year' => date('Y'),
-            'month' => date('m') + 1,
+            'month' => $month,
         ]))->assertValidationErrors('month');
     }
 
-    /** @test */
-    public function month_cannot_be_string()
+    public function invalidMonthData()
     {
-        Passport::actingAs(factory(User::class)->make());
-
-        $this->postJson('api/field-observations', $this->validParams([
-            'year' => date('Y'),
-            'month' => 'invalid',
-        ]))->assertValidationErrors('month');
+        return [
+            'Cannot be in the future' => [date('m') + 1],
+            'Cannot be random string' => ['invalid'],
+            'Cannot be negative number' => [-1],
+            'Cannot be negative zero' => [0],
+            'Cannot be greater than 12' => [13],
+        ];
     }
 
-    /** @test */
-    public function month_cannot_be_negative_number()
+    /**
+     * @test
+     * @dataProvider invalidDayData
+     *
+     * @param mixed $day
+     */
+    public function day_is_validated($day)
     {
-        Passport::actingAs(factory(User::class)->make());
-
-        $this->postJson('api/field-observations', $this->validParams([
-            'year' => date('Y'),
-            'month' => '-1',
-        ]))->assertValidationErrors('month');
-    }
-
-    /** @test */
-    public function day_cannot_be_in_the_future_longer_than_a_day()
-    {
-        Passport::actingAs(factory(User::class)->make());
+        $this->makeAuthenticatedUser();
 
         $now = Carbon::now();
 
         $this->postJson('api/field-observations', $this->validParams([
             'year' => $now->year,
             'month' => $now->month,
-            'day' => $now->day + 2,
+            'day' => $day,
         ]))->assertValidationErrors('day');
     }
 
-    /** @test */
-    public function day_cannot_be_negative_number()
+    public function invalidDayData()
     {
-        Passport::actingAs(factory(User::class)->make());
-
-        $now = Carbon::now();
-
-        $this->postJson('api/field-observations', $this->validParams([
-            'year' => $now->year,
-            'month' => $now->month,
-            'day' => '-1',
-        ]))->assertValidationErrors('day');
+        return [
+            'Cannot be in the future longer than a day' => [now()->day + 2],
+            'Cannot be negative zero' => [0],
+            'Cannot be negative number' => [-1],
+            'Cannot be random string' => ['invalid'],
+        ];
     }
 
-    /** @test */
-    public function day_cannot_be_string()
+    /**
+     * @test
+     * @dataProvider invalidLatitudeData
+     *
+     * @param mixed $latitude
+     */
+    public function latitude_is_validated($latitude)
     {
-        Passport::actingAs(factory(User::class)->make());
-
-        $now = Carbon::now();
-
-        $this->postJson('api/field-observations', $this->validParams([
-            'year' => $now->year,
-            'month' => $now->month,
-            'day' => 'invalid',
-        ]))->assertValidationErrors('day');
-    }
-
-    /** @test */
-    public function latitude_is_required_when_adding_field_observation()
-    {
-        Passport::actingAs(factory(User::class)->make());
+        $this->makeAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
 
         $this->postJson('/api/field-observations', $this->validParams([
-            'latitude' => null,
+            'latitude' => $latitude,
         ]))->assertValidationErrors('latitude');
 
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
-    /** @test */
-    public function latitude_must_be_number_less_than_90()
+    public function invalidLatitudeData()
     {
-        Passport::actingAs(factory(User::class)->make());
-        $fieldObservationsCount = FieldObservation::count();
-
-        $this->postJson('/api/field-observations', $this->validParams([
-            'latitude' => '91',
-        ]))->assertValidationErrors('latitude');
-
-        FieldObservation::assertCount($fieldObservationsCount);
+        return [
+            'Cannot be null' => [null],
+            'Cannot be empty string' => [''],
+            'Cannot be random string' => ['wjeafn'],
+            'Cannot be number less than -90' => [-91],
+            'Cannot be number greater than 90' => [91],
+        ];
     }
 
-    /** @test */
-    public function latitude_must_be_number_breate_than_negative_90()
+    /**
+     * @test
+     * @dataProvider invalidLongitudeData
+     *
+     * @param mixed $longitude
+     */
+    public function longitude_is_validated($longitude)
     {
-        Passport::actingAs(factory(User::class)->make());
+        $this->makeAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
 
         $this->postJson('/api/field-observations', $this->validParams([
-            'latitude' => '-91',
-        ]))->assertValidationErrors('latitude');
-
-        FieldObservation::assertCount($fieldObservationsCount);
-    }
-
-    /** @test */
-    public function longitude_is_required_when_adding_field_observation()
-    {
-        Passport::actingAs(factory(User::class)->make());
-        $fieldObservationsCount = FieldObservation::count();
-
-        $this->postJson('/api/field-observations', $this->validParams([
-            'longitude' => null,
+            'longitude' => $longitude,
         ]))->assertValidationErrors('longitude');
 
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
-    /** @test */
-    public function longitude_must_be_number_less_than_180()
+    public function invalidLongitudeData()
     {
-        Passport::actingAs(factory(User::class)->make());
-        $fieldObservationsCount = FieldObservation::count();
-
-        $this->postJson('/api/field-observations', $this->validParams([
-            'longitude' => '181',
-        ]))->assertValidationErrors('longitude');
-
-        FieldObservation::assertCount($fieldObservationsCount);
+        return [
+            'Cannot be empty' => [null],
+            'Cannot be string' => ['asdasd'],
+            'Cannot be greater than 180' => [181],
+            'Cannot be less than -180' => [-181],
+        ];
     }
 
-    /** @test */
-    public function longitude_must_be_number_greater_than_negative_180()
+    /**
+     * @test
+     * @dataProvider invalidElevationData
+     *
+     * @param mixed $elevation
+     */
+    public function elevation_is_validated($elevation)
     {
-        Passport::actingAs(factory(User::class)->make());
+        $this->makeAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
 
         $this->postJson('/api/field-observations', $this->validParams([
-            'longitude' => '-181',
-        ]))->assertValidationErrors('longitude');
-
-        FieldObservation::assertCount($fieldObservationsCount);
-    }
-
-    /** @test */
-    public function elevation_is_required_when_adding_field_observation()
-    {
-        Passport::actingAs(factory(User::class)->make());
-        $fieldObservationsCount = FieldObservation::count();
-
-        $this->postJson('/api/field-observations', $this->validParams([
-            'elevation' => null,
+            'elevation' => $elevation,
         ]))->assertValidationErrors('elevation');
 
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
-    /** @test */
-    public function elevation_must_be_number()
+    public function invalidElevationData()
     {
-        Passport::actingAs(factory(User::class)->make());
-        $fieldObservationsCount = FieldObservation::count();
-
-        $this->postJson('/api/field-observations', $this->validParams([
-            'elevation' => 'aaa',
-        ]))->assertValidationErrors('elevation');
-
-        FieldObservation::assertCount($fieldObservationsCount);
+        return [
+            'Cannot be null' => [null],
+            'Cannot be empty string' => [''],
+            'Cannot be sting' => ['aaa'],
+        ];
     }
 
     /** @test */
     public function accuracy_is_optional_when_adding_field_observation()
     {
-        Passport::actingAs(factory(User::class)->create());
+        $this->createAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
 
         $this->postJson('/api/field-observations', $this->validParams([
@@ -382,7 +358,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function accuracy_must_be_number()
     {
-        Passport::actingAs(factory(User::class)->make());
+        $this->makeAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
 
         $this->postJson('/api/field-observations', $this->validParams([
@@ -395,7 +371,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function taxon_is_optional()
     {
-        Passport::actingAs(factory(User::class)->create());
+        $this->createAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
 
         $this->postJson('/api/field-observations', $this->validParams([
@@ -408,7 +384,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function fails_if_taxon_does_not_exist()
     {
-        Passport::actingAs(factory(User::class)->make());
+        $this->makeAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
 
         $this->postJson('/api/field-observations', $this->validParams([
@@ -421,7 +397,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function observation_is_stored_with_correct_taxon()
     {
-        Passport::actingAs(factory(User::class)->create());
+        $this->createAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
         $taxon = factory(Taxon::class)->create();
 
@@ -436,7 +412,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function taxon_suggestion_is_stored()
     {
-        Passport::actingAs(factory(User::class)->create());
+        $this->createAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
 
         $this->postJson('/api/field-observations', $this->validParams([
@@ -450,7 +426,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function mgrs_field_is_calculated_automaticaly()
     {
-        Passport::actingAs(factory(User::class)->create());
+        $this->createAuthenticatedUser();
 
         $this->postJson('/api/field-observations', $this->validParams([
             'latitude' => '43.60599592',
@@ -465,7 +441,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function mgrs_field_cannot_be_calculated_in_polar_region()
     {
-        Passport::actingAs(factory(User::class)->create());
+        $this->createAuthenticatedUser();
 
         $this->postJson('/api/field-observations', $this->validParams([
             'latitude' => '85.0',
@@ -486,10 +462,10 @@ class AddFieldObservationTest extends TestCase
         Queue::fake();
         Storage::fake('public');
 
-        Passport::actingAs($user = factory(User::class)->create([
+        $user = $this->createAuthenticatedUser([
             'first_name' => 'John',
             'last_name' => 'Doe',
-        ]));
+        ]);
         File::image('test-image.jpg')->storeAs("uploads/{$user->id}", 'test-image.jpg', 'public');
 
         $photosCount = Photo::count();
@@ -521,7 +497,7 @@ class AddFieldObservationTest extends TestCase
         Queue::fake();
         Storage::fake('public');
 
-        Passport::actingAs($user = factory(User::class)->create());
+        $user = $this->createAuthenticatedUser();
         File::image('test-image.jpg', 400, 400)->storeAs("uploads/{$user->id}", 'test-image.jpg', 'public');
 
         $photosCount = Photo::count();
@@ -549,7 +525,7 @@ class AddFieldObservationTest extends TestCase
     {
         config(['alciphron.photos_per_observation' => 3]);
 
-        Passport::actingAs(factory(User::class)->make());
+        $this->makeAuthenticatedUser();
         Storage::fake('public');
         $photosCount = Photo::count();
         File::image('test-image1.jpg')->storeAs('uploads', 'test-image1.jpg', 'public');
@@ -580,7 +556,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function photos_can_be_null()
     {
-        Passport::actingAs(factory(User::class)->create());
+        $this->createAuthenticatedUser();
 
         $this->postJson('/api/field-observations', $this->validParams([
             'photos' => null,
@@ -590,7 +566,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function sex_is_optional()
     {
-        Passport::actingAs(factory(User::class)->create());
+        $this->createAuthenticatedUser();
 
         $this->postJson('/api/field-observations', $this->validParams([
             'sex' => null,
@@ -600,7 +576,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function sex_can_only_be_one_of_available_values()
     {
-        Passport::actingAs(factory(User::class)->create());
+        $this->makeAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
 
         $this->postJson('/api/field-observations', $this->validParams([
@@ -613,7 +589,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function time_is_optional()
     {
-        Passport::actingAs(factory(User::class)->create());
+        $this->createAuthenticatedUser();
 
         $this->postJson('/api/field-observations', $this->validParams([
             'time' => null,
@@ -623,7 +599,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function time_must_be_in_correct_format()
     {
-        Passport::actingAs(factory(User::class)->create());
+        $this->makeAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
 
         $this->postJson('/api/field-observations', $this->validParams([
@@ -637,9 +613,8 @@ class AddFieldObservationTest extends TestCase
     public function admin_can_submit_observer_by_users_id()
     {
         $this->seed('RolesTableSeeder');
-        $user = factory(User::class)->create()->assignRoles('admin');
+        $user = $this->createAuthenticatedUser()->assignRoles('admin');
         $anotherUser = factory(User::class)->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
-        Passport::actingAs($user);
 
         $response = $this->postJson('/api/field-observations', $this->validParams([
             'observed_by_id' => $anotherUser->id,
@@ -656,8 +631,7 @@ class AddFieldObservationTest extends TestCase
     public function admin_can_submit_observer_without_existing_user()
     {
         $this->seed('RolesTableSeeder');
-        $user = factory(User::class)->create()->assignRoles('admin');
-        Passport::actingAs($user);
+        $user = $this->createAuthenticatedUser()->assignRoles('admin');
 
         $response = $this->postJson('/api/field-observations', $this->validParams([
             'observed_by_id' => null,
@@ -675,11 +649,9 @@ class AddFieldObservationTest extends TestCase
     public function admin_can_submit_identifier_by_users_id_if_there_is_identification()
     {
         $this->seed('RolesTableSeeder');
-        $user = factory(User::class)->create()->assignRoles('admin');
+        $user = $this->createAuthenticatedUser()->assignRoles('admin');
         $anotherUser = factory(User::class)->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
         $taxon = factory(Taxon::class)->create();
-
-        Passport::actingAs($user);
 
         $response = $this->postJson('/api/field-observations', $this->validParams([
             'taxon_id' => $taxon->id,
@@ -698,10 +670,8 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function unless_identifier_is_provided_user_will_be_assigned_as_identifier_if_the_observation_has_some_identification()
     {
-        $user = factory(User::class)->create();
+        $user = $this->createAuthenticatedUser();
         $taxon = factory(Taxon::class)->create();
-
-        Passport::actingAs($user);
 
         $response = $this->postJson('/api/field-observations', $this->validParams([
             'taxon_id' => $taxon->id,
