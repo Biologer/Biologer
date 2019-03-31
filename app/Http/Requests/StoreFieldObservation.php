@@ -333,6 +333,6 @@ class StoreFieldObservation extends FormRequest
             return sprintf('%s Website', config('app.name'));
         }
 
-        return $token->getClient()->getName();
+        return $token->client->name;
     }
 }

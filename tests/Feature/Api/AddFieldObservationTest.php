@@ -61,12 +61,12 @@ class AddFieldObservationTest extends TestCase
 
     private function setTestClientMock($user)
     {
-        $user->token()->shouldReceive('getClient')->andReturn(new class {
-            public function getName()
-            {
-                return 'Test Client App';
-            }
-        });
+        $user->token()
+             ->shouldReceive('getAttribute')
+             ->with('client')
+             ->andReturn(new class {
+                 public $name = 'Test Client App';
+             });
 
         return $user;
     }
@@ -98,6 +98,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function authenticated_user_can_add_field_observation()
     {
+        $this->handleValidationExceptions();
         $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
         $user = $this->createAuthenticatedUser();
 
