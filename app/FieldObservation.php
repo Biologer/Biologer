@@ -2,10 +2,10 @@
 
 namespace App;
 
+use App\Concerns\Mappable;
 use App\Filters\Filterable;
 use Illuminate\Support\Arr;
 use App\Concerns\CanMemoize;
-use Sofa\Eloquence\Mappable;
 use Sofa\Eloquence\Eloquence;
 use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Activity;
