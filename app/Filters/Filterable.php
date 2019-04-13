@@ -34,7 +34,7 @@ trait Filterable
                 $value && class_exists($filters[$param]);
 
             if ($shouldFilter) {
-                $query = (new $filters[$param]())->apply($query, $value, $param, $filterData);
+                $query = (new $filters[$param]())->apply($query, $value, $param, $filterData, static::class);
             }
         }
 

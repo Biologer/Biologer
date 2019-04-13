@@ -4,12 +4,18 @@ namespace App\Filters;
 
 class SortBy
 {
-    public function apply($query, $value)
+    public function apply($query, $value, $param, $filterData, $model)
     {
         $sort = explode('.', $value);
         $field = $sort[0] ?? 'id';
         $order = isset($sort[1]) && 'desc' === $sort[1] ? 'desc' : 'asc';
 
-        return $query->orderBy($field, $order);
+        $sortableFields = method_exists($model, 'sortableFields') && is_callable($model, 'sortableFields')
+            ? $model::sortableFields()
+            : [];
+
+        if (in_array($field, $sortableFields)) {
+            return $query->orderBy($field, $order);
+        }
     }
 }

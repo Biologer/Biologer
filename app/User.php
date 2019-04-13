@@ -81,6 +81,18 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * List of fields that users can be sorted by.
+     *
+     * @return array
+     */
+    public static function sortableFields()
+    {
+        return [
+            'id', 'first_name', 'last_name', 'email', 'institution',
+        ];
+    }
+
+    /**
      * Observations entered by the user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

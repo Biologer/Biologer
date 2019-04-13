@@ -135,6 +135,18 @@ class Taxon extends Model
     }
 
     /**
+     * List of fields that taxa can be sorted by.
+     *
+     * @return array
+     */
+    public static function sortableFields()
+    {
+        return [
+            'id', 'name', 'rank_level',
+        ];
+    }
+
+    /**
      * Find taxon by name.
      *
      * @param  string  $name

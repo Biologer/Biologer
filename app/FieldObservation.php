@@ -76,6 +76,18 @@ class FieldObservation extends Model
     }
 
     /**
+     * List of fields that field observations can be sorted by.
+     *
+     * @return array
+     */
+    public static function sortableFields()
+    {
+        return [
+            'id', 'taxon_name', 'year', 'month', 'day', 'observer'
+        ];
+    }
+
+    /**
      * Main observation data.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphOne
