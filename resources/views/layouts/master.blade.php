@@ -6,6 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <link rel="canonical" href="{{ LaravelLocalization::getNonLocalizedURL() }}" />
+
+        @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+            <link rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" />
+        @endforeach
+
         @if(empty($title))
             <title>{{ config('app.name') }}</title>
         @else

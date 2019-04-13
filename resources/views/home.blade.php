@@ -3,7 +3,7 @@
 @section('content')
     <section class="section is-hidden-touch mb-8">
         <div class="container has-text-centered">
-            <img src="{{ asset('img/logo.svg') }}" class="image banner-image mx-auto">
+            <h1><img src="{{ asset('img/logo.svg') }}" class="image banner-image mx-auto" alt="{{ config('app.name') }}"></h1>
         </div>
     </section>
 
