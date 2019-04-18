@@ -3,6 +3,7 @@
     <div class="is-flex is-flex-center flex-col" v-if="importing">
       <div class="is-flex is-flex-center">
         <span class="loader mr-2"></span>
+
         <span class="has-loader" v-if="currentImport">{{ importStatus }}</span>
       </div>
 
@@ -13,6 +14,7 @@
         @click="cancel"
       >{{ trans('buttons.cancel') }}</button>
     </div>
+
     <div v-else>
       <b-notification type="is-success" :active.sync="showSuccessMessage">
         {{ trans('imports.success') }}
@@ -46,15 +48,13 @@
 
           <div class="level-item">
             <b-field class="file" v-if="!importing">
-              <b-upload v-model="files" accept=".csv">
-                  <a class="button">
-                      <span>{{ trans('labels.imports.select_csv_file') }}</span>
-                  </a>
+              <b-upload v-model="file" accept=".csv">
+                <a class="button">
+                  <span>{{ trans('labels.imports.select_csv_file') }}</span>
+                </a>
               </b-upload>
-              <span class="file-name"
-                  v-if="files && files.length">
-                  {{ files[0].name }}
-              </span>
+
+              <span class="file-name" v-if="file">{{ file.name }}</span>
             </b-field>
           </div>
         </div>
@@ -68,6 +68,7 @@
               @click="submit"
             >
               <b-icon icon="upload"></b-icon>
+
               <span>{{ trans('labels.imports.import') }}</span>
             </button>
           </div>
@@ -129,7 +130,7 @@ export default {
     return {
       selectedColumns: this.initial,
       showColumnsSelection: false,
-      files: [],
+      file: null,
       importing: false,
       currentImport: this.runningImport,
       validationErrors: [],
@@ -145,7 +146,7 @@ export default {
 
   computed: {
     canSubmit() {
-      return !this.importing && (this.files && this.files.length)
+      return !this.importing && this.file
     },
 
     validationFailed() {
@@ -209,7 +210,7 @@ export default {
     makeForm() {
       const form = new FormData()
 
-      form.append('file', this.files[0])
+      form.append('file', this.file)
       this.selectedColumns.forEach((column) => {
         form.append('columns[]', column)
       })
@@ -232,7 +233,7 @@ export default {
 
     handleSuccessfulSubmit({ data }) {
       this.currentImport = data
-      this.files = []
+      this.file = null
 
       this.startCheckingStatus()
     },
