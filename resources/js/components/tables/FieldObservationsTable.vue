@@ -295,7 +295,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import FilterableTableMixin from '../../mixins/FilterableTableMixin';
 import PersistentTableMixin from '../../mixins/PersistentTableMixin';
 import ExportDownloadModal from '../exports/ExportDownloadModal';

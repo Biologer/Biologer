@@ -84,7 +84,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import PersistentTableMixin from '../../mixins/PersistentTableMixin';
 
 export default {
