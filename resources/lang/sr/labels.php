@@ -72,7 +72,7 @@ return [
         'stages' => 'Стадијуми',
         'conservation_legislations' => 'Законска заштита',
         'conservation_documents' => 'Остала документа',
-        'red_lists' => 'Црене листе',
+        'red_lists' => 'Црвене листе',
         'add_red_list' => 'Додај црвену листу',
         'search_for_taxon' => 'Тражи таксон...',
     ],
