@@ -13,7 +13,7 @@ class RedList extends Model
      *
      * @var array
      */
-    const CATEGORIES = ['EX', 'EW', 'CR', 'EN', 'VU', 'NT', 'LC', 'DD', 'NE'];
+    const CATEGORIES = [ 'EX', 'EW', 'CR', 'CR (PE)', 'CR (PEW)', 'RE', 'EN', 'VU', 'NT', 'LC', 'DD', 'NE'];
 
     /**
      * The relations to eager load on every query.

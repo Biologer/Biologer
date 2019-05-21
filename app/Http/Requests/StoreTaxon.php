@@ -43,18 +43,18 @@ class StoreTaxon extends FormRequest
             'allochthonous' => ['boolean'],
             'invasive' => ['boolean'],
             'stages_ids' => ['nullable', 'array'],
-            'stages_ids.*' => ['required', Rule::in(Stage::pluck('id')->all())],
+            'stages_ids.*' => ['required', Rule::in(Stage::pluck('id'))],
             'conservation_legislations_ids' => [
-                'nullable', 'array', Rule::in(ConservationLegislation::pluck('id')->all()),
+                'nullable', 'array', Rule::in(ConservationLegislation::pluck('id')),
             ],
             'conservation_documents_ids' => [
-                'nullable', 'array', Rule::in(ConservationDocument::pluck('id')->all()),
+                'nullable', 'array', Rule::in(ConservationDocument::pluck('id')),
             ],
             'red_lists_data' => ['nullable', 'array'],
             'red_lists_data.*' => ['array'],
             'red_lists_data.*.red_list_id' => [
                 'required',
-                Rule::in(RedList::pluck('id')->all()),
+                Rule::in(RedList::pluck('id')),
             ],
             'red_lists_data.*.category' => [
                 'required',
