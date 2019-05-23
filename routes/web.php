@@ -45,15 +45,23 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
     Route::get('announcements/{announcement}', 'AnnouncementsController@show')->name('announcements.show');
 
     Route::middleware(['auth', 'verified'])->group(function () {
+        Route::redirect('/preferences', '/preferences/general')->name('preferences.index');
+
+        Route::prefix('preferences')->namespace('Preferences')->name('preferences.')->group(function () {
+
+            Route::get('general', 'GeneralPreferencesController@index')->name('general');
+            Route::patch('general', 'GeneralPreferencesController@update');
+
+            Route::get('account', 'AccountPreferencesController@index')->name('account');
+            Route::patch('account/password', 'AccountPreferencesController@changePassword')->name('account.password');
+
+            Route::get('license', 'LicensePreferencesController@index')->name('license');
+            Route::patch('license', 'LicensePreferencesController@update');
+        });
+
         Route::prefix('contributor')->namespace('Contributor')->name('contributor.')->group(function () {
             Route::get('/', 'DashboardController@index')
                 ->name('index');
-
-            Route::get('preferences', 'PreferencesController@index')
-                ->name('preferences.index');
-
-            Route::patch('preferences', 'PreferencesController@update')
-                ->name('preferences.update');
 
             Route::get('field-observations', 'FieldObservationsController@index')
                 ->name('field-observations.index');

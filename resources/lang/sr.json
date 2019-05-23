@@ -52,5 +52,8 @@
     "Text is not available in English yet.": "Текст још увек није доступан на српском.",
     "Serbia": "Србија",
     "Croatia": "Хрватска",
-    "Unknown": "Непознато"
+    "Unknown": "Непознато",
+    "Profile updated successfully.": "Профил је успешно промењен.",
+    "Password changed successfully.": "Лозинка је успешно промењена.",
+    "Successfully updated.": "Успешно промењено."
 }

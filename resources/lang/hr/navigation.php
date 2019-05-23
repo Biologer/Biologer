@@ -1,8 +1,6 @@
 <?php
 
 return [
-
-
     'about' => 'O nama',
     'sponsors' => 'Sponzori',
     'login' => 'Prijava',
@@ -10,7 +8,15 @@ return [
     'new_observation' => 'Novi unos',
     'contributor_area' => 'Mjesto za članove',
     'logout' => 'Odjava',
-    'preferences' => 'Postavke',
+    'preferences' => [
+        'index' => 'Postavke',
+        'license' => 'Licence',
+        'license_preferences' => 'Postavke licence',
+        'general' => 'Opšte',
+        'general_preferences' => 'Opšte postavke',
+        'account' => 'Nalog',
+        'account_preferences' => 'Postavke naloga',
+    ],
     'dashboard' => 'Kontrolna ploča',
     'notifications' => 'Obavijesti',
     'announcements' => 'Objave',

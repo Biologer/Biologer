@@ -19,8 +19,8 @@ class FieldObservationPolicy
      */
     public function view(User $user, FieldObservation $fieldObservation)
     {
-        return $fieldObservation->isAtLeastPartiallyOpenData()
-            || $user->hasAnyRole(['admin', 'curator']);
+        return $fieldObservation->isAtLeastPartiallyOpenData() ||
+            $user->hasAnyRole(['admin', 'curator']);
     }
 
     /**

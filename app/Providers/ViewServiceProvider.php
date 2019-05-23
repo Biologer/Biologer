@@ -29,6 +29,7 @@ class ViewServiceProvider extends ServiceProvider
         View::composer('layouts.dashboard', DashboardComposer::class);
 
         $this->buildSidebarMenu();
+        $this->buildPreferencesSidebar();
     }
 
     /**
@@ -36,7 +37,7 @@ class ViewServiceProvider extends ServiceProvider
      *
      * @return \Spatie\Menu\Laravel\Menu
      */
-    protected function buildSidebarMenu()
+    private function buildSidebarMenu()
     {
         return Menu::macro('sidebar', function () {
             return Menu::new()
@@ -99,13 +100,23 @@ class ViewServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Register the application services.
-     *
-     * @return void
-     */
-    public function register()
+    private function buildPreferencesSidebar()
     {
-        //
+        return Menu::macro('preferencesSidebar', function () {
+            return Menu::new()
+                ->setWrapperTag('aside')
+                ->withoutParentTag()
+                ->addClass('menu')
+                ->add(
+                    Menu::new()
+                        ->addClass('menu-list')
+                        ->route('preferences.general', __('navigation.preferences.general'))
+                        ->route('preferences.account', __('navigation.preferences.account'))
+                        ->route('preferences.license', __('navigation.preferences.license'))
+                        ->setActiveClass('is-active')
+                        ->setActiveClassOnLink()
+                        ->setActiveFromRequest()
+                );
+        });
     }
 }

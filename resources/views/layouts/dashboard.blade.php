@@ -82,11 +82,11 @@
 
                         <div class="navbar-menu" :class="{ 'is-active': active }">
                             <div class="navbar-end">
-                                <a href="{{ route('contributor.preferences.index') }}"
+                                <a href="{{ route('preferences.index') }}"
                                     class="navbar-item"
-                                    title="{{ __('navigation.preferences') }}">
+                                    title="{{ __('navigation.preferences.index') }}">
                                     @include('components.icon', ['icon' => 'cog'])
-                                    <span class="is-hidden-desktop">{{ __('navigation.preferences') }}</span>
+                                    <span class="is-hidden-desktop">{{ __('navigation.preferences.index') }}</span>
                                 </a>
 
                                 <a href="{{ route('logout') }}"
@@ -137,7 +137,7 @@
                 <div class="container is-fluid p-4">
                     <div class="columns">
                         <div class="column is-3-tablet is-2-desktop">
-                            {!! Menu::sidebar() !!}
+                            @yield('sidebar', Menu::sidebar())
                         </div>
 
                         <div class="column">

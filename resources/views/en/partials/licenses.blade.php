@@ -11,7 +11,7 @@
                         experts)."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="data_license" value="{{ \App\License::CC_BY_SA }}"{{ $preferences->data_license == \App\License::CC_BY_SA ? ' checked' : '' }}>
+                            <input type="radio" name="data_license" value="{{ \App\License::CC_BY_SA }}"{{ $dataLicense == \App\License::CC_BY_SA ? ' checked' : '' }}>
                             Open Data (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike</a> licence)
                         </label>
                     </b-tooltip>
@@ -24,7 +24,7 @@
                         experts)."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="data_license" value="{{ \App\License::OPEN }}"{{ $preferences->data_license == \App\License::OPEN ? ' checked' : '' }}>
+                            <input type="radio" name="data_license" value="{{ \App\License::OPEN }}"{{ $dataLicense == \App\License::OPEN ? ' checked' : '' }}>
                             Open Data (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike</a> licence)
                         </label>
                     </b-tooltip>
@@ -37,7 +37,7 @@
                         scientific purposes."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="data_license" value="{{ \App\License::CC_BY_NC_SA }}"{{ $preferences->data_license == \App\License::CC_BY_NC_SA ? ' checked' : '' }}>
+                            <input type="radio" name="data_license" value="{{ \App\License::CC_BY_NC_SA }}"{{ $dataLicense == \App\License::CC_BY_NC_SA ? ' checked' : '' }}>
                             Open Data (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons Attribution-NonCommercial-ShareAlike</a> licence)
                         </label>
                     </b-tooltip>
@@ -50,7 +50,7 @@
                         the web site and the taxonomic experts."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="data_license" value="{{ \App\License::PARTIALLY_OPEN }}"{{ $preferences->data_license == \App\License::PARTIALLY_OPEN ? ' checked' : '' }}>
+                            <input type="radio" name="data_license" value="{{ \App\License::PARTIALLY_OPEN }}"{{ $dataLicense == \App\License::PARTIALLY_OPEN ? ' checked' : '' }}>
                             Partially open data (in resolution of 10x10 km2). <a href="{{ route('licenses.partially-open-license') }}" target="_blank">Read more</a>
                         </label>
                     </b-tooltip>
@@ -63,7 +63,7 @@
                         the data."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="data_license" value="{{ \App\License::CLOSED_FOR_A_PERIOD }}"{{ $preferences->data_license == \App\License::CLOSED_FOR_A_PERIOD ? ' checked' : '' }}>
+                            <input type="radio" name="data_license" value="{{ \App\License::CLOSED_FOR_A_PERIOD }}"{{ $dataLicense == \App\License::CLOSED_FOR_A_PERIOD ? ' checked' : '' }}>
                             ‎Closed Data (not shown on the maps). <a href="{{ route('licenses.closed-license') }}" target="_blank">Read more</a>
                         </label>
                     </b-tooltip>
@@ -76,7 +76,7 @@
                         the data."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="data_license" value="{{ \App\License::CLOSED }}"{{ $preferences->data_license == \App\License::CLOSED ? ' checked' : '' }}>
+                            <input type="radio" name="data_license" value="{{ \App\License::CLOSED }}"{{ $dataLicense == \App\License::CLOSED ? ' checked' : '' }}>
                             ‎Closed Data (not shown on the maps). <a href="{{ route('licenses.closed-license') }}" target="_blank">Read more</a>
                         </label>
                     </b-tooltip>
@@ -97,7 +97,7 @@
                         author’s contribution is recognized"
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="image_license" value="{{ \App\License::CC_BY_SA }}"{{ $preferences->image_license == \App\License::CC_BY_SA ? ' checked' : '' }}>
+                            <input type="radio" name="image_license" value="{{ \App\License::CC_BY_SA }}"{{ $imageLicense == \App\License::CC_BY_SA ? ' checked' : '' }}>
                             Share images (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike</a> licence)
                         </label>
                     </b-tooltip>
@@ -110,7 +110,7 @@
                         author’s contribution is recognized"
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="image_license" value="{{ \App\License::OPEN }}"{{ $preferences->image_license == \App\License::OPEN ? ' checked' : '' }}>
+                            <input type="radio" name="image_license" value="{{ \App\License::OPEN }}"{{ $imageLicense == \App\License::OPEN ? ' checked' : '' }}>
                             Share images (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike</a> licence)
                         </label>
                     </b-tooltip>
@@ -122,7 +122,7 @@
                         agreement."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="image_license" value="{{ \App\License::CC_BY_NC_SA }}"{{ $preferences->image_license == \App\License::CC_BY_NC_SA ? ' checked' : '' }}>
+                            <input type="radio" name="image_license" value="{{ \App\License::CC_BY_NC_SA }}"{{ $imageLicense == \App\License::CC_BY_NC_SA ? ' checked' : '' }}>
                             Share images (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons Attribution-NonCommercial-ShareAlike</a> licence)
                         </label>
                     </b-tooltip>
@@ -135,7 +135,7 @@
                         information and the web site logo."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="image_license" value="{{ \App\License::PARTIALLY_OPEN }}"{{ $preferences->image_license == \App\License::PARTIALLY_OPEN ? ' checked' : '' }}>
+                            <input type="radio" name="image_license" value="{{ \App\License::PARTIALLY_OPEN }}"{{ $imageLicense == \App\License::PARTIALLY_OPEN ? ' checked' : '' }}>
                             Share images on the site (keep the authorship of the images)
                         </label>
                     </b-tooltip>
@@ -148,7 +148,7 @@
                         not be easily verified and reviewed in the public domain."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="image_license" value="{{ \App\License::CLOSED_FOR_A_PERIOD }}"{{ $preferences->image_license == \App\License::CLOSED_FOR_A_PERIOD ? ' checked' : '' }}>
+                            <input type="radio" name="image_license" value="{{ \App\License::CLOSED_FOR_A_PERIOD }}"{{ $imageLicense == \App\License::CLOSED_FOR_A_PERIOD ? ' checked' : '' }}>
                             ‎Restrict images (images are not shown in the public domain)
                         </label>
                     </b-tooltip>
@@ -161,7 +161,7 @@
                         not be easily verified and reviewed in the public domain."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="image_license" value="{{ \App\License::CLOSED }}"{{ $preferences->image_license == \App\License::CLOSED ? ' checked' : '' }}>
+                            <input type="radio" name="image_license" value="{{ \App\License::CLOSED }}"{{ $imageLicense == \App\License::CLOSED ? ' checked' : '' }}>
                             ‎Restrict images (images are not shown in the public domain)
                         </label>
                     </b-tooltip>

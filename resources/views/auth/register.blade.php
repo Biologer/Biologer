@@ -136,7 +136,7 @@
                                                 <input
                                                     type="password"
                                                     name="password_confirmation"
-                                                    class="input{{ $errors->has('last_name') ? ' is-danger' : '' }}"
+                                                    class="input{{ $errors->has('password_confirmation') ? ' is-danger' : '' }}"
                                                     placeholder="{{ __('labels.register.password') }}">
                                             </div>
 
@@ -148,10 +148,8 @@
                                 <hr>
 
                                 @include('partials.licenses', [
-                                    'preferences' => (object) [
-                                        'data_license' => old('data_license', \App\License::firstId()),
-                                        'image_license' => old('image_license', \App\License::firstId()),
-                                    ],
+                                    'dataLicense' => old('data_license', \App\License::firstId()),
+                                    'imageLicense' => old('image_license', \App\License::firstId()),
                                 ])
 
                                 <hr>

@@ -11,7 +11,7 @@
                             stručnjaci odluče da ograniče prikaz)"
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="data_license" value="{{ \App\License::CC_BY_SA }}"{{ $preferences->data_license == \App\License::CC_BY_SA ? ' checked' : '' }}>
+                            <input type="radio" name="data_license" value="{{ \App\License::CC_BY_SA }}"{{ $dataLicense == \App\License::CC_BY_SA ? ' checked' : '' }}>
                             Javno dostupni podaci (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons autorskopravna licenca, autorstvo – dijeliti pod istim uvjetima</a>)
                         </label>
                     </b-tooltip>
@@ -24,7 +24,7 @@
                             stručnjaci odluče da ograniče prikaz)"
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="data_license" value="{{ \App\License::OPEN }}"{{ $preferences->data_license == \App\License::OPEN ? ' checked' : '' }}>
+                            <input type="radio" name="data_license" value="{{ \App\License::OPEN }}"{{ $dataLicense == \App\License::OPEN ? ' checked' : '' }}>
                             Javno dostupni podaci (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons autorskopravna licenca, autorstvo – dijeliti pod istim uvjetima</a>)
                         </label>
                     </b-tooltip>
@@ -37,7 +37,7 @@
                             dostupni za potrebe zaštite bioraznolikosti i izradu znanstvenih studija."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="data_license" value="{{ \App\License::CC_BY_NC_SA }}"{{ $preferences->data_license == \App\License::CC_BY_NC_SA ? ' checked' : '' }}>
+                            <input type="radio" name="data_license" value="{{ \App\License::CC_BY_NC_SA }}"{{ $dataLicense == \App\License::CC_BY_NC_SA ? ' checked' : '' }}>
                             Javno dostupni podaci (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons autorskopravna licenca, autorstvo-nekomercijalno - dijeliti pod istim uvjetima</a>)
                         </label>
                     </b-tooltip>
@@ -50,7 +50,7 @@
                             Vama, Administratorima baze i taksonomskim stručnjacima."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="data_license" value="{{ \App\License::PARTIALLY_OPEN }}"{{ $preferences->data_license == \App\License::PARTIALLY_OPEN ? ' checked' : '' }}>
+                            <input type="radio" name="data_license" value="{{ \App\License::PARTIALLY_OPEN }}"{{ $dataLicense == \App\License::PARTIALLY_OPEN ? ' checked' : '' }}>
                             Dijelomično dostupni podaci (na nivou kvadrata veličine 10×10 km). <a href="{{ route('licenses.partially-open-license') }}" target="_blank">Detaljnije</a>
                         </label>
                     </b-tooltip>
@@ -62,7 +62,7 @@
                             i taksonomski stručnjaci će moći vidjeti podatke."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="data_license" value="{{ \App\License::CLOSED_FOR_A_PERIOD }}"{{ $preferences->data_license == \App\License::CLOSED_FOR_A_PERIOD ? ' checked' : '' }}>
+                            <input type="radio" name="data_license" value="{{ \App\License::CLOSED_FOR_A_PERIOD }}"{{ $dataLicense == \App\License::CLOSED_FOR_A_PERIOD ? ' checked' : '' }}>
                             Skriveni podaci (podaci se ne prikazuju na kartama). <a href="{{ route('licenses.closed-license') }}" target="_blank">Detaljnije</a>
                         </label>
                     </b-tooltip>
@@ -74,7 +74,7 @@
                             i taksonomski stručnjaci će moći vidjeti podatke."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="data_license" value="{{ \App\License::CLOSED }}"{{ $preferences->data_license == \App\License::CLOSED ? ' checked' : '' }}>
+                            <input type="radio" name="data_license" value="{{ \App\License::CLOSED }}"{{ $dataLicense == \App\License::CLOSED ? ' checked' : '' }}>
                             Skriveni podaci (podaci se ne prikazuju na kartama). <a href="{{ route('licenses.closed-license') }}" target="_blank">Detaljnije</a>
                         </label>
                     </b-tooltip>
@@ -95,7 +95,7 @@
                             uz navođenje imena autora fotografije."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="image_license" value="{{ \App\License::CC_BY_SA }}"{{ $preferences->image_license == \App\License::CC_BY_SA ? ' checked' : '' }}>
+                            <input type="radio" name="image_license" value="{{ \App\License::CC_BY_SA }}"{{ $imageLicense == \App\License::CC_BY_SA ? ' checked' : '' }}>
                             Javne fotografije (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons autorskopravna licenca, autorstvo - dijeliti pod istim uvjetima</a> licence)
                         </label>
                     </b-tooltip>
@@ -108,7 +108,7 @@
                             uz navođenje imena autora fotografije."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="image_license" value="{{ \App\License::OPEN }}"{{ $preferences->image_license == \App\License::OPEN ? ' checked' : '' }}>
+                            <input type="radio" name="image_license" value="{{ \App\License::OPEN }}"{{ $imageLicense == \App\License::OPEN ? ' checked' : '' }}>
                             Javne fotografije (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons autorskopravna licenca, autorstvo - dijeliti pod istim uvjetima</a> licence)
                         </label>
                     </b-tooltip>
@@ -120,7 +120,7 @@
                             upotrebu fotografija bez Vaše suglasnosti."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="image_license" value="{{ \App\License::CC_BY_NC_SA }}"{{ $preferences->image_license == \App\License::CC_BY_NC_SA ? ' checked' : '' }}>
+                            <input type="radio" name="image_license" value="{{ \App\License::CC_BY_NC_SA }}"{{ $imageLicense == \App\License::CC_BY_NC_SA ? ' checked' : '' }}>
                             Javne fotografije (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons autorskopravna licenca, autorstvo - nekomercijalno - dijeliti pod istim uvjetima</a> licence)
                         </label>
                     </b-tooltip>
@@ -133,7 +133,7 @@
                             Slike će dobiti vodeni žig s podacima o licenci i logom web stranice."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="image_license" value="{{ \App\License::PARTIALLY_OPEN }}"{{ $preferences->image_license == \App\License::PARTIALLY_OPEN ? ' checked' : '' }}>
+                            <input type="radio" name="image_license" value="{{ \App\License::PARTIALLY_OPEN }}"{{ $imageLicense == \App\License::PARTIALLY_OPEN ? ' checked' : '' }}>
                             Fotografije su dostupne samo na ovoj stranici (zadržavajući autorstvo)
                         </label>
                     </b-tooltip>
@@ -146,7 +146,7 @@
                             ne mogu proveriti točnost vaših nalaza."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="image_license" value="{{ \App\License::CLOSED_FOR_A_PERIOD }}"{{ $preferences->image_license == \App\License::CLOSED_FOR_A_PERIOD ? ' checked' : '' }}>
+                            <input type="radio" name="image_license" value="{{ \App\License::CLOSED_FOR_A_PERIOD }}"{{ $imageLicense == \App\License::CLOSED_FOR_A_PERIOD ? ' checked' : '' }}>
                             ‎Skrivene fotografije (slike se uopće ne prikazuju u javnom dijelu)
                         </label>
                     </b-tooltip>
@@ -159,7 +159,7 @@
                             ne mogu proveriti točnost vaših nalaza."
                         multilined>
                         <label class="radio">
-                            <input type="radio" name="image_license" value="{{ \App\License::CLOSED }}"{{ $preferences->image_license == \App\License::CLOSED ? ' checked' : '' }}>
+                            <input type="radio" name="image_license" value="{{ \App\License::CLOSED }}"{{ $imageLicense == \App\License::CLOSED ? ' checked' : '' }}>
                             ‎Skrivene fotografije (slike se uopće ne prikazuju u javnom dijelu)
                         </label>
                     </b-tooltip>
