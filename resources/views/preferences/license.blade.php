@@ -13,6 +13,10 @@
 @endif
 
 <div class="box">
+    <h2 class="is-size-4">{{ __('navigation.preferences.license_preferences') }}</h2>
+
+    <hr>
+
     <form action="{{ route('preferences.license') }}" method="POST">
         {{ csrf_field() }}
         {{ method_field('PATCH') }}
@@ -25,9 +29,7 @@
             </div>
         </article>
 
-        <hr>
-
-        <div class="field">
+        <div class="field mt-8">
             <button type="submit" class="button is-primary">{{ __('buttons.save') }}</button>
         </div>
     </form>

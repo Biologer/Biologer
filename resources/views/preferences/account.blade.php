@@ -13,6 +13,10 @@
 @endif
 
 <div class="box">
+    <h2 class="is-size-4">{{ __('navigation.preferences.change_password') }}</h2>
+
+    <hr>
+
     <form action="{{ route('preferences.account.password') }}" method="POST">
         {{ csrf_field() }}
         {{ method_field('PATCH') }}
@@ -50,8 +54,6 @@
                 </div>
             </div>
         </div>
-
-        <hr>
 
         <div class="field">
             <button type="submit" class="button is-primary">{{ __('buttons.save') }}</button>

@@ -16,6 +16,7 @@ return [
         'general_preferences' => 'General Preferences',
         'account' => 'Account',
         'account_preferences' => 'Account Preferences',
+        'change_password' => 'Change Password',
     ],
     'dashboard' => 'Dashboard',
     'notifications' => 'Notifications',

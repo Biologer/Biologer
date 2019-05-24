@@ -16,6 +16,7 @@ return [
         'general_preferences' => 'Opšte postavke',
         'account' => 'Nalog',
         'account_preferences' => 'Postavke naloga',
+        'change_password' => 'Promena lozinke',
     ],
     'dashboard' => 'Kontrolna ploča',
     'notifications' => 'Obavijesti',

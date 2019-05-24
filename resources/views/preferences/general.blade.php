@@ -13,6 +13,10 @@
 @endif
 
 <div class="box">
+    <h2 class="is-size-4">{{ __('navigation.preferences.general_preferences') }}</h2>
+
+    <hr>
+
     <form action="{{ route('preferences.general') }}" method="POST">
         {{ csrf_field() }}
         {{ method_field('PATCH') }}
@@ -72,9 +76,7 @@
             <p class="help{{ $errors->has('institution') ? ' is-danger' : '' }}">{{ $errors->first('institution') }}</p>
         </div>
 
-        <hr>
-
-        <div class="field">
+        <div class="field mt-8">
             <button type="submit" class="button is-primary">{{ __('buttons.save') }}</button>
         </div>
     </form>
