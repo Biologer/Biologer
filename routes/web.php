@@ -19,7 +19,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 ])->group(function () {
     Route::auth(['verify' => true]);
 
-    Route::get('/', 'HomeController@index');
+    Route::get('/', 'HomeController@index')->name('home');
     Route::get('taxa/{taxon}', 'TaxaController@show');
     Route::get('groups', 'GroupsController@index')->name('groups.index');
     Route::get('groups/{group}/species/{species}', 'GroupSpeciesController@show')->name('groups.species.show');
@@ -48,12 +48,12 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
         Route::redirect('/preferences', '/preferences/general')->name('preferences.index');
 
         Route::prefix('preferences')->namespace('Preferences')->name('preferences.')->group(function () {
-
             Route::get('general', 'GeneralPreferencesController@index')->name('general');
             Route::patch('general', 'GeneralPreferencesController@update');
 
             Route::get('account', 'AccountPreferencesController@index')->name('account');
             Route::patch('account/password', 'AccountPreferencesController@changePassword')->name('account.password');
+            Route::delete('account', 'AccountPreferencesController@destroy')->name('account.delete');
 
             Route::get('license', 'LicensePreferencesController@index')->name('license');
             Route::patch('license', 'LicensePreferencesController@update');

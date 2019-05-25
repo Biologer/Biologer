@@ -276,4 +276,11 @@ return [
         'save_tooltip' => 'Čuva trenutni nalaz i vraća vas u listu nalaza. Možete koristiti i prečicu Ctrl+Enter na tastaturi.',
         'save_more_tooltip' => 'Čuva trenutni nalaz, ali vam omogućava da unesete još podataka sa istog mesta. Možete koristiti i prečicu Ctrl+Shift+Enter na tastaturi.',
     ],
+
+    'preferences' => [
+        'account' => [
+            'delete_account' => 'Obriši nalog',
+            'delete_observations' => 'Obriši i unete nalaze',
+        ],
+    ],
 ];

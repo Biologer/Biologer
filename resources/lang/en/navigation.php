@@ -15,6 +15,7 @@ return [
         'general' => 'General',
         'general_preferences' => 'General Preferences',
         'account' => 'Account',
+        'delete_account' => 'Delete Account',
         'account_preferences' => 'Account Preferences',
         'change_password' => 'Change Password',
     ],

@@ -55,6 +55,8 @@ import FieldObservationApproval from './components/FieldObservationApproval'
 
 import OccurrenceChart from './components/OccurrenceChart'
 
+import DeleteAccountButton from './components/DeleteAccountButton';
+
 window.Vue = Vue
 
 Vue.use(VueLazyload, {
@@ -126,6 +128,8 @@ Vue.component(FieldObservationsImport.name, FieldObservationsImport)
 Vue.component(FieldObservationApproval.name, FieldObservationApproval)
 
 Vue.component(OccurrenceChart.name, OccurrenceChart)
+
+Vue.component(DeleteAccountButton.name, DeleteAccountButton)
 
 Vue.prototype.trans = window.trans = (string, args = {}, defaultString = '') => {
     let value = window.App.i18n[string] || defaultString || string

@@ -188,16 +188,6 @@ class Observation extends Model
     }
 
     /**
-     * Comments about the observation.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function comments()
-    {
-        return $this->morphMany(Comment::class, 'commentable');
-    }
-
-    /**
      * Photos of the observation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

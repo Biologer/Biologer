@@ -280,4 +280,30 @@ class Import extends Model
     {
         return app()->makeWith($this->type, ['import' => $this]);
     }
+
+    /**
+     * Delete import file
+     *
+     * @return void
+     */
+    public function deleteFiles()
+    {
+        Storage::delete($this->path);
+        Storage::delete($this->errorsPath());
+        Storage::delete($this->parsedPath());
+    }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($model) {
+            $this->deleteFiles();
+        });
+    }
 }

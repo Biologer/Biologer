@@ -15,6 +15,7 @@ return [
         'general' => 'Opšte',
         'general_preferences' => 'Opšte postavke',
         'account' => 'Nalog',
+        'delete_account' => 'Brisanje naloga',
         'account_preferences' => 'Postavke naloga',
         'change_password' => 'Promena lozinke',
     ],

@@ -5,14 +5,16 @@ namespace App;
 use App\Concerns\HasRoles;
 use App\Filters\Filterable;
 use App\Concerns\CanMemoize;
+use App\Jobs\DeleteUserData;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, CanMemoize, HasRoles, Notifiable, Filterable;
+    use HasApiTokens, CanMemoize, HasRoles, Notifiable, Filterable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -154,5 +156,18 @@ class User extends Authenticatable implements MustVerifyEmail
     public static function findByEmail($email)
     {
         return static::where('email', $email)->firstOrFail();
+    }
+
+    /**
+     * Delete the user account.
+     *
+     * @param  bool  $deleteObservations
+     * @return void
+     */
+    public function deleteAccount($deleteObservations = false)
+    {
+        DeleteUserData::dispatch($this, $deleteObservations);
+
+        $this->delete();
     }
 }

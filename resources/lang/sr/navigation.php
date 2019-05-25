@@ -15,6 +15,7 @@ return [
         'general' => 'Општа',
         'general_preferences' => 'Општа подешавања',
         'account' => 'Налог',
+        'delete_account' => 'Брисање налога',
         'account_preferences' => 'Подешавање налога',
         'change_password' => 'Промена лозинке',
     ],

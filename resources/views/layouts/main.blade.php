@@ -111,6 +111,16 @@
     </nz-navbar>
 
     <div class="flex-1">
+        @if(session('status'))
+            <div class="container py-8 px-4 desktop:px-16">
+                <article class="message shadow is-info">
+                    <div class="message-body">
+                        {{ session('status') }}
+                    </div>
+                </article>
+            </div>
+        @endif
+
         @yield('content')
     </div>
 

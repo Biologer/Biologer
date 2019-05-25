@@ -55,5 +55,9 @@
     "Unknown": "Unknown",
     "Profile updated successfully.": "Profile updated successfully.",
     "Password changed successfully.": "Password changed successfully.",
-    "Successfully updated.": "Successfully updated."
+    "Successfully updated.": "Successfully updated.",
+    "You account has been deleted. Your observations will be deleted shortly.": "You account has been deleted. Your observations will be deleted shortly.",
+    "You account has been deleted.": "You account has been deleted.",
+    "This action is irreversible, once an account is deleted it cannot be restored.": "This action is irreversible, once an account is deleted it cannot be restored.",
+    "Are you sure you want to delete your account?": "Are you sure you want to delete your account?"
 }

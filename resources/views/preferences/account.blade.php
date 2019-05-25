@@ -13,52 +13,65 @@
 @endif
 
 <div class="box">
-    <h2 class="is-size-4">{{ __('navigation.preferences.change_password') }}</h2>
+    <section>
+        <h2 class="is-size-4">{{ __('navigation.preferences.change_password') }}</h2>
 
-    <hr>
+        <hr>
 
-    <form action="{{ route('preferences.account.password') }}" method="POST">
-        {{ csrf_field() }}
-        {{ method_field('PATCH') }}
+        <form action="{{ route('preferences.account.password') }}" method="POST">
+            {{ csrf_field() }}
+            {{ method_field('PATCH') }}
 
-        <div class="columns">
-            <div class="column">
-                <div class="field is-required">
-                    <label class="label">{{ __('labels.register.password') }}</label>
+            <div class="columns">
+                <div class="column">
+                    <div class="field is-required">
+                        <label class="label">{{ __('labels.register.password') }}</label>
 
-                    <div class="control">
-                        <input
-                            type="password"
-                            name="password"
-                            class="input{{ $errors->has('password') ? ' is-danger' : ''}}"
-                            placeholder="{{ __('labels.register.password') }}"
-                        />
+                        <div class="control">
+                            <input
+                                type="password"
+                                name="password"
+                                class="input{{ $errors->has('password') ? ' is-danger' : ''}}"
+                                placeholder="{{ __('labels.register.password') }}"
+                            />
+                        </div>
+
+                        <p class="help{{ $errors->has('password') ? ' is-danger' : '' }}">{{ $errors->first('password') }}</p>
                     </div>
+                </div>
+                <div class="column">
+                    <div class="field is-required">
+                        <label class="label">{{ __('labels.register.password_confirmation') }}</label>
 
-                    <p class="help{{ $errors->has('password') ? ' is-danger' : '' }}">{{ $errors->first('password') }}</p>
+                        <div class="control">
+                            <input
+                                type="password"
+                                name="password_confirmation"
+                                class="input{{ $errors->has('password_confirmation') ? ' is-danger' : '' }}"
+                                placeholder="{{ __('labels.register.password') }}">
+                        </div>
+
+                        <p class="help{{ $errors->has('password_confirmation') ? ' is-danger' : '' }}">{{ $errors->first('password_confirmation') }}</p>
+                    </div>
                 </div>
             </div>
-            <div class="column">
-                <div class="field is-required">
-                    <label class="label">{{ __('labels.register.password_confirmation') }}</label>
 
-                    <div class="control">
-                        <input
-                            type="password"
-                            name="password_confirmation"
-                            class="input{{ $errors->has('password_confirmation') ? ' is-danger' : '' }}"
-                            placeholder="{{ __('labels.register.password') }}">
-                    </div>
-
-                    <p class="help{{ $errors->has('password_confirmation') ? ' is-danger' : '' }}">{{ $errors->first('password_confirmation') }}</p>
-                </div>
+            <div class="field">
+                <button type="submit" class="button is-primary">{{ __('buttons.save') }}</button>
             </div>
-        </div>
+        </form>
+    </section>
 
-        <div class="field">
-            <button type="submit" class="button is-primary">{{ __('buttons.save') }}</button>
-        </div>
-    </form>
+    <section class="mt-8">
+        <h2 class="is-size-4 has-text-danger">{{ __('navigation.preferences.delete_account') }}</h2>
+
+        <hr>
+
+        <nz-delete-account-button
+            action="{{ route('preferences.account.delete') }}"
+            csrf-token="{{ csrf_token() }}"
+        />
+    </section>
 </div>
 @endsection
 

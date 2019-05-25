@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Preferences;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AccountPreferencesController extends Controller
@@ -36,5 +37,26 @@ class AccountPreferencesController extends Controller
         $request->user()->update(['password' => Hash::make($request->input('password'))]);
 
         return back()->withSuccess(__('Password changed successfully.'));
+    }
+
+    /**
+     * Delete user account.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Request $request)
+    {
+        $request->user()->deleteAccount($request->delete_observations);
+
+        Auth::guard()->logout();
+
+        $request->session()->invalidate();
+
+        $message = $request->delete_observations
+            ? 'You account has been deleted. Your observations will be deleted shortly.'
+            : 'You account has been deleted.';
+
+        return redirect()->route('home')->with('status', __($message));
     }
 }

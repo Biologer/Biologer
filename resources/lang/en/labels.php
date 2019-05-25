@@ -276,4 +276,11 @@ return [
         'save_tooltip' => 'Saves current observation and returns you to the list of records. You can also use keyboard shortcut: Ctrl+Enter.',
         'save_more_tooltip' => 'Saves current observations, but allows you to enter more data from the same place. You can also use keyboard shortcut: Ctrl+Shift+Enter.',
     ],
+
+    'preferences' => [
+        'account' => [
+            'delete_account' => 'Delete Account',
+            'delete_observations' => 'Delete observations as well',
+        ],
+    ],
 ];
