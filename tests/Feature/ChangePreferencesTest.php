@@ -22,12 +22,12 @@ class ChangePreferencesTest extends TestCase
         $this->actingAs($user);
         $oldSettings = $user->settings()->all();
 
-        $response = $this->from('/contributor/preferences')->patch('/contributor/preferences', [
+        $response = $this->from('/preferences/license')->patch('/preferences/license', [
             'data_license' => 20,
             'image_license' => 30,
         ]);
 
-        $response->assertRedirect('/contributor/preferences');
+        $response->assertRedirect('/preferences/license');
 
         $newSettings = $user->fresh()->settings()->all();
         $this->assertNotEquals($oldSettings, $newSettings);
@@ -38,15 +38,18 @@ class ChangePreferencesTest extends TestCase
     }
 
     /** @test */
-    public function can_see_preferences_page()
+    public function can_see_license_preferences_page()
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->get('/contributor/preferences');
+        $response = $this->actingAs($user)->get('/preferences/license');
 
-        $response->assertViewIs('contributor.preferences.index');
-        $response->assertViewHas('preferences', function ($preferences) use ($user) {
-            return $preferences->all() === $user->settings()->all();
+        $response->assertViewIs('preferences.license');
+        $response->assertViewHas('dataLicense', function ($dataLicense) use ($user) {
+            return $dataLicense === $user->settings()->data_license;
+        });
+        $response->assertViewHas('imageLicense', function ($imageLicense) use ($user) {
+            return $imageLicense === $user->settings()->image_license;
         });
     }
 }
