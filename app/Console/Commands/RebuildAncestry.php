@@ -19,7 +19,7 @@ class RebuildAncestry extends Command
      *
      * @var string
      */
-    protected $description = 'Rebuild ancestry and cache ancestry paths.';
+    protected $description = 'Rebuild ancestry.';
 
     /**
      * Execute the console command.
@@ -31,9 +31,6 @@ class RebuildAncestry extends Command
         $this->warn('Rebuilding ancestry connections...');
         Taxon::rebuildAncestry();
 
-        $this->warn('Caching ancestry path...');
-        Taxon::rebuildAncestryCache();
-
-        $this->info('Finished rebuilding and caching ancestry!');
+        $this->info('Finished rebuilding ancestry!');
     }
 }

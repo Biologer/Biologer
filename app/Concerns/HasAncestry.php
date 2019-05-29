@@ -174,9 +174,9 @@ trait HasAncestry
             return $this;
         }
 
-        $this->ancestors()->sync($this->parent->ancestors);
+        $ancestors = $this->parent->ancestors->concat([$this->parent]);
 
-        $this->ancestors()->attach($this->parent);
+        $this->ancestors()->sync($ancestors);
 
         return $this;
     }
@@ -218,12 +218,10 @@ trait HasAncestry
      */
     public static function rebuildAncestry()
     {
-        return static::with(['ancestors', 'parent'])
+        return static::with(['parent.ancestors'])
             ->orderBy('rank_level', 'desc')
             ->get()
-            ->map(function ($model) {
-                return $model->linkAncestors();
-            });
+            ->each->linkAncestors();
     }
 
 
@@ -237,60 +235,12 @@ trait HasAncestry
         $this->linkAncestors();
 
         $this->descendants()
-            ->with(['ancestors', 'parent'])
+            ->with(['parent.ancestors'])
             ->orderBy('rank_level', 'desc')
             ->get()
             ->each->linkAncestors();
 
         return $this;
-    }
-
-    /**
-     * Rebuild ancestry cache based on connections to ancestors.
-     *
-     * @return void
-     */
-    public static function rebuildAncestryCache()
-    {
-        static::with('ancestors')
-            ->get()
-            ->each->cacheAncestry();
-    }
-
-    /**
-     * Cache ancestry path; used to sort by ancestry.
-     *
-     * @return void
-     */
-    public function cacheAncestry()
-    {
-        $this->update(['ancestry' => $this->generateAncestryCache()]);
-    }
-
-    /**
-     * Rebuild ancestry cache from this species down to it's last descendant.
-     *
-     * @return $this
-     */
-    public function rebuildAncestryCacheDown()
-    {
-        $this->descendants()
-            ->with(['ancestors', 'parent'])
-            ->orderBy('rank_level', 'desc')
-            ->get()
-            ->each->cacheAncestry();
-
-        return $this;
-    }
-
-    /**
-     * Generate ancestry path cache based on connections to ancestors.
-     *
-     * @return string
-     */
-    protected function generateAncestryCache()
-    {
-        return $this->ancestors->sortByDesc('rank_level')->pluck('id')->push($this->id)->implode('/');
     }
 
     /**
@@ -302,14 +252,12 @@ trait HasAncestry
     {
         // Store links
         static::created(function ($model) {
-            $model->linkAncestors()->cacheAncestry();
+            $model->linkAncestors();
         });
 
         static::updating(function ($model) {
             if ($model->isDirty('parent_id')) {
-                $model->load('parent')->rebuildAncestryDown()->rebuildAncestryCacheDown();
-
-                $model->ancestry = $model->generateAncestryCache();
+                $model->load('parent')->rebuildAncestryDown();
             }
         });
     }

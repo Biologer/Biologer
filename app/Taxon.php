@@ -62,7 +62,6 @@ class Taxon extends Model
      */
     protected $attributes = [
         'allochthonous' => false,
-        'ancestry' => '',
         'invasive' => false,
         'restricted' => false,
     ];

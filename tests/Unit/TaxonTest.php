@@ -175,7 +175,7 @@ class TaxonTest extends TestCase
     }
 
     /** @test */
-    public function ancestors_are_linked_and_ancestry_is_cached_upon_creation()
+    public function ancestors_are_linked_upon_creation()
     {
         $root = factory(Taxon::class)->create(['parent_id' => null]);
         $parent = factory(Taxon::class)->create(['parent_id' => $root->id]);
@@ -183,7 +183,6 @@ class TaxonTest extends TestCase
 
         $taxon->ancestors->assertContains($root);
         $taxon->ancestors->assertContains($parent);
-        $this->assertEquals("{$root->id}/{$parent->id}/{$taxon->id}", $taxon->ancestry);
     }
 
     /** @test */
@@ -199,7 +198,6 @@ class TaxonTest extends TestCase
         $parent->fresh()->update(['parent_id' => $root2->id]);
 
         tap($parent->fresh(), function ($parent) use ($root2) {
-            $this->assertEquals("{$root2->id}/{$parent->id}", $parent->ancestry);
             $parent->ancestors->assertContains($root2);
         });
 
@@ -207,7 +205,6 @@ class TaxonTest extends TestCase
             $taxon->ancestors->assertDoesntContain($root1);
             $taxon->ancestors->assertContains($root2);
             $taxon->ancestors->assertContains($parent);
-            $this->assertEquals("{$root2->id}/{$parent->id}/{$taxon->id}", $taxon->ancestry);
         });
     }
 }
