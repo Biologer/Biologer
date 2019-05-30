@@ -161,7 +161,7 @@ class CustomFieldObservationsExport extends BaseExport
     /**
      * Extract needed data from item.
      *
-     * @param  mixed  $item
+     * @param  \App\FieldObservation  $item
      * @return array
      */
     protected function transformItem($item)

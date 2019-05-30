@@ -46,53 +46,60 @@ class ViewServiceProvider extends ServiceProvider
                 ->addClass('menu')
                 ->add(
                     Menu::new()
-                        ->prepend('<p class="menu-label">'.__('navigation.my').'</p>')
+                        ->prepend('<p class="menu-label">'.trans('navigation.my').'</p>')
                         ->addClass('menu-list')
-                        ->route('contributor.field-observations.index', __('navigation.field_observations'))
+                        ->route('contributor.field-observations.index', trans('navigation.field_observations'))
                         ->setActiveClass('is-active')
                         ->setActiveClassOnLink()
                         ->setActiveFromRequest()
                 )->addIf(
                     optional(auth()->user())->hasAnyRole(['admin', 'curator']),
                     Menu::new()
-                        ->prepend('<p class="menu-label">'.__('navigation.curator').'</p>')
+                        ->prepend('<p class="menu-label">'.trans('navigation.curator').'</p>')
                         ->addClass('menu-list')
                         ->routeIfCan(
                             ['list', \App\FieldObservation::class],
                             'curator.pending-observations.index',
-                            __('navigation.pending_observations')
+                            trans('navigation.pending_observations')
                         )->routeIfCan(
                             ['list', \App\FieldObservation::class],
                             'curator.approved-observations.index',
-                            __('navigation.approved_observations')
+                            trans('navigation.approved_observations')
                         )->routeIfCan(
                             ['list', \App\FieldObservation::class],
                             'curator.unidentifiable-observations.index',
-                            __('navigation.unidentifiable_observations')
+                            trans('navigation.unidentifiable_observations')
                         )->setActiveClass('is-active')
                         ->setActiveClassOnLink()
                         ->setActiveFromRequest()
                 )->addIf(
                     optional(auth()->user())->hasAnyRole(['admin', 'curator']),
                     Menu::new()
-                        ->prepend('<p class="menu-label">'.__('navigation.admin').'</p>')
+                        ->prepend('<p class="menu-label">'.trans('navigation.admin').'</p>')
                         ->addClass('menu-list')
                         ->routeIf(
                             auth()->user()->hasRole('admin'),
                             'admin.field-observations.index',
-                            __('navigation.all_field_observations')
+                            trans('navigation.all_field_observations')
+                        )->route(
+                            'admin.literature-observations.index',
+                            trans('navigation.literature_observations')
                         )->routeIfCan(
                             ['list', \App\Taxon::class],
                             'admin.taxa.index',
-                            __('navigation.taxa')
+                            trans('navigation.taxa')
                         )->routeIfCan(
                             ['list', \App\User::class],
                             'admin.users.index',
-                            __('navigation.users')
+                            trans('navigation.users')
                         )->routeIf(
                             auth()->user()->hasRole('admin'),
                             'admin.view-groups.index',
-                            __('navigation.view_groups')
+                            trans('navigation.view_groups')
+                        )->routeIfCan(
+                            ['list', \App\Publication::class],
+                            'admin.publications.index',
+                            trans('navigation.publications')
                         )->setActiveClass('is-active')
                         ->setActiveClassOnLink()
                         ->setActiveFromRequest()

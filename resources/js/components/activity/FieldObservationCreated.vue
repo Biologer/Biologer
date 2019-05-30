@@ -1,18 +1,18 @@
 <template>
-    <div class="activity-log-item">
-        {{ activity.created_at | formatDateTime }} {{ activity.causer.full_name }} {{ trans('activityLog.added_record') }} {{ activity.subject_id }}
-    </div>
+  <div class="activity-log-item">
+    {{ activity.created_at | formatDateTime }} {{ activity.causer.full_name }} {{ trans('activityLog.added_record') }} {{ activity.subject_id }}
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'nzActivityFieldObservationCreated',
+  name: 'nzActivityFieldObservationCreated',
 
-    props: {
-        activity: {
-            type: Object,
-            required: true
-        }
+  props: {
+    activity: {
+      type: Object,
+      required: true
     }
+  }
 }
 </script>

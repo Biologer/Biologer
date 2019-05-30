@@ -133,6 +133,7 @@ class ContributorFieldObservationsDarwinCoreExportTest extends TestCase
     private function csvContent($item)
     {
         return [
+            'occurrenceID' => $item->observation->id,
             'taxonID' => $item->observation->taxon_id,
             'kingdom' => 'Animalia',
             'phylum' => 'Arthropoda',

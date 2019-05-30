@@ -5,23 +5,27 @@
 
       <div
         class="animation-content modal-content"
-        :style="{ maxWidth: newWidth }">
-          <img
-            :src="imageUrl"
-            class="image"
-            alt="Cropped image"
-            ref="cropModalImage">
+        :style="{ maxWidth: newWidth }"
+      >
+        <img
+          :src="imageUrl"
+          class="image"
+          alt="Cropped image"
+          ref="cropModalImage"
+        >
       </div>
 
       <button
         type="button"
         class="modal-close is-large"
-        @click="cancel('x')"/>
+        @click="cancel('x')"
+      />
 
       <button
         type="button"
         class="modal-action"
-        @click="cropImage">
+        @click="cropImage"
+      >
         <b-icon icon="check"/>
       </button>
     </div>
@@ -29,8 +33,8 @@
 </template>
 
 <script>
-import Croppr from '../Croppr';
-import bModal from 'buefy/src/components/modal/Modal';
+import Croppr from '@/Croppr'
+import bModal from 'buefy/src/components/modal/Modal'
 
 export default {
   name: 'nzImageCropModal',
@@ -39,8 +43,8 @@ export default {
 
   props: {
     canCancel: {
-        type: [Array, Boolean],
-        default: () => ['escape', 'x']
+      type: [Array, Boolean],
+      default: () => ['escape', 'x']
     },
     imageUrl: String,
     crop: Object
@@ -50,57 +54,57 @@ export default {
     return {
 			croppr: null,
       newCrop: this.crop
-    };
+    }
   },
 
   watch: {
     isActive(value) {
-      this.handleScroll();
+      this.handleScroll()
 
-      this.croppr =  null;
+      this.croppr =  null
 
       if (value) {
         this.$nextTick(() => {
           this.croppr = new Croppr(this.$refs.cropModalImage, {
             onCropEnd: (value) => {
-              this.newCrop = value;
+              this.newCrop = value
             },
 
             onInitialize: (croppr) => {
               if (this.newCrop) {
-                croppr.setBoxToRealPosition(this.newCrop);
+                croppr.setBoxToRealPosition(this.newCrop)
               }
             }
-          });
-        });
+          })
+        })
       }
-    },
+    }
   },
 
   methods: {
     handleScroll() {
-      if (typeof window === 'undefined') return;
+      if (typeof window === 'undefined') return
 
       this.savedScrollTop = !this.savedScrollTop
         ? document.documentElement.scrollTop
-        : this.savedScrollTop;
+        : this.savedScrollTop
 
-      document.body.classList.toggle('is-noscroll', this.isActive);
+      document.body.classList.toggle('is-noscroll', this.isActive)
 
       if (this.isActive) {
-          document.body.style.top = `-${this.savedScrollTop}px`;
-          return;
+        document.body.style.top = `-${this.savedScrollTop}px`
+        return
       }
 
-      document.documentElement.scrollTop = this.savedScrollTop;
-      document.body.style.top = null;
-      this.savedScrollTop = null;
+      document.documentElement.scrollTop = this.savedScrollTop
+      document.body.style.top = null
+      this.savedScrollTop = null
     },
 
     cropImage() {
-      this.$emit('update:crop', this.newCrop);
+      this.$emit('update:crop', this.newCrop)
 
-      this.close();
+      this.close()
     }
   }
 }

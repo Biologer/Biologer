@@ -369,9 +369,7 @@ class Taxon extends Model
     public function mgrs10k()
     {
         return $this->memoize('mgrs', function () {
-            return Observation::approved()
-                ->whereIn('taxon_id', $this->selfAndDescendantsIds())
-                ->pluck('mgrs10k');
+            return $this->approvedObservationsQuery()->getQuery()->get(['mgrs10k as field', 'details_type as type']);
         });
     }
 
@@ -383,12 +381,11 @@ class Taxon extends Model
     public function occurrence()
     {
         return $this->memoize('occurrence', function () {
-            return Observation::query()
-                ->approved()
-                ->whereIn('taxon_id', $this->selfAndDescendantsIds())
+            return $this->approvedObservationsQuery()
                 ->withCompleteDate()
-                ->with('stage')
-                ->select('elevation', 'year', 'month', 'day', 'stage_id')
+                ->leftJoin('stages', 'observations.stage_id', '=', 'stages.id')
+                ->select('observations.id', 'elevation', 'year', 'month', 'day', 'stage_id', 'stages.name as stage_name')
+                ->getQuery()
                 ->get()
                 ->map(function ($observation) {
                     $month = str_pad($observation->month, 2, '0', STR_PAD_LEFT);
@@ -397,10 +394,15 @@ class Taxon extends Model
                     return [
                         'elevation' => $observation->elevation,
                         'date' => $observation->year.'-'.$month.'-'.$day,
-                        'stage' => $observation->stage ? $observation->stage->name : 'adult',
+                        'stage' => $observation->stage_name ?? 'adult',
                     ];
                 });
         });
+    }
+
+    protected function approvedObservationsQuery()
+    {
+        return Observation::approved()->whereIn('taxon_id', $this->selfAndDescendantsIds());
     }
 
     /**

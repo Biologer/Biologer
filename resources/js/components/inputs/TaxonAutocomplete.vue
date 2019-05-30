@@ -4,18 +4,18 @@
       <img width="32" :src="this.selected.thumbnail_url" v-if="haveThumbnail">
 
       <b-autocomplete
-          ref="autocomplete"
-          :value="value"
-          :data="data"
-          field="name"
-          :loading="loading"
-          @input="onInput"
-          @select="onSelect"
-          :icon="icon"
-          :placeholder="placeholder"
-          expanded
-          :autofocus="autofocus"
-          @keydown.native.enter="enterPressed"
+        ref="autocomplete"
+        :value="value"
+        :data="data"
+        field="name"
+        :loading="loading"
+        @input="onInput"
+        @select="onSelect"
+        :icon="icon"
+        :placeholder="placeholder"
+        expanded
+        :autofocus="autofocus"
+        @keydown.native.enter="enterPressed"
       >
         <template slot-scope="props">
           <div class="media">
@@ -35,121 +35,131 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 
 export default {
-    name: 'nzTaxonAutocomplete',
+  name: 'nzTaxonAutocomplete',
 
-    props: {
-        label: {
-            type: String,
-            default: 'Taxon'
-        },
-        placeholder: {
-            type: String,
-            default: 'Search for taxon...'
-        },
-        taxon: {
-            type: Object,
-            default: null
-        },
-        url: {
-            type: String,
-            default: () => route('api.taxa.index')
-        },
-        value: {
-            type: String,
-            default: ''
-        },
-        error: Boolean,
-        message: {
-            type: String,
-            default: null
-        },
-        except: {},
-        autofocus: Boolean
+  props: {
+    label: {
+      type: String,
+      default: 'Taxon'
     },
-
-    data() {
-        return {
-            data: [],
-            selected: this.taxon || null,
-            loading: false
-        };
+    placeholder: {
+      type: String,
+      default: 'Search for taxon...'
     },
-
-    computed: {
-        haveThumbnail() {
-            return this.selected && this.selected.thumbnail_url;
-        },
-
-        icon() {
-            return this.selected ? 'check' : 'search';
-        }
+    taxon: {
+      type: Object,
+      default: null
     },
+    url: {
+      type: String,
+      default: () => route('api.taxa.index')
+    },
+    value: {
+      type: String,
+      default: ''
+    },
+    error: Boolean,
+    message: {
+      type: String,
+      default: null
+    },
+    except: {},
+    autofocus: Boolean
+  },
 
-    methods: {
-        fetchData: _.debounce(function() {
-            if (!this.value) return;
-
-            this.data = [];
-            this.loading = true;
-
-            let params = {
-                name: this.value,
-                limit: 20,
-            };
-
-            if (this.except) {
-                params.except = this.except;
-            }
-
-            axios.get(this.url, { params }).then(({ data }) => {
-                data.data.forEach((item) => this.data.push(item));
-                this.loading = false;
-            }, response => {
-                this.loading = false;
-            });
-        }, 500),
-
-        onSelect(taxon) {
-            this.selected = taxon;
-
-            this.$emit('select', taxon);
-        },
-
-        onInput(value) {
-            const currentValue = this.getValue(this.selected)
-            if (currentValue && currentValue !== value) {
-                this.onSelect(null);
-            }
-
-            this.$emit('input', value);
-
-            this.fetchData()
-        },
-
-        focusOnInput() {
-            this.$el.querySelector('input').focus();
-        },
-
-        /**
-         * Return display text for the input.
-         * If object, get value from path, or else just the value.
-         */
-        getValue(option) {
-            if (!option) return
-
-            return typeof option === 'object'
-                ? _.get(option, 'name')
-                : option;
-        },
-
-        enterPressed() {
-            if (!this.$refs.autocomplete.isActive) {
-                this.$emit('enter');
-            }
-        }
+  data() {
+    return {
+      data: [],
+      selected: this.taxon || null,
+      loading: false
     }
+  },
+
+  computed: {
+    haveThumbnail() {
+      return this.selected && this.selected.thumbnail_url
+    },
+
+    icon() {
+      return this.selected ? 'check' : 'search'
+    }
+  },
+
+  watch: {
+    taxon(value) {
+      this.selected = value
+    }
+  },
+
+  methods: {
+    fetchData: _.debounce(function() {
+      if (!this.value) return
+
+      this.data = []
+      this.loading = true
+
+      let params = {
+        name: this.value,
+        limit: 20,
+      }
+
+      if (this.except) {
+        params.except = this.except
+      }
+
+      axios.get(this.url, {
+        params
+      }).then(({
+        data
+      }) => {
+        data.data.forEach(item => this.data.push(item))
+        this.loading = false
+      }, response => {
+        this.loading = false
+      })
+    }, 500),
+
+    onSelect(taxon) {
+      this.selected = taxon
+
+      this.$emit('select', taxon)
+    },
+
+    onInput(value) {
+      const currentValue = this.getValue(this.selected)
+      if (currentValue && currentValue !== value) {
+        this.onSelect(null)
+      }
+
+      this.$emit('input', value)
+
+      this.fetchData()
+    },
+
+    focusOnInput() {
+      this.$el.querySelector('input').focus()
+    },
+
+    /**
+     * Return display text for the input.
+     * If object, get value from path, or else just the value.
+     */
+    getValue(option) {
+      if (!option) return
+
+      return typeof option === 'object'
+        ? _.get(option, 'name')
+        : option
+    },
+
+    enterPressed() {
+      if (!this.$refs.autocomplete.isActive) {
+        this.$emit('enter')
+      }
+    }
+  }
 }
 </script>

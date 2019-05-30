@@ -58,7 +58,11 @@ return [
     'licenses' => 'Licenses',
     'partially_open_license' => 'Partially Open License',
     'closed_license' => 'Closed License',
-
+    'literature_observations' => 'Literature Observations',
+    'new_literature_observation' => 'New Literature Observation',
+    'publications' => 'Publications',
+    'new_publication' => 'New Publication',
+    'edit_publication' => 'Edit Publication',
     'about_project' => 'The Project',
     'project_team' => 'Project Team',
     'organisations' => 'Organisations',

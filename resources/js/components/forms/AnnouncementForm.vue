@@ -1,49 +1,47 @@
 <template>
-    <div class="announcement-form">
-        <form @submit.prevent="submit">
-            <b-field
-              class="is-required"
-              :label="trans('labels.announcements.title')"
-              :type="form.errors.has('title') ? 'is-danger' : ''"
-              :message="form.errors.has('title') ? form.errors.first('title') : ''"
-            >
-                <b-tabs size="is-small" class="block" @change="(index) => focusOnTranslation(index, 'title')">
-                    <b-tab-item :label="trans('languages.' + data.name)" v-for="(data, locale) in supportedLocales" :key="locale">
-                        <b-input v-model="form.title[locale]" autofocus  :ref="`title-${locale}`" />
-                    </b-tab-item>
-                </b-tabs>
-            </b-field>
+  <form @submit.prevent="submit" class="announcement-form">
+    <b-field
+      class="is-required"
+      :label="trans('labels.announcements.title')"
+      :type="form.errors.has('title') ? 'is-danger' : ''"
+      :message="form.errors.has('title') ? form.errors.first('title') : ''"
+    >
+      <b-tabs size="is-small" class="block" @change="(index) => focusOnTranslation(index, 'title')">
+        <b-tab-item :label="trans('languages.' + data.name)" v-for="(data, locale) in supportedLocales" :key="locale">
+          <b-input v-model="form.title[locale]" autofocus  :ref="`title-${locale}`" />
+        </b-tab-item>
+      </b-tabs>
+    </b-field>
 
-            <b-field
-              class="is-required"
-              :label="trans('labels.announcements.message')"
-              :type="form.errors.has('message') ? 'is-danger' : ''"
-              :message="form.errors.has('message') ? form.errors.first('message') : ''"
-            >
-                <b-tabs size="is-small" class="block" @change="(index) => focusOnTranslation(index, 'message')">
-                    <b-tab-item :label="trans('languages.' + data.name)" v-for="(data, locale) in supportedLocales" :key="locale">
-                        <nz-wysiwyg v-model="form.message[locale]" :ref="`message-${locale}`" />
-                    </b-tab-item>
-                </b-tabs>
-            </b-field>
+    <b-field
+      class="is-required"
+      :label="trans('labels.announcements.message')"
+      :type="form.errors.has('message') ? 'is-danger' : ''"
+      :message="form.errors.has('message') ? form.errors.first('message') : ''"
+    >
+      <b-tabs size="is-small" class="block" @change="(index) => focusOnTranslation(index, 'message')">
+        <b-tab-item :label="trans('languages.' + data.name)" v-for="(data, locale) in supportedLocales" :key="locale">
+          <nz-wysiwyg v-model="form.message[locale]" :ref="`message-${locale}`" />
+        </b-tab-item>
+      </b-tabs>
+    </b-field>
 
-            <div class="columns">
-                <div class="column">
-                    <b-field :label="trans('labels.announcements.private')">
-                        <b-switch v-model="form.private">
-                            {{ form.private ? trans('Yes') : trans('No') }}
-                        </b-switch>
-                    </b-field>
-                </div>
-            </div>
-
-            <hr>
-
-            <button type="submit" class="button is-primary">{{ isEdit ? trans('buttons.save') : trans('labels.announcements.publish') }}</button>
-
-            <a :href="cancelUrl" class="button">{{ trans('buttons.cancel') }}</a>
-        </form>
+    <div class="columns">
+      <div class="column">
+        <b-field :label="trans('labels.announcements.private')">
+          <b-switch v-model="form.private">
+              {{ form.private ? trans('Yes') : trans('No') }}
+          </b-switch>
+        </b-field>
+      </div>
     </div>
+
+    <hr>
+
+    <button type="submit" class="button is-primary">{{ isEdit ? trans('buttons.save') : trans('labels.announcements.publish') }}</button>
+
+    <a :href="cancelUrl" class="button">{{ trans('buttons.cancel') }}</a>
+  </form>
 </template>
 
 <script>

@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\PublicationAttachment;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,8 +25,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // Clean up
         $schedule->command('uploads:clean')->dailyAt('03:00');
+
+        $schedule->call(function () {
+            PublicationAttachment::deleteOldUnattached();
+        })->dailyAt('03:05');
+
         // $schedule->command('photos:clean')->dailyAt('03:00');
+
+        // Backup
         $schedule->command('backup:clean')->dailyAt('03:15');
         $schedule->command('backup:run')->dailyAt('04:00');
     }

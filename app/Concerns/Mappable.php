@@ -32,7 +32,7 @@ trait Mappable
             return [$relation->getQualifiedForeignKeyName(), $relation->getQualifiedParentKeyName()];
         }
 
-        if ($relation instanceof BelongsTo && !$relation instanceof MorphTo) {
+        if ($relation instanceof BelongsTo && ! $relation instanceof MorphTo) {
             return [$relation->getQualifiedForeignKeyName(), $relation->getQualifiedOwnerKeyName()];
         }
 

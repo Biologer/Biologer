@@ -92,9 +92,7 @@ abstract class AbstractMgrs10kMap
         foreach ($document->getElementsByClassName('mgrs10k-field') as $node) {
             $node->setAttribute('fill', 'transparent');
 
-            if ($mgrs10k->contains($node->getAttribute('id'))) {
-                $this->handleNode($node, $mgrs10k);
-            }
+            $this->handleNode($node, $mgrs10k);
         }
     }
 

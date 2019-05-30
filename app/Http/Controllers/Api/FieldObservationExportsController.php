@@ -53,7 +53,7 @@ class FieldObservationExportsController extends Controller
     }
 
     /**
-     * Validate reqest data needed to start the export.
+     * Validate request data needed to start the export.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array

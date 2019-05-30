@@ -187,6 +187,30 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::get('announcements/{announcement}/edit', 'AnnouncementsController@edit')
                 ->middleware('can:update,announcement')
                 ->name('announcements.edit');
+
+            Route::get('literature-observations', 'LiteratureObservationsController@index')
+                ->name('literature-observations.index');
+
+            Route::get('literature-observations/new', 'LiteratureObservationsController@create')
+                ->name('literature-observations.create');
+
+            Route::get('literature-observations/{literatureObservation}/edit', 'LiteratureObservationsController@edit')
+                ->name('literature-observations.edit');
+
+            Route::get('literature-observations/{literatureObservation}', 'LiteratureObservationsController@show')
+                ->name('literature-observations.show');
+
+            Route::get('publications', 'PublicationsController@index')
+                ->middleware('can:list,App\Publication')
+                ->name('publications.index');
+
+            Route::get('publications/new', 'PublicationsController@create')
+                ->middleware('can:create,App\Publication')
+                ->name('publications.create');
+
+            Route::get('publications/{publication}/edit', 'PublicationsController@edit')
+                ->middleware('can:update,publication')
+                ->name('publications.edit');
         });
     });
 });

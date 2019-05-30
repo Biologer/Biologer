@@ -325,7 +325,7 @@ class StoreFieldObservation extends FormRequest
     {
         $token = $this->user()->token();
 
-        if (!$token) {
+        if (! $token) {
             return;
         }
 

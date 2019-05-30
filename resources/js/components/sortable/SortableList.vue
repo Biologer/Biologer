@@ -1,56 +1,56 @@
 <script>
-  import { Sortable } from '@shopify/draggable'
+import { Sortable } from '@shopify/draggable'
 
-  function move(items, oldIndex, newIndex) {
-    const itemRemovedArray = [
-      ...items.slice(0, oldIndex),
-      ...items.slice(oldIndex + 1, items.length)
-    ]
+function move(items, oldIndex, newIndex) {
+  const itemRemovedArray = [
+    ...items.slice(0, oldIndex),
+    ...items.slice(oldIndex + 1, items.length)
+  ]
 
-    return [
-      ...itemRemovedArray.slice(0, newIndex),
-      items[oldIndex],
-      ...itemRemovedArray.slice(newIndex, itemRemovedArray.length)
-    ]
-  }
+  return [
+    ...itemRemovedArray.slice(0, newIndex),
+    items[oldIndex],
+    ...itemRemovedArray.slice(newIndex, itemRemovedArray.length)
+  ]
+}
 
-  export default {
-    props: {
-      value: {
-        required: true,
-      },
-      itemClass: {
-        default: 'sortable-item',
-      },
-      handleClass: {
-        default: 'sortable-handle',
-      },
+export default {
+  props: {
+    value: {
+      required: true,
     },
-    provide() {
-      return {
-        itemClass: this.itemClass,
-        handleClass: this.handleClass,
-      }
+    itemClass: {
+      default: 'sortable-item',
     },
-    render() {
-      return this.$scopedSlots.default({
-        items: this.value,
-      })
+    handleClass: {
+      default: 'sortable-handle',
     },
-    mounted() {
-      const sortable = new Sortable(this.$el, {
-        draggable: `.${this.itemClass}`,
-        handle: `.${this.handleClass}`,
-        mirror: {
-          constrainDimensions: true,
-        },
-      }).on('sortable:stop', ({ oldIndex, newIndex }) => {
-        this.$emit('input', move(this.value, oldIndex, newIndex))
-      })
-
-      this.$once('hook:beforeDestroy', () => {
-        sortable.destroy()
-      })
+  },
+  provide() {
+    return {
+      itemClass: this.itemClass,
+      handleClass: this.handleClass,
     }
+  },
+  render() {
+    return this.$scopedSlots.default({
+      items: this.value,
+    })
+  },
+  mounted() {
+    const sortable = new Sortable(this.$el, {
+      draggable: `.${this.itemClass}`,
+      handle: `.${this.handleClass}`,
+      mirror: {
+        constrainDimensions: true,
+      },
+    }).on('sortable:stop', ({ oldIndex, newIndex }) => {
+      this.$emit('input', move(this.value, oldIndex, newIndex))
+    })
+
+    this.$once('hook:beforeDestroy', () => {
+      sortable.destroy()
+    })
   }
+}
 </script>

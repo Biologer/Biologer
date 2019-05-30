@@ -1,48 +1,43 @@
 <template>
-    <div class="activity-log">
-        <component
-            v-for="activity in activities"
-            :key="activity.id"
-            :is="chooseActivityComponent(activity)"
-            :activity="activity"
-        />
-    </div>
+  <div class="activity-log">
+    <component
+      v-for="activity in activities"
+      :key="activity.id"
+      :is="chooseActivityComponent(activity)"
+      :activity="activity"
+    />
+  </div>
 </template>
 
 <script>
-import ActivityFieldObservationApproved from './FieldObservationApproved';
-import ActivityFieldObservationCreated from './FieldObservationCreated';
-import ActivityFieldObservationMarkedUnidentifiable from './FieldObservationMarkedUnidentifiable';
-import ActivityFieldObservationMovedToPending from './FieldObservationMovedToPending';
-import ActivityFieldObservationUpdated from './FieldObservationUpdated';
+import ActivityFieldObservationApproved from './FieldObservationApproved'
+import ActivityFieldObservationCreated from './FieldObservationCreated'
+import ActivityFieldObservationMarkedUnidentifiable from './FieldObservationMarkedUnidentifiable'
+import ActivityFieldObservationMovedToPending from './FieldObservationMovedToPending'
+import ActivityFieldObservationUpdated from './FieldObservationUpdated'
 
 export default {
-    name: 'nzFieldObservationActivityLog',
+  name: 'nzFieldObservationActivityLog',
 
-    components: {
-        [ActivityFieldObservationApproved.name]: ActivityFieldObservationApproved,
-        [ActivityFieldObservationCreated.name]: ActivityFieldObservationCreated,
-        [ActivityFieldObservationMarkedUnidentifiable.name]: ActivityFieldObservationMarkedUnidentifiable,
-        [ActivityFieldObservationMovedToPending.name]: ActivityFieldObservationMovedToPending,
-        [ActivityFieldObservationUpdated.name]: ActivityFieldObservationUpdated
-    },
+  components: {
+    [ActivityFieldObservationApproved.name]: ActivityFieldObservationApproved,
+    [ActivityFieldObservationCreated.name]: ActivityFieldObservationCreated,
+    [ActivityFieldObservationMarkedUnidentifiable.name]: ActivityFieldObservationMarkedUnidentifiable,
+    [ActivityFieldObservationMovedToPending.name]: ActivityFieldObservationMovedToPending,
+    [ActivityFieldObservationUpdated.name]: ActivityFieldObservationUpdated
+  },
 
-    props: {
-        activities: {
-            type: Array,
-            default: () => []
-        }
-    },
-
-    methods: {
-        chooseActivityComponent(activity) {
-            const component = `nz-activity-field-observation-${activity.description.split('_').join('-')}`;
-
-            return component;
-        },
+  props: {
+    activities: {
+      type: Array,
+      default: () => []
     }
+  },
+
+  methods: {
+    chooseActivityComponent(activity) {
+      return `nz-activity-field-observation-${activity.description.split('_').join('-')}`
+    }
+  }
 }
 </script>
-
-<style lang="css">
-</style>

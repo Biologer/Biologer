@@ -11,7 +11,9 @@
       v-if="isNotRead"
       @click.prevent="markAsRead"
       :title="trans('notifications.mark_as_read')"
-    ><b-icon icon="remove" size="is-small" /></a>
+    >
+      <b-icon icon="remove" size="is-small" />
+    </a>
   </div>
 </template>
 

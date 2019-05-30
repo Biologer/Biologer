@@ -7,11 +7,21 @@ use Illuminate\Http\Request;
 
 class FieldObservationsExportFactory
 {
+    /**
+     * Custom columns exporter for all field observations.
+     *
+     * @return string
+     */
     protected function customType()
     {
         return CustomFieldObservationsExport::class;
     }
 
+    /**
+     * Darwin Core exporter for all field observations.
+     *
+     * @return string
+     */
     protected function darwinCoreType()
     {
         return DarwinCoreFieldObservationsExport::class;

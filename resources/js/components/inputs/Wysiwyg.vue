@@ -1,15 +1,15 @@
 <template>
-<div class="wysiwyg">
+  <div class="wysiwyg">
     <input :id="inputId" type="hidden" :name="name" :value="value" ref="input">
 
     <trix-editor ref="trix" :input="inputId"></trix-editor>
-</div>
+  </div>
 </template>
 
 <script>
-import Trix from 'trix';
+import Trix from 'trix'
 
-let { lang } = Trix.config;
+let { lang } = Trix.config
 
 Trix.config.toolbar = {
   getDefaultHTML: () => `
@@ -40,45 +40,46 @@ Trix.config.toolbar = {
 }
 
 function makeid() {
-  let text = "";
-  const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let text = ""
+  const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 
-  for (let i = 0; i < 5; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  for (let i = 0; i < 5; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length))
+  }
 
   return text;
 }
 
 export default {
-    name: 'nzWysiwyg',
+  name: 'nzWysiwyg',
 
-    props: {
-        name: String,
-        value: String,
-    },
+  props: {
+    name: String,
+    value: String
+  },
 
-    data() {
-        return {
-            inputId: makeid()
-        };
-    },
-
-    mounted() {
-        this.$refs.trix.addEventListener('trix-change', this.onInput);
-    },
-
-    beforeDestroy() {
-      this.$refs.trix.removeEventListener('trix-change', this.onInput);
-    },
-
-    methods: {
-        onInput(e) {
-            this.$emit('input', e.target.innerHTML);
-        },
-
-        focus() {
-            this.$refs.trix.focus();
-        }
+  data() {
+    return {
+      inputId: makeid()
     }
+  },
+
+  mounted() {
+    this.$refs.trix.addEventListener('trix-change', this.onInput)
+  },
+
+  beforeDestroy() {
+    this.$refs.trix.removeEventListener('trix-change', this.onInput)
+  },
+
+  methods: {
+    onInput(e) {
+      this.$emit('input', e.target.innerHTML)
+    },
+
+    focus() {
+      this.$refs.trix.focus()
+    }
+  }
 }
 </script>

@@ -315,6 +315,7 @@ class DarwinCoreFieldObservationsExportTest extends TestCase
     private function csvContent($item, $overrides = [])
     {
         return array_merge([
+            'occurrenceID' => $item->observation->id,
             'taxonID' => $item->observation->taxon_id,
             'kingdom' => 'Animalia',
             'phylum' => 'Arthropoda',

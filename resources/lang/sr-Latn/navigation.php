@@ -57,7 +57,11 @@ return [
     'licenses' => 'Licence',
     'partially_open_license' => 'Delimično otvorena licensa',
     'closed_license' => 'Zatvorena licenca',
-
+    'literature_observations' => 'Literaturni podaci',
+    'new_literature_observation' => 'Novi literaturni podatak',
+    'publications' => 'Publikacije',
+    'new_publication' => 'Nova publikacija',
+    'edit_publication' => 'Izmeni publikaciju',
     'about_project' => 'O projektu',
     'project_team' => 'Projektni tim',
     'organisations' => 'Organizacije',

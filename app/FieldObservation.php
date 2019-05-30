@@ -83,7 +83,7 @@ class FieldObservation extends Model
     public static function sortableFields()
     {
         return [
-            'id', 'taxon_name', 'year', 'month', 'day', 'observer'
+            'id', 'taxon_name', 'year', 'month', 'day', 'observer',
         ];
     }
 

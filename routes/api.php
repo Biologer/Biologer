@@ -157,6 +157,52 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('read-announcements', 'ReadAnnouncementsController@store')
         ->name('api.read-announcements.store');
 
+    // Publication
+    Route::get('publications', 'PublicationsController@index')
+        ->middleware('can:list,App\Publication')
+        ->name('api.publications.index');
+
+    Route::post('publications', 'PublicationsController@store')
+        ->middleware('can:create,App\Publication')
+        ->name('api.publications.store');
+
+    Route::put('publications/{publication}', 'PublicationsController@update')
+        ->middleware('can:update,publication')
+        ->name('api.publications.update');
+
+    Route::post('publication-attachments', 'PublicationAttachmentsController@store')
+        ->middleware('can:create,App\PublicationAttachment')
+        ->name('api.publication-attachments.store');
+
+    Route::delete('publication-attachments/{publicationAttachment}', 'PublicationAttachmentsController@destroy')
+        ->middleware('can:delete,publicationAttachment')
+        ->name('api.publication-attachments.destroy');
+
+    // Literature observations
+    Route::get('literature-observations', 'LiteratureObservationsController@index')
+        ->middleware('can:list,App\LiteratureObservation')
+        ->name('api.literature-observations.index');
+
+    Route::post('literature-observations', 'LiteratureObservationsController@store')
+        ->middleware('can:create,App\LiteratureObservation')
+        ->name('api.literature-observations.store');
+
+    Route::get('literature-observations/{literatureObservation}', 'LiteratureObservationsController@show')
+        ->middleware('can:view,literatureObservation')
+        ->name('api.literature-observations.show');
+
+    Route::put('literature-observations/{literatureObservation}', 'LiteratureObservationsController@update')
+        ->middleware('can:update,literatureObservation')
+        ->name('api.literature-observations.update');
+
+    Route::delete('literature-observations/{literatureObservation}', 'LiteratureObservationsController@destroy')
+        ->middleware('can:delete,literatureObservation')
+        ->name('api.literature-observations.destroy');
+
+    // Literature observation exports
+    Route::post('literature-observation-exports', 'LiteratureObservationExportsController@store')
+        ->name('api.literature-observation-exports.store');
+
     // My
     Route::prefix('my')->namespace('My')->group(function () {
         Route::get('field-observations', 'FieldObservationsController@index')
@@ -199,5 +245,9 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         Route::get('users', 'UsersController@index')
             ->middleware('role:admin,curator')
             ->name('api.autocomplete.users.index');
+
+        Route::get('publications', 'PublicationsController@index')
+            ->middleware('role:admin,curator')
+            ->name('api.autocomplete.publications.index');
     });
 });

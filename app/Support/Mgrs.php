@@ -13,6 +13,7 @@ class Mgrs
     const GRIDSQUARE_SET_COL_SIZE = 8;
     const GRIDSQUARE_SET_ROW_SIZE = 20;
     const METERS_IN_10K = 10000;
+    const CENTER_PRECISION = 5000;
 
     /**
      * Letters' groups for 100k easting.

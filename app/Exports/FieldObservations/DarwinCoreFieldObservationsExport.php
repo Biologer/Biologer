@@ -22,6 +22,7 @@ class DarwinCoreFieldObservationsExport extends BaseExport
     public static function columnData()
     {
         return collect([
+            'occurrenceID',
             'taxonID',
             'kingdom',
             'phylum',
@@ -117,7 +118,7 @@ class DarwinCoreFieldObservationsExport extends BaseExport
     /**
      * Extract needed data from item.
      *
-     * @param  mixed  $item
+     * @param  \App\FieldObservation  $item
      * @return array
      */
     protected function transformItem($item)
@@ -125,6 +126,7 @@ class DarwinCoreFieldObservationsExport extends BaseExport
         $taxon = $item->observation->taxon;
 
         return [
+            'occurrenceID' => $item->observation->id,
             'taxonID' => $item->observation->taxon_id,
             'kingdom' => $this->getTaxonOfRank($taxon, 'kingdom'),
             'phylum' => $this->getTaxonOfRank($taxon, 'phylum'),

@@ -1,34 +1,42 @@
 class ExpiringStorage {
-    get(key) {
-        const cached = JSON.parse(
-            localStorage.getItem(key)
-        );
+  get(key) {
+    const cached = JSON.parse(
+      localStorage.getItem(key)
+    )
 
-        if (! cached) {
-            return null;
-        }
-
-        const expires = new Date(cached.expires);
-
-        if (expires < new Date()) {
-            localStorage.removeItem(key);
-            return null;
-        }
-
-        return cached.value;
+    if (! cached) {
+      return null
     }
 
-    has(key) {
-        return this.get(key) !== null;
+    const expires = new Date(cached.expires)
+
+    if (expires < new Date()) {
+      localStorage.removeItem(key)
+      return null
     }
 
-    set(key, value, lifeTimeInMinutes) {
-        const currentTime = new Date().getTime();
+    return cached.value
+  }
 
-        const expires = new Date(currentTime + lifeTimeInMinutes * 60000);
+  has(key) {
+    return this.get(key) !== null
+  }
 
-        localStorage.setItem(key, JSON.stringify({ value, expires }));
+  set(key, value, lifeTimeInMinutes) {
+    const currentTime = new Date().getTime()
+
+    const expires = new Date(currentTime + lifeTimeInMinutes * 60000)
+
+    localStorage.setItem(key, JSON.stringify({ value, expires }))
+  }
+
+  delete(key) {
+    const cached = this.get(key)
+
+    if (cached) {
+      localStorage.removeItem(key)
     }
+  }
 }
 
-export default new ExpiringStorage();
+export default new ExpiringStorage()

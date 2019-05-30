@@ -37,3 +37,22 @@ $factory->state(App\Observation::class, 'unapproved', function (Faker $faker) {
         'approved_at' => null,
     ];
 });
+
+$factory->define(App\LiteratureObservation::class, function (Faker $faker) {
+    return [
+        'original_date' => $faker->date('F j, Y'),
+        'original_locality' => $faker->city,
+        'original_elevation' => '300-500m',
+        'original_coordinates' => '21.123123123,43.12312312',
+        'original_identification_validity' => $faker->randomElement(
+            App\LiteratureObservationIdentificationValidity::toArray()
+        ),
+        'georeferenced_by' => $faker->name,
+        'georeferenced_date' => $faker->date('Y-m-d'),
+        'minimum_elevation' => $faker->randomDigitNotNull,
+        'maximum_elevation' => $faker->randomDigitNotNull,
+        'publication_id' => factory(App\Publication::class),
+        'is_original_data' => true,
+        'cited_publication_id' => null,
+    ];
+});

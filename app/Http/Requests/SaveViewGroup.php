@@ -59,8 +59,6 @@ class SaveViewGroup extends FormRequest
             ['image_url' => $this->saveImage()]
         ))->save();
 
-        dump($this->saveImage());
-
         $group->taxa()->sync(request('taxa_ids', []));
 
         return $group;

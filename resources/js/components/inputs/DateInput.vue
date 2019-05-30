@@ -1,30 +1,37 @@
 <template>
-    <b-field :label="label">
-        <b-field expanded grouped>
-            <b-field expanded :type="errors.has('year') ? 'is-danger': ''"
-                :message="errors.has('year') ? errors.first('year'): ''">
-                <b-input :placeholder="placeholders.year" :value="year" @input="onYearInput"></b-input>
-            </b-field>
+  <b-field :label="label">
+    <b-field expanded grouped>
+      <b-field
+        :type="errors.has('year') ? 'is-danger': ''"
+        :message="errors.has('year') ? errors.first('year'): ''"
+        expanded
+      >
+        <b-input :placeholder="placeholders.year" :value="year" @input="onYearInput" />
+      </b-field>
 
-            <b-field expanded :type="errors.has('month') ? 'is-danger': ''"
-                :message="errors.has('month') ? errors.first('month'): ''">
-                <b-select :placeholder="placeholders.month" :value="month" @input="onMonthInput" expanded>
-                    <option :value="null"></option>
+      <b-field
+        :type="errors.has('month') ? 'is-danger': ''"
+        :message="errors.has('month') ? errors.first('month'): ''"
+        expanded
+      >
+        <b-select :placeholder="placeholders.month" :value="month" @input="onMonthInput" expanded>
+          <option :value="null"></option>
+          <option v-for="(month, index) in months" :value="(index + 1)" v-text="month"></option>
+        </b-select>
+      </b-field>
 
-                    <option v-for="(month, index) in months" :value="(index + 1)" v-text="month"></option>
-                </b-select>
-            </b-field>
-
-            <b-field expanded :type="errors.has('day') ? 'is-danger': ''"
-                :message="errors.has('day') ? errors.first('day'): ''">
-                <b-select :placeholder="placeholders.day" :value="day" @input="onDayInput" expanded>
-                    <option :value="null"></option>
-
-                    <option v-for="day in days" :value="day" v-text="day"></option>
-                </b-select>
-            </b-field>
-        </b-field>
+      <b-field
+        :type="errors.has('day') ? 'is-danger': ''"
+        :message="errors.has('day') ? errors.first('day'): ''"
+        expanded
+      >
+        <b-select :placeholder="placeholders.day" :value="day" @input="onDayInput" expanded>
+          <option :value="null"></option>
+          <option v-for="day in days" :value="day" v-text="day"></option>
+        </b-select>
+      </b-field>
     </b-field>
+  </b-field>
 </template>
 
 <script>
@@ -59,7 +66,7 @@ export default {
           year: 'Year',
           month: 'Month',
           day: 'Day'
-        };
+        }
       }
     },
 
@@ -71,70 +78,70 @@ export default {
 
   computed: {
     now() {
-      return moment();
+      return moment()
     },
 
     months() {
-      if (!this.year || this.year > moment().year()) return [];
+      if (!this.year || this.year > moment().year()) return []
 
-      const isThisYear = this.year === moment().year();
+      const isThisYear = this.year === moment().year()
 
-      let months = moment.months();
+      let months = moment.months()
 
-      if (isThisYear) months.splice(moment().month() + 1);
+      if (isThisYear) months.splice(moment().month() + 1)
 
-      return months;
+      return months
     },
 
     days() {
-      const haveDate = this.year && this.month;
+      const haveDate = this.year && this.month
 
-      if (!haveDate) return [];
+      if (!haveDate) return []
 
-      const isThisMonth = this.year === moment().year() && (this.month - 1) === moment().month();
+      const isThisMonth = this.year === moment().year() && (this.month - 1) === moment().month()
 
       let days = moment({
         year: this.year,
         month: this.month - 1,
-      }).daysInMonth();
+      }).daysInMonth()
 
-      if (isThisMonth) days = moment().date();
+      if (isThisMonth) days = moment().date()
 
-      return _.range(1, days + 1);
+      return _.range(1, days + 1)
     }
   },
 
   watch: {
     year() {
       if (this.year > moment().year() || this.months.length < this.month -1)  {
-          this.onMonthInput(null);
+          this.onMonthInput(null)
       }
 
-      this.truncateDay();
+      this.truncateDay()
     },
 
     month() {
-      this.truncateDay();
+      this.truncateDay()
     }
   },
 
   methods: {
     truncateDay() {
       if (this.days.length < this.day)  {
-          this.onDayInput(null);
+          this.onDayInput(null)
       }
     },
 
     onYearInput(value) {
-      this.$emit('update:year', +value || null);
+      this.$emit('update:year', +value || null)
     },
 
     onMonthInput(value) {
-      this.$emit('update:month', value);
+      this.$emit('update:month', value)
     },
 
     onDayInput(value) {
-      this.$emit('update:day', value);
+      this.$emit('update:day', value)
     }
   }
 }

@@ -38,13 +38,13 @@ export default {
     sendRequestToMarkAsRead() {
       return axios.post('/api/read-announcements', {
         announcement_id: this.newAnnouncement.id,
-      });
+      })
     },
 
     markAsRead() {
       this.sendRequestToMarkAsRead().then(() => {
-        this.newAnnouncement = null;
-      });
+        this.newAnnouncement = null
+      })
     }
   }
 }

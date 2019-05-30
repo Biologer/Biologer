@@ -109,42 +109,42 @@ export default {
 			error: null,
 			showCropModal: false,
 			showModal: false
-    };
+    }
   },
 
 	watch: {
 		'image.crop': function (value) {
-			this.$emit('cropped', this.image);
+			this.$emit('cropped', this.image)
 
 			if (!value) {
-				this.croppedImageUrl = null;
-				return;
+				this.croppedImageUrl = null
+				return
 			}
 
-			this.cropThumbnail(value);
+			this.cropThumbnail(value)
 		}
 	},
 
 	computed: {
 		haveImage() {
-			return !!this.image.url;
+			return !!this.image.url
 		},
 
 		thumbnailUrl() {
-			return this.croppedImageUrl || this.image.url;
+			return this.croppedImageUrl || this.image.url
 		}
 	},
 
 	methods: {
 		selectImage() {
-			this.$refs.input.click();
+			this.$refs.input.click()
 		},
 
 		onInput(file) {
-			this.error = null;
+			this.error = null
 
 			if (!file) {
-				return;
+				return
 			}
 
 			this.upload(file)
@@ -158,58 +158,58 @@ export default {
 					Accept: 'application/json'
 				},
 				onUploadProgress: progressEvent => {
-				   this.progress = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
+				   this.progress = Math.floor((progressEvent.loaded * 100) / progressEvent.total)
 				}
 			}).then(response => {
-				this.image.path = response.data.file;
-				this.image.exif = response.data.exif;
-				this.image.license = null;
-				this.uploading = false;
-				this.progress = 0;
+				this.image.path = response.data.file
+				this.image.exif = response.data.exif
+				this.image.license = null
+				this.uploading = false
+				this.progress = 0
 
-				this.$emit('uploaded', this.image);
+				this.$emit('uploaded', this.image)
 
         loadImage(file, canvas => {
           this.image.url = canvas.toDataURL()
         }, { orientation: true })
-			}).catch(this.handleError);
+			}).catch(this.handleError)
 		},
 
 		makeForm(file) {
-			let form = new FormData();
+			let form = new FormData()
 
-			form.append('file', file);
+			form.append('file', file)
 
-			return form;
+			return form
 		},
 
 		remove() {
 			if (this.hasExisting) {
-				this.hasExisting = false;
-				return this.clearPhoto();
+				this.hasExisting = false
+				return this.clearPhoto()
 			}
 
 			axios.delete(route('api.photo-uploads.destroy', this.image.path)).then(() => {
-				this.clearPhoto();
+				this.clearPhoto()
 			})
 		},
 
 		clearPhoto() {
-			this.$emit('removed', this.image);
+			this.$emit('removed', this.image)
 
-			this.image.path = null;
-			this.image.url = null;
-			this.image.crop = null;
-			this.image.license = null;
-			this.croppedImageUrl = null;
+			this.image.path = null
+			this.image.url = null
+			this.image.crop = null
+			this.image.license = null
+			this.croppedImageUrl = null
 		},
 
 		handleError(error) {
-			this.uploading = false;
-			this.progress = 0;
+			this.uploading = false
+			this.progress = 0
 			this.image.url = null
 			// Clear the input so we can select the same image if needed.
-			this.$el.querySelector('input[type="file"]').value = '';
+			this.$el.querySelector('input[type="file"]').value = ''
 
 			if (!error.response) {
 				return this.$toast.open({
@@ -220,32 +220,32 @@ export default {
 				})
 			}
 
-			this.error = error.response.data.errors.file[0] || this.trans('Error');
+			this.error = error.response.data.errors.file[0] || this.trans('Error')
 		},
 
 		openCropModal() {
-			this.showCropModal = true;
+			this.showCropModal = true
 		},
 
 		closeCropModal() {
-			this.showCropModal = false;
+			this.showCropModal = false
 		},
 
 		cropThumbnail(crop) {
 			// Create image
-			const image = document.createElement('img');
-			image.src = this.image.url;
+			const image = document.createElement('img')
+			image.src = this.image.url
 
 			// Draw canvas
-			const canvas = document.createElement('canvas');
+			const canvas = document.createElement('canvas')
 
-  		canvas.setAttribute('width', crop.width);
-  		canvas.setAttribute('height', crop.height);
+  		canvas.setAttribute('width', crop.width)
+  		canvas.setAttribute('height', crop.height)
 
-  		const context = canvas.getContext('2d');
-  		context.drawImage(image, -crop.x, -crop.y);
+  		const context = canvas.getContext('2d')
+  		context.drawImage(image, -crop.x, -crop.y)
 
-			this.croppedImageUrl = canvas.toDataURL();
+			this.croppedImageUrl = canvas.toDataURL()
 		},
 
 		/**
@@ -254,8 +254,8 @@ export default {
 		 * @param {String|Number} license
 		 */
 		handleLicenseChanged(license) {
-			this.image.license = license;
-			this.$emit('license-changed', license);
+			this.image.license = license
+			this.$emit('license-changed', license)
 		}
 	}
 }

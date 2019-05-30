@@ -1,15 +1,15 @@
 export default class User {
-    constructor(data) {
-      for (let attribute in data) {
-        this[attribute] = data[attribute];
-      }
+  constructor(data) {
+    for (let attribute in data) {
+      this[attribute] = data[attribute];
+    }
+  }
+
+  hasRole(roles) {
+    if (!Array.isArray(roles)) {
+      roles = [roles]
     }
 
-    hasRole(roles) {
-        if (!Array.isArray(roles)) {
-            roles = [roles]
-        }
-
-        return !!_.intersection(this.roles.map(role => role.name), roles).length;
-    }
+    return !!_.intersection(this.roles.map(role => role.name), roles).length;
+  }
 }

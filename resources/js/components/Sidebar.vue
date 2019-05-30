@@ -53,7 +53,7 @@ export default {
     return {
       activeTab: 'notifications',
       currentNotifications: this.notifications,
-    };
+    }
   },
 
   created () {
@@ -73,7 +73,7 @@ export default {
      * Emit the event to close.
      */
     hide() {
-      this.$emit('close');
+      this.$emit('close')
     },
 
     /**
@@ -83,7 +83,7 @@ export default {
      */
     keyPress(event) {
       // Esc key
-      if (event.keyCode === 27) this.hide();
+      if (event.keyCode === 27) this.hide()
     },
 
     /**
@@ -96,10 +96,10 @@ export default {
         notifications_ids: [notificationId]
       }).then(() => {
         this.currentNotifications = this.currentNotifications.filter(notification => {
-          return notification.id !== notificationId;
+          return notification.id !== notificationId
         })
 
-        this.$emit('update:has-unread-notifications', !!this.currentNotifications.length);
+        this.$emit('update:has-unread-notifications', !!this.currentNotifications.length)
 
         callback()
       })
@@ -109,14 +109,14 @@ export default {
      * Mark all unread notifications as read.
      */
     markAllNotificationsAsRead() {
-      if (!this.currentNotifications.length) return;
+      if (!this.currentNotifications.length) return
 
       axios.post(route('api.my.read-notifications-batch.store'), {
         notifications_ids: this.currentNotifications.map(notification => notification.id)
       }).then(() => {
         this.currentNotifications = []
 
-        this.$emit('update:has-unread-notifications', false);
+        this.$emit('update:has-unread-notifications', false)
       })
     }
   }
