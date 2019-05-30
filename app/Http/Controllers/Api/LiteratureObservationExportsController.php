@@ -62,7 +62,7 @@ class LiteratureObservationExportsController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'with_header' => ['nullable', 'boolean'],
-            'type' => ['required', 'string', 'in:darwin_core,custom'],
+            'type' => ['required', 'string', 'in:custom'],
         ], [], [
             'columns' => trans('labels.exports.columns'),
             'with_header' => trans('labels.exports.with_header'),
