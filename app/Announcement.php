@@ -34,7 +34,7 @@ class Announcement extends Model
      *
      * @var array
      */
-    protected $appends = ['title', 'message', 'is_read'];
+    protected $appends = ['title', 'message'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -144,6 +144,10 @@ class Announcement extends Model
      */
     public function isRead()
     {
+        if (! auth()->check()) {
+            return false;
+        }
+
         return $this->isReadBy(auth()->user());
     }
 
@@ -192,6 +196,6 @@ class Announcement extends Model
      */
     public function authorName()
     {
-        return $this->creator->full_name;
+        return $this->creator ? $this->creator->full_name : $this->creator_name;
     }
 }

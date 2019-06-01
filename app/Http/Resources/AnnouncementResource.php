@@ -14,6 +14,8 @@ class AnnouncementResource extends JsonResource
      */
     public function toArray($request)
     {
+        $this->resource->append('is_read');
+
         return parent::toArray($request);
     }
 }

@@ -303,7 +303,7 @@ class Import extends Model
         parent::boot();
 
         static::deleting(function ($model) {
-            $this->deleteFiles();
+            $model->deleteFiles();
         });
     }
 }
