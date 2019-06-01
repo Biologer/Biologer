@@ -43,13 +43,13 @@
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-{{ __('notifications.email.regards') }}, <br>{{ config('app.name') }}
+@lang('notifications.email.regards'), <br>{{ config('app.name') }}
 @endif
 
 {{-- Subcopy --}}
 @isset($actionText)
-@component('mail::subcopy')
-{{ __('notifications.email.subcopy', compact('actionText', 'actionUrl')) }}
-@endcomponent
+@slot('subcopy')
+@lang('notifications.email.subcopy', compact('actionText', 'actionUrl'))
+@endslot
 @endisset
 @endcomponent
