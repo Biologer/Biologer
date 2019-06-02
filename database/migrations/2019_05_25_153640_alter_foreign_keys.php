@@ -16,7 +16,6 @@ class AlterForeignKeys extends Migration
     {
         if ($this->isNotUsingSqlite()) {
             Schema::table('field_observations', function (Blueprint $table) {
-                if ($this->isUsingSqlite())
                 $table->dropForeign(['observed_by_id']);
                 $table->dropForeign(['identified_by_id']);
 
