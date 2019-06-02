@@ -68,7 +68,19 @@ class Publication extends Model
         $edition = $this->issue ? " ({$this->issue})" : '';
 
         $citation = "{$this->formatAuthorForCitation()} ({$this->year}). ".
-            "{$this->title}{$edition}. {$this->place}: {$this->publisher}";
+            "{$this->title}{$edition}";
+
+        if ($this->publisher && $this->place) {
+            $citation .= ". {$this->place}: {$this->publisher}";
+        } elseif ($this->publisher) {
+            $citation .= ". {$this->publisher}";
+        } elseif ($this->place) {
+            $citation .= ". {$this->place}";
+        }
+
+        if ($this->page_count) {
+            $citation .= ". {$this->page_count}";
+        }
 
         if ($this->doi) {
             $citation .= ". {$this->doi}";
@@ -167,9 +179,7 @@ class Publication extends Model
      */
     protected function formatAuthorForCitation()
     {
-        return $this->authors->count() >= 6
-            ? $this->authors->first().' et al'
-            : $this->authors->join(', ', ' & ');
+        return $this->formatNamesForCitation('authors');
     }
 
     /**
@@ -179,17 +189,61 @@ class Publication extends Model
      */
     protected function formatEditorsForCitation()
     {
-        $editors = $this->editors->count() >= 6
-            ? $this->editors->first().' et al'
-            : $this->editors->join(', ', ' & ');
+        $editors = $this->formatNamesForCitation('editors');
 
-        if ($this->editors->count() === 1) {
-            return $editors.' (Ed.)';
+        return $this->editors->count() === 1
+            ? "{$editors} (Ed.)"
+            : "{$editors} (Eds.)";
+    }
+
+    /**
+     * Format names for citation.
+     *
+     * @param  string  $type
+     * @return string
+     */
+    protected function formatNamesForCitation($type)
+    {
+        if ($this->{$type}->count() >= 6) {
+            return $this->shortenName($this->{$type}->first()).' et al.';
         }
 
-        if ($this->editors->count() > 1) {
-            return $editors.' (Eds.)';
+        $shortenedNames = $this->{$type}->map(function ($name) {
+            return $this->shortenName($name);
+        });
+
+        $duplicates = $shortenedNames->duplicates();
+
+        if ($duplicates->isEmpty()) {
+            return $shortenedNames->join(', ', ' & ');
         }
+
+        return $this->{$type}->map(function ($name) use ($duplicates) {
+            $shortened = $this->shortenName($name);
+
+            if ($duplicates->contains($shortened)) {
+                return sprintf('%s %s', $name['last_name'], $name['first_name']);
+            }
+
+            return $shortened;
+        })->join(', ', ' & ');
+    }
+
+    /**
+     * Shorten the name for citation.
+     *
+     * @param  array  $name
+     * @return string
+     */
+    protected function shortenName(array $name)
+    {
+        $lastName = ucfirst($name['last_name']);
+
+        $firstName = implode('', array_map(function ($part) {
+            return sprintf('%s.', substr(ucfirst($part), 0, 1));
+        }, explode(' ', $name['first_name'])));
+
+        return sprintf('%s %s', $lastName, $firstName);
     }
 
     /**

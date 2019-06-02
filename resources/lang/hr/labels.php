@@ -208,6 +208,8 @@ return [
         'citation_tooltip' => 'Ovo polje će se samo generisati ako ostane prazno',
         'add_author' => 'Dodaj autora',
         'add_editor' => 'Dodaj urednika',
+        'first_name' => 'Ime',
+        'last_name' => 'Prezime',
     ],
 
     'literature_observations' => [

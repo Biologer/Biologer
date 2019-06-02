@@ -54,8 +54,8 @@ class UpdatePublicationTest extends TestCase
         $this->assertEquals('Some Journal', $publication->name);
         $this->assertEquals('Title of Paper', $publication->title);
         $this->assertEquals('2019-2', $publication->issue);
-        $this->assertEquals(['Author Marry'], $publication->authors->all());
-        $this->assertEquals(['Editor Jane'], $publication->editors->all());
+        $this->assertEquals([['first_name' => 'Marry', 'last_name' => 'Author'],], $publication->authors->all());
+        $this->assertEquals([['first_name' => 'Jane', 'last_name' => 'Editor'],], $publication->editors->all());
         $this->assertEquals('Kragujevac', $publication->place);
         $this->assertEquals('University of Kragujevac', $publication->publisher);
         $this->assertEquals(110, $publication->page_count);
@@ -78,7 +78,7 @@ class UpdatePublicationTest extends TestCase
         ]));
 
         $response->assertSuccessful();
-        $this->assertEquals('Author Marry (2019). Title of Paper. Some Journal, 2019-2, 30-140p. Kragujevac: University of Kragujevac. 1234567', $publication->fresh()->citation);
+        $this->assertEquals('Author M. (2019). Title of Paper. Some Journal, 2019-2, 30-140p. Kragujevac: University of Kragujevac. 1234567', $publication->fresh()->citation);
     }
 
     protected function validPaper($overrides = [])
@@ -90,10 +90,10 @@ class UpdatePublicationTest extends TestCase
             'year' => '2019',
             'title' => 'Title of Paper',
             'authors' => [
-                'Author Marry',
+                ['first_name' => 'Marry', 'last_name' => 'Author'],
             ],
             'editors' => [
-                'Editor Jane',
+                ['first_name' => 'Jane', 'last_name' => 'Editor'],
             ],
             'place' => 'Kragujevac',
             'publisher' => 'University of Kragujevac',

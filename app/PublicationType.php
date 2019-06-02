@@ -59,6 +59,7 @@ class PublicationType extends \MyCLabs\Enum\Enum
             self::BOOK,
             self::BOOK_CHAPTER,
             self::PAPER,
+            self::THESIS,
         ];
     }
 

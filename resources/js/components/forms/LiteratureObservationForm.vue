@@ -567,6 +567,8 @@ export default {
         'original_locality',
         'original_elevation',
         'original_coordinates',
+        'georeferenced_by',
+        'georeferenced_date'
       ]
     },
 

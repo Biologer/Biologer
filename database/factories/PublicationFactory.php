@@ -10,10 +10,10 @@ $factory->define(Publication::class, function (Faker $faker) {
         'type' => $faker->randomElement(PublicationType::toArray()),
         'year' => $faker->randomNumber(4),
         'authors' => collect([
-            'John Doe',
+            ['first_name' => 'John', 'last_name' => 'Doe'],
         ]),
         'editors' => collect([
-            'Jane Doe',
+            ['first_name' => 'Jane', 'last_name' => 'Doe'],
         ]),
         'title' => $faker->sentence(3),
         'name' => $faker->sentence(2),

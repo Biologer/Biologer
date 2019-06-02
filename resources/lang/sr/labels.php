@@ -206,6 +206,8 @@ return [
         'citation_tooltip' => 'Ово поље ће се само генерисати ако остане празно',
         'add_author' => 'Додај аутора',
         'add_editor' => 'Додај уредника',
+        'first_name' => 'Име',
+        'last_name' => 'Презиме',
     ],
 
     'literature_observations' => [

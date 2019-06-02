@@ -37,12 +37,16 @@ class SavePublication extends FormRequest
             ],
             'title' => ['required', 'string', 'max:255'],
             'authors' => ['required', 'array', 'min:1'],
-            'authors.*' => ['filled', 'string', 'max:255'],
+            'authors.*' => ['array'],
+            'authors.*.first_name' => ['filled', 'string', 'max:255'],
+            'authors.*.last_name' => ['filled', 'string', 'max:255'],
             'editors' => [
                 'required_if:type,'.implode(PublicationType::requiresEditors()),
                 'array',
             ],
-            'editors.*' => ['filled', 'string', 'max:255'],
+            'editors.*' => ['array'],
+            'editors.*.first_name' => ['filled', 'string', 'max:255'],
+            'editors.*.last_name' => ['filled', 'string', 'max:255'],
             'issue' => [
                 'required_if:type,'.implode(PublicationType::hasIssue()),
                 'nullable',

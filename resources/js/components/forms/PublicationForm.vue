@@ -141,16 +141,28 @@
           <b-field
             v-for="(_,i) in form.authors"
             :key="i"
-            :type="form.errors.has(`authors.${i}`) ? 'is-danger' : null"
-            :message="form.errors.has(`authors.${i}`) ? form.errors.first(`authors.${i}`) : null"
+            :type="authorHasError(i) ? 'is-danger' : null"
+            :message="authorHasError(i) ? getAuthorError(i) : null"
             expanded
             :addons="false"
           >
             <b-field
-              :type="form.errors.has(`authors.${i}`) ? 'is-danger' : null"
+              :type="authorHasError(i) ? 'is-danger' : null"
               expanded
             >
-              <b-input :name="`authors[${i}]`" v-model="form.authors[i]" expanded/>
+              <b-input
+                :name="`authors[${i}][first_name]`"
+                v-model="form.authors[i].first_name"
+                :placeholder="trans('labels.publications.first_name')"
+                expanded
+              />
+
+              <b-input
+                :name="`authors[${i}][last_name]`"
+                v-model="form.authors[i].last_name"
+                :placeholder="trans('labels.publications.last_name')"
+                expanded
+              />
 
               <p class="control">
                 <button type="button" class="button is-danger is-outlined" @click="removeAuthor(i)">
@@ -181,16 +193,28 @@
           <b-field
             v-for="(_,i) in form.editors"
             :key="i"
-            :type="form.errors.has(`editors.${i}`) ? 'is-danger' : null"
-            :message="form.errors.has(`editors.${i}`) ? form.errors.first(`editors.${i}`) : null"
+            :type="editorHasError(i) ? 'is-danger' : null"
+            :message="editorHasError(i) ? getEditorError(i) : null"
             expanded
             :addons="false"
           >
             <b-field
-              :type="form.errors.has(`editors.${i}`) ? 'is-danger' : null"
+              :type="editorHasError(i) ? 'is-danger' : null"
               expanded
             >
-              <b-input :name="`editors[${i}]`" v-model="form.editors[i]" expanded/>
+              <b-input
+                :name="`editors[${i}][first_name]`"
+                v-model="form.editors[i].first_name"
+                :placeholder="trans('labels.publications.first_name')"
+                expanded
+              />
+
+              <b-input
+                :name="`editors[${i}][last_name]`"
+                v-model="form.editors[i].last_name"
+                :placeholder="trans('labels.publications.last_name')"
+                expanded
+              />
 
               <p class="control">
                 <button type="button" class="button is-danger is-outlined" @click="removeEditor(i)">
@@ -350,11 +374,11 @@ export default {
 
   methods: {
     addAuthor() {
-      this.form.authors.push('')
+      this.form.authors.push({ first_name: '', last_name: '' })
     },
 
     addEditor() {
-      this.form.editors.push('')
+      this.form.editors.push({ first_name: '', last_name: '' })
     },
 
     removeAuthor(index) {
@@ -403,6 +427,30 @@ export default {
     handleRemovedAttachment() {
       this.form.attachment = null
       this.form.attachment_id = null
+    },
+
+    authorHasError(index) {
+      return this.form.errors.has(`authors.${index}`) ||
+        this.form.errors.has(`authors.${index}.first_name`) ||
+        this.form.errors.has(`authors.${index}.last_name`)
+    },
+
+    getAuthorError(index) {
+      return this.form.errors.first(`authors.${index}`) ||
+        this.form.errors.first(`authors.${index}.first_name`) ||
+        this.form.errors.first(`authors.${index}.last_name`)
+    },
+
+    editorHasError(index) {
+      return this.form.errors.has(`editors.${index}`) ||
+        this.form.errors.has(`editors.${index}.first_name`) ||
+        this.form.errors.has(`editors.${index}.last_name`)
+    },
+
+    getEditorError(index) {
+      return this.form.errors.first(`editors.${index}`) ||
+        this.form.errors.first(`editors.${index}.first_name`) ||
+        this.form.errors.first(`editors.${index}.last_name`)
     }
   }
 }

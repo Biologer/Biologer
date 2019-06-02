@@ -208,6 +208,8 @@ return [
         'citation_tooltip' => 'It will be auto-generated if left empty',
         'add_author' => 'Add Author',
         'add_editor' => 'Add Editor',
+        'first_name' => 'First Name',
+        'last_name' => 'Last Name',
     ],
 
     'literature_observations' => [

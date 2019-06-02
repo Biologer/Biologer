@@ -52,10 +52,10 @@ class AddPublicationTest extends TestCase
             'title' => 'Book title',
             'issue' => '2ed',
             'authors' => [
-                'Author Marry',
+                ['first_name' => 'Marry', 'last_name' => 'Author'],
             ],
             'editors' => [
-                'Editor Jane',
+                ['first_name' => 'Jane', 'last_name' => 'Editor'],
             ],
             'place' => 'Kragujevac',
             'publisher' => 'University of Kragujevac',
@@ -71,8 +71,8 @@ class AddPublicationTest extends TestCase
         $this->assertEquals(2019, $publication->year);
         $this->assertEquals('Book title', $publication->title);
         $this->assertEquals('2ed', $publication->issue);
-        $this->assertEquals(['Author Marry'], $publication->authors->all());
-        $this->assertEquals(['Editor Jane'], $publication->editors->all());
+        $this->assertEquals([['first_name' => 'Marry', 'last_name' => 'Author']], $publication->authors->all());
+        $this->assertEquals([['first_name' => 'Jane', 'last_name' => 'Editor']], $publication->editors->all());
         $this->assertEquals('Kragujevac', $publication->place);
         $this->assertEquals('University of Kragujevac', $publication->publisher);
         $this->assertEquals(300, $publication->page_count);
@@ -87,6 +87,7 @@ class AddPublicationTest extends TestCase
      */
     public function citation_can_be_determined_dinamically_based_on_available_data_if_left_empty()
     {
+        $this->handleValidationExceptions();
         $this->seed('RolesTableSeeder');
         Passport::actingAs($user = factory(User::class)->create()->assignRoles('admin'));
 
@@ -96,7 +97,7 @@ class AddPublicationTest extends TestCase
 
         $response->assertCreated();
         $publication = Publication::find($response->json('data.id'));
-        $this->assertEquals('Author Marry (2019). Title of Paper. In Editor Jane (Ed.). Some Book (2ed, 30-140p). Kragujevac: University of Kragujevac. 1234567', $publication->citation);
+        $this->assertEquals('Author M. (2019). Title of Paper. In Editor J. (Ed.). Some Book (2ed, 30-140p). Kragujevac: University of Kragujevac. 1234567', $publication->citation);
     }
 
     protected function validBookChapter($overrides = [])
@@ -108,10 +109,10 @@ class AddPublicationTest extends TestCase
             'year' => '2019',
             'title' => 'Title of Paper',
             'authors' => [
-                'Author Marry',
+                ['first_name' => 'Marry', 'last_name' => 'Author'],
             ],
             'editors' => [
-                'Editor Jane',
+                ['first_name' => 'Jane', 'last_name' => 'Editor'],
             ],
             'place' => 'Kragujevac',
             'publisher' => 'University of Kragujevac',
