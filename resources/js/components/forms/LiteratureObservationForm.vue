@@ -357,6 +357,19 @@
       {{ trans('buttons.save_more') }}
     </button>
 
+    <button
+      type="button"
+      class="button is-primary"
+      :class="{
+        'is-outlined': !submittingWithoutRedirectWithSameTaxon,
+        'is-loading': submittingWithoutRedirectWithSameTaxon
+      }"
+      @click.prevent="submitWithoutRedirectWithSameTaxon"
+      v-if="submitMoreWithSameTaxon"
+      v-tooltip="{content: trans('labels.literature_observations.save_more_same_taxon_tooltip')}">
+      {{ trans('labels.literature_observations.save_more_same_taxon') }}
+    </button>
+
     <a :href="cancelUrl" class="button is-text" @click="onCancel">{{ trans('buttons.cancel') }}</a>
   </form>
 </template>
@@ -373,6 +386,8 @@ export default {
   mixins: [PersistentForm, FormMixin],
 
   props: {
+    submitMoreWithSameTaxon: Boolean,
+
     observation: {
       type: Object,
       default() {
@@ -434,6 +449,7 @@ export default {
   data() {
     return {
       keepAfterSubmit: this.getAttributesToKeep(),
+      submittingWithoutRedirectWithSameTaxon: false,
       locale: window.App.locale,
       taxonName: _.get(this.observation, 'taxon.name', ''),
       publicationCitation: _.get(this.observation, 'publication.citation', ''),
@@ -597,7 +613,59 @@ export default {
     handleElevationFetched(elevation) {
       this.form.minimum_elevation = elevation
       this.form.maximum_elevation = elevation
-    }
+    },
+
+    /**
+     * Submit the form and stay to add more, with same taxon.
+     */
+    submitWithoutRedirectWithSameTaxon() {
+      if (this.form.processing) return
+
+      if (this.submitOnlyDirty  && !this.isDirty()) return this.notifyNoChanges()
+
+      if (this.shouldConfirmSubmit) return this.confirmSubmit(this.performSubmitWithoutRedirectWithSameTaxon)
+
+      this.performSubmitWithoutRedirectWithSameTaxon()
+    },
+
+    /**
+     * Submit the form and stay to add more, with same taxon.
+     */
+    performSubmitWithoutRedirectWithSameTaxon(reason = null) {
+      this.submittingWithoutRedirectWithSameTaxon = true
+      this.confirmingSubmit = false
+
+      if (this.shouldAskReason) {
+        this.form.reason = reason
+      }
+
+      this.form[this.method.toLowerCase()](this.action)
+          .then(this.onSuccessfulSubmitWithoutRedirectWithSameTaxon)
+          .catch(error => {
+            this.submittingWithoutRedirectWithSameTaxon = false
+            this.onFailedSubmit(error)
+          })
+    },
+
+    /**
+     * Handle successful form submit with no redirect.
+     */
+    onSuccessfulSubmitWithoutRedirectWithSameTaxon() {
+      this.submittingWithoutRedirectWithSameTaxon = false
+
+      this.$toast.open({
+        message: this.trans('Saved successfully'),
+        type: 'is-success'
+      })
+
+      // Reset the form but remember some data.
+      const keep = _.pick(this.form.data(), this.keepAfterSubmit.concat([
+        'original_identification_validity', 'place_where_referenced_in_publication',
+        'taxon', 'taxon_id', 'original_identification',
+      ]))
+      this.form.reset()
+      this.form.populate(keep)
+    },
   }
 }
 </script>

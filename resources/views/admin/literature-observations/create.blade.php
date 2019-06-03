@@ -11,6 +11,7 @@
             :validity-options="{{ json_encode(\App\LiteratureObservationIdentificationValidity::options()) }}"
             should-confirm-cancel
             submit-more
+            submit-more-with-same-taxon
         ></nz-literature-observation-form>
     </div>
 @endsection

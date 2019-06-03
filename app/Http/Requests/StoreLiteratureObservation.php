@@ -77,7 +77,7 @@ class StoreLiteratureObservation extends FormRequest
             'original_locality' => ['nullable', 'string', 'max:255'],
             'original_elevation' => ['nullable', 'string', 'max:255'],
             'original_coordinates' => ['nullable', 'string', 'max:255'],
-            'original_identification' => ['nullable', 'string', 'max:255'],
+            'original_identification' => ['required', 'string', 'max:255'],
             'original_identification_validity' => ['required', Rule::in(LiteratureObservationIdentificationValidity::values())],
             'georeferenced_by' => ['nullable', 'string', 'max:255'],
             'georeferenced_date' => ['nullable', 'string', 'max:255'],

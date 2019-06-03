@@ -275,8 +275,11 @@ return [
             'synonym' => 'Sinonim',
         ],
 
-        'save_tooltip' => 'Čuva trenutni nalaz i vraća vas u listu nalaza. Možete koristiti i prečicu Ctrl+Enter na tastaturi.',
-        'save_more_tooltip' => 'Čuva trenutni nalaz, ali vam omogućava da unesete još podataka sa istog mesta. Možete koristiti i prečicu Ctrl+Shift+Enter na tastaturi.',
+        'save_tooltip' => 'Čuva trenutni nalaz i vraća vas u listu nalaza. Možete koristiti i prečicu Ctrl+Enter na tipkovnici.',
+        'save_more_tooltip' => 'Čuva trenutni nalaz, ali vam omogućava da unesete još podataka sa istog mjesta. Možete koristiti i prečicu Ctrl+Shift+Enter na tipkovnici.',
+
+        'save_more_same_taxon' => 'Save (još, ista svojta)',
+        'save_more_same_taxon_tooltip' => 'Čuva trenutni nalaz, ali vam omogućava da unesete još podataka sa istog mjesta i za istu svojtu.',
     ],
 
     'preferences' => [
