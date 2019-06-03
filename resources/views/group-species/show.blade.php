@@ -78,6 +78,18 @@
                         @endif
                     </div>
 
+                    @if ($species->allochthonous || $species->invasive)
+                        <div class="mb-4">
+                            @if ($species->allochthonous)
+                                <span class="tag">{{ __('labels.taxa.allochthonous') }}</span>
+                            @endif
+
+                            @if ($species->invasive)
+                                <span class="tag">{{ __('labels.taxa.invasive') }}</span>
+                            @endif
+                        </div>
+                    @endif
+
                     @if ($species->redLists->isNotEmpty())
                         <div class="mb-4">
                             <h4>{{ __('labels.taxa.red_lists') }}</h4>
