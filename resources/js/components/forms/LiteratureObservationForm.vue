@@ -577,7 +577,7 @@ export default {
         'publication_id',
         'cited_publication',
         'cited_publication_id',
-        'is_original_publication',
+        'is_original_data',
         'minimum_elevation',
         'maximum_elevation',
         'original_locality',
