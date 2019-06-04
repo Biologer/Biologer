@@ -525,7 +525,11 @@ export default {
      * @param {String} file name
      */
     onPhotoUploaded(image) {
-      this.form.photos.push(image)
+      this.form.photos.push({
+				path: image.path,
+				crop: image.crop,
+				license: image.license
+      })
 
       const availableType = _.find(this.availableObservationTypes, { slug: 'photographed' })
 
