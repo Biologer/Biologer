@@ -164,7 +164,7 @@ class LiteratureObservation extends Model
             'publication_id' => $this->publication_id,
             'is_original_data' => $this->is_original_data,
             'cited_publication' => $this->is_original_data ? null : $this->citedPublication,
-            'cited_publication_id' => $this->is_original_data ? null: $this->cited_publication_id,
+            'cited_publication_id' => $this->is_original_data ? null : $this->cited_publication_id,
             'place_where_referenced_in_publication' => $this->place_where_referenced_in_publication,
             'original_date' => $this->original_date,
             'original_locality' => $this->original_locality,

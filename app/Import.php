@@ -282,7 +282,7 @@ class Import extends Model
     }
 
     /**
-     * Delete import file
+     * Delete import file.
      *
      * @return void
      */

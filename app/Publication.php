@@ -142,7 +142,7 @@ class Publication extends Model
     {
         $citation = vsprintf('%s (%s). %s. %s, %s', [
             $this->formatAuthorForCitation(), $this->year, $this->title,
-            $this->name, $this->issue
+            $this->name, $this->issue,
         ]);
 
         if ($this->page_range) {

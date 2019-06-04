@@ -54,8 +54,8 @@ class UpdatePublicationTest extends TestCase
         $this->assertEquals('Some Journal', $publication->name);
         $this->assertEquals('Title of Paper', $publication->title);
         $this->assertEquals('2019-2', $publication->issue);
-        $this->assertEquals([['first_name' => 'Marry', 'last_name' => 'Author'],], $publication->authors->all());
-        $this->assertEquals([['first_name' => 'Jane', 'last_name' => 'Editor'],], $publication->editors->all());
+        $this->assertEquals([['first_name' => 'Marry', 'last_name' => 'Author']], $publication->authors->all());
+        $this->assertEquals([['first_name' => 'Jane', 'last_name' => 'Editor']], $publication->editors->all());
         $this->assertEquals('Kragujevac', $publication->place);
         $this->assertEquals('University of Kragujevac', $publication->publisher);
         $this->assertEquals(110, $publication->page_count);
