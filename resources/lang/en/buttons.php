@@ -7,6 +7,7 @@ return [
     'filters' => 'Filters',
     'apply' => 'Apply',
     'clear' => 'Clear',
+    'view' => 'View',
     'edit' => 'Edit',
     'delete' => 'Delete',
     'approve' => 'Approve',

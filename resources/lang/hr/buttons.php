@@ -7,6 +7,7 @@ return [
     'filters' => 'Filteri',
     'apply' => 'Primijeni',
     'clear' => 'Očisti',
+    'view' => 'Pogledaj',
     'edit' => 'Izmijeni',
     'delete' => 'Obriši',
     'approve' => 'Odobri',
