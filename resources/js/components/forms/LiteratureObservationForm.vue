@@ -70,7 +70,6 @@
       />
 
       <nz-date-input
-        class="is-required"
         :year.sync="form.year"
         :month.sync="form.month"
         :day.sync="form.day"

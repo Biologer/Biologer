@@ -36,7 +36,7 @@ class StoreLiteratureObservation extends FormRequest
     {
         return [
             'taxon_id' => ['required', 'exists:taxa,id'],
-            'year' => ['bail', 'required', 'date_format:Y', 'before_or_equal:now'],
+            'year' => ['bail', 'nullable', 'date_format:Y', 'before_or_equal:now'],
             'month' => [
                 'bail', 'nullable', 'numeric', new Month($this->input('year')),
             ],
