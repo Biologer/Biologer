@@ -213,7 +213,7 @@ class CustomLiteratureObservationsExport extends BaseExport
             'dataset' => $item->observation->dataset,
             'publication' => $item->publication->citation,
             'is_original_data' => $item->is_original_data ? __('Yes') : __('No'),
-            'cited_publication' => optional($item->citedPublication)->citation,
+            'cited_publication' => optional($item->is_original_data ? null : $item->citedPublication)->citation,
             'place_where_referenced_in_publication' => $item->place_where_referenced_in_publication,
             'original_date' => $item->original_date,
             'original_locality' => $item->original_locality,

@@ -592,7 +592,7 @@ export default {
     },
 
     handleIsOriginalDataInput(value) {
-      if (!value) {
+      if (value) {
         this.onCitedPublicationSelect(null)
       }
 

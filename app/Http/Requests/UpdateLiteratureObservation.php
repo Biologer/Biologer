@@ -126,7 +126,7 @@ class UpdateLiteratureObservation extends FormRequest
             'maximum_elevation' => $this->input('maximum_elevation'),
             'publication_id' => $this->input('publication_id'),
             'is_original_data' => $this->input('is_original_data'),
-            'cited_publication_id' => $this->input('cited_publication_id'),
+            'cited_publication_id' => $this->input('is_original_data') ? null : $this->input('cited_publication_id'),
             'place_where_referenced_in_publication' => $this->input('place_where_referenced_in_publication'),
         ];
     }

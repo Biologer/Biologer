@@ -127,7 +127,7 @@
 
         <tr>
             <td><b>{{ __('labels.literature_observations.cited_publication') }}</b></td>
-            <td class="is-fullwidth">{{ optional($literatureObservation->citedPublication)->citation }}</td>
+            <td class="is-fullwidth">{{ optional($literatureObservation->is_original_data ? null : $literatureObservation->citedPublication)->citation }}</td>
         </tr>
 
         <tr>
