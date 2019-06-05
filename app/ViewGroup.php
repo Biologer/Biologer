@@ -57,6 +57,23 @@ class ViewGroup extends Model
     }
 
     /**
+     * Add observations count to the subquery.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithObservationsCount($query)
+    {
+        $subquery = Observation::query()
+            ->selectRaw('count(*)')
+            ->join('taxon_ancestors', 'taxon_ancestors.model_id', '=', 'observations.taxon_id')
+            ->join('taxon_view_group', 'taxon_view_group.taxon_id', '=', 'taxon_ancestors.ancestor_id')
+            ->whereColumn('taxon_view_group.view_group_id', 'view_groups.id');
+
+        return $query->selectSub($subquery, 'observations_count');
+    }
+
+    /**
      * Child groups. We'll use these to fill tabed sections.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

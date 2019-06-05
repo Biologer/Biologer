@@ -2,44 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use App\FieldObservation;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Database\Eloquent\Collection;
+use App\Repositories\StatsRepository;
 
 class AboutPagesController extends Controller
 {
-    public function localCommunity()
-    {
-        // We cache data for local community page so we don't hit database more than needed.
-        $viewData = Cache::remember('localCommunityPageData', now()->addMinutes(5), function () {
-            return $this->getLocalCommunityData();
-        });
+    /**
+     * @var \App\Repositories\StatsRepository
+     */
+    private $stats;
 
-        return view('pages.about.local-community', $viewData);
+    /**
+     * @param  \App\Repositories\StatsRepository  $stats
+     * @return void
+     */
+    public function __construct(StatsRepository $stats)
+    {
+        $this->stats = $stats;
     }
 
     /**
-     * Retrieve data required for local community page.
+     * Display page for the local Biologer community.
      *
-     * @return array
+     * @return \Illuminate\View\View
      */
-    private function getLocalCommunityData()
+    public function localCommunity()
     {
-        $curators = User::curators()->with(['curatedTaxa' => function ($query) {
-            $query->orderByAncestry();
-        }])->sortByName()->get();
+        return view('pages.about.local-community', $this->stats->getLocalCommunityData());
+    }
 
-        $taxonomicGroupsCount = Collection::make(
-            $curators->pluck('curatedTaxa')->flatten(1)
-        )->unique()->count();
-
-        return [
-            'usersCount' => User::count(),
-            'admins' => User::admins()->sortByName()->get(),
-            'curators' => $curators,
-            'observationsCount' => FieldObservation::approved()->count(),
-            'taxonomicGroupsCount' => $taxonomicGroupsCount,
-        ];
+    /**
+     * Show page with basic stats.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function stats()
+    {
+        return view('pages.about.stats', $this->stats->getStatsData());
     }
 }

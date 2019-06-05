@@ -70,4 +70,5 @@ return [
     'local_community' => 'Локална заједница',
     'biodiversity_data' => 'Подаци о биодиверзитету',
     'development_supporters' => 'Развој подржали',
+    'stats' => 'Статистика',
 ];

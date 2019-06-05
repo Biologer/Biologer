@@ -105,6 +105,29 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Observations of type field entered by the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function observationsOfTypeField()
+    {
+        return $this->observations()->where('details_type', (new FieldObservation)->getMorphClass());
+    }
+
+    /**
+     * Field observations identified by the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function fieldObservationsIdentified()
+    {
+        return $this->hasMany(FieldObservation::class, 'identified_by_id')
+            ->whereHas('observation', function ($query) {
+                $query->whereNotNull('created_by_id')->whereColumn('created_by_id', '<>', 'users.id');
+            });
+    }
+
+    /**
      * Taxa the user is in charge of.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

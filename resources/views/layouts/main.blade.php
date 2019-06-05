@@ -42,6 +42,9 @@
                                 <a class="navbar-item" href="{{ route('pages.about.development-supporters') }}">
                                     {{ __('navigation.development_supporters') }}
                                 </a>
+                                <a class="navbar-item" href="{{ route('pages.about.stats') }}">
+                                    {{ __('navigation.stats') }}
+                                </a>
                             </div>
                         </div>
 

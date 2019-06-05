@@ -32,6 +32,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
     Route::get('pages/about/local-community', 'AboutPagesController@localCommunity')->name('pages.about.local-community');
     Route::view('pages/about/biodiversity-data', 'pages.about.biodiversity-data')->name('pages.about.biodiversity-data');
     Route::view('pages/about/development-supporters', 'pages.about.development-supporters')->name('pages.about.development-supporters');
+    Route::get('pages/about/stats', 'AboutPagesController@stats')->name('pages.about.stats');
 
     // Legal
     Route::view('pages/privacy-policy', 'pages.privacy-policy')->name('pages.privacy-policy');

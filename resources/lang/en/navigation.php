@@ -70,4 +70,5 @@ return [
     'local_community' => 'Local Community',
     'biodiversity_data' => 'Biodiversity Data',
     'development_supporters' => 'Development Supporters',
+    'stats' => 'Stats',
 ];

@@ -21,11 +21,23 @@ return [
 
     'field_observations_import' => [
         'short_info' => 'If you would like to import data from spreadsheet, it '.
-        'must be saved as CSV file. After selecting the file, you need to '.
-        'reorder the columns in Biologer so that it matches the order in the table '.
-        'and to actually select which columns you would like to import. The list '.
-        'of taxa should follow the taxonomy of Biologer and the list of values for '.
-        'each column (eg. stages, sex, license) must be given based on the values in English.',
+            'must be saved as CSV file. After selecting the file, you need to '.
+            'reorder the columns in Biologer so that it matches the order in the table '.
+            'and to actually select which columns you would like to import. The list '.
+            'of taxa should follow the taxonomy of Biologer and the list of values for '.
+            'each column (eg. stages, sex, license) must be given based on the values in English.',
+    ],
 
+    'stats' => [
+        'user' => 'User',
+        'curator' => 'Curator',
+        'observations_count' => 'Observations Count',
+        'identifications_count' => 'Identifications Count',
+        'year' => 'Year',
+        'group' => 'Group',
+        'top_10_users' => 'Top 10 Users',
+        'top_10_curators' => 'Top 10 Curators',
+        'observations_count_by_group' => 'Observations Count by Group',
+        'observations_count_by_year' => 'Observations Count by Year (for last 10 years)',
     ],
 ];
