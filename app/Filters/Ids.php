@@ -6,8 +6,10 @@ use Illuminate\Support\Arr;
 
 class Ids
 {
-    public function apply($query, $value)
+    public function apply($query, $value, $param, $filterData, $modelClass)
     {
-        return $query->whereIn('id', Arr::wrap($value));
+        $table = (new $modelClass)->getTable();
+
+        return $query->whereIn("{$table}.id", Arr::wrap($value));
     }
 }

@@ -135,7 +135,15 @@
             placeholder=""
           />
 
-          <b-field :label="trans('labels.field_observations.status')" class="column is-half" v-if="showStatus">
+          <b-field :label="trans('labels.field_observations.project')" class="column is-half">
+            <b-input v-model="newFilter.project" expanded />
+          </b-field>
+
+          <b-field :label="trans('labels.id')" class="column is-one-third">
+            <b-input v-model="newFilter.id" expanded />
+          </b-field>
+
+          <b-field :label="trans('labels.field_observations.status')" class="column is-one-third" v-if="showStatus">
             <b-select v-model="newFilter.status" expanded>
               <option :value="null"></option>
               <option
@@ -147,20 +155,16 @@
             </b-select>
           </b-field>
 
-          <b-field :label="trans('labels.field_observations.photos')" class="column is-half">
+          <b-field :label="trans('labels.field_observations.photos')" class="column is-one-third">
             <b-select v-model="newFilter.photos" expanded>
               <option :value="null"></option>
               <option value="yes">{{ trans('Yes') }}</option>
               <option value="no">{{ trans('No') }}</option>
             </b-select>
           </b-field>
-
-          <b-field :label="trans('labels.field_observations.project')" class="column is-half">
-            <b-input v-model="newFilter.project" expanded />
-          </b-field>
         </div>
 
-        <button type="button" class="button is-primary is-outlined" @click="applyFilter">{{ trans('buttons.apply') }}</button>
+        <button type="submit" class="button is-primary is-outlined">{{ trans('buttons.apply') }}</button>
         <button type="button" class="button" @click="clearFilter">{{ trans('buttons.clear') }}</button>
       </form>
     </b-collapse>
@@ -415,11 +419,11 @@ export default {
       this.loading = true
       const { selectedTaxon, ...filter } = this.filter
 
-      return axios.get(route(this.listRoute, {
+      return axios.get(route(this.listRoute).withQuery({
         ...filter,
         sort_by: `${this.sortField}.${this.sortOrder}`,
         page: this.page,
-        per_page:this.perPage
+        per_page:this.perPage,
       })).then(({ data: response }) => {
         this.data = []
         this.total = response.meta.total
@@ -705,7 +709,8 @@ export default {
         observer: null,
         includeChildTaxa: false,
         selectedTaxon: null,
-        project: null
+        project: null,
+        id: null
       }
     },
 
