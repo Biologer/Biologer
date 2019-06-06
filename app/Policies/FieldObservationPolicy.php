@@ -31,7 +31,7 @@ class FieldObservationPolicy
      */
     public function list(User $user)
     {
-        return $user->hasAnyRole(['admin', 'curator']);
+        return true;
     }
 
     /**

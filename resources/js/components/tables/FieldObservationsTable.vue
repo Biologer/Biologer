@@ -182,7 +182,7 @@
       pagination-on-top
 
       backend-sorting
-      :default-sort-direction="defaultSortOrder"
+      default-sort-direction="asc"
       :default-sort="[sortField, sortOrder]"
       @sort="onSort"
 
@@ -224,15 +224,15 @@
         </b-table-column>
 
         <b-table-column width="150" numeric>
-          <a @click="openImageModal(row.photos)" v-if="row.photos.length"><b-icon icon="photo" /></a>
+          <a @click="openImageModal(row.photos)" v-if="observationHasPhotos(row)"><b-icon icon="photo" /></a>
 
           <a @click="openActivityLogModal(row)" v-if="showActivityLog" :title="trans('Activity Log')"><b-icon icon="history" /></a>
 
           <a :href="viewLink(row)" v-if="viewRoute" :title="trans('buttons.view')"><b-icon icon="eye" /></a>
 
-          <a :href="editLink(row)" :title="trans('buttons.edit')"><b-icon icon="edit" /></a>
+          <a :href="editLink(row)" v-if="editRoute" :title="trans('buttons.edit')"><b-icon icon="edit" /></a>
 
-          <a @click="confirmRemove(row)" :title="trans('buttons.delete')"><b-icon icon="trash" /></a>
+          <a @click="confirmRemove(row)" v-if="deleteRoute" :title="trans('buttons.delete')"><b-icon icon="trash" /></a>
         </b-table-column>
       </template>
 
@@ -254,13 +254,19 @@
 
           <div class="media-content">
             <div class="content">
-              <strong>{{ row.location }}</strong>
+              <template v-if="row.location">
+                <strong>{{ row.location }}</strong><br>
+              </template>
 
-              <small>{{ row.latitude }}, {{ row.longitude }}</small><br>
+              <template v-if="row.latitude && row.longitude">
+                <small>{{ row.latitude }}, {{ row.longitude }}</small><br>
+              </template>
 
-              <small>{{ trans('labels.field_observations.elevation') }}: {{ row.elevation}}m</small><br>
+              <small>{{ row.mgrs10k.replace(/^[0-9]+[a-zA-Z]/, '$& ') }}</small><br>
 
-              <small v-if="row.accuracy">{{ trans('labels.field_observations.accuracy') }}: {{ row.accuracy}}m</small>
+              <small>{{ trans('labels.field_observations.elevation') }}: {{ row.elevation }}m</small><br>
+
+              <small v-if="row.accuracy">{{ trans('labels.field_observations.accuracy') }}: {{ row.accuracy }}m</small>
             </div>
           </div>
         </article>
@@ -345,7 +351,6 @@ export default {
           loading: false,
           sortField: 'id',
           sortOrder: 'desc',
-          defaultSortOrder: 'desc',
           page: 1,
           perPage: this.perPageOptions[0],
           isImageModalActive: false,
@@ -494,6 +499,10 @@ export default {
 
     viewLink (row) {
       return this.viewRoute ? route(this.viewRoute, row.id) : null
+    },
+
+    observationHasPhotos(observation) {
+      return observation.photos.filter(photo => photo.url).length > 0
     },
 
     openImageModal(photos, open) {

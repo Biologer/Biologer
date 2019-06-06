@@ -46,7 +46,6 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     // Field observations
     Route::get('field-observations', 'FieldObservationsController@index')
-        ->middleware('role:admin')
         ->middleware('can:list,App\FieldObservation')
         ->name('api.field-observations.index');
 
@@ -68,6 +67,14 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     // Field observation exports
     Route::post('field-observation-exports', 'FieldObservationExportsController@store')
         ->name('api.field-observation-exports.store');
+
+    // Public field observations
+    Route::get('public-field-observations', 'PublicFieldObservationsController@index')
+        ->name('api.public-field-observations.index');
+
+    // Public field observation exports
+    Route::post('public-field-observation-exports', 'PublicFieldObservationExportsController@store')
+        ->name('api.public-field-observation-exports.store');
 
     if (config('features.importing')) {
         Route::post('cancelled-imports', 'CancelledImportsController@store')

@@ -3,13 +3,15 @@
 return [
     'active_licenses' => explode(',', env('ACTIVE_LICENSES', \App\License::ids()->implode(','))),
 
+    'license_closed_period' => (int) env('LICENSE_CLOSED_PERIOD', 1),
+
     'photos_per_observation' => 3,
 
     'photo_resize_dimension' => (int) env('PHOTO_RESIZE_DIMENSION', null),
 
     'max_upload_size' => (int) env('MAX_UPLOAD_SIZE', 2048),
 
-    'watermark' => env('WATERMARK_FILE', resource_path('assets/svg/watermark.svg')),
+    'watermark' => env('WATERMARK_FILE', resource_path('svg/watermark.svg')),
 
     'territory' => env('MAP_TERRITORY', 'Serbia'),
 

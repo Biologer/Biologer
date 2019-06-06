@@ -84,7 +84,7 @@ class Photo extends Model
      *
      * @return \App\License
      */
-    protected function license()
+    public function license()
     {
         return License::findById($this->license);
     }
@@ -111,7 +111,7 @@ class Photo extends Model
         }
 
         if (License::CLOSED_FOR_A_PERIOD === $this->license) {
-            $openAt = $this->created_at->copy()->addYears(config('biologer.license_closed_period', 3));
+            $openAt = $this->created_at->copy()->addYears(config('biologer.license_closed_period', 1));
 
             return now()->gt($openAt) ? $this->url : null;
         }

@@ -240,6 +240,17 @@ class FieldObservation extends Model
     }
 
     /**
+     * Get only observations of taxa curated by given user.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePublic($query)
+    {
+        License::applyConstraintsToFieldObservations($query);
+    }
+
+    /**
      * Getter for time attribute.
      * @param string $value
      * @return \Illuminate\Support\Carbon|null

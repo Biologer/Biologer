@@ -14,6 +14,10 @@ class FieldObservationResource extends Resource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $fieldObservation = parent::toArray($request);
+
+        $fieldObservation['photos'] = PhotoResource::collection($fieldObservation['photos']);
+
+        return $fieldObservation;
     }
 }
