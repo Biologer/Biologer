@@ -46,7 +46,7 @@ class TaxaTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertArrayHasKey('data', $response->json());
-        $this->assertCount(2, $response->json()['data']);
+        $this->assertCount(2, $response->json('data'));
     }
 
     /** @test */
@@ -61,7 +61,7 @@ class TaxaTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertArrayHasKey('data', $response->json());
-        $this->assertCount(3, $response->json()['data']);
+        $this->assertCount(3, $response->json('data'));
     }
 
     /** @test */
@@ -103,6 +103,28 @@ class TaxaTest extends TestCase
         $response->assertJson([
             'data' => [
                 ['id' => $taxa->first()->id],
+            ],
+        ]);
+    }
+
+    /** @test */
+    public function filtering_by_rank()
+    {
+        $genus = factory(Taxon::class)->create(['name' => 'Cerambyx', 'rank' => 'genus']);
+        $species = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'rank' => 'species', 'parent_id' => $genus->id]);
+
+        Passport::actingAs(factory(User::class)->make());
+
+        $response = $this->getJson('/api/taxa?'.http_build_query([
+            'rank' => 'genus',
+            'name' => 'Cerambyx',
+        ]));
+
+        $response->assertStatus(200);
+        $this->assertCount(1, $response->json('data'));
+        $response->assertJson([
+            'data' => [
+                ['id' => $genus->id],
             ],
         ]);
     }
