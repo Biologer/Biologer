@@ -20,7 +20,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
     Route::auth(['verify' => true]);
 
     Route::get('/', 'HomeController@index')->name('home');
-    Route::get('taxa/{taxon}', 'TaxaController@show');
+    Route::get('taxa/{taxon}', 'TaxaController@show')->name('taxa.show');
     Route::get('groups', 'GroupsController@index')->name('groups.index');
     Route::get('groups/{group}/species/{species}', 'GroupSpeciesController@show')->name('groups.species.show');
     Route::get('groups/{group}/species', 'GroupSpeciesController@index')->name('groups.species.index');

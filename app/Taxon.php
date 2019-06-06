@@ -423,6 +423,57 @@ class Taxon extends Model
     }
 
     /**
+     * Check if taxon is of rank genus or lower.
+     *
+     * @return bool
+     */
+    public function isGenusOrLower()
+    {
+        return $this->rank_level <= static::RANKS['genus'];
+    }
+
+    /**
+     * Get descendants of next lower rank.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function lowerRankDescendants()
+    {
+        if ($rank = $this->lowerRank()) {
+            return $this->descendants()->where('rank', $rank)->get();
+        }
+
+        return EloquentCollection::make();
+    }
+
+    /**
+     * Get next lower rank.
+     *
+     * @return string|null
+     */
+    private function lowerRank()
+    {
+        $take = false;
+        $previousLevel = null;
+
+        foreach (static::RANKS as $rank => $level) {
+            if ($previousLevel === $level) {
+                continue;
+            }
+
+            if ($take) {
+                return $rank;
+            }
+
+            $previousLevel = $level;
+
+            if ($this->rank === $rank) {
+                $take = true;
+            }
+        }
+    }
+
+    /**
      * Taxon ranks as options for frontend.
      *
      * @return array

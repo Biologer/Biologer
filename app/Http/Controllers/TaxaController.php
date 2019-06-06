@@ -14,8 +14,19 @@ class TaxaController extends Controller
      */
     public function show(Taxon $taxon)
     {
+        $photos = collect();
+
+        if ($taxon->isGenusOrLower()) {
+            $photos = $taxon->publicPhotos()
+                ->filter->public_url
+                ->values()
+                ->map->forGallery();
+        }
+
         return view('taxa.show', [
             'taxon' => $taxon,
+            'photos' => $photos,
+            'descendants' => $taxon->isGenusOrLower() ? $taxon->lowerRankDescendants() : collect(),
         ]);
     }
 }

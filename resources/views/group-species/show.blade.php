@@ -58,13 +58,31 @@
                     <div class="mb-8">
                         @foreach($species->ancestors as $ancestor)
                             {{ __('taxonomy.'.$ancestor->rank) }}: <b>
-                                @if($ancestor->rank_level <= App\Taxon::RANKS['genus'])
+                                @if($ancestor->isGenusOrLower())
                                     <i>{{ $ancestor->name }}</i>
                                 @else
                                     {{ $ancestor->name }}
                                 @endif
                             </b><br>
                         @endforeach
+
+                        @if ($descendants->isNotEmpty())
+                            <div class="mt-4">
+                                {{ __('taxonomy.'.$descendants->first()->rank) }}:
+
+                                <ul>
+                                    @foreach($descendants as $descendant)
+                                        <li><a href="{{ route('taxa.show', $descendant) }}">
+                                        @if($descendant->isGenusOrLower())
+                                            <i>{{ $descendant->name }}</i>
+                                        @else
+                                            {{ $descendant->name }}
+                                        @endif
+                                        </a></li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                     </div>
 
                     <div class="mb-8">
