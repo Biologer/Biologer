@@ -8,6 +8,7 @@ use App\RedList;
 use Illuminate\Support\Arr;
 use App\ConservationDocument;
 use App\Support\Localization;
+use App\Rules\UniqueTaxonName;
 use Illuminate\Validation\Rule;
 use App\ConservationLegislation;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +35,7 @@ class UpdateTaxon extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', Rule::unique('taxa', 'name')->ignore($this->taxon->id)],
+            'name' => ['bail', 'required', new UniqueTaxonName($this->parent_id, $this->taxon->id)],
             'parent_id' => ['nullable', 'exists:taxa,id'],
             'rank' => ['required', Rule::in(array_keys(Taxon::RANKS))],
             'author' => ['nullable', 'string'],
@@ -93,9 +94,10 @@ class UpdateTaxon extends FormRequest
                 'conservationDocuments',
             ])->toArray();
 
-            $taxon->update(array_merge($this->only([
-                'name', 'parent_id', 'rank', 'fe_old_id', 'fe_id', 'restricted',
-                'allochthonous', 'invasive', 'author',
+            $taxon->update(array_merge(array_map('trim', $this->only([
+                'name', 'rank', 'fe_old_id', 'fe_id', 'author',
+            ])), $this->only([
+                'parent_id', 'restricted', 'allochthonous', 'invasive',
             ]), Localization::transformTranslations($this->only([
                 'description', 'native_name',
             ]))));

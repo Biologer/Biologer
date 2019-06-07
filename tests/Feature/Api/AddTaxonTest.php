@@ -142,4 +142,83 @@ class AddTaxonTest extends TestCase
 
         $response->assertForbidden();
     }
+
+    /** @test */
+    public function name_must_be_unique_among_roots()
+    {
+        factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+
+        $response = $this->postJson('/api/taxa', $this->validParams([
+            'name' => 'Animalia',
+            'parent_id' => null,
+        ]));
+
+        $response->assertJsonValidationErrors('name');
+    }
+
+    /** @test */
+    public function trimmed_version_of_value_is_check()
+    {
+        factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+
+        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+
+        $response = $this->postJson('/api/taxa', $this->validParams([
+            'name' => 'Animalia ',
+            'parent_id' => null,
+        ]));
+
+        $response->assertJsonValidationErrors('name');
+    }
+
+    /** @test */
+    public function checking_unique_name_is_case_insensitive()
+    {
+        factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+
+        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+
+        $response = $this->postJson('/api/taxa', $this->validParams([
+            'name' => 'AnimaliA',
+            'parent_id' => null,
+        ]));
+
+        $response->assertJsonValidationErrors('name');
+    }
+
+    /** @test */
+    public function name_must_be_unique_within_a_tree()
+    {
+        $root = factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
+
+        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+
+        $response = $this->postJson('/api/taxa', $this->validParams([
+            'name' => 'Cerambyx cerdo',
+            'parent_id' => $root->id,
+            'rank' => 'species',
+        ]));
+
+        $response->assertJsonValidationErrors('name');
+    }
+
+    /** @test */
+    public function same_name_can_be_used_in_different_trees()
+    {
+        $root = factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
+
+        $otherRoot = factory(Taxon::class)->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
+        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+
+        $response = $this->postJson('/api/taxa', $this->validParams([
+            'name' => 'Cerambyx cerdo',
+            'parent_id' => $otherRoot->id,
+            'rank' => 'species',
+        ]));
+
+        $response->assertCreated();
+    }
 }

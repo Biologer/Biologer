@@ -116,6 +116,17 @@ trait HasAncestry
     }
 
     /**
+     * Scope the query to get only root taxa.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeRoots($query)
+    {
+        return $query->whereNull('parent_id');
+    }
+
+    /**
      * Lowercased model name.
      *
      * @return string

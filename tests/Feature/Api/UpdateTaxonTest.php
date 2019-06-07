@@ -80,7 +80,6 @@ class UpdateTaxonTest extends TestCase
     /** @test */
     public function user_with_the_role_of_admin_can_update_taxon()
     {
-        $this->withoutExceptionHandling();
         $taxon = factory(Taxon::class)->create([
             'name' => 'Cerambyx cerdo',
             'restricted' => false,
@@ -200,5 +199,106 @@ class UpdateTaxonTest extends TestCase
             ], $activity->changes()->get('old'));
             $this->assertEquals('Just testin\' :)', $activity->getExtraProperty('reason'));
         });
+    }
+
+    /** @test */
+    public function name_must_be_unique_among_roots()
+    {
+        factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        $taxon = factory(Taxon::class)->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
+
+        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+
+        $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
+            'name' => 'Animalia',
+            'parent_id' => $taxon->parent_id,
+        ]));
+
+        $response->assertJsonValidationErrors('name');
+    }
+
+    public function trimmed_version_of_value_is_check()
+    {
+        factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        $taxon = factory(Taxon::class)->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
+
+        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+
+        $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
+            'name' => 'Animalia ',
+            'parent_id' => $taxon->parent_id,
+        ]));
+
+        $response->assertJsonValidationErrors('name');
+    }
+
+    /** @test */
+    public function checking_unique_name_is_case_insensitive()
+    {
+        factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        $taxon = factory(Taxon::class)->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
+
+        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+
+        $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
+            'name' => 'AnimaliA',
+            'parent_id' => $taxon->parent_id,
+        ]));
+
+        $response->assertJsonValidationErrors('name');
+    }
+
+    /** @test */
+    public function name_must_be_unique_within_a_tree()
+    {
+        $root = factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
+        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx scopolii', 'parent_id' => $root->id, 'rank' => 'species']);
+
+        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+
+        $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
+            'name' => 'Cerambyx cerdo',
+            'parent_id' => $taxon->parent_id,
+            'rank' => $taxon->rank,
+        ]));
+
+        $response->assertJsonValidationErrors('name');
+    }
+
+    /** @test */
+    public function same_name_can_be_used_in_different_trees()
+    {
+        $root = factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
+
+        $otherRoot = factory(Taxon::class)->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
+        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx scopilii', 'parent_id' => $otherRoot->id, 'rank' => 'species']);
+
+        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+
+        $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
+            'name' => 'Cerambyx cerdo',
+            'parent_id' => $taxon->parent_id,
+            'rank' => $taxon->rank,
+        ]));
+
+        $response->assertSuccessful();
+    }
+
+    /** @test */
+    public function unique_name_validation_is_ignored_if_using_the_same_name()
+    {
+        $taxon = factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+
+        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+
+        $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
+            'name' => $taxon->name,
+            'parent_id' => $taxon->parent_id,
+            'rank' => $taxon->rank,
+        ]));
+
+        $response->assertSuccessful();
     }
 }

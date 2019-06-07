@@ -121,6 +121,7 @@ return [
     'year' => 'Godina nije ispravan.',
     'decimal' => 'Polje :attribute mora biti decimalni broj.',
     'contains_non_empty' => 'Polje :attribute mora sadržati barem jednu popunjenu opciju.',
+    'unique_taxon_name' => 'Ime svojte mora biti jedinstveno u okviru glavnih skupina organizama iz živog svjeta.',
 
     /*
     |--------------------------------------------------------------------------
