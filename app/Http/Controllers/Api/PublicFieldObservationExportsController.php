@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Exports\FieldObservations\PublicFieldObservationsExport;
 use App\Exports\FieldObservations\PublicFieldObservationsCustomExport;
 
-class FieldObservationExportsController extends Controller
+class PublicFieldObservationExportsController extends Controller
 {
     /**
      * @var \App\Exports\FieldObservations\FieldObservationsExportFactory
