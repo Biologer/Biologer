@@ -287,5 +287,11 @@ return [
             'delete_account' => 'Delete Account',
             'delete_observations' => 'Delete observations as well',
         ],
+        'notifications' => [
+            'field_observation_approved' => 'Observation is approved',
+            'field_observation_moved_to_pending' => 'Observation is moved to pending',
+            'field_observation_marked_unidentifiable' => 'Observation is marked as unidentifiable',
+            'field_observation_for_approval' => 'New observation for approval',
+        ],
     ],
 ];

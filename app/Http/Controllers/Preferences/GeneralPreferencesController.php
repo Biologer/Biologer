@@ -8,6 +8,12 @@ use App\Http\Controllers\Controller;
 
 class GeneralPreferencesController extends Controller
 {
+    /**
+     * Display user's profile preferences.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
+     */
     public function index(Request $request)
     {
         return view('preferences.general', [
@@ -15,6 +21,12 @@ class GeneralPreferencesController extends Controller
         ]);
     }
 
+    /**
+     * Update user's profile preferences.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request)
     {
         $request->user()->update($request->validate([

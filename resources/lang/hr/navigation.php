@@ -18,6 +18,8 @@ return [
         'delete_account' => 'Brisanje naloga',
         'account_preferences' => 'Postavke naloga',
         'change_password' => 'Promena lozinke',
+        'notifications' => 'Notifikacije',
+        'notifications_preferences' => 'Postavke notifikacija',
     ],
     'dashboard' => 'Kontrolna ploča',
     'notifications' => 'Obavijesti',

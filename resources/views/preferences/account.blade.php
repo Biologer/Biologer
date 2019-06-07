@@ -25,10 +25,11 @@
             <div class="columns">
                 <div class="column">
                     <div class="field is-required">
-                        <label class="label">{{ __('labels.register.password') }}</label>
+                        <label class="label" for="password">{{ __('labels.register.password') }}</label>
 
                         <div class="control">
                             <input
+                                id="password"
                                 type="password"
                                 name="password"
                                 class="input{{ $errors->has('password') ? ' is-danger' : ''}}"
@@ -41,10 +42,11 @@
                 </div>
                 <div class="column">
                     <div class="field is-required">
-                        <label class="label">{{ __('labels.register.password_confirmation') }}</label>
+                        <label class="label" for="password_confirmation">{{ __('labels.register.password_confirmation') }}</label>
 
                         <div class="control">
                             <input
+                                id="password_confirmation"
                                 type="password"
                                 name="password_confirmation"
                                 class="input{{ $errors->has('password_confirmation') ? ' is-danger' : '' }}"

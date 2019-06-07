@@ -285,5 +285,11 @@ return [
             'delete_account' => 'Обриши налог',
             'delete_observations' => 'Обриши и унете налазе',
         ],
+        'notifications' => [
+            'field_observation_approved' => 'Налаз је одобрен',
+            'field_observation_moved_to_pending' => 'Налаз је стављен на чекање',
+            'field_observation_marked_unidentifiable' => 'Налаз је означен као да није могућа идентификација',
+            'field_observation_for_approval' => 'Нов налаз за преглед',
+        ],
     ],
 ];

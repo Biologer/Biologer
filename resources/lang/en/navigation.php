@@ -18,6 +18,8 @@ return [
         'delete_account' => 'Delete Account',
         'account_preferences' => 'Account Preferences',
         'change_password' => 'Change Password',
+        'notifications' => 'Notifications',
+        'notifications_preferences' => 'Notifications Preferences',
     ],
     'dashboard' => 'Dashboard',
     'notifications' => 'Notifications',

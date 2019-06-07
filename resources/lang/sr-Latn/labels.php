@@ -287,5 +287,11 @@ return [
             'delete_account' => 'Obriši nalog',
             'delete_observations' => 'Obriši i unete nalaze',
         ],
+        'notifications' => [
+            'field_observation_approved' => 'Nalaz je odobren',
+            'field_observation_moved_to_pending' => 'Nalaz je stavljen na čekanje',
+            'field_observation_marked_unidentifiable' => 'Nalaz je označen kao da nije moguća identifikacija',
+            'field_observation_for_approval' => 'Nov nalaz za pregled',
+        ],
     ],
 ];

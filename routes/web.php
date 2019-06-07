@@ -58,6 +58,9 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
             Route::get('license', 'LicensePreferencesController@index')->name('license');
             Route::patch('license', 'LicensePreferencesController@update');
+
+            Route::get('notifications', 'NotificationsPreferencesController@index')->name('notifications');
+            Route::patch('notifications', 'NotificationsPreferencesController@update');
         });
 
         Route::prefix('contributor')->namespace('Contributor')->name('contributor.')->group(function () {

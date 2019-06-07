@@ -24,10 +24,11 @@
         <div class="columns">
             <div class="column">
                 <div class="field is-required">
-                    <label class="label">{{ __('labels.register.first_name') }}</label>
+                    <label class="label" for="first_name">{{ __('labels.register.first_name') }}</label>
 
                     <div class="control">
                         <input
+                            id="first_name"
                             type="text"
                             name="first_name"
                             class="input{{ $errors->has('first_name') ? ' is-danger' : '' }}"
@@ -43,10 +44,11 @@
 
             <div class="column">
                 <div class="field is-required">
-                    <label class="label">{{ __('labels.register.last_name') }}</label>
+                    <label class="label" for="last_name">{{ __('labels.register.last_name') }}</label>
 
                     <div class="control">
                         <input
+                            id="last_name"
                             type="text"
                             name="last_name"
                             class="input{{ $errors->has('last_name') ? ' is-danger' : '' }}"
@@ -61,10 +63,11 @@
         </div>
 
         <div class="field">
-            <label class="label">{{ __('labels.register.institution') }}</label>
+            <label class="label" for="institution">{{ __('labels.register.institution') }}</label>
 
             <div class="control">
                 <input
+                    id="institution"
                     type="text"
                     name="institution"
                     class="input{{ $errors->has('institution') ? ' is-danger' : '' }}"

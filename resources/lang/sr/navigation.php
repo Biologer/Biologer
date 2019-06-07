@@ -18,6 +18,8 @@ return [
         'delete_account' => 'Брисање налога',
         'account_preferences' => 'Подешавање налога',
         'change_password' => 'Промена лозинке',
+        'notifications' => 'Нотификације',
+        'notifications_preferences' => 'Подешавање нотификација',
     ],
     'dashboard' => 'Контролна табла',
     'notifications' => 'Обавештења',
