@@ -8,6 +8,7 @@ use App\RedList;
 use Illuminate\Console\Command;
 use App\ConservationLegislation;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class ImportTaxa extends Command
 {
@@ -19,7 +20,9 @@ class ImportTaxa extends Command
     protected $signature = 'import:taxa
                             {path=taxa.csv : Path to the CSV file we want to import}
                             {--u|user= : ID of User to whom the taxa tree should be attributed to}
-                            {--compose-species-name : Species and subspecies contain only suffixes so we need to combine them with genus}';
+                            {--compose-species-name : Species and subspecies contain only suffixes so we need to combine them with genus}
+                            {--chunked : Chunk reading the CSV file}
+                            {--chunk-size=1000 : Size of the chunk when chunking is enabled CSV file}';
 
     /**
      * The console command description.
@@ -67,7 +70,9 @@ class ImportTaxa extends Command
         $this->fetchRelated();
 
         DB::transaction(function () use ($path) {
-            $this->createSpecies($this->extractDataFromFile($path));
+            $this->readFile($path, function ($rows) {
+                $this->createSpecies($rows);
+            });
         });
 
         $this->info('Done!');
@@ -78,7 +83,7 @@ class ImportTaxa extends Command
      *
      * @return void
      */
-    protected function fetchRelated()
+    private function fetchRelated()
     {
         $this->conservationLegislations = ConservationLegislation::all();
         $this->redLists = RedList::all();
@@ -86,14 +91,36 @@ class ImportTaxa extends Command
     }
 
     /**
-     * Extract data from CSV file.
+     * Read data from CSV file.
      *
      * @param  string  $path
+     * @param  callable  $callback
      * @return array
      */
-    protected function extractDataFromFile($path)
+    private function readFile($path, callable $callback)
     {
         $file = fopen($path, 'r');
+
+        try {
+            $this->extractDataFromFile($file, $callback);
+
+            fclose($file);
+        } catch (\Exception $e) {
+            @fclose($file);
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Extract data from CSV file.
+     *
+     * @param  resource  $file
+     * @param  callable  $callback
+     * @return array
+     */
+    private function extractDataFromFile($file, callable $callback)
+    {
         $columns = [];
         $rows = [];
         $rowNumber = 1;
@@ -108,12 +135,16 @@ class ImportTaxa extends Command
             }
 
             $this->info('Reading row # '.$rowNumber);
+
+            if ($this->option('chunked') && $this->shouldInsertChunk($rowNumber)) {
+                $callback($rows);
+                $rows = [];
+            }
+
             $rowNumber++;
         }
 
-        fclose($file);
-
-        return $rows;
+        $callback($rows);
     }
 
     /**
@@ -123,7 +154,7 @@ class ImportTaxa extends Command
      * @param  array  $columns
      * @return array
      */
-    protected function mapColumnsOnRow($row, $columns)
+    private function mapColumnsOnRow($row, $columns)
     {
         $data = [];
 
@@ -135,15 +166,25 @@ class ImportTaxa extends Command
     }
 
     /**
+     * Check if chunk should be inserted.
+     *
+     * @param  [type] $rowNumber [description]
+     * @return [type]            [description]
+     */
+    private function shouldInsertChunk($rowNumber)
+    {
+        return ($rowNumber - 1) % $this->option('chunk-size') === 0;
+    }
+
+    /**
      * Go through each row and create taxa tree based on data in it.
      *
      * @param  array  $data
      * @return void
      */
-    protected function createSpecies($data)
+    private function createSpecies($data)
     {
-        foreach ($data as $i => $taxon) {
-            $this->info('Adding tree for row # '.($i + 1));
+        foreach ($data as $taxon) {
             $this->addEntireTreeOfTheTaxon($taxon);
         }
     }
@@ -154,11 +195,9 @@ class ImportTaxa extends Command
      * @param  array  $taxon
      * @return void
      */
-    protected function addEntireTreeOfTheTaxon($taxon)
+    private function addEntireTreeOfTheTaxon($taxon)
     {
-        $tree = $this->buildWorkingTree($taxon);
-
-        if (! empty($tree)) {
+        if ($tree = $this->buildWorkingTree($taxon)) {
             // We assume that the rest of available information describes the
             // lowest ranked taxon in the row.
             $last = end($tree);
@@ -175,19 +214,32 @@ class ImportTaxa extends Command
      * @param  array  $taxon
      * @return array
      */
-    protected function buildWorkingTree($taxon)
+    private function buildWorkingTree($taxon)
     {
         $tree = [];
         $taxa = $this->getRankNamePairsForTree($taxon);
         $existing = $this->getExistingTaxaForPotentialTree($taxa);
 
-        foreach ($taxa as $t) {
-            $tree[] = $existing->first(function ($taxon) use ($t) {
-                return $taxon->rank === $t['rank'] && $taxon->name === $t['name'];
-            }, new Taxon($t));
+        foreach ($taxa as $taxon) {
+            $tree[] = $existing->first(function ($existingTaxon) use ($taxon) {
+                return $this->isSameTaxon($existingTaxon, $taxon);
+            }, new Taxon($taxon));
         }
 
         return $tree;
+    }
+
+    /**
+     * Check if it's the same taxon as existing one.
+     *
+     * @param  \App\Taxon  $existingTaxon
+     * @param  array  $taxon
+     * @return bool
+     */
+    private function isSameTaxon($existingTaxon, $taxon)
+    {
+        return $existingTaxon->rank === $taxon['rank'] &&
+            strtolower($existingTaxon->name) === strtolower($taxon['name']);
     }
 
     /**
@@ -225,28 +277,79 @@ class ImportTaxa extends Command
      * @param  array  $taxon
      * @return string|null
      */
-    protected function getNameForRank($rank, $taxon)
+    private function getNameForRank($rank, $taxon)
     {
         if ($this->option('compose-species-name')) {
-            if ($rank === 'subspecies' && ! empty($taxon['genus'] && ! empty($taxon['species']) && ! empty($taxon['subspecies']))) {
-                return implode(' ', array_filter([
-                    $taxon['genus'],
-                    empty($taxon['subgenus']) ? null : '('.$taxon['subgenus'].')',
-                    $taxon['species'],
-                    $taxon['subspecies'],
-                ]));
+            if ($this->isCompoundSubspeciesName($rank, $taxon)) {
+                return $this->buildCompoundSubspeciesName($taxon);
             }
 
-            if ($rank === 'species' && ! empty($taxon['genus'] && ! empty($taxon['species']))) {
-                return implode(' ', array_filter([
-                    $taxon['genus'],
-                    empty($taxon['subgenus']) ? null : '('.$taxon['subgenus'].')',
-                    $taxon['species'],
-                ]));
+            if ($this->isCompoundSpeciesName($rank, $taxon)) {
+                return $this->buildCompoundSpeciesName($taxon);
             }
         }
 
         return $taxon[$rank] ?? null;
+    }
+
+    /**
+     * Check if we have compound name for subspecies.
+     *
+     * @param  string  $rank
+     * @param  array  $taxon
+     * @return bool
+     */
+    private function isCompoundSubspeciesName($rank, $taxon)
+    {
+        return $rank === 'subspecies' &&
+            ! empty($taxon['genus'] &&
+            ! empty($taxon['species']) &&
+            ! empty($taxon['subspecies']));
+    }
+
+    /**
+     * Build subspecies name from genus, species suffix and subspecies suffix.
+     *
+     * @param  array  $taxon
+     * @return string
+     */
+    private function buildCompoundSubspeciesName($taxon)
+    {
+        return implode(' ', array_filter([
+            $taxon['genus'],
+            empty($taxon['subgenus']) ? null : '('.$taxon['subgenus'].')',
+            $taxon['species'],
+            $taxon['subspecies'],
+        ]));
+    }
+
+    /**
+     * Check if we have compound name for species.
+     *
+     * @param  string  $rank
+     * @param  array  $taxon
+     * @return bool
+     */
+    private function isCompoundSpeciesName($rank, $taxon)
+    {
+        return $rank === 'species' &&
+            ! empty($taxon['genus'] &&
+            ! empty($taxon['species']));
+    }
+
+    /**
+     * Build subspecies name from genus, species suffix and subspecies suffix.
+     *
+     * @param  array  $taxon
+     * @return string
+     */
+    private function buildCompoundSpeciesName($taxon)
+    {
+        return implode(' ', array_filter([
+            $taxon['genus'],
+            empty($taxon['subgenus']) ? null : '('.$taxon['subgenus'].')',
+            $taxon['species'],
+        ]));
     }
 
     /**
@@ -258,15 +361,19 @@ class ImportTaxa extends Command
      */
     private function getExistingTaxaForPotentialTree(array $tree)
     {
-        $query = Taxon::query();
+        $query = Taxon::query()->with('ancestors');
 
         foreach ($tree as $taxon) {
             $query->orWhere(function ($q) use ($taxon) {
-                $q->where('rank', $taxon['rank'])->where('name', $taxon['name']);
+                $q->where('rank', $taxon['rank'])->where('name', 'like', trim($taxon['name']));
             });
         }
 
-        return $query->get();
+        return $query->get()->groupBy(function ($taxon) {
+            return $taxon->isRoot() ? $taxon->id : $taxon->ancestors->filter->isRoot()->first()->id;
+        })->sortByDesc(function ($group) {
+            return $group->count();
+        })->first() ?: EloquentCollection::make();
     }
 
     /**
@@ -275,11 +382,15 @@ class ImportTaxa extends Command
      * @param  array  $row
      * @return array
      */
-    protected function extractOtherTaxonData($row)
+    private function extractOtherTaxonData($row)
     {
         return [
+            'allochthonous' => !empty($row['allochthonous']),
+            'invasive' => !empty($row['invasive']),
+            'restricted' => !empty($row['restricted']),
             'author' => $row['author'] ?? null,
             'fe_old_id' => $row['fe_old_id'] ?? null,
+            'fe_id' => $row['fe_id'] ?? null,
             'en' => [
                 'native_name' => $row['name_en'] ?? null,
                 'description' => $row['description_en'] ?? null,
@@ -306,7 +417,7 @@ class ImportTaxa extends Command
      * @param  array  $tree
      * @return array
      */
-    protected function storeWorkingTree($tree)
+    private function storeWorkingTree($tree)
     {
         $sum = [];
         $last = null;
@@ -314,8 +425,9 @@ class ImportTaxa extends Command
         foreach ($tree as $current) {
             // Connect the taxon with it's parent to establish ancestry.
             $current->parent_id = $last ? $last->id : null;
+            $doesntExist = ! $current->exists;
 
-            if ($current->isDirty() || ! $current->exists) {
+            if ($current->isDirty() || $doesntExist) {
                 $current->save();
                 $this->info('Stored taxon: '.$current->name);
             }
@@ -323,7 +435,7 @@ class ImportTaxa extends Command
             // If we wanted to attribute the taxa tree to a user,
             // this is the place we do it, adding an entry to
             // activity log.
-            if (! $current->exists && $this->user) {
+            if ($doesntExist && $this->user) {
                 activity()->performedOn($current)
                     ->causedBy($this->user)
                     ->log('created');
