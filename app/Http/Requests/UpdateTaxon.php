@@ -94,10 +94,8 @@ class UpdateTaxon extends FormRequest
                 'conservationDocuments',
             ])->toArray();
 
-            $taxon->update(array_merge(array_map('trim', $this->only([
-                'name', 'rank', 'fe_old_id', 'fe_id', 'author',
-            ])), $this->only([
-                'parent_id', 'restricted', 'allochthonous', 'invasive',
+            $taxon->update(array_merge(array_map('trim', $this->only(['name', 'rank'])), $this->only([
+                'parent_id', 'fe_old_id', 'fe_id', 'author', 'restricted', 'allochthonous', 'invasive',
             ]), Localization::transformTranslations($this->only([
                 'description', 'native_name',
             ]))));

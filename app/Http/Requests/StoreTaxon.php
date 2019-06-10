@@ -85,10 +85,8 @@ class StoreTaxon extends FormRequest
      */
     protected function createTaxon()
     {
-        return Taxon::create(array_merge(array_map('trim', $this->only([
-            'name', 'rank', 'fe_old_id', 'fe_id', 'author',
-        ])), $this->only([
-            'parent_id', 'restricted', 'allochthonous', 'invasive',
+        return Taxon::create(array_merge(array_map('trim', $this->only(['name', 'rank'])), $this->only([
+            'parent_id', 'fe_id', 'author', 'fe_old_id', 'restricted', 'allochthonous', 'invasive',
         ]), Localization::transformTranslations($this->only([
             'description', 'native_name',
         ]))));
