@@ -123,7 +123,7 @@ class Taxon extends Model
     protected function filters()
     {
         return [
-            'id' => \App\Filters\Id::class,
+            'id' => \App\Filters\Ids::class,
             'name' => \App\Filters\Taxon\NameLike::class,
             'sort_by' => \App\Filters\SortBy::class,
             'except' => \App\Filters\ExceptIds::class,

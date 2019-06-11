@@ -139,6 +139,10 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->middleware('can:delete,group')
         ->name('api.view-groups.destroy');
 
+    // Taxa export
+    Route::post('taxon-exports', 'TaxonExportsController@store')
+        ->name('api.taxon-exports.store');
+
     Route::get('exports/{export}', 'ExportsController@show')
         ->name('api.exports.show');
 

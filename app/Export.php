@@ -6,8 +6,9 @@ use App\Exports\ExportStatus;
 
 use App\Events\ExportStatusUpdated;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 
-class Export extends Model
+class Export extends Model implements HasLocalePreference
 {
     /**
      * The model's attributes.
@@ -178,6 +179,16 @@ class Export extends Model
     public function isInProgress()
     {
         return in_array($this->status, ExportStatus::inProgress());
+    }
+
+    /**
+     * Get the preferred locale of the entity.
+     *
+     * @return string|null
+     */
+    public function preferredLocale()
+    {
+        return $this->locale;
     }
 
     /**

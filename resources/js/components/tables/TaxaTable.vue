@@ -13,6 +13,33 @@
           </button>
         </div>
       </div>
+
+      <div class="level-right" v-if="hasActions">
+        <div class="level-item">
+          <b-dropdown position="is-bottom-left">
+            <button
+              class="button is-touch-full"
+              slot="trigger"
+              :class="{'is-loading': actionRunning}"
+            >
+              <span>{{ trans('labels.actions') }}</span>
+
+              <span class="icon has-text-grey">
+                <i class="fa fa-angle-down"></i>
+              </span>
+            </button>
+
+            <b-dropdown-item
+              @click="openExportModal"
+              v-if="exportable"
+            >
+              <b-icon icon="download" class="has-text-grey" />
+
+              <span>{{ trans('buttons.export') }}</span>
+            </b-dropdown-item>
+          </b-dropdown>
+        </div>
+      </div>
     </div>
 
     <b-collapse :open="showFilter" class="mt-4">
@@ -106,12 +133,25 @@
         </div>
       </div>
     </b-modal>
+
+    <b-modal :active="showExportModal" @close="showExportModal = false" has-modal-card :can-cancel="[]">
+      <nz-export-modal
+        :checked="checkedIds"
+        :filter="filter"
+        :columns="exportColumns"
+        :url="exportUrl"
+        :types="['custom']"
+        @cancel="showExportModal = false"
+        @done="onExportDone"
+      />
+    </b-modal>
   </div>
 </template>
 
 <script>
 import FilterableTableMixin from '@/mixins/FilterableTableMixin'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
+import ExportDownloadModal from '@/components/exports/ExportDownloadModal'
 
 export default {
   name: 'nzTaxaTable',
@@ -132,7 +172,9 @@ export default {
       default: 'Nothing here.'
     },
     ranks: Array,
-    showActivityLog: Boolean
+    showActivityLog: Boolean,
+    exportColumns: Array,
+    exportUrl: String
   },
 
   data() {
@@ -146,7 +188,22 @@ export default {
       page: 1,
       perPage: this.perPageOptions[0],
       checkedRows: [],
-      activityLog: []
+      activityLog: [],
+      showExportModal: false
+    }
+  },
+
+  computed: {
+    hasActions() {
+      return this.exportable
+    },
+
+    exportable() {
+      return !!(this.exportUrl && this.exportColumns.length)
+    },
+
+    checkedIds() {
+      return this.checkedRows.map(row => row.id)
     }
   },
 
@@ -237,6 +294,32 @@ export default {
       return {
         name: '',
         rank: ''
+      }
+    },
+
+    openExportModal() {
+      this.showExportModal = true
+    },
+
+    onExportDone(finishedExport) {
+      this.showExportModal = false
+
+      if (finishedExport.url) {
+        this.$modal.open({
+          parent: this,
+          component: ExportDownloadModal,
+          canCancel: [],
+          hasModalCard: true,
+          props: {
+            url: finishedExport.url,
+          }
+        })
+      } else {
+        this.$toast.open({
+          duration: 0,
+          message: `Something's not good, also I'm on bottom`,
+          type: 'is-danger'
+        })
       }
     }
   }

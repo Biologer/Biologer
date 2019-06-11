@@ -10,9 +10,12 @@ use Illuminate\Support\Collection;
 use Box\Spout\Writer\WriterFactory;
 use Box\Spout\Writer\WriterInterface;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Traits\Localizable;
 
 abstract class BaseExport
 {
+    use Localizable;
+
     /**
      * Create export model.
      *
@@ -85,24 +88,19 @@ abstract class BaseExport
      */
     public function export(Export $export)
     {
-        $oldLocale = app()->getLocale();
+        $this->withLocale($export->preferredLocale(), function () use ($export) {
+            $export->updateStatusToExporting();
 
-        $export->updateStatusToExporting();
-        // Use locale that the user was using when they requested export.
-        app()->setLocale($export->locale);
+            try {
+                $export->moveToFinalPath($this->exportToTempFile($export));
 
-        try {
-            $export->moveToFinalPath($this->exportToTempFile($export));
+                $export->updateStatusToFinished();
+            } catch (\Exception $e) {
+                $export->updateStatusToFailed();
 
-            $export->updateStatusToFinished();
-        } catch (\Exception $e) {
-            $export->updateStatusToFailed();
-
-            throw $e;
-        } finally {
-            // Restore old locale
-            app()->setLocale($oldLocale);
-        }
+                throw $e;
+            }
+        });
     }
 
     /**

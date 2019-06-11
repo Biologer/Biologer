@@ -8,6 +8,7 @@ use App\RedList;
 use App\ConservationDocument;
 use App\ConservationLegislation;
 use App\Http\Controllers\Controller;
+use App\Exports\Taxa\CustomTaxaExport;
 
 class TaxaController extends Controller
 {
@@ -18,7 +19,9 @@ class TaxaController extends Controller
      */
     public function index()
     {
-        return view('admin.taxa.index');
+        return view('admin.taxa.index', [
+            'exportColumns' => CustomTaxaExport::availableColumnData(),
+        ]);
     }
 
     /**

@@ -307,7 +307,7 @@
 <script>
 import FilterableTableMixin from '@/mixins/FilterableTableMixin'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
-import ExportDownloadModal from '@/components//exports/ExportDownloadModal'
+import ExportDownloadModal from '@/components/exports/ExportDownloadModal'
 
 export default {
   name: 'nzFieldObservationsTable',
@@ -370,12 +370,6 @@ export default {
   },
 
   computed: {
-    hasActions() {
-      return this.approvable
-        || this.markableAsUnidentifiable
-        || this.movableToPending
-    },
-
     months() {
       return moment.months()
     },

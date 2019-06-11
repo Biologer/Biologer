@@ -6,6 +6,8 @@
             list-route="api.taxa.index"
             edit-route="admin.taxa.edit"
             delete-route="api.taxa.destroy"
+            export-url="{{ route('api.taxon-exports.store') }}"
+            :export-columns="{{ $exportColumns }}"
             :ranks="{{ json_encode(\App\Taxon::getRankOptions()) }}"
             empty="{{ __('No data...') }}"
             show-activity-log
