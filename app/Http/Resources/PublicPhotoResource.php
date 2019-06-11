@@ -17,7 +17,7 @@ class PublicPhotoResource extends JsonResource
         return [
             'author' => $this->author,
             'license' => $this->license()->toArray(),
-            'url' => $this->public_url,
+            'url' => "{$this->public_url}?v={$this->updated_at->timestamp}",
         ];
     }
 }

@@ -25,7 +25,7 @@
                         <div class="columns">
                             @foreach ($fieldObservation->photos->filter->public_url as $photo)
                                 <div class="column is-one-third">
-                                    <img src="{{ $photo->public_url }}">
+                                    <img src="{{ "{$photo->public_url}?v={$photo->updated_at->timestamp}" }}">
                                 </div>
                             @endforeach
                         </div>

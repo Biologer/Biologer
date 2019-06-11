@@ -19,7 +19,7 @@ class PhotoResource extends JsonResource
             'license' => $this->license()->toArray(),
             'metadata' => $this->metadata,
             'path' => $this->path,
-            'url' => $this->url,
+            'url' => "{$this->url}?v={$this->updated_at->timestamp}",
         ];
     }
 }

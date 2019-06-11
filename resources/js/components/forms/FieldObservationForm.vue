@@ -584,7 +584,15 @@ export default {
      * @return {String}
      */
     getObservationPhotoAttribute(photoIndex = 0, attribute = 'url') {
-      return _.get(this.observation, `photos.${photoIndex}.${attribute}`, '')
+      let value = _.get(this.observation, `photos.${photoIndex}.${attribute}`, '')
+
+      if (attribute === 'url') {
+        const updated = moment(_.get(this.observation, `photos.${photoIndex}.updated_at`, null))
+
+        value += `?v=${updated.format('X')}`
+      }
+
+      return value
     },
 
     /**

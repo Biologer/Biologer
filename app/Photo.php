@@ -180,6 +180,8 @@ class Photo extends Model
                 ->crop($width, $height, $x, $y)
                 ->encode()
         );
+
+        $this->touch();
     }
 
     /**
@@ -342,7 +344,7 @@ class Photo extends Model
     public function forGallery()
     {
         return [
-            'url' => $this->public_url,
+            'url' => "{$this->public_url}?v={$this->updated_at->timestamp}",
             'caption' => "&copy; {$this->author} ({$this->license_name})",
         ];
     }
