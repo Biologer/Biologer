@@ -34,10 +34,8 @@
         <span>{{ __('navigation.new_observation') }}</span>
     </a>
 
-    @if(config('features.importing'))
-        <a href="{{ route('contributor.field-observations-import.index') }}" class="button is-secondary is-outlined ml-2">
-            @include('components.icon', ['icon' => 'upload'])
-            <span>{{ __('navigation.import') }}</span>
-        </a>
-    @endif
+    <a href="{{ route('contributor.field-observations-import.index') }}" class="button is-secondary is-outlined ml-2">
+        @include('components.icon', ['icon' => 'upload'])
+        <span>{{ __('navigation.import') }}</span>
+    </a>
 @endsection

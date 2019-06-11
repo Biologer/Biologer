@@ -73,13 +73,11 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::get('field-observations/new', 'FieldObservationsController@create')
                 ->name('field-observations.create');
 
-            if (config('features.importing')) {
-                Route::get('field-observations/import', 'FieldObservationsImportController@index')
-                    ->name('field-observations-import.index');
+            Route::get('field-observations/import', 'FieldObservationsImportController@index')
+                ->name('field-observations-import.index');
 
-                Route::view('field-observations/import/guide', 'contributor.field-observations-import.guide')
-                    ->name('field-observations-import.guide');
-            }
+            Route::view('field-observations/import/guide', 'contributor.field-observations-import.guide')
+                ->name('field-observations-import.guide');
 
             Route::get('field-observations/{fieldObservation}', 'FieldObservationsController@show')
                 ->middleware('can:view,fieldObservation')

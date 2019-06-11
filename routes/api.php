@@ -76,20 +76,18 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('public-field-observation-exports', 'PublicFieldObservationExportsController@store')
         ->name('api.public-field-observation-exports.store');
 
-    if (config('features.importing')) {
-        Route::post('cancelled-imports', 'CancelledImportsController@store')
-            ->name('api.cancelled-imports.store');
+    Route::post('cancelled-imports', 'CancelledImportsController@store')
+        ->name('api.cancelled-imports.store');
 
-        // Field observations import
-        Route::post('field-observation-imports', 'FieldObservationImportsController@store')
-            ->name('api.field-observation-imports.store');
+    // Field observations import
+    Route::post('field-observation-imports', 'FieldObservationImportsController@store')
+        ->name('api.field-observation-imports.store');
 
-        Route::get('field-observation-imports/{import}', 'FieldObservationImportsController@show')
-            ->name('api.field-observation-imports.show');
+    Route::get('field-observation-imports/{import}', 'FieldObservationImportsController@show')
+        ->name('api.field-observation-imports.show');
 
-        Route::get('field-observation-imports/{import}/errors', 'FieldObservationImportsController@errors')
-            ->name('api.field-observation-imports.errors');
-    }
+    Route::get('field-observation-imports/{import}/errors', 'FieldObservationImportsController@errors')
+        ->name('api.field-observation-imports.errors');
 
     // Approved field observations
     Route::post('approved-field-observations/batch', 'ApprovedFieldObservationsBatchController@store')

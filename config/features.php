@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Feature flags
@@ -11,7 +12,5 @@ return [
     | if the feature is active or not.
     |
     */
-
-   'importing' => env('FEATURE_IMPORTING', false),
 
 ];

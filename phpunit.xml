@@ -32,7 +32,6 @@
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
 
-        <env name="FEATURE_IMPORTING" value="true"/>
         <env name="ACTIVE_LICENSES" value="10,11,20,30,35,40"/>
     </php>
 </phpunit>
