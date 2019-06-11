@@ -27,7 +27,7 @@ class PublicFieldObservationsDarwinCoreExport extends DarwinCoreFieldObservation
     {
         $transformed = $this->transformItem($item);
 
-        if ($item->license()->shouldHideRealCoordinates()) {
+        if ($item->shouldHideRealCoordinates()) {
             $transformed['latitude'] = __('N/A');
             $transformed['longitude'] = __('N/A');
         }

@@ -549,6 +549,17 @@ class FieldObservation extends Model
     }
 
     /**
+     * Check if real coordinates should be hidden.
+     *
+     * @return bool
+     */
+    public function shouldHideRealCoordinates()
+    {
+        return $this->license()->shouldHideRealCoordinates() ||
+            optional($this->observation->taxon)->restricted;
+    }
+
+    /**
      * Convert the model instance to an array.
      *
      * @return array
