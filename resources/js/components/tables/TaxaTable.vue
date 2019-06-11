@@ -89,6 +89,9 @@
       @sort="onSort"
 
       :mobile-cards="true"
+
+      :checkable="hasActions"
+      :checked-rows.sync="checkedRows"
     >
 
       <template slot-scope="{ row }">
