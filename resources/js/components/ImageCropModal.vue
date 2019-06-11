@@ -53,8 +53,19 @@ export default {
   data() {
     return {
 			croppr: null,
-      newCrop: this.crop
+      newCrop: this.crop,
+      preserveRatio: false
     }
+  },
+
+  mounted() {
+    document.addEventListener('keydown', this.ctrlIsPressed)
+    document.addEventListener('keyup', this.ctrlIsNotPressed)
+  },
+
+  beforeDestroy() {
+    document.removeEventListener('keydown', this.ctrlIsPressed)
+    document.removeEventListener('keyup', this.ctrlIsNotPressed)
   },
 
   watch: {
@@ -105,6 +116,18 @@ export default {
       this.$emit('update:crop', this.newCrop)
 
       this.close()
+    },
+
+    ctrlIsPressed(e) {
+      if (e.which == 17 && this.croppr) {
+        this.croppr.options.aspectRatio = this.croppr.box.height() / this.croppr.box.width()
+      }
+    },
+
+    ctrlIsNotPressed(e) {
+      if (e.which == 17  && this.croppr) {
+        this.croppr.options.aspectRatio = null
+      }
     }
   }
 }
