@@ -15,7 +15,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 */
 
 Route::prefix(LaravelLocalization::setLocale())->middleware([
-    'localeCookieRedirect', 'localizationRedirect', 'localeViewPath',
+    'localeCookieRedirect', 'localizationRedirect', 'localeViewPath', 'localizationPreferenceUpdate',
 ])->group(function () {
     Route::auth(['verify' => true]);
 

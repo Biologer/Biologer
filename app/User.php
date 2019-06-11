@@ -11,8 +11,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
 {
     use HasApiTokens, CanMemoize, HasRoles, Notifiable, Filterable, SoftDeletes;
 
@@ -168,6 +169,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->memoize('settings', function () {
             return new Settings($this);
         });
+    }
+
+    /**
+     * Get the user's preferred locale.
+     *
+     * @return string
+     */
+    public function preferredLocale()
+    {
+        return $this->settings()->language;
     }
 
     /**
