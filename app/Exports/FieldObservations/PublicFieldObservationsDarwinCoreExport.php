@@ -25,7 +25,7 @@ class PublicFieldObservationsDarwinCoreExport extends DarwinCoreFieldObservation
      */
     protected function transformItem($item)
     {
-        $transformed = $this->transformItem($item);
+        $transformed = parent::transformItem($item);
 
         if ($item->shouldHideRealCoordinates()) {
             $transformed['latitude'] = __('N/A');
