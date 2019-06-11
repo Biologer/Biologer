@@ -283,11 +283,19 @@ return [
     ],
 
     'preferences' => [
+        'general' => [
+            'locale' => 'Preferred locale',
+        ],
+
         'account' => [
             'delete_account' => 'Delete Account',
             'delete_observations' => 'Delete observations as well',
         ],
         'notifications' => [
+            'notification' => 'Notification',
+            'inapp' => 'In App',
+            'mail' => 'Mail',
+
             'field_observation_approved' => 'Observation is approved',
             'field_observation_moved_to_pending' => 'Observation is moved to pending',
             'field_observation_marked_unidentifiable' => 'Observation is marked as unidentifiable',

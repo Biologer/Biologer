@@ -7,6 +7,7 @@ use App\FieldObservation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class FieldObservationMovedToPending extends Notification implements ShouldQueue
 {
@@ -49,6 +50,10 @@ class FieldObservationMovedToPending extends Notification implements ShouldQueue
             $channels = array_merge($channels, ['broadcast', 'database']);
         }
 
+        if ($notifiable->settings()->get('notifications.field_observation_moved_to_pending.mail')) {
+            $channels = array_merge($channels, ['mail']);
+        }
+
         return $channels;
     }
 
@@ -65,5 +70,22 @@ class FieldObservationMovedToPending extends Notification implements ShouldQueue
             'curator_id' => $this->curator->id,
             'curator_name' => $this->curator->full_name,
         ];
+    }
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+            ->subject(trans('notifications.field_observations.moved_to_pending_subject'))
+            ->line(trans('notifications.field_observations.moved_to_pending_message'))
+            ->action(
+                trans('notifications.field_observations.action'),
+                route('contributor.field-observations.show', $this->fieldObservation)
+            );
     }
 }

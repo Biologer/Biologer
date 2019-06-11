@@ -30,44 +30,93 @@
         {{ method_field('PATCH') }}
 
         <table class="table is-fullwidth">
+            <thead>
+                <tr>
+                    <th>{{ __('labels.preferences.notifications.notification') }}</th>
+                    <th>{{ __('labels.preferences.notifications.inapp') }}</th>
+                    <th>{{ __('labels.preferences.notifications.mail') }}</th>
+                </tr>
+            </thead>
+
             <tbody>
                 <tr>
                     <th>{{ __('labels.preferences.notifications.field_observation_approved') }}</th>
+
                     <td>
                         <label class="b-checkbox checkbox">
                             <input
                                 type="checkbox"
-                                name="field_observation_approved"
+                                name="field_observation_approved[database]"
                                 value="1"
-                                {{ old('field_observation_approved', $user->settings()->get('notifications.field_observation_approved.database')) ? 'checked' : '' }}
+                                {{ old('field_observation_approved.database', $user->settings()->get('notifications.field_observation_approved.database')) ? 'checked' : '' }}
+                            >
+                            <span class="check"></span>
+                        </label>
+                    </td>
+
+                    <td>
+                        <label class="b-checkbox checkbox">
+                            <input
+                                type="checkbox"
+                                name="field_observation_approved[mail]"
+                                value="1"
+                                {{ old('field_observation_approved.mail', $user->settings()->get('notifications.field_observation_approved.mail')) ? 'checked' : '' }}
                             >
                             <span class="check"></span>
                         </label>
                     </td>
                 </tr>
+
                 <tr>
                     <th>{{ __('labels.preferences.notifications.field_observation_moved_to_pending') }}</th>
+
                     <td>
                         <label class="b-checkbox checkbox">
                             <input
                                 type="checkbox"
-                                name="field_observation_moved_to_pending"
+                                name="field_observation_moved_to_pending[database]"
                                 value="1"
-                                {{ old('field_observation_moved_to_pending', $user->settings()->get('notifications.field_observation_moved_to_pending.database')) ? 'checked' : '' }}
+                                {{ old('field_observation_moved_to_pending.database', $user->settings()->get('notifications.field_observation_moved_to_pending.database')) ? 'checked' : '' }}
+                            >
+                            <span class="check"></span>
+                        </label>
+                    </td>
+
+                    <td>
+                        <label class="b-checkbox checkbox">
+                            <input
+                                type="checkbox"
+                                name="field_observation_moved_to_pending[mail]"
+                                value="1"
+                                {{ old('field_observation_moved_to_pending.mail', $user->settings()->get('notifications.field_observation_moved_to_pending.mail')) ? 'checked' : '' }}
                             >
                             <span class="check"></span>
                         </label>
                     </td>
                 </tr>
+
                 <tr>
                     <th>{{ __('labels.preferences.notifications.field_observation_marked_unidentifiable') }}</th>
+
                     <td>
                         <label class="b-checkbox checkbox">
                             <input
                                 type="checkbox"
-                                name="field_observation_marked_unidentifiable"
+                                name="field_observation_marked_unidentifiable[database]"
                                 value="1"
-                                {{ old('field_observation_marked_unidentifiable', $user->settings()->get('notifications.field_observation_marked_unidentifiable.database')) ? 'checked' : '' }}
+                                {{ old('field_observation_marked_unidentifiable.database', $user->settings()->get('notifications.field_observation_marked_unidentifiable.database')) ? 'checked' : '' }}
+                            >
+                            <span class="check"></span>
+                        </label>
+                    </td>
+
+                    <td>
+                        <label class="b-checkbox checkbox">
+                            <input
+                                type="checkbox"
+                                name="field_observation_marked_unidentifiable[mail]"
+                                value="1"
+                                {{ old('field_observation_marked_unidentifiable.mail', $user->settings()->get('notifications.field_observation_marked_unidentifiable.mail')) ? 'checked' : '' }}
                             >
                             <span class="check"></span>
                         </label>

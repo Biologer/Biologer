@@ -15,10 +15,17 @@ return [
     'no_new_notifications' => 'There are no new notifications.',
 
     'field_observations' => [
+        'approved_subject' => 'Approved Field Observation',
+        'approved_message' => 'One of you field observations has been approved.',
         'approved' => ':curatorName has approved your field observation.',
         'for_approval' => ':contributorName has submitted new field observation.',
+        'marked_as_unidentifiable_subject' => 'Unidentifiable Field Observation',
+        'marked_as_unidentifiable_message' => 'One of your field observations has been marked as unidentifiable.',
         'marked_as_unidentifiable' => ':curatorName has marked your field observation as unidentifiable.',
+        'moved_to_pending_subject' => 'Field Observation Moved To Pending',
+        'moved_to_pending_message' => 'One of your field observations has been moved to pending.',
         'moved_to_pending' => ':curatorName has moved your field observation to pending.',
+        'action' => 'View Observation',
     ],
 
 ];

@@ -77,6 +77,10 @@
                                         @include('components.icon', ['icon' => 'dashboard'])
                                         <span>{{ __('navigation.contributor_area') }}</span>
                                     </a>
+                                    <a class="navbar-item" href="{{ route('preferences.index') }}">
+                                        @include('components.icon', ['icon' => 'cog'])
+                                        <span>{{ __('navigation.preferences.index') }}</span>
+                                    </a>
                                     <hr class="navbar-divider">
                                     <a href="{{ route('logout') }}"
                                         class="navbar-item"

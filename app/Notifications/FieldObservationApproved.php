@@ -7,6 +7,7 @@ use App\FieldObservation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class FieldObservationApproved extends Notification implements ShouldQueue
 {
@@ -49,6 +50,10 @@ class FieldObservationApproved extends Notification implements ShouldQueue
             $channels = array_merge($channels, ['broadcast', 'database']);
         }
 
+        if ($notifiable->settings()->get('notifications.field_observation_approved.mail')) {
+            $channels = array_merge($channels, ['mail']);
+        }
+
         return $channels;
     }
 
@@ -64,5 +69,22 @@ class FieldObservationApproved extends Notification implements ShouldQueue
             'field_observation_id' => $this->fieldObservation->id,
             'curator_name' => $this->curator->full_name,
         ];
+    }
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+            ->subject(trans('notifications.field_observations.approved_subject'))
+            ->line(trans('notifications.field_observations.approved_message'))
+            ->action(
+                trans('notifications.field_observations.action'),
+                route('contributor.field-observations.show', $this->fieldObservation)
+            );
     }
 }

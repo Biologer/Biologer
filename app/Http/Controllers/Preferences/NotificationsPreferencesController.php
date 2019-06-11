@@ -30,10 +30,10 @@ class NotificationsPreferencesController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'field_observation_approved' => ['nullable', 'boolean'],
-            'field_observation_moved_to_pending' => ['nullable', 'boolean'],
-            'field_observation_marked_unidentifiable' => ['nullable', 'boolean'],
-            'field_observation_for_approval' => ['nullable', 'boolean'],
+            'field_observation_approved.*' => ['nullable', 'boolean'],
+            'field_observation_moved_to_pending.*' => ['nullable', 'boolean'],
+            'field_observation_marked_unidentifiable.*' => ['nullable', 'boolean'],
+            'field_observation_for_approval.*' => ['nullable', 'boolean'],
         ]);
 
         $this->updateNotificationsPreferences($request);
@@ -52,7 +52,7 @@ class NotificationsPreferencesController extends Controller
         $notifications = $request->user()->settings()->get('notifications');
 
         foreach ($this->getPreferenceData($request) as $key => $value) {
-            Arr::set($notifications, "{$key}.database", $value);
+            Arr::set($notifications, $key, $value);
         }
 
         $request->user()->settings()->set('notifications', $notifications);
@@ -84,12 +84,17 @@ class NotificationsPreferencesController extends Controller
     private function getPreferenceAttributes($request)
     {
         $attributes = [
-            'field_observation_approved', 'field_observation_moved_to_pending',
-            'field_observation_marked_unidentifiable',
+            'field_observation_approved.database',
+            'field_observation_moved_to_pending.database',
+            'field_observation_marked_unidentifiable.database',
+            'field_observation_approved.mail',
+            'field_observation_moved_to_pending.mail',
+            'field_observation_marked_unidentifiable.mail',
         ];
 
         if ($request->user()->hasRole('curator')) {
-            $attributes[] = 'field_observation_for_approval';
+            $attributes[] = 'field_observation_for_approval.database';
+            $attributes[] = 'field_observation_for_approval.mail';
         }
 
         return $attributes;
