@@ -5,6 +5,8 @@ namespace App\Exports\Taxa;
 use App\Taxon;
 use App\Export;
 use App\Exports\BaseExport;
+use Illuminate\Support\Str;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class CustomTaxaExport extends BaseExport
 {
@@ -15,6 +17,8 @@ class CustomTaxaExport extends BaseExport
      */
     public static function columnData()
     {
+        $locales = collect(LaravelLocalization::getSupportedLocales());
+
         return collect(array_keys(Taxon::RANKS))->map(function ($rank) {
             return [
                 'label' => trans("taxonomy.{$rank}"),
@@ -61,7 +65,23 @@ class CustomTaxaExport extends BaseExport
                 'label' => trans('labels.taxa.red_lists'),
                 'value' => 'red_lists',
             ],
-        ]);
+        ])->concat($locales->map(function ($locale, $localeCode) {
+            $nativeName = trans('labels.taxa.native_name');
+            $localeTranslation = trans('languages.'.$locale['name']);
+
+            return [
+                'label' => "{$nativeName} - {$localeTranslation}",
+                'value' => 'native_name_'.Str::snake($localeCode),
+            ];
+        }))->concat($locales->map(function ($locale, $localeCode) {
+            $description = trans('labels.taxa.description');
+            $localeTranslation = trans('languages.'.$locale['name']);
+
+            return [
+                'label' => "{$description} - {$localeTranslation}",
+                'value' => 'description_'.Str::snake($localeCode),
+            ];
+        }));
     }
 
     /**
@@ -102,6 +122,13 @@ class CustomTaxaExport extends BaseExport
 
         foreach ($item->ancestors as $ancestor) {
             $transformed[$ancestor->rank] = $ancestor->name;
+        }
+
+        foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $locale) {
+            $translation = $item->translateOrNew($localeCode);
+
+            $transformed['native_name_'.Str::snake($localeCode)] = $translation->native_name;
+            $transformed['description_'.Str::snake($localeCode)] = $translation->description;
         }
 
         return $transformed;

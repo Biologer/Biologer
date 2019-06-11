@@ -9,6 +9,6 @@
             rel="alternate"
             hreflang="{{ $localeCode }}"
             class="dropdown-item"
-        >{{ __('languages.'.$properties['name']) }} ({{ $properties['native'] }})</a>
+        >{{ trans('languages.'.$properties['name']) }} ({{ $properties['native'] }})</a>
     @endforeach
 </b-dropdown>
