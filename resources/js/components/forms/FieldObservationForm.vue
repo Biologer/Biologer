@@ -586,10 +586,10 @@ export default {
     getObservationPhotoAttribute(photoIndex = 0, attribute = 'url') {
       let value = _.get(this.observation, `photos.${photoIndex}.${attribute}`, '')
 
-      if (attribute === 'url') {
+      if (attribute === 'url' && value) {
         const updated = moment(_.get(this.observation, `photos.${photoIndex}.updated_at`, null))
 
-        value += `?v=${updated.format('X')}`
+        value += updated.isValid() ? `?v=${updated.format('X')}` : ''
       }
 
       return value
