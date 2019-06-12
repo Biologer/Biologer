@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Filters\Filterable;
+use Illuminate\Support\Facades\DB;
 use Dimsav\Translatable\Translatable;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
@@ -369,7 +370,14 @@ class Taxon extends Model
     public function mgrs10k()
     {
         return $this->memoize('mgrs', function () {
-            return $this->approvedObservationsQuery()->getQuery()->get(['mgrs10k as field', 'details_type as type']);
+            return $this->approvedObservationsQuery()
+                ->getQuery()
+                ->groupBy('mgrs10k', 'details_type')
+                ->get([
+                    'mgrs10k as field',
+                    'details_type as type',
+                    DB::raw('COUNT(*) as observationsCount'),
+                ]);
         });
     }
 
@@ -400,9 +408,17 @@ class Taxon extends Model
         });
     }
 
-    protected function approvedObservationsQuery()
+    /**
+     * Build the query for taxon's approved observations.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function approvedObservationsQuery()
     {
-        return Observation::approved()->whereIn('taxon_id', $this->selfAndDescendantsIds());
+        return Observation::approved()
+            ->whereHas('taxon', function ($query) {
+                $query->where('id', $this->id)->orHasAncestorWithId($this->id);
+            });
     }
 
     /**
@@ -414,7 +430,9 @@ class Taxon extends Model
     {
         return $this->memoize('publicPhotos', function () {
             return Observation::approved()
-                ->whereIn('taxon_id', $this->selfAndDescendantsIds())
+                ->whereHas('taxon', function ($query) {
+                    $query->where('id', $this->id)->orHasAncestorWithId($this->id);
+                })
                 ->with('publicPhotos')
                 ->get()
                 ->pluck('publicPhotos')

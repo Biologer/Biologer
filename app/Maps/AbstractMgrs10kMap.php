@@ -64,7 +64,7 @@ abstract class AbstractMgrs10kMap
     {
         return tap($this->makeImage(), function ($image) use ($mgrs10k) {
             $this->colorizeCountries($image->getDocument());
-            $this->colorizeMgrs10kFields($image->getDocument(), $mgrs10k);
+            $this->handleMgrs10kFields($image->getDocument(), $mgrs10k);
             $this->setWidthAndHeight($image->getDocument());
         });
     }
@@ -87,7 +87,7 @@ abstract class AbstractMgrs10kMap
      * @param  \SVG\Nodes\Structures\SVGDocumentFragment  $document
      * @param  \Illuminate\Support\Collection  $mgrs10k
      */
-    protected function colorizeMgrs10kFields(SVGDocumentFragment $document, Collection $mgrs10k)
+    protected function handleMgrs10kFields(SVGDocumentFragment $document, Collection $mgrs10k)
     {
         foreach ($document->getElementsByClassName('mgrs10k-field') as $node) {
             $node->setAttribute('fill', 'transparent');

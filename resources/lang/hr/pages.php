@@ -29,6 +29,10 @@ return [
             'na engleskom jeziku.',
     ],
 
+    'taxa' => [
+        'observations' => 'nalaz|nalaza|nalaza',
+    ],
+
     'stats' => [
         'user' => 'Korisnik',
         'curator' => 'Urednik',

@@ -129,10 +129,10 @@
                     @endif
                 </div>
 
-                @if($taxon->isGenusOrLower())
-                    <div class="column map flex-center">
-                        {!! app('map.mgrs10k.basic')->render($taxon->mgrs10k()) !!}
+                <div class="column map flex-center">
+                    {!! app('map.mgrs10k.basic')->render($taxon->mgrs10k()) !!}
 
+                    @if($taxon->isGenusOrLower())
                         <nz-occurrence-chart
                             class="mt-8"
                             elevation-label="{{ __('Elevation') }}"
@@ -140,8 +140,8 @@
                             :available-stages="{{ $taxon->stages->pluck('name') }}"
                             :data="{{ $taxon->occurrence() }}"
                         />
-                    </div>
-                @endif
+                    @endif
+                </div>
             </div>
         </section>
 

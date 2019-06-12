@@ -28,6 +28,10 @@ return [
             'each column (eg. stages, sex, license) must be given based on the values in English.',
     ],
 
+    'taxa' => [
+        'observations' => 'observation|observations|observations',
+    ],
+
     'stats' => [
         'user' => 'User',
         'curator' => 'Curator',

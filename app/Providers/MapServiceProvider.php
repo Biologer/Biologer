@@ -25,11 +25,13 @@ class MapServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     public function register()
     {
-        $this->app->singleton('map.mgrs10k.basic', function () {
+        $this->app->singleton(BasicMgrs10kMap::class, function () {
             $territory = strtolower($this->app['config']['biologer.territory']);
 
             return BasicMgrs10kMap::fromPath(resource_path("maps/mgrs10k/{$territory}.svg"));
         });
+
+        $this->app->alias(BasicMgrs10kMap::class, 'map.mgrs10k.basic');
     }
 
     /**
@@ -41,6 +43,7 @@ class MapServiceProvider extends ServiceProvider implements DeferrableProvider
     {
         return [
             'map.mgrs10k.basic',
+            BasicMgrs10kMap::class,
         ];
     }
 }

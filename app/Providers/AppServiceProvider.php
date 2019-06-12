@@ -5,8 +5,10 @@ namespace App\Providers;
 use App\Watermark;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Translation\MessageSelector;
 use Mcamara\LaravelLocalization\LaravelLocalization;
 
 class AppServiceProvider extends ServiceProvider
@@ -31,6 +33,25 @@ class AppServiceProvider extends ServiceProvider
 
         Paginator::defaultView('pagination::bulma');
         Paginator::defaultSimpleView('pagination::bulma');
+
+        $this->setCustomTranslationMessageSelector();
+    }
+
+    /**
+     * Extend Laravel's Message Selector to add support for "sr-Latn".
+     */
+    private function setCustomTranslationMessageSelector()
+    {
+        Lang::setSelector(new class extends MessageSelector {
+            public function getPluralIndex($locale, $number)
+            {
+                if ($locale === 'sr-Latn') {
+                    $locale = 'sr';
+                }
+
+                return parent::getPluralIndex($locale, $number);
+            }
+        });
     }
 
     /**
@@ -41,7 +62,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(Watermark::class, function () {
-            return new Watermark($this->app['config']['biologer.watermark']);
+            return new Watermark($this->app['config']->get('biologer.watermark'));
         });
 
         // Temporary hack until the bug is fixed in the package.
