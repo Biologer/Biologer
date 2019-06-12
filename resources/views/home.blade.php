@@ -8,7 +8,10 @@
     </section>
 
     <div class="container py-8 px-4 desktop:px-16">
-        <p class="is-size-4 mb-8">{{ __('pages.home.welcome') }}</p>
+        <p class="is-size-4 mb-8">
+            {{ __('pages.home.welcome') }}
+            {{ __('pages.home.stats', compact('community', 'userCount', 'observationCount')) }}
+        </p>
 
         <div class="columns">
             <div class="column is-full-mobile is-one-third is-offset-2">

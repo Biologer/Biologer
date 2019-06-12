@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Announcement;
+use App\FieldObservation;
 
 class HomeController extends Controller
 {
@@ -21,6 +23,9 @@ class HomeController extends Controller
 
         return view('home', [
             'announcements' => $announcements->take(5)->get(),
+            'community' => config('biologer.community.name'),
+            'userCount' => User::count(),
+            'observationCount' => FieldObservation::count(),
         ]);
     }
 }

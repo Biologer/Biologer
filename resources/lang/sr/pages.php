@@ -6,6 +6,7 @@ return [
         'android_link' => 'Android апликацијa',
         'android_title' => 'Преузмите Android апликацију',
         'welcome' => 'Биологер је једноставан и слободан софтвер осмишљен за прикупљање података о биолошкој разноврсности.',
+        'stats' => 'Заједница „:community“ броји :userCount корисника, који су прикупили :observationCount налаза.',
 
         'announcements' => [
             'title' => 'Новости',

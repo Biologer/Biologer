@@ -6,6 +6,7 @@ return [
         'android_link' => 'Android App',
         'android_title' => 'Download Android App',
         'welcome' => 'Biologer is simple and free software designed for collecting data on biological diversity.',
+        'stats' => 'Community ":community" has :userCount users that have submitted :observationCount observations',
 
         'announcements' => [
             'title' => 'Latest news',
