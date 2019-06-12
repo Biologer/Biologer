@@ -135,7 +135,7 @@
         :url="exportUrl"
         @cancel="showExportModal = false"
         @done="onExportDone"
-        :types="['custom']"
+        :types="['custom', 'darwin_core']"
       />
     </b-modal>
   </div>

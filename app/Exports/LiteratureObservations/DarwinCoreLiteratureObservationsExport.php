@@ -157,7 +157,7 @@ class DarwinCoreLiteratureObservationsExport extends BaseExport
             'minimumElevationInMeters' => $item->minimum_elevation,
             'maximumElevationInMeters' => $item->maximum_elevation,
             'recordNumber' => $item->observation->id,
-            'verbatimLocality' => $item->origina_locality,
+            'verbatimLocality' => $item->original_locality,
             'verbatimEventDate' => $item->original_date,
             'verbatimElevation' => $item->original_elevation,
             'verbatimCoordinates' => $item->original_coordinates,
@@ -184,8 +184,12 @@ class DarwinCoreLiteratureObservationsExport extends BaseExport
 
             'ReferenceID' => $item->publication_id,
             'ReferenceType' => $item->publication->type()->toDarwinCore(),
-            'ReferenceAuthors' => $item->publication->authors->implode('|'),
-            'ReferenceEditors' => $item->publication->editors->implode('|'),
+            'ReferenceAuthors' => $item->publication->authors->map(function ($author) {
+                return "{$author['first_name']} {$author['last_name']}";
+            })->implode('|'),
+            'ReferenceEditors' => $item->publication->editors->map(function ($editor) {
+                return "{$editor['first_name']} {$editor['last_name']}";
+            })->implode('|'),
             'ReferenceYear' => $item->publication->year,
             'ReferencePage' => $item->publication->page_range,
             'ReferencePages' => $item->publication->page_count,
@@ -271,7 +275,7 @@ class DarwinCoreLiteratureObservationsExport extends BaseExport
         });
 
         if ($activity) {
-            return $activity->changes()->collect('old')->get('taxon');
+            return $activity->changes()->collect('old')->get('taxon.label');
         }
 
         $taxon = $literatureObservation->observation->taxon;
@@ -282,7 +286,7 @@ class DarwinCoreLiteratureObservationsExport extends BaseExport
     private function previousIdentifications($literatureObservation)
     {
         return $literatureObservation->activity->map(function ($activity) {
-            return $activity->changes()->collect('old')->get('taxon');
+            return $activity->changes()->collect('old')->get('taxon.label');
         })->filter()->implode('|');
     }
 
