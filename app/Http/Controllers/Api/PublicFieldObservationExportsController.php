@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-
 use App\Jobs\PerformExport;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;

@@ -5,10 +5,10 @@ namespace Tests\Unit\Console\Commands;
 use App\User;
 use App\Taxon;
 use App\RedList;
-use App\ConservationLegislation;
-
 use Tests\TestCase;
+
 use Illuminate\Support\Str;
+use App\ConservationLegislation;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -37,7 +37,7 @@ class ImportTaxaTest extends TestCase
             'restricted' => false,
             'fe_id' => 'feId',
             'fe_old_id' => 'oldFeId',
-            'rank' => 'species'
+            'rank' => 'species',
         ]);
         $this->assertDatabaseHas('taxon_translations', [
             'locale' => 'en',
@@ -136,7 +136,7 @@ class ImportTaxaTest extends TestCase
 
         $this->artisan('import:taxa', [
             'path' => $path,
-            '--compose-species-name' => true
+            '--compose-species-name' => true,
         ]);
 
         $this->assertDatabaseHas('taxa', ['name' => 'Cerambyx', 'rank' => 'genus']);

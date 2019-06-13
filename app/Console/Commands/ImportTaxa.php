@@ -385,9 +385,9 @@ class ImportTaxa extends Command
     private function extractOtherTaxonData($row)
     {
         return [
-            'allochthonous' => !empty($row['allochthonous']),
-            'invasive' => !empty($row['invasive']),
-            'restricted' => !empty($row['restricted']),
+            'allochthonous' => ! empty($row['allochthonous']),
+            'invasive' => ! empty($row['invasive']),
+            'restricted' => ! empty($row['restricted']),
             'author' => $row['author'] ?? null,
             'fe_old_id' => $row['fe_old_id'] ?? null,
             'fe_id' => $row['fe_id'] ?? null,

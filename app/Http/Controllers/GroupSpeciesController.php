@@ -43,7 +43,7 @@ class GroupSpeciesController extends Controller
         return view('group-species.show', [
             'species' => $species,
             'photos' => $photos,
-            'descendants' => $species->lowerRankDescendants()
+            'descendants' => $species->lowerRankDescendants(),
         ]);
     }
 }

@@ -98,7 +98,7 @@ class License implements Arrayable
                 'shouldHideRealCoordinates' => false,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::CC_BY_SA);
-                }
+                },
             ]),
             new static([
                 'id' => self::OPEN,
@@ -107,7 +107,7 @@ class License implements Arrayable
                 'shouldHideRealCoordinates' => false,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::OPEN);
-                }
+                },
             ]),
             new static([
                 'id' => self::CC_BY_NC_SA,
@@ -116,7 +116,7 @@ class License implements Arrayable
                 'shouldHideRealCoordinates' => false,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::CC_BY_NC_SA);
-                }
+                },
             ]),
             new static([
                 'id' => self::PARTIALLY_OPEN,
@@ -125,7 +125,7 @@ class License implements Arrayable
                 'shouldHideRealCoordinates' => true,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::PARTIALLY_OPEN);
-                }
+                },
             ]),
             new static([
                 'id' => self::CLOSED_FOR_A_PERIOD,
@@ -135,7 +135,7 @@ class License implements Arrayable
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::CLOSED_FOR_A_PERIOD)
                         ->where('field_observations.created_at', '<', now()->subYear(config('biologer.license_closed_period')));
-                }
+                },
             ]),
             new static([
                 'id' => self::CLOSED,
@@ -144,7 +144,7 @@ class License implements Arrayable
                 'shouldHideRealCoordinates' => true,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::CLOSED)->whereRaw('0=1');
-                }
+                },
             ]),
         ]);
     }
