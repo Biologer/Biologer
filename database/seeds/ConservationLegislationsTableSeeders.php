@@ -15,21 +15,21 @@ class ConservationLegislationsTableSeeder extends Seeder
         ConservationLegislation::firstOrCreate(['slug' => 'habitat-2'])->update([
             'en' => ['name' => 'Habitat, Annex 2', 'description' => 'Habitat Directive, Annex 2'],
             'hr' => ['name' => 'DS, Aneks 2', 'description' => 'Direktiva o staništima, Aneks 2'],
-            'sr' => ['name' => 'ДС, Анекс 2', 'description' => 'Директива о стаништима, Aneks 2'],
+            'sr' => ['name' => 'ДС, Анекс 2', 'description' => 'Директива о стаништима, Aнекс 2'],
             'sr-Latn' => ['name' => 'DS, Aneks 2', 'description' => 'Direktiva o staništima, Aneks 2'],
         ]);
 
         ConservationLegislation::firstOrCreate(['slug' => 'habitat-4'])->update([
-            'en' => ['name' => 'Habitat, Annex 4', 'description' => 'Habitat Directive, Annex 2'],
-            'hr' => ['name' => 'DS, Aneks 4', 'description' => 'Direktiva o staništima, Aneks 2'],
-            'sr' => ['name' => 'ДС, Анекс 4', 'description' => 'Директива о стаништима, Aneкс 2'],
-            'sr-Latn' => ['name' => 'DS, Aneks 4', 'description' => 'Direktiva o staništima, Aneks 2'],
+            'en' => ['name' => 'Habitat, Annex 4', 'description' => 'Habitat Directive, Annex 4'],
+            'hr' => ['name' => 'DS, Aneks 4', 'description' => 'Direktiva o staništima, Aneks 4'],
+            'sr' => ['name' => 'ДС, Анекс 4', 'description' => 'Директива о стаништима, Анекс 4'],
+            'sr-Latn' => ['name' => 'DS, Aneks 4', 'description' => 'Direktiva o staništima, Aneks 4'],
         ]);
 
         ConservationLegislation::firstOrCreate(['slug' => 'habitat-5'])->update([
             'en' => ['name' => 'Habitat, Annex 5', 'description' => 'Habitat Directive, Annex 5'],
             'hr' => ['name' => 'DS, Aneks 5', 'description' => 'Direktiva o staništima, Aneks 5'],
-            'sr' => ['name' => 'ДС, Анекс 5', 'description' => 'Директива о стаништима, Aneкс 5'],
+            'sr' => ['name' => 'ДС, Анекс 5', 'description' => 'Директива о стаништима, Анекс 5'],
             'sr-Latn' => ['name' => 'DS, Aneks 5', 'description' => 'Direktiva o staništima, Aneks 5'],
         ]);
 
