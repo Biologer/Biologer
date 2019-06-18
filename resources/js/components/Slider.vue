@@ -12,8 +12,12 @@
       </div>
 
       <!-- Next and previous buttons -->
-      <a class="prev" @click="goToPrevSlide" v-if="moreThanOne">&#10094;</a>
-      <a class="next" @click="goToNextSlide" v-if="moreThanOne">&#10095;</a>
+      <a class="prev flex is-flex-center" @click="goToPrevSlide" v-if="moreThanOne" :title="trans('pagination.previous')">
+        <b-icon icon="chevron-left" size="is-small" aria-hidden="true" />
+      </a>
+      <a class="next flex is-flex-center" @click="goToNextSlide" v-if="moreThanOne" :title="trans('pagination.next')">
+          <b-icon icon="chevron-right" size="is-small" aria-hidden="true" />
+      </a>
     </div>
 
     <tn-slider class='thumbnails' :index='item' :count='thumbnailNumber' v-if="withThumbnails && moreThanOne">

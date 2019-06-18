@@ -32,22 +32,34 @@
 
             @if($species->isFirst())
                 <span class="pagination-previous" disabled aria-disabled="true">
-                    &#10094;
+                    <span class="icon has-text-grey" aria-hidden="true">
+                        <i class="fa fa-chevron-left"></i>
+                    </span>
+
+                    <span class="is-sr-only">{{ __('pagination.previous') }}</span>
                 </span>
             @else
-                <a href="{{ $species->previousUrl() }}" class="pagination-previous">
-                    &#10094;
+                <a href="{{ $species->previousUrl() }}" class="pagination-previous" title="{{ __('pagination.next') }}">
+                    <span class="icon has-text-grey" aria-hidden="true">
+                        <i class="fa fa-chevron-left"></i>
+                    </span>
                 </a>
             @endif
 
 
             @if($species->isLast())
                 <span class="pagination-next" disabled aria-disabled="true">
-                    &#10095;
+                    <span class="icon has-text-grey" aria-hidden="true">
+                        <i class="fa fa-chevron-right"></i>
+                    </span>
+
+                    <span class="is-sr-only">{{ __('pagination.next') }}</span>
                 </span>
             @else
-                <a href="{{ $species->nextUrl() }}" class="pagination-next">
-                    &#10095;
+                <a href="{{ $species->nextUrl() }}" class="pagination-next" title="{{ __('pagination.next') }}">
+                    <span class="icon has-text-grey" aria-hidden="true">
+                        <i class="fa fa-chevron-right"></i>
+                    </span>
                 </a>
             @endif
         </nav>

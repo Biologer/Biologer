@@ -160,3 +160,11 @@ ul.is-not-done li:before {
 .message-actions :not(:last-child) {
   margin-right: 1rem;
 }
+
+.icon {
+    &.is-small {
+        .fa {
+            font-size: 1rem;
+        }
+    }
+}
