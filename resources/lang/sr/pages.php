@@ -32,6 +32,11 @@ return [
 
     'taxa' => [
         'observations' => 'налаз|налаза|налаза',
+
+        'number_of_observations_per_mgrs10k_field' => 'Број налаза по MGRS 10k пољу',
+        'mgrs10k_field' => 'MGRS 10k поље',
+        'number_of_observations' => 'Број налаза',
+        'present_in_literature' => 'Присутно у литератури',
     ],
 
     'stats' => [

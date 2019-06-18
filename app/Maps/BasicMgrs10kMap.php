@@ -3,14 +3,10 @@
 namespace App\Maps;
 
 use SVG\Nodes\SVGNode;
-use App\LiteratureObservation;
 use Illuminate\Support\Collection;
 
 class BasicMgrs10kMap extends AbstractMgrs10kMap
 {
-    protected $fields = [];
-    protected $highlighted = [];
-
     /**
      * Handle modifications of the node that has id among given mgrs 10k fields.
      *
@@ -20,30 +16,30 @@ class BasicMgrs10kMap extends AbstractMgrs10kMap
      */
     protected function handleNode(SVGNode $node, Collection $mgrs10k)
     {
-        if (! $this->fields) {
-            $this->fields = $mgrs10k->groupBy('field')->all();
-            $this->highlighted = $mgrs10k->where('type', LiteratureObservation::class)->pluck('field')->all();
-        }
-
-        $fieldPresent = isset($this->fields[$node->getAttribute('id')]);
-
-        if (! $fieldPresent) {
+        if (! ($fieldData = $mgrs10k->get($node->getAttribute('id')))) {
             return;
         }
 
-        if (in_array($node->getAttribute('id'), $this->highlighted)) {
+        if ($fieldData['present_in_literature']) {
             $node->setAttribute('fill', '#A90000');
         } else {
             $node->setAttribute('fill', '#D40000');
         }
 
-        $observationsCount = $this->fields[$node->getAttribute('id')]->sum('observationsCount');
+        $node->setAttribute('v-tooltip', "{content: '{$this->formatTooltip($fieldData)}'}");
+    }
 
-        $tooltip = vsprintf('%d %s', [
-            $observationsCount,
-            trans_choice('pages.taxa.observations', $observationsCount),
+    /**
+     * Format tooltip using field data.
+     *
+     * @param  array  $fieldData
+     * @return string
+     */
+    private function formatTooltip($fieldData)
+    {
+        return vsprintf('%d %s', [
+            $fieldData['observations_count'],
+            trans_choice('pages.taxa.observations', $fieldData['observations_count']),
         ]);
-
-        $node->setAttribute('v-tooltip', "{content: '{$tooltip}'}");
     }
 }

@@ -88,8 +88,8 @@ class TaxonTest extends TestCase
         ]);
 
         $this->assertEquals(
-            ['EQ54', 'AE13'],
-            $taxon->mgrs10k()->pluck('field')->unique()->values()->all(),
+            ['AE13', 'EQ54'],
+            $taxon->mgrs10k()->keys()->all(),
             'MGRS fields do not match.'
         );
     }

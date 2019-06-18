@@ -169,6 +169,28 @@
                 <div class="column map flex-center">
                     {!! app('map.mgrs10k.basic')->render($species->mgrs10k()) !!}
 
+                    <table class="is-sr-only">
+                        <caption>{{ __('pages.taxa.number_of_observations_per_mgrs10k_field') }} }}</caption>
+
+                        <thead>
+                            <tr>
+                                <th>{{ __('pages.taxa.mgrs10k_field') }}</th>
+                                <th>{{ __('pages.taxa.number_of_observations') }}</th>
+                                <th>{{ __('pages.taxa.present_in_literature') }}</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach ($species->mgrs10k() as $field => $fieldData)
+                                <tr>
+                                    <td>{{ $field }}</td>
+                                    <td>{{ $fieldData['observations_count'] }}</td>
+                                    <td>{{ $fieldData['present_in_literature'] }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
                     <nz-occurrence-chart
                         class="mt-8"
                         elevation-label="{{ __('Elevation') }}"

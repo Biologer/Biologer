@@ -370,14 +370,23 @@ class Taxon extends Model
     public function mgrs10k()
     {
         return $this->memoize('mgrs', function () {
-            return $this->approvedObservationsQuery()
+            $result = $this->approvedObservationsQuery()
                 ->getQuery()
                 ->groupBy('mgrs10k', 'details_type')
                 ->get([
                     'mgrs10k as field',
                     'details_type as type',
-                    DB::raw('COUNT(*) as observationsCount'),
+                    DB::raw('COUNT(*) as observations_count'),
                 ]);
+
+            $presentInLiterature = $result->where('type', LiteratureObservation::class)->pluck('field');
+
+            return $result->groupBy('field')->map(function ($fieldData, $field) use ($presentInLiterature) {
+                return [
+                    'observations_count' => $fieldData->sum('observations_count'),
+                    'present_in_literature' => $presentInLiterature->contains($field),
+                ];
+            });
         });
     }
 

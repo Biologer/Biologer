@@ -31,6 +31,11 @@ return [
 
     'taxa' => [
         'observations' => 'observation|observations|observations',
+
+        'number_of_observations_per_mgrs10k_field' => 'Number of observations per MGRS 10k field',
+        'mgrs10k_field' => 'MGRS 10k Field',
+        'number_of_observations' => 'Number of Observations',
+        'present_in_literature' => 'Present in literature',
     ],
 
     'stats' => [

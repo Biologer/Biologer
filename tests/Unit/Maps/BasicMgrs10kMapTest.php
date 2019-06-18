@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Maps;
 
+use Tests\TestCase;
 use App\Maps\BasicMgrs10kMap;
-use PHPUnit\Framework\TestCase;
 
 class BasicMgrs10kMapTest extends TestCase
 {
@@ -20,11 +20,11 @@ class BasicMgrs10kMapTest extends TestCase
             '34TEP61', '34TCQ87', '34TDS00', '34TDR39', '34TEQ23', '34TCR98',
             '34TCR81', '34TDR00', '34TFN35', '34TDQ15', '34TEP64', '34TCR97',
             '34TCR86',
-        ])->map(function ($mgrs) {
-            return (object) [
-                'field' => $mgrs,
-                'type' => 'App\FieldObservation',
-            ];
+        ])->mapWithKeys(function ($mgrs) {
+            return [$mgrs => [
+                'observations_count' => 1,
+                'present_in_literature' => false,
+            ]];
         });
 
         $this->assertEquals($expected, $map->render($mgrs10kCollection));
@@ -43,11 +43,11 @@ class BasicMgrs10kMapTest extends TestCase
             '34TEP61', '34TCQ87', '34TDS00', '34TDR39', '34TEQ23', '34TCR98',
             '34TCR81', '34TDR00', '34TFN35', '34TDQ15', '34TEP64', '34TCR97',
             '34TCR86',
-        ])->map(function ($mgrs) {
-            return (object) [
-                'field' => $mgrs,
-                'type' => 'App\FieldObservation',
-            ];
+        ])->mapWithKeys(function ($mgrs) {
+            return [$mgrs => [
+                'observations_count' => 1,
+                'present_in_literature' => false,
+            ]];
         });
 
         $this->assertEquals($expected, $map->toDataUrl($mgrs10kCollection));

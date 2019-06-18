@@ -66,6 +66,7 @@ abstract class AbstractMgrs10kMap
             $this->colorizeCountries($image->getDocument());
             $this->handleMgrs10kFields($image->getDocument(), $mgrs10k);
             $this->setWidthAndHeight($image->getDocument());
+            $image->getDocument()->setAttribute('aria-hidden', 'true');
         });
     }
 
