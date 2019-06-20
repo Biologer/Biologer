@@ -25,8 +25,6 @@ class AlterPublicationsTableMakeCreatedByIdNullable extends Migration
      */
     public function down()
     {
-        Schema::table('publications', function (Blueprint $table) {
-            $table->unsignedInteger('created_by_id')->change();
-        });
+
     }
 }

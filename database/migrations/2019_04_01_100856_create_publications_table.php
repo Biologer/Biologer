@@ -29,7 +29,7 @@ class CreatePublicationsTable extends Migration
             $table->string('doi')->nullable();
             $table->text('link')->nullable();
             $table->unsignedInteger('attachment_id')->nullable();
-            $table->unsignedInteger('created_by_id');
+            $table->unsignedInteger('created_by_id')->nullable();
             $table->text('citation')->nullable();
             $table->timestamps();
 
