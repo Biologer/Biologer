@@ -12,7 +12,7 @@ use App\Jobs\PerformExport;
 use Tests\ObservationFactory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use App\ActivityLog\FieldObservationLog;
+use App\ActivityLog\FieldObservationDiff;
 use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Exports\FieldObservations\DarwinCoreFieldObservationsExport;
@@ -228,17 +228,12 @@ class DarwinCoreFieldObservationsExportTest extends TestCase
 
     private function changeIdentificationAndLogActivity($fieldObservation, $taxon, $user)
     {
-        $oldData = $fieldObservation->toArray();
+        $oldFieldObservation = $fieldObservation->load('observation.types', 'observation.photos')->replicate();
 
-        $fieldObservation->observation->update(['taxon_id' => $taxon->id]);
+        $fieldObservation->load('observation')->observation->update(['taxon_id' => $taxon->id]);
         $fieldObservation->update(['taxon_suggestion' => $taxon->name]);
 
-        $beforeUpdate = FieldObservationLog::changes($fieldObservation, $oldData, [
-            'cropped' => [],
-            'updated' => [],
-            'removed' => [],
-            'added' => [],
-        ]);
+        $beforeUpdate = FieldObservationDiff::changes($fieldObservation, $oldFieldObservation);
 
         activity()->performedOn($fieldObservation)
            ->causedBy($user)

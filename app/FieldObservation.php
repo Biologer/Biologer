@@ -8,9 +8,10 @@ use Illuminate\Support\Arr;
 use App\Concerns\CanMemoize;
 use Sofa\Eloquence\Eloquence;
 use Illuminate\Support\Carbon;
+use App\Contracts\FlatArrayable;
 use Spatie\Activitylog\Models\Activity;
 
-class FieldObservation extends Model
+class FieldObservation extends Model implements FlatArrayable
 {
     use CanMemoize, Eloquence, Filterable, Mappable;
 
@@ -100,11 +101,21 @@ class FieldObservation extends Model
     /**
      * Photos of the observation.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function photos()
     {
         return $this->observation->photos();
+    }
+
+    /**
+     * Types of the observation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function types()
+    {
+        return $this->observation->types();
     }
 
     /**
@@ -584,6 +595,53 @@ class FieldObservation extends Model
             'observer' => $this->observer,
             'identifier' => $this->identifier,
             'license' => $this->license,
+            'sex' => $this->observation->sex,
+            'stage_id' => $this->observation->stage_id,
+            'number' => $this->observation->number,
+            'note' => $this->observation->note,
+            'project' => $this->observation->project,
+            'habitat' => $this->observation->habitat,
+            'found_on' => $this->observation->found_on,
+            'found_dead' => $this->found_dead,
+            'found_dead_note' => $this->found_dead_note,
+            'data_license' => $this->license,
+            'time' => optional($this->time)->format('H:i'),
+            'status' => $this->status,
+            'activity' => $this->activity,
+            'types' => $this->observation->types,
+            'observed_by_id' => $this->observed_by_id,
+            'observed_by' => $this->observedBy,
+            'identified_by_id' => $this->identified_by_id,
+            'identified_by' => $this->identifiedBy,
+            'dataset' => $this->observation->dataset,
+        ];
+    }
+
+    /**
+     * Serialize field observation to a flat array.
+     * Mostly used for the frontend and diffing.
+     *
+     * @return array
+     */
+    public function toFlatArray()
+    {
+        return [
+            'id' => $this->id,
+            'taxon' => $this->observation->taxon,
+            'taxon_id' => $this->observation->taxon_id,
+            'taxon_suggestion' => $this->taxon_suggestion,
+            'day' => $this->observation->day,
+            'month' => $this->observation->month,
+            'year' => $this->observation->year,
+            'location' => $this->observation->location,
+            'latitude' => $this->observation->latitude,
+            'longitude' => $this->observation->longitude,
+            'mgrs10k' => $this->observation->mgrs10k,
+            'accuracy' => $this->observation->accuracy,
+            'elevation' => $this->observation->elevation,
+            'photos' => $this->observation->photos,
+            'observer' => $this->observer,
+            'identifier' => $this->identifier,
             'sex' => $this->observation->sex,
             'stage_id' => $this->observation->stage_id,
             'number' => $this->observation->number,

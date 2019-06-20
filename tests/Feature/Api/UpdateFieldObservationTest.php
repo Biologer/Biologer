@@ -56,6 +56,7 @@ class UpdateFieldObservationTest extends TestCase
     /** @test */
     public function field_observation_can_be_updated_but_will_return_to_pending_status()
     {
+        $this->handleValidationExceptions();
         $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
         $user = factory(User::class)->create();
         Passport::actingAs($user);
@@ -115,7 +116,7 @@ class UpdateFieldObservationTest extends TestCase
             'found_dead_note' => 'Note on dead',
             'time' => '09:00',
         ]);
-        $fieldObservation->photos()->sync(factory(Photo::class)->create());
+        $fieldObservation->photos()->sync($photo = factory(Photo::class)->create());
         $activityCount = $fieldObservation->activity()->count();
 
         $uploadedPhoto = File::image(str_random().'.jpg')
@@ -140,7 +141,7 @@ class UpdateFieldObservationTest extends TestCase
 
         $response->assertStatus(200);
 
-        tap($fieldObservation->fresh(), function ($fieldObservation) use ($activityCount, $user, $stages) {
+        tap($fieldObservation->fresh(), function ($fieldObservation) use ($activityCount, $user, $stages, $photo, $taxon) {
             $fieldObservation->activity->assertCount($activityCount + 1);
             $activity = $fieldObservation->activity->latest()->first();
 
@@ -148,16 +149,27 @@ class UpdateFieldObservationTest extends TestCase
             $this->assertTrue($activity->causer->is($user));
             $this->assertArraySubset([
                 'elevation' => 500,
-                'taxon' => 'Cerambyx scopolii',
-                'stage' => ['label' => 'stages.'.$stages->first()->name],
+                'taxon' => [
+                    'value' => $taxon->id,
+                    'label' => $taxon->name,
+                ],
+                'stage' => [
+                    'value' => $stages->first()->id,
+                    'label' => 'stages.'.$stages->first()->name,
+                ],
                 'data_license' => [
-                    'label' => 'licenses.CC BY-SA 4.0',
+                    'value' => License::findByName('CC BY-SA 4.0')->id,
+                    'label' => 'licenses.'.License::findByName('CC BY-SA 4.0')->id,
                 ],
                 'time' => '09:00',
                 'found_dead' => [
+                    'value' => true,
                     'label' => 'Yes',
                 ],
-                'photos' => null,
+                'photos' => [
+                    'value' => [$photo->id],
+                    'label' => null,
+                ],
             ], $activity->changes()->get('old'));
             $this->assertEquals('Just testin\' :)', $activity->getExtraProperty('reason'));
         });

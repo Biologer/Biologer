@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Stage;
-
 use App\License;
 use App\Rules\Day;
 use App\Observation;
@@ -14,7 +13,7 @@ use App\LiteratureObservation;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Http\FormRequest;
-use App\ActivityLog\LiteratureObservationLog;
+use App\ActivityLog\LiteratureObservationDiff;
 use App\LiteratureObservationIdentificationValidity;
 
 class UpdateLiteratureObservation extends FormRequest
@@ -175,7 +174,7 @@ class UpdateLiteratureObservation extends FormRequest
      */
     protected function logActivity(LiteratureObservation $updatedObservation, LiteratureObservation $oldObservation)
     {
-        $changed = LiteratureObservationLog::changes($updatedObservation, $oldObservation);
+        $changed = LiteratureObservationDiff::changes($updatedObservation, $oldObservation);
 
         // Nothing was changed so we won't log anything.
         if (empty($changed)) {

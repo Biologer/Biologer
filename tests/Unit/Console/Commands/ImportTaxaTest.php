@@ -6,7 +6,6 @@ use App\User;
 use App\Taxon;
 use App\RedList;
 use Tests\TestCase;
-
 use Illuminate\Support\Str;
 use App\ConservationLegislation;
 use Illuminate\Support\Facades\Storage;

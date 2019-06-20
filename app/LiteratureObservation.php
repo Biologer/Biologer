@@ -5,9 +5,10 @@ namespace App;
 use App\Filters\Filterable;
 use App\Concerns\CanMemoize;
 use Illuminate\Support\Carbon;
+use App\Contracts\FlatArrayable;
 use Spatie\Activitylog\Models\Activity;
 
-class LiteratureObservation extends Model
+class LiteratureObservation extends Model implements FlatArrayable
 {
     use CanMemoize, Filterable;
 

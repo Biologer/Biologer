@@ -272,7 +272,7 @@ class DarwinCoreFieldObservationsExport extends BaseExport
         });
 
         if ($activity) {
-            return $activity->changes()->collect('old')->get('taxon');
+            return $this->getTaxonNameFromActivity($activity);
         }
 
         $taxon = $fieldObservation->observation->taxon;
@@ -280,10 +280,17 @@ class DarwinCoreFieldObservationsExport extends BaseExport
         return $taxon ? $taxon->name : '';
     }
 
+    private function getTaxonNameFromActivity($activity)
+    {
+        $taxon = $activity->changes()->collect('old')->get('taxon');
+
+        return is_array($taxon) ? $taxon['label'] : $taxon;
+    }
+
     private function previousIdentifications($fieldObservation)
     {
         return $fieldObservation->activity->map(function ($activity) {
-            return $activity->changes()->collect('old')->get('taxon');
+            return $this->getTaxonNameFromActivity($activity);
         })->filter()->implode('|');
     }
 

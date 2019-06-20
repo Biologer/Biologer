@@ -2,46 +2,9 @@
 
 namespace App\ActivityLog;
 
-use App\LiteratureObservation;
-
-class LiteratureObservationLog
+class LiteratureObservationDiff
 {
-    /**
-     * Get changed literature observation data.
-     *
-     * @param  \App\LiteratureObservation  $updatedLiteratureObservation
-     * @param  \App\LiteratureObservation  $oldLiteratureObservation
-     * @return array
-     */
-    public static function changes(LiteratureObservation $updatedLiteratureObservation, LiteratureObservation $oldLiteratureObservation)
-    {
-        $updated = $updatedLiteratureObservation->toFlatArray();
-        $oldData = $oldLiteratureObservation->toFlatArray();
-
-        $data = [];
-        $keyOverrides = self::keyOverrides();
-        $valueOverrides = self::valueOverrides();
-
-        foreach (self::attributesToDiff() as $attribute) {
-            $value = $oldData[$attribute];
-
-            if ($value === $updated[$attribute]) {
-                continue;
-            }
-
-            if (isset($valueOverrides[$attribute])) {
-                $extractValue = $valueOverrides[$attribute];
-
-                $value = $extractValue($oldLiteratureObservation);
-            }
-
-            $key = $keyOverrides[$attribute] ?? $attribute;
-
-            $data[$key] = $value;
-        }
-
-        return $data;
-    }
+    use MakesDiffs;
 
     /**
      * List of attributes for which we want to keep track of changes.
@@ -51,7 +14,7 @@ class LiteratureObservationLog
     protected static function attributesToDiff()
     {
         return [
-            'taxon_id',
+            'taxon',
             'year',
             'month',
             'day',
@@ -72,12 +35,12 @@ class LiteratureObservationLog
             'project',
             'found_on',
             'habitat',
-            'stage_id',
+            'stage',
             'time',
             'dataset',
-            'publication_id',
+            'publication',
             'is_original_data',
-            'cited_publication_id',
+            'cited_publication',
             'place_where_referenced_in_publication',
             'original_date',
             'original_locality',
@@ -85,22 +48,6 @@ class LiteratureObservationLog
             'original_coordinates',
             'original_identification',
             'original_identification_validity',
-        ];
-    }
-
-    /**
-     * If we want to use a different key for attribute to display a field label
-     * properly, we can define it here.
-     *
-     * @return array
-     */
-    protected static function keyOverrides()
-    {
-        return [
-            'taxon_id' => 'taxon',
-            'stage_id' => 'stage',
-            'publication_id' => 'publication',
-            'cited_publication_id' => 'cited_publication',
         ];
     }
 
@@ -113,7 +60,7 @@ class LiteratureObservationLog
     protected static function valueOverrides()
     {
         return [
-            'taxon_id' => function ($literatureObservation) {
+            'taxon' => function ($literatureObservation) {
                 $taxon = optional($literatureObservation->observation->taxon);
 
                 return [
@@ -121,7 +68,7 @@ class LiteratureObservationLog
                     'label' => $taxon->name,
                 ];
             },
-            'stage_id' => function ($literatureObservation) {
+            'stage' => function ($literatureObservation) {
                 $stage = optional($literatureObservation->observation->stage);
 
                 return [
@@ -143,7 +90,7 @@ class LiteratureObservationLog
                     'label' => $literatureObservation->is_original_data ? 'Yes' : 'No',
                 ];
             },
-            'publication_id' => function ($literatureObservation) {
+            'publication' => function ($literatureObservation) {
                 $publication = optional($literatureObservation->publication);
 
                 return [
@@ -151,7 +98,7 @@ class LiteratureObservationLog
                     'label' => $publication->citation,
                 ];
             },
-            'cited_publication_id' => function ($literatureObservation) {
+            'cited_publication' => function ($literatureObservation) {
                 $publication = optional($literatureObservation->citedPublication);
 
                 return [
@@ -160,9 +107,11 @@ class LiteratureObservationLog
                 ];
             },
             'original_identification_validity' => function ($literatureObservation) {
+                $key = mb_strtolower($literatureObservation->identificationValidity()->getKey());
+
                 return [
                     'value' => $literatureObservation->original_identification_validity,
-                    'label' => "labels.literature_observations.validity.{$literatureObservation->original_identification_validity}",
+                    'label' => "labels.literature_observations.validity.{$key}",
                 ];
             },
         ];

@@ -15,7 +15,7 @@ use App\Support\Dataset;
 use App\FieldObservation;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
-use App\ActivityLog\FieldObservationLog;
+use App\ActivityLog\FieldObservationDiff;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateFieldObservation extends FormRequest
@@ -98,23 +98,26 @@ class UpdateFieldObservation extends FormRequest
     public function save(FieldObservation $fieldObservation)
     {
         return DB::transaction(function () use ($fieldObservation) {
-            $oldData = $fieldObservation->toArray();
+            $oldFieldObservation = $fieldObservation->load('observation.types', 'observation.photos')->replicate();
 
             $fieldObservation->update($this->getSpecificObservationData());
-            $fieldObservation->observation->update($this->getGeneralObservationData());
-            $photoSync = $fieldObservation->syncPhotos(
+            $fieldObservation->load('observation')->observation->update($this->getGeneralObservationData());
+
+            $fieldObservation->syncPhotos(
                 collect($this->input('photos', [])),
                 $this->user()->settings()->get('image_license')
             );
 
             $this->syncRelations($fieldObservation);
 
-            $beforeUpdate = FieldObservationLog::changes($fieldObservation, $oldData, $photoSync);
+            $fieldObservation->observation->load('photos', 'types');
+
+            $changed = FieldObservationDiff::changes($fieldObservation, $oldFieldObservation);
 
             // Log activity and move to pending only if something more than
             // updating photo license occurred.
-            if (! empty($beforeUpdate)) {
-                $this->logActivity($fieldObservation, $beforeUpdate);
+            if (! empty($changed)) {
+                $this->logActivity($fieldObservation, $changed);
 
                 $fieldObservation->moveToPending();
             }
