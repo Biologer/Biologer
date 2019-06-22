@@ -650,12 +650,41 @@ export default {
       if (this.exifExtracted || !image.exif) return
 
       this.$dialog.confirm({
-        message: this.trans('Use data from photo to fill the form?'),
+        message: this.extractExifMessage(image).replace(/\n/g, '<br>'),
         cancelText: this.trans('No'),
         confirmText: this.trans('Yes'),
-        onConfirm: () => { this.extractExifData(image) },
+        onConfirm: () => { this.fillFromExif(image) },
         onCancel: () => { this.exifExtracted = true }
       })
+    },
+
+    /**
+     * Format message to use EXIF data from image.
+     */
+    extractExifMessage(image) {
+      const data = this.extractExifData(image)
+
+      return [
+        this.trans('Use data from photo to fill the form?') + "\n",
+        ...Object.keys(data).map(key => `${this.trans('labels.field_observations.'+key)}: ${data[key]}`)
+      ].join("\n")
+    },
+
+    /**
+     * Extract EXIF data from image.
+     */
+    extractExifData(image) {
+      const data = {}
+
+      for (let exif in image.exif) {
+        let value = image.exif[exif]
+
+        if (value) {
+         data[exif] = value
+        }
+      }
+
+      return data
     },
 
     /**
@@ -663,13 +692,11 @@ export default {
      *
      * @param  {Object} image
      */
-    extractExifData(image) {
-      for (let exif in image.exif) {
-        let value = image.exif[exif]
+    fillFromExif(image) {
+      const data = this.extractExifData(image)
 
-        if (value) {
-         this.form[exif] = value
-        }
+      for (const exif in data) {
+        this.form[exif] = data[exif]
       }
 
       this.exifExtracted = true
