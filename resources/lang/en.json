@@ -17,6 +17,7 @@
     "click here to request another": "click here to request another",
     "Verify Email Address": "Verify Email Address",
     "Please click the button below to verify your email address.": "Please click the button below to verify your email address.",
+    "This link will expire at :expiresAt. You can always request another verification link to be sent when you log in.": "This link will expire at :expiresAt. You can always request another verification link to be sent when you log in.",
     "If you did not create an account, no further action is required.": "If you did not create an account, no further action is required.",
     "The given data was invalid.": "The given data was invalid.",
     "Some fields have errors": "Some fields have errors",

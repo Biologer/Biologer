@@ -17,6 +17,7 @@
     "click here to request another": "kliknite ovdje kako biste zatražili da ponovo pošaljemo",
     "Verify Email Address": "Potvrdite email adresu",
     "Please click the button below to verify your email address.": "Kliknite na dugme kako biste potvrdili Vašu e-mail adresu.",
+    "This link will expire at :expiresAt. You can always request another verification link to be sent when you log in.": "Ovaj link će isteći u :expiresAt. Uvek možete zatražiti nov link za verifikaciju naloga kada se ulogujete.",
     "If you did not create an account, no further action is required.": "Ako niste napravili korisnični nalog, nije potrebno ništa da uradite.",
     "The given data was invalid.": "Dani podaci nisu ispravni.",
     "Some fields have errors": "Neka polja imaju greške",
