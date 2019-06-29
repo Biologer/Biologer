@@ -363,6 +363,16 @@ class Taxon extends Model
     }
 
     /**
+     * Check if taxon is a species or lower.
+     *
+     * @return bool
+     */
+    public function isSpeciesOrLower()
+    {
+        return $this->rank_level <= static::RANKS['species'];
+    }
+
+    /**
      * Get complete list of MGRS fields the taxon was observed at.
      *
      * @return array

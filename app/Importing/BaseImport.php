@@ -101,7 +101,18 @@ abstract class BaseImport
             'for_user_id' => $user->hasAnyRole(['admin', 'curator']) ? $request->input('user_id') : null,
             'lang' => app()->getLocale(),
             'has_heading' => $request->input('has_heading', false),
+            'options' => $request->input('options', []),
         ]);
+    }
+
+    /**
+     * Get validation rules specific for import type.
+     *
+     * @return array
+     */
+    public static function specificValidationRules()
+    {
+        return [];
     }
 
     /**

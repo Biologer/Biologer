@@ -43,10 +43,6 @@
           </div>
 
           <div class="level-item">
-            <b-checkbox v-model="hasHeading">{{ trans('labels.imports.has_heading') }}</b-checkbox>
-          </div>
-
-          <div class="level-item">
             <b-field class="file" v-if="!importing">
               <b-upload v-model="file" accept=".csv">
                 <a class="button">
@@ -74,6 +70,12 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <b-checkbox v-model="hasHeading">{{ trans('labels.imports.has_heading') }}</b-checkbox>
+
+    <div v-if="canApproveCurated">
+      <b-checkbox v-model="approveCurated">{{ trans('labels.imports.approve_curated') }}</b-checkbox>
     </div>
 
     <b-collapse :open="showColumnsSelection">
@@ -123,7 +125,8 @@ export default {
       default: () => []
     },
 
-    canSubmitForUser: Boolean
+    canSubmitForUser: Boolean,
+    canApproveCurated: Boolean,
   },
 
   data() {
@@ -137,6 +140,7 @@ export default {
       currentErrorsPage: 1,
       submissionErrors: null,
       hasHeading: false,
+      approveCurated: false,
       showSuccessMessage: false,
       cancelling: false,
       userId: null,
@@ -220,6 +224,10 @@ export default {
       }
 
       form.append('user_id', this.userId || '')
+
+      if (this.approveCurated) {
+        form.append('options[approve_curated]', 1)
+      }
 
       return form
     },

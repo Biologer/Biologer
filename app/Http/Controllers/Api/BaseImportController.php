@@ -48,7 +48,7 @@ abstract class BaseImportController extends Controller
     {
         $importer = $this->type();
 
-        $request->validate([
+        $request->validate(array_merge([
             'columns' => [
                 'bail',
                 'required',
@@ -66,7 +66,8 @@ abstract class BaseImportController extends Controller
             ],
             'has_heading' => ['nullable', 'boolean'],
             'user_id' => ['nullable', Rule::exists('users', 'id')],
-        ]);
+            'options' => ['nullable', 'array'],
+        ], $importer::specificValidationRules()));
 
         return $importer::fromRequest($request);
     }

@@ -14,8 +14,9 @@ class Import extends Model
      * @var array
      */
     protected $attributes = [
-        'status' => ImportStatus::PROCESSING_QUEUED,
         'columns' => '[]',
+        'options' => '[]',
+        'status' => ImportStatus::PROCESSING_QUEUED,
     ];
 
     /**
@@ -26,6 +27,7 @@ class Import extends Model
     protected $casts = [
         'columns' => 'array',
         'has_heading' => 'boolean',
+        'options' => 'collection',
     ];
 
     /**

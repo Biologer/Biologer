@@ -177,6 +177,7 @@ return [
         'has_heading' => 'Prvi red sadrži nazive kolona',
         'columns' => 'Kolone',
         'user' => 'Za korisnika',
+        'approve_curated' => 'Potvrdi nalaze za taksone koje uređujem',
     ],
 
     'announcements' => [

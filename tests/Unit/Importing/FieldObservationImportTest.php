@@ -161,6 +161,69 @@ class FieldObservationImportTest extends TestCase
         $this->assertEquals(300, $fieldObservation->observation->elevation);
     }
 
+    /** @test */
+    public function if_submitted_by_curator_observations_of_taxa_they_curate_can_be_approved()
+    {
+        $this->seed('RolesTableSeeder');
+        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
+        $user = factory(User::class)->create()->assignRoles('curator');
+        $user->curatedTaxa()->attach($taxon);
+        $fieldObservationsCount = FieldObservation::count();
+
+        $import = $this->createImport(FieldObservationImport::class, $this->allColumns(), $this->defaultContents(), $user);
+        $import->update(['options' => collect(['approve_curated' => true])]);
+
+        // Perform all the steps
+        $import->makeImporter()->parse()->validate()->store();
+
+        $this->assertTrue($import->fresh()->status()->saved());
+        FieldObservation::assertCount($fieldObservationsCount + 1);
+        $fieldObservation = FieldObservation::latest()->first();
+        $this->assertTrue($fieldObservation->isApproved());
+        $this->assertEquals('approved', $fieldObservation->activity->first()->description);
+        $this->assertTrue($fieldObservation->activity->first()->causer->is($user));
+    }
+
+    /** @test */
+    public function if_submitted_by_curator_observations_of_taxa_they_dont_curate_cannot_be_approved()
+    {
+        $this->seed('RolesTableSeeder');
+        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
+        $user = factory(User::class)->create()->assignRoles('curator');
+        $fieldObservationsCount = FieldObservation::count();
+
+        $import = $this->createImport(FieldObservationImport::class, $this->allColumns(), $this->defaultContents(), $user);
+        $import->update(['options' => collect(['approve_curated' => true])]);
+
+        // Perform all the steps
+        $import->makeImporter()->parse()->validate()->store();
+
+        $this->assertTrue($import->fresh()->status()->saved());
+        FieldObservation::assertCount($fieldObservationsCount + 1);
+        $fieldObservation = FieldObservation::latest()->first();
+        $this->assertFalse($fieldObservation->isApproved());
+        $this->assertEquals('created', $fieldObservation->activity->first()->description);
+    }
+
+     /** @test */
+     public function cannot_be_approved_if_submitted_by_non_curators()
+     {
+         factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
+         $user = factory(User::class)->create();
+         $fieldObservationsCount = FieldObservation::count();
+
+         $import = $this->createImport(FieldObservationImport::class, $this->allColumns(), $this->defaultContents(), $user);
+         $import->update(['options' => collect(['approve_curated' => true])]);
+
+         // Perform all the steps
+         $import->makeImporter()->parse()->validate()->store();
+
+         $this->assertTrue($import->fresh()->status()->saved());
+         FieldObservation::assertCount($fieldObservationsCount + 1);
+         $fieldObservation = FieldObservation::latest()->first();
+         $this->assertFalse($fieldObservation->isApproved());
+     }
+
     /**
      * All columns to import.
      *

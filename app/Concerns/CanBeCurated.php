@@ -80,4 +80,15 @@ trait CanBeCurated
 
         return $this;
     }
+
+    /**
+     * Check if taxon can be approved by given user.
+     *
+     * @param  \App\User  $user
+     * @return bool
+     */
+    public function canBeApprovedBy(User $user)
+    {
+        return $this->isSpeciesOrLower() && $this->isCuratedBy($user);
+    }
 }

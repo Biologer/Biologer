@@ -125,7 +125,7 @@ class FieldObservation extends Model implements FlatArrayable
      */
     public function activity()
     {
-        return $this->morphMany(Activity::class, 'subject')->latest();
+        return $this->morphMany(Activity::class, 'subject')->latest()->orderBy('id', 'desc');
     }
 
     /**

@@ -13,6 +13,9 @@
             @role(['admin', 'curator'])
             can-submit-for-user
             @endrole
+            @role(['curator'])
+            can-approve-curated
+            @endrole
         />
     </div>
 @endsection

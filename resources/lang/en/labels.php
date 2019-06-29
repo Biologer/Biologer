@@ -177,6 +177,7 @@ return [
         'has_heading' => 'First row contains column titles',
         'columns' => 'Columns',
         'user' => 'For User',
+        'approve_curated' => 'Approve Curated',
     ],
 
     'announcements' => [

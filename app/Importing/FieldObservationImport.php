@@ -191,6 +191,18 @@ class FieldObservationImport extends BaseImport
     }
 
     /**
+     * Get validation rules specific for import type.
+     *
+     * @return array
+     */
+    public static function specificValidationRules()
+    {
+        return [
+            'options.approve_curated' => ['nullable', 'boolean'],
+        ];
+    }
+
+    /**
      * Make validator instance.
      *
      * @param  array  $data
@@ -288,14 +300,19 @@ class FieldObservationImport extends BaseImport
             $this->getSpecificObservationData($item)
         );
 
-        $fieldObservation->observation()->save(
+        $observation = $fieldObservation->observation()->save(
             new Observation($this->getGeneralObservationData($item))
         );
-
 
         activity()->performedOn($fieldObservation)
             ->causedBy($this->model()->user)
             ->log('created');
+
+        if ($observation->isApproved()) {
+            activity()->performedOn($fieldObservation)
+                ->causedBy($this->model()->user)
+                ->log('approved');
+        }
     }
 
     /**
@@ -328,9 +345,10 @@ class FieldObservationImport extends BaseImport
     {
         $latitude = $this->getLatitude($item);
         $longitude = $this->getLongitude($item);
+        $taxon = $this->getTaxon($item);
 
         return [
-            'taxon_id' => $this->getTaxonId($item),
+            'taxon_id' => $taxon ? $taxon->id : null,
             'year' => Arr::get($item, 'year'),
             'month' => Arr::get($item, 'month') ?: null,
             'day' => Arr::get($item, 'day') ?: null,
@@ -352,6 +370,7 @@ class FieldObservationImport extends BaseImport
             'stage_id' => $this->getStageId($item),
             'original_identification' => Arr::get($item, 'original_identification', Arr::get($item, 'taxon')),
             'dataset' => Arr::get($item, 'dataset') ?? Dataset::default(),
+            'approved_at' => $this->getApprovedAt($taxon),
         ];
     }
 
@@ -359,11 +378,11 @@ class FieldObservationImport extends BaseImport
      * Get ID of taxon using it's name.
      *
      * @param  array  $data
-     * @return int|null
+     * @return \App\Taxon|null
      */
-    protected function getTaxonId(array $data)
+    protected function getTaxon(array $data)
     {
-        return optional(Taxon::findByName(Arr::get($data, 'taxon')))->id;
+        return Taxon::findByName(Arr::get($data, 'taxon'));
     }
 
     /**
@@ -529,5 +548,39 @@ class FieldObservationImport extends BaseImport
         return ($license = Arr::get($data, 'license'))
             ? License::findByName($license)->id
             : $this->model()->user->settings()->get('data_license');
+    }
+
+    /**
+     * Get `approved_at` attribute for the observation.
+     *
+     * @param \App\Taxon|null $taxon
+     * @return \Carbon\Carbon|null
+     */
+    protected function getApprovedAt($taxon)
+    {
+        return $this->shouldApprove($taxon) ? now() : null;
+    }
+
+    /**
+     * Check if we should automatically approve observation of given taxon.
+     *
+     * @param \App\Taxon|null $taxon
+     * @return bool
+     */
+    protected function shouldApprove($taxon)
+    {
+        return $this->shouldApproveCurated() &&
+            $this->model()->user->hasRole('curator') &&
+            $taxon && $taxon->canBeApprovedBy($this->model()->user);
+    }
+
+    /**
+     * Check if option to verify observations of curated taxa is selected.
+     *
+     * @return bool
+     */
+    protected function shouldApproveCurated()
+    {
+        return $this->model()->options['approve_curated'] ?? false;
     }
 }
