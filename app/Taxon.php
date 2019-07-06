@@ -131,6 +131,8 @@ class Taxon extends Model
             'rank' => \App\Filters\Taxon\Rank::class,
             'updated_after' => \App\Filters\Taxon\UpdatedAfter::class,
             'limit' => \App\Filters\Limit::class,
+            'taxonId' => \App\Filters\NullFilter::class,
+            'includeChildTaxa' => \App\Filters\NullFilter::class,
         ];
     }
 
