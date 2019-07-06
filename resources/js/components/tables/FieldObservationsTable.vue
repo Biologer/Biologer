@@ -91,7 +91,6 @@
             <b-checkbox v-model="newFilter.includeChildTaxa">{{ trans('labels.field_observations.include_lower_taxa') }}</b-checkbox>
           </div>
 
-
           <b-field :label="trans('labels.field_observations.date')" class="column is-half">
             <b-field expanded grouped>
               <b-field expanded>
@@ -320,9 +319,7 @@ export default {
           default() {
               return [15, 30, 50, 100]
           },
-          validator(value) {
-              return value.length
-          }
+          validator: value => value.length
       },
       listRoute: String,
       viewRoute: String,
@@ -411,6 +408,7 @@ export default {
   methods: {
     loadAsyncData() {
       this.loading = true
+
       const { selectedTaxon, ...filter } = this.filter
 
       return axios.get(route(this.listRoute).withQuery({
@@ -419,9 +417,8 @@ export default {
         page: this.page,
         per_page:this.perPage,
       })).then(({ data: response }) => {
-        this.data = []
+        this.data = response.data
         this.total = response.meta.total
-        response.data.forEach((item) => this.data.push(item))
         this.loading = false
       }, () => {
         this.data = []

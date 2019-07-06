@@ -95,11 +95,10 @@ export default {
     loadAsyncData() {
       this.loading = true
 
-      return axios.get(route(this.listRoute, {
+      return axios.get(route(this.listRoute).withQuery({
         sort_by: `${this.sortField}.${this.sortOrder}`,
         page: this.page,
-        per_page: this.perPage,
-        ...this.filter
+        per_page: this.perPage
       })).then(({ data: response }) => {
         this.data = []
         this.total = response.meta.total

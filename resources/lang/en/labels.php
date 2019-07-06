@@ -77,6 +77,8 @@ return [
         'search_for_taxon' => 'Search for taxon...',
         'yes' => 'Yes',
         'no' => 'No',
+
+        'include_lower_taxa' => 'Include lower taxa',
     ],
 
     'field_observations' => [

@@ -20,7 +20,6 @@
             <button
               class="button is-touch-full"
               slot="trigger"
-              :class="{'is-loading': actionRunning}"
             >
               <span>{{ trans('labels.actions') }}</span>
 
@@ -45,7 +44,7 @@
     <b-collapse :open="showFilter" class="mt-4">
       <form @submit.prevent="applyFilter">
         <div class="columns">
-          <b-field :label="trans('labels.taxa.rank')" class="column">
+          <b-field :label="trans('labels.taxa.rank')" class="column is-half">
             <b-select v-model="newFilter.rank" expanded>
               <option value=""></option>
               <option
@@ -57,9 +56,16 @@
             </b-select>
           </b-field>
 
-          <b-field :label="trans('labels.taxa.name')" class="column">
-            <b-input v-model="newFilter.name"></b-input>
-          </b-field>
+          <div class="column is half">
+            <nz-taxon-autocomplete
+              @select="onTaxonSelect"
+              v-model="newFilter.name"
+              :taxon="newFilter.selectedTaxon"
+              :label="trans('labels.taxa.name')"
+              placeholder=""
+            />
+            <b-checkbox v-model="newFilter.includeChildTaxa">{{ trans('labels.taxa.include_lower_taxa') }}</b-checkbox>
+          </div>
         </div>
 
         <button type="submit" class="button is-primary is-outlined" @click="applyFilter">{{ trans('buttons.apply') }}</button>
@@ -212,24 +218,29 @@ export default {
 
   created() {
     this.restoreState()
+    this.addMissingValuesAfterRestoration()
     this.loadAsyncData()
 
-    this.$on('filter', this.loadAsyncData)
+    this.$on('filter', () => {
+      this.saveState()
+      this.loadAsyncData()
+    })
   },
 
   methods: {
     loadAsyncData() {
       this.loading = true
 
-      return axios.get(route(this.listRoute, {
+      const { selectedTaxon, ...filter } = this.filter
+
+      return axios.get(route(this.listRoute).withQuery({
+        ...filter,
         sort_by: `${this.sortField}.${this.sortOrder}`,
         page: this.page,
-        per_page: this.perPage,
-        ...this.filter
+        per_page:this.perPage,
       })).then(({ data: response }) => {
-        this.data = []
+        this.data = response.data
         this.total = response.meta.total
-        response.data.forEach((item) => this.data.push(item))
         this.loading = false
       }, (response) => {
         this.data = []
@@ -243,6 +254,9 @@ export default {
      */
     onPageChange(page) {
       this.page = page
+
+      this.saveState()
+
       this.loadAsyncData()
     },
 
@@ -253,6 +267,8 @@ export default {
       this.sortField = field
       this.sortOrder = order
 
+      this.saveState()
+
       this.loadAsyncData()
     },
 
@@ -260,6 +276,8 @@ export default {
       if (perPage === this.perPage) return
 
       this.perPage = perPage
+
+      this.saveState()
 
       this.loadAsyncData()
     },
@@ -295,8 +313,12 @@ export default {
 
     filterDefaults() {
       return {
-        name: '',
-        rank: ''
+        name: null,
+        rank: null,
+        taxonId: null,
+        includeChildTaxa: null,
+        selectedTaxon: null,
+        id: null
       }
     },
 
@@ -324,6 +346,25 @@ export default {
           type: 'is-danger'
         })
       }
+    },
+
+    onTaxonSelect(taxon) {
+      this.newFilter.taxonId = taxon ? taxon.id : null
+      this.newFilter.selectedTaxon = taxon
+    },
+
+    getPersistantKeys() {
+      return [
+        'sortField', 'sortOrder', 'perPage', 'page',
+        'newFilter', 'filter', 'filterIsActive'
+      ]
+    },
+
+    addMissingValuesAfterRestoration() {
+      this.page = this.page || 1
+      this.perPage = this.perPage || this.perPageOptions[0]
+      this.sortField = this.sortField || 'id'
+      this.sortOrder = this.sortOrder || 'desc'
     }
   }
 }

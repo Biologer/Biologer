@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Taxon;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreTaxon;
 use App\Http\Requests\UpdateTaxon;
 use App\Http\Controllers\Controller;
@@ -16,19 +17,13 @@ class TaxaController extends Controller
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
         $taxa = Taxon::with([
             'parent', 'stages', 'activity.causer', 'curators', 'ancestors.curators',
-        ])->filter(request())->orderBy('id');
+        ])->filter($request)->orderBy('id')->paginate($request->input('per_page', 15));
 
-        if (request()->has('page')) {
-            return new TaxonCollectionResource(
-                $taxa->paginate(request('per_page', 15))
-            );
-        }
-
-        return new TaxonCollectionResource($taxa->get());
+        return new TaxonCollectionResource($taxa);
     }
 
     /**

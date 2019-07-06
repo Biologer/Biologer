@@ -77,6 +77,8 @@ return [
         'search_for_taxon' => 'Traži takson...',
         'yes' => 'Da',
         'no' => 'Ne',
+
+        'include_lower_taxa' => 'Uključujući niže taksone',
     ],
 
     'field_observations' => [

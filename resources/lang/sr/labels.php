@@ -75,6 +75,8 @@ return [
         'red_lists' => 'Црвене листе',
         'add_red_list' => 'Додај црвену листу',
         'search_for_taxon' => 'Тражи таксон...',
+
+        'include_lower_taxa' => 'Укључујући ниже таксоне',
     ],
 
     'field_observations' => [
