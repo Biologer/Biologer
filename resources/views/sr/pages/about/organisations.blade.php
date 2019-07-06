@@ -46,6 +46,12 @@
 
             <p>Оснивачке организације:</p>
 
+            <ul>
+                <li>Биолошки факултет, Универзитет у Београду (<a href="https://biologer.org/docs/letters-of-support/bioloski-fakultet-bg.pdf" target="_blank">Писмо подршке</a>)</li>
+                <li>Удружење "Hyla" (<a href="https://biologer.org/docs/letters-of-support/hyla.pdf" target="_blank">Писмо подршке</a>)</li>
+                <li>Биолошко друштво "Др Сава Петровић" (<a href="https://biologer.org/docs/letters-of-support/bddsp.pdf" target="_blank">Писмо подршке</a>)</li>
+            </ul>
+
             <p>Остале организације:</p>
         </div>
     </section>

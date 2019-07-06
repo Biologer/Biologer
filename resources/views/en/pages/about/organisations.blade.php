@@ -49,6 +49,12 @@
 
             <p>The founding organisations:</p>
 
+            <ul>
+                <li>Faculty of Biology, University of Belgrade (<a href="https://biologer.org/docs/letters-of-support/bioloski-fakultet-bg.pdf" target="_blank">Letter of Support</a>)</li>
+                <li>Association Hyla (<a href="https://biologer.org/docs/letters-of-support/hyla-en.pdf" target="_blank">Letter of Support</a>)</li>
+                <li>Biological Society "Dr Sava Petrović" (<a href="https://biologer.org/docs/letters-of-support/bddsp.pdf" target="_blank">Letter of Support</a>)</li>
+            </ul>
+
             <p>Other organisations:</p>
         </div>
     </section>

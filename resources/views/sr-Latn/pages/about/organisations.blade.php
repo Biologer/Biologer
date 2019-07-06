@@ -46,6 +46,12 @@
 
             <p>Osnivačke organizacije:</p>
 
+            <ul>
+                <li>Biološki fakultet, Univerzitet u Beogradu (<a href="https://biologer.org/docs/letters-of-support/bioloski-fakultet-bg.pdf" target="_blank">Pismo podrške</a>)</li>
+                <li>Udruženje "Hyla" (<a href="https://biologer.org/docs/letters-of-support/hyla.pdf" target="_blank">Pismo podrške</a>)</li>
+                <li>Biološko društvo "Dr Sava Petrović" (<a href="https://biologer.org/docs/letters-of-support/bddsp.pdf" target="_blank">Pismo podrške</a>)</li>
+            </ul>
+
             <p>Ostale organizacije:</p>
         </div>
     </section>
