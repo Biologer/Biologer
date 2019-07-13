@@ -70,12 +70,12 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <b-checkbox v-model="hasHeading">{{ trans('labels.imports.has_heading') }}</b-checkbox>
+      <b-checkbox v-model="hasHeading">{{ trans('labels.imports.has_heading') }}</b-checkbox>
 
-    <div v-if="canApproveCurated">
-      <b-checkbox v-model="approveCurated">{{ trans('labels.imports.approve_curated') }}</b-checkbox>
+      <div v-if="canApproveCurated">
+        <b-checkbox v-model="approveCurated">{{ trans('labels.imports.approve_curated') }}</b-checkbox>
+      </div>
     </div>
 
     <b-collapse :open="showColumnsSelection">
