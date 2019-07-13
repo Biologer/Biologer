@@ -18,7 +18,8 @@ trait MakesDiffs
      * @param  \App\Contracts\FlatArrayable  $oldFieldObservation
      * @return array
      */
-    public static function changes(FlatArrayable $updatedFieldObservation, FlatArrayable $oldFieldObservation) {
+    public static function changes(FlatArrayable $updatedFieldObservation, FlatArrayable $oldFieldObservation)
+    {
         $updatedData = $updatedFieldObservation->toFlatArray();
         $oldData = $oldFieldObservation->toFlatArray();
 

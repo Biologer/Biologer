@@ -4,9 +4,9 @@ namespace Tests\Unit\ActivityLog;
 
 use App\Stage;
 use App\Taxon;
-use App\Publication;
 use Tests\TestCase;
 use App\Observation;
+use App\Publication;
 use App\LiteratureObservation;
 use App\ActivityLog\LiteratureObservationDiff;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -510,7 +510,7 @@ class LiteratureObservationDiffTest extends TestCase
             'original_coordinates',
             '20.123123,43.123123',
             '21.123123,43.123123',
-            ['original_coordinates' => '20.123123,43.123123',],
+            ['original_coordinates' => '20.123123,43.123123'],
         ];
 
         yield 'Original Coordinates when not set' => [
@@ -527,8 +527,8 @@ class LiteratureObservationDiffTest extends TestCase
             [
                 'original_identification_validity' => [
                     'value' => LiteratureObservationIdentificationValidity::INVALID,
-                    'label' => 'labels.literature_observations.validity.invalid'
-                ]
+                    'label' => 'labels.literature_observations.validity.invalid',
+                ],
             ],
         ];
     }

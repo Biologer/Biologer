@@ -363,7 +363,7 @@ class FieldObservationDiffTest extends TestCase
             'license',
             License::CC_BY_SA,
             License::CC_BY_NC_SA,
-            ['data_license' => ['value' => License::CC_BY_SA, 'label' => 'licenses.' . License::CC_BY_SA]],
+            ['data_license' => ['value' => License::CC_BY_SA, 'label' => 'licenses.'.License::CC_BY_SA]],
         ];
 
         yield 'Unidentifiable' => [

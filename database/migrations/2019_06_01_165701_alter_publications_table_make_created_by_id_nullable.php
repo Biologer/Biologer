@@ -25,6 +25,5 @@ class AlterPublicationsTableMakeCreatedByIdNullable extends Migration
      */
     public function down()
     {
-
     }
 }
