@@ -69,7 +69,6 @@
 
 <script>
 import Form from 'form-backend-validation'
-import collect from 'collect.js'
 import FormMixin from '@/mixins/FormMixin'
 
 function defaultTranslations() {

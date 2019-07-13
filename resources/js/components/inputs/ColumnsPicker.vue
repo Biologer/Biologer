@@ -4,26 +4,21 @@
       <div class="panel-heading">
         <b-checkbox :value="allChecked" @change.native="checkAll" />{{ title }}
       </div>
-      <sortable-item v-for="(item,index) in items" :key="item.value">
-        <sortable-handle>
-          <div class="panel-block">
-            <label
-              class="b-checkbox checkbox"
-              :tabindex="item.required ? false : 0"
-              @keydown.prevent.space="$event.target.click()">
-              <input
-                v-model="checkedColumns"
-                type="checkbox"
-                :disabled="item.required"
-                :required="item.required"
-                :value="item.value">
-              <span class="check" />
-              <span class="control-label">{{ item.label }}</span>
-            </label>
+      <sortable-item v-for="(item) in items" :key="item.value">
+        <div class="panel-block">
+          <b-checkbox
+            v-model="checkedColumns"
+            :disabled="item.required"
+            :required="item.required"
+            :native-value="item.value"
+          >
+            {{ item.label }}
+          </b-checkbox>
 
+          <sortable-handle>
             <b-icon icon="arrows-v" size="is-small"/>
-          </div>
-        </sortable-handle>
+          </sortable-handle>
+        </div>
       </sortable-item>
     </div>
   </sortable-list>

@@ -323,7 +323,6 @@
 </template>
 
 <script>
-import collect from 'collect.js'
 import Form from 'form-backend-validation'
 import FormMixin from '@/mixins/FormMixin'
 import UserMixin from '@/mixins/UserMixin'
@@ -501,9 +500,7 @@ export default {
       this.form.taxon_id = taxon ? taxon.id : null
       this.form.taxon_suggestion = taxon ? taxon.name : null
 
-      const invalidStage = !collect(this.stages).contains(
-        stage => stage.id === this.form.stage_id
-      )
+      const invalidStage = !_.find(this.stages, stage => stage.id === this.form.stage_id)
 
       if (invalidStage) {
         this.form.stage_id = null

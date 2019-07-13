@@ -217,7 +217,6 @@
 
 <script>
 import Form from 'form-backend-validation'
-import collect from 'collect.js'
 import FormMixin from '@/mixins/FormMixin'
 
 function defaultTranslations() {
@@ -296,11 +295,9 @@ export default {
     },
 
     availableRedLists() {
-      let addedRedListIds = collect(this.form.red_lists_data)
+      const addedRedListIds = this.form.red_lists_data
 
-      return this.redLists.filter(
-        redList => !addedRedListIds.contains(rl => redList.id == rl.red_list_id)
-      )
+      return this.redLists.filter(redList => !_.find(addedRedListIds, rl => redList.id == rl.red_list_id))
     },
 
     supportedLocales() {

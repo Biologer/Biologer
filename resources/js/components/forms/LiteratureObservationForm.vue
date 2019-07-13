@@ -374,7 +374,6 @@
 </template>
 
 <script>
-import collect from 'collect.js'
 import Form from 'form-backend-validation'
 import FormMixin from '@/mixins/FormMixin'
 import PersistentForm from '@/mixins/PersistentForm'
@@ -515,9 +514,7 @@ export default {
       this.form.taxon_id = taxon ? taxon.id : null
       this.taxonName = taxon ? taxon.name : null
 
-      const invalidStage = !collect(this.stages).contains(stage => {
-        return stage.id === this.form.stage_id
-      })
+      const invalidStage = !_.find(this.stages, stage => stage.id === this.form.stage_id)
 
       if (invalidStage) {
         this.form.stage_id = null
