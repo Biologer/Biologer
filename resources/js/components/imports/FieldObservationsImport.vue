@@ -104,6 +104,8 @@
 </template>
 
 <script>
+import _get from 'lodash/get'
+
 export default {
   name: 'nzFieldObservationsImport',
 
@@ -154,23 +156,23 @@ export default {
     },
 
     validationFailed() {
-      return _.get(this.currentImport, 'status') === 'validation_failed'
+      return _get(this.currentImport, 'status') === 'validation_failed'
     },
 
     saved() {
-      return _.get(this.currentImport, 'status') === 'saved'
+      return _get(this.currentImport, 'status') === 'saved'
     },
 
     savingFailed() {
-      return _.get(this.currentImport, 'status') === 'saving_failed'
+      return _get(this.currentImport, 'status') === 'saving_failed'
     },
 
     cancelled() {
-      return _.get(this.currentImport, 'status') === 'cancelled'
+      return _get(this.currentImport, 'status') === 'cancelled'
     },
 
     importStatus() {
-      const status = _.get(this.currentImport, 'status')
+      const status = _get(this.currentImport, 'status')
 
       return this.trans(`imports.status.${status}`)
     },
@@ -248,11 +250,11 @@ export default {
 
     handleFailedSubmit(error) {
       this.importing = false
-      this.submissionErrors = _.get(error, 'response.data.errors', [])
+      this.submissionErrors = _get(error, 'response.data.errors', [])
 
       this.$toast.open({
         duration: 2500,
-        message: _.get(error, 'response.data.message'),
+        message: _get(error, 'response.data.message'),
         type: 'is-danger'
       })
     },

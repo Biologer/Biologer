@@ -263,6 +263,7 @@
 <script>
 import Form from 'form-backend-validation'
 import moment from 'moment'
+import _find from 'lodash/find'
 import FormMixin from '@/mixins/FormMixin'
 import PublicationAttachmentUpload from '@/components/inputs/PublicationAttachmentUpload'
 
@@ -316,7 +317,7 @@ export default {
 
   computed: {
     chosenType() {
-      return _.find(this.publicationTypes, { value: this.form.type })
+      return _find(this.publicationTypes, { value: this.form.type })
     },
 
     typeHasName() {

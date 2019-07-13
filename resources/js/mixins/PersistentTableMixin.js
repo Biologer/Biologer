@@ -1,3 +1,4 @@
+import _pick from 'lodash/pick'
 import expiringStorage from '@/expiring-storage'
 
 export default {
@@ -22,7 +23,7 @@ export default {
     },
 
     saveState() {
-      expiringStorage.set(this.storageKey, _.pick(this.$data, this.getPersistantKeys()), this.cacheLifetime)
+      expiringStorage.set(this.storageKey, _pick(this.$data, this.getPersistantKeys()), this.cacheLifetime)
     },
 
     restoreState() {

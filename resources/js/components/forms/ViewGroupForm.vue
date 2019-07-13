@@ -69,12 +69,16 @@
 
 <script>
 import Form from 'form-backend-validation'
+import _keys from 'lodash/keys'
+import _find from 'lodash/find'
+import _get from 'lodash/get'
+import _debounce from 'lodash/debounce'
 import FormMixin from '@/mixins/FormMixin'
 
 function defaultTranslations() {
   const value = {}
 
-  _.keys(window.App.supportedLocales).forEach(locale => {
+  _keys(window.App.supportedLocales).forEach(locale => {
     value[locale] = null
   })
 
@@ -123,11 +127,11 @@ export default {
 
     parent: {
       get() {
-        return _.find(this.rootGroups, { id: this.form.parent_id })
+        return _find(this.rootGroups, { id: this.form.parent_id })
       },
 
       set(value) {
-        this.form.parent_id = _.get(value, 'id')
+        this.form.parent_id = _get(value, 'id')
       }
     },
 
@@ -158,7 +162,7 @@ export default {
     },
 
     focusOnTranslation(index, attribute) {
-      const locales = _.keys(this.supportedLocales)
+      const locales = _keys(this.supportedLocales)
       const selector = `#${attribute}-${locales[index]}`
 
       setTimeout(() => {
@@ -179,7 +183,7 @@ export default {
       })
     },
 
-    onTaxonNameInput: _.debounce(function (name) {
+    onTaxonNameInput: _debounce(function (name) {
       return this.fetchTaxa(name)
     }, 500),
 

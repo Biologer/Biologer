@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import _uniq from 'lodash/uniq'
 import { SortableHandle, SortableItem, SortableList } from '../sortable'
 
 export default {
@@ -54,7 +55,7 @@ export default {
   data() {
     return {
       allColumns: this.columns,
-      checkedColumns: _.uniq(this.value.concat(this.columns.filter((column) => column.required).map((column) => column.value))),
+      checkedColumns: _uniq(this.value.concat(this.columns.filter((column) => column.required).map((column) => column.value))),
     }
   },
 

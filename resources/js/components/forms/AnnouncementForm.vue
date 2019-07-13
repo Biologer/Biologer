@@ -45,12 +45,15 @@
 </template>
 
 <script>
-import Form from 'form-backend-validation';
+import Form from 'form-backend-validation'
+import _keys from 'lodash/keys'
+import _get from 'lodash/get'
+import _first from 'lodash/first'
 
 function defaultTranslations() {
     const value = {};
 
-    _.keys(window.App.supportedLocales).forEach(locale => {
+    _keys(window.App.supportedLocales).forEach(locale => {
         value[locale] = null;
     });
 
@@ -143,7 +146,7 @@ export default {
         onFailedSubmit(error) {
             this.$toast.open({
                 duration: 2500,
-                message: _.get(error, 'response.data.message', error.message),
+                message: _get(error, 'response.data.message', error.message),
                 type: 'is-danger'
             });
         },
@@ -159,11 +162,11 @@ export default {
         },
 
         focusOnTranslation(index, attribute) {
-            const locales = _.keys(this.supportedLocales);
+            const locales = _keys(this.supportedLocales);
             const selector = `${attribute}-${locales[index]}`;
 
             setTimeout(() => {
-                _.first(this.$refs[selector]).focus();
+                _first(this.$refs[selector]).focus();
             }, 500);
         }
     }

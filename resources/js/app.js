@@ -5,6 +5,8 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 import { VTooltip } from 'v-tooltip'
 import { setTooltipOptions } from './tooltip'
 import VueLazyload from 'vue-lazyload'
+import _eachRight from 'lodash/eachRight'
+import _replace from 'lodash/replace'
 
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
@@ -134,8 +136,8 @@ Vue.component(DeleteAccountButton.name, DeleteAccountButton)
 Vue.prototype.trans = window.trans = (string, args = {}, defaultString = '') => {
     let value = window.App.i18n[string] || defaultString || string
 
-    _.eachRight(args, (paramVal, paramKey) => {
-        value = _.replace(value, `:${paramKey}`, paramVal)
+    _eachRight(args, (paramVal, paramKey) => {
+        value = _replace(value, `:${paramKey}`, paramVal)
     })
 
     return value

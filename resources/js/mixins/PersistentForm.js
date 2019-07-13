@@ -1,3 +1,4 @@
+import _pick from 'lodash/pick'
 import expiringStorage from '@/expiring-storage'
 
 export default {
@@ -25,7 +26,7 @@ export default {
 
     saveState() {
       const data = {
-        ..._.pick(this.$data, this.otherPersistentKeys()),
+        ..._pick(this.$data, this.otherPersistentKeys()),
         form: this[this.getFormKey()].data()
       }
 

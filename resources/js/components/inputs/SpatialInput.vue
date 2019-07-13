@@ -94,6 +94,8 @@
 </template>
 
 <script>
+import _debounce from 'lodash/debounce'
+
 const ZOOM_ONE = 6144000
 
 export default {
@@ -239,7 +241,7 @@ export default {
      * @param  {[type]} event [description]
      * @return {[type]}       [description]
      */
-    onLongitudeInput: _.debounce(function (event) {
+    onLongitudeInput: _debounce(function (event) {
       this.updateLongitude(event.target.value)
     }, 1000),
 
@@ -257,7 +259,7 @@ export default {
      *
      * @param {Object} event
      */
-    onLatitudeInput: _.debounce(function (event) {
+    onLatitudeInput: _debounce(function (event) {
       this.updateLatitude(event.target.value)
     }, 1000),
 
@@ -275,7 +277,7 @@ export default {
     *
     * @param {Object} event
     */
-    onAccuracyInput: _.debounce(function (event) {
+    onAccuracyInput: _debounce(function (event) {
       this.updateAccuracy(event.target.value)
     }, 1000),
 

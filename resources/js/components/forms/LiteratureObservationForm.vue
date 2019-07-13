@@ -375,6 +375,9 @@
 
 <script>
 import Form from 'form-backend-validation'
+import _get from 'lodash/get'
+import _find from 'lodash/find'
+import _pick from 'lodash/pick'
 import FormMixin from '@/mixins/FormMixin'
 import PersistentForm from '@/mixins/PersistentForm'
 
@@ -449,9 +452,9 @@ export default {
       keepAfterSubmit: this.getAttributesToKeep(),
       submittingWithoutRedirectWithSameTaxon: false,
       locale: window.App.locale,
-      taxonName: _.get(this.observation, 'taxon.name', ''),
-      publicationCitation: _.get(this.observation, 'publication.citation', ''),
-      citedPublication: _.get(this.observation, 'cited_publication.citation', '')
+      taxonName: _get(this.observation, 'taxon.name', ''),
+      publicationCitation: _get(this.observation, 'publication.citation', ''),
+      citedPublication: _get(this.observation, 'cited_publication.citation', '')
     }
   },
 
@@ -514,7 +517,7 @@ export default {
       this.form.taxon_id = taxon ? taxon.id : null
       this.taxonName = taxon ? taxon.name : null
 
-      const invalidStage = !_.find(this.stages, stage => stage.id === this.form.stage_id)
+      const invalidStage = !_find(this.stages, stage => stage.id === this.form.stage_id)
 
       if (invalidStage) {
         this.form.stage_id = null
@@ -655,7 +658,7 @@ export default {
       })
 
       // Reset the form but remember some data.
-      const keep = _.pick(this.form.data(), this.keepAfterSubmit.concat([
+      const keep = _pick(this.form.data(), this.keepAfterSubmit.concat([
         'original_identification_validity', 'place_where_referenced_in_publication',
         'taxon', 'taxon_id', 'original_identification',
       ]))

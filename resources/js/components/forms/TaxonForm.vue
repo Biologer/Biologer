@@ -217,12 +217,16 @@
 
 <script>
 import Form from 'form-backend-validation'
+import _keys from 'lodash/keys'
+import _find from 'lodash/find'
+import _first from 'lodash/first'
+import _get from 'lodash/get'
 import FormMixin from '@/mixins/FormMixin'
 
 function defaultTranslations() {
   const value = {}
 
-  _.keys(window.App.supportedLocales).forEach(locale => {
+  _keys(window.App.supportedLocales).forEach(locale => {
     value[locale] = null
   })
 
@@ -279,7 +283,7 @@ export default {
   data() {
     return {
       form: this.newForm(),
-      parentName: _.get(this.taxon, 'parent.name'),
+      parentName: _get(this.taxon, 'parent.name'),
       selectedParent: null,
       chosenRedList: null
     }
@@ -297,7 +301,7 @@ export default {
     availableRedLists() {
       const addedRedListIds = this.form.red_lists_data
 
-      return this.redLists.filter(redList => !_.find(addedRedListIds, rl => redList.id == rl.red_list_id))
+      return this.redLists.filter(redList => !_find(addedRedListIds, rl => redList.id == rl.red_list_id))
     },
 
     supportedLocales() {
@@ -339,7 +343,7 @@ export default {
 
       this.form.red_lists_data.push({
         red_list_id: this.chosenRedList.id,
-        category: _.first(this.redListCategories)
+        category: _first(this.redListCategories)
       })
 
       this.chosenRedList = null
@@ -355,7 +359,7 @@ export default {
     },
 
     getRedListName(id) {
-        return _.find(this.redLists, { id }).name
+        return _find(this.redLists, { id }).name
     },
 
     /**
@@ -383,15 +387,15 @@ export default {
      * @return {Number}
      */
     getRankLevel(rank) {
-      return _.get(_.find(this.ranks, { value: rank }), 'level')
+      return _get(_find(this.ranks, { value: rank }), 'level')
     },
 
     focusOnTranslation(index, attribute) {
-      const locales = _.keys(this.supportedLocales)
+      const locales = _keys(this.supportedLocales)
       const selector = `${attribute}-${locales[index]}`
 
       setTimeout(() => {
-        _.first(this.$refs[selector]).focus()
+        _first(this.$refs[selector]).focus()
       }, 500)
     }
   }

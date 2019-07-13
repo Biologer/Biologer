@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import _get from 'lodash/get'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
 
 export default {
@@ -93,9 +94,9 @@ export default {
       if (!this.meta) return
 
       return this.trans('labels.tables.from_to_total', {
-        from: _.get(this.meta, 'from') || 0,
-        to: _.get(this.meta, 'to') || 0,
-        total: _.get(this.meta, 'total') || 0
+        from: _get(this.meta, 'from') || 0,
+        to: _get(this.meta, 'to') || 0,
+        total: _get(this.meta, 'total') || 0
       })
     }
   },

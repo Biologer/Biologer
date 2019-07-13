@@ -1,4 +1,8 @@
 import Form from 'form-backend-validation'
+import _pick from 'lodash/pick'
+import _get from 'lodash/get'
+import _isEqual from 'lodash/isEqual'
+
 
 export default {
   name: 'nzFieldObservationForm',
@@ -266,7 +270,7 @@ export default {
       })
 
       // Reset the form but remember some data.
-      const keep = _.pick(this.form.data(), this.keepAfterSubmit)
+      const keep = _pick(this.form.data(), this.keepAfterSubmit)
       this.form.reset()
       this.form.populate(keep)
 
@@ -289,7 +293,7 @@ export default {
 
       this.$toast.open({
         duration: 2500,
-        message: _.get(error, 'response.data.message', error.message),
+        message: _get(error, 'response.data.message', error.message),
         type: 'is-danger'
       })
     },
@@ -300,7 +304,7 @@ export default {
      * @return {Boolean}
      */
     isDirty() {
-      return ! _.isEqual(this.form.data(), this.form.initial)
+      return ! _isEqual(this.form.data(), this.form.initial)
     },
 
     /**

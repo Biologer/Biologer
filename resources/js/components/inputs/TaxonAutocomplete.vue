@@ -36,6 +36,8 @@
 
 <script>
 import axios from 'axios'
+import _debounce from 'lodash/debounce'
+import _get from 'lodash/get'
 
 export default {
   name: 'nzTaxonAutocomplete',
@@ -95,7 +97,7 @@ export default {
   },
 
   methods: {
-    fetchData: _.debounce(function() {
+    fetchData: _debounce(function() {
       if (!this.value) return
 
       this.data = []
@@ -151,7 +153,7 @@ export default {
       if (!option) return
 
       return typeof option === 'object'
-        ? _.get(option, 'name')
+        ? _get(option, 'name')
         : option
     },
 

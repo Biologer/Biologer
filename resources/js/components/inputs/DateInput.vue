@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import _range from 'lodash/range'
+
 export default {
   name: 'nzDateInput',
 
@@ -107,7 +109,7 @@ export default {
 
       if (isThisMonth) days = moment().date()
 
-      return _.range(1, days + 1)
+      return _range(1, days + 1)
     }
   },
 

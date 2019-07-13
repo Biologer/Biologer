@@ -80,6 +80,10 @@
 </template>
 
 <script>
+import _sortBy from 'lodash/sortBy'
+import _maxBy from 'lodash/maxBy'
+import _minBy from 'lodash/minBy'
+
 const TOTAL_YEAR_SPACE = 730
 const START_YEAR_FROM = 70
 
@@ -164,7 +168,7 @@ export default {
     sortedData() {
       const stageOrder = this.stageOrder
 
-      return _.sortBy(this.filteredData, item => item.date)
+      return _sortBy(this.filteredData, item => item.date)
     },
 
     /**
@@ -173,7 +177,7 @@ export default {
      * @return {Number}
      */
     maxElevation() {
-      const max = _.maxBy(this.data, item => item.elevation)
+      const max = _maxBy(this.data, item => item.elevation)
 
       return max ? max.elevation : 1000
     },
@@ -184,7 +188,7 @@ export default {
      * @return {Number}
      */
     minElevation() {
-      const min = _.minBy(this.data, item => item.elevation)
+      const min = _minBy(this.data, item => item.elevation)
 
       return min ? min.elevation : 0
     },

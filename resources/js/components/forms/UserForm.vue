@@ -52,6 +52,10 @@
 
 <script>
 import Form from 'form-backend-validation'
+import _find from 'lodash/find'
+import _includes from 'lodash/includes'
+import _get from 'lodash/get'
+import _debounce from 'lodash/debounce'
 
 export default {
   name: 'nzUserForm',
@@ -96,7 +100,7 @@ export default {
 
   computed: {
     isCurator() {
-      return _.includes(this.form.roles_ids, _.find(this.roles, { name: 'curator' }).id)
+      return _includes(this.form.roles_ids, _find(this.roles, { name: 'curator' }).id)
     }
   },
 
@@ -107,7 +111,7 @@ export default {
   },
 
   methods: {
-    onTaxonNameInput: _.debounce(function (name) {
+    onTaxonNameInput: _debounce(function (name) {
       return this.fetchTaxa(name)
     }, 500),
 
@@ -160,7 +164,7 @@ export default {
     onFailedSubmit(error) {
       this.$toast.open({
         duration: 2500,
-        message: _.get(error, 'response.data.message', error.message),
+        message: _get(error, 'response.data.message', error.message),
         type: 'is-danger'
       })
     }

@@ -1,3 +1,5 @@
+import _intersection from 'lodash/intersection'
+
 export default class User {
   constructor(data) {
     for (let attribute in data) {
@@ -10,6 +12,6 @@ export default class User {
       roles = [roles]
     }
 
-    return !!_.intersection(this.roles.map(role => role.name), roles).length;
+    return !!_intersection(this.roles.map(role => role.name), roles).length;
   }
 }

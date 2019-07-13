@@ -84,6 +84,7 @@
 </template>
 
 <script>
+import _debounce from 'lodash/debounce'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
 
 export default {
@@ -227,7 +228,7 @@ export default {
       return route(this.editRoute, row.id)
     },
 
-    performSearch: _.debounce(function (value) {
+    performSearch: _debounce(function (value) {
       if (this.search !== value) {
         this.search = value
         this.loadAsyncData()

@@ -304,6 +304,7 @@
 </template>
 
 <script>
+import _range from 'lodash/range'
 import FilterableTableMixin from '@/mixins/FilterableTableMixin'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
 import ExportDownloadModal from '@/components/exports/ExportDownloadModal'
@@ -372,7 +373,7 @@ export default {
     },
 
     days() {
-      return _.range(1, 31)
+      return _range(1, 31)
     },
 
     hasActions() {

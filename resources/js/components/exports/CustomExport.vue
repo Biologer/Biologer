@@ -45,6 +45,7 @@
 
 <script>
 import Form from 'form-backend-validation'
+import _get from 'lodash/get'
 
 export default {
   name: 'nzCustomExport',
@@ -99,7 +100,7 @@ export default {
     },
 
     exportStatus() {
-      return _.get(this.currentExport, 'status')
+      return _get(this.currentExport, 'status')
     },
 
     exportFinished() {

@@ -324,6 +324,13 @@
 
 <script>
 import Form from 'form-backend-validation'
+import _get from 'lodash/get'
+import _find from 'lodash/find'
+import _includes from 'lodash/includes'
+import _range from 'lodash/range'
+import _findIndex from 'lodash/findIndex'
+import _remove from 'lodash/remove'
+import _cloneDeep from 'lodash/cloneDeep'
 import FormMixin from '@/mixins/FormMixin'
 import UserMixin from '@/mixins/UserMixin'
 
@@ -414,7 +421,7 @@ export default {
     selectedObservationTypes: {
       get() {
         return this.observationTypes.filter(type =>
-          _.includes(this.form.observation_types_ids, type.id)
+          _includes(this.form.observation_types_ids, type.id)
         )
       },
 
@@ -425,7 +432,7 @@ export default {
 
     availableObservationTypes() {
       return this.observationTypes.filter(type => {
-        return !_.includes(this.form.observation_types_ids, type.id) &&
+        return !_includes(this.form.observation_types_ids, type.id) &&
           type.name.toLowerCase().includes(this.observationTypeSearch.toLowerCase())
       })
     },
@@ -485,7 +492,7 @@ export default {
      * Clear all photos.
      */
     clearPhotos() {
-      _.range(1, 3).forEach(number => {
+      _range(1, 3).forEach(number => {
         this.$refs[`photoUpload-${number}`].clearPhoto()
       })
     },
@@ -500,7 +507,7 @@ export default {
       this.form.taxon_id = taxon ? taxon.id : null
       this.form.taxon_suggestion = taxon ? taxon.name : null
 
-      const invalidStage = !_.find(this.stages, stage => stage.id === this.form.stage_id)
+      const invalidStage = !_find(this.stages, stage => stage.id === this.form.stage_id)
 
       if (invalidStage) {
         this.form.stage_id = null
@@ -528,7 +535,7 @@ export default {
 				license: image.license
       })
 
-      const availableType = _.find(this.availableObservationTypes, { slug: 'photographed' })
+      const availableType = _find(this.availableObservationTypes, { slug: 'photographed' })
 
       if (availableType) {
         this.pushSelectedObservationType(availableType)
@@ -543,9 +550,9 @@ export default {
      * @param {Object} image
      */
     onPhotoRemoved(image) {
-      _.remove(this.form.photos, { path: image.path })
+      _remove(this.form.photos, { path: image.path })
 
-      const selectedTypeIndex = _.findIndex(this.selectedObservationTypes, { slug: 'photographed' })
+      const selectedTypeIndex = _findIndex(this.selectedObservationTypes, { slug: 'photographed' })
 
       if (!this.form.photos.length && selectedTypeIndex >= 0) {
         const selectedObservationTypes = this.selectedObservationTypes
@@ -562,10 +569,10 @@ export default {
      * @param {Object} image
      */
     onPhotoCropped(croppedImage) {
-      const photoIndex = _.findIndex(this.form.photos, { path: croppedImage.path })
+      const photoIndex = _findIndex(this.form.photos, { path: croppedImage.path })
 
       if (photoIndex >= 0) {
-        const photo = _.cloneDeep(this.form.photos[photoIndex])
+        const photo = _cloneDeep(this.form.photos[photoIndex])
 
         photo.crop = croppedImage.crop
 
@@ -581,10 +588,10 @@ export default {
      * @return {String}
      */
     getObservationPhotoAttribute(photoIndex = 0, attribute = 'url') {
-      let value = _.get(this.observation, `photos.${photoIndex}.${attribute}`, '')
+      let value = _get(this.observation, `photos.${photoIndex}.${attribute}`, '')
 
       if (attribute === 'url' && value) {
-        const updated = moment(_.get(this.observation, `photos.${photoIndex}.updated_at`, null))
+        const updated = moment(_get(this.observation, `photos.${photoIndex}.updated_at`, null))
 
         value += updated.isValid() ? `?v=${updated.format('X')}` : ''
       }
@@ -723,7 +730,7 @@ export default {
     setDefaultObservationType() {
       if (!this.selectedObservationTypes.length) {
         this.pushSelectedObservationType(
-          _.find(this.availableObservationTypes, { slug: 'observed' })
+          _find(this.availableObservationTypes, { slug: 'observed' })
         )
       }
     },
@@ -748,7 +755,7 @@ export default {
      * @param {Number} license
      */
     onLicenseChanged(photoIndex, license) {
-      const photo = _.cloneDeep(this.form.photos[photoIndex])
+      const photo = _cloneDeep(this.form.photos[photoIndex])
 
       photo.license = license
 
