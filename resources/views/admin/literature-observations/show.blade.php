@@ -14,6 +14,12 @@
                 </div>
             </div>
         </div>
+
+        <hr>
+
+        <h2 class="is-size-4">{{ __('Activity Log') }}</h2>
+
+        <nz-literature-observation-activity-log :activities="{{ $literatureObservation->activity }}"/>
     </div>
 @endsection
 

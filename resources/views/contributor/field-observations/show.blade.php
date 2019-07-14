@@ -5,6 +5,12 @@
         @include('partials.field-observation-details', compact('fieldObservation'))
 
         <a href="{{ route('contributor.field-observations.edit', $fieldObservation) }}" class="button is-primary is-outlined">{{ __('buttons.edit') }}</a>
+
+        <hr>
+
+        <h2 class="is-size-4">{{ __('Activity Log') }}</h2>
+
+        <nz-field-observation-activity-log :activities="{{ $fieldObservation->activity }}"/>
     </div>
 @endsection
 

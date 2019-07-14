@@ -32,7 +32,7 @@ class UnidentifiableObservationsController extends Controller
 
         return view('curator.unidentifiable-observations.show', [
             'fieldObservation' => $fieldObservation->load([
-                'observation.taxon',
+                'observation.taxon', 'activity.causer',
             ]),
         ]);
     }

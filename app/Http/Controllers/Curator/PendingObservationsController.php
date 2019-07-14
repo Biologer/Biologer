@@ -32,7 +32,7 @@ class PendingObservationsController extends Controller
 
         return view('curator.pending-observations.show', [
             'fieldObservation' => $fieldObservation->load([
-                'observation.taxon',
+                'observation.taxon', 'activity.causer',
             ]),
         ]);
     }

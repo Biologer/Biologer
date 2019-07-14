@@ -121,11 +121,11 @@ class FieldObservation extends Model implements FlatArrayable
     /**
      * Activity recorded on the model.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function activity()
     {
-        return $this->morphMany(Activity::class, 'subject')->latest()->orderBy('id', 'desc');
+        return $this->morphMany(Activity::class, 'subject')->latest()->latest('id');
     }
 
     /**

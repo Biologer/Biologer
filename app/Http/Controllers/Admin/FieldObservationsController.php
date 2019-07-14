@@ -32,7 +32,7 @@ class FieldObservationsController extends Controller
 
         return view('admin.field-observations.show', [
             'fieldObservation' => $fieldObservation->load([
-                'observation.taxon',
+                'observation.taxon', 'activity.causer',
             ]),
         ]);
     }

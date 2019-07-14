@@ -32,7 +32,7 @@ class ApprovedObservationsController extends Controller
 
         return view('curator.approved-observations.show', [
             'fieldObservation' => $fieldObservation->load([
-                'observation.taxon',
+                'observation.taxon', 'activity.causer',
             ]),
         ]);
     }

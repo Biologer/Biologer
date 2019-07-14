@@ -20,6 +20,7 @@ class LiteratureObservationsController extends Controller
         return view('admin.literature-observations.show', [
             'literatureObservation' => $literatureObservation->load([
                 'observation.taxon', 'observation.stage', 'publication', 'citedPublication',
+                'activity.causer',
             ]),
         ]);
     }
