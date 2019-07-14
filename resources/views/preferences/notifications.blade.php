@@ -68,6 +68,34 @@
                 </tr>
 
                 <tr>
+                    <th>{{ __('labels.preferences.notifications.field_observation_edited') }}</th>
+
+                    <td>
+                        <label class="b-checkbox checkbox">
+                            <input
+                                type="checkbox"
+                                name="field_observation_edited[database]"
+                                value="1"
+                                {{ old('field_observation_edited.database', $user->settings()->get('notifications.field_observation_edited.database')) ? 'checked' : '' }}
+                            >
+                            <span class="check"></span>
+                        </label>
+                    </td>
+
+                    <td>
+                        <label class="b-checkbox checkbox">
+                            <input
+                                type="checkbox"
+                                name="field_observation_edited[mail]"
+                                value="1"
+                                {{ old('field_observation_edited.mail', $user->settings()->get('notifications.field_observation_edited.mail')) ? 'checked' : '' }}
+                            >
+                            <span class="check"></span>
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
                     <th>{{ __('labels.preferences.notifications.field_observation_moved_to_pending') }}</th>
 
                     <td>

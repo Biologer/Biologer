@@ -19,12 +19,14 @@
 
 <script>
   import FieldObservationApproved from './FieldObservationApproved'
+  import FieldObservationEdited from './FieldObservationEdited'
   import FieldObservationForApproval from './FieldObservationForApproval'
   import FieldObservationMovedToPending from './FieldObservationMovedToPending'
   import FieldObservationMarkedUnidentifiable from './FieldObservationMarkedUnidentifiable'
 
   const NOTIFICATIONS_MAP = {
     'App\\Notifications\\FieldObservationApproved': FieldObservationApproved,
+    'App\\Notifications\\FieldObservationEdited': FieldObservationEdited,
     'App\\Notifications\\FieldObservationForApproval': FieldObservationForApproval,
     'App\\Notifications\\FieldObservationMovedToPending': FieldObservationMovedToPending,
     'App\\Notifications\\FieldObservationMarkedUnidentifiable': FieldObservationMarkedUnidentifiable

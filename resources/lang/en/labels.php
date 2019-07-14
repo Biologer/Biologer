@@ -299,9 +299,10 @@ return [
             'inapp' => 'In App',
             'mail' => 'Mail',
 
-            'field_observation_approved' => 'Observation is approved',
-            'field_observation_moved_to_pending' => 'Observation is moved to pending',
-            'field_observation_marked_unidentifiable' => 'Observation is marked as unidentifiable',
+            'field_observation_approved' => 'Observation has been approved',
+            'field_observation_edited' => 'Observation has been edited',
+            'field_observation_moved_to_pending' => 'Observation has been moved to pending',
+            'field_observation_marked_unidentifiable' => 'Observation has been marked as unidentifiable',
             'field_observation_for_approval' => 'New observation for approval',
         ],
     ],

@@ -12,7 +12,9 @@ use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Notifications\FieldObservationEdited;
 
 class UpdateFieldObservationTest extends TestCase
 {
@@ -23,6 +25,8 @@ class UpdateFieldObservationTest extends TestCase
         parent::setUp();
 
         $this->seed('RolesTableSeeder');
+
+        Notification::fake();
     }
 
     /**
@@ -266,11 +270,9 @@ class UpdateFieldObservationTest extends TestCase
     /** @test */
     public function field_observation_can_be_updated_by_admin()
     {
-        $user = factory(User::class)->create()->assignRoles('admin');
-        Passport::actingAs($user);
-        $fieldObservation = ObservationFactory::createFieldObservation([
-            'created_by_id' => $user->id,
-        ]);
+        $admin = factory(User::class)->create()->assignRoles('admin');
+        Passport::actingAs($admin);
+        $fieldObservation = ObservationFactory::createFieldObservation();
 
         $response = $this->putJson(
             "/api/field-observations/{$fieldObservation->id}",
@@ -290,11 +292,20 @@ class UpdateFieldObservationTest extends TestCase
             ],
         ]);
 
-        tap($fieldObservation->fresh(), function ($fieldObservation) {
+        tap($fieldObservation->refresh(), function ($fieldObservation) {
             $this->assertEquals(1000, $fieldObservation->observation->elevation);
             $this->assertEquals('New observer', $fieldObservation->observation->observer);
             $this->assertEquals('New taxon suggestion', $fieldObservation->taxon_suggestion);
         });
+
+        Notification::assertSentTo(
+            $fieldObservation->observation->creator,
+            FieldObservationEdited::class,
+            function ($notification) use ($fieldObservation, $admin) {
+                return $notification->fieldObservation->is($fieldObservation) &&
+                    $notification->causer->is($admin);
+            }
+        );
     }
 
     /** @test */
@@ -317,8 +328,7 @@ class UpdateFieldObservationTest extends TestCase
         $existingPhoto = factory(Photo::class)->create();
         $fieldObservation->photos()->sync($existingPhoto);
 
-        $uploadedPhoto = File::image('new-test-image.jpg')
-            ->storeAs('uploads/'.$user->id, 'new-test-image.jpg', 'public');
+        File::image('new-test-image.jpg')->storeAs('uploads/'.$user->id, 'new-test-image.jpg', 'public');
 
         Passport::actingAs($user);
 

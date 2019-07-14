@@ -17,6 +17,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\ActivityLog\FieldObservationDiff;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Notifications\FieldObservationEdited;
 
 class UpdateFieldObservation extends FormRequest
 {
@@ -121,6 +122,8 @@ class UpdateFieldObservation extends FormRequest
 
                 $fieldObservation->moveToPending();
             }
+
+            $this->notifyCreator($fieldObservation);
 
             return $fieldObservation;
         });
@@ -228,8 +231,7 @@ class UpdateFieldObservation extends FormRequest
             return $this->input('observer');
         }
 
-        return optional(User::find($this->input('observed_by_id')))->full_name
-            ?? $this->input('observer');
+        return optional(User::find($this->input('observed_by_id')))->full_name ?? $this->input('observer');
     }
 
     /**
@@ -245,5 +247,23 @@ class UpdateFieldObservation extends FormRequest
 
         return optional(User::find($this->input('identified_by_id')))->full_name
             ?? $this->input('identifier');
+    }
+
+    /**
+     * Send notification to creator of observation that it has been updated.
+     *
+     * @param  \App\FieldObservation  $fieldObservation
+     * @return void
+     */
+    private function notifyCreator(FieldObservation $fieldObservation)
+    {
+        // We don't want to send notification if the user is changing their own observation.
+        if ($this->user()->is($fieldObservation->observation->creator)) {
+            return;
+        }
+
+        $fieldObservation->observation->creator->notify(
+            new FieldObservationEdited($fieldObservation, $this->user())
+        );
     }
 }

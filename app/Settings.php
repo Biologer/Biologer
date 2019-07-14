@@ -67,6 +67,10 @@ class Settings
                     'database' => true,
                     'mail' => false,
                 ],
+                'field_observation_edited' => [
+                    'database' => true,
+                    'mail' => false,
+                ],
                 'field_observation_moved_to_pending' => [
                     'database' => true,
                     'mail' => false,
