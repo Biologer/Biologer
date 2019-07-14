@@ -9,8 +9,8 @@
             delete-route="api.field-observations.destroy"
             empty="{{ __('No data...') }}"
             show-status
-            @role(['admin', 'curator'])
             show-activity-log
+            @role(['admin', 'curator'])
             show-observer
             @endrole
             export-url="{{ route('api.my.field-observation-exports.store') }}"
