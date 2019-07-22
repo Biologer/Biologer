@@ -139,6 +139,16 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     }
 
     /**
+     * Unread notifications pending for summary.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function unreadNotificationsForSummaryMail()
+    {
+        return $this->morphMany(PendingNotification::class, 'notifiable')->latest()->unread();
+    }
+
+    /**
      * Full name accessor.
      *
      * @return string

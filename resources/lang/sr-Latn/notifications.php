@@ -6,6 +6,8 @@ return [
         'hello' => 'Zdravo!',
         'regards' => 'Srdačno',
         'subcopy' => 'Ako ne možete kliknuti na dugme ":actionText", kopirajte link ispod i nalepite ga u Vaš brauzer: [:actionUrl](:actionUrl)',
+        'see' => 'Vidi obaveštenja',
+        'summary_subject' => 'Evo šta ste propustili',
     ],
 
     'title' => 'Obaveštenja',

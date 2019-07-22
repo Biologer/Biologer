@@ -51,7 +51,7 @@ class FieldObservationMovedToPending extends Notification implements ShouldQueue
         }
 
         if ($notifiable->settings()->get('notifications.field_observation_moved_to_pending.mail')) {
-            $channels = array_merge($channels, ['mail']);
+            $channels = array_merge($channels, [Channels\UnreadSummaryMailChannel::class]);
         }
 
         return $channels;
@@ -87,5 +87,20 @@ class FieldObservationMovedToPending extends Notification implements ShouldQueue
                 trans('notifications.field_observations.action'),
                 route('contributor.field-observations.show', $this->fieldObservation)
             );
+    }
+
+    /**
+     * Format data for summary mail.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toUnreadSummaryMail($notifiable)
+    {
+        return [
+            'message' => trans('notifications.field_observations.moved_to_pending_message'),
+            'actionText' => trans('notifications.field_observations.action'),
+            'actionUrl' => route('contributor.field-observations.show', $this->fieldObservation),
+        ];
     }
 }

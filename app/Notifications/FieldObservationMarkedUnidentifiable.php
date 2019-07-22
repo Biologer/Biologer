@@ -51,7 +51,7 @@ class FieldObservationMarkedUnidentifiable extends Notification implements Shoul
         }
 
         if ($notifiable->settings()->get('notifications.field_observation_marked_unidentifiable.mail')) {
-            $channels = array_merge($channels, ['mail']);
+            $channels = array_merge($channels, [Channels\UnreadSummaryMailChannel::class]);
         }
 
         return $channels;
@@ -86,5 +86,20 @@ class FieldObservationMarkedUnidentifiable extends Notification implements Shoul
                 trans('notifications.field_observations.action'),
                 route('contributor.field-observations.show', $this->fieldObservation)
             );
+    }
+
+    /**
+     * Format data for summary mail.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toUnreadSummaryMail($notifiable)
+    {
+        return [
+            'message' => trans('notifications.field_observations.marked_as_unidentifiable_message'),
+            'actionText' => trans('notifications.field_observations.action'),
+            'actionUrl' => route('contributor.field-observations.show', $this->fieldObservation),
+        ];
     }
 }
