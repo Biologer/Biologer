@@ -28,7 +28,7 @@ class ChangePreferencesTest extends TestCase
 
         $newSettings = $user->fresh()->settings()->all();
         $this->assertNotEquals($oldSettings, $newSettings);
-        $this->assertArraySubset([
+        $this->customAssertArraySubset([
             'data_license' => 20,
             'image_license' => 30,
         ], $newSettings);

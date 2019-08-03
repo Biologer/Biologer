@@ -39,7 +39,7 @@ class UsersAutocompleteTest extends TestCase
         $response = $this->get('/api/autocomplete/users');
 
         $response->assertSuccessful();
-        $this->assertArraySubset([
+        $this->customAssertArraySubset([
             [
                 'id' => $userJane->id,
                 'full_name' => 'Jane Doe',

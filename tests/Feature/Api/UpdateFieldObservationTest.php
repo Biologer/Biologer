@@ -148,7 +148,7 @@ class UpdateFieldObservationTest extends TestCase
 
             $this->assertEquals('updated', $activity->description);
             $this->assertTrue($activity->causer->is($user));
-            $this->assertArraySubset([
+            $this->customAssertArraySubset([
                 'elevation' => 500,
                 'taxon' => [
                     'value' => $taxon->id,

@@ -99,7 +99,7 @@ class ImportingTest extends TestCase
             $this->assertArrayHasKey('row', $row);
             $this->assertEquals($expectedRowNumbers[$i], $row['row']);
             $this->assertArrayHasKey('error', $row);
-            $this->assertContains($expectedRowColumns[$i], $row['error']);
+            $this->assertStringContainsString($expectedRowColumns[$i], $row['error']);
         }
     }
 }

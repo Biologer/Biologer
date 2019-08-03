@@ -27,7 +27,7 @@ class JsonCollectionStreamWriterTest extends TestCase
     /**
      * This method is called after each test.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         @unlink($this->path);
 

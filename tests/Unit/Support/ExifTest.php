@@ -4,9 +4,12 @@ namespace Tests\Unit\Support;
 
 use App\Support\Exif;
 use PHPUnit\Framework\TestCase;
+use Tests\CustomAssertArraySubset;
 
 class ExifTest extends TestCase
 {
+    use CustomAssertArraySubset;
+
     /** @test */
     public function can_extract_date_time_data()
     {
@@ -14,7 +17,7 @@ class ExifTest extends TestCase
             'DateTimeOriginal' => '2018:01:01 10:00:00',
         ]);
 
-        $this->assertArraySubset([
+        $this->customAssertArraySubset([
             'year' => 2018,
             'month' => 1,
             'day' => 1,

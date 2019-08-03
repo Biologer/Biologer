@@ -189,7 +189,7 @@ class UpdateTaxonTest extends TestCase
 
             $this->assertEquals('updated', $activity->description);
             $this->assertTrue($activity->causer->is($user));
-            $this->assertArraySubset([
+            $this->customAssertArraySubset([
                 'parent' => 'Cerambyx',
                 'name' => 'Cerambyx scopolii',
                 'stages' => null,

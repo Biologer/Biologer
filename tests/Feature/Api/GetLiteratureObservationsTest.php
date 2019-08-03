@@ -24,7 +24,7 @@ class GetLiteratureObservationsTest extends TestCase
         $response = $this->getJson("/api/literature-observations/{$literatureObservation->id}");
 
         $response->assertSuccessful();
-        $this->assertArraySubset([
+        $this->customAssertArraySubset([
             'id' => $literatureObservation->id,
             'original_date' => 'May 12 1990',
             'original_locality' => 'Gledić Mountains',
