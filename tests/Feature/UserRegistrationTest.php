@@ -8,12 +8,9 @@ use App\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Nikazooz\LaravelCaptcha\Facades\Captcha;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserRegistrationTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function validParams($overrides = [])
     {
         return array_merge([

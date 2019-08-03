@@ -7,14 +7,11 @@ use Tests\TestCase;
 use App\Jobs\PerformExport;
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Queue;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Exports\FieldObservations\CustomFieldObservationsExport;
 use App\Exports\FieldObservations\DarwinCoreFieldObservationsExport;
 
 class ExportAllFieldObservationsTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function admin_can_export_all_observations()
     {

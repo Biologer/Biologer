@@ -6,12 +6,8 @@ use App\User;
 use Tests\TestCase;
 use Laravel\Passport\Passport;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
 class UsersAutocompleteTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         parent::setUp();

@@ -6,12 +6,9 @@ use App\Taxon;
 use Tests\TestCase;
 use App\Observation;
 use Tests\ObservationFactory;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TaxonTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function it_can_have_many_observations()
     {

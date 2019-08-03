@@ -2,131 +2,47 @@
 
 namespace Tests;
 
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
-use Illuminate\Database\Query\Builder;
-use PHPUnit\Framework\Assert as PHPUnit;
-use Illuminate\Foundation\Testing\TestResponse;
+use App\Console\Kernel;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication;
+    use CreatesApplication, RefreshDatabase;
 
     /**
-     * Setup the test environment.
+     * Refresh a conventional test database.
      *
      * @return void
      */
-    protected function setUp(): void
+    protected function refreshTestDatabase()
     {
-        parent::setUp();
+        if (in_array(DB::connection()->getDriverName(), ['mysql', 'mariadb'])) {
+            return $this->refreshMySQLTestDatabase();
+        }
 
-        $this->registerMacros();
+        return parent::refreshTestDatabase();
     }
 
-    /**
-     * Clean up the testing environment before the next test.
-     *
-     * @return void
-     */
-    protected function tearDown(): void
+    private function refreshMySQLTestDatabase()
     {
-        // Clear "now" set in previous tests
-        Carbon::setTestNow();
+        if (! RefreshDatabaseState::$migrated) {
+            // If there is users table that means we have probably ran the migrations
+            // before and can proceed with running the rest instead of importing snapshot.
+            if (! Schema::hasTable('users')) {
+                DB::unprepared(file_get_contents(database_path('migrations_2019_08_03.sql')));
+            }
 
-        parent::tearDown();
-    }
+            $this->artisan('migrate');
 
-    /**
-     * Register macros that help with testing.
-     *
-     * @return void
-     */
-    protected function registerMacros()
-    {
-        $this->collectionMacros();
-        $this->responseMacros();
-        $this->queryBuilderMacros();
-    }
+            $this->app[Kernel::class]->setArtisan(null);
 
-    /**
-     * Register collection macros.
-     */
-    protected function collectionMacros()
-    {
-        EloquentCollection::macro('assertEquals', function ($collection) {
-            $this->zip($collection)->each(function ($pair) {
-                PHPUnit::assertTrue($pair[0]->is($pair[1]));
-            });
-        });
+            RefreshDatabaseState::$migrated = true;
+        }
 
-        Collection::macro('assertContains', function ($item) {
-            PHPUnit::assertTrue($this->contains($item), 'Failed asserting that the collection contains the specified value.');
-        });
-
-        Collection::macro('assertDoesntContain', function ($item) {
-            PHPUnit::assertFalse($this->contains($item), 'Failed asserting that the collection does not contain the specified value.');
-        });
-
-        Collection::macro('assertCount', $this->countAssertion());
-    }
-
-    /**
-     * Register test response macros.
-     */
-    protected function responseMacros()
-    {
-        TestResponse::macro('assertCreated', function () {
-            $this->assertStatus(201);
-
-            return $this;
-        });
-
-        TestResponse::macro('assertUnauthorized', function () {
-            $this->assertStatus(401);
-
-            return $this;
-        });
-
-        TestResponse::macro('assertValidationErrors', function ($fields) {
-            $this->assertStatus(422);
-            $this->assertJsonValidationErrors(array_wrap($fields));
-
-            return $this;
-        });
-
-        TestResponse::macro('dd', function () {
-            dd($this->content());
-
-            return $this;
-        });
-    }
-
-    /**
-     * Register query builder macros.
-     */
-    protected function queryBuilderMacros()
-    {
-        Builder::macro('assertCount', $this->countAssertion());
-    }
-
-    /**
-     * Get function to assert count.
-     *
-     * @return \Closure
-     */
-    protected function countAssertion()
-    {
-        return function ($expectedCount) {
-            $actualCount = $this->count();
-
-            PHPUnit::assertEquals(
-                $expectedCount,
-                $actualCount,
-                "Failed asserting that count of {$actualCount} equals expected count of {$expectedCount}"
-            );
-        };
+        $this->beginDatabaseTransaction();
     }
 }

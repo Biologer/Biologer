@@ -6,12 +6,9 @@ use App\User;
 use App\DEM\Reader;
 use Tests\TestCase;
 use Laravel\Passport\Passport;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class GetElevationTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * @test
      */

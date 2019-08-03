@@ -7,14 +7,11 @@ use Tests\TestCase;
 use App\Jobs\PerformExport;
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Queue;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Exports\FieldObservations\CuratorUnidentifiableFieldObservationsCustomExport;
 use App\Exports\FieldObservations\CuratorUnidentifiableFieldObservationsDarwinCoreExport;
 
 class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function curator_can_export_unidentifiable_field_observations_they_curate()
     {

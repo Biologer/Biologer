@@ -9,13 +9,10 @@ use App\Observation;
 use App\Publication;
 use App\LiteratureObservation;
 use Laravel\Passport\Passport;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\LiteratureObservationIdentificationValidity;
 
 class GetLiteratureObservationsTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function can_view_literature_observation_details()
     {

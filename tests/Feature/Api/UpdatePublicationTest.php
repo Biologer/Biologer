@@ -7,12 +7,9 @@ use Tests\TestCase;
 use App\Publication;
 use App\PublicationType;
 use Laravel\Passport\Passport;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UpdatePublicationTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * @test
      */

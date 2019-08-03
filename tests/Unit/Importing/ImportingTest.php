@@ -7,12 +7,9 @@ use Tests\TestCase;
 use Tests\FakeImporter;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ImportingTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         parent::setUp();

@@ -7,12 +7,9 @@ use Tests\TestCase;
 use App\Observation;
 use App\LiteratureObservation;
 use Laravel\Passport\Passport;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DeleteLiteratureObservationTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function guest_cannot_delete_observation()
     {

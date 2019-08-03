@@ -7,13 +7,10 @@ use Tests\TestCase;
 use App\Jobs\PerformExport;
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Queue;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Exports\LiteratureObservations\CustomLiteratureObservationsExport;
 
 class ExportLiteratureObservationsTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function admin_can_export_all_observations()
     {

@@ -7,12 +7,9 @@ use App\License;
 use Tests\TestCase;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PhotoTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function files_are_removed_when_photo_is_deleted()
     {

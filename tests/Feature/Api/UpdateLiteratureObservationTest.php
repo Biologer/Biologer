@@ -10,13 +10,10 @@ use App\Observation;
 use App\Publication;
 use App\LiteratureObservation;
 use Laravel\Passport\Passport;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\LiteratureObservationIdentificationValidity;
 
 class UpdateLiteratureObservationTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function guest_cannot_update_observation()
     {

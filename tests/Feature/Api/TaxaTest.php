@@ -7,12 +7,9 @@ use App\Taxon;
 use Tests\TestCase;
 use Illuminate\Support\Carbon;
 use Laravel\Passport\Passport;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TaxaTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function can_fetch_list_of_taxa()
     {
@@ -23,7 +20,7 @@ class TaxaTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertArrayHasKey('data', $response->json());
-        $this->assertCount(5, $response->json()['data']);
+        $this->assertCount(Taxon::count(), $response->json()['data']);
 
         $taxa->each(function ($taxon) use ($response) {
             $response->assertJsonFragment([
@@ -36,7 +33,7 @@ class TaxaTest extends TestCase
     /** @test */
     public function can_fetch_paginated_list_of_taxa()
     {
-        $taxa = factory(Taxon::class, 5)->create();
+        factory(Taxon::class, 5)->create();
         Passport::actingAs(factory(User::class)->make());
 
         $response = $this->getJson('/api/taxa?'.http_build_query([
@@ -61,7 +58,7 @@ class TaxaTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertArrayHasKey('data', $response->json());
-        $this->assertCount(3, $response->json('data'));
+        $this->assertCount(Taxon::count() - 2, $response->json('data'));
     }
 
     /** @test */

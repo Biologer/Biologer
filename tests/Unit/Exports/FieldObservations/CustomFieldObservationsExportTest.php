@@ -12,13 +12,10 @@ use Tests\ObservationFactory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Box\Spout\Common\Helper\EncodingHelper;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Exports\FieldObservations\CustomFieldObservationsExport;
 
 class CustomFieldObservationsExportTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function all_field_observations_are_exported_to_a_csv_file()
     {

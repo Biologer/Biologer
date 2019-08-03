@@ -16,12 +16,9 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\FieldObservationForApproval;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AddFieldObservationTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         parent::setUp();

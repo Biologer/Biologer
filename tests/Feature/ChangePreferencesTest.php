@@ -4,12 +4,9 @@ namespace Tests\Feature;
 
 use App\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ChangePreferencesTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function can_change_license_preferences()
     {

@@ -6,12 +6,9 @@ use App\User;
 use App\Taxon;
 use Tests\TestCase;
 use Tests\ObservationFactory;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PendingFieldObservationsEditTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         parent::setUp();

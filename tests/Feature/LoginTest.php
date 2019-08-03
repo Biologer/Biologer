@@ -4,12 +4,9 @@ namespace Tests\Feature;
 
 use App\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function user_can_login()
     {

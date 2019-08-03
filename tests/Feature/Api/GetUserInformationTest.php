@@ -5,12 +5,9 @@ namespace Tests\Feature\Api;
 use App\User;
 use Tests\TestCase;
 use Laravel\Passport\Passport;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class GetUserInformationTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function users_cen_retreive_treir_information()
     {

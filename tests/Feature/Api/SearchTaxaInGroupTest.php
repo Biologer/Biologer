@@ -7,12 +7,9 @@ use App\Taxon;
 use App\ViewGroup;
 use Tests\TestCase;
 use Laravel\Passport\Passport;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SearchTaxaInGroupTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function can_find_taxa_in_group_by_name_with_id_of_first_species()
     {

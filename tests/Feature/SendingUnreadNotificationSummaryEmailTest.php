@@ -9,12 +9,9 @@ use Tests\ObservationFactory;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\FieldObservationApproved;
 use App\Notifications\UnreadNotificationsSummary;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SendingUnreadNotificationSummaryEmailTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function users_with_unread_mail_notifications_are_sent_summary()
     {

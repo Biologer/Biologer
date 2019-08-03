@@ -33,7 +33,7 @@ class PendingNotification extends Model
 
     public function getIsSentAttribute()
     {
-        return !!$this->sent_at;
+        return (bool) $this->sent_at;
     }
 
     /**

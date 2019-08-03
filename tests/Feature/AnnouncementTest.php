@@ -6,19 +6,9 @@ use App\User;
 use Tests\TestCase;
 use App\Announcement;
 use Laravel\Passport\Passport;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AnnouncementTest extends TestCase
 {
-    use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->seed('RolesTableSeeder');
-    }
-
     private function validParams($overrides = [])
     {
         return array_merge([
@@ -41,6 +31,7 @@ class AnnouncementTest extends TestCase
     /** @test */
     public function admin_can_publish_an_announcement()
     {
+        $this->seed('RolesTableSeeder');
         $user = factory(User::class)->create()->assignRoles('admin');
         Passport::actingAs($user);
 
@@ -78,6 +69,7 @@ class AnnouncementTest extends TestCase
     /** @test */
     public function authenticated_users_can_mark_announcements_as_read()
     {
+        $this->seed('RolesTableSeeder');
         $announcement = factory(Announcement::class)->create(['private' => false]);
         Passport::actingAs(factory(User::class)->create());
 
@@ -93,6 +85,7 @@ class AnnouncementTest extends TestCase
     /** @test */
     public function announcement_is_marked_as_read_when_authenticated_user_views_it()
     {
+        $this->seed('RolesTableSeeder');
         $announcement = factory(Announcement::class)->create(['private' => false]);
         $this->actingAs(factory(User::class)->create());
 

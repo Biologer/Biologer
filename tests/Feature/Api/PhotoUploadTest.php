@@ -7,12 +7,9 @@ use Tests\TestCase;
 use Laravel\Passport\Passport;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PhotoUploadTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function authenticated_user_can_upload_photo()
     {

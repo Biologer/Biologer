@@ -8,13 +8,10 @@ use Tests\TestCase;
 use App\Publication;
 use App\LiteratureObservation;
 use Laravel\Passport\Passport;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\LiteratureObservationIdentificationValidity;
 
 class AddLiteratureObservationTest extends TestCase
 {
-    use RefreshDatabase;
-
     private function validParams($overrides = [])
     {
         return array_map('value', array_merge([

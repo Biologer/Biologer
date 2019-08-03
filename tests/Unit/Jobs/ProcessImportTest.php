@@ -11,12 +11,9 @@ use App\Jobs\ProcessImport;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use App\Importing\FieldObservationImport;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProcessImportTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         parent::setUp();

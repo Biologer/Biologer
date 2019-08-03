@@ -9,13 +9,10 @@ use App\Observation;
 use App\Publication;
 use App\LiteratureObservation;
 use App\ActivityLog\LiteratureObservationDiff;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\LiteratureObservationIdentificationValidity;
 
 class LiteratureObservationDiffTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * @test
      */

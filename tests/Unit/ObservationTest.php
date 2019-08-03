@@ -7,12 +7,9 @@ use Tests\TestCase;
 use App\Observation;
 use Tests\ObservationFactory;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ObservationTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function can_check_if_full_date_is_present()
     {

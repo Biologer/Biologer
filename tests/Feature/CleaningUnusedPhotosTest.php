@@ -7,12 +7,9 @@ use Tests\TestCase;
 use Tests\ObservationFactory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CleaningUnusedPhotosTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function photos_that_are_not_attached_to_any_observation_are_removed()
     {

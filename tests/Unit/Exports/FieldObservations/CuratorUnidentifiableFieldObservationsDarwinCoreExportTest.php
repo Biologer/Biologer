@@ -13,13 +13,10 @@ use Tests\ObservationFactory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Box\Spout\Common\Helper\EncodingHelper;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Exports\FieldObservations\CuratorUnidentifiableFieldObservationsDarwinCoreExport;
 
 class CuratorUnidentifiableFieldObservationsDarwinCoreExportTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function curated_unidentifiable_field_observations_are_exported_in_darwin_core_to_a_csv_file()
     {
@@ -31,7 +28,7 @@ class CuratorUnidentifiableFieldObservationsDarwinCoreExportTest extends TestCas
         $this->actingAs($user = factory(User::class)->create());
 
         $taxon = $this->createTaxon();
-        $user->curatedTaxa()->attach($user);
+        $user->curatedTaxa()->attach($taxon);
 
         $observation = ObservationFactory::createFieldObservation([
             'created_by_id' => factory(User::class)->create()->id,

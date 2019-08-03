@@ -7,12 +7,9 @@ use Tests\TestCase;
 use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
 use App\Notifications\FieldObservationApproved;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MarkNotificationsAsReadTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function guests_cannot_mark_notifications_as_read()
     {

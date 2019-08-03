@@ -3,14 +3,10 @@
 namespace Tests\Feature;
 
 use App\Taxon;
-
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RebuildAncestryTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function rebuilding_ancestry()
     {

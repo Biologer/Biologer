@@ -8,13 +8,10 @@ use Tests\TestCase;
 use Tests\ObservationFactory;
 use Illuminate\Support\Facades\Storage;
 use Box\Spout\Common\Helper\EncodingHelper;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Exports\FieldObservations\ContributorFieldObservationsCustomExport;
 
 class ExportDownloadTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function authenticated_user_can_download_their_export()
     {

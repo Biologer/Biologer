@@ -13,13 +13,10 @@ use Tests\ObservationFactory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Box\Spout\Common\Helper\EncodingHelper;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Exports\FieldObservations\ContributorFieldObservationsDarwinCoreExport;
 
 class ContributorFieldObservationsDarwinCoreExportTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function contributors_field_observations_are_exported_in_darwin_core_to_a_csv_file()
     {

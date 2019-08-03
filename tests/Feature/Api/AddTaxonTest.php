@@ -10,12 +10,9 @@ use Tests\TestCase;
 use App\ConservationDocument;
 use Laravel\Passport\Passport;
 use App\ConservationLegislation;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AddTaxonTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         parent::setUp();

@@ -9,12 +9,9 @@ use Tests\TestCase;
 use App\Observation;
 use App\FieldObservation;
 use App\ActivityLog\FieldObservationDiff;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class FieldObservationDiffTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * @test
      */
@@ -23,20 +20,23 @@ class FieldObservationDiffTest extends TestCase
         foreach ($this->generalDataProvider() as $index => $data) {
             list($attribute, $oldValue, $newValue, $expected) = $data;
 
-            $FieldObservation = factory(FieldObservation::class)->create([
+            $fieldObservation = factory(FieldObservation::class)->make([
                 'taxon_suggestion' => null,
             ]);
-            $FieldObservation->observation()->save(factory(Observation::class)->make([
+            $fieldObservation->setRelation('observation', factory(Observation::class)->make([
                 $attribute => $oldValue,
             ]));
 
-            $oldFieldObservation = $FieldObservation->load('observation')->replicate();
+            $oldFieldObservation = $fieldObservation->replicate()->setRelation(
+                'observation',
+                $fieldObservation->observation->replicate()
+            );
 
-            $FieldObservation->load('observation')->observation->update([
+            $fieldObservation->observation->fill([
                 $attribute => $newValue,
             ]);
 
-            $diffs = FieldObservationDiff::changes($FieldObservation, $oldFieldObservation);
+            $diffs = FieldObservationDiff::changes($fieldObservation, $oldFieldObservation);
 
             $this->assertEquals($expected, $diffs);
         }
@@ -50,20 +50,23 @@ class FieldObservationDiffTest extends TestCase
         foreach ($this->specificDataProvider() as $data) {
             list($attribute, $oldValue, $newValue, $expected) = $data;
 
-            $FieldObservation = factory(FieldObservation::class)->create([
+            $fieldObservation = factory(FieldObservation::class)->make([
                 $attribute => $oldValue,
             ]);
-            $FieldObservation->observation()->save(factory(Observation::class)->make([
+            $fieldObservation->setRelation('observation', factory(Observation::class)->make([
                 'taxon_id' => null,
             ]));
 
-            $oldFieldObservation = $FieldObservation->load('observation')->replicate();
+            $oldFieldObservation = $fieldObservation->replicate()->setRelation(
+                'observation',
+                $fieldObservation->observation->replicate()
+            );
 
-            $FieldObservation->load('observation')->update([
+            $fieldObservation->fill([
                 $attribute => $newValue,
             ]);
 
-            $diffs = FieldObservationDiff::changes($FieldObservation, $oldFieldObservation);
+            $diffs = FieldObservationDiff::changes($fieldObservation, $oldFieldObservation);
 
             $this->assertEquals($expected, $diffs);
         }
@@ -71,25 +74,22 @@ class FieldObservationDiffTest extends TestCase
 
     private function generalDataProvider()
     {
-        yield 'Taxon using taxon_id' => (function () {
-            $taxonId = factory(Taxon::class)->create(['name' => 'Old taxon'])->id;
+        $taxonId = factory(Taxon::class)->create(['name' => 'Old taxon'])->id;
+        $newTaxonId = factory(Taxon::class)->create(['name' => 'New taxon'])->id;
 
-            return [
-                'taxon_id',
-                $taxonId,
-                factory(Taxon::class)->create(['name' => 'New taxon'])->id,
-                ['taxon' => ['value' => $taxonId, 'label' => 'Old taxon']],
-            ];
-        })();
+        yield 'Taxon using taxon_id' => [
+            'taxon_id',
+            $taxonId,
+            $newTaxonId,
+            ['taxon' => ['value' => $taxonId, 'label' => 'Old taxon']],
+        ];
 
-        yield 'Taxon using taxon_id when not set' => (function () {
-            return [
-                'taxon_id',
-                null,
-                factory(Taxon::class)->create(['name' => 'New taxon'])->id,
-                ['taxon' => ['value' => null, 'label' => null]],
-            ];
-        })();
+        yield 'Taxon using taxon_id when not set' => [
+            'taxon_id',
+            null,
+            $newTaxonId,
+            ['taxon' => ['value' => null, 'label' => null]],
+        ];
 
         yield 'Year' => [
             'year',
@@ -294,25 +294,22 @@ class FieldObservationDiffTest extends TestCase
             ['habitat' => null],
         ];
 
-        yield 'Stage' => (function () {
-            $stageId = factory(Stage::class)->create(['name' => 'egg'])->id;
+        $stageId = factory(Stage::class)->create(['name' => 'egg'])->id;
+        $newStageId = factory(Stage::class)->create()->id;
 
-            return [
-                'stage_id',
-                $stageId,
-                factory(Stage::class)->create()->id,
-                ['stage' => ['value' => $stageId, 'label' => 'stages.egg']],
-            ];
-        })();
+        yield 'Stage' => [
+            'stage_id',
+            $stageId,
+            $newStageId,
+            ['stage' => ['value' => $stageId, 'label' => 'stages.egg']],
+        ];
 
-        yield 'Stage when not set' => (function () {
-            return [
-                'stage_id',
-                null,
-                factory(Stage::class)->create()->id,
-                ['stage' => ['value' => null, 'label' => null]],
-            ];
-        })();
+        yield 'Stage when not set' => [
+            'stage_id',
+            null,
+            $newStageId,
+            ['stage' => ['value' => null, 'label' => null]],
+        ];
 
         yield 'Dataset' => [
             'dataset',

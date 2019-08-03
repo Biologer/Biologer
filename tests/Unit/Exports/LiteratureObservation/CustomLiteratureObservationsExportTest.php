@@ -12,14 +12,11 @@ use App\LiteratureObservation;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Box\Spout\Common\Helper\EncodingHelper;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\LiteratureObservationIdentificationValidity;
 use App\Exports\LiteratureObservations\CustomLiteratureObservationsExport;
 
 class CustomLiteratureObservationsExportTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function all_literature_observations_are_exported_to_a_csv_file()
     {

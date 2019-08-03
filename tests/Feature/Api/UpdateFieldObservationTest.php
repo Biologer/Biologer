@@ -13,13 +13,10 @@ use Laravel\Passport\Passport;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Notifications\FieldObservationEdited;
 
 class UpdateFieldObservationTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function setUp(): void
     {
         parent::setUp();

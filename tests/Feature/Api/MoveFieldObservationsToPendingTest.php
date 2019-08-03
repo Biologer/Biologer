@@ -9,13 +9,10 @@ use App\FieldObservation;
 use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Notifications\FieldObservationMovedToPending;
 
 class MoveFieldObservationsToPendingTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function setUp(): void
     {
         parent::setUp();

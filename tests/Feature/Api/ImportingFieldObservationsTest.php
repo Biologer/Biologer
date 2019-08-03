@@ -11,12 +11,9 @@ use App\Importing\ImportStatus;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ImportingFieldObservationsTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         parent::setUp();

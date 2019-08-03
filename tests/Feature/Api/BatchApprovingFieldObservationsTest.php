@@ -10,12 +10,9 @@ use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\FieldObservationApproved;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class BatchApprovingFieldObservationsTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function setUp(): void
     {
         parent::setUp();

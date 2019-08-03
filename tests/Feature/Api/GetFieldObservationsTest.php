@@ -7,12 +7,9 @@ use App\Taxon;
 use Tests\TestCase;
 use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class GetFieldObservationsTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function authenticated_user_can_get_their_field_observations()
     {
