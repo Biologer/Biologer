@@ -15,7 +15,7 @@
     "require": {
         "php": "^7.2",
         "box/spout": "^2.7",
-        "dimsav/laravel-translatable": "^9.0",
+        "astrotomic/laravel-translatable": "^11.0",
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
         "intervention/image": "^2.4",

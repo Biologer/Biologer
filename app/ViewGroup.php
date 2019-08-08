@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Support\Str;
 use App\Concerns\CanMemoize;
-use Dimsav\Translatable\Translatable;
 use Illuminate\Support\Facades\Storage;
+use Astrotomic\Translatable\Translatable;
 use App\Concerns\HasTranslatableAttributes;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 

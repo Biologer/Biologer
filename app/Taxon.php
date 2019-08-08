@@ -4,8 +4,8 @@ namespace App;
 
 use App\Filters\Filterable;
 use Illuminate\Support\Facades\DB;
-use Dimsav\Translatable\Translatable;
 use Spatie\Activitylog\Models\Activity;
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class Taxon extends Model

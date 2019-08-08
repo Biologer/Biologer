@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Events\NewAnnouncement;
-use Dimsav\Translatable\Translatable;
+use Astrotomic\Translatable\Translatable;
 
 class Announcement extends Model
 {
