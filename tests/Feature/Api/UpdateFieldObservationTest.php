@@ -8,6 +8,7 @@ use App\Stage;
 use App\Taxon;
 use App\License;
 use Tests\TestCase;
+use Illuminate\Support\Str;
 use Tests\ObservationFactory;
 use Laravel\Passport\Passport;
 use Illuminate\Http\Testing\File;
@@ -120,7 +121,7 @@ class UpdateFieldObservationTest extends TestCase
         $fieldObservation->photos()->sync($photo = factory(Photo::class)->create());
         $activityCount = $fieldObservation->activity()->count();
 
-        $uploadedPhoto = File::image(str_random().'.jpg')
+        $uploadedPhoto = File::image(Str::random().'.jpg')
             ->store('uploads/'.$user->id, [
                 'disk' => 'public',
             ]);

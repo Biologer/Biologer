@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Arr;
+
 // Active locales that will be available to the user in application.
 $activeLocales = array_map('trim', explode(',', env('ACTIVE_LOCALES', 'en')));
 
@@ -300,7 +302,7 @@ $supportedLocales = [
 
 return [
 
-    'supportedLocales' => array_only($supportedLocales, $activeLocales),
+    'supportedLocales' => Arr::only($supportedLocales, $activeLocales),
 
     // Negotiate for the user locale using the Accept-Language header if it's not defined in the URL?
     // If false, system will take app.php locale attribute

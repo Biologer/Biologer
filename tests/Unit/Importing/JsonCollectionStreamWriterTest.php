@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Importing;
 
+use Illuminate\Support\Str;
 use PHPUnit\Framework\TestCase;
 use App\Importing\JsonCollectionStreamWriter;
 
@@ -21,7 +22,7 @@ class JsonCollectionStreamWriterTest extends TestCase
     {
         parent::setUp();
 
-        $this->path = __DIR__.DIRECTORY_SEPARATOR.str_random().'.json';
+        $this->path = __DIR__.DIRECTORY_SEPARATOR.Str::random().'.json';
     }
 
     /**

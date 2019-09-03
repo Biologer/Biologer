@@ -40,6 +40,7 @@ class FieldObservationDiff
             'observer',
             'identifier',
             'dataset',
+            'name_suggestion',
         ];
     }
 

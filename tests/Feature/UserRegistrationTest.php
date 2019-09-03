@@ -22,7 +22,7 @@ class UserRegistrationTest extends TestCase
             'password_confirmation' => 'top-secret-password',
             'data_license' => 10,
             'image_license' => 20,
-            'captcha_verification_code' => Captcha::getVerificationCode(),
+            'captcha_verification_code' => Captcha::code(),
             'accept' => true,
         ], $overrides);
     }
