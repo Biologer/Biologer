@@ -252,7 +252,7 @@ export default {
       this.importing = false
       this.submissionErrors = _get(error, 'response.data.errors', [])
 
-      this.$toast.open({
+      this.$buefy.toast.open({
         duration: 2500,
         message: _get(error, 'response.data.message'),
         type: 'is-danger'
@@ -294,7 +294,7 @@ export default {
     },
 
     handleFailedValidation() {
-      this.$toast.open({
+      this.$buefy.toast.open({
         duration: 2500,
         message: this.trans('imports.validation_failed'),
         type: 'is-danger'
@@ -308,7 +308,7 @@ export default {
     },
 
     handleFailedSaving() {
-      this.$toast.open({
+      this.$buefy.toast.open({
         duration: 2500,
         message: this.trans('imports.saving_failed'),
         type: 'is-danger'

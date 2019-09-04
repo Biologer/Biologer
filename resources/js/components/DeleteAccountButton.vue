@@ -17,7 +17,7 @@ export default {
 
   methods: {
     openModal() {
-      this.$modal.open({
+      this.$buefy.modal.open({
         parent: this,
         component: DeleteAccountModal,
         hasModalCard: true,

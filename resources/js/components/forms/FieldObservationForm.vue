@@ -653,7 +653,7 @@ export default {
     promptToExtractExifData(image) {
       if (this.exifExtracted || !image.exif) return
 
-      this.$dialog.confirm({
+      this.$buefy.dialog.confirm({
         message: this.extractExifMessage(image).replace(/\n/g, '<br>'),
         cancelText: this.trans('No'),
         confirmText: this.trans('Yes'),

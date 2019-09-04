@@ -142,7 +142,7 @@ export default {
     onSuccessfulSubmit() {
       this.form.processing = true
 
-      this.$toast.open({
+      this.$buefy.toast.open({
           message: this.trans('Saved successfully'),
           type: 'is-success'
       })
@@ -162,7 +162,7 @@ export default {
      * @param {Error} error
      */
     onFailedSubmit(error) {
-      this.$toast.open({
+      this.$buefy.toast.open({
         duration: 2500,
         message: _get(error, 'response.data.message', error.message),
         type: 'is-danger'

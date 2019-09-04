@@ -32,7 +32,7 @@ export default {
 
   methods: {
     showModal() {
-      const modal = this.$modal.open({
+      const modal = this.$buefy.modal.open({
         parent: this,
         component: nzGroupTaxaSearch,
         hasModalCard: true,

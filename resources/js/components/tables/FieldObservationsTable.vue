@@ -276,7 +276,7 @@
       </template>
     </nz-table>
 
-    <nz-image-modal :items="modalImages" v-model="modalImageIndex" v-if="modalImages.length" @close="onCarouselClose"/>
+    <nz-image-modal :items="modalImages" v-model="modalImageIndex" @close="onCarouselClose"/>
 
     <b-modal :active="activityLog.length > 0" @close="activityLog = []">
       <div class="modal-card">
@@ -469,7 +469,7 @@ export default {
     },
 
     confirmRemove(row) {
-      this.$dialog.confirm({
+      this.$buefy.dialog.confirm({
         message: this.trans('Are you sure you want to delete this record?'),
         confirmText: this.trans('buttons.delete'),
         cancelText: this.trans('buttons.cancel'),
@@ -480,7 +480,7 @@ export default {
 
     remove (row) {
       return axios.delete(route(this.deleteRoute, row.id)).then(response => {
-        this.$toast.open({
+        this.$buefy.toast.open({
           message: this.trans('Record deleted'),
           type: 'is-success'
         })
@@ -512,7 +512,7 @@ export default {
     },
 
     confirmApprove() {
-      this.$dialog.confirm({
+      this.$buefy.dialog.confirm({
         message: this.trans('You are about to approve checked observations.<br/>Those of them that cannot be approved, will not be approved.'),
         confirmText: this.trans('buttons.approve'),
         cancelText: this.trans('buttons.cancel'),
@@ -533,7 +533,7 @@ export default {
       this.checkedRows = []
       this.approving = false
 
-      this.$toast.open({
+      this.$buefy.toast.open({
         message: this.trans('Observations have been approved'),
         type: 'is-success'
       })
@@ -544,7 +544,7 @@ export default {
     failedToApprove(error) {
       this.approving = false
 
-      this.$toast.open({
+      this.$buefy.toast.open({
         message: this.trans('Observations cannot be approved'),
         type: 'is-danger',
         duration: 5000
@@ -552,7 +552,7 @@ export default {
     },
 
     confirmMarkingAsUnidentifiable() {
-      const dialog = this.$dialog.prompt({
+      const dialog = this.$buefy.dialog.prompt({
         message: this.trans('You are about to mark checked observations as unidentifiable. What\'s the reason?'),
         confirmText: this.trans('buttons.mark_unidentifiable'),
         cancelText: this.trans('buttons.cancel'),
@@ -583,7 +583,7 @@ export default {
     successfullyMarkedAsUnidentifiable() {
       this.checkedRows = []
       this.markingAsUnidentifiable = false
-      this.$toast.open({
+      this.$buefy.toast.open({
         message: this.trans('Observations have been marked as unidentifiable'),
         type: 'is-success'
       })
@@ -592,7 +592,7 @@ export default {
 
     failedToMarkAsUnidentifiable(error) {
       this.markingAsUnidentifiable = false
-      this.$toast.open({
+      this.$buefy.toast.open({
         message: this.trans('Some of the observations cannot be marked as unidentifiable'),
         type: 'is-danger',
         duration: 5000
@@ -642,7 +642,7 @@ export default {
     },
 
     confirmMoveToPending() {
-      const dialog = this.$dialog.prompt({
+      const dialog = this.$buefy.dialog.prompt({
         message: this.trans('You are about to move checked observations to pending. What\'s the reason?'),
         confirmText: this.trans('buttons.move_to_pending'),
         cancelText: this.trans('buttons.cancel'),
@@ -672,7 +672,7 @@ export default {
     successfullyMovedToPending() {
       this.checkedRows = []
       this.movingToPending = false
-      this.$toast.open({
+      this.$buefy.toast.open({
         message: this.trans('Observations have been moved to pending'),
         type: 'is-success'
       })
@@ -681,7 +681,7 @@ export default {
 
     failedToMoveToPending(error) {
       this.movingToPending = false
-      this.$toast.open({
+      this.$buefy.toast.open({
         message: this.trans('Whoops, looks like something went wrong.'),
         type: 'is-danger',
         duration: 5000
@@ -714,7 +714,7 @@ export default {
       this.showExportModal = false
 
       if (finishedExport.url) {
-        this.$modal.open({
+        this.$buefy.modal.open({
           parent: this,
           component: ExportDownloadModal,
           canCancel: [],
@@ -724,7 +724,7 @@ export default {
           }
         })
       } else {
-        this.$toast.open({
+        this.$buefy.toast.open({
           duration: 0,
           message: `Something's not good, also I'm on bottom`,
           type: 'is-danger'

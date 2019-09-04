@@ -107,7 +107,7 @@ export default {
       }
 
       if (!this.shouldAskReason) {
-        return this.$dialog.confirm(options)
+        return this.$buefy.dialog.confirm(options)
       }
 
       return this.promptForReason(options)
@@ -120,7 +120,7 @@ export default {
      * @return {Vue}
      */
     promptForReason(options) {
-      const dialog = this.$dialog.prompt({
+      const dialog = this.$buefy.dialog.prompt({
         ...options,
         inputAttrs: {
             placeholder: this.trans('Reason'),
@@ -151,7 +151,7 @@ export default {
      * Notify the user there are no changes.
      */
     notifyNoChanges() {
-      this.$toast.open({
+      this.$buefy.toast.open({
         message: this.submitOnlyDirtyMessage,
         type: 'is-info'
       })
@@ -205,7 +205,7 @@ export default {
     onSuccessfulSubmitWithRedirect() {
       this.form.processing = true
 
-      this.$toast.open({
+      this.$buefy.toast.open({
         message: this.trans('Saved successfully'),
         type: 'is-success'
       })
@@ -264,7 +264,7 @@ export default {
     onSuccessfulSubmitWithoutRedirect() {
       this.submittingWithoutRedirect = false
 
-      this.$toast.open({
+      this.$buefy.toast.open({
         message: this.trans('Saved successfully'),
         type: 'is-success'
       })
@@ -291,7 +291,7 @@ export default {
       this.submittingWithRedirect = false
       this.submittingWithoutRedirect = false
 
-      this.$toast.open({
+      this.$buefy.toast.open({
         duration: 2500,
         message: _get(error, 'response.data.message', error.message),
         type: 'is-danger'
@@ -315,7 +315,7 @@ export default {
 
       this.confirmingCancel = true
 
-      this.$dialog.confirm({
+      this.$buefy.dialog.confirm({
         message: this.trans('If you leave this page changes will not be saved.'),
         onConfirm: () => {
           this.confirmingCancel = false

@@ -1,5 +1,5 @@
 <template>
-  <b-modal :active="active" :can-cancel="['escape', 'x']" @close="onClose">
+  <b-modal :active.sync="active" :can-cancel="['escape', 'x']" @close="onClose">
     <div class="image-modal">
       <img :src="openImage">
 
@@ -47,6 +47,13 @@ export default {
   watch: {
     newValue() {
       this.$emit('input', this.newValue)
+    },
+
+    openImage: {
+      immediate: true,
+      handler(value) {
+        this.active = Boolean(value)
+      }
     }
   },
 

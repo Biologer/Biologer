@@ -13,7 +13,6 @@ import Sidebar from './components/Sidebar'
 import Announcement from './components/Announcement'
 import Captcha from './components/Captcha'
 import ImageModal from './components/ImageModal'
-import ImageCropModal from './components/ImageCropModal'
 import Slider from './components/Slider'
 import GroupTaxaSearchButton from './components/GroupTaxaSearchButton'
 
@@ -87,7 +86,6 @@ Vue.component(Sidebar.name, Sidebar)
 Vue.component(Announcement.name, Announcement)
 Vue.component(Captcha.name, Captcha)
 Vue.component(ImageModal.name, ImageModal)
-Vue.component(ImageCropModal.name, ImageCropModal)
 Vue.component(Slider.name, Slider)
 Vue.component(GroupTaxaSearchButton.name, GroupTaxaSearchButton)
 

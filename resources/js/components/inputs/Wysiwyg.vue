@@ -7,7 +7,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Trix from 'trix'
+
+Vue.config.ignoredElements = ['trix-editor']
 
 let { lang } = Trix.config
 

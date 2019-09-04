@@ -283,7 +283,7 @@ export default {
     },
 
     confirmRemove(row) {
-      this.$dialog.confirm({
+      this.$buefy.dialog.confirm({
         message: this.trans('Are you sure you want to delete this record?'),
         confirmText: this.trans('buttons.delete'),
         cancelText: this.trans('buttons.cancel'),
@@ -294,7 +294,7 @@ export default {
 
     remove (row) {
       return axios.delete(route(this.deleteRoute, row.id)).then(response => {
-        this.$toast.open({
+        this.$buefy.toast.open({
           message: this.trans('Record deleted'),
           type: 'is-success'
         })
@@ -330,7 +330,7 @@ export default {
       this.showExportModal = false
 
       if (finishedExport.url) {
-        this.$modal.open({
+        this.$buefy.modal.open({
           parent: this,
           component: ExportDownloadModal,
           canCancel: [],
@@ -340,7 +340,7 @@ export default {
           }
         })
       } else {
-        this.$toast.open({
+        this.$buefy.toast.open({
           duration: 0,
           message: `Something's not good, also I'm on bottom`,
           type: 'is-danger'

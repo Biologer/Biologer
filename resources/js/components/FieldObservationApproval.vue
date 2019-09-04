@@ -64,7 +64,7 @@ export default {
 
   methods: {
     confirmApprove() {
-      this.$dialog.confirm({
+      this.$buefy.dialog.confirm({
         message: this.trans('You are about to approve this field observation'),
         confirmText: this.trans('buttons.approve'),
         cancelText: this.trans('buttons.cancel'),
@@ -82,7 +82,7 @@ export default {
     },
 
     successfullyApproved() {
-      this.$toast.open({
+      this.$buefy.toast.open({
         message: this.trans('Observation has been approved'),
         type: 'is-success'
       });
@@ -97,7 +97,7 @@ export default {
     failedToApprove(error) {
       this.approving = false
 
-      this.$toast.open({
+      this.$buefy.toast.open({
         message: this.trans('Observation cannot be approved'),
         type: 'is-danger',
         duration: 5000
@@ -105,7 +105,7 @@ export default {
     },
 
     confirmMarkingAsUnidentifiable() {
-      const dialog = this.$dialog.prompt({
+      const dialog = this.$buefy.dialog.prompt({
         message: this.trans('You are about to mark observation as unidentifiable. What\'s the reason?'),
         confirmText: this.trans('buttons.mark_unidentifiable'),
         cancelText: this.trans('buttons.cancel'),
@@ -134,7 +134,7 @@ export default {
     },
 
     successfullyMarkedAsUnidentifiable() {
-      this.$toast.open({
+      this.$buefy.toast.open({
         message: this.trans('Observation has been marked as unidentifiable'),
         type: 'is-success'
       })
@@ -148,7 +148,7 @@ export default {
 
     failedToMarkAsUnidentifiable(error) {
       this.markingAsUnidentifiable = false
-      this.$toast.open({
+      this.$buefy.toast.open({
         message: this.trans('This observation cannot be marked as unidentifiable'),
         type: 'is-danger',
         duration: 5000

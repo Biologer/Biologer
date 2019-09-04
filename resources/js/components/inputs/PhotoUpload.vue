@@ -61,9 +61,14 @@
 
 <script>
 import loadImage from 'blueimp-load-image'
+import NzImageCropModal from '@/components/ImageCropModal'
 
 export default {
 	name: 'nzPhotoUpload',
+
+  components: {
+    NzImageCropModal
+  },
 
   props: {
 		imageUrl: {
@@ -212,7 +217,7 @@ export default {
 			this.$el.querySelector('input[type="file"]').value = ''
 
 			if (!error.response) {
-				return this.$toast.open({
+				return this.$buefy.toast.open({
 					duration: 5000,
 					message: error.message,
 					position: 'is-top',

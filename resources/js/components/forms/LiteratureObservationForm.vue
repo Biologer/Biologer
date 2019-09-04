@@ -652,7 +652,7 @@ export default {
     onSuccessfulSubmitWithoutRedirectWithSameTaxon() {
       this.submittingWithoutRedirectWithSameTaxon = false
 
-      this.$toast.open({
+      this.$buefy.toast.open({
         message: this.trans('Saved successfully'),
         type: 'is-success'
       })

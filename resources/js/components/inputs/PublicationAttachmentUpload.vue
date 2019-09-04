@@ -3,8 +3,8 @@
     <b-field class="file">
       <progress class="progress is-primary is-small" :value="progress" max="100" v-if="uploading">{{ progress }}%</progress>
 
-      <b-upload @input="onInput" accept=".pdf,.odt,.doc,.docx" v-show="!uploading" v-if="!hasAttachment">
-        <button type="button" class="button is-secondary">
+      <b-upload @input="onInput" accept=".pdf,.odt,.doc,.docx" v-show="!uploading" v-if="!hasAttachment" ref="upload">
+        <button type="button" @click="openUpload" class="button is-secondary">
           <b-icon icon="upload"></b-icon>
           <span>Upload Document</span>
         </button>
@@ -56,6 +56,10 @@ export default {
       }
     },
 
+    openUpload() {
+      this.$refs.upload.$refs.input.click()
+    },
+
     upload(file) {
       this.uploading = true
       return axios.post(route('api.publication-attachments.store'), this.makeForm(file), {
@@ -100,7 +104,7 @@ export default {
       this.$el.querySelector('input[type="file"]').value = ''
 
       if (!error.response) {
-        return this.$toast.open({
+        return this.$buefy.toast.open({
           duration: 5000,
           message: error.message,
           position: 'is-top',
