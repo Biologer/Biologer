@@ -229,10 +229,13 @@ trait HasAncestry
      */
     public static function rebuildAncestry()
     {
-        return static::with(['parent.ancestors'])
-            ->orderBy('rank_level', 'desc')
-            ->get()
-            ->each->linkAncestors();
+        foreach (static::RANKS as $rankLevel) {
+            static::with(['parent.ancestors'])
+                ->where('rank_level', $rankLevel)
+                ->each(function ($taxon) {
+                    $taxon->linkAncestors();
+            });
+        }
     }
 
 
