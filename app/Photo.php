@@ -96,7 +96,7 @@ class Photo extends Model
      */
     public function getUrlAttribute()
     {
-        return $this->attribute['url'] ?: $this->filesystem()->url($this->path);
+        return $this->attributes['url'] ?: $this->filesystem()->url($this->path);
     }
 
     /**
