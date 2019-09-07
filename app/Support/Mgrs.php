@@ -222,11 +222,18 @@ class Mgrs
         $centerX = $startX + static::METERS_IN_10K / 2;
         $centerY = $startY + static::METERS_IN_10K / 2;
 
-        // UTMRef instance with coordinates of 10k square center point
-        $utm = clone $this->utm;
-        $utm->setX($centerX);
-        $utm->setY($centerY);
+        return $this->cloneUtm($centerX, $centerY)->toLatLng();
+    }
 
-        return $utm->toLatLng();
+    /**
+     * Create new instance of UTMRef with given coordinates.
+     *
+     * @param  int  $x
+     * @param  int  $y
+     * @return \PHPCoord\UTMRef
+     */
+    private function cloneUtm(int $x, int $y)
+    {
+        return new UTMRef($x, $y, $this->utm->getH(), $this->utm->getLatZone(), $this->utm->getLngZone());
     }
 }
