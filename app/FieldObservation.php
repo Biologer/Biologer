@@ -53,14 +53,14 @@ class FieldObservation extends Model implements FlatArrayable
             'taxon' => \App\Filters\FieldObservation\Taxon::class,
             'taxonId' => \App\Filters\NullFilter::class,
             'includeChildTaxa' => \App\Filters\NullFilter::class,
-            'year' => \App\Filters\Attribute::class,
-            'month' => \App\Filters\Attribute::class,
-            'day' => \App\Filters\Attribute::class,
+            'year' => \App\Filters\FieldObservation\ObservationAttribute::class,
+            'month' => \App\Filters\FieldObservation\ObservationAttribute::class,
+            'day' => \App\Filters\FieldObservation\ObservationAttribute::class,
             'status' => \App\Filters\FieldObservation\Status::class,
             'photos' => \App\Filters\FieldObservation\Photos::class,
-            'observer' => \App\Filters\FieldObservation\Observer::class,
+            'observer' => \App\Filters\FieldObservation\ObservationAttributeLike::class,
             'sort_by' => \App\Filters\SortBy::class,
-            'project' => \App\Filters\FieldObservation\Project::class,
+            'project' => \App\Filters\FieldObservation\ObservationAttributeLike::class,
         ];
     }
 
