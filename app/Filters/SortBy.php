@@ -14,8 +14,14 @@ class SortBy
             ? $model::sortableFields()
             : [];
 
-        if (in_array($field, $sortableFields)) {
-            return $query->orderBy($field, $order);
+        if (! in_array($field, $sortableFields)) {
+            return $query;
         }
+
+        if (method_exists($model, 'scopeOrderByMapped')) {
+            return $query->orderByMapped($field, $order);
+        }
+
+        return $query->orderBy($field, $order);
     }
 }

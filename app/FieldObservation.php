@@ -2,18 +2,17 @@
 
 namespace App;
 
-use App\Concerns\Mappable;
 use App\Filters\Filterable;
 use Illuminate\Support\Arr;
 use App\Concerns\CanMemoize;
-use Sofa\Eloquence\Eloquence;
 use Illuminate\Support\Carbon;
+use App\Concerns\MappedSorting;
 use App\Contracts\FlatArrayable;
 use Spatie\Activitylog\Models\Activity;
 
 class FieldObservation extends Model implements FlatArrayable
 {
-    use CanMemoize, Eloquence, Filterable, Mappable;
+    use CanMemoize, Filterable, MappedSorting;
 
     const STATUS_APPROVED = 'approved';
     const STATUS_PENDING = 'pending';
@@ -47,17 +46,6 @@ class FieldObservation extends Model implements FlatArrayable
         'approved_at' => 'datetime',
     ];
 
-    protected $maps = [
-        'day' => 'observation.day',
-        'month' => 'observation.month',
-        'latitude' => 'observation.latitude',
-        'longitude' => 'observation.longitude',
-        'observer' => 'observation.observer',
-        'taxon_name' => 'observation.taxon.name',
-        'year' => 'observation.year',
-        'mgrs10k' => 'observation.mgrs10k',
-    ];
-
     protected function filters()
     {
         return [
@@ -73,6 +61,20 @@ class FieldObservation extends Model implements FlatArrayable
             'observer' => \App\Filters\FieldObservation\Observer::class,
             'sort_by' => \App\Filters\SortBy::class,
             'project' => \App\Filters\FieldObservation\Project::class,
+        ];
+    }
+
+    protected function sortMap()
+    {
+        return [
+            'day' => 'observation.day',
+            'month' => 'observation.month',
+            'year' => 'observation.year',
+            'latitude' => 'observation.latitude',
+            'longitude' => 'observation.longitude',
+            'mgrs10k' => 'observation.mgrs10k',
+            'observer' => 'observation.observer',
+            'taxon_name' => 'observation.taxon.name',
         ];
     }
 

@@ -11,12 +11,12 @@
 
                 <tr>
                     <td><b>{{ __('labels.field_observations.taxon') }}</b></td>
-                    <td class="is-fullwidth">{{ $fieldObservation->taxon_name }}</td>
+                    <td class="is-fullwidth">{{ optional($fieldObservation->observation->taxon)->name }}</td>
                 </tr>
 
                 <tr>
                     <td><b>{{ __('labels.field_observations.date') }}</b></td>
-                    <td class="is-fullwidth">{{ $fieldObservation->year }} {{ $fieldObservation->month }} {{ $fieldObservation->day }}</td>
+                    <td class="is-fullwidth">{{ $fieldObservation->observation->year }} {{ $fieldObservation->observation->month }} {{ $fieldObservation->observation->day }}</td>
                 </tr>
 
                 <tr>
