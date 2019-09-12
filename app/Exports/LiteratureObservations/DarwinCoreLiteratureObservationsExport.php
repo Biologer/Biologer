@@ -271,11 +271,11 @@ class DarwinCoreLiteratureObservationsExport extends BaseExport
     private function firstIdentification($literatureObservation)
     {
         $activity = $literatureObservation->activity->last(function ($activity) {
-            return $activity->changes()->collect('old')->has('taxon');
+            return $activity->changes()->getCollect('old')->has('taxon');
         });
 
         if ($activity) {
-            return $activity->changes()->collect('old')->get('taxon.label');
+            return $activity->changes()->getCollect('old')->get('taxon.label');
         }
 
         $taxon = $literatureObservation->observation->taxon;
@@ -286,7 +286,7 @@ class DarwinCoreLiteratureObservationsExport extends BaseExport
     private function previousIdentifications($literatureObservation)
     {
         return $literatureObservation->activity->map(function ($activity) {
-            return $activity->changes()->collect('old')->get('taxon.label');
+            return $activity->changes()->getCollect('old')->get('taxon.label');
         })->filter()->implode('|');
     }
 
@@ -297,7 +297,7 @@ class DarwinCoreLiteratureObservationsExport extends BaseExport
         }
 
         $activity = $literatureObservation->activity->first(function ($activity) {
-            return $activity->changes()->collect('old')->has('taxon');
+            return $activity->changes()->getCollect('old')->has('taxon');
         });
 
         if ($activity) {

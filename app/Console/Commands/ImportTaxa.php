@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\User;
 use App\Taxon;
 use App\RedList;
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use App\ConservationLegislation;
 use Illuminate\Support\Facades\DB;
@@ -460,11 +461,11 @@ class ImportTaxa extends Command
         $conservationLegislationSlugs = [];
 
         foreach ($data as $key => $value) {
-            if (starts_with($key, 'red_list_') && ! empty($value)) {
+            if (Str::startsWith($key, 'red_list_') && ! empty($value)) {
                 $redList = $this->redLists->where('slug', str_replace('red_list_', '', $key))->first();
 
                 $taxon->redLists()->attach($redList, ['category' => $value]);
-            } elseif (starts_with($key, 'conservation_legislation_') && ! empty($value)) {
+            } elseif (Str::startsWith($key, 'conservation_legislation_') && ! empty($value)) {
                 $conservationLegislationSlugs[] = str_replace('conservation_legislation_', '', $key);
             }
         }

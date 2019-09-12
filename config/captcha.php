@@ -3,6 +3,42 @@
 return [
     /*
     |--------------------------------------------------------------------------
+    | Image Generator
+    |--------------------------------------------------------------------------
+    |
+    | Here you can specify driver used to generate CAPTCHA image. Available
+    | drivers are: "gd" and "imagick".
+    |
+    */
+
+    'driver' => 'gd',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Image properties
+    |--------------------------------------------------------------------------
+    |
+    | Here you can specify properties of generated image. Width and height
+    | must be declared in pixels.
+    |
+    */
+
+    'image' => [
+        'width' => 240,
+
+        'height' => 100,
+
+        'padding' => 5,
+
+        'background_color' => 0xFFFFFF,
+
+        'text_color' => 0x2040A0,
+
+        'offset' => -2,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Verification Code Length
     |--------------------------------------------------------------------------
     |
@@ -32,42 +68,12 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you can specify how many failed validation attempts are allowed
-    | before new code is generated. If set to 0, code won't be
-    | regenerated on failure.
+    | before new code is generated. If set to 0, new CAPTCHA code won't
+    | be generated on failure.
     |
     */
+
     'allowed_failures' => 1,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Image properties
-    |--------------------------------------------------------------------------
-    |
-    | Here you can specify properties of generated image.
-    |
-    */
-
-    'image' => [
-
-        'width' => 240, // In pixels
-
-        'height' => 100, // In pixels
-
-        'transparent' => false,
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Prefered Image Library
-    |--------------------------------------------------------------------------
-    |
-    | Here you can specify prefered image library for generating CAPTCHA image.
-    | If none is specified, we'll try to detect available one.
-    | Supported: imagick, gd
-    |
-    */
-
-    'preferred_image_library' => 'gd',
 
     /*
     |--------------------------------------------------------------------------
@@ -78,17 +84,18 @@ return [
     |
     */
 
-    'route' => 'captcha',
+    'route' => '_captcha',
 
     /*
     |--------------------------------------------------------------------------
     | Refresh Query Param Name
     |--------------------------------------------------------------------------
     |
-    | Here you can specify name of the query parameter
-    | that will mark the request to refresh the code.
+    | Here you can specify name of the query parameter that marks that
+    | CAPTCHA code should be regenerated.
     |
     */
+
     'refresh_query_param' => 'refresh',
 
     /*

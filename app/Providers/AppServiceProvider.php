@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
             return $this->sortByDesc('created_at');
         });
 
-        Collection::macro('collect', function ($key, $default = null) {
+        Collection::macro('getCollect', function ($key, $default = null) {
             return new static($this->get($key, $default));
         });
 

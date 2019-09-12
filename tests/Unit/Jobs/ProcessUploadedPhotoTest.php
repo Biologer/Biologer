@@ -4,6 +4,7 @@ namespace Tests\Unit\Jobs;
 
 use App\Photo;
 use Tests\TestCase;
+use Illuminate\Support\Str;
 use Illuminate\Http\Testing\File;
 use App\Jobs\ProcessUploadedPhoto;
 use Illuminate\Support\Facades\Storage;
@@ -21,7 +22,7 @@ class ProcessUploadedPhotoTest extends TestCase
     public function it_resizes_landscape_image_by_width_while_keeping_aspect_ratio()
     {
         Storage::fake('public');
-        $path = File::image(str_random().'.jpg', 1600, 1200)->store('photos', [
+        $path = File::image(Str::random().'.jpg', 1600, 1200)->store('photos', [
             'disk' => 'public',
         ]);
         $photo = factory(Photo::class)->make(['path' => $path]);

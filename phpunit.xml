@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         bootstrap="tests/bootstrap.php"
+         bootstrap="vendor/autoload.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -22,20 +22,24 @@
             <directory suffix=".php">./app</directory>
         </whitelist>
     </filter>
+    <extensions>
+        <extension class="Tests\Bootstrap"/>
+    </extensions>
     <php>
-        <env name="APP_ENV" value="testing"/>
-        <env name="BROADCAST_DRIVER" value='"null"'/>
-        <env name="CACHE_DRIVER" value="array"/>
-        <env name="DB_CONNECTION" value="mysql"/>
-        <env name="DB_DATABASE" value="biologer_testing"/>
-        <env name="MAIL_DRIVER" value="array"/>
-        <env name="QUEUE_CONNECTION" value="sync"/>
-        <env name="SESSION_DRIVER" value="array"/>
-        <env name="APP_CONFIG_CACHE" value="bootstrap/cache/config.phpunit.php"/>
-        <env name="APP_SERVICES_CACHE" value="bootstrap/cache/services.phpunit.php"/>
-        <env name="APP_PACKAGES_CACHE" value="bootstrap/cache/packages.phpunit.php"/>
-        <env name="APP_ROUTES_CACHE" value="bootstrap/cache/routes.phpunit.php"/>
-        <env name="APP_EVENTS_CACHE" value="bootstrap/cache/events.phpunit.php"/>
-        <env name="ACTIVE_LICENSES" value="10,11,20,30,35,40"/>
+        <server name="APP_ENV" value="testing"/>
+        <server name="BROADCAST_DRIVER" value='"null"'/>
+        <server name="CACHE_DRIVER" value="array"/>
+        <server name="DB_CONNECTION" value="mysql"/>
+        <server name="DB_DATABASE" value="biologer_testing"/>
+        <server name="MAIL_DRIVER" value="array"/>
+        <server name="QUEUE_CONNECTION" value="sync"/>
+        <server name="SESSION_DRIVER" value="array"/>
+        <server name="APP_CONFIG_CACHE" value="bootstrap/cache/config.phpunit.php"/>
+        <server name="APP_SERVICES_CACHE" value="bootstrap/cache/services.phpunit.php"/>
+        <server name="APP_PACKAGES_CACHE" value="bootstrap/cache/packages.phpunit.php"/>
+        <server name="APP_ROUTES_CACHE" value="bootstrap/cache/routes.phpunit.php"/>
+        <server name="APP_EVENTS_CACHE" value="bootstrap/cache/events.phpunit.php"/>
+
+        <server name="ACTIVE_LICENSES" value="10,11,20,30,35,40"/>
     </php>
 </phpunit>
