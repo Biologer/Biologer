@@ -150,6 +150,7 @@
         :columns="exportColumns"
         :url="exportUrl"
         :types="['custom']"
+        :sort="sortBy"
         @cancel="showExportModal = false"
         @done="onExportDone"
       />
@@ -213,6 +214,10 @@ export default {
 
     checkedIds() {
       return this.checkedRows.map(row => row.id)
+    },
+
+    sortBy() {
+      return `${this.sortField}.${this.sortOrder}`
     }
   },
 
@@ -235,7 +240,7 @@ export default {
 
       return axios.get(route(this.listRoute).withQuery({
         ...filter,
-        sort_by: `${this.sortField}.${this.sortOrder}`,
+        sort_by: this.sortBy,
         page: this.page,
         per_page:this.perPage,
       })).then(({ data: response }) => {
