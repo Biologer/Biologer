@@ -91,7 +91,8 @@ export default {
       type: Array,
       default: () => ['custom', 'darwin_core'],
       validator: value => value.length > 0
-    }
+    },
+    sort: String
   },
 
   data() {
@@ -147,6 +148,7 @@ export default {
 
       this.form.withData({
         ...this.filters,
+        sort_by: this.sort,
         columns: this.selectedColumns,
         with_header: this.withHeader,
         type: this.type
