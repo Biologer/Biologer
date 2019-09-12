@@ -35,11 +35,11 @@ class VerifyEmail extends Notification
         $verificationUrl = $this->verificationUrl($notifiable, $expires);
 
         return (new MailMessage)
-            ->subject(Lang::getFromJson('Verify Email Address'))
-            ->line(Lang::getFromJson('Please click the button below to verify your email address.'))
-            ->action(Lang::getFromJson('Verify Email Address'), $verificationUrl)
-            ->line(Lang::getFromJson('This link will expire at :expiresAt. You can always request another verification link to be sent when you log in.', ['expiresAt' => $expires->format('d.m.Y H:i')]))
-            ->line(Lang::getFromJson('If you did not create an account, no further action is required.'));
+            ->subject(Lang::get('Verify Email Address'))
+            ->line(Lang::get('Please click the button below to verify your email address.'))
+            ->action(Lang::get('Verify Email Address'), $verificationUrl)
+            ->line(Lang::get('This link will expire at :expiresAt. You can always request another verification link to be sent when you log in.', ['expiresAt' => $expires->format('d.m.Y H:i')]))
+            ->line(Lang::get('If you did not create an account, no further action is required.'));
     }
 
     /**
@@ -54,7 +54,10 @@ class VerifyEmail extends Notification
         return URL::temporarySignedRoute(
             'verification.verify',
             $expires,
-            ['id' => $notifiable->getKey()]
+            [
+                'id' => $notifiable->getKey(),
+                'hash' => sha1($notifiable->getEmailForVerification()),
+            ]
         );
     }
 }

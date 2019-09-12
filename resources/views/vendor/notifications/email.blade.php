@@ -3,10 +3,10 @@
 @if (! empty($greeting))
 # {{ $greeting }}
 @else
-@if ($level == 'error')
-# {{ __('notifications.email.whoops') }}
+@if ($level === 'error')
+# @lang('notifications.email.whoops')
 @else
-# {{ __('notifications.email.hello') }}
+# @lang('notifications.email.hello')
 @endif
 @endif
 
@@ -43,13 +43,17 @@
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-@lang('notifications.email.regards'), <br>{{ config('app.name') }}
+@lang('notifications.email.regards'),<br>
+{{ config('app.name') }}
 @endif
 
 {{-- Subcopy --}}
 @isset($actionText)
 @slot('subcopy')
-@lang('notifications.email.subcopy', compact('actionText', 'actionUrl'))
+@lang('notifications.email.subcopy', [
+    'actionText' => $actionText,
+    'actionUrl' => $actionUrl,
+])
 @endslot
 @endisset
 @endcomponent

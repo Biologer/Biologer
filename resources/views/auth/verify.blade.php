@@ -13,16 +13,19 @@
                 </div>
                 @endif
 
-                {{ __('Before proceeding, please check your email for a verification link.') }}
-                {{ __('If you did not receive the email') }}
+                <div class="flex items-center">
+                    {{ __('Before proceeding, please check your email for a verification link.') }}
+                    {{ __('If you did not receive the email') }}
 
-                <form class="is-inline" method="POST" action="{{ route('verification.resend') }}">
-                    @csrf
+                    <form class="is-inline" method="POST" action="{{ route('verification.resend') }}">
+                        @csrf
 
-                    <button type="submit" class="button is-link">
-                        {{ __('click here to request another') }}
-                    </button>.
-                </form>
+                        <button type="submit" class="button is-text">
+                            {{ __('click here to request another') }}
+                        </button>
+                    </form>
+                    .
+                </div>
             </div>
         </div>
     </div>
