@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Jobs\PerformExport;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use App\Http\Controllers\Controller;
 use App\Exports\Taxa\CustomTaxaExport;
 use App\Exports\Taxa\TaxaExportFactory;
+use App\Http\Controllers\Controller;
+use App\Jobs\PerformExport;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class TaxonExportsController extends Controller
 {

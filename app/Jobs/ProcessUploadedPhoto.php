@@ -4,11 +4,11 @@ namespace App\Jobs;
 
 use App\Photo;
 use Illuminate\Bus\Queueable;
-use Intervention\Image\Facades\Image;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Intervention\Image\Facades\Image;
 
 class ProcessUploadedPhoto implements ShouldQueue
 {

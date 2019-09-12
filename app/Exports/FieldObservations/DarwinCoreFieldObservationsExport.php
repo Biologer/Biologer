@@ -2,10 +2,10 @@
 
 namespace App\Exports\FieldObservations;
 
-use App\Taxon;
 use App\Export;
-use App\FieldObservation;
 use App\Exports\BaseExport;
+use App\FieldObservation;
+use App\Taxon;
 
 class DarwinCoreFieldObservationsExport extends BaseExport
 {

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\Autocomplete;
 
-use App\Publication;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PublicationResource;
+use App\Publication;
+use Illuminate\Http\Request;
 
 class PublicationsController extends Controller
 {

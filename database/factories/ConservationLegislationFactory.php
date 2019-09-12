@@ -2,8 +2,8 @@
 
 /* @var $factory \Illuminate\Database\Eloquent\Factory */
 
-use Faker\Generator as Faker;
 use App\ConservationLegislation;
+use Faker\Generator as Faker;
 
 $factory->define(ConservationLegislation::class, function (Faker $faker) {
     return [

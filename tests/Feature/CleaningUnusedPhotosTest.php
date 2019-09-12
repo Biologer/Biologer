@@ -3,10 +3,10 @@
 namespace Tests\Feature;
 
 use App\Photo;
-use Tests\TestCase;
-use Tests\ObservationFactory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Tests\ObservationFactory;
+use Tests\TestCase;
 
 class CleaningUnusedPhotosTest extends TestCase
 {

@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests;
 
-use App\Taxon;
-use App\ViewGroup;
-use App\UploadedPhoto;
 use App\Support\Localization;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Storage;
+use App\Taxon;
+use App\UploadedPhoto;
+use App\ViewGroup;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class SaveViewGroup extends FormRequest
 {

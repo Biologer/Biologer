@@ -2,14 +2,14 @@
 
 namespace App\Console\Commands;
 
-use App\User;
-use App\Taxon;
-use App\RedList;
-use Illuminate\Support\Str;
-use Illuminate\Console\Command;
 use App\ConservationLegislation;
-use Illuminate\Support\Facades\DB;
+use App\RedList;
+use App\Taxon;
+use App\User;
+use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ImportTaxa extends Command
 {

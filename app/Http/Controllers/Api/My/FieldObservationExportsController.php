@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\My;
 
-use App\Exports\FieldObservations\ContributorFieldObservationsExport;
 use App\Exports\FieldObservations\ContributorFieldObservationsCustomExport;
+use App\Exports\FieldObservations\ContributorFieldObservationsExport;
 use App\Http\Controllers\Api\FieldObservationExportsController as BaseController;
 
 class FieldObservationExportsController extends BaseController

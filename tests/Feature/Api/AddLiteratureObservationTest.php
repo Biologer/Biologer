@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Api;
 
-use App\User;
-use App\Taxon;
-use Tests\TestCase;
-use App\Publication;
 use App\LiteratureObservation;
-use Laravel\Passport\Passport;
 use App\LiteratureObservationIdentificationValidity;
+use App\Publication;
+use App\Taxon;
+use App\User;
+use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class AddLiteratureObservationTest extends TestCase
 {

@@ -2,11 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Photo;
 use App\License;
-use Tests\TestCase;
+use App\Photo;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
 
 class PhotoTest extends TestCase
 {

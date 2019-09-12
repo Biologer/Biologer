@@ -2,18 +2,18 @@
 
 namespace App\Http\Requests;
 
-use App\Stage;
-use App\Taxon;
-use App\RedList;
-use Illuminate\Support\Arr;
 use App\ConservationDocument;
-use App\Support\Localization;
-use App\Rules\UniqueTaxonName;
-use Illuminate\Validation\Rule;
 use App\ConservationLegislation;
+use App\RedList;
+use App\Rules\UniqueTaxonName;
+use App\Stage;
+use App\Support\Localization;
+use App\Taxon;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateTaxon extends FormRequest
 {

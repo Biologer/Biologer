@@ -1,8 +1,8 @@
 <?php
 
-use App\User;
 use App\Publication;
 use App\PublicationType;
+use App\User;
 use Faker\Generator as Faker;
 
 $factory->define(Publication::class, function (Faker $faker) {

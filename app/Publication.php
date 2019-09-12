@@ -2,9 +2,9 @@
 
 namespace App;
 
+use App\Concerns\CanMemoize;
 use App\Filters\Filterable;
 use Illuminate\Support\Str;
-use App\Concerns\CanMemoize;
 
 class Publication extends Model
 {

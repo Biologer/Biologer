@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use Tests\TestCase;
 use App\Announcement;
+use App\User;
 use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class AnnouncementTest extends TestCase
 {

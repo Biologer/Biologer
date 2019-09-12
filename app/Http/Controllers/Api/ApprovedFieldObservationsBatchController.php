@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\FieldObservation;
 use App\Http\Controllers\Controller;
-use App\Rules\ApprovableFieldObservation;
-use App\Notifications\FieldObservationApproved;
 use App\Http\Resources\FieldObservationResource;
+use App\Notifications\FieldObservationApproved;
+use App\Rules\ApprovableFieldObservation;
 
 class ApprovedFieldObservationsBatchController extends Controller
 {

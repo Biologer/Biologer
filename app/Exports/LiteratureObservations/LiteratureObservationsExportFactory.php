@@ -2,8 +2,8 @@
 
 namespace App\Exports\LiteratureObservations;
 
-use Illuminate\Http\Request;
 use App\LiteratureObservation;
+use Illuminate\Http\Request;
 
 class LiteratureObservationsExportFactory
 {

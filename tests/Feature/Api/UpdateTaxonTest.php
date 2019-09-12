@@ -2,14 +2,14 @@
 
 namespace Tests\Feature\Api;
 
-use App\User;
+use App\ConservationDocument;
+use App\ConservationLegislation;
+use App\RedList;
 use App\Stage;
 use App\Taxon;
-use App\RedList;
-use Tests\TestCase;
-use App\ConservationDocument;
+use App\User;
 use Laravel\Passport\Passport;
-use App\ConservationLegislation;
+use Tests\TestCase;
 
 class UpdateTaxonTest extends TestCase
 {

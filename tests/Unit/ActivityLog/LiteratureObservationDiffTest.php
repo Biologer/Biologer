@@ -2,14 +2,14 @@
 
 namespace Tests\Unit\ActivityLog;
 
+use App\ActivityLog\LiteratureObservationDiff;
+use App\LiteratureObservation;
+use App\LiteratureObservationIdentificationValidity;
+use App\Observation;
+use App\Publication;
 use App\Stage;
 use App\Taxon;
 use Tests\TestCase;
-use App\Observation;
-use App\Publication;
-use App\LiteratureObservation;
-use App\ActivityLog\LiteratureObservationDiff;
-use App\LiteratureObservationIdentificationValidity;
 
 class LiteratureObservationDiffTest extends TestCase
 {

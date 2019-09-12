@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-
-use App\LiteratureObservation;
-
 use App\Http\Controllers\Controller;
+
 use App\Http\Requests\StoreLiteratureObservation;
+
 use App\Http\Requests\UpdateLiteratureObservation;
 use App\Http\Resources\LiteratureObservationResource;
+use App\LiteratureObservation;
+use Illuminate\Http\Request;
 
 class LiteratureObservationsController extends Controller
 {

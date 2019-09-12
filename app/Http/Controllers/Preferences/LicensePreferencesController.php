@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Preferences;
 
+use App\Http\Controllers\Controller;
 use App\License;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\Http\Controllers\Controller;
 
 class LicensePreferencesController extends Controller
 {

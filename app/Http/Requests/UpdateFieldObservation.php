@@ -2,22 +2,22 @@
 
 namespace App\Http\Requests;
 
-use App\User;
-use App\Stage;
-use App\Taxon;
-use App\License;
-use App\Rules\Day;
-use App\Observation;
-use App\Rules\Month;
-use App\Rules\Decimal;
-use App\ObservationType;
-use App\Support\Dataset;
-use App\FieldObservation;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
 use App\ActivityLog\FieldObservationDiff;
-use Illuminate\Foundation\Http\FormRequest;
+use App\FieldObservation;
+use App\License;
 use App\Notifications\FieldObservationEdited;
+use App\Observation;
+use App\ObservationType;
+use App\Rules\Day;
+use App\Rules\Decimal;
+use App\Rules\Month;
+use App\Stage;
+use App\Support\Dataset;
+use App\Taxon;
+use App\User;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class UpdateFieldObservation extends FormRequest
 {

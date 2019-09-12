@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\UploadedPhoto;
 use App\Support\HumanReadable;
+use App\UploadedPhoto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PhotoUpload extends FormRequest

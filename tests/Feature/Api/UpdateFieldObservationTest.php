@@ -2,19 +2,19 @@
 
 namespace Tests\Feature\Api;
 
-use App\User;
+use App\License;
+use App\Notifications\FieldObservationEdited;
 use App\Photo;
 use App\Stage;
 use App\Taxon;
-use App\License;
-use Tests\TestCase;
-use Illuminate\Support\Str;
-use Tests\ObservationFactory;
-use Laravel\Passport\Passport;
+use App\User;
 use Illuminate\Http\Testing\File;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\FieldObservationEdited;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Laravel\Passport\Passport;
+use Tests\ObservationFactory;
+use Tests\TestCase;
 
 class UpdateFieldObservationTest extends TestCase
 {

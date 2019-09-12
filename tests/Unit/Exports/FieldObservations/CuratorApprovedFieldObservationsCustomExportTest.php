@@ -2,17 +2,17 @@
 
 namespace Tests\Unit\Exports\FieldObservations;
 
-use App\User;
+use App\Exports\FieldObservations\CuratorApprovedFieldObservationsCustomExport;
+use App\Jobs\PerformExport;
+use App\License;
 use App\Stage;
 use App\Taxon;
-use App\License;
-use Tests\TestCase;
-use App\Jobs\PerformExport;
-use Tests\ObservationFactory;
+use App\User;
+use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use Box\Spout\Common\Helper\EncodingHelper;
-use App\Exports\FieldObservations\CuratorApprovedFieldObservationsCustomExport;
+use Tests\ObservationFactory;
+use Tests\TestCase;
 
 class CuratorApprovedFieldObservationsCustomExportTest extends TestCase
 {

@@ -1,11 +1,11 @@
 <?php
 
-use App\Observation;
 use App\LiteratureObservation;
+use App\Observation;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Spatie\Activitylog\Models\Activity;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateLiteratureObservationsTable extends Migration
 {

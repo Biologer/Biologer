@@ -4,8 +4,8 @@ namespace App\Notifications;
 
 use App\FieldObservation;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Notification;
 
 class FieldObservationForApproval extends Notification implements ShouldQueue
 {

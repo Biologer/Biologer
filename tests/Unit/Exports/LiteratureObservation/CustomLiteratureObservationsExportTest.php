@@ -2,18 +2,18 @@
 
 namespace Tests\Unit\Exports\LiteratureObservations;
 
-use App\User;
-use App\Taxon;
-use Tests\TestCase;
-use App\Observation;
-use App\Publication;
+use App\Exports\LiteratureObservations\CustomLiteratureObservationsExport;
 use App\Jobs\PerformExport;
 use App\LiteratureObservation;
+use App\LiteratureObservationIdentificationValidity;
+use App\Observation;
+use App\Publication;
+use App\Taxon;
+use App\User;
+use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use Box\Spout\Common\Helper\EncodingHelper;
-use App\LiteratureObservationIdentificationValidity;
-use App\Exports\LiteratureObservations\CustomLiteratureObservationsExport;
+use Tests\TestCase;
 
 class CustomLiteratureObservationsExportTest extends TestCase
 {

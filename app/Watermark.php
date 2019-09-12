@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Intervention\Image\Facades\Image;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Intervention\Image\Facades\Image;
 
 class Watermark
 {

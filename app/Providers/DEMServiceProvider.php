@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
+use App\DEM\MemoizingReader;
 use App\DEM\Reader;
 use App\DEM\RunalyzeReader;
-use App\DEM\MemoizingReader;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use Runalyze\DEM\Provider\GeoTIFF\SRTM4Provider;
-use Illuminate\Contracts\Support\DeferrableProvider;
 
 class DEMServiceProvider extends ServiceProvider implements DeferrableProvider
 {

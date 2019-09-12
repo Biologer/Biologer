@@ -3,8 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Mcamara\LaravelLocalization\LanguageNegotiator;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Mcamara\LaravelLocalization\LanguageNegotiator;
 
 class HeaderLocale
 {

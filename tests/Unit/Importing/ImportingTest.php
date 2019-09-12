@@ -3,10 +3,10 @@
 namespace Tests\Unit\Importing;
 
 use App\Import;
-use Tests\TestCase;
-use Tests\FakeImporter;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
+use Tests\FakeImporter;
+use Tests\TestCase;
 
 class ImportingTest extends TestCase
 {

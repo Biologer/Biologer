@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Preferences;
 
-use Illuminate\Http\Request;
 use App\Events\UserProfileUpdated;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class GeneralPreferencesController extends Controller
 {

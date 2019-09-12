@@ -2,19 +2,19 @@
 
 namespace App\Importing;
 
-use App\Stage;
-use App\Taxon;
-use App\License;
-use App\Rules\Day;
-use App\Observation;
-use App\Rules\Month;
-use App\Rules\Decimal;
-use App\Support\Dataset;
-use App\FieldObservation;
-use Illuminate\Support\Arr;
-use Illuminate\Validation\Rule;
 use App\DEM\Reader as DEMReader;
+use App\FieldObservation;
+use App\License;
+use App\Observation;
+use App\Rules\Day;
+use App\Rules\Decimal;
+use App\Rules\Month;
+use App\Stage;
+use App\Support\Dataset;
+use App\Taxon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class FieldObservationImport extends BaseImport
 {

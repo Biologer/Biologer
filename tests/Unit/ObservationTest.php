@@ -2,11 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Photo;
-use Tests\TestCase;
 use App\Observation;
-use Tests\ObservationFactory;
+use App\Photo;
 use Illuminate\Support\Facades\Storage;
+use Tests\ObservationFactory;
+use Tests\TestCase;
 
 class ObservationTest extends TestCase
 {

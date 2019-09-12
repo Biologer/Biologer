@@ -4,12 +4,12 @@ namespace App\Exports;
 
 use App\Export;
 use Box\Spout\Common\Type;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
 use Box\Spout\Writer\WriterFactory;
 use Box\Spout\Writer\WriterInterface;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Localizable;
 
 abstract class BaseExport

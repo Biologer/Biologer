@@ -3,10 +3,10 @@
 namespace App;
 
 use App\Filters\Filterable;
-use Illuminate\Support\Facades\DB;
-use Spatie\Activitylog\Models\Activity;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\Models\Activity;
 
 class Taxon extends Model
 {

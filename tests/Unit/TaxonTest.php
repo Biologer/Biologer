@@ -2,10 +2,10 @@
 
 namespace Tests\Unit;
 
-use App\Taxon;
-use Tests\TestCase;
 use App\Observation;
+use App\Taxon;
 use Tests\ObservationFactory;
+use Tests\TestCase;
 
 class TaxonTest extends TestCase
 {

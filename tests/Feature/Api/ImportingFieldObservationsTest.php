@@ -2,15 +2,15 @@
 
 namespace Tests\Feature\Api;
 
-use App\User;
 use App\Import;
-use Tests\TestCase;
-use App\Jobs\ProcessImport;
-use Laravel\Passport\Passport;
 use App\Importing\ImportStatus;
+use App\Jobs\ProcessImport;
+use App\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class ImportingFieldObservationsTest extends TestCase
 {

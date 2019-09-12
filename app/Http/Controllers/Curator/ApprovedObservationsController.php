@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Curator;
 
+use App\Exports\FieldObservations\CuratorApprovedFieldObservationsCustomExport;
 use App\FieldObservation;
 use App\Http\Controllers\Controller;
-use App\Exports\FieldObservations\CuratorApprovedFieldObservationsCustomExport;
 
 class ApprovedObservationsController extends Controller
 {

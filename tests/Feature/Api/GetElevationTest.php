@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Api;
 
-use App\User;
 use App\DEM\Reader;
-use Tests\TestCase;
+use App\User;
 use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class GetElevationTest extends TestCase
 {

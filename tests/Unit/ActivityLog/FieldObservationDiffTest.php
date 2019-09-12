@@ -2,13 +2,13 @@
 
 namespace Tests\Unit\ActivityLog;
 
+use App\ActivityLog\FieldObservationDiff;
+use App\FieldObservation;
+use App\License;
+use App\Observation;
 use App\Stage;
 use App\Taxon;
-use App\License;
 use Tests\TestCase;
-use App\Observation;
-use App\FieldObservation;
-use App\ActivityLog\FieldObservationDiff;
 
 class FieldObservationDiffTest extends TestCase
 {

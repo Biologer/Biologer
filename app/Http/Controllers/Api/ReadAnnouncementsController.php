@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Announcement;
-use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AnnouncementResource;
+use Illuminate\Validation\Rule;
 
 class ReadAnnouncementsController extends Controller
 {

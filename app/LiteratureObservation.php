@@ -2,10 +2,10 @@
 
 namespace App;
 
-use App\Filters\Filterable;
 use App\Concerns\CanMemoize;
-use Illuminate\Support\Carbon;
 use App\Contracts\FlatArrayable;
+use App\Filters\Filterable;
+use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Activity;
 
 class LiteratureObservation extends Model implements FlatArrayable

@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Api;
 
-use App\User;
 use App\Taxon;
-use Tests\TestCase;
+use App\User;
 use Illuminate\Support\Carbon;
 use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class TaxaTest extends TestCase
 {

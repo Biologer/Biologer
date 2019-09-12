@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use Tests\TestCase;
-use App\PendingNotification;
-use Tests\ObservationFactory;
-use Illuminate\Support\Facades\Notification;
 use App\Notifications\FieldObservationApproved;
 use App\Notifications\UnreadNotificationsSummary;
+use App\PendingNotification;
+use App\User;
+use Illuminate\Support\Facades\Notification;
+use Tests\ObservationFactory;
+use Tests\TestCase;
 
 class SendingUnreadNotificationSummaryEmailTest extends TestCase
 {

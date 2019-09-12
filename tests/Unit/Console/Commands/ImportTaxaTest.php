@@ -2,13 +2,13 @@
 
 namespace Tests\Unit\Console\Commands;
 
-use App\User;
-use App\Taxon;
-use App\RedList;
-use Tests\TestCase;
-use Illuminate\Support\Str;
 use App\ConservationLegislation;
+use App\RedList;
+use App\Taxon;
+use App\User;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class ImportTaxaTest extends TestCase
 {

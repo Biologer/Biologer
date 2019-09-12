@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Api;
 
-use App\User;
-use Tests\TestCase;
-use App\Jobs\PerformExport;
-use Laravel\Passport\Passport;
-use Illuminate\Support\Facades\Queue;
 use App\Exports\FieldObservations\CuratorApprovedFieldObservationsCustomExport;
 use App\Exports\FieldObservations\CuratorApprovedFieldObservationsDarwinCoreExport;
+use App\Jobs\PerformExport;
+use App\User;
+use Illuminate\Support\Facades\Queue;
+use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class ExportCuratorApprovedFieldObservationsTest extends TestCase
 {

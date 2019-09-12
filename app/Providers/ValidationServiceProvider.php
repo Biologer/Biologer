@@ -3,10 +3,10 @@
 namespace App\Providers;
 
 use App\Rules\Contain;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Collection;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rule;
 
 class ValidationServiceProvider extends ServiceProvider
 {

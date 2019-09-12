@@ -3,12 +3,12 @@
 namespace App\Importing;
 
 use App\Import;
-use Box\Spout\Common\Type;
 use App\Jobs\ProcessImport;
-use Illuminate\Support\Facades\DB;
+use Box\Spout\Common\Type;
 use Box\Spout\Reader\ReaderFactory;
-use Box\Spout\Reader\SheetInterface;
 use Box\Spout\Reader\ReaderInterface;
+use Box\Spout\Reader\SheetInterface;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 abstract class BaseImport

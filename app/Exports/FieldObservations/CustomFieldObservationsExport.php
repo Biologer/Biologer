@@ -3,8 +3,8 @@
 namespace App\Exports\FieldObservations;
 
 use App\Export;
-use App\FieldObservation;
 use App\Exports\BaseExport;
+use App\FieldObservation;
 use Illuminate\Support\Collection;
 
 class CustomFieldObservationsExport extends BaseExport

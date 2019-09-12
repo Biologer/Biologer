@@ -2,10 +2,10 @@
 
 namespace App\Maps;
 
-use SVG\SVG;
-use SVG\Nodes\SVGNode;
 use Illuminate\Support\Collection;
 use SVG\Nodes\Structures\SVGDocumentFragment;
+use SVG\Nodes\SVGNode;
+use SVG\SVG;
 
 abstract class AbstractMgrs10kMap
 {

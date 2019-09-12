@@ -1,8 +1,8 @@
 <?php
 
+use App\ConservationLegislation;
 use App\RedList;
 use Illuminate\Database\Seeder;
-use App\ConservationLegislation;
 
 class TerritorySpecificTableSeeder extends Seeder
 {

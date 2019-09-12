@@ -2,8 +2,8 @@
 
 namespace App\Maps;
 
-use SVG\Nodes\SVGNode;
 use Illuminate\Support\Collection;
+use SVG\Nodes\SVGNode;
 
 class BasicMgrs10kMap extends AbstractMgrs10kMap
 {

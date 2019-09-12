@@ -234,7 +234,7 @@ trait HasAncestry
                 ->where('rank_level', $rankLevel)
                 ->each(function ($taxon) {
                     $taxon->linkAncestors();
-            });
+                });
         }
     }
 

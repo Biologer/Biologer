@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Api;
 
-use App\User;
 use App\Taxon;
-use Tests\TestCase;
-use Tests\ObservationFactory;
+use App\User;
 use Laravel\Passport\Passport;
+use Tests\ObservationFactory;
+use Tests\TestCase;
 
 class GetFieldObservationsTest extends TestCase
 {

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\ViewGroup;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GroupTaxonResource;
+use App\ViewGroup;
 
 class GroupTaxaController extends Controller
 {

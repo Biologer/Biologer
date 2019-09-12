@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Import;
-use Illuminate\Http\Request;
-use App\Importing\ImportStatus;
-use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use App\Import;
+use App\Importing\ImportStatus;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CancelledImportsController extends Controller
 {

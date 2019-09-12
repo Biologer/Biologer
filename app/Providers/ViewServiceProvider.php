@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Blade;
-use Spatie\Menu\Laravel\Facades\Menu;
-use Illuminate\Support\ServiceProvider;
 use App\Http\ViewComposers\DashboardComposer;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
+use Spatie\Menu\Laravel\Facades\Menu;
 
 class ViewServiceProvider extends ServiceProvider
 {

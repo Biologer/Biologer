@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Taxon;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTaxon;
 use App\Http\Requests\UpdateTaxon;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\TaxonResource;
 use App\Http\Resources\TaxonCollectionResource;
+use App\Http\Resources\TaxonResource;
+use App\Taxon;
+use Illuminate\Http\Request;
 
 class TaxaController extends Controller
 {

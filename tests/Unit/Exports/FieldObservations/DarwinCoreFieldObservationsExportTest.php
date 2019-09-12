@@ -2,19 +2,19 @@
 
 namespace Tests\Unit\Exports\FieldObservations;
 
-use App\User;
+use App\ActivityLog\FieldObservationDiff;
+use App\Exports\FieldObservations\DarwinCoreFieldObservationsExport;
+use App\Jobs\PerformExport;
+use App\License;
+use App\ObservationType;
 use App\Stage;
 use App\Taxon;
-use App\License;
-use Tests\TestCase;
-use App\ObservationType;
-use App\Jobs\PerformExport;
-use Tests\ObservationFactory;
+use App\User;
+use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use App\ActivityLog\FieldObservationDiff;
-use Box\Spout\Common\Helper\EncodingHelper;
-use App\Exports\FieldObservations\DarwinCoreFieldObservationsExport;
+use Tests\ObservationFactory;
+use Tests\TestCase;
 
 class DarwinCoreFieldObservationsExportTest extends TestCase
 {

@@ -3,8 +3,8 @@
 namespace Tests\Feature\Api;
 
 use App\User;
-use Tests\TestCase;
 use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class UsersAutocompleteTest extends TestCase
 {

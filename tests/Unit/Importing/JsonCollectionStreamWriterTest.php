@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Importing;
 
+use App\Importing\JsonCollectionStreamWriter;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\TestCase;
-use App\Importing\JsonCollectionStreamWriter;
 
 class JsonCollectionStreamWriterTest extends TestCase
 {

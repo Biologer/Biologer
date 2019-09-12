@@ -2,12 +2,12 @@
 
 namespace App\Repositories;
 
+use App\FieldObservation;
+use App\Observation;
 use App\User;
 use App\ViewGroup;
-use App\Observation;
-use App\FieldObservation;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class StatsRepository
 {

@@ -2,12 +2,12 @@
 
 namespace App;
 
-use Illuminate\Support\Str;
 use App\Concerns\CanMemoize;
-use Illuminate\Support\Facades\Storage;
-use Astrotomic\Translatable\Translatable;
 use App\Concerns\HasTranslatableAttributes;
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ViewGroup extends Model
 {

@@ -2,11 +2,11 @@
 
 namespace App\Concerns;
 
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 trait MappedSorting
 {
@@ -65,7 +65,7 @@ trait MappedSorting
      */
     protected function shouldOrderByRelationColumn($orderBy)
     {
-         return mb_strpos($this->mappedOrderBy($orderBy), '.') !== false;
+        return mb_strpos($this->mappedOrderBy($orderBy), '.') !== false;
     }
 
     /**
@@ -163,7 +163,7 @@ trait MappedSorting
             return [$relation->getQualifiedForeignKeyName(), $relation->getQualifiedParentKeyName()];
         }
 
-        if ($relation instanceof BelongsTo && !$relation instanceof MorphTo) {
+        if ($relation instanceof BelongsTo && ! $relation instanceof MorphTo) {
             return [$relation->getQualifiedForeignKeyName(), $relation->getQualifiedOwnerKeyName()];
         }
 

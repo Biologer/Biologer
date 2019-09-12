@@ -2,20 +2,20 @@
 
 namespace Tests\Feature\Api;
 
-use App\User;
+use App\FieldObservation;
+use App\Jobs\ProcessUploadedPhoto;
+use App\Notifications\FieldObservationForApproval;
+use App\Observation;
 use App\Photo;
 use App\Taxon;
-use Tests\TestCase;
-use App\Observation;
-use App\FieldObservation;
-use Illuminate\Support\Carbon;
-use Laravel\Passport\Passport;
+use App\User;
 use Illuminate\Http\Testing\File;
-use App\Jobs\ProcessUploadedPhoto;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Notification;
-use App\Notifications\FieldObservationForApproval;
+use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class AddFieldObservationTest extends TestCase
 {

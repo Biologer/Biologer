@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Database\Eloquent\Model;
+use Stevebauman\Purify\Facades\Purify;
 
 class TaxonTranslation extends Model
 {

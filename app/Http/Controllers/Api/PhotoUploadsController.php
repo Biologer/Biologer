@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\UploadedPhoto;
-use App\Http\Requests\PhotoUpload;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PhotoUpload;
+use App\UploadedPhoto;
 
 class PhotoUploadsController extends Controller
 {

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\FieldObservations\CustomFieldObservationsExport;
 use App\FieldObservation;
 use App\Http\Controllers\Controller;
-use App\Exports\FieldObservations\CustomFieldObservationsExport;
 
 class FieldObservationsController extends Controller
 {

@@ -2,12 +2,12 @@
 
 namespace App;
 
-use App\Filters\Filterable;
-use Illuminate\Support\Arr;
 use App\Concerns\CanMemoize;
-use Illuminate\Support\Carbon;
 use App\Concerns\MappedSorting;
 use App\Contracts\FlatArrayable;
+use App\Filters\Filterable;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Activity;
 
 class FieldObservation extends Model implements FlatArrayable

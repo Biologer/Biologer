@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Api;
 
-use App\User;
-use Tests\TestCase;
-use Tests\ObservationFactory;
-use Laravel\Passport\Passport;
 use App\Notifications\FieldObservationApproved;
+use App\User;
+use Laravel\Passport\Passport;
+use Tests\ObservationFactory;
+use Tests\TestCase;
 
 class MarkNotificationsAsReadTest extends TestCase
 {

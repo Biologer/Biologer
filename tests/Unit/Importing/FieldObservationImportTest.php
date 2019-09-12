@@ -2,16 +2,16 @@
 
 namespace Tests\Unit\Importing;
 
-use App\User;
-use App\Taxon;
-use App\Import;
-use App\License;
-use Tests\TestCase;
-use App\FieldObservation;
 use App\DEM\Reader as DEMReader;
+use App\FieldObservation;
+use App\Import;
+use App\Importing\FieldObservationImport;
+use App\License;
+use App\Taxon;
+use App\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
-use App\Importing\FieldObservationImport;
+use Tests\TestCase;
 
 class FieldObservationImportTest extends TestCase
 {

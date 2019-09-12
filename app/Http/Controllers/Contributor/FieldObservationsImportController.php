@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Contributor;
 
-use App\Import;
-use Illuminate\Http\Request;
-use App\Importing\ImportStatus;
 use App\Http\Controllers\Controller;
+use App\Import;
 use App\Importing\FieldObservationImport;
+use App\Importing\ImportStatus;
+use Illuminate\Http\Request;
 
 class FieldObservationsImportController extends Controller
 {

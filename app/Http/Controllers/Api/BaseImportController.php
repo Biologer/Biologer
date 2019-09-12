@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Import;
 use App\Rules\ImportFile;
+use App\Rules\NoImportsInProgress;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\Rules\NoImportsInProgress;
-use App\Http\Controllers\Controller;
 
 abstract class BaseImportController extends Controller
 {

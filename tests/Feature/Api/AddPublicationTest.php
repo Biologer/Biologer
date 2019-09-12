@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Api;
 
-use App\User;
-use Tests\TestCase;
 use App\Publication;
 use App\PublicationType;
+use App\User;
 use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class AddPublicationTest extends TestCase
 {

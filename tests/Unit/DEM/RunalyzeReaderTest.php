@@ -4,8 +4,8 @@ namespace Tests\Unit\DEM;
 
 use App\DEM\RunalyzeReader;
 use PHPUnit\Framework\TestCase;
-use Runalyze\DEM\Provider\ProviderInterface;
 use Runalyze\DEM\Interpolation\InterpolationInterface;
+use Runalyze\DEM\Provider\ProviderInterface;
 
 class RunalyzeReaderTest extends TestCase
 {

@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Astrotomic\Translatable\Translatable;
 use App\Concerns\HasTranslatableAttributes;
+use Astrotomic\Translatable\Translatable;
 
 class ConservationLegislation extends Model
 {

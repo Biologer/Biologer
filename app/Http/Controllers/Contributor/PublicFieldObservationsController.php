@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Contributor;
 
-use App\FieldObservation;
-
-use App\Http\Controllers\Controller;
 use App\Exports\FieldObservations\CustomFieldObservationsExport;
+
+use App\FieldObservation;
+use App\Http\Controllers\Controller;
 
 class PublicFieldObservationsController extends Controller
 {

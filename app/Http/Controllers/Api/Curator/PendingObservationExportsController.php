@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\Curator;
 
-use App\Http\Controllers\Api\FieldObservationExportsController;
-use App\Exports\FieldObservations\CuratorPendingFieldObservationsExport;
 use App\Exports\FieldObservations\CuratorPendingFieldObservationsCustomExport;
+use App\Exports\FieldObservations\CuratorPendingFieldObservationsExport;
+use App\Http\Controllers\Api\FieldObservationExportsController;
 
 class PendingObservationExportsController extends FieldObservationExportsController
 {

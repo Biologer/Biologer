@@ -3,10 +3,10 @@
 namespace Tests\Feature\Api;
 
 use App\User;
-use Tests\TestCase;
-use Laravel\Passport\Passport;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class PhotoUploadTest extends TestCase
 {

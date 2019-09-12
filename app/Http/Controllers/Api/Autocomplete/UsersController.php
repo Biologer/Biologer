@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\Autocomplete;
 
-use App\User;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\User;
 
 class UsersController extends Controller
 {

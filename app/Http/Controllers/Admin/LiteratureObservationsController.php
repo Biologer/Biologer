@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\LiteratureObservation;
-use App\Http\Controllers\Controller;
 use App\Exports\LiteratureObservations\CustomLiteratureObservationsExport;
+use App\Http\Controllers\Controller;
+use App\LiteratureObservation;
 
 class LiteratureObservationsController extends Controller
 {

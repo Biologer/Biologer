@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Maps\BasicMgrs10kMap;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
+use Illuminate\Support\ServiceProvider;
 
 class MapServiceProvider extends ServiceProvider implements DeferrableProvider
 {

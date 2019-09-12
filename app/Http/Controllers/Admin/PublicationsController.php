@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Publication;
 use App\PublicationType;
-use App\Http\Controllers\Controller;
 
 class PublicationsController extends Controller
 {

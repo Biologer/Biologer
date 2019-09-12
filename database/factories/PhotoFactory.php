@@ -1,9 +1,9 @@
 <?php
 
 use App\Photo;
-use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 use Illuminate\Http\Testing\File;
+use Illuminate\Support\Str;
 
 $factory->define(Photo::class, function (Faker $faker) {
     $path = File::image(Str::random().'.jpg')->store('photos', [

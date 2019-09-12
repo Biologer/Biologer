@@ -2,10 +2,10 @@
 
 namespace App\Exports\LiteratureObservations;
 
-use App\Taxon;
 use App\Export;
 use App\Exports\BaseExport;
 use App\LiteratureObservation;
+use App\Taxon;
 use Illuminate\Support\Carbon;
 
 class DarwinCoreLiteratureObservationsExport extends BaseExport

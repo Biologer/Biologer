@@ -1,9 +1,9 @@
 <?php
 
 use App\Import;
-use Faker\Generator as Faker;
-use App\Importing\ImportStatus;
 use App\Importing\FieldObservationImport;
+use App\Importing\ImportStatus;
+use Faker\Generator as Faker;
 
 $factory->define(Import::class, function (Faker $faker) {
     return [

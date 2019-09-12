@@ -2,8 +2,8 @@
 
 namespace App\Rules;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Carbon;
 
 class Month implements Rule
 {

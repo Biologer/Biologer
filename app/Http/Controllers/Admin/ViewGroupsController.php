@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\ViewGroup;
 use App\Http\Controllers\Controller;
+use App\ViewGroup;
 
 class ViewGroupsController extends Controller
 {

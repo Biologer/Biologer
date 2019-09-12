@@ -2,8 +2,8 @@
 
 namespace App;
 
-use App\Importing\ImportStatus;
 use App\Events\ImportStatusUpdated;
+use App\Importing\ImportStatus;
 use Illuminate\Support\Facades\Storage;
 
 class Import extends Model

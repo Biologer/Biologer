@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\User;
 use App\Taxon;
-use Tests\TestCase;
+use App\User;
 use Tests\ObservationFactory;
+use Tests\TestCase;
 
 class PendingFieldObservationsEditTest extends TestCase
 {

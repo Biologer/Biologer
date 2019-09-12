@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Photo;
 use App\License;
+use App\Photo;
 use Illuminate\Console\Command;
 
 class WatermarkPhotos extends Command

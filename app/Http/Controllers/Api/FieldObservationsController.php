@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\FieldObservation;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFieldObservation;
 use App\Http\Requests\UpdateFieldObservation;
 use App\Http\Resources\FieldObservationResource;
+use Illuminate\Http\Request;
 
 class FieldObservationsController extends Controller
 {

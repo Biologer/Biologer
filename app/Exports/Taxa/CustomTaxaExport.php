@@ -2,9 +2,9 @@
 
 namespace App\Exports\Taxa;
 
-use App\Taxon;
 use App\Export;
 use App\Exports\BaseExport;
+use App\Taxon;
 use Illuminate\Support\Str;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 

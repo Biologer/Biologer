@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use App\Taxon;
-use Tests\TestCase;
-use Tests\ObservationFactory;
-use Illuminate\Support\Facades\Storage;
-use Box\Spout\Common\Helper\EncodingHelper;
 use App\Exports\FieldObservations\ContributorFieldObservationsCustomExport;
+use App\Taxon;
+use App\User;
+use Box\Spout\Common\Helper\EncodingHelper;
+use Illuminate\Support\Facades\Storage;
+use Tests\ObservationFactory;
+use Tests\TestCase;
 
 class ExportDownloadTest extends TestCase
 {

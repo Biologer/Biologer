@@ -2,14 +2,14 @@
 
 namespace Tests\Feature\Api;
 
-use App\User;
-use App\Taxon;
-use Tests\TestCase;
 use App\FieldObservation;
-use Tests\ObservationFactory;
-use Laravel\Passport\Passport;
-use Illuminate\Support\Facades\Notification;
 use App\Notifications\FieldObservationMovedToPending;
+use App\Taxon;
+use App\User;
+use Illuminate\Support\Facades\Notification;
+use Laravel\Passport\Passport;
+use Tests\ObservationFactory;
+use Tests\TestCase;
 
 class MoveFieldObservationsToPendingTest extends TestCase
 {

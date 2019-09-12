@@ -3,8 +3,8 @@
 namespace App\Rules;
 
 use App\FieldObservation;
-use Illuminate\Support\Arr;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Arr;
 
 class ApprovableFieldObservation implements Rule
 {

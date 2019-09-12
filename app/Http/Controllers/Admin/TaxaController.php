@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Stage;
-use App\Taxon;
-use App\RedList;
 use App\ConservationDocument;
 use App\ConservationLegislation;
-use App\Http\Controllers\Controller;
 use App\Exports\Taxa\CustomTaxaExport;
+use App\Http\Controllers\Controller;
+use App\RedList;
+use App\Stage;
+use App\Taxon;
 
 class TaxaController extends Controller
 {

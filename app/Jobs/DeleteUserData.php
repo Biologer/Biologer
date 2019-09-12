@@ -2,15 +2,15 @@
 
 namespace App\Jobs;
 
-use App\User;
 use App\Export;
-use App\Import;
 use App\FieldObservation;
+use App\Import;
+use App\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class DeleteUserData implements ShouldQueue
 {

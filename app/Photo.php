@@ -2,10 +2,10 @@
 
 namespace App;
 
-use Illuminate\Support\Carbon;
 use App\Jobs\ProcessUploadedPhoto;
-use Intervention\Image\Facades\Image;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class Photo extends Model
 {

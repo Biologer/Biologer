@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
 use App\Photo;
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PhotoPolicy

@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Maps;
 
-use Tests\TestCase;
 use App\Maps\BasicMgrs10kMap;
+use Tests\TestCase;
 
 class BasicMgrs10kMapTest extends TestCase
 {

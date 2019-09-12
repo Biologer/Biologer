@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Api;
 
-use App\User;
-use Tests\TestCase;
-use App\Observation;
 use App\LiteratureObservation;
+use App\Observation;
+use App\User;
 use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class DeleteLiteratureObservationTest extends TestCase
 {

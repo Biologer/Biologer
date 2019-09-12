@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Api;
 
-use App\User;
 use App\Taxon;
+use App\User;
 use App\ViewGroup;
-use Tests\TestCase;
 use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class SearchTaxaInGroupTest extends TestCase
 {

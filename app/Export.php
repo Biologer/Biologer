@@ -2,11 +2,11 @@
 
 namespace App;
 
-use App\Exports\ExportStatus;
-
 use App\Events\ExportStatusUpdated;
-use Illuminate\Support\Facades\Storage;
+
+use App\Exports\ExportStatus;
 use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Support\Facades\Storage;
 
 class Export extends Model implements HasLocalePreference
 {

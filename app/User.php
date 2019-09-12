@@ -2,16 +2,16 @@
 
 namespace App;
 
+use App\Concerns\CanMemoize;
 use App\Concerns\HasRoles;
 use App\Filters\Filterable;
-use App\Concerns\CanMemoize;
 use App\Jobs\DeleteUserData;
-use Laravel\Passport\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
 {

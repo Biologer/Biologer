@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\ViewGroup;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SaveViewGroup;
 use App\Http\Resources\ViewGroupResource;
+use App\ViewGroup;
 
 class ViewGroupsController extends Controller
 {

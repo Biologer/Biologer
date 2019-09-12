@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use App\PublicationAttachment;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PublicationAttachmentResource;
+use App\PublicationAttachment;
+use Illuminate\Http\Request;
 
 class PublicationAttachmentsController extends Controller
 {

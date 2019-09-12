@@ -2,15 +2,15 @@
 
 namespace Tests\Unit\Jobs;
 
-use App\User;
-use App\Taxon;
-use App\Import;
-use Tests\TestCase;
 use App\FieldObservation;
+use App\Import;
+use App\Importing\FieldObservationImport;
 use App\Jobs\ProcessImport;
+use App\Taxon;
+use App\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
-use App\Importing\FieldObservationImport;
+use Tests\TestCase;
 
 class ProcessImportTest extends TestCase
 {

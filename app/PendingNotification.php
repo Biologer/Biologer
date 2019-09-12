@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Notifications\UnreadNotificationsSummary;
+use Illuminate\Database\Eloquent\Model;
 
 class PendingNotification extends Model
 {

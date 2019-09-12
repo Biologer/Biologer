@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Role;
-use App\User;
-use App\Taxon;
-use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Role;
+use App\Taxon;
+use App\User;
+use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {

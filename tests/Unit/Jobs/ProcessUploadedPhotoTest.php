@@ -2,12 +2,12 @@
 
 namespace Tests\Unit\Jobs;
 
-use App\Photo;
-use Tests\TestCase;
-use Illuminate\Support\Str;
-use Illuminate\Http\Testing\File;
 use App\Jobs\ProcessUploadedPhoto;
+use App\Photo;
+use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class ProcessUploadedPhotoTest extends TestCase
 {

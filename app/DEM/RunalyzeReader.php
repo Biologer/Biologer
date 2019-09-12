@@ -3,8 +3,8 @@
 namespace App\DEM;
 
 use Exception;
-use RuntimeException;
 use Runalyze\DEM\Provider\ProviderInterface;
+use RuntimeException;
 
 class RunalyzeReader implements Reader
 {
