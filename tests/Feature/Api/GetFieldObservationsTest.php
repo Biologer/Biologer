@@ -128,4 +128,56 @@ class GetFieldObservationsTest extends TestCase
             ],
         ]);
     }
+
+    /** @test */
+    public function authenticated_user_can_get_their_field_observations_sorted_by_taxon_name()
+    {
+        Passport::actingAs($user = factory(User::class)->create());
+
+        $cerambyx = factory(Taxon::class)->create([
+            'name' => 'Cerambyx',
+            'rank' => 'genus',
+        ]);
+        $cerambyxCerdo = factory(Taxon::class)->create([
+            'name' => 'Cerambyx cerdo',
+            'rank' => 'species',
+            'parent_id' => $cerambyx->id,
+        ]);
+        $cerambyxScopolii = factory(Taxon::class)->create([
+            'name' => 'Cerambyx scopolii',
+            'rank' => 'species',
+            'parent_id' => $cerambyx->id,
+        ]);
+
+        $abiesAlba = factory(Taxon::class)->create([
+            'name' => 'Abies alba',
+            'rank' => 'species',
+        ]);
+
+        $cerambyxCerdoObservation = ObservationFactory::createFieldObservation([
+            'taxon_id' => $cerambyxCerdo->id,
+            'created_by_id' => $user->id,
+        ]);
+
+        $cerambyxScopoliiObservation = ObservationFactory::createFieldObservation([
+            'taxon_id' => $cerambyxScopolii->id,
+            'created_by_id' => $user->id,
+        ]);
+
+        $abiesAlbaObservation = ObservationFactory::createFieldObservation([
+            'taxon_id' => $abiesAlba->id,
+            'created_by_id' => $user->id,
+        ]);
+
+        $response = $this->get('/api/my/field-observations?sort_by=taxon_name.asc');
+
+        $response->assertOk();
+        $response->assertJson([
+            'data' => [
+                ['id' => $abiesAlbaObservation->id, 'taxon_id' => $abiesAlba->id],
+                ['id' => $cerambyxCerdoObservation->id, 'taxon_id' => $cerambyxCerdo->id],
+                ['id' => $cerambyxScopoliiObservation->id, 'taxon_id' => $cerambyxScopolii->id],
+            ],
+        ]);
+    }
 }
