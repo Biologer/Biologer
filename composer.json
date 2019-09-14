@@ -23,7 +23,7 @@
         "laravel/passport": "^7.0",
         "laravel/tinker": "^1.0.6",
         "maxakawizard/json-collection-parser": "^1.5",
-        "mcamara/laravel-localization": "^1.4",
+        "mcamara/laravel-localization": "1.4.0",
         "meyfa/php-svg": "^0.9.1",
         "myclabs/php-enum": "^1.7.2",
         "nikazooz/laravel-captcha": "^1.0",

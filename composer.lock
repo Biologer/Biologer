@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e99294b716e5fd0a6129a4e1211ad452",
+    "content-hash": "7c74191616e1af049ee68a764b7c2bf4",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -1890,16 +1890,16 @@
         },
         {
             "name": "mcamara/laravel-localization",
-            "version": "1.4.1",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mcamara/laravel-localization.git",
-                "reference": "82d06c66cdf1e3ed17783842886d87cbd5aadd43"
+                "reference": "7d6f2de6e020be33164da93af35e5f9bb52a3d89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mcamara/laravel-localization/zipball/82d06c66cdf1e3ed17783842886d87cbd5aadd43",
-                "reference": "82d06c66cdf1e3ed17783842886d87cbd5aadd43",
+                "url": "https://api.github.com/repos/mcamara/laravel-localization/zipball/7d6f2de6e020be33164da93af35e5f9bb52a3d89",
+                "reference": "7d6f2de6e020be33164da93af35e5f9bb52a3d89",
                 "shasum": ""
             },
             "require": {
@@ -1948,7 +1948,7 @@
                 "localization",
                 "php"
             ],
-            "time": "2019-09-08T13:56:19+00:00"
+            "time": "2019-09-06T07:38:59+00:00"
         },
         {
             "name": "meyfa/php-svg",
