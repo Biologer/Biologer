@@ -15,7 +15,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $announcements = Announcement::latest()->thatAreTranslated();
+        $announcements = Announcement::with('creator')->latest()->thatAreTranslated();
 
         if (auth()->guest()) {
             $announcements->wherePrivate(false);
