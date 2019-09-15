@@ -218,6 +218,11 @@ class ViewGroup extends Model
                     });
             }, 'taxa')
             ->whereColumn('view_group_id', 'view_groups.id')
+            ->where(function ($query) {
+                $query->where('view_groups.only_observed_taxa', false)->orWhere(function ($query) {
+                    $query->has('observations')->orHas('descendants.observations');
+                });
+            })
             ->species()->orderByAncestry()->limit(1);
 
         $query->addSelect(['first_species_id' => $firstSpeciesIdQuery]);
