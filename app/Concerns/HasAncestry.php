@@ -92,9 +92,10 @@ trait HasAncestry
      * Sort the query by the name of each ancestor in the ancestry tree.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $order
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeOrderByAncestry($query)
+    public function scopeOrderByAncestry($query, $order = 'asc')
     {
         $subquery = static::query()
             // We can't expect ancestors to be sorted how we want them before we concatenate
@@ -103,16 +104,10 @@ trait HasAncestry
             // sorted properly (by rank level, descending).
             ->fromSub(static::query()->orderBy('rank_level', 'desc'), 'ancestors')
             ->selectRaw('GROUP_CONCAT(`ancestors`.`name`)')
-            ->whereIn('ancestors.id', function ($query) {
-                $query->select('ancestor_id')
-                    ->from($this->ancestorsPivotTableName())
-                    ->whereColumn('model_id', $this->getQualifiedKeyName());
-            });
+            ->join($this->ancestorsPivotTableName(), 'ancestors.id', '=', $this->ancestorsPivotTableName().'.ancestor_id')
+            ->whereColumn($this->ancestorsPivotTableName().'.model_id', $this->getQualifiedKeyName());
 
-        return $query->select(['*'])
-            ->selectSub($subquery, 'ancestors_names')
-            ->orderBy('ancestors_names')
-            ->orderBy('name');
+        return $query->orderBy($subquery, $order)->orderBy('name', $order);
     }
 
     /**

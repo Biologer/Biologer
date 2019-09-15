@@ -14,7 +14,9 @@ class GroupsController extends Controller
     public function index()
     {
         return view('groups.index', [
-            'rootGroups' => ViewGroup::roots()->with('groups')->get(),
+            'rootGroups' => ViewGroup::roots()->with(['groups' => function ($query) {
+                $query->withFirstSpecies();
+            }])->get(),
         ]);
     }
 }

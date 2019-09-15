@@ -250,6 +250,16 @@ class Taxon extends Model
     }
 
     /**
+     * Groups that the taxon is part of directly.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function groups()
+    {
+        return $this->belongsToMany(ViewGroup::class);
+    }
+
+    /**
      * Scope the query to get only species or taxa of lower ranks.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -311,6 +321,38 @@ class Taxon extends Model
         return $query->orWhereHas('ancestors', function ($query) use ($taxonId) {
             return $query->whereId($taxonId);
         });
+    }
+
+     /**
+     * Scope the query to get taxa in given group.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \App\ViewGroup  $group
+     * @return void
+     */
+    public function scopeInGroup($query, ViewGroup $group)
+    {
+        $query->where(function ($query) use ($group) {
+            $query->whereHas('groups', function ($query) use ($group) {
+                $query->where('id', $group->id);
+            })->orWhereHas('ancestors.groups', function ($query) use ($group) {
+                $query->where('id', $group->id);
+            });
+        })->when($group->only_observed_taxa, function ($query) {
+            $query->has('observations');
+        });
+    }
+
+    /**
+     * Scope the query to get species in given group.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \App\ViewGroup  $group
+     * @return void
+     */
+    public function scopeSpeciesInGroup($query, ViewGroup $group)
+    {
+        $query->inGroup($group)->species();
     }
 
     /**
@@ -436,10 +478,9 @@ class Taxon extends Model
      */
     public function approvedObservationsQuery()
     {
-        return Observation::approved()
-            ->whereHas('taxon', function ($query) {
-                $query->where('id', $this->id)->orHasAncestorWithId($this->id);
-            });
+        return Observation::approved()->whereHas('taxon', function ($query) {
+            $query->where('id', $this->id)->orHasAncestorWithId($this->id);
+        });
     }
 
     /**
@@ -450,14 +491,9 @@ class Taxon extends Model
     public function publicPhotos()
     {
         return $this->memoize('publicPhotos', function () {
-            return Observation::approved()
-                ->whereHas('taxon', function ($query) {
-                    $query->where('id', $this->id)->orHasAncestorWithId($this->id);
-                })
-                ->with('publicPhotos')
-                ->get()
-                ->pluck('publicPhotos')
-                ->flatten();
+            return Observation::approved()->whereHas('taxon', function ($query) {
+                $query->where('id', $this->id)->orHasAncestorWithId($this->id);
+            })->with('publicPhotos')->get()->pluck('publicPhotos')->flatten();
         });
     }
 
@@ -519,49 +555,13 @@ class Taxon extends Model
      */
     public static function getRankOptions()
     {
-        return array_map(function ($rank, $level) {
+        return collect(static::RANKS)->map(function ($level, $rank) {
             return [
                 'level' => $level,
                 'value' => $rank,
                 'label' => trans('taxonomy.'.$rank),
             ];
-        }, array_keys(static::RANKS), static::RANKS);
-    }
-
-    /**
-     * Get species IDs for all ancestors, including them.
-     *
-     * @param  \Illuminate\Database\Eloquent\Collection  $ancestors
-     * @param  bool  $onlyObserved
-     * @return \Illuminate\Support\Collection
-     */
-    public static function getSpeciesIdsForAncestors(EloquentCollection $ancestors, $onlyObserved = false)
-    {
-        return self::where(function ($query) use ($ancestors) {
-            return $query->whereHas('ancestors', function ($query) use ($ancestors) {
-                return $query->whereIn('id', $ancestors->pluck('id'));
-            })->orWhereIn('id', $ancestors->pluck('id'));
-        })->species()->orderByAncestry()->when($onlyObserved, function ($query) {
-            return $query->has('observations');
-        })->pluck('id');
-    }
-
-    /**
-     * Get IDs of descendants of given taxa and their own IDs.
-     *
-     * @param  \Illuminate\Database\Eloquent\Collection  $ancestors
-     * @param  bool  $onlyObserved
-     * @return \Illuminate\Support\Collection
-     */
-    public static function getSelfAndDescendantIdsForAncestors(EloquentCollection $ancestors, $onlyObserved = false)
-    {
-        return self::where(function ($query) use ($ancestors) {
-            return $query->whereHas('ancestors', function ($query) use ($ancestors) {
-                return $query->whereIn('id', $ancestors->pluck('id'));
-            })->orWhereIn('id', $ancestors->pluck('id'));
-        })->orderByAncestry()->when($onlyObserved, function ($query) {
-            return $query->has('observations');
-        })->pluck('id');
+        })->all();
     }
 
     /**

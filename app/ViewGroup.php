@@ -131,19 +131,7 @@ class ViewGroup extends Model
     public function speciesIds()
     {
         return $this->memoize('speciesIds', function () {
-            return Taxon::getSpeciesIdsForAncestors($this->taxa, $this->only_observed_taxa);
-        });
-    }
-
-    /**
-     * Get IDs of all taxa related to the group through connected taxa.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    protected function allTaxaIds()
-    {
-        return $this->memoize('allTaxaIds', function () {
-            return Taxon::getSelfAndDescendantIdsForAncestors($this->taxa, $this->only_observed_taxa);
+            return Taxon::speciesInGroup($this)->pluck('id');
         });
     }
 
@@ -155,31 +143,13 @@ class ViewGroup extends Model
      */
     public function allTaxaHigherOrEqualSpeciesRank($name = null)
     {
-        $query = Taxon::whereIn('id', $this->allTaxaIds())
+        return Taxon::inGroup($this)
             ->speciesOrHigher()
             ->orderByAncestry()
-            ->with('descendants');
-
-        if (! empty($name)) {
-            $query->where(function ($query) use ($name) {
-                return $query->where('name', 'like', "%{$name}%")
-                    ->orWhereTranslationLike('native_name', "%{$name}%");
+            ->with('descendants')
+            ->when($name, function ($query, $name) {
+                $query->withScientificOrNativeName($name);
             });
-        }
-
-        return $query;
-    }
-
-    /**
-     * Get all species that are part of the group.
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function species()
-    {
-        return $this->memoize('species', function () {
-            return Taxon::with('ancestors')->whereIn('id', $this->speciesIds())->orderByAncestry()->get();
-        });
     }
 
     /**
@@ -190,24 +160,7 @@ class ViewGroup extends Model
      */
     public function paginatedSpeciesList($perPage = 30)
     {
-        return Taxon::whereIn('id', $this->speciesIds())->orderByAncestry()->paginate($perPage);
-    }
-
-    /**
-     * Find species that is inside the group or throw exception.
-     *
-     * @param  int|string  $speciesId
-     * @return \App\Taxon
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function findOrFail($speciesId)
-    {
-        if (! $this->speciesIds()->contains($speciesId)) {
-            throw new ModelNotFoundException("Species with the ID of {$speciesId} is not in this group.");
-        }
-
-        return $this->findSpecies($speciesId);
+        return Taxon::speciesInGroup($this)->orderByAncestry()->paginate($perPage);
     }
 
     /**
@@ -216,25 +169,58 @@ class ViewGroup extends Model
      * @param  int  $speciesId
      * @return \App\Taxon|null
      */
-    protected function findSpecies($speciesId)
+    public function findSpecies($speciesId)
     {
-        $species = Taxon::with('ancestors')->species()->where('id', $speciesId)->firstOrFail();
+        $species = Taxon::speciesInGroup($this)->with('ancestors')->findOrFail($speciesId);
 
         return new SpeciesGroupPaginator($this, $species);
     }
 
     /**
-     * Get first species in the group.
+     * Relation to first species, which we get through subquery select.
      *
-     * @return \App\Taxon|null
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function firstSpecies()
     {
-        if (! ($id = $this->speciesIds()->first())) {
-            return optional();
-        }
+        return $this->belongsTo(Taxon::class);
+    }
 
-        return $this->findSpecies($id);
+    /**
+     * Eager load first species for group.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
+    public function scopeWithFirstSpecies($query)
+    {
+        $query->selectFirstSpeciesId()->with('firstSpecies');
+    }
+
+    /**
+     * Add select for first species using subquery.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
+    public function scopeSelectFirstSpeciesId($query)
+    {
+        $firstSpeciesIdQuery = Taxon::select('id')
+            ->fromSub(function ($query) {
+                $query->select('direct_taxa.*', 'taxon_view_group.view_group_id')
+                    ->from('taxa as direct_taxa')
+                    ->join('taxon_view_group', 'taxon_view_group.taxon_id', '=', 'direct_taxa.id')
+                    ->union(function ($query) {
+                        $query->select('ancestor_taxa.*', 'taxon_view_group.view_group_id')
+                            ->from('taxa as ancestor_taxa')
+                            ->join('taxon_ancestors', 'taxon_ancestors.model_id', '=', 'ancestor_taxa.id')
+                            ->join('taxon_view_group', 'taxon_ancestors.ancestor_id', '=', 'taxon_view_group.taxon_id');
+                    });
+            }, 'taxa')
+            ->whereColumn('view_group_id', 'view_groups.id')
+            ->species()->orderByAncestry()->limit(1);
+
+        $query->addSelect(['first_species_id' => $firstSpeciesIdQuery]);
     }
 
     /**
