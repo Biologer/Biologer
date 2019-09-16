@@ -30,7 +30,11 @@
             autocomplete
             field="name"
             @typing="onTaxonNameInput"
-        />
+        >
+          <template v-slot:default="props">
+            <span>{{ props.option.name }}</span>
+          </template>
+        </b-taginput>
       </b-field>
 
       <b-field>

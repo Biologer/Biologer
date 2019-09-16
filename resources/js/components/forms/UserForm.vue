@@ -40,7 +40,11 @@
           field="name"
           placeholder="Type taxon name"
           @typing="onTaxonNameInput"
-        />
+        >
+          <template v-slot:default="props">
+            <span>{{ props.option.name }}</span>
+          </template>
+        </b-taginput>
       </b-field>
 
       <hr>
