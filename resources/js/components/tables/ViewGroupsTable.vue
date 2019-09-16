@@ -49,11 +49,16 @@
 
 <script>
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
+import NzTable from '@/components/table/Table'
 
 export default {
   name: 'nzViewGroupsTable',
 
   mixins: [PersistentTableMixin],
+
+  components: {
+    NzTable
+  },
 
   props: {
     perPageOptions: {

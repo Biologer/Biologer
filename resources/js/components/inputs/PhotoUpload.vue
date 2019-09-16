@@ -62,12 +62,14 @@
 <script>
 import loadImage from 'blueimp-load-image'
 import NzImageCropModal from '@/components/ImageCropModal'
+import NzImageModal from '@/components/ImageModal'
 
 export default {
 	name: 'nzPhotoUpload',
 
   components: {
-    NzImageCropModal
+    NzImageCropModal,
+    NzImageModal
   },
 
   props: {

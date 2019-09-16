@@ -41,9 +41,10 @@ export default {
         }
       })
 
-      this.$nextTick(() => {
+      // Using the "nextTick" stopped working for some reason.
+      setTimeout(() => {
         modal.$el.querySelector('input').focus()
-      })
+      }, 500)
     }
   }
 }

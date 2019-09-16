@@ -1,9 +1,13 @@
 {
-    "/js/app.js": "/js/app.js?id=5e5062ec933e863dd176",
+    "/js/app.js": "/js/app.js?id=8a7060c94efc8d86b881",
     "/css/app.css": "/css/app.css?id=21f512677beadbf073d7",
-    "/js/app.js.map": "/js/app.js.map?id=77ff33d65bc837d99cda",
-    "/js/manifest.js": "/js/manifest.js?id=89712bc6d8c588400cae",
-    "/js/manifest.js.map": "/js/manifest.js.map?id=2d58fed8b8c4a064950d",
-    "/js/vendor.js": "/js/vendor.js?id=042e6f68d85e4dd646e1",
-    "/js/vendor.js.map": "/js/vendor.js.map?id=f6cd4a5d5e6b925fd4c1"
+    "/js/app.js.map": "/js/app.js.map?id=8c3f2d6a8719b509ae30",
+    "/js/dashboard.js": "/js/dashboard.js?id=2d0f182573215844d707",
+    "/js/dashboard.js.map": "/js/dashboard.js.map?id=752014b00d0273586ffb",
+    "/js/public.js": "/js/public.js?id=c406dec2cef406869aab",
+    "/js/public.js.map": "/js/public.js.map?id=eb7a5b36166dd11752f0",
+    "/js/vendors~buefy.js": "/js/vendors~buefy.js?id=03d8c54a28d7a245383f",
+    "/js/vendors~buefy.js.map": "/js/vendors~buefy.js.map?id=e474116acee400463c7a",
+    "/js/vendors~public.js": "/js/vendors~public.js?id=780dc9e5a3d944b06c12",
+    "/js/vendors~public.js.map": "/js/vendors~public.js.map?id=fd719949cffec9bb38e8"
 }

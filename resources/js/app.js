@@ -1,62 +1,13 @@
 import './bootstrap'
 import Vue from 'vue'
-import Buefy from 'buefy'
+import Buefy from './buefy'
+import dayjs from './dayjs'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import { VTooltip } from 'v-tooltip'
 import { setTooltipOptions } from './tooltip'
 import VueLazyload from 'vue-lazyload'
 import _eachRight from 'lodash/eachRight'
 import _replace from 'lodash/replace'
-
-import Navbar from './components/Navbar'
-import Sidebar from './components/Sidebar'
-import Announcement from './components/Announcement'
-import Captcha from './components/Captcha'
-import ImageModal from './components/ImageModal'
-import Slider from './components/Slider'
-import GroupTaxaSearchButton from './components/GroupTaxaSearchButton'
-
-import DateInput from './components/inputs/DateInput'
-import PhotoUpload from './components/inputs/PhotoUpload'
-import SpatialInput from './components/inputs/SpatialInput'
-import PublicationAutocomplete from './components/inputs/PublicationAutocomplete'
-import TaxonAutocomplete from './components/inputs/TaxonAutocomplete'
-import UserAutocomplete from './components/inputs/UserAutocomplete'
-import Wysiwyg from './components/inputs/Wysiwyg'
-import ColumnsPicker from './components/inputs/ColumnsPicker'
-import DatetimePicker from './components/inputs/DatetimePicker'
-
-import Table from './components/table/Table'
-import TaxaTable from './components/tables/TaxaTable'
-import UsersTable from './components/tables/UsersTable'
-import ViewGroupsTable from './components/tables/ViewGroupsTable'
-import AnnouncementsTable from './components/tables/AnnouncementsTable'
-import FieldObservationsTable from './components/tables/FieldObservationsTable'
-import LiteratureObservationsTable from './components/tables/LiteratureObservationsTable'
-
-import RegistrationForm from './components/forms/RegistrationForm'
-import UserForm from './components/forms/UserForm'
-import TaxonForm from './components/forms/TaxonForm'
-import FieldObservationForm from './components/forms/FieldObservationForm'
-import LiteratureObservationForm from './components/forms/LiteratureObservationForm'
-import ViewGroupForm from './components/forms/ViewGroupForm'
-import AnnouncementForm from './components/forms/AnnouncementForm'
-import PublicationForm from './components/forms/PublicationForm'
-
-import FieldObservationActivityLog from './components/activity/FieldObservationActivityLog'
-import LiteratureObservationActivityLog from './components/activity/LiteratureObservationActivityLog'
-import TaxonActivityLog from './components/activity/TaxonActivityLog'
-
-import CustomExport from './components/exports/CustomExport'
-import ExportModal from './components/exports/ExportModal'
-
-import FieldObservationsImport from './components/imports/FieldObservationsImport'
-
-import FieldObservationApproval from './components/FieldObservationApproval'
-
-import OccurrenceChart from './components/OccurrenceChart'
-
-import DeleteAccountButton from './components/DeleteAccountButton';
 
 window.Vue = Vue
 
@@ -81,55 +32,38 @@ if (window.route) {
     Vue.prototype.$ziggy = window.route
 }
 
-Vue.component(Navbar.name, Navbar)
-Vue.component(Sidebar.name, Sidebar)
-Vue.component(Announcement.name, Announcement)
-Vue.component(Captcha.name, Captcha)
-Vue.component(ImageModal.name, ImageModal)
-Vue.component(Slider.name, Slider)
-Vue.component(GroupTaxaSearchButton.name, GroupTaxaSearchButton)
+Vue.component('NzNavbar', () => import(/* webpackChunkName: "dashboard" */ './components/Navbar'))
+Vue.component('NzAnnouncement', () => import(/* webpackChunkName: "dashboard" */ './components/Announcement'))
+Vue.component('NzSlider', () => import(/* webpackChunkName: "public" */ './components/Slider'))
+Vue.component('NzGroupTaxaSearchButton', () => import(/* webpackChunkName: "public" */ './components/GroupTaxaSearchButton'))
 
-Vue.component(Table.name, Table)
-Vue.component(TaxaTable.name, TaxaTable)
-Vue.component(UsersTable.name, UsersTable)
-Vue.component(ViewGroupsTable.name, ViewGroupsTable)
-Vue.component(AnnouncementsTable.name, AnnouncementsTable)
-Vue.component(FieldObservationsTable.name, FieldObservationsTable)
-Vue.component(LiteratureObservationsTable.name, LiteratureObservationsTable)
+Vue.component('NzTaxaTable', () => import('./components/tables/TaxaTable'))
+Vue.component('NzUsersTable', () => import('./components/tables/UsersTable'))
+Vue.component('NzAnnouncementsTable', () => import('./components/tables/AnnouncementsTable'))
+Vue.component('NzViewGroupsTable', () => import('./components/tables/ViewGroupsTable'))
+Vue.component('NzFieldObservationsTable', () => import('./components/tables/FieldObservationsTable'))
+Vue.component('NzLiteratureObservationsTable', () => import('./components/tables/LiteratureObservationsTable'))
 
-Vue.component(DateInput.name, DateInput)
-Vue.component(PhotoUpload.name, PhotoUpload)
-Vue.component(SpatialInput.name, SpatialInput)
-Vue.component(PublicationAutocomplete.name, PublicationAutocomplete)
-Vue.component(TaxonAutocomplete.name, TaxonAutocomplete)
-Vue.component(UserAutocomplete.name, UserAutocomplete)
-Vue.component(Wysiwyg.name, Wysiwyg)
-Vue.component(ColumnsPicker.name, ColumnsPicker)
-Vue.component(DatetimePicker.name, DatetimePicker)
+Vue.component('NzRegistrationForm', () => import('./components/forms/RegistrationForm'))
+Vue.component('NzUserForm', () => import('./components/forms/UserForm'))
+Vue.component('NzTaxonForm', () => import('./components/forms/TaxonForm'))
+Vue.component('NzFieldObservationForm', () => import('./components/forms/FieldObservationForm'))
+Vue.component('NzLiteratureObservationForm', () => import('./components/forms/LiteratureObservationForm'))
+Vue.component('NzViewGroupForm', () => import('./components/forms/ViewGroupForm'))
+Vue.component('NzAnnouncementForm', () => import('./components/forms/AnnouncementForm'))
+Vue.component('NzPublicationForm', () => import('./components/forms/PublicationForm'))
 
-Vue.component(RegistrationForm.name, RegistrationForm)
-Vue.component(FieldObservationForm.name, FieldObservationForm)
-Vue.component(LiteratureObservationForm.name, LiteratureObservationForm)
-Vue.component(TaxonForm.name, TaxonForm)
-Vue.component(UserForm.name, UserForm)
-Vue.component(ViewGroupForm.name, ViewGroupForm)
-Vue.component(AnnouncementForm.name, AnnouncementForm)
-Vue.component(PublicationForm.name, PublicationForm)
+Vue.component('NzFieldObservationActivityLog', () => import('./components/activity/FieldObservationActivityLog'))
+Vue.component('NzLiteratureObservationActivityLog', () => import('./components/activity/LiteratureObservationActivityLog'))
+Vue.component('NzTaxonActivityLog', () => import('./components/activity/TaxonActivityLog'))
 
-Vue.component(FieldObservationActivityLog.name, FieldObservationActivityLog)
-Vue.component(LiteratureObservationActivityLog.name, LiteratureObservationActivityLog)
-Vue.component(TaxonActivityLog.name, TaxonActivityLog)
+Vue.component('NzFieldObservationsImport', () => import('./components/imports/FieldObservationsImport'))
 
-Vue.component(CustomExport.name, CustomExport)
-Vue.component(ExportModal.name, ExportModal)
+Vue.component('NzFieldObservationApproval', () => import('./components/FieldObservationApproval'))
 
-Vue.component(FieldObservationsImport.name, FieldObservationsImport)
+Vue.component('NzOccurrenceChart', () => import(/* webpackChunkName: "public" */ './components/OccurrenceChart'))
 
-Vue.component(FieldObservationApproval.name, FieldObservationApproval)
-
-Vue.component(OccurrenceChart.name, OccurrenceChart)
-
-Vue.component(DeleteAccountButton.name, DeleteAccountButton)
+Vue.component('NzDeleteAccountButton', () => import(/* webpackChunkName: "dashboard" */ './components/DeleteAccountButton'))
 
 Vue.prototype.trans = window.trans = (string, args = {}, defaultString = '') => {
     let value = window.App.i18n[string] || defaultString || string
@@ -146,7 +80,7 @@ Vue.filter('formatDateTime', function (value, format = 'DD.MM.YYYY HH:mm') {
 
   value = value.toString()
 
-  return window.moment(value).format(format)
+  return dayjs(value).format(format)
 })
 
 setTooltipOptions(VTooltip)

@@ -38,26 +38,11 @@ if (token) {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token')
 }
 
-let language = document.documentElement.lang
+const language = document.documentElement.lang
 
 if (language) {
   window.axios.defaults.headers.common['Accept-Language'] = language
 }
-
-// Moment.js
-window.moment = require('moment')
-require('moment/locale/sr')
-require('moment/locale/sr-cyrl')
-
-let momentLocale = language
-
-if (language === 'sr') {
-  momentLocale = 'sr-cyrl'
-} else if (language === 'sr-Latn') {
-  momentLocale = 'sr'
-}
-
-window.moment.locale(momentLocale)
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

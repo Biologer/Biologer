@@ -305,15 +305,29 @@
 </template>
 
 <script>
+import dayjs from '@/dayjs'
 import _range from 'lodash/range'
 import FilterableTableMixin from '@/mixins/FilterableTableMixin'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
 import ExportDownloadModal from '@/components/exports/ExportDownloadModal'
+import NzImageModal from '@/components/ImageModal'
+import NzTaxonAutocomplete from '@/components/inputs/TaxonAutocomplete'
+import NzUserAutocomplete from '@/components/inputs/UserAutocomplete'
+import NzTable from '@/components/table/Table'
+import NzExportModal from '@/components/exports/ExportModal'
 
 export default {
   name: 'nzFieldObservationsTable',
 
   mixins: [FilterableTableMixin, PersistentTableMixin],
+
+  components: {
+    NzImageModal,
+    NzTaxonAutocomplete,
+    NzUserAutocomplete,
+    NzTable,
+    NzExportModal
+  },
 
   props: {
       perPageOptions: {
@@ -370,7 +384,7 @@ export default {
 
   computed: {
     months() {
-      return moment.months()
+      return dayjs.months()
     },
 
     days() {

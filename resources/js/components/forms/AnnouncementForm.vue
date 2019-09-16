@@ -49,6 +49,7 @@ import Form from 'form-backend-validation'
 import _keys from 'lodash/keys'
 import _get from 'lodash/get'
 import _first from 'lodash/first'
+import NzWysiwyg from '@/components/inputs/Wysiwyg'
 
 function defaultTranslations() {
     const value = {};
@@ -62,6 +63,10 @@ function defaultTranslations() {
 
 export default {
     name: 'nzAnnouncementForm',
+
+    components: {
+      NzWysiwyg
+    },
 
     props: {
         action: String,

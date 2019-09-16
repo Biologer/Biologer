@@ -1,5 +1,11 @@
+import NzSidebar from '@/components/Sidebar'
+
 export default {
   name: 'nzNavbar',
+
+  components: {
+    NzSidebar
+  },
 
   props: {
     hasUnread: Boolean

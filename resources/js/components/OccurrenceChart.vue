@@ -80,6 +80,7 @@
 </template>
 
 <script>
+import dayjs from '@/dayjs'
 import _sortBy from 'lodash/sortBy'
 import _maxBy from 'lodash/maxBy'
 import _minBy from 'lodash/minBy'
@@ -148,7 +149,7 @@ export default {
      * @return {Number}
      */
     currentDateLineX() {
-      return this.xForDate(moment()) - 1 // fixed by the stroke width of the line
+      return this.xForDate(dayjs()) - 1 // fixed by the stroke width of the line
     },
 
     /**
@@ -292,25 +293,23 @@ export default {
     /**
      * Calculate progress in a year for given date.
      *
-     * @param  {String|Moment}  date
+     * @param  {String|Dayjs}  date
      * @return {Number}
      */
     progressInYear(date) {
-      const dateMoment = moment(date)
-      const dayOfYear = parseInt(dateMoment.format('DDD'))
-      const isLeapYear = dateMoment.isLeapYear()
+      const dateObj = dayjs(date)
 
-      return dayOfYear / (isLeapYear ? 366 : 365)
+      return dateObj.dayOfYear() / (dateObj.isLeapYear() ? 366 : 365)
     },
 
     /**
      * Calculate position on the X axis for given date.
      *
-     * @param  {String|Moment}  date
+     * @param  {String|Dayjs}  date
      * @return {Number}
      */
     xForDate(date) {
-      return this.progressInYear(moment(date)) * TOTAL_YEAR_SPACE + START_YEAR_FROM
+      return this.progressInYear(dayjs(date)) * TOTAL_YEAR_SPACE + START_YEAR_FROM
     },
 
     /**

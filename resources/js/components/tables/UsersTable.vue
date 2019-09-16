@@ -86,11 +86,16 @@
 <script>
 import _debounce from 'lodash/debounce'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
+import NzTable from '@/components/table/Table'
 
 export default {
   name: 'nzUsersTable',
 
   mixins: [PersistentTableMixin],
+
+  components: {
+    NzTable
+  },
 
   props: {
     perPageOptions: {

@@ -74,6 +74,7 @@ import _find from 'lodash/find'
 import _get from 'lodash/get'
 import _debounce from 'lodash/debounce'
 import FormMixin from '@/mixins/FormMixin'
+import NzPhotoUpload from '@/components/inputs/PhotoUpload'
 
 function defaultTranslations() {
   const value = {}
@@ -89,6 +90,10 @@ export default {
   name: 'nzViewGroupForm',
 
   mixins: [FormMixin],
+
+  components: {
+    NzPhotoUpload
+  },
 
   props: {
     group: {

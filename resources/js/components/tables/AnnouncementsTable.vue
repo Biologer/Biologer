@@ -50,13 +50,19 @@
 </template>
 
 <script>
+import dayjs from '@/dayjs'
 import _get from 'lodash/get'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
+import NzTable from '@/components/table/Table'
 
 export default {
   name: 'nzAnnouncementsTable',
 
   mixins: [PersistentTableMixin],
+
+  components: {
+    NzTable
+  },
 
   props: {
     perPageOptions: {
@@ -210,8 +216,8 @@ export default {
 
   filters: {
     formatDateTime(dateTime) {
-      const m = moment(dateTime)
-      return m.isValid() ? m.format('D.M.YYYY HH:mm') : ''
+      const d = dayjs(dateTime)
+      return d.isValid() ? d.format('D.M.YYYY HH:mm') : ''
     }
   }
 }

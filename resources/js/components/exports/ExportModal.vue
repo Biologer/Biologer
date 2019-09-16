@@ -63,9 +63,14 @@
 <script>
 import Form from 'form-backend-validation'
 import _get from 'lodash/get'
+import NzColumnsPicker from '@/components/inputs/ColumnsPicker'
 
 export default {
   name: 'nzExportModal',
+
+  components: {
+    NzColumnsPicker
+  },
 
   props: {
     checked: {

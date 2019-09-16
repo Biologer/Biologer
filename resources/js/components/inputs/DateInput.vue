@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import dayjs from '@/dayjs'
 import _range from 'lodash/range'
 
 export default {
@@ -48,17 +49,17 @@ export default {
 
     year: {
       type: Number,
-      default: moment().year()
+      default: dayjs().year()
     },
 
     month: {
       type: Number,
-      default: moment().month() + 1
+      default: dayjs().month() + 1
     },
 
     day: {
       type: Number,
-      default: moment().date()
+      default: dayjs().date()
     },
 
     placeholders: {
@@ -80,17 +81,17 @@ export default {
 
   computed: {
     now() {
-      return moment()
+      return dayjs()
     },
 
     months() {
-      if (!this.year || this.year > moment().year()) return []
+      if (!this.year || this.year > dayjs().year()) return []
 
-      const isThisYear = this.year === moment().year()
+      const isThisYear = this.year === dayjs().year()
 
-      let months = moment.months()
+      let months = dayjs.months()
 
-      if (isThisYear) months.splice(moment().month() + 1)
+      if (isThisYear) months.splice(dayjs().month() + 1)
 
       return months
     },
@@ -100,14 +101,11 @@ export default {
 
       if (!haveDate) return []
 
-      const isThisMonth = this.year === moment().year() && (this.month - 1) === moment().month()
+      const isThisMonth = this.year === dayjs().year() && (this.month - 1) === dayjs().month()
 
-      let days = moment({
-        year: this.year,
-        month: this.month - 1,
-      }).daysInMonth()
+      let days = dayjs(new Date(this.year, this.month - 1, 1)).daysInMonth()
 
-      if (isThisMonth) days = moment().date()
+      if (isThisMonth) days = dayjs().date()
 
       return _range(1, days + 1)
     }
@@ -115,7 +113,7 @@ export default {
 
   watch: {
     year() {
-      if (this.year > moment().year() || this.months.length < this.month -1)  {
+      if (this.year > dayjs().year() || this.months.length < this.month -1)  {
           this.onMonthInput(null)
       }
 

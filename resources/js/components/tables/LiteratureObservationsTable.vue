@@ -146,11 +146,18 @@ import axios from 'axios'
 import FilterableTableMixin from '@/mixins/FilterableTableMixin'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
 import ExportDownloadModal from '@/components/exports/ExportDownloadModal'
+import NzTable from '@/components/table/Table'
+import NzExportModal from '@/components/exports/ExportModal'
 
 export default {
   name: 'nzLiteratureObservationsTable',
 
   mixins: [PersistentTableMixin],
+
+  components: {
+    NzTable,
+    NzExportModal
+  },
 
   props: {
     perPageOptions: {

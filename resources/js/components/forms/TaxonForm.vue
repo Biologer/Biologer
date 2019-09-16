@@ -222,6 +222,8 @@ import _find from 'lodash/find'
 import _first from 'lodash/first'
 import _get from 'lodash/get'
 import FormMixin from '@/mixins/FormMixin'
+import NzWysiwyg from '@/components/inputs/Wysiwyg'
+import NzTaxonAutocomplete from '@/components/inputs/TaxonAutocomplete'
 
 function defaultTranslations() {
   const value = {}
@@ -237,6 +239,11 @@ export default {
   name: 'nzTaxonForm',
 
   mixins: [FormMixin],
+
+  components: {
+    NzWysiwyg,
+    NzTaxonAutocomplete
+  },
 
   props: {
     taxon: {

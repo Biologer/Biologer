@@ -375,16 +375,28 @@
 
 <script>
 import Form from 'form-backend-validation'
+import dayjs from '@/dayjs'
 import _get from 'lodash/get'
 import _find from 'lodash/find'
 import _pick from 'lodash/pick'
 import FormMixin from '@/mixins/FormMixin'
 import PersistentForm from '@/mixins/PersistentForm'
+import NzDateInput from '@/components/inputs/DateInput'
+import NzSpatialInput from '@/components/inputs/SpatialInput'
+import NzPublicationAutocomplete from '@/components/inputs/PublicationAutocomplete'
+import NzTaxonAutocomplete from '@/components/inputs/TaxonAutocomplete'
 
 export default {
   name: 'nzLiteratureObservationForm',
 
   mixins: [PersistentForm, FormMixin],
+
+  components: {
+    NzDateInput,
+    NzSpatialInput,
+    NzPublicationAutocomplete,
+    NzTaxonAutocomplete
+  },
 
   props: {
     submitMoreWithSameTaxon: Boolean,
@@ -402,9 +414,9 @@ export default {
           place_where_referenced_in_publication: null,
           publication_id: null,
           taxon_id: null,
-          year: moment().year(),
-          month: moment().month() + 1,
-          day: moment().date(),
+          year: dayjs().year(),
+          month: dayjs().month() + 1,
+          day: dayjs().date(),
           is_original_data: true,
           cited_publication_id: null,
           latitude: null,
@@ -467,19 +479,19 @@ export default {
 
     time() {
       return this.form.time
-        ? moment(this.form.time, 'HH:mm').toDate()
+        ? dayjs(this.form.time, 'HH:mm').toDate()
         : null
     },
 
     georeferencedDate: {
       get() {
-        const val = moment(this.form.georeferenced_date)
+        const val = dayjs(this.form.georeferenced_date)
 
         return val.isValid() ? val.toDate() : null
       },
 
       set(value) {
-        this.form.georeferenced_date = moment(value).format('YYYY-MM-DD')
+        this.form.georeferenced_date = dayjs(value).format('YYYY-MM-DD')
       }
     }
   },
@@ -550,7 +562,7 @@ export default {
      * Set time.
      */
     onTimeInput(value) {
-      this.form.time = value ? moment(value).format('HH:mm') : null
+      this.form.time = value ? dayjs(value).format('HH:mm') : null
     },
 
     /**
@@ -606,7 +618,7 @@ export default {
     },
 
     dateFormater(date) {
-      return moment(date).format('DD.MM.YYYY')
+      return dayjs(date).format('DD.MM.YYYY')
     },
 
     handleElevationFetched(elevation) {

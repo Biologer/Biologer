@@ -324,6 +324,7 @@
 
 <script>
 import Form from 'form-backend-validation'
+import dayjs from '@/dayjs'
 import _get from 'lodash/get'
 import _find from 'lodash/find'
 import _includes from 'lodash/includes'
@@ -333,11 +334,24 @@ import _remove from 'lodash/remove'
 import _cloneDeep from 'lodash/cloneDeep'
 import FormMixin from '@/mixins/FormMixin'
 import UserMixin from '@/mixins/UserMixin'
+import NzDateInput from '@/components/inputs/DateInput'
+import NzPhotoUpload from '@/components/inputs/PhotoUpload'
+import NzSpatialInput from '@/components/inputs/SpatialInput'
+import NzTaxonAutocomplete from '@/components/inputs/TaxonAutocomplete'
+import NzUserAutocomplete from '@/components/inputs/UserAutocomplete'
 
 export default {
   name: 'nzFieldObservationForm',
 
   mixins: [FormMixin, UserMixin],
+
+  components: {
+    NzDateInput,
+    NzPhotoUpload,
+    NzSpatialInput,
+    NzTaxonAutocomplete,
+    NzUserAutocomplete
+  },
 
   props: {
     observation: {
@@ -347,9 +361,9 @@ export default {
           taxon: null,
           taxon_id: null,
           taxon_suggestion: '',
-          year: moment().year(),
-          month: moment().month() + 1,
-          day: moment().date(),
+          year: dayjs().year(),
+          month: dayjs().month() + 1,
+          day: dayjs().date(),
           latitude: null,
           longitude: null,
           accuracy: null,
@@ -415,7 +429,7 @@ export default {
     },
 
     time() {
-      return this.form.time ? moment(this.form.time, 'HH:mm').toDate() : null
+      return this.form.time ? dayjs(this.form.time, 'HH:mm').toDate() : null
     },
 
     selectedObservationTypes: {
@@ -520,7 +534,7 @@ export default {
      * Set time.
      */
     onTimeInput(value) {
-      this.form.time = value ? moment(value).format('HH:mm') : null
+      this.form.time = value ? dayjs(value).format('HH:mm') : null
     },
 
     /**
@@ -591,7 +605,7 @@ export default {
       let value = _get(this.observation, `photos.${photoIndex}.${attribute}`, '')
 
       if (attribute === 'url' && value) {
-        const updated = moment(_get(this.observation, `photos.${photoIndex}.updated_at`, null))
+        const updated = dayjs(_get(this.observation, `photos.${photoIndex}.updated_at`, null))
 
         value += updated.isValid() ? `?v=${updated.format('X')}` : ''
       }

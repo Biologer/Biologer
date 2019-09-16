@@ -105,9 +105,16 @@
 
 <script>
 import _get from 'lodash/get'
+import NzUserAutocomplete from '@/components/inputs/UserAutocomplete'
+import NzColumnsPicker from '@/components/inputs/ColumnsPicker'
 
 export default {
   name: 'nzFieldObservationsImport',
+
+  components: {
+    NzUserAutocomplete,
+    NzColumnsPicker
+  },
 
   props: {
     columns: {

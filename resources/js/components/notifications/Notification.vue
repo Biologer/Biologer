@@ -18,88 +18,89 @@
 </template>
 
 <script>
-  import FieldObservationApproved from './FieldObservationApproved'
-  import FieldObservationEdited from './FieldObservationEdited'
-  import FieldObservationForApproval from './FieldObservationForApproval'
-  import FieldObservationMovedToPending from './FieldObservationMovedToPending'
-  import FieldObservationMarkedUnidentifiable from './FieldObservationMarkedUnidentifiable'
+import dayjs from '@/dayjs'
+import FieldObservationApproved from './FieldObservationApproved'
+import FieldObservationEdited from './FieldObservationEdited'
+import FieldObservationForApproval from './FieldObservationForApproval'
+import FieldObservationMovedToPending from './FieldObservationMovedToPending'
+import FieldObservationMarkedUnidentifiable from './FieldObservationMarkedUnidentifiable'
 
-  const NOTIFICATIONS_MAP = {
-    'App\\Notifications\\FieldObservationApproved': FieldObservationApproved,
-    'App\\Notifications\\FieldObservationEdited': FieldObservationEdited,
-    'App\\Notifications\\FieldObservationForApproval': FieldObservationForApproval,
-    'App\\Notifications\\FieldObservationMovedToPending': FieldObservationMovedToPending,
-    'App\\Notifications\\FieldObservationMarkedUnidentifiable': FieldObservationMarkedUnidentifiable
-  }
+const NOTIFICATIONS_MAP = {
+  'App\\Notifications\\FieldObservationApproved': FieldObservationApproved,
+  'App\\Notifications\\FieldObservationEdited': FieldObservationEdited,
+  'App\\Notifications\\FieldObservationForApproval': FieldObservationForApproval,
+  'App\\Notifications\\FieldObservationMovedToPending': FieldObservationMovedToPending,
+  'App\\Notifications\\FieldObservationMarkedUnidentifiable': FieldObservationMarkedUnidentifiable
+}
 
-  export default {
-    name: 'nzNotification',
+export default {
+  name: 'nzNotification',
 
-    props: {
-      notification: {
-        type: Object,
-        required: true
+  props: {
+    notification: {
+      type: Object,
+      required: true
+    }
+  },
+
+  computed: {
+    type() {
+      return NOTIFICATIONS_MAP[this.notification.type]
+    },
+
+    isNotRead() {
+      return !this.notification.readAt;
+    },
+
+    data() {
+      return this.notification.data
+    },
+
+    createdAt() {
+      return dayjs(this.notification.created_at).format('D.M.YYYY HH:mm')
+    },
+
+    message() {
+      return this.type.message(this.notification)
+    },
+
+    link() {
+      return this.type.link(this.notification)
+    }
+  },
+
+  methods: {
+    /**
+     * Mark notification as read.
+     */
+    markAsRead() {
+      if (this.isNotRead) {
+        this.$emit('mark-read', this.notification.id)
       }
     },
 
-    computed: {
-      type() {
-        return NOTIFICATIONS_MAP[this.notification.type]
-      },
-
-      isNotRead() {
-        return !this.notification.readAt;
-      },
-
-      data() {
-        return this.notification.data
-      },
-
-      createdAt() {
-        return moment(this.notification.created_at).format('D.M.YYYY HH:mm')
-      },
-
-      message() {
-        return this.type.message(this.notification)
-      },
-
-      link() {
-        return this.type.link(this.notification)
-      }
-    },
-
-    methods: {
-      /**
-       * Mark notification as read.
-       */
-      markAsRead() {
-        if (this.isNotRead) {
-          this.$emit('mark-read', this.notification.id)
-        }
-      },
-
-      /**
-       * Visit the notification link
-       * If the notification has not been read before, mark if as read.
-       */
-      visitLinkAndMarkAsRead() {
-        if (this.isNotRead) {
-          this.$emit('mark-read', this.notification.id, () => {
-            this.visitLink()
-          });
-        } else {
+    /**
+     * Visit the notification link
+     * If the notification has not been read before, mark if as read.
+     */
+    visitLinkAndMarkAsRead() {
+      if (this.isNotRead) {
+        this.$emit('mark-read', this.notification.id, () => {
           this.visitLink()
-        }
-      },
+        });
+      } else {
+        this.visitLink()
+      }
+    },
 
-      /**
-       * Visit the notification link.
-       */
-      visitLink() {
-        if (this.link) {
-          window.location.href = this.link
-        }
+    /**
+     * Visit the notification link.
+     */
+    visitLink() {
+      if (this.link) {
+        window.location.href = this.link
       }
     }
   }
+}
 </script>

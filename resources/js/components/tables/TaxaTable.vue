@@ -162,11 +162,20 @@
 import FilterableTableMixin from '@/mixins/FilterableTableMixin'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
 import ExportDownloadModal from '@/components/exports/ExportDownloadModal'
+import NzTaxonAutocomplete from '@/components/inputs/TaxonAutocomplete'
+import NzTable from '@/components/table/Table'
+import NzExportModal from '@/components/exports/ExportModal'
 
 export default {
   name: 'nzTaxaTable',
 
   mixins: [FilterableTableMixin, PersistentTableMixin],
+
+  components: {
+    NzTaxonAutocomplete,
+    NzTable,
+    NzExportModal
+  },
 
   props: {
     perPageOptions: {

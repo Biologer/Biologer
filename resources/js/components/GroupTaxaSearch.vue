@@ -25,8 +25,14 @@
 </template>
 
 <script>
+import NzTaxonAutocomplete from '@/components/inputs/TaxonAutocomplete'
+
 export default {
   name: 'nzGroupTaxaSearch',
+
+  components: {
+    NzTaxonAutocomplete
+  },
 
   props: {
     group: {
