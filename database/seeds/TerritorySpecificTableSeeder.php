@@ -3,6 +3,7 @@
 use App\ConservationLegislation;
 use App\RedList;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class TerritorySpecificTableSeeder extends Seeder
 {
@@ -13,7 +14,7 @@ class TerritorySpecificTableSeeder extends Seeder
      */
     public function run()
     {
-        $method = 'runFor'.studly_case(config('biologer.territory'));
+        $method = 'runFor'.Str::studly(config('biologer.territory'));
 
         $this->{$method}();
     }
