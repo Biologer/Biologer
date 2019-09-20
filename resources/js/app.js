@@ -32,7 +32,8 @@ if (window.route) {
     Vue.prototype.$ziggy = window.route
 }
 
-Vue.component('NzNavbar', () => import(/* webpackChunkName: "dashboard" */ './components/Navbar'))
+Vue.component('NzNavbar', () => import(/* webpackChunkName: "public" */ './components/Navbar'))
+Vue.component('NzDashboardNavbar', () => import(/* webpackChunkName: "dashboard" */ './components/DashboardNavbar'))
 Vue.component('NzAnnouncement', () => import(/* webpackChunkName: "dashboard" */ './components/Announcement'))
 Vue.component('NzSlider', () => import(/* webpackChunkName: "public" */ './components/Slider'))
 Vue.component('NzGroupTaxaSearchButton', () => import(/* webpackChunkName: "public" */ './components/GroupTaxaSearchButton'))
