@@ -323,7 +323,7 @@ class Taxon extends Model
         });
     }
 
-     /**
+    /**
      * Scope the query to get taxa in given group.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query

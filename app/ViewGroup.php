@@ -5,7 +5,6 @@ namespace App;
 use App\Concerns\CanMemoize;
 use App\Concerns\HasTranslatableAttributes;
 use Astrotomic\Translatable\Translatable;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
