@@ -29,16 +29,6 @@ class ResetPasswordController extends Controller
     protected $redirectTo = '/contributor';
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
-    /**
      * Get the response for a successful password reset.
      *
      * @param  \Illuminate\Http\Request  $request

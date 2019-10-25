@@ -89,6 +89,7 @@ return [
     ],
     'not_in' => 'Одабрани елемент поља :attribute није валидан.',
     'numeric' => 'Поље :attribute мора бити број.',
+    'password' => 'Лозинка није исправна.',
     'present' => 'Поље :attribute мора бити присутно.',
     'regex' => 'Формат поља :attribute није валидан.',
     'required' => 'Поље :attribute је обавезно.',

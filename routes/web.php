@@ -17,7 +17,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 Route::prefix(LaravelLocalization::setLocale())->middleware([
     'localeCookieRedirect', 'localizationRedirect', 'localeViewPath', 'localizationPreferenceUpdate',
 ])->group(function () {
-    Route::auth(['verify' => true]);
+    Route::auth(['verify' => true, 'confirm' => false]);
 
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('taxa/{taxon}', 'TaxaController@show')->name('taxa.show');

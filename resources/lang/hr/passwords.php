@@ -16,4 +16,5 @@ return [
     'sent' => 'Poslali smo reset link za vašu lozinku!',
     'token' => 'Ukucana oznaka za resetiranje lozinke nije važeća.',
     'user' => 'Nismo uspeli pronaći korisnika s navedenom e-mail adresom.',
+    'throttled' => 'Molimo sačekajte pre ponovnog pokušaja.',
 ];
