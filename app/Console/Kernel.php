@@ -26,6 +26,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // Clean up
+        $schedule->command('exports:clean')->daily();
+        $schedule->command('imports:clean')->daily();
         $schedule->command('uploads:clean')->dailyAt('03:00');
 
         $schedule->call(function () {

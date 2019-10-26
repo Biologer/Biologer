@@ -91,13 +91,23 @@ class Export extends Model implements HasLocalePreference
     }
 
     /**
+     * Path to the folder with files for this export.
+     *
+     * @return string
+     */
+    protected function dir()
+    {
+        return "exports/{$this->user_id}";
+    }
+
+    /**
      * Get relative path to the export file.
      *
      * @return string
      */
     public function path()
     {
-        return "exports/{$this->user_id}/{$this->filename}";
+        return "{$this->dir()}/{$this->filename}";
     }
 
     /**
@@ -192,13 +202,13 @@ class Export extends Model implements HasLocalePreference
     }
 
     /**
-     * Delete exported file.
+     * Delete exported files and dirs.
      *
      * @return void
      */
-    public function deleteFile()
+    public function deleteFiles()
     {
-        $this->filesystem()->delete($this->path());
+        $this->filesystem()->deleteDirectory($this->dir());
     }
 
     /**
@@ -211,7 +221,7 @@ class Export extends Model implements HasLocalePreference
         parent::boot();
 
         static::deleting(function ($model) {
-            $model->deleteFile();
+            $model->deleteFiles();
         });
     }
 }
