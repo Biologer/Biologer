@@ -29,4 +29,9 @@
         @include('components.icon', ['icon' => 'plus'])
         <span>{{ __('navigation.new_literature_observation') }}</span>
     </a>
+
+    <a href="{{ route('admin.literature-observations-import.index') }}" class="button is-secondary is-outlined ml-2">
+        @include('components.icon', ['icon' => 'upload'])
+        <span>{{ __('navigation.import') }}</span>
+    </a>
 @endsection

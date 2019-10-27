@@ -196,6 +196,9 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
                 ->middleware('can:update,announcement')
                 ->name('announcements.edit');
 
+            Route::get('literature-observations/import', 'LiteratureObservationsImportController@index')
+                ->name('literature-observations-import.index');
+
             Route::get('literature-observations', 'LiteratureObservationsController@index')
                 ->name('literature-observations.index');
 

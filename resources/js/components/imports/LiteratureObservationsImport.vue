@@ -20,12 +20,11 @@
         {{ trans('imports.success') }}
       </b-notification>
 
-      <nz-user-autocomplete
-        v-if="canSubmitForUser"
-        :label="trans('labels.imports.user')"
-        :placeholder="userFullName"
-        @select="setUserId"
-        v-model="user"
+      <nz-publication-autocomplete
+        class="is-required"
+        :label="trans('labels.literature_observations.publication')"
+        :placeholder="trans('labels.literature_observations.search_for_publication')"
+        v-model="publication"
       />
 
       <div class="level mb-4">
@@ -105,14 +104,14 @@
 
 <script>
 import _get from 'lodash/get'
-import NzUserAutocomplete from '@/components/inputs/UserAutocomplete'
+import NzPublicationAutocomplete from '@/components/inputs/PublicationAutocomplete'
 import NzColumnsPicker from '@/components/inputs/ColumnsPicker'
 
 export default {
   name: 'nzFieldObservationsImport',
 
   components: {
-    NzUserAutocomplete,
+    NzPublicationAutocomplete,
     NzColumnsPicker
   },
 
@@ -152,8 +151,7 @@ export default {
       approveCurated: false,
       showSuccessMessage: false,
       cancelling: false,
-      userId: null,
-      user: null
+      publication: null
     }
   },
 
@@ -189,10 +187,6 @@ export default {
         this.cancellableStatuses.includes(this.currentImport.status) &&
         !this.cancelling
     },
-
-    userFullName() {
-      return window.App.User.full_name
-    }
   },
 
   created() {
@@ -215,7 +209,7 @@ export default {
       this.importing = true
       this.currentImport = null
 
-      axios.post('/api/field-observation-imports', this.makeForm())
+      axios.post('/api/literature-observation-imports', this.makeForm())
         .then(this.handleSuccessfulSubmit)
         .catch(this.handleFailedSubmit)
     },
@@ -232,11 +226,7 @@ export default {
         form.append('has_heading', 1)
       }
 
-      form.append('user_id', this.userId || '')
-
-      if (this.approveCurated) {
-        form.append('options[approve_curated]', 1)
-      }
+      form.append('publication_id', this.publication && this.publication.id)
 
       return form
     },
@@ -273,7 +263,7 @@ export default {
     },
 
     checkStatus() {
-      return axios.get(`/api/field-observation-imports/${this.currentImport.id}`).then(({ data }) => {
+      return axios.get(`/api/literature-observation-imports/${this.currentImport.id}`).then(({ data }) => {
         this.currentImport = data
 
         if (this.validationFailed) {
@@ -353,10 +343,6 @@ export default {
       this.importing = false
       this.currentImport = null
     },
-
-    setUserId(userId) {
-      this.userId = userId ? userId.id : null
-    }
   }
 }
 </script>
