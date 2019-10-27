@@ -17,6 +17,7 @@ const Buefy = {
         Vue.component('b-field', () => import(/* webpackChunkName: "buefy" */ 'buefy/src/components/field/Field'))
         Vue.component('b-icon', () => import(/* webpackChunkName: "buefy" */ 'buefy/src/components/icon/Icon'))
         Vue.component('b-input', () => import(/* webpackChunkName: "buefy" */ 'buefy/src/components/input/Input'))
+        Vue.component('b-notification', () => import(/* webpackChunkName: "buefy" */ 'buefy/src/components/notification/Notification'))
         Vue.component('b-radio', () => import(/* webpackChunkName: "buefy" */ 'buefy/src/components/radio/Radio'))
         Vue.component('b-select', () => import(/* webpackChunkName: "buefy" */ 'buefy/src/components/select/Select'))
         Vue.component('b-switch', () => import(/* webpackChunkName: "buefy" */ 'buefy/src/components/switch/Switch'))
