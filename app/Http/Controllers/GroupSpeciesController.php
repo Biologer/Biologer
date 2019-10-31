@@ -25,7 +25,7 @@ class GroupSpeciesController
     /**
      * Show details of the species.
      *
-     * @param  int  $group
+     * @param  \App\ViewGroup  $group
      * @param  int  $species
      * @return \Illuminate\View\View
      */

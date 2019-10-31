@@ -10,7 +10,7 @@ class PendingObservationsController
     /**
      * Get all pending field observations.
      *
-     * @return \App\Http\Resources\FieldObservationResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {

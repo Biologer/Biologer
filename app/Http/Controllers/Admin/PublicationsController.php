@@ -7,11 +7,21 @@ use App\PublicationType;
 
 class PublicationsController
 {
+    /**
+     * Show list of publications.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         return view('admin.publications.index');
     }
 
+    /**
+     * Show page to create publication.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
         return view('admin.publications.create', [
@@ -19,6 +29,12 @@ class PublicationsController
         ]);
     }
 
+    /**
+     * Show publication edit page.
+     *
+     * @param  \App\Publication  $publication
+     * @return \Illuminate\View\View
+     */
     public function edit(Publication $publication)
     {
         return view('admin.publications.edit', [

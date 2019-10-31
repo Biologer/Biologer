@@ -11,6 +11,11 @@ class PendingFieldObservationsBatchController
 {
     use AuthorizesRequests;
 
+    /**
+     * Move field observations to pending.
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function store()
     {
         request()->validate([

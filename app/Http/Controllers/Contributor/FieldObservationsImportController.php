@@ -13,7 +13,7 @@ class FieldObservationsImportController
      * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function index(Request $request)
     {

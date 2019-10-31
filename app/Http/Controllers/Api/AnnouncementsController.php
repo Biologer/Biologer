@@ -19,9 +19,9 @@ class AnnouncementsController
     {
         $query = Announcement::query();
 
-        if (request()->has('page')) {
+        if ($request->has('page')) {
             return AnnouncementResource::collection(
-                $query->paginate(request('per_page', 15))
+                $query->paginate($request->input('per_page', 15))
             );
         }
 

@@ -9,6 +9,12 @@ use Illuminate\Validation\Rule;
 
 class CancelledImportsController
 {
+    /**
+     * Cancel import.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \App\Import
+     */
     public function store(Request $request)
     {
         $request->validate([

@@ -6,6 +6,11 @@ use App\FieldObservation;
 
 class DashboardController
 {
+    /**
+     * Show dashboard.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $user = auth()->user();

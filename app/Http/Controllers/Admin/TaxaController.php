@@ -14,7 +14,7 @@ class TaxaController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -26,7 +26,7 @@ class TaxaController
     /**
      * Show page to create taxon.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -43,8 +43,8 @@ class TaxaController
     /**
      * Show page to edit taxon.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\Taxon  $taxon
+     * @return \Illuminate\View\View
      */
     public function edit(Taxon $taxon)
     {

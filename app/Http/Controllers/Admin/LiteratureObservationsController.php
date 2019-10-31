@@ -10,6 +10,11 @@ class LiteratureObservationsController
 {
     use AuthorizesRequests;
 
+    /**
+     * Show page with list of literature observations.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         return view('admin.literature-observations.index', [
@@ -17,6 +22,12 @@ class LiteratureObservationsController
         ]);
     }
 
+    /**
+     * Show literature observation details.
+     *
+     * @param  \App\LiteratureObservation  $literatureObservation
+     * @return \Illuminate\View\View
+     */
     public function show(LiteratureObservation $literatureObservation)
     {
         return view('admin.literature-observations.show', [
@@ -27,11 +38,22 @@ class LiteratureObservationsController
         ]);
     }
 
+    /**
+     * Show form to create literature observation.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
         return view('admin.literature-observations.create');
     }
 
+    /**
+     * Show literature observation edit form.
+     *
+     * @param  \App\LiteratureObservation  $literatureObservation
+     * @return \Illuminate\View\View
+     */
     public function edit(LiteratureObservation $literatureObservation)
     {
         $this->authorize('update', $literatureObservation);

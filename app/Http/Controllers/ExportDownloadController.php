@@ -10,7 +10,7 @@ class ExportDownloadController
      * Download exported file.
      *
      * @param  \App\Export  $export
-     * @return \App\Export
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
     public function __invoke(Export $export)
     {

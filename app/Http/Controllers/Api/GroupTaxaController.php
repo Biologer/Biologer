@@ -11,7 +11,7 @@ class GroupTaxaController
      * Get list of taxa in group with link to first species.
      *
      * @param  \App\ViewGroup  $group
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(ViewGroup $group)
     {

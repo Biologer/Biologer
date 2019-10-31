@@ -19,7 +19,7 @@ class ViewGroupsController
     /**
      * Show page to create view group.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
