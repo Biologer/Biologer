@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Contributor;
 
 use App\Exports\FieldObservations\ContributorFieldObservationsCustomExport;
 use App\FieldObservation;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class FieldObservationsController extends Controller
+class FieldObservationsController
 {
     /**
      * Display a list of observations.

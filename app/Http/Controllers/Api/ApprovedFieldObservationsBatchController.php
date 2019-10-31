@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\FieldObservation;
-use App\Http\Controllers\Controller;
 use App\Http\Resources\FieldObservationResource;
 use App\Notifications\FieldObservationApproved;
 use App\Rules\ApprovableFieldObservation;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class ApprovedFieldObservationsBatchController extends Controller
+class ApprovedFieldObservationsBatchController
 {
+    use AuthorizesRequests;
+
     /**
      * Approve multiple field observations.
      *

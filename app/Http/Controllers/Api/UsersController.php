@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Role;
 use App\Taxon;
 use App\User;
 use Illuminate\Validation\Rule;
 
-class UsersController extends Controller
+class UsersController
 {
     /**
      * Display a listing of the resource.

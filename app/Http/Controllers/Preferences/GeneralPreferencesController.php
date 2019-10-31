@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Preferences;
 
 use App\Events\UserProfileUpdated;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class GeneralPreferencesController extends Controller
+class GeneralPreferencesController
 {
     /**
      * Display user's profile preferences.

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\FieldObservation;
-use App\Http\Controllers\Controller;
 use App\Http\Resources\FieldObservationResource;
 use App\Notifications\FieldObservationMovedToPending;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class PendingFieldObservationsBatchController extends Controller
+class PendingFieldObservationsBatchController
 {
+    use AuthorizesRequests;
+
     public function store()
     {
         request()->validate([

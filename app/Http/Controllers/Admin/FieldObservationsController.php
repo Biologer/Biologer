@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\FieldObservations\CustomFieldObservationsExport;
 use App\FieldObservation;
-use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class FieldObservationsController extends Controller
+class FieldObservationsController
 {
+    use AuthorizesRequests;
+
     /**
      * Display list of all field observations.
      *

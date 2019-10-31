@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Import;
 use App\Importing\ImportStatus;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class CancelledImportsController extends Controller
+class CancelledImportsController
 {
     public function store(Request $request)
     {

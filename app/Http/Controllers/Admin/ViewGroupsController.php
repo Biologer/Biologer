@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\ViewGroup;
 
-class ViewGroupsController extends Controller
+class ViewGroupsController
 {
     /**
      * List view groups to admin.

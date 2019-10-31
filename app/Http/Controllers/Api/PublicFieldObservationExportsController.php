@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Exports\FieldObservations\PublicFieldObservationsCustomExport;
 use App\Exports\FieldObservations\PublicFieldObservationsExport;
-use App\Http\Controllers\Controller;
 use App\Jobs\PerformExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class PublicFieldObservationExportsController extends Controller
+class PublicFieldObservationExportsController
 {
     /**
      * @var \App\Exports\FieldObservations\FieldObservationsExportFactory

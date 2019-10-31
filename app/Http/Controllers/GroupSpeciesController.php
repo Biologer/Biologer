@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ViewGroup;
 
-class GroupSpeciesController extends Controller
+class GroupSpeciesController
 {
     /**
      * Show the list of species in group.

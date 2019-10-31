@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Announcement;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\SaveAnnouncement;
 use App\Http\Resources\AnnouncementResource;
 use Illuminate\Http\Request;
 
-class AnnouncementsController extends Controller
+class AnnouncementsController
 {
     /**
      * Display a listing of the resource.

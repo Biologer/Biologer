@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api\Autocomplete;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\User;
 
-class UsersController extends Controller
+class UsersController
 {
     public function index()
     {

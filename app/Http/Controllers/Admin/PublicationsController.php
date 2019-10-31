@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Publication;
 use App\PublicationType;
 
-class PublicationsController extends Controller
+class PublicationsController
 {
     public function index()
     {

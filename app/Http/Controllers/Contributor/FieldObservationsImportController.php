@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Contributor;
 
-use App\Http\Controllers\Controller;
 use App\Import;
 use App\Importing\FieldObservationImport;
 use App\Importing\ImportStatus;
 use Illuminate\Http\Request;
 
-class FieldObservationsImportController extends Controller
+class FieldObservationsImportController
 {
     /**
      * Display a listing of the resource.

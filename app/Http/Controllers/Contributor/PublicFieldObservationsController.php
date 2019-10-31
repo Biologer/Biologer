@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Contributor;
 
 use App\Exports\FieldObservations\CustomFieldObservationsExport;
-
 use App\FieldObservation;
-use App\Http\Controllers\Controller;
 
-class PublicFieldObservationsController extends Controller
+class PublicFieldObservationsController
 {
     /**
      * Show list of public observations.

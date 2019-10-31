@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Import;
 use App\Rules\ImportFile;
 use App\Rules\NoImportsInProgress;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-abstract class BaseImportController extends Controller
+abstract class BaseImportController
 {
     /**
      * Get import status details.

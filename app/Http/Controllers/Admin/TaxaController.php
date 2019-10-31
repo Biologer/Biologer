@@ -5,12 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\ConservationDocument;
 use App\ConservationLegislation;
 use App\Exports\Taxa\CustomTaxaExport;
-use App\Http\Controllers\Controller;
 use App\RedList;
 use App\Stage;
 use App\Taxon;
 
-class TaxaController extends Controller
+class TaxaController
 {
     /**
      * Display a listing of the resource.

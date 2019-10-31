@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Taxon;
 
-class TaxaController extends Controller
+class TaxaController
 {
     /**
      * Display taxon details.

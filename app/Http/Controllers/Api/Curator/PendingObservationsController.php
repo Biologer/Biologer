@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Api\Curator;
 
 use App\FieldObservation;
-use App\Http\Controllers\Controller;
 use App\Http\Resources\FieldObservationResource;
 use Illuminate\Http\Request;
 
-class PendingObservationsController extends Controller
+class PendingObservationsController
 {
     /**
      * Get pending obervation the authenticated user needs to look at.

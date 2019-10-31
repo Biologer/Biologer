@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Exports\LiteratureObservations\CustomLiteratureObservationsExport;
 use App\Exports\LiteratureObservations\LiteratureObservationsExportFactory;
-use App\Http\Controllers\Controller;
 use App\Jobs\PerformExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class LiteratureObservationExportsController extends Controller
+class LiteratureObservationExportsController
 {
     /**
      * @var \App\Exports\LiteratureObservations\LiteratureObservationsExportFactory

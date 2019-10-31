@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Curator;
 
 use App\Exports\FieldObservations\CuratorUnidentifiableFieldObservationsCustomExport;
 use App\FieldObservation;
-use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class UnidentifiableObservationsController extends Controller
+class UnidentifiableObservationsController
 {
+    use AuthorizesRequests;
+
     /**
      * Display list of curator's approved observations.
      *

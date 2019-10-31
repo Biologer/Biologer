@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api\My;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\NotificationResource;
 use Illuminate\Http\Request;
 
-class ReadNotificationsBatchController extends Controller
+class ReadNotificationsBatchController
 {
     /**
      * Mark notifications with given IDs as read.

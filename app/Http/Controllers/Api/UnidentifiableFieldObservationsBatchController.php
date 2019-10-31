@@ -6,9 +6,12 @@ use App\FieldObservation;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FieldObservationResource;
 use App\Notifications\FieldObservationMarkedUnidentifiable;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class UnidentifiableFieldObservationsBatchController extends Controller
+class UnidentifiableFieldObservationsBatchController
 {
+    use AuthorizesRequests;
+
     /**
      * Mark multiple field observations as unidentifiable.
      *

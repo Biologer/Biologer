@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\LiteratureObservations\CustomLiteratureObservationsExport;
-use App\Http\Controllers\Controller;
 use App\LiteratureObservation;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class LiteratureObservationsController extends Controller
+class LiteratureObservationsController
 {
+    use AuthorizesRequests;
+
     public function index()
     {
         return view('admin.literature-observations.index', [

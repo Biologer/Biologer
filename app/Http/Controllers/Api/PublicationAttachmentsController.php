@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\PublicationAttachmentResource;
 use App\PublicationAttachment;
 use Illuminate\Http\Request;
 
-class PublicationAttachmentsController extends Controller
+class PublicationAttachmentsController
 {
     public function store(Request $request)
     {

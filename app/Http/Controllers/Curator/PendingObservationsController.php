@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Curator;
 
 use App\Exports\FieldObservations\CuratorPendingFieldObservationsCustomExport;
 use App\FieldObservation;
-use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class PendingObservationsController extends Controller
+class PendingObservationsController
 {
+    use AuthorizesRequests;
+
     /**
      * Display list of curator's pending observations.
      *

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Preferences;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class AccountPreferencesController extends Controller
+class AccountPreferencesController
 {
     /**
      * Display user's account preferences.

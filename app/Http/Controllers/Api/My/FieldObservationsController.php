@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Api\My;
 
 use App\FieldObservation;
-use App\Http\Controllers\Controller;
 use App\Http\Resources\FieldObservationResource;
 use Illuminate\Http\Request;
 
-class FieldObservationsController extends Controller
+class FieldObservationsController
 {
     /**
      * Get field observations made by the user.

@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Export;
-use App\Http\Controllers\Controller;
 
-class ExportsController extends Controller
+class ExportsController
 {
     /**
      * Retrieve export details.

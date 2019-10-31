@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\FieldObservation;
-use App\Http\Controllers\Controller;
 use App\Http\Resources\FieldObservationResource;
 
-class PendingObservationsController extends Controller
+class PendingObservationsController
 {
     /**
      * Get all pending field observations.

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\StatsRepository;
 
-class AboutPagesController extends Controller
+class AboutPagesController
 {
     /**
      * @var \App\Repositories\StatsRepository

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\GroupTaxonResource;
 use App\ViewGroup;
 
-class GroupTaxaController extends Controller
+class GroupTaxaController
 {
     /**
      * Get list of taxa in group with link to first species.

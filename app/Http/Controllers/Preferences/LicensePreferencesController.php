@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Preferences;
 
-use App\Http\Controllers\Controller;
 use App\License;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class LicensePreferencesController extends Controller
+class LicensePreferencesController
 {
     /**
      * Display user's license preferences.

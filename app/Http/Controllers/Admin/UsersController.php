@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Role;
 use App\User;
 
-class UsersController extends Controller
+class UsersController
 {
     /**
      * List users to admin.

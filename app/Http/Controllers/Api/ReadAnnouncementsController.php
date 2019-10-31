@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Announcement;
-use App\Http\Controllers\Controller;
 use App\Http\Resources\AnnouncementResource;
 use Illuminate\Validation\Rule;
 
-class ReadAnnouncementsController extends Controller
+class ReadAnnouncementsController
 {
     public function store()
     {

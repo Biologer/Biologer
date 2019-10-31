@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Preferences;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
-class NotificationsPreferencesController extends Controller
+class NotificationsPreferencesController
 {
     /**
      * Display user's notifications preferences.

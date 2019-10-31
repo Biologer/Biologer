@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\SavePublication;
 use App\Http\Resources\PublicationResource;
 use App\Publication;
 
-class PublicationsController extends Controller
+class PublicationsController
 {
     public function index()
     {

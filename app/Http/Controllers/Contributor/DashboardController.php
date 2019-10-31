@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Contributor;
 
 use App\FieldObservation;
-use App\Http\Controllers\Controller;
 
-class DashboardController extends Controller
+class DashboardController
 {
     public function index()
     {

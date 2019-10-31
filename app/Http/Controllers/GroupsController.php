@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ViewGroup;
 
-class GroupsController extends Controller
+class GroupsController
 {
     /**
      * Display page to browse groups.

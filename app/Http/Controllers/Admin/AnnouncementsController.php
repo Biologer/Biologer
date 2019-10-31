@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Announcement;
-use App\Http\Controllers\Controller;
 
-class AnnouncementsController extends Controller
+class AnnouncementsController
 {
     public function index()
     {
