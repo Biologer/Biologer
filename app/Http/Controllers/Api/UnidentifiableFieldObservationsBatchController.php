@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\FieldObservation;
-use App\Http\Controllers\Controller;
 use App\Http\Resources\FieldObservationResource;
 use App\Notifications\FieldObservationMarkedUnidentifiable;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
