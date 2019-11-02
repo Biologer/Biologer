@@ -30,7 +30,7 @@ class ClearImports extends Command
     {
         $this->warn('Clearing old imports...');
 
-        Import::where('created_at', '<=', now()->subDay(1))->each(function ($import) {
+        Import::where('created_at', '<=', now()->subWeek(1))->each(function ($import) {
             $import->delete();
         });
 
