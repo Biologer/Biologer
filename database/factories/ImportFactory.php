@@ -2,6 +2,7 @@
 
 use App\Import;
 use App\Importing\FieldObservationImport;
+use App\Importing\LiteratureObservationImport;
 use App\Importing\ImportStatus;
 use Faker\Generator as Faker;
 
@@ -16,6 +17,10 @@ $factory->define(Import::class, function (Faker $faker) {
 
 $factory->state(Import::class, 'fieldObservation', [
     'type' => FieldObservationImport::class,
+]);
+
+$factory->state(Import::class, 'literatureObservation', [
+    'type' => LiteratureObservationImport::class,
 ]);
 
 $factory->state(Import::class, 'processingQueued', [

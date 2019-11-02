@@ -212,6 +212,16 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('literature-observation-exports', 'LiteratureObservationExportsController@store')
         ->name('api.literature-observation-exports.store');
 
+    // Literature observations import
+    Route::post('literature-observation-imports', 'LiteratureObservationImportsController@store')
+        ->name('api.literature-observation-imports.store');
+
+    Route::get('literature-observation-imports/{import}', 'LiteratureObservationImportsController@show')
+        ->name('api.literature-observation-imports.show');
+
+    Route::get('literature-observation-imports/{import}/errors', 'LiteratureObservationImportsController@errors')
+        ->name('api.literature-observation-imports.errors');
+
     // My
     Route::prefix('my')->namespace('My')->group(function () {
         Route::get('field-observations', 'FieldObservationsController@index')

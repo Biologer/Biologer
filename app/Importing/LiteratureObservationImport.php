@@ -169,16 +169,6 @@ class LiteratureObservationImport extends BaseImport
                 'value' => 'original_identification',
                 'required' => false,
             ],
-            [
-                'label' => trans('labels.literature_observations.dataset'),
-                'value' => 'dataset',
-                'required' => false,
-            ],
-            [
-                'label' => trans('labels.literature_observations.data_license'),
-                'value' => 'license',
-                'required' => true,
-            ],
         ]);
     }
 
@@ -190,7 +180,11 @@ class LiteratureObservationImport extends BaseImport
     public static function specificValidationRules()
     {
         return [
-            'options.approve_curated' => ['nullable', 'boolean'],
+            'publication_id' => ['required', 'exists:publications,id'],
+            'is_original_data' => ['required', 'bool'],
+            'cited_publication_id' => [
+                'required_if:is_original_data,false', 'nullable', 'exists:publications,id',
+            ],
         ];
     }
 
@@ -203,6 +197,55 @@ class LiteratureObservationImport extends BaseImport
     protected function makeValidator(array $data)
     {
         return Validator::make($data, [
+            'taxon_id' => ['required', 'exists:taxa,id'],
+            'year' => ['bail', 'nullable', 'date_format:Y', 'before_or_equal:now'],
+            'month' => [
+                'bail', 'nullable', 'numeric', new Month($this->input('year')),
+            ],
+            'day' => [
+                'bail', 'nullable', 'numeric', new Day($this->input('year'), $this->input('month')),
+            ],
+            'latitude' => ['required', new Decimal(['min' => -90, 'max' => 90])],
+            'longitude' => ['required', new Decimal(['min' => -180, 'max' => 180])],
+            'elevation' => ['required', 'integer', 'max:10000'],
+            'accuracy' => ['nullable', 'integer', 'max:10000'],
+            'observer' => ['nullable', 'string'],
+            'identifier' => ['nullable', 'string'],
+            'stage_id' => ['nullable', Rule::in(Stage::pluck('id'))],
+            'sex' => ['nullable', Rule::in(Observation::SEX_OPTIONS)],
+            'number' => ['nullable', 'integer', 'min:1'],
+            'photos' => ['nullable', 'array', 'max:'.config('biologer.photos_per_observation')],
+            'time' => ['nullable', 'date_format:H:i'],
+            'project' => ['nullable', 'string', 'max:191'],
+            'found_on' => ['nullable', 'string', 'max:191'],
+            'habitat' => ['nullable', 'string', 'max:191'],
+            'note' => ['nullable', 'string'],
+            'observed_by_id' => ['nullable', Rule::exists('users', 'id')],
+            'identified_by_id' => ['nullable', Rule::exists('users', 'id')],
+            'dataset' => ['nullable', 'string', 'max:255'],
+            'data_license' => ['nullable', Rule::in(License::activeIds())],
+            'minimum_elevation' => [
+                'nullable', 'integer', 'max:10000', 'lte:maximum_elevation', 'lte:elevation',
+            ],
+            'maximum_elevation' => [
+                'nullable', 'integer', 'max:10000', 'gte:minimum_elevation', 'gte:elevation',
+            ],
+            'publication_id' => ['required', 'exists:publications,id'],
+            'is_original_data' => ['required', 'bool'],
+            'cited_publication_id' => [
+                'required_if:is_original_data,false', 'nullable', 'exists:publications,id',
+            ],
+            'original_date' => ['nullable', 'string', 'max:255'],
+            'original_locality' => ['nullable', 'string', 'max:255'],
+            'original_elevation' => ['nullable', 'string', 'max:255'],
+            'original_coordinates' => ['nullable', 'string', 'max:255'],
+            'original_identification' => ['required', 'string', 'max:255'],
+            'original_identification_validity' => ['required', Rule::in(LiteratureObservationIdentificationValidity::values())],
+            'georeferenced_by' => ['nullable', 'string', 'max:255'],
+            'georeferenced_date' => ['nullable', 'string', 'max:255'],
+            'place_where_referenced_in_publication' => ['nullable', 'string', 'max:255'],
+
+
             'taxon' => [
                 'required',
                 Rule::exists('taxa', 'name'),
@@ -530,39 +573,25 @@ class LiteratureObservationImport extends BaseImport
     }
 
     /**
-     * Get license for the observation.
+     * Create new import using data from request.
      *
-     * @param  array  $data
-     * @return int
+     * @param  \Illuminate\Http\Request  $request
+     * @return \App\Import
      */
-    protected function getLicense(array $data)
+    protected static function createFromRequest($request)
     {
-        return ($license = Arr::get($data, 'license'))
-            ? License::findByName($license)->id
-            : $this->model()->user->settings()->get('data_license');
-    }
+        $user = $request->user();
 
-    /**
-     * Get `approved_at` attribute for the observation.
-     *
-     * @param \App\Taxon|null $taxon
-     * @return \Carbon\Carbon|null
-     */
-    protected function getApprovedAt($taxon)
-    {
-        return $this->shouldApprove($taxon) ? now() : null;
-    }
-
-    /**
-     * Check if we should automatically approve observation of given taxon.
-     *
-     * @param \App\Taxon|null $taxon
-     * @return bool
-     */
-    protected function shouldApprove($taxon)
-    {
-        return $this->shouldApproveCurated() &&
-            $this->model()->user->hasRole('curator') &&
-            $taxon && $taxon->canBeApprovedBy($this->model()->user);
+        return Import::create([
+            'type' => static::class,
+            'columns' => $request->input('columns', []),
+            'path' => $request->file('file')->store('imports'),
+            'user_id' => $user->id,
+            'lang' => app()->getLocale(),
+            'has_heading' => $request->input('has_heading', false),
+            'options' => [
+                'pubpication_id' => $request->input('publication_id'),
+            ],
+        ]);
     }
 }

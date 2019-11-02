@@ -120,7 +120,7 @@ class ImportingFieldObservationsTest extends TestCase
     }
 
     /** @test */
-    public function columns_field_must_me_array_of_columns()
+    public function columns_field_must_be_array_of_columns()
     {
         Passport::actingAs(factory(User::class)->make());
 
