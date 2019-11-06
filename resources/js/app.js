@@ -64,6 +64,8 @@ Vue.component('NzFieldObservationApproval', () => import('./components/FieldObse
 
 Vue.component('NzOccurrenceChart', () => import(/* webpackChunkName: "public" */ './components/OccurrenceChart'))
 
+Vue.component('NzCaptcha', () => import(/* webpackChunkName: "public" */ './components/Captcha'))
+
 Vue.component('NzDeleteAccountButton', () => import(/* webpackChunkName: "dashboard" */ './components/DeleteAccountButton'))
 
 Vue.prototype.trans = window.trans = (string, args = {}, defaultString = '') => {
