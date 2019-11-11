@@ -15,17 +15,46 @@
       >{{ trans('buttons.cancel') }}</button>
     </div>
 
-    <div v-else>
+    <div v-else class="mb-4">
       <b-notification type="is-success" :active.sync="showSuccessMessage">
         {{ trans('imports.success') }}
       </b-notification>
 
-      <nz-publication-autocomplete
-        class="is-required"
-        :label="trans('labels.literature_observations.publication')"
-        :placeholder="trans('labels.literature_observations.search_for_publication')"
-        v-model="publication"
-      />
+      <div class="mb-8">
+        <nz-publication-autocomplete
+          class="is-required"
+          :label="trans('labels.literature_observations.publication')"
+          :placeholder="trans('labels.literature_observations.search_for_publication')"
+          v-model="publicationSearch"
+          @select="publication = $event"
+          :error="submissionErrors.has('publication_id')"
+          :message="submissionErrors.first('publication_id')"
+        />
+
+        <b-field
+          class="is-required"
+          :label="trans('labels.literature_observations.is_original_data')"
+          :error="submissionErrors.has('is_original_data')"
+          :message="submissionErrors.first('is_original_data')"
+        >
+          <b-select :value="isOriginalData" @input="handleIsOriginalDataInput" expanded>
+            <option :value="true">{{ trans('labels.literature_observations.original_data') }}</option>
+            <option :value="false">{{ trans('labels.literature_observations.citation') }}</option>
+          </b-select>
+        </b-field>
+
+        <nz-publication-autocomplete
+          v-show="!isOriginalData"
+          v-model="citedPublicationSearch"
+          @select="citedPublication = $event"
+          class="is-required"
+          :publication="publication"
+          :error="submissionErrors.has('cited_publication_id')"
+          :message="submissionErrors.first('cited_publication_id')"
+          :label="trans('labels.literature_observations.cited_publication')"
+          :placeholder="trans('labels.literature_observations.search_for_publication')"
+        />
+      </div>
 
       <div class="level mb-4">
         <div class="level-left">
@@ -104,6 +133,7 @@
 
 <script>
 import _get from 'lodash/get'
+import { Errors } from 'form-backend-validation'
 import NzPublicationAutocomplete from '@/components/inputs/PublicationAutocomplete'
 import NzColumnsPicker from '@/components/inputs/ColumnsPicker'
 
@@ -146,12 +176,16 @@ export default {
       currentImport: this.runningImport,
       validationErrors: [],
       currentErrorsPage: 1,
-      submissionErrors: null,
+      submissionErrors: new Errors(),
       hasHeading: false,
       approveCurated: false,
       showSuccessMessage: false,
       cancelling: false,
-      publication: null
+      publicationSearch: '',
+      citedPublicationSearch: '',
+      publication: null,
+      citedPublication: null,
+      isOriginalData: true
     }
   },
 
@@ -222,11 +256,11 @@ export default {
         form.append('columns[]', column)
       })
 
-      if (this.hasHeading) {
-        form.append('has_heading', 1)
-      }
+      this.hasHeading && form.append('has_heading', 1)
 
-      form.append('publication_id', this.publication && this.publication.id)
+      this.publication && form.append('publication_id', this.publication.id)
+      form.append('is_original_data', this.isOriginalData ? 1 : 0)
+      this.citedPublication && form.append('cited_publication_id', this.citedPublication.id)
 
       return form
     },
@@ -235,7 +269,7 @@ export default {
       this.validationErrors = []
       this.currentErrorsPage = 1
       this.showColumnsSelection = false
-      this.submissionErrors = null
+      this.submissionErrors.clear()
     },
 
     handleSuccessfulSubmit({ data }) {
@@ -247,7 +281,7 @@ export default {
 
     handleFailedSubmit(error) {
       this.importing = false
-      this.submissionErrors = _get(error, 'response.data.errors', [])
+      this.submissionErrors.record(_get(error, 'response.data.errors', {}))
 
       this.$buefy.toast.open({
         duration: 2500,
@@ -342,6 +376,15 @@ export default {
       clearInterval(this.interval)
       this.importing = false
       this.currentImport = null
+    },
+
+    handleIsOriginalDataInput(value) {
+      if (value) {
+        this.citedPublication = null
+        this.citedPublicationSearch = ''
+      }
+
+      this.isOriginalData = value
     },
   }
 }

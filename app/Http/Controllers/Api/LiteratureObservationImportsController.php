@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Importing\LiteratureObservationImport;
 
-class FieldObservationImportsController extends BaseImportController
+class LiteratureObservationImportsController extends BaseImportController
 {
     /**
      * Import type.

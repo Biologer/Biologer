@@ -47,26 +47,30 @@ abstract class BaseImportController
     {
         $importer = $this->type();
 
-        $request->validate(array_merge([
-            'columns' => [
-                'bail',
-                'required',
-                'array',
-                Rule::in($importer::availableColumns($request->user())),
-                Rule::contain($importer::requiredColumns($request->user())),
-            ],
-            'file' => [
-                'bail',
-                'required',
-                'mimes:csv,txt',
-                'max:'.config('biologer.max_upload_size'),
-                new ImportFile($request->input('has_heading', false)),
-                new NoImportsInProgress(),
-            ],
-            'has_heading' => ['nullable', 'boolean'],
-            'user_id' => ['nullable', Rule::exists('users', 'id')],
-            'options' => ['nullable', 'array'],
-        ], $importer::specificValidationRules()));
+        $request->validate(
+            array_merge([
+                'columns' => [
+                    'bail',
+                    'required',
+                    'array',
+                    Rule::in($importer::availableColumns($request->user())),
+                    Rule::contain($importer::requiredColumns($request->user())),
+                ],
+                'file' => [
+                    'bail',
+                    'required',
+                    'mimes:csv,txt',
+                    'max:'.config('biologer.max_upload_size'),
+                    new ImportFile($request->input('has_heading', false)),
+                    new NoImportsInProgress(),
+                ],
+                'has_heading' => ['nullable', 'boolean'],
+                'user_id' => ['nullable', Rule::exists('users', 'id')],
+                'options' => ['nullable', 'array'],
+            ], $importer::specificValidationRules()),
+            [],
+            $importer::validationAttributes()
+        );
 
         return $importer::fromRequest($request);
     }

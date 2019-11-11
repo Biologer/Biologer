@@ -116,6 +116,23 @@ abstract class BaseImport
     }
 
     /**
+     * Get alternative attribute names for import type.
+     *
+     * @return array
+     */
+    public static function validationAttributes()
+    {
+        return [];
+    }
+
+    /**
+     * Route to access validation errors for imported file.
+     *
+     * @return string
+     */
+    abstract public function generateErrorsRoute();
+
+    /**
      * Parse the uploaded CSV into JSON collection.
      *
      * @return $this
@@ -415,6 +432,8 @@ abstract class BaseImport
             DB::rollBack();
 
             $this->import->updateStatusToSavingFailed();
+
+            throw $e;
         }
 
         DB::commit();

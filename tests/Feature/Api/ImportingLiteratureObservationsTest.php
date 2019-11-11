@@ -5,6 +5,7 @@ namespace Tests\Feature\Api;
 use App\Import;
 use App\Importing\ImportStatus;
 use App\Jobs\ProcessImport;
+use App\Publication;
 use App\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Queue;
@@ -31,7 +32,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     {
         $file = File::fake()->create('import.csv');
 
-        file_put_contents($file->getPathname(), $contents ?? '21.1212,42.12121,350,2018,5,23,Cerambyx cerdo');
+        file_put_contents($file->getPathname(), $contents ?? '21.1212,42.12121,350,2018,Cerambyx cerdo,Cerambyx scopolii,Invalid');
 
         return $file;
     }
@@ -40,9 +41,12 @@ class ImportingLiteratureObservationsTest extends TestCase
     public function guests_are_not_allowed_to_import_literature_observations()
     {
         $this->postJson('/api/literature-observation-imports', [
-            'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon'],
+            'columns' => [
+                'latitude', 'longitude', 'elevation', 'year', 'taxon',
+                'original_identification', 'original_identification_validity',
+            ],
             'file' => $this->validFile(),
-            'publication_id' => factory(Publicatio::class)->create()->id,
+            'publication_id' => factory(Publication::class)->create()->id,
         ])->assertUnauthorized();
     }
 
@@ -50,9 +54,12 @@ class ImportingLiteratureObservationsTest extends TestCase
     public function regular_users_are_not_allowed_to_import_literature_observations()
     {
         $this->postJson('/api/literature-observation-imports', [
-            'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon'],
+            'columns' => [
+                'latitude', 'longitude', 'elevation', 'year', 'taxon',
+                'original_identification', 'original_identification_validity',
+            ],
             'file' => $this->validFile(),
-            'publication_id' => factory(Publicatio::class)->create()->id,
+            'publication_id' => factory(Publication::class)->create()->id,
         ])->assertUnauthorized();
     }
 
@@ -64,14 +71,19 @@ class ImportingLiteratureObservationsTest extends TestCase
     }
 
     /** @test */
-    public function curator_can_submit_csv_file_to_import_fied_observations()
+    public function curator_can_submit_csv_file_to_import_literature_observations()
     {
+        Queue::fake();
         $this->actingAsCurator();
 
         $response = $this->postJson('/api/literature-observation-imports', [
-            'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon'],
+            'columns' => [
+                'latitude', 'longitude', 'elevation', 'year', 'taxon',
+                'original_identification', 'original_identification_validity',
+            ],
             'file' => $this->validFile(),
-            'publication_id' => factory(Publicatio::class)->create()->id,
+            'publication_id' => factory(Publication::class)->create()->id,
+            'is_original_data' => true,
         ]);
 
         $response->assertSuccessful();
@@ -85,9 +97,13 @@ class ImportingLiteratureObservationsTest extends TestCase
         $this->actingAsCurator();
 
         $response = $this->postJson('/api/literature-observation-imports', [
-            'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon'],
+            'columns' => [
+                'latitude', 'longitude', 'elevation', 'year', 'taxon',
+                'original_identification', 'original_identification_validity',
+            ],
             'file' => '',
-            'publication_id' => factory(Publicatio::class)->create()->id,
+            'publication_id' => factory(Publication::class)->create()->id,
+            'is_original_data' => true,
         ]);
 
         $response->assertJsonValidationErrors(['file']);
@@ -99,9 +115,13 @@ class ImportingLiteratureObservationsTest extends TestCase
         $this->actingAsCurator();
 
         $response = $this->postJson('/api/literature-observation-imports', [
-            'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon'],
+            'columns' => [
+                'latitude', 'longitude', 'elevation', 'year', 'taxon',
+                'original_identification', 'original_identification_validity',
+            ],
             'file' => 'string',
-            'publication_id' => factory(Publicatio::class)->create()->id,
+            'publication_id' => factory(Publication::class)->create()->id,
+            'is_original_data' => true,
         ]);
 
         $response->assertJsonValidationErrors(['file']);
@@ -113,9 +133,13 @@ class ImportingLiteratureObservationsTest extends TestCase
         $this->actingAsCurator();
 
         $this->postJson('/api/literature-observation-imports', [
-            'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon'],
+            'columns' => [
+                'latitude', 'longitude', 'elevation', 'year', 'taxon',
+                'original_identification', 'original_identification_validity',
+            ],
             'file' => File::fake()->create('import.pdf'),
-            'publication_id' => factory(Publicatio::class)->create()->id,
+            'publication_id' => factory(Publication::class)->create()->id,
+            'is_original_data' => true,
         ])->assertJsonValidationErrors(['file']);
     }
 
@@ -125,9 +149,13 @@ class ImportingLiteratureObservationsTest extends TestCase
         $this->actingAsCurator();
 
         $this->postJson('/api/literature-observation-imports', [
-            'columns' => ['longitude', 'year', 'elevation', 'month', 'day', 'taxon'],
+            'columns' => [
+                'latitude', 'longitude', 'elevation', 'year', 'taxon',
+                'original_identification', 'original_identification_validity',
+            ],
             'file' => File::fake()->create('import.csv'),
-            'publication_id' => factory(Publicatio::class)->create()->id,
+            'publication_id' => factory(Publication::class)->create()->id,
+            'is_original_data' => true,
         ])->assertJsonValidationErrors(['file']);
     }
 
@@ -139,7 +167,8 @@ class ImportingLiteratureObservationsTest extends TestCase
         $this->postJson('/api/literature-observation-imports', [
             'columns' => [],
             'file' => File::fake()->create('import.csv'),
-            'publication_id' => factory(Publicatio::class)->create()->id,
+            'publication_id' => factory(Publication::class)->create()->id,
+            'is_original_data' => true,
         ])->assertJsonValidationErrors(['columns']);
     }
 
@@ -151,7 +180,8 @@ class ImportingLiteratureObservationsTest extends TestCase
         $this->postJson('/api/literature-observation-imports', [
             'columns' => 'string',
             'file' => File::fake()->create('import.csv'),
-            'publication_id' => factory(Publicatio::class)->create()->id,
+            'publication_id' => factory(Publication::class)->create()->id,
+            'is_original_data' => true,
         ])->assertJsonValidationErrors(['columns']);
     }
 
@@ -161,9 +191,12 @@ class ImportingLiteratureObservationsTest extends TestCase
         $this->actingAsCurator();
 
         $this->postJson('/api/literature-observation-imports', [
-            'columns' => ['longitude', 'year', 'month', 'day', 'taxon'],
+            'columns' => [
+                'latitude', 'longitude', 'elevation', 'year', 'taxon',
+            ],
             'file' => File::fake()->create('import.csv'),
-            'publication_id' => factory(Publicatio::class)->create()->id,
+            'publication_id' => factory(Publication::class)->create()->id,
+            'is_original_data' => true,
         ])->assertJsonValidationErrors(['columns']);
     }
 
@@ -173,12 +206,16 @@ class ImportingLiteratureObservationsTest extends TestCase
         $this->actingAsCurator();
 
         $response = $this->postJson('/api/literature-observation-imports', [
-            'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon'],
+            'columns' => [
+                'latitude', 'longitude', 'elevation', 'year', 'taxon',
+                'original_identification', 'original_identification_validity',
+            ],
             'file' => $this->validFile(),
-            'publication_id' => null
+            'publication_id' => null,
+            'is_original_data' => true,
         ]);
 
-        $response->assertJsonValidationErrors(['file']);
+        $response->assertJsonValidationErrors(['publication_id']);
     }
 
     /** @test */
@@ -187,24 +224,32 @@ class ImportingLiteratureObservationsTest extends TestCase
         $this->actingAsCurator();
 
         $response = $this->postJson('/api/literature-observation-imports', [
-            'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon'],
+            'columns' => [
+                'latitude', 'longitude', 'elevation', 'year', 'taxon',
+                'original_identification', 'original_identification_validity',
+            ],
             'file' => $this->validFile(),
-            'publication_id' => 'invalid'
+            'publication_id' => 'invalid',
+            'is_original_data' => true,
         ]);
 
-        $response->assertJsonValidationErrors(['file']);
+        $response->assertJsonValidationErrors(['publication_id']);
     }
 
     /** @test */
-    public function processing_is_queued_upon_successful_submition()
+    public function processing_is_queued_upon_successful_submission()
     {
         Queue::fake();
         $this->actingAsCurator();
 
         $response = $this->postJson('/api/literature-observation-imports', [
-            'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon'],
+            'columns' => [
+                'latitude', 'longitude', 'elevation', 'year', 'taxon',
+                'original_identification', 'original_identification_validity',
+            ],
             'file' => $this->validFile(),
-            'publication_id' => factory(Publicatio::class)->create()->id,
+            'publication_id' => factory(Publication::class)->create()->id,
+            'is_original_data' => true,
         ])->assertSuccessful();
 
         $import = Import::find($response->json('id'));

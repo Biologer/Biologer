@@ -3,8 +3,9 @@
 namespace App\Importing;
 
 use App\DEM\Reader as DEMReader;
+use App\Import;
 use App\LiteratureObservation;
-use App\License;
+use App\LiteratureObservationIdentificationValidity;
 use App\Observation;
 use App\Rules\Day;
 use App\Rules\Decimal;
@@ -60,113 +61,153 @@ class LiteratureObservationImport extends BaseImport
     {
         return collect([
             [
-                'label' => trans('labels.literature_observations.taxon'),
+                'label' => __('labels.literature_observations.taxon'),
                 'value' => 'taxon',
                 'required' => true,
             ],
             [
-                'label' => trans('labels.literature_observations.year'),
+                'label' => __('labels.literature_observations.year'),
                 'value' => 'year',
                 'required' => true,
             ],
             [
-                'label' => trans('labels.literature_observations.month'),
-                'value' => 'month',
-                'required' => false,
-            ],
-            [
-                'label' => trans('labels.literature_observations.day'),
-                'value' => 'day',
-                'required' => false,
-            ],
-            [
-                'label' => trans('labels.literature_observations.latitude'),
+                'label' => __('labels.literature_observations.latitude'),
                 'value' => 'latitude',
                 'required' => true,
             ],
             [
-                'label' => trans('labels.literature_observations.longitude'),
+                'label' => __('labels.literature_observations.longitude'),
                 'value' => 'longitude',
                 'required' => true,
             ],
             [
-                'label' => trans('labels.literature_observations.elevation'),
+                'label' => __('labels.literature_observations.original_identification'),
+                'value' => 'original_identification',
+                'required' => true,
+            ],
+            [
+                'label' => __('labels.literature_observations.original_identification_validity'),
+                'value' => 'original_identification_validity',
+                'required' => true,
+            ],
+            [
+                'label' => __('labels.literature_observations.month'),
+                'value' => 'month',
+                'required' => false,
+            ],
+            [
+                'label' => __('labels.literature_observations.day'),
+                'value' => 'day',
+                'required' => false,
+            ],
+            [
+                'label' => __('labels.literature_observations.elevation'),
                 'value' => 'elevation',
                 'required' => false,
             ],
             [
-                'label' => trans('labels.literature_observations.accuracy'),
+                'label' => __('labels.literature_observations.accuracy'),
                 'value' => 'accuracy',
                 'required' => false,
             ],
             [
-                'label' => trans('labels.literature_observations.location'),
+                'label' => __('labels.literature_observations.location'),
                 'value' => 'location',
                 'required' => false,
             ],
             [
-                'label' => trans('labels.literature_observations.time'),
+                'label' => __('labels.literature_observations.time'),
                 'value' => 'time',
                 'required' => false,
             ],
             [
-                'label' => trans('labels.literature_observations.note'),
+                'label' => __('labels.literature_observations.note'),
                 'value' => 'note',
                 'required' => false,
             ],
             [
-                'label' => trans('labels.literature_observations.found_dead'),
-                'value' => 'found_dead',
-                'required' => false,
-            ],
-            [
-                'label' => trans('labels.literature_observations.found_dead_note'),
-                'value' => 'found_dead_note',
-                'required' => false,
-            ],
-            [
-                'label' => trans('labels.literature_observations.observer'),
+                'label' => __('labels.literature_observations.observer'),
                 'value' => 'observer',
                 'required' => false,
             ],
             [
-                'label' => trans('labels.literature_observations.identifier'),
+                'label' => __('labels.literature_observations.identifier'),
                 'value' => 'identifier',
                 'required' => false,
             ],
             [
-                'label' => trans('labels.literature_observations.sex'),
+                'label' => __('labels.literature_observations.sex'),
                 'value' => 'sex',
                 'required' => false,
             ],
             [
-                'label' => trans('labels.literature_observations.number'),
+                'label' => __('labels.literature_observations.number'),
                 'value' => 'number',
                 'required' => false,
             ],
             [
-                'label' => trans('labels.literature_observations.project'),
+                'label' => __('labels.literature_observations.project'),
                 'value' => 'project',
                 'required' => false,
             ],
             [
-                'label' => trans('labels.literature_observations.habitat'),
+                'label' => __('labels.literature_observations.habitat'),
                 'value' => 'habitat',
                 'required' => false,
             ],
             [
-                'label' => trans('labels.literature_observations.found_on'),
+                'label' => __('labels.literature_observations.found_on'),
                 'value' => 'found_on',
                 'required' => false,
             ],
             [
-                'label' => trans('labels.literature_observations.stage'),
+                'label' => __('labels.literature_observations.stage'),
                 'value' => 'stage',
                 'required' => false,
             ],
             [
-                'label' => trans('labels.literature_observations.original_identification'),
-                'value' => 'original_identification',
+                'label' => __('labels.literature_observations.original_date'),
+                'value' => 'original_date',
+                'required' => false,
+            ],
+            [
+                'label' => __('labels.literature_observations.original_locality'),
+                'value' => 'original_locality',
+                'required' => false,
+            ],
+            [
+                'label' => __('labels.literature_observations.original_elevation'),
+                'value' => 'original_elevation',
+                'required' => false,
+            ],
+            [
+                'label' => __('labels.literature_observations.original_coordinates'),
+                'value' => 'original_coordinates',
+                'required' => false,
+            ],
+            [
+                'label' => __('labels.literature_observations.georeferenced_by'),
+                'value' => 'georeferenced_by',
+                'required' => false,
+            ],
+            [
+                'label' => __('labels.literature_observations.georeferenced_date'),
+                'value' => 'georeferenced_date',
+                'required' => false,
+            ],
+            [
+                'label' => __('labels.literature_observations.minimum_elevation'),
+                'value' => 'minimum_elevation',
+                'required' => false,
+            ],
+            [
+                'label' => __('labels.literature_observations.maximum_elevation'),
+                'value' => 'maximum_elevation',
+                'required' => false,
+            ],
+            [
+                'label' => __('labels.literature_observations.place_where_referenced_in_publication'),
+                'value' => 'place_where_referenced_in_publication',
                 'required' => false,
             ],
         ]);
@@ -189,6 +230,25 @@ class LiteratureObservationImport extends BaseImport
     }
 
     /**
+     * Get alternative attribute names for import type.
+     *
+     * @return array
+     */
+    public static function validationAttributes()
+    {
+        return [
+            'publication_id' => __('labels.literature_observations.publication'),
+            'is_original_data' => __('labels.literature_observations.is_original_data'),
+            'cited_publication_id' => __('labels.literature_observations.cited_publication'),
+        ];
+    }
+
+    public function generateErrorsRoute()
+    {
+        return route('api.literature-observation-imports.errors', $this->model());
+    }
+
+    /**
      * Make validator instance.
      *
      * @param  array  $data
@@ -197,72 +257,10 @@ class LiteratureObservationImport extends BaseImport
     protected function makeValidator(array $data)
     {
         return Validator::make($data, [
-            'taxon_id' => ['required', 'exists:taxa,id'],
+            'taxon' => ['required', Rule::exists('taxa', 'name')],
             'year' => ['bail', 'nullable', 'date_format:Y', 'before_or_equal:now'],
-            'month' => [
-                'bail', 'nullable', 'numeric', new Month($this->input('year')),
-            ],
-            'day' => [
-                'bail', 'nullable', 'numeric', new Day($this->input('year'), $this->input('month')),
-            ],
-            'latitude' => ['required', new Decimal(['min' => -90, 'max' => 90])],
-            'longitude' => ['required', new Decimal(['min' => -180, 'max' => 180])],
-            'elevation' => ['required', 'integer', 'max:10000'],
-            'accuracy' => ['nullable', 'integer', 'max:10000'],
-            'observer' => ['nullable', 'string'],
-            'identifier' => ['nullable', 'string'],
-            'stage_id' => ['nullable', Rule::in(Stage::pluck('id'))],
-            'sex' => ['nullable', Rule::in(Observation::SEX_OPTIONS)],
-            'number' => ['nullable', 'integer', 'min:1'],
-            'photos' => ['nullable', 'array', 'max:'.config('biologer.photos_per_observation')],
-            'time' => ['nullable', 'date_format:H:i'],
-            'project' => ['nullable', 'string', 'max:191'],
-            'found_on' => ['nullable', 'string', 'max:191'],
-            'habitat' => ['nullable', 'string', 'max:191'],
-            'note' => ['nullable', 'string'],
-            'observed_by_id' => ['nullable', Rule::exists('users', 'id')],
-            'identified_by_id' => ['nullable', Rule::exists('users', 'id')],
-            'dataset' => ['nullable', 'string', 'max:255'],
-            'data_license' => ['nullable', Rule::in(License::activeIds())],
-            'minimum_elevation' => [
-                'nullable', 'integer', 'max:10000', 'lte:maximum_elevation', 'lte:elevation',
-            ],
-            'maximum_elevation' => [
-                'nullable', 'integer', 'max:10000', 'gte:minimum_elevation', 'gte:elevation',
-            ],
-            'publication_id' => ['required', 'exists:publications,id'],
-            'is_original_data' => ['required', 'bool'],
-            'cited_publication_id' => [
-                'required_if:is_original_data,false', 'nullable', 'exists:publications,id',
-            ],
-            'original_date' => ['nullable', 'string', 'max:255'],
-            'original_locality' => ['nullable', 'string', 'max:255'],
-            'original_elevation' => ['nullable', 'string', 'max:255'],
-            'original_coordinates' => ['nullable', 'string', 'max:255'],
-            'original_identification' => ['required', 'string', 'max:255'],
-            'original_identification_validity' => ['required', Rule::in(LiteratureObservationIdentificationValidity::values())],
-            'georeferenced_by' => ['nullable', 'string', 'max:255'],
-            'georeferenced_date' => ['nullable', 'string', 'max:255'],
-            'place_where_referenced_in_publication' => ['nullable', 'string', 'max:255'],
-
-
-            'taxon' => [
-                'required',
-                Rule::exists('taxa', 'name'),
-            ],
-            'year' => ['bail', 'required', 'date_format:Y', 'before_or_equal:now'],
-            'month' => [
-                'bail',
-                'nullable',
-                'numeric',
-                new Month(Arr::get($data, 'year')),
-            ],
-            'day' => [
-                'bail',
-                'nullable',
-                'numeric',
-                new Day(Arr::get($data, 'year'), Arr::get($data, 'month')),
-            ],
+            'month' => ['bail', 'nullable', 'numeric', new Month(Arr::get($data, 'year'))],
+            'day' => ['bail', 'nullable', 'numeric', new Day(Arr::get($data, 'year'), Arr::get($data, 'month'))],
             'latitude' => ['required', new Decimal(['min' => -90, 'max' => 90])],
             'longitude' => ['required', new Decimal(['min' => -180, 'max' => 180])],
             'elevation' => ['nullable', 'integer', 'max:10000'],
@@ -272,55 +270,58 @@ class LiteratureObservationImport extends BaseImport
             'stage' => ['nullable', Rule::in(Stage::pluck('name'))],
             'sex' => ['nullable', Rule::in(Observation::SEX_OPTIONS)],
             'number' => ['nullable', 'integer', 'min:1'],
-            'found_dead' => ['nullable', 'string', Rule::in($this->yesNo())],
-            'found_dead_note' => ['nullable', 'string', 'max:1000'],
             'time' => ['nullable', 'date_format:H:i'],
             'project' => ['nullable', 'string', 'max:191'],
-            'habitat' => ['nullable', 'string', 'max:191'],
             'found_on' => ['nullable', 'string', 'max:191'],
+            'habitat' => ['nullable', 'string', 'max:191'],
             'note' => ['nullable', 'string'],
-            'original_identification' => ['nullable', 'string'],
-            'dataset' => ['nullable', 'string'],
-            'license' => ['nullable', 'string', Rule::in(License::allActive()->pluck('name'))],
+            'dataset' => ['nullable', 'string', 'max:255'],
+            'minimum_elevation' => ['nullable', 'integer', 'max:10000', 'lte:maximum_elevation', 'lte:elevation'],
+            'maximum_elevation' => ['nullable', 'integer', 'max:10000', 'gte:minimum_elevation', 'gte:elevation'],
+            'original_date' => ['nullable', 'string', 'max:255'],
+            'original_locality' => ['nullable', 'string', 'max:255'],
+            'original_elevation' => ['nullable', 'string', 'max:255'],
+            'original_coordinates' => ['nullable', 'string', 'max:255'],
+            'original_identification' => ['required', 'string', 'max:255'],
+            'original_identification_validity' => ['required', Rule::in(LiteratureObservationIdentificationValidity::options()->values())],
+            'georeferenced_by' => ['nullable', 'string', 'max:255'],
+            'georeferenced_date' => ['nullable', 'string', 'max:255'],
+            'place_where_referenced_in_publication' => ['nullable', 'string', 'max:255'],
         ], [
-            'year.date_format' => trans('validation.year'),
+            'year.date_format' => __('validation.year'),
+            'original_identification_validity.in' => __('Possible options are: '.LiteratureObservationIdentificationValidity::options()->values()->implode(', ')),
         ], [
-            'taxon' => trans('labels.field_observations.taxon'),
-            'year' => trans('labels.field_observations.year'),
-            'month' => trans('labels.field_observations.month'),
-            'day' => trans('labels.field_observations.day'),
-            'latitude' => trans('labels.field_observations.latitude'),
-            'longitude' => trans('labels.field_observations.longitude'),
-            'elevation' => trans('labels.field_observations.elevation'),
-            'accuracy' => trans('labels.field_observations.accuracy'),
-            'observer' => trans('labels.field_observations.observer'),
-            'identifier' => trans('labels.field_observations.identifier'),
-            'stage' => trans('labels.field_observations.stage'),
-            'sex' => trans('labels.field_observations.sex'),
-            'number' => trans('labels.field_observations.number'),
-            'found_dead' => trans('labels.field_observations.found_dead'),
-            'found_dead_note' => trans('labels.field_observations.found_dead_note'),
-            'time' => trans('labels.field_observations.time'),
-            'project' => trans('labels.field_observations.project'),
-            'habitat' => trans('labels.field_observations.habitat'),
-            'found_on' => trans('labels.field_observations.found_on'),
-            'note' => trans('labels.field_observations.note'),
-            'original_identification' => trans('labels.field_observations.original_identification'),
-            'dataset' => trans('labels.field_observations.dataset'),
-            'license' => trans('labels.field_observations.data_license'),
+            'taxon' => __('labels.literature_observations.taxon'),
+            'year' => __('labels.literature_observations.year'),
+            'month' => __('labels.literature_observations.month'),
+            'day' => __('labels.literature_observations.day'),
+            'latitude' => __('labels.literature_observations.latitude'),
+            'longitude' => __('labels.literature_observations.longitude'),
+            'elevation' => __('labels.literature_observations.elevation'),
+            'accuracy' => __('labels.literature_observations.accuracy'),
+            'observer' => __('labels.literature_observations.observer'),
+            'identifier' => __('labels.literature_observations.identifier'),
+            'stage' => __('labels.literature_observations.stage'),
+            'sex' => __('labels.literature_observations.sex'),
+            'number' => __('labels.literature_observations.number'),
+            'time' => __('labels.literature_observations.time'),
+            'project' => __('labels.literature_observations.project'),
+            'habitat' => __('labels.literature_observations.habitat'),
+            'found_on' => __('labels.literature_observations.found_on'),
+            'note' => __('labels.literature_observations.note'),
+            'original_identification' => __('labels.literature_observations.original_identification'),
+            'original_date' => __('labels.literature_observations.original_date'),
+            'original_locality' => __('labels.literature_observations.original_locality'),
+            'original_elevation' => __('labels.literature_observations.original_elevation'),
+            'original_coordinates' => __('labels.literature_observations.original_coordinates'),
+            'original_identification_validity' => __('labels.literature_observations.original_identification_validity'),
+            'georeferenced_by' => __('labels.literature_observations.georeferenced_by'),
+            'georeferenced_date' => __('labels.literature_observations.georeferenced_date'),
+            'minimum_elevation' => __('labels.literature_observations.minimum_elevation'),
+            'maximum_elevation' => __('labels.literature_observations.maximum_elevation'),
+            'place_where_referenced_in_publication' => __('labels.literature_observations.place_where_referenced_in_publication'),
+            'dataset' => __('labels.literature_observations.dataset'),
         ]);
-    }
-
-    /**
-     * "Yes" and "No" options translated in language the import is using.
-     *
-     * @return array
-     */
-    protected function yesNo()
-    {
-        $lang = $this->model()->lang;
-
-        return [__('Yes', [], $lang), __('No', [], $lang)];
     }
 
     /**
@@ -331,23 +332,17 @@ class LiteratureObservationImport extends BaseImport
      */
     protected function storeSingleItem(array $item)
     {
-        $fieldObservation = FieldObservation::create(
+        $literatureObservation = LiteratureObservation::create(
             $this->getSpecificObservationData($item)
         );
 
-        $observation = $fieldObservation->observation()->save(
+        $literatureObservation->observation()->save(
             new Observation($this->getGeneralObservationData($item))
         );
 
-        activity()->performedOn($fieldObservation)
+        activity()->performedOn($literatureObservation)
             ->causedBy($this->model()->user)
             ->log('created');
-
-        if ($observation->isApproved()) {
-            activity()->performedOn($fieldObservation)
-                ->causedBy($this->model()->user)
-                ->log('approved');
-        }
     }
 
     /**
@@ -359,14 +354,20 @@ class LiteratureObservationImport extends BaseImport
     protected function getSpecificObservationData(array $item)
     {
         return [
-            'license' => Arr::get($item, 'data_license') ?: $this->model()->user->settings()->get('data_license'),
-            'taxon_suggestion' => Arr::get($item, 'taxon') ?: null,
-            'found_dead' => $this->getFoundDead($item),
-            'found_dead_note' => $this->getFoundDead($item) ? Arr::get($item, 'found_dead_note') : null,
             'time' => Arr::get($item, 'time') ?: null,
-            'observed_by_id' => $this->getObserverId($item),
-            'identified_by_id' => $this->getIdentifierId($item),
-            'license' => $this->getLicense($item),
+            'original_date' => Arr::get($item, 'original_date') ?: null,
+            'original_locality' => Arr::get($item, 'original_locality') ?: null,
+            'original_elevation' => Arr::get($item, 'original_elevation') ?: null,
+            'original_coordinates' => Arr::get($item, 'original_coordinates') ?: null,
+            'original_identification_validity' => $this->getOriginalIdentificationValidityValue($item),
+            'georeferenced_by' => Arr::get($item, 'georeferenced_by') ?: null,
+            'georeferenced_date' => Arr::get($item, 'georeferenced_date'),
+            'minimum_elevation' => Arr::get($item, 'minimum_elevation') ?: null,
+            'maximum_elevation' => Arr::get($item, 'maximum_elevation') ?: null,
+            'publication_id' => $this->model()->options['publication_id'],
+            'is_original_data' => $this->model()->options['is_original_data'],
+            'cited_publication_id' => $this->model()->options['is_original_data'] ? null : $this->model()->options['cited_publication_id'],
+            'place_where_referenced_in_publication' => Arr::get($item, 'place_where_referenced_in_publication') ?: null,
         ];
     }
 
@@ -393,9 +394,9 @@ class LiteratureObservationImport extends BaseImport
             'mgrs10k' => mgrs10k($latitude, $longitude),
             'accuracy' => Arr::get($item, 'accuracy') ?: null,
             'elevation' => $this->getElevation($item),
-            'created_by_id' => $this->model()->for_user_id ?: $this->model()->user_id,
-            'observer' => $this->getObserver($item),
-            'identifier' => $this->getIdentifier($item),
+            'created_by_id' => $this->model()->user_id,
+            'observer' => Arr::get($item, 'observer') ?: null,
+            'identifier' => Arr::get($item, 'identifier') ?: null,
             'sex' => Arr::get($item, 'sex') ?: null,
             'number' => Arr::get($item, 'number') ?: null,
             'note' => Arr::get($item, 'note') ?: null,
@@ -404,8 +405,8 @@ class LiteratureObservationImport extends BaseImport
             'found_on' => Arr::get($item, 'found_on') ?: null,
             'stage_id' => $this->getStageId($item),
             'original_identification' => Arr::get($item, 'original_identification', Arr::get($item, 'taxon')),
-            'dataset' => Arr::get($item, 'dataset') ?? Dataset::default(),
-            'approved_at' => $this->getApprovedAt($taxon),
+            'dataset' => Arr::get($item, 'dataset') ?: Dataset::default(),
+            'approved_at' => now(),
         ];
     }
 
@@ -465,73 +466,6 @@ class LiteratureObservationImport extends BaseImport
     }
 
     /**
-     * Get observer name.
-     *
-     * @param  array  $data
-     * @return string|null
-     */
-    protected function getObserver(array $data)
-    {
-        if (! $this->model()->user->hasAnyRole(['admin', 'curator'])) {
-            return $this->model()->user->full_name;
-        }
-
-        return Arr::get($data, 'observer') ?: $this->model()->user->full_name;
-    }
-
-    /**
-     * Get observer ID.
-     *
-     * @param  array  $data
-     * @return int
-     */
-    protected function getObserverId(array $data)
-    {
-        if ($this->shouldUseCurrentUserId(Arr::get($data, 'observer'))) {
-            return $this->model()->user->id;
-        }
-    }
-
-    /**
-     * Get identifier name.
-     *
-     * @param  array  $data
-     * @return string|null
-     */
-    protected function getIdentifier(array $data)
-    {
-        if (! $this->model()->user->hasAnyRole(['admin', 'curator'])) {
-            return $this->model()->user->full_name;
-        }
-
-        return Arr::get($data, 'identifier') ?: $this->model()->user->full_name;
-    }
-
-    /**
-     * Get identifier ID.
-     *
-     * @param  array  $data
-     * @return int
-     */
-    protected function getIdentifierId(array $data)
-    {
-        if ($this->shouldUseCurrentUserId(Arr::get($data, 'identifier'))) {
-            return $this->model()->user->id;
-        }
-    }
-
-    /**
-     * Check if the name matches current user.
-     *
-     * @param  string|null  $name
-     * @return bool
-     */
-    private function shouldUseCurrentUserId($name = null)
-    {
-        return ! $this->model()->user->hasAnyRole(['admin', 'curator']) || ! $name;
-    }
-
-    /**
      * Get stage ID.
      *
      * @param  array  $data
@@ -543,33 +477,16 @@ class LiteratureObservationImport extends BaseImport
     }
 
     /**
-     * Get value for "Found Dead" field.
      *
-     * @param  array  $data
-     * @return bool
-     */
-    protected function getFoundDead(array $data)
-    {
-        $value = Arr::get($data, 'found_dead', false);
-
-        return $this->isTranslatedYes($value) || filter_var($value, FILTER_VALIDATE_BOOLEAN);
-    }
-
-    /**
-     * Check if the value matches with "Yes" translation.
      *
-     * @param string $value
-     * @return bool
+     * @param array $data
+     * @return int
      */
-    protected function isTranslatedYes($value)
+    protected function getOriginalIdentificationValidityValue(array $data)
     {
-        if (! is_string($value)) {
-            return false;
-        }
-
-        $yes = __('Yes', [], $this->model()->lang);
-
-        return strtolower($yes) === strtolower($value);
+        return LiteratureObservationIdentificationValidity::options()
+            ->flip()
+            ->get(Arr::get($data, 'original_identification_validity'));
     }
 
     /**
@@ -580,17 +497,17 @@ class LiteratureObservationImport extends BaseImport
      */
     protected static function createFromRequest($request)
     {
-        $user = $request->user();
-
         return Import::create([
             'type' => static::class,
             'columns' => $request->input('columns', []),
             'path' => $request->file('file')->store('imports'),
-            'user_id' => $user->id,
+            'user_id' => $request->user()->id,
             'lang' => app()->getLocale(),
-            'has_heading' => $request->input('has_heading', false),
+            'has_heading' => (bool) $request->input('has_heading', false),
             'options' => [
-                'pubpication_id' => $request->input('publication_id'),
+                'publication_id' => $request->input('publication_id'),
+                'is_original_data' => (bool) $request->input('is_original_data'),
+                'cited_publication_id' => $request->input('cited_publication_id'),
             ],
         ]);
     }

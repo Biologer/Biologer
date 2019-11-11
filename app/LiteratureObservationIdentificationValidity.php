@@ -25,15 +25,15 @@ class LiteratureObservationIdentificationValidity extends Enum
     /**
      * Labels for Validity options.
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     public static function options()
     {
-        return [
+        return collect([
             self::INVALID => __('labels.literature_observations.validity.invalid'),
             self::VALID => __('labels.literature_observations.validity.valid'),
             self::SYNONYM => __('labels.literature_observations.validity.synonym'),
-        ];
+        ]);
     }
 
     /**

@@ -29,4 +29,14 @@ class FakeImporter extends BaseImport
     {
         //
     }
+
+    /**
+     * Route to access validation errors for imported file.
+     *
+     * @return string
+     */
+    public function generateErrorsRoute()
+    {
+        //
+    }
 }

@@ -202,6 +202,11 @@ class FieldObservationImport extends BaseImport
         ];
     }
 
+    public function generateErrorsRoute()
+    {
+        return route('api.field-observation-imports.errors', $this->model());
+    }
+
     /**
      * Make validator instance.
      *

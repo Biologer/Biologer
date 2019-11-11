@@ -67,7 +67,7 @@ class Import extends Model
     public function getErrorsUrlAttribute()
     {
         if ($this->status()->validationFailed()) {
-            return route('api.field-observation-imports.errors', $this);
+            return $this->makeImporter()->generateErrorsRoute();
         }
     }
 
