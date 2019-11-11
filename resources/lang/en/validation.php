@@ -143,6 +143,8 @@ return [
         ],
     ],
 
+    'in_extended' => 'The selected :attribute is invalid. Allowed values are: :options',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Attributes

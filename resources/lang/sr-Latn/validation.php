@@ -141,6 +141,8 @@ return [
         ],
     ],
 
+    'in_extended' => 'Odabrano polje :attribute nije validno. Dozvoljene vrednosti su: :options',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Attributes

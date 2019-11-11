@@ -289,7 +289,10 @@ class LiteratureObservationImport extends BaseImport
             'place_where_referenced_in_publication' => ['nullable', 'string', 'max:255'],
         ], [
             'year.date_format' => __('validation.year'),
-            'original_identification_validity.in' => __('Possible options are: '.LiteratureObservationIdentificationValidity::options()->values()->implode(', ')),
+            'original_identification_validity.in' => __('validation.in_extended', [
+                'attribute' => __('labels.literature_observations.original_identification_validity'),
+                'options' => LiteratureObservationIdentificationValidity::options()->values()->implode(', '),
+            ]),
         ], [
             'taxon' => __('labels.literature_observations.taxon'),
             'year' => __('labels.literature_observations.year'),
