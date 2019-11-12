@@ -65,6 +65,7 @@ return [
     'closed_license' => 'Closed License',
     'literature_observations' => 'Literature Observations',
     'new_literature_observation' => 'New Literature Observation',
+    'literature_observations_import' => 'Import Literature Observations',
     'publications' => 'Publications',
     'new_publication' => 'New Publication',
     'edit_publication' => 'Edit Publication',

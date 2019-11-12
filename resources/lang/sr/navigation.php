@@ -65,6 +65,7 @@ return [
     'closed_license' => 'Затворена лиценца',
     'literature_observations' => 'Литературни подаци',
     'new_literature_observation' => 'Нови литературни податак',
+    'literature_observations_import' => 'Увоз литературних података',
     'publications' => 'Публикације',
     'new_publication' => 'Нова публикација',
     'edit_publication' => 'Измени публикацију',
