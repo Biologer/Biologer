@@ -185,7 +185,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->postJson('/api/field-observations', $this->validParams([
             'year' => null,
-        ]))->assertValidationErrors('year');
+        ]))->assertJsonValidationErrors('year');
 
         FieldObservation::assertCount($fieldObservationsCount);
     }
@@ -213,7 +213,7 @@ class AddFieldObservationTest extends TestCase
         $this->postJson('api/field-observations', $this->validParams([
             'year' => date('Y'),
             'month' => $month,
-        ]))->assertValidationErrors('month');
+        ]))->assertJsonValidationErrors('month');
     }
 
     public function invalidMonthData()
@@ -243,7 +243,7 @@ class AddFieldObservationTest extends TestCase
             'year' => $now->year,
             'month' => $now->month,
             'day' => $day,
-        ]))->assertValidationErrors('day');
+        ]))->assertJsonValidationErrors('day');
     }
 
     public function invalidDayData()
@@ -269,7 +269,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->postJson('/api/field-observations', $this->validParams([
             'latitude' => $latitude,
-        ]))->assertValidationErrors('latitude');
+        ]))->assertJsonValidationErrors('latitude');
 
         FieldObservation::assertCount($fieldObservationsCount);
     }
@@ -298,7 +298,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->postJson('/api/field-observations', $this->validParams([
             'longitude' => $longitude,
-        ]))->assertValidationErrors('longitude');
+        ]))->assertJsonValidationErrors('longitude');
 
         FieldObservation::assertCount($fieldObservationsCount);
     }
@@ -326,7 +326,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->postJson('/api/field-observations', $this->validParams([
             'elevation' => $elevation,
-        ]))->assertValidationErrors('elevation');
+        ]))->assertJsonValidationErrors('elevation');
 
         FieldObservation::assertCount($fieldObservationsCount);
     }
@@ -361,7 +361,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->postJson('/api/field-observations', $this->validParams([
             'accuracy' => 'aaa',
-        ]))->assertValidationErrors('accuracy');
+        ]))->assertJsonValidationErrors('accuracy');
 
         FieldObservation::assertCount($fieldObservationsCount);
     }
@@ -387,7 +387,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->postJson('/api/field-observations', $this->validParams([
             'taxon_id' => '999999999',
-        ]))->assertValidationErrors('taxon_id');
+        ]))->assertJsonValidationErrors('taxon_id');
 
         FieldObservation::assertCount($fieldObservationsCount);
     }
@@ -546,7 +546,7 @@ class AddFieldObservationTest extends TestCase
                     'path' => 'test-image4.jpg',
                 ],
             ],
-        ]))->assertValidationErrors('photos');
+        ]))->assertJsonValidationErrors('photos');
 
         Photo::assertCount($photosCount);
     }
@@ -579,7 +579,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->postJson('/api/field-observations', $this->validParams([
             'sex' => 'invalid',
-        ]))->assertValidationErrors('sex');
+        ]))->assertJsonValidationErrors('sex');
 
         FieldObservation::assertCount($fieldObservationsCount);
     }
@@ -602,7 +602,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->postJson('/api/field-observations', $this->validParams([
             'time' => 'invalid',
-        ]))->assertValidationErrors('time');
+        ]))->assertJsonValidationErrors('time');
 
         FieldObservation::assertCount($fieldObservationsCount);
     }

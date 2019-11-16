@@ -42,22 +42,3 @@ QueryBuilder::macro('assertCount', function ($expectedCount) {
         "Failed asserting that count of {$actualCount} equals expected count of {$expectedCount}"
     );
 });
-
-TestResponse::macro('assertCreated', function () {
-    $this->assertStatus(201);
-
-    return $this;
-});
-
-TestResponse::macro('assertUnauthorized', function () {
-    $this->assertStatus(401);
-
-    return $this;
-});
-
-TestResponse::macro('assertValidationErrors', function ($fields) {
-    $this->assertStatus(422);
-    $this->assertJsonValidationErrors(Arr::wrap($fields));
-
-    return $this;
-});
