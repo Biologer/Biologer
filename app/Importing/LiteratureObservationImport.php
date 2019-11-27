@@ -13,6 +13,7 @@ use App\Rules\Month;
 use App\Stage;
 use App\Support\Dataset;
 use App\Taxon;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -285,7 +286,7 @@ class LiteratureObservationImport extends BaseImport
             'original_identification' => ['required', 'string', 'max:255'],
             'original_identification_validity' => ['required', Rule::in(LiteratureObservationIdentificationValidity::options()->values())],
             'georeferenced_by' => ['nullable', 'string', 'max:255'],
-            'georeferenced_date' => ['nullable', 'string', 'max:255'],
+            'georeferenced_date' => ['nullable', 'date', 'max:255'],
             'place_where_referenced_in_publication' => ['nullable', 'string', 'max:255'],
         ], [
             'year.date_format' => __('validation.year'),
@@ -364,7 +365,7 @@ class LiteratureObservationImport extends BaseImport
             'original_coordinates' => Arr::get($item, 'original_coordinates') ?: null,
             'original_identification_validity' => $this->getOriginalIdentificationValidityValue($item),
             'georeferenced_by' => Arr::get($item, 'georeferenced_by') ?: null,
-            'georeferenced_date' => Arr::get($item, 'georeferenced_date'),
+            'georeferenced_date' => $this->getGeoreferencedDateValue($item),
             'minimum_elevation' => Arr::get($item, 'minimum_elevation') ?: null,
             'maximum_elevation' => Arr::get($item, 'maximum_elevation') ?: null,
             'publication_id' => $this->model()->options['publication_id'],
@@ -480,7 +481,7 @@ class LiteratureObservationImport extends BaseImport
     }
 
     /**
-     *
+     * Get original identification validity value.
      *
      * @param array $data
      * @return int
@@ -490,6 +491,19 @@ class LiteratureObservationImport extends BaseImport
         return LiteratureObservationIdentificationValidity::options()
             ->flip()
             ->get(Arr::get($data, 'original_identification_validity'));
+    }
+
+    /**
+     * Get georeferenced date value.
+     *
+     * @param array $data
+     * @return string|null
+     */
+    protected function getGeoreferencedDateValue(array $data)
+    {
+        $value = $data['georeferenced_date'] ?? null;
+
+        return $value ? Carbon::parse($value)->toDateString() : null;
     }
 
     /**

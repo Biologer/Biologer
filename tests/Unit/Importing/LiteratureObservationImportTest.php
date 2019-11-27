@@ -224,4 +224,24 @@ class LiteratureObservationImportTest extends TestCase
             ],
         ]);
     }
+
+    /** @test */
+    public function georeferenced_date_is_normalized_before_storing_it()
+    {
+        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
+        $user = factory(User::class)->create();
+
+        $import = $this->createImport(LiteratureObservationImport::class, [
+            'latitude', 'longitude', 'elevation', 'year', 'taxon',
+            'original_identification', 'original_identification_validity',
+            'georeferenced_date',
+        ], '21.123123,42.123123,30,2018,Cerambyx cerdo,Cerambyx sp.,Invalid, 12.06.2010.', $user);
+
+        // Perform all the steps
+        $import->makeImporter()->parse()->validate()->store();
+
+        $literatureObservation = LiteratureObservation::latest()->first();
+
+        $this->assertEquals('2010-06-12', $literatureObservation->georeferenced_date->toDateString());
+    }
 }
