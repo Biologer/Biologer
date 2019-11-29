@@ -9,7 +9,7 @@
             cancel-url="{{ route('contributor.field-observations.index') }}"
             :licenses="{{ json_encode(\App\License::getOptions()) }}"
             :sexes="{{ \App\Sex::options() }}"
-            :observation-types="{{ App\ObservationType::all() }}"
+            :observation-types="{{ \App\ObservationType::all() }}"
             submit-more
             should-confirm-cancel
             @role(['admin', 'curator'])
