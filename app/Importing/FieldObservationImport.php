@@ -25,6 +25,11 @@ class FieldObservationImport extends BaseImport
     protected $demReader;
 
     /**
+     * @var \Illuminate\Database\Eloquent\Collection|\App\Stage[]|null
+     */
+    protected $stages;
+
+    /**
      * Create new importer instance.
      *
      * @param  \App\Import  $import
@@ -240,8 +245,8 @@ class FieldObservationImport extends BaseImport
             'accuracy' => ['nullable', 'integer', 'max:10000'],
             'observer' => ['nullable', 'string'],
             'identifier' => ['nullable', 'string'],
-            'stage' => ['nullable', Rule::in(Stage::pluck('name'))],
-            'sex' => ['nullable', Rule::in(Sex::options()->keys())],
+            'stage' => ['nullable', Rule::in($this->stages()->pluck('name_translation'))],
+            'sex' => ['nullable', Rule::in(Sex::labels())],
             'number' => ['nullable', 'integer', 'min:1'],
             'found_dead' => ['nullable', 'string', Rule::in($this->yesNo())],
             'found_dead_note' => ['nullable', 'string', 'max:1000'],
@@ -255,6 +260,14 @@ class FieldObservationImport extends BaseImport
             'license' => ['nullable', 'string', Rule::in(License::allActive()->pluck('name'))],
         ], [
             'year.date_format' => trans('validation.year'),
+            'sex.in' => __('validation.in_extended', [
+                'attribute' => __('labels.literature_observations.sex'),
+                'options' => Sex::labels()->implode(', '),
+            ]),
+            'stage.in' => __('validation.in_extended', [
+                'attribute' => __('labels.literature_observations.stage'),
+                'options' => $this->stages()->pluck('name_translation')->implode(', '),
+            ]),
         ], [
             'taxon' => trans('labels.field_observations.taxon'),
             'year' => trans('labels.field_observations.year'),
@@ -367,7 +380,7 @@ class FieldObservationImport extends BaseImport
             'created_by_id' => $this->model()->for_user_id ?: $this->model()->user_id,
             'observer' => $this->getObserver($item),
             'identifier' => $this->getIdentifier($item),
-            'sex' => Arr::get($item, 'sex') ?: null,
+            'sex' => Sex::getValueFromLabel(Arr::get($item, 'sex', '')),
             'number' => Arr::get($item, 'number') ?: null,
             'note' => Arr::get($item, 'note') ?: null,
             'project' => Arr::get($item, 'project') ?: null,
@@ -503,6 +516,20 @@ class FieldObservationImport extends BaseImport
     }
 
     /**
+     * Get all the stages.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    protected function stages()
+    {
+        if (! $this->stages) {
+            $this->stages = Stage::all();
+        }
+
+        return $this->stages;
+    }
+
+    /**
      * Get stage ID.
      *
      * @param  array  $data
@@ -510,7 +537,13 @@ class FieldObservationImport extends BaseImport
      */
     protected function getStageId(array $data)
     {
-        return optional(Stage::findByName(strtolower(Arr::get($data, 'stage', ''))))->id;
+        $translation = strtolower(Arr::get($data, 'stage', ''));
+
+        $stage = $this->stages()->first(function ($stage) use ($translation) {
+            return strtolower($stage->name_translation) === $translation;
+        });
+
+        return $stage ? $stage->id : null;
     }
 
     /**

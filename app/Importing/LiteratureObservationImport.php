@@ -275,7 +275,7 @@ class LiteratureObservationImport extends BaseImport
             'observer' => ['nullable', 'string'],
             'identifier' => ['nullable', 'string'],
             'stage' => ['nullable', Rule::in($this->stages()->pluck('name_translation'))],
-            'sex' => ['nullable', Rule::in(Sex::options()->values())],
+            'sex' => ['nullable', Rule::in(Sex::labels())],
             'number' => ['nullable', 'integer', 'min:1'],
             'time' => ['nullable', 'date_format:H:i'],
             'project' => ['nullable', 'string', 'max:191'],
@@ -302,7 +302,7 @@ class LiteratureObservationImport extends BaseImport
             ]),
             'sex.in' => __('validation.in_extended', [
                 'attribute' => __('labels.literature_observations.sex'),
-                'options' => Sex::options()->values()->implode(', '),
+                'options' => Sex::labels()->implode(', '),
             ]),
             'stage.in' => __('validation.in_extended', [
                 'attribute' => __('labels.literature_observations.stage'),
@@ -484,7 +484,7 @@ class LiteratureObservationImport extends BaseImport
     }
 
     /**
-     * Undocumented function
+     * Get all the stages.
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */

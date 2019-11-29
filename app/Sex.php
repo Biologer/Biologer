@@ -21,6 +21,16 @@ class Sex
     }
 
     /**
+     * Get labels for sexes.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function labels()
+    {
+        return self::options()->values();
+    }
+
+    /**
      * Get value based on label.
      *
      * @param  string  $label
