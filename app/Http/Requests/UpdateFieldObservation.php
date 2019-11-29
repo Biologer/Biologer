@@ -6,7 +6,6 @@ use App\ActivityLog\FieldObservationDiff;
 use App\FieldObservation;
 use App\License;
 use App\Notifications\FieldObservationEdited;
-use App\Observation;
 use App\ObservationType;
 use App\Rules\Day;
 use App\Rules\Decimal;

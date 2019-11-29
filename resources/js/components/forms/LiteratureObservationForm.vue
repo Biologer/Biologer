@@ -144,6 +144,14 @@
             <b-input v-model="form.original_elevation" :placeholder="trans('labels.literature_observations.original_elevation_placeholder')"/>
           </b-field>
         </div>
+
+        <b-field
+            :label="trans('labels.literature_observations.other_original_data')"
+            :type="form.errors.has('other_original_data') ? 'is-danger' : null"
+            :message="form.errors.has('other_original_data') ? form.errors.first('other_original_data') : null"
+          >
+            <b-input type="textarea" v-model="form.other_original_data" />
+          </b-field>
       </div>
 
       <nz-spatial-input
@@ -411,6 +419,7 @@ export default {
           original_coordinates: null,
           original_identification: null,
           original_identification_validity: null,
+          other_original_data: null,
           place_where_referenced_in_publication: null,
           publication_id: null,
           taxon_id: null,

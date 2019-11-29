@@ -260,6 +260,7 @@ return [
         'original_elevation_placeholder' => 'f.e. 100-200m',
         'original_identification' => 'Original Identification',
         'original_identification_validity' => 'Original Identification Validity',
+        'other_original_data' => 'Other Original Data',
         'place_where_referenced_in_publication' => 'Place of Reference in Publication',
         'place_where_referenced_in_publication_placeholder' => 'i.e. Page 45, Figure 4 or Table 3',
         'georeferenced_by' => 'Georeferenced By',

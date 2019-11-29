@@ -48,6 +48,7 @@ class LiteratureObservationDiff
             'original_coordinates',
             'original_identification',
             'original_identification_validity',
+            'other_original_data',
         ];
     }
 
@@ -112,6 +113,12 @@ class LiteratureObservationDiff
                 return [
                     'value' => $literatureObservation->original_identification_validity,
                     'label' => "labels.literature_observations.validity.{$key}",
+                ];
+            },
+            'other_original_data' => function ($literatureObservation) {
+                return [
+                    'value' => $literatureObservation->other_original_data,
+                    'label' => null,
                 ];
             },
         ];

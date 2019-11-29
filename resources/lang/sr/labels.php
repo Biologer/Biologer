@@ -258,6 +258,7 @@ return [
         'original_elevation_placeholder' => 'нпр. 100-200m',
         'original_identification' => 'Оригинална идентификација',
         'original_identification_validity' => 'Валидност оригиналне идентификације',
+        'other_original_data' => 'Остали оригинални подаци',
         'place_where_referenced_in_publication' => 'Место где је наведено у публикацији',
         'place_where_referenced_in_publication_placeholder' => 'нпр. Страница 45, Слика 4 или Табела 3',
         'georeferenced_by' => 'Геореференцирао/ла',

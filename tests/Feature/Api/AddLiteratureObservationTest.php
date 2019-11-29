@@ -21,6 +21,7 @@ class AddLiteratureObservationTest extends TestCase
             'original_coordinates' => '20°22\'44",43°21\'35"',
             'original_identification' => 'Testudo hermanii',
             'original_identification_validity' => LiteratureObservationIdentificationValidity::VALID,
+            'other_original_data' => 'Some more information',
             'taxon_id' => function () {
                 return factory(Taxon::class)->create()->id;
             },
@@ -103,5 +104,6 @@ class AddLiteratureObservationTest extends TestCase
         $this->assertEquals(400, $literatureObservation->maximum_elevation);
         $this->assertEquals('Pera Detlić', $literatureObservation->georeferenced_by);
         $this->assertEquals(now()->toDateString(), $literatureObservation->georeferenced_date->toDateString());
+        $this->assertEquals('Some more information', $literatureObservation->other_original_data);
     }
 }

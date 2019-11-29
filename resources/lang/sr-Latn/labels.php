@@ -260,6 +260,7 @@ return [
         'original_elevation_placeholder' => 'npr. 100-200m',
         'original_identification' => 'Originalna identifikacija',
         'original_identification_validity' => 'Validnost originalne identifikacije',
+        'other_original_data' => 'Ostali originalni podaci',
         'place_where_referenced_in_publication' => 'Mesto gde je navedeno u publikaciji',
         'place_where_referenced_in_publication_placeholder' => 'npr. Page 45, Slika 4 ili Tabela 3',
         'georeferenced_by' => 'Georeferencirao',

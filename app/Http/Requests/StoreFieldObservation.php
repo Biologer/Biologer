@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use App\FieldObservation;
 use App\License;
 use App\Notifications\FieldObservationForApproval;
-use App\Observation;
 use App\ObservationType;
 use App\Rules\Day;
 use App\Rules\Decimal;

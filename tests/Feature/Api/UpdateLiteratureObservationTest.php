@@ -79,6 +79,7 @@ class UpdateLiteratureObservationTest extends TestCase
         $this->assertEquals(now()->subDay()->toDateString(), $literatureObservation->georeferenced_date->toDateString());
         $this->assertEquals('female', $literatureObservation->observation->sex);
         $this->assertTrue($literatureObservation->observation->stage->is($stage));
+        $this->assertEquals('Some other information', $literatureObservation->other_original_data);
     }
 
     protected function validParams($overrides = [])
@@ -90,6 +91,7 @@ class UpdateLiteratureObservationTest extends TestCase
             'original_coordinates' => '21°22\'44",41°21\'35"',
             'original_identification' => 'Testuduo hermanii',
             'original_identification_validity' => LiteratureObservationIdentificationValidity::INVALID,
+            'other_original_data' => 'Some other information',
             'taxon_id' => function () {
                 return factory(Taxon::class)->create()->id;
             },
@@ -128,6 +130,7 @@ class UpdateLiteratureObservationTest extends TestCase
             'original_elevation' => '300-500m',
             'original_coordinates' => '20°22\'44",43°21\'35"',
             'original_identification_validity' => LiteratureObservationIdentificationValidity::VALID,
+            'other_original_data' => 'Some information',
             'publication_id' => factory(Publication::class)->create()->id,
             'is_original_data' => true,
             'cited_publication_id' => null,

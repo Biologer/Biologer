@@ -164,5 +164,10 @@
             <td><b>{{ __('labels.literature_observations.original_identification_validity') }}</b></td>
             <td class="is-fullwidth">{{ $literatureObservation->original_identification_validity_translation }}</td>
         </tr>
+
+        <tr>
+            <td><b>{{ __('labels.literature_observations.other_original_data') }}</b></td>
+            <td class="is-fullwidth">{{ $literatureObservation->other_original_data }}</td>
+        </tr>
     </tbody>
 </table>

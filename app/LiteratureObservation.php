@@ -173,6 +173,7 @@ class LiteratureObservation extends Model implements FlatArrayable
             'original_coordinates' => $this->original_coordinates,
             'original_identification' => $this->observation->original_identification,
             'original_identification_validity' => $this->original_identification_validity,
+            'other_original_data' => $this->other_original_data,
         ];
     }
 

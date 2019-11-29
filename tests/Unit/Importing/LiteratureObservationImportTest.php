@@ -72,6 +72,7 @@ class LiteratureObservationImportTest extends TestCase
         $this->assertEquals('Georeferencer', $literatureObservation->georeferenced_by);
         $this->assertEquals('2019-01-01', $literatureObservation->georeferenced_date->toDateString());
         $this->assertEquals('Table 1', $literatureObservation->place_where_referenced_in_publication);
+        $this->assertEquals('Some more information', $literatureObservation->other_original_data);
     }
 
 
@@ -131,6 +132,7 @@ class LiteratureObservationImportTest extends TestCase
             'dataset',
             'original_identification',
             'original_identification_validity',
+            'other_original_data',
             'minimum_elevation',
             'maximum_elevation',
             'original_date',
@@ -173,6 +175,7 @@ class LiteratureObservationImportTest extends TestCase
             'custom-dataset',
             'Cerambyx sp.',
             'Invalid',
+            'Some more information',
             '200',
             '400',
             '"May 23, 2018"',
