@@ -164,12 +164,12 @@ class LiteratureObservationImportTest extends TestCase
             'Some note',
             'Observer name',
             'Identifier name',
-            'male',
+            'Male',
             '2',
             'Project name',
             'Mountain',
             'Pine tree',
-            'adult',
+            'Adult',
             'custom-dataset',
             'Cerambyx sp.',
             'Invalid',
@@ -235,7 +235,7 @@ class LiteratureObservationImportTest extends TestCase
             'latitude', 'longitude', 'elevation', 'year', 'taxon',
             'original_identification', 'original_identification_validity',
             'georeferenced_date',
-        ], '21.123123,42.123123,30,2018,Cerambyx cerdo,Cerambyx sp.,Invalid, 12.06.2010.', $user);
+        ], '21.123123,42.123123,30,2018,Cerambyx cerdo,Cerambyx sp.,Invalid,12.06.2010.', $user);
 
         // Perform all the steps
         $import->makeImporter()->parse()->validate()->store();

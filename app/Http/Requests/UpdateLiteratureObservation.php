@@ -10,6 +10,7 @@ use App\Observation;
 use App\Rules\Day;
 use App\Rules\Decimal;
 use App\Rules\Month;
+use App\Sex;
 use App\Stage;
 use App\Support\Dataset;
 use Illuminate\Foundation\Http\FormRequest;
@@ -51,7 +52,7 @@ class UpdateLiteratureObservation extends FormRequest
             'observer' => ['nullable', 'string'],
             'identifier' => ['nullable', 'string'],
             'stage_id' => ['nullable', Rule::in(Stage::pluck('id'))],
-            'sex' => ['nullable', Rule::in(Observation::SEX_OPTIONS)],
+            'sex' => ['nullable', Rule::in(Sex::options()->keys())],
             'number' => ['nullable', 'integer', 'min:1'],
             'photos' => ['nullable', 'array', 'max:'.config('biologer.photos_per_observation')],
             'time' => ['nullable', 'date_format:H:i'],

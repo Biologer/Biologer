@@ -126,9 +126,6 @@ return [
         'dataset' => 'Сет података',
         'mgrs10k' => 'MGRS 10K',
 
-        'male' => 'Мужјак',
-        'female' => 'Женка',
-
         'statuses' => [
             'approved' => 'Одобрено',
             'unidentifiable' => 'Немогућа идентификација',

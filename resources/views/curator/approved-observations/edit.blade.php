@@ -8,7 +8,7 @@
             redirect-url="{{ route('curator.approved-observations.index') }}"
             cancel-url="{{ route('curator.approved-observations.index') }}"
             :licenses="{{ json_encode(\App\License::getOptions()) }}"
-            :sexes="{{ json_encode(\App\Observation::SEX_OPTIONS) }}"
+            :sexes="{{ \App\Sex::options() }}"
             :observation-types="{{ $observationTypes }}"
             :observation="{{ $fieldObservation }}"
             should-confirm-submit

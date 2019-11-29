@@ -8,7 +8,7 @@
             redirect-url="{{ route('contributor.field-observations.index') }}"
             cancel-url="{{ route('contributor.field-observations.index') }}"
             :licenses="{{ json_encode(\App\License::getOptions()) }}"
-            :sexes="{{ json_encode(\App\Observation::SEX_OPTIONS) }}"
+            :sexes="{{ \App\Sex::options() }}"
             :observation-types="{{ App\ObservationType::all() }}"
             submit-more
             should-confirm-cancel

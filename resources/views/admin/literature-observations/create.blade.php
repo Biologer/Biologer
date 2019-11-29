@@ -7,7 +7,7 @@
             method="POST"
             redirect-url="{{ route('admin.literature-observations.index') }}"
             cancel-url="{{ route('admin.literature-observations.index') }}"
-            :sexes="{{ json_encode(\App\Observation::SEX_OPTIONS) }}"
+            :sexes="{{ \App\Sex::options() }}"
             :validity-options="{{ json_encode(\App\LiteratureObservationIdentificationValidity::options()) }}"
             should-confirm-cancel
             submit-more

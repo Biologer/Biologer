@@ -10,6 +10,7 @@ use App\Observation;
 use App\Rules\Day;
 use App\Rules\Decimal;
 use App\Rules\Month;
+use App\Sex;
 use App\Stage;
 use App\Support\Dataset;
 use App\Taxon;
@@ -24,6 +25,11 @@ class LiteratureObservationImport extends BaseImport
      * @var \App\DEM\Reader
      */
     protected $demReader;
+
+    /**
+     * @var \Illuminate\Database\Eloquent\Collection
+     */
+    protected $stages;
 
     /**
      * Create new importer instance.
@@ -268,8 +274,8 @@ class LiteratureObservationImport extends BaseImport
             'accuracy' => ['nullable', 'integer', 'max:10000'],
             'observer' => ['nullable', 'string'],
             'identifier' => ['nullable', 'string'],
-            'stage' => ['nullable', Rule::in(Stage::pluck('name'))],
-            'sex' => ['nullable', Rule::in(Observation::SEX_OPTIONS)],
+            'stage' => ['nullable', Rule::in($this->stages()->pluck('name_translation'))],
+            'sex' => ['nullable', Rule::in(Sex::options()->values())],
             'number' => ['nullable', 'integer', 'min:1'],
             'time' => ['nullable', 'date_format:H:i'],
             'project' => ['nullable', 'string', 'max:191'],
@@ -293,6 +299,14 @@ class LiteratureObservationImport extends BaseImport
             'original_identification_validity.in' => __('validation.in_extended', [
                 'attribute' => __('labels.literature_observations.original_identification_validity'),
                 'options' => LiteratureObservationIdentificationValidity::options()->values()->implode(', '),
+            ]),
+            'sex.in' => __('validation.in_extended', [
+                'attribute' => __('labels.literature_observations.sex'),
+                'options' => Sex::options()->values()->implode(', '),
+            ]),
+            'stage.in' => __('validation.in_extended', [
+                'attribute' => __('labels.literature_observations.stage'),
+                'options' => $this->stages()->pluck('name_translation')->implode(', '),
             ]),
         ], [
             'taxon' => __('labels.literature_observations.taxon'),
@@ -401,7 +415,7 @@ class LiteratureObservationImport extends BaseImport
             'created_by_id' => $this->model()->user_id,
             'observer' => Arr::get($item, 'observer') ?: null,
             'identifier' => Arr::get($item, 'identifier') ?: null,
-            'sex' => Arr::get($item, 'sex') ?: null,
+            'sex' => Sex::getValueFromLabel(Arr::get($item, 'sex', '')),
             'number' => Arr::get($item, 'number') ?: null,
             'note' => Arr::get($item, 'note') ?: null,
             'project' => Arr::get($item, 'project') ?: null,
@@ -470,6 +484,20 @@ class LiteratureObservationImport extends BaseImport
     }
 
     /**
+     * Undocumented function
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    protected function stages()
+    {
+        if (! $this->stages) {
+            $this->stages = Stage::all();
+        }
+
+        return $this->stages;
+    }
+
+    /**
      * Get stage ID.
      *
      * @param  array  $data
@@ -477,7 +505,13 @@ class LiteratureObservationImport extends BaseImport
      */
     protected function getStageId(array $data)
     {
-        return optional(Stage::findByName(strtolower(Arr::get($data, 'stage', ''))))->id;
+        $translation = strtolower(Arr::get($data, 'stage', ''));
+
+        $stage = $this->stages()->first(function ($stage) use ($translation) {
+            return strtolower($stage->name_translation) === $translation;
+        });
+
+        return $stage ? $stage->id : null;
     }
 
     /**

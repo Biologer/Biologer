@@ -128,9 +128,6 @@ return [
         'dataset' => 'Set podataka',
         'mgrs10k' => 'MGRS 10K',
 
-        'male' => 'Mužjak',
-        'female' => 'Ženka',
-
         'statuses' => [
             'approved' => 'Odobreno',
             'unidentifiable' => 'Nemoguća identifikacija',

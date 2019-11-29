@@ -9,6 +9,7 @@ use App\Observation;
 use App\Rules\Day;
 use App\Rules\Decimal;
 use App\Rules\Month;
+use App\Sex;
 use App\Stage;
 use App\Support\Dataset;
 use App\Taxon;
@@ -240,7 +241,7 @@ class FieldObservationImport extends BaseImport
             'observer' => ['nullable', 'string'],
             'identifier' => ['nullable', 'string'],
             'stage' => ['nullable', Rule::in(Stage::pluck('name'))],
-            'sex' => ['nullable', Rule::in(Observation::SEX_OPTIONS)],
+            'sex' => ['nullable', Rule::in(Sex::options()->keys())],
             'number' => ['nullable', 'integer', 'min:1'],
             'found_dead' => ['nullable', 'string', Rule::in($this->yesNo())],
             'found_dead_note' => ['nullable', 'string', 'max:1000'],

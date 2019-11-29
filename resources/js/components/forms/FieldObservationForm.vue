@@ -111,7 +111,7 @@
           >
             <b-select id="stage" v-model="form.stage_id" :disabled="!stages.length" expanded>
               <option :value="null">{{ trans('labels.field_observations.choose_a_stage') }}</option>
-              <option v-for="stage in stages" :value="stage.id" :key="stage.id" v-text="trans('stages.'+stage.name)"></option>
+              <option v-for="stage in stages" :value="stage.id" :key="stage.id" v-text="trans(`stages.${stage.name}`)"></option>
             </b-select>
           </b-field>
         </div>
@@ -124,7 +124,7 @@
           >
             <b-select v-model="form.sex" expanded>
               <option :value="null">{{ trans('labels.field_observations.choose_a_value') }}</option>
-              <option v-for="sex in sexes" :value="sex" v-text="trans('labels.sexes.'+sex)"></option>
+              <option v-for="(label,sex) in sexes" :key="sex" :value="sex" v-text="label"></option>
             </b-select>
           </b-field>
         </div>

@@ -8,7 +8,7 @@
             redirect-url="{{ route('admin.literature-observations.index') }}"
             cancel-url="{{ route('admin.literature-observations.index') }}"
             :observation="{{ json_encode($literatureObservation->toFlatArray()) }}"
-            :sexes="{{ json_encode(\App\Observation::SEX_OPTIONS) }}"
+            :sexes="{{ \App\Sex::options() }}"
             :validity-options="{{ json_encode(\App\LiteratureObservationIdentificationValidity::options()) }}"
             should-confirm-submit
             confirm-submit-message="{{ __('Reason for changing data. Please try to be precise in order to keep the track of changes and ensure data verification.') }}"

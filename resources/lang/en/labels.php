@@ -128,9 +128,6 @@ return [
         'dataset' => 'Dataset',
         'mgrs10k' => 'MGRS 10K',
 
-        'male' => 'Male',
-        'female' => 'Female',
-
         'statuses' => [
             'approved' => 'Approved',
             'unidentifiable' => 'Unidentifiable',

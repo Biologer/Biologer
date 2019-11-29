@@ -10,6 +10,7 @@ use App\ObservationType;
 use App\Rules\Day;
 use App\Rules\Decimal;
 use App\Rules\Month;
+use App\Sex;
 use App\Stage;
 use App\Support\Dataset;
 use App\Taxon;
@@ -60,7 +61,7 @@ class StoreFieldObservation extends FormRequest
             'observer' => ['nullable', 'string'],
             'identifier' => ['nullable', 'string'],
             'stage_id' => ['nullable', Rule::in(Stage::pluck('id'))],
-            'sex' => ['nullable', Rule::in(Observation::SEX_OPTIONS)],
+            'sex' => ['nullable', Rule::in(Sex::options()->keys())],
             'number' => ['nullable', 'integer', 'min:1'],
             'found_dead' => ['nullable', 'boolean'],
             'found_dead_note' => ['nullable', 'string', 'max:1000'],

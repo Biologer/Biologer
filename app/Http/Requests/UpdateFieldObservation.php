@@ -11,6 +11,7 @@ use App\ObservationType;
 use App\Rules\Day;
 use App\Rules\Decimal;
 use App\Rules\Month;
+use App\Sex;
 use App\Stage;
 use App\Support\Dataset;
 use App\Taxon;
@@ -60,7 +61,7 @@ class UpdateFieldObservation extends FormRequest
             'accuracy' => ['nullable', 'integer', 'max:10000'],
             'observer' => ['nullable', 'string'],
             'identifier' => ['nullable', 'string'],
-            'sex' => ['nullable', Rule::in(Observation::SEX_OPTIONS)],
+            'sex' => ['nullable', Rule::in(Sex::options()->keys())],
             'stage_id' => ['nullable', Rule::in(Stage::pluck('id'))],
             'number' => ['nullable', 'integer', 'min:1'],
             'found_dead' => ['nullable', 'boolean'],

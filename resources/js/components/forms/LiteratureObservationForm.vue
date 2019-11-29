@@ -101,7 +101,7 @@
           :message="form.errors.has('original_identification_validity') ? form.errors.first('original_identification_validity') : null"
         >
           <b-select name="original_identification_validity" v-model="form.original_identification_validity" expanded>
-            <option :value="value" v-for="(label, value) in validityOptions">{{ label }}</option>
+            <option :value="value" v-for="(label, value) in validityOptions" :key="value">{{ label }}</option>
           </b-select>
         </b-field>
 
@@ -220,7 +220,7 @@
       <b-field :label="trans('labels.literature_observations.sex')" :type="form.errors.has('sex') ? 'is-danger' : null" :message="form.errors.has('sex') ? form.errors.first('sex') : null">
         <b-select v-model="form.sex" expanded="expanded">
           <option :value="null">{{ trans('labels.literature_observations.choose_a_value') }}</option>
-          <option v-for="sex in sexes" :value="sex" v-text="trans('labels.sexes.'+sex)"></option>
+          <option v-for="(label,sex) in sexes" :key="sex" :value="sex" v-text="label"></option>
         </b-select>
       </b-field>
 
