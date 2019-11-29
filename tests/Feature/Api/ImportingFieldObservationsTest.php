@@ -235,11 +235,11 @@ class ImportingFieldObservationsTest extends TestCase
 
         Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
 
-        $response = $this->postJson('/api/field-observation-imports', [
+        $this->postJson('/api/field-observation-imports', [
             'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon', 'license'],
             'file' => $this->validFile(),
             'user_id' => 99999999,
-        ])->assertValidationErrors('user_id');
+        ])->assertJsonValidationErrors('user_id');
     }
 
     /** @test */

@@ -147,7 +147,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
             'field_observation_ids' => [$fieldObservation->id],
         ]);
 
-        $response->assertValidationErrors('field_observation_ids');
+        $response->assertJsonValidationErrors('field_observation_ids');
         $this->assertFalse($fieldObservation->fresh()->isApproved());
     }
 
@@ -168,7 +168,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
             'field_observation_ids' => [$fieldObservation->id],
         ]);
 
-        $response->assertValidationErrors('field_observation_ids');
+        $response->assertJsonValidationErrors('field_observation_ids');
         $this->assertFalse($fieldObservation->fresh()->isApproved());
     }
 
@@ -189,7 +189,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
             'field_observation_ids' => [$fieldObservation->id],
         ]);
 
-        $response->assertValidationErrors('field_observation_ids');
+        $response->assertJsonValidationErrors('field_observation_ids');
     }
 
     /** @test */
