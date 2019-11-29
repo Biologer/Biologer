@@ -2,8 +2,8 @@
 
 use App\Import;
 use App\Importing\FieldObservationImport;
-use App\Importing\LiteratureObservationImport;
 use App\Importing\ImportStatus;
+use App\Importing\LiteratureObservationImport;
 use Faker\Generator as Faker;
 
 $factory->define(Import::class, function (Faker $faker) {

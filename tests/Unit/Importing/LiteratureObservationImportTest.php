@@ -3,9 +3,9 @@
 namespace Tests\Unit\Importing;
 
 use App\DEM\Reader as DEMReader;
-use App\LiteratureObservation;
 use App\Import;
 use App\Importing\LiteratureObservationImport;
+use App\LiteratureObservation;
 use App\LiteratureObservationIdentificationValidity;
 use App\Publication;
 use App\Taxon;
