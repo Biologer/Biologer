@@ -37,8 +37,10 @@ class Kernel extends ConsoleKernel
         // $schedule->command('photos:clean')->dailyAt('03:00');
 
         // Backup
-        $schedule->command('backup:clean')->dailyAt('03:15');
-        $schedule->command('backup:run')->dailyAt('04:00');
+        if (config('biologer.backup_enabled')) {
+            $schedule->command('backup:clean')->dailyAt('03:15');
+            $schedule->command('backup:run')->dailyAt('04:00');
+        }
 
         $schedule->command('send:notifications-summary')->dailyAt('09:00');
     }
