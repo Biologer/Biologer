@@ -30,6 +30,7 @@ class NotificationsPreferencesController
     {
         $request->validate([
             'field_observation_approved.*' => ['nullable', 'boolean'],
+            'field_observation_edited.*' => ['nullable', 'boolean'],
             'field_observation_moved_to_pending.*' => ['nullable', 'boolean'],
             'field_observation_marked_unidentifiable.*' => ['nullable', 'boolean'],
             'field_observation_for_approval.*' => ['nullable', 'boolean'],
@@ -84,9 +85,11 @@ class NotificationsPreferencesController
     {
         $attributes = [
             'field_observation_approved.database',
+            'field_observation_edited.database',
             'field_observation_moved_to_pending.database',
             'field_observation_marked_unidentifiable.database',
             'field_observation_approved.mail',
+            'field_observation_edited.mail',
             'field_observation_moved_to_pending.mail',
             'field_observation_marked_unidentifiable.mail',
         ];
