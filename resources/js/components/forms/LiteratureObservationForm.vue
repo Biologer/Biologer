@@ -146,12 +146,13 @@
         </div>
 
         <b-field
-            :label="trans('labels.literature_observations.other_original_data')"
-            :type="form.errors.has('other_original_data') ? 'is-danger' : null"
-            :message="form.errors.has('other_original_data') ? form.errors.first('other_original_data') : null"
-          >
-            <b-input type="textarea" v-model="form.other_original_data" />
-          </b-field>
+          class="mb-8"
+          :label="trans('labels.literature_observations.other_original_data')"
+          :type="form.errors.has('other_original_data') ? 'is-danger' : null"
+          :message="form.errors.has('other_original_data') ? form.errors.first('other_original_data') : null"
+        >
+           <b-input type="textarea" v-model="form.other_original_data" />
+        </b-field>
       </div>
 
       <nz-spatial-input
