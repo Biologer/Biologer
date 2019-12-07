@@ -68,11 +68,14 @@ class FieldObservationEdited extends Notification implements ShouldQueue
         return [
             'field_observation_id' => $this->fieldObservation->id,
             'causer_name' => $this->causer->full_name,
+            'taxon_name' => optional($this->fieldObservation->observation->taxon)->name,
         ];
     }
 
     /**
      * Get the mail representation of the notification.
+     *
+     * NOTE: No longer used, should be deleted at some point.
      *
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
@@ -96,8 +99,12 @@ class FieldObservationEdited extends Notification implements ShouldQueue
      */
     public function toUnreadSummaryMail($notifiable)
     {
+        $taxon = $this->fieldObservation->taxon;
+
         return [
-            'message' => trans('notifications.field_observations.edited_message'),
+            'message' => $taxon
+                ? trans('notifications.field_observations.edited_message_with_taxon', ['taxonName' => $taxon->name])
+                : trans('notifications.field_observations.edited_message'),
             'actionText' => trans('notifications.field_observations.action'),
             'actionUrl' => route('contributor.field-observations.show', $this->fieldObservation),
         ];

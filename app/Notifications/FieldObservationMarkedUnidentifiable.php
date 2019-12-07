@@ -68,11 +68,14 @@ class FieldObservationMarkedUnidentifiable extends Notification implements Shoul
         return [
             'field_observation_id' => $this->fieldObservation->id,
             'curator_name' => $this->curator->full_name,
+            'taxon_name' => optional($this->fieldObservation->observation->taxon)->name,
         ];
     }
 
     /**
      * Get the mail representation of the notification.
+     *
+     * NOTE: No longer used, should be deleted at some point.
      *
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
@@ -96,8 +99,12 @@ class FieldObservationMarkedUnidentifiable extends Notification implements Shoul
      */
     public function toUnreadSummaryMail($notifiable)
     {
+        $taxon = $this->fieldObservation->taxon;
+
         return [
-            'message' => trans('notifications.field_observations.marked_as_unidentifiable_message'),
+            'message' => $taxon
+                ? trans('notifications.field_observations.marked_as_unidentifiable_message_with_taxon', ['taxonName' => $taxon->name])
+                : trans('notifications.field_observations.marked_as_unidentifiable_message'),
             'actionText' => trans('notifications.field_observations.action'),
             'actionUrl' => route('contributor.field-observations.show', $this->fieldObservation),
         ];

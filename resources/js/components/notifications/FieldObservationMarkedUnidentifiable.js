@@ -4,8 +4,11 @@ export default {
   },
 
   message(notification) {
-    return trans('notifications.field_observations.marked_as_unidentifiable', {
-      curatorName: notification.data.curator_name || trans('roles.curator')
-    })
+    const taxonName = notification.data.taxon_name
+    const curatorName = notification.data.curator_name || trans('roles.curator')
+
+    return taxonName
+      ? trans('notifications.field_observations.marked_as_unidentifiable_with_taxon', { curatorName, taxonName })
+      : trans('notifications.field_observations.marked_as_unidentifiable', { curatorName })
   }
 }

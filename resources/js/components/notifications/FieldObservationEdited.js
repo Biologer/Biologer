@@ -4,8 +4,11 @@ export default {
   },
 
   message(notification) {
-    return trans('notifications.field_observations.edited', {
-      causerName: notification.data.causer_name || trans('roles.curator')
-    })
+    const taxonName = notification.data.taxon_name
+    const causerName = notification.data.causer_name || trans('roles.curator')
+
+    return taxonName
+      ? trans('notifications.field_observations.edited_with_taxon', { causerName, taxonName })
+      : trans('notifications.field_observations.edited', { causerName })
   }
 }
