@@ -1,11 +1,11 @@
 <template>
-  <div class="users-table">
+  <div class="publications-table">
     <div class="level">
       <div class="level-left">
         <div class="level-item">
           <b-field>
             <b-input
-              :placeholder="trans('labels.users.search')"
+              :placeholder="trans('labels.publications.search')"
               :value="search"
               @input="performSearch"
               icon="search"
@@ -49,20 +49,12 @@
           {{ props.row.id }}
         </b-table-column>
 
-        <b-table-column field="first_name" :label="trans('labels.users.first_name')" sortable>
-          {{ props.row.first_name }}
+        <b-table-column field="title" :label="trans('labels.publications.title')" sortable>
+          {{ props.row.title }}
         </b-table-column>
 
-        <b-table-column field="last_name" :label="trans('labels.users.last_name')" sortable>
-          {{ props.row.last_name }}
-        </b-table-column>
-
-        <b-table-column field="email" :label="trans('labels.users.email')" sortable>
-          {{ props.row.email }}
-        </b-table-column>
-
-        <b-table-column field="institution" :label="trans('labels.users.institution')" sortable>
-          {{ props.row.institution }}
+        <b-table-column field="authors" :label="trans('labels.publications.authors')">
+          {{ props.row.authors.map(author => `${author.first_name} ${author.last_name}`).join(', ') }}
         </b-table-column>
 
         <b-table-column width="150" numeric>
@@ -85,11 +77,12 @@
 
 <script>
 import _debounce from 'lodash/debounce'
+import dayjs from '@/dayjs'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
 import NzTable from '@/components/table/Table'
 
 export default {
-  name: 'nzUsersTable',
+  name: 'nzPublicationsTable',
 
   mixins: [PersistentTableMixin],
 
@@ -159,6 +152,9 @@ export default {
      */
     onPageChange(page) {
       this.page = page
+
+      this.saveState()
+
       this.loadAsyncData()
     },
 
@@ -218,7 +214,15 @@ export default {
 
     clearSearch() {
       this.search = ''
+
       this.loadAsyncData()
+    }
+  },
+
+  filters: {
+    formatDateTime(dateTime) {
+      const d = dayjs(dateTime)
+      return d.isValid() ? d.format('D.M.YYYY HH:mm') : ''
     }
   }
 }

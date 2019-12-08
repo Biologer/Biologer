@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="box">
-        <nz-announcements-table
+        <nz-publications-table
             list-route="api.publications.index"
             edit-route="admin.publications.edit"
             delete-route="api.publications.destroy"

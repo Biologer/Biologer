@@ -210,6 +210,8 @@ return [
         'add_editor' => 'Dodaj urednika',
         'first_name' => 'Ime',
         'last_name' => 'Prezime',
+
+        'search' => 'Traži',
     ],
 
     'literature_observations' => [

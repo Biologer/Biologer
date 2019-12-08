@@ -25,6 +25,29 @@ class Publication extends Model
     ];
 
     /**
+     * Filter definitions.
+     *
+     * @return array
+     */
+    protected function filters()
+    {
+        return [
+            'sort_by' => \App\Filters\SortBy::class,
+            'search' => \App\Filters\Publication\Search::class,
+        ];
+    }
+
+    /**
+     * List of fields that users can be sorted by.
+     *
+     * @return array
+     */
+    public static function sortableFields()
+    {
+        return ['id', 'title'];
+    }
+
+    /**
      * Relation to the user who has added the publication.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
