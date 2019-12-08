@@ -36,7 +36,6 @@ class LiteratureObservation extends Model implements FlatArrayable
             'year' => \App\Filters\LiteratureObservation\ObservationAttributeFilter::class,
             'month' => \App\Filters\LiteratureObservation\ObservationAttributeFilter::class,
             'day' => \App\Filters\LiteratureObservation\ObservationAttributeFilter::class,
-            'observer' => \App\Filters\LiteratureObservation\ObservationAttributeLikeFilter::class,
             'sort_by' => \App\Filters\SortBy::class,
             'project' => \App\Filters\LiteratureObservation\ObservationAttributeLikeFilter::class,
             'publication_id' => \App\Filters\LiteratureObservation\PublicationFilter::class,
