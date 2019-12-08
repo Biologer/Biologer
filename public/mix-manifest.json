@@ -1,13 +1,13 @@
 {
-    "/js/app.js": "/js/app.js?id=a7e5df1e28cbe660a9c2",
+    "/js/app.js": "/js/app.js?id=4c2270d6b16f6842052b",
     "/css/app.css": "/css/app.css?id=ce824786c1bc94ae441a",
-    "/js/app.js.map": "/js/app.js.map?id=981f0bbe2cc16689c095",
-    "/js/dashboard.js": "/js/dashboard.js?id=7fce1b8931b05b366a88",
-    "/js/dashboard.js.map": "/js/dashboard.js.map?id=53c51453c76dafe715e8",
-    "/js/public.js": "/js/public.js?id=7ac484a5000535f95fed",
-    "/js/public.js.map": "/js/public.js.map?id=78ce2934369d2fa199a5",
-    "/js/vendors~buefy.js": "/js/vendors~buefy.js?id=3f78555b5537cc8334b8",
-    "/js/vendors~buefy.js.map": "/js/vendors~buefy.js.map?id=7f4db87bc387c31270de",
-    "/js/vendors~public.js": "/js/vendors~public.js?id=57455725dff9aaae0233",
-    "/js/vendors~public.js.map": "/js/vendors~public.js.map?id=38d3b2dfe583e954f288"
+    "/js/app.js.map": "/js/app.js.map?id=c96556211d701612951f",
+    "/js/dashboard.js": "/js/dashboard.js?id=b153569e17ec80089c03",
+    "/js/dashboard.js.map": "/js/dashboard.js.map?id=f64338370a75b85cf033",
+    "/js/public.js": "/js/public.js?id=2db71f4f9ab6e4a10718",
+    "/js/public.js.map": "/js/public.js.map?id=e6efb768b8709058a3e6",
+    "/js/vendors~buefy.js": "/js/vendors~buefy.js?id=7b2a3d80ee73b0c5bc9d",
+    "/js/vendors~buefy.js.map": "/js/vendors~buefy.js.map?id=fc6b9f48679a8ea6dc2c",
+    "/js/vendors~public.js": "/js/vendors~public.js?id=cd954b79c6e475f31d06",
+    "/js/vendors~public.js.map": "/js/vendors~public.js.map?id=4f623493f4d3c69aa600"
 }

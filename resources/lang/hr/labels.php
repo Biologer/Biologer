@@ -281,6 +281,8 @@ return [
 
         'save_more_same_taxon' => 'Save (još, ista svojta)',
         'save_more_same_taxon_tooltip' => 'Čuva trenutni nalaz, ali vam omogućava da unesete još podataka sa istog mjesta i za istu svojtu.',
+
+        'include_lower_taxa' => 'Uključujući niže svojte',
     ],
 
     'preferences' => [

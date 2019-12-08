@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Concerns\CanMemoize;
+use App\Concerns\MappedSorting;
 use App\Contracts\FlatArrayable;
 use App\Filters\Filterable;
 use Illuminate\Support\Carbon;
@@ -10,7 +11,7 @@ use Spatie\Activitylog\Models\Activity;
 
 class LiteratureObservation extends Model implements FlatArrayable
 {
-    use CanMemoize, Filterable;
+    use CanMemoize, Filterable, MappedSorting;
 
     /**
      * The attributes that should be cast to native types.
@@ -24,6 +25,45 @@ class LiteratureObservation extends Model implements FlatArrayable
         'maximum_elevation' => 'integer',
         'original_identification_validity' => 'integer',
     ];
+
+    protected function filters()
+    {
+        return [
+            'id' => \App\Filters\Ids::class,
+            'taxon' => \App\Filters\LiteratureObservation\TaxonFilter::class,
+            'taxon_id' => \App\Filters\NullFilter::class,
+            'include_child_taxa' => \App\Filters\NullFilter::class,
+            'year' => \App\Filters\LiteratureObservation\ObservationAttributeFilter::class,
+            'month' => \App\Filters\LiteratureObservation\ObservationAttributeFilter::class,
+            'day' => \App\Filters\LiteratureObservation\ObservationAttributeFilter::class,
+            'observer' => \App\Filters\LiteratureObservation\ObservationAttributeLikeFilter::class,
+            'sort_by' => \App\Filters\SortBy::class,
+            'project' => \App\Filters\LiteratureObservation\ObservationAttributeLikeFilter::class,
+            'publication_id' => \App\Filters\LiteratureObservation\PublicationFilter::class,
+        ];
+    }
+
+    protected function sortMap()
+    {
+        return [
+            'day' => 'observation.day',
+            'month' => 'observation.month',
+            'year' => 'observation.year',
+            'taxon_name' => 'observation.taxon.name',
+        ];
+    }
+
+    /**
+     * List of fields that field observations can be sorted by.
+     *
+     * @return array
+     */
+    public static function sortableFields()
+    {
+        return [
+            'id', 'taxon_name', 'year', 'month', 'day',
+        ];
+    }
 
     /**
      * General observation information.

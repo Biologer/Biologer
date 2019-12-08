@@ -305,8 +305,8 @@
 </template>
 
 <script>
-import dayjs from '@/dayjs'
 import _range from 'lodash/range'
+import dayjs from '@/dayjs'
 import FilterableTableMixin from '@/mixins/FilterableTableMixin'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
 import ExportDownloadModal from '@/components/exports/ExportDownloadModal'
@@ -497,7 +497,7 @@ export default {
       })
     },
 
-    remove (row) {
+    remove(row) {
       return axios.delete(route(this.deleteRoute, row.id)).then(response => {
         this.$buefy.toast.open({
           message: this.trans('Record deleted'),
@@ -508,11 +508,11 @@ export default {
       }).catch(error => { console.error(error) })
     },
 
-    editLink (row) {
+    editLink(row) {
       return route(this.editRoute, row.id)
     },
 
-    viewLink (row) {
+    viewLink(row) {
       return this.viewRoute ? route(this.viewRoute, row.id) : null
     },
 

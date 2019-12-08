@@ -18,7 +18,7 @@ class LiteratureObservationsController
      */
     public function index(Request $request)
     {
-        $observations = LiteratureObservation::with([
+        $observations = LiteratureObservation::filter($request)->with([
              'observation.taxon',
         ])->when($request->user()->hasRole('admin'), function ($query) {
             $query->with('activity.causer');

@@ -281,6 +281,8 @@ return [
 
         'save_more_same_taxon' => 'Save (more, same taxon)',
         'save_more_same_taxon_tooltip' => 'Saves current observations, but allows you to enter more data from the same place and for the same taxon.',
+
+        'include_lower_taxa' => 'Include lower taxa',
     ],
 
     'preferences' => [

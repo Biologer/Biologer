@@ -2,6 +2,21 @@
   <div class="field-observations-table">
     <div class="level">
       <div class="level-left">
+        <div class="level-item">
+          <button
+            type="button"
+            class="button is-touch-full"
+            @click="showFilter = !showFilter"
+          >
+            <b-icon
+              icon="filter"
+              :size="filterIsActive ? null : 'is-small'"
+              :class="[filterIsActive ? 'has-text-primary' : 'has-text-grey']"
+            />
+
+            <span>{{ trans('buttons.filters') }}</span>
+          </button>
+        </div>
       </div>
 
       <div class="level-right" v-if="hasActions">
@@ -31,6 +46,85 @@
         </div>
       </div>
     </div>
+
+    <b-collapse :open="showFilter" class="mt-4">
+      <form @submit.prevent="applyFilter">
+        <div class="columns is-multiline">
+          <div class="column is half">
+            <nz-taxon-autocomplete
+              @select="onTaxonSelect"
+              v-model="newFilter.taxon"
+              :taxon="newFilter.selected_taxon"
+              :label="trans('labels.literature_observations.taxon')"
+              :placeholder="trans('labels.literature_observations.search_for_taxon')"
+            />
+            <b-checkbox v-model="newFilter.include_child_taxa">{{ trans('labels.literature_observations.include_lower_taxa') }}</b-checkbox>
+          </div>
+
+          <b-field :label="trans('labels.literature_observations.date')" class="column is-half">
+            <b-field expanded grouped>
+              <b-field expanded>
+                <b-input
+                  :placeholder="trans('labels.literature_observations.year')"
+                  v-model="newFilter.year"
+                />
+              </b-field>
+
+              <b-field expanded>
+                <b-select
+                  :placeholder="trans('labels.literature_observations.month')"
+                  v-model="newFilter.month"
+                  expanded
+                >
+                  <option :value="null"></option>
+
+                  <option v-for="(month, index) in months" :key="index" :value="(index + 1)" v-text="month"></option>
+                </b-select>
+              </b-field>
+
+              <b-field expanded>
+                <b-select
+                  :placeholder="trans('labels.literature_observations.day')"
+                  v-model="newFilter.day"
+                  expanded
+                >
+                  <option :value="null"></option>
+
+                  <option v-for="day in days" :value="day" :key="day" v-text="day"></option>
+                </b-select>
+              </b-field>
+            </b-field>
+          </b-field>
+
+          <nz-user-autocomplete
+            class="column is-half"
+            v-model="newFilter.observer"
+            :label="trans('labels.literature_observations.observer')"
+            placeholder=""
+          />
+
+          <b-field :label="trans('labels.literature_observations.project')" class="column is-half">
+            <b-input v-model="newFilter.project" expanded />
+          </b-field>
+
+          <b-field :label="trans('labels.id')" class="column is-one-third">
+            <b-input v-model="newFilter.id" expanded />
+          </b-field>
+
+          <nz-publication-autocomplete
+            class="column is-two-thirds"
+            v-model="newFilter.publication_citation"
+            @select="onPublicationSelect"
+            :publication="newFilter.selected_publication"
+            :label="trans('labels.literature_observations.publication')"
+            :placeholder="trans('labels.literature_observations.search_for_publication')"
+          />
+        </div>
+
+        <button type="submit" class="button is-primary is-outlined">{{ trans('buttons.apply') }}</button>
+        <button type="button" class="button" @click="clearFilter">{{ trans('buttons.clear') }}</button>
+      </form>
+    </b-collapse>
 
     <hr>
 
@@ -143,20 +237,28 @@
 
 <script>
 import axios from 'axios'
+import _range from 'lodash/range'
+import dayjs from '@/dayjs'
 import FilterableTableMixin from '@/mixins/FilterableTableMixin'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
 import ExportDownloadModal from '@/components/exports/ExportDownloadModal'
+import NzPublicationAutocomplete from '@/components/inputs/PublicationAutocomplete'
+import NzTaxonAutocomplete from '@/components/inputs/TaxonAutocomplete'
+import NzUserAutocomplete from '@/components/inputs/UserAutocomplete'
 import NzTable from '@/components/table/Table'
 import NzExportModal from '@/components/exports/ExportModal'
 
 export default {
   name: 'nzLiteratureObservationsTable',
 
-  mixins: [PersistentTableMixin],
+  mixins: [FilterableTableMixin, PersistentTableMixin],
 
   components: {
     NzTable,
-    NzExportModal
+    NzExportModal,
+    NzPublicationAutocomplete,
+    NzTaxonAutocomplete,
+    NzUserAutocomplete
   },
 
   props: {
@@ -192,7 +294,7 @@ export default {
       loading: false,
       sortField: 'id',
       sortOrder: 'desc',
-      defaultSortOrder: 'desc',
+      defaultSortOrder: 'asc',
       page: 1,
       perPage: this.perPageOptions[0],
       checkedRows: [],
@@ -203,6 +305,14 @@ export default {
   },
 
   computed: {
+    months() {
+      return dayjs.months()
+    },
+
+    days() {
+      return _range(1, 31)
+    },
+
     hasActions() {
       return this.exportable
     },
@@ -224,14 +334,20 @@ export default {
     this.restoreState()
     this.loadAsyncData()
 
-    this.$on('filter', this.loadAsyncData)
+    this.$on('filter', () => {
+      this.saveState()
+      this.loadAsyncData()
+    })
   },
 
   methods: {
     loadAsyncData() {
       this.loading = true
 
+      const { selected_taxon, selected_publication, publication_citation, ...filter } = this.filter
+
       return axios.get(route(this.listRoute).withQuery({
+        ...filter,
         sort_by: `${this.sortField}.${this.sortOrder}`,
         page: this.page,
         per_page: this.perPage,
@@ -247,11 +363,21 @@ export default {
       })
     },
 
+    getPersistantKeys() {
+      return [
+        'sortField', 'sortOrder', 'perPage', 'page',
+        'newFilter', 'filter', 'filterIsActive'
+      ]
+    },
+
     /*
      * Handle page-change event
      */
     onPageChange(page) {
       this.page = page
+
+      this.saveState()
+
       this.loadAsyncData()
     },
 
@@ -287,7 +413,7 @@ export default {
       })
     },
 
-    remove (row) {
+    remove(row) {
       return axios.delete(route(this.deleteRoute, row.id)).then(response => {
         this.$buefy.toast.open({
           message: this.trans('Record deleted'),
@@ -298,16 +424,34 @@ export default {
       }).catch(error => { console.error(error) })
     },
 
-    editLink (row) {
+    editLink(row) {
       return route(this.editRoute, row.id)
     },
 
-    viewLink (row) {
+    viewLink(row) {
       return this.viewRoute ? route(this.viewRoute, row.id) : null
     },
 
     openActivityLogModal(row) {
       this.activityLog = row.activity
+    },
+
+    filterDefaults() {
+      return {
+        taxon: null,
+        taxon_id: null,
+        include_child_taxa: false,
+        selected_taxon: null,
+        year: null,
+        month: null,
+        day: null,
+        observer: null,
+        project: null,
+        selected_publication: null,
+        publication_id: null,
+        publication_citation: null,
+        id: null
+      }
     },
 
     openExportModal() {
@@ -334,6 +478,16 @@ export default {
           type: 'is-danger'
         })
       }
+    },
+
+    onTaxonSelect(taxon) {
+      this.newFilter.taxon_id = taxon ? taxon.id : null
+      this.newFilter.selected_taxon = taxon
+    },
+
+    onPublicationSelect(publication) {
+      this.newFilter.publication_id = publication ? publication.id : null
+      this.newFilter.selected_publication = publication
     }
   },
 
