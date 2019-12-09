@@ -22,7 +22,8 @@
                 <li>Miloš Popović – Coordinator for development of Biologer platform (Faculty of Sciences and Mathematics, University of Niš).</li>
                 <li>Nenad Živanović – Coordinator for software development and developer of the Biologer web software.</li>
                 <li>Ana Golubović – Coordinator for development of Biologer platform in Serbia (Faculty of Biology, University of Belgrade).</li>
-                <li>Mladen Zadravec – Coordinator for development of Biologer platform in Croatia (Association Hyla, Zagreb).</li>
+                <li>Ivona Burić – Coordinator for development of Biologer platform in Croatia (Association Hyla, Zagreb).</li>
+                <li>Toni Koren – Coordinator for development of Biologer platform in Croatia (Association Hyla, Zagreb).</li>
             </ol>
         </div>
     </section>
