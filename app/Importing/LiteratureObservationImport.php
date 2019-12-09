@@ -276,7 +276,7 @@ class LiteratureObservationImport extends BaseImport
             'latitude' => ['required', new Decimal(['min' => -90, 'max' => 90])],
             'longitude' => ['required', new Decimal(['min' => -180, 'max' => 180])],
             'elevation' => ['nullable', 'integer', 'max:10000'],
-            'accuracy' => ['nullable', 'integer', 'max:10000'],
+            'accuracy' => ['nullable', 'integer', 'max:500000'],
             'observer' => ['nullable', 'string'],
             'identifier' => ['nullable', 'string'],
             'stage' => ['nullable', Rule::in($this->stages()->pluck('name_translation'))],

@@ -47,7 +47,7 @@ class StoreLiteratureObservation extends FormRequest
             'latitude' => ['required', new Decimal(['min' => -90, 'max' => 90])],
             'longitude' => ['required', new Decimal(['min' => -180, 'max' => 180])],
             'elevation' => ['required', 'integer', 'max:10000'],
-            'accuracy' => ['nullable', 'integer', 'max:10000'],
+            'accuracy' => ['nullable', 'integer', 'max:500000'],
             'observer' => ['nullable', 'string'],
             'identifier' => ['nullable', 'string'],
             'stage_id' => ['nullable', Rule::in(Stage::pluck('id'))],
