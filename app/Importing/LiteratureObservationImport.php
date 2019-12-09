@@ -222,6 +222,11 @@ class LiteratureObservationImport extends BaseImport
                 'value' => 'place_where_referenced_in_publication',
                 'required' => false,
             ],
+            [
+                'label' => __('labels.literature_observations.dataset'),
+                'value' => 'dataset',
+                'required' => false,
+            ],
         ]);
     }
 
