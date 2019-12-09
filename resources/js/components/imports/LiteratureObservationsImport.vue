@@ -353,6 +353,11 @@ export default {
     handleStored() {
       this.showSuccessMessage = true
 
+      // Reset publication inputs
+      this.publicationSearch = ''
+      this.citedPublicationSearch = ''
+      this.isOriginalData = true
+
       this.stopCheckingImport()
     },
 
