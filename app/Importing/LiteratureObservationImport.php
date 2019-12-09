@@ -73,11 +73,6 @@ class LiteratureObservationImport extends BaseImport
                 'required' => true,
             ],
             [
-                'label' => __('labels.literature_observations.year'),
-                'value' => 'year',
-                'required' => true,
-            ],
-            [
                 'label' => __('labels.literature_observations.latitude'),
                 'value' => 'latitude',
                 'required' => true,
@@ -96,6 +91,11 @@ class LiteratureObservationImport extends BaseImport
                 'label' => __('labels.literature_observations.original_identification_validity'),
                 'value' => 'original_identification_validity',
                 'required' => true,
+            ],
+            [
+                'label' => __('labels.literature_observations.year'),
+                'value' => 'year',
+                'required' => false,
             ],
             [
                 'label' => __('labels.literature_observations.month'),
