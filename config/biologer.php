@@ -44,4 +44,5 @@ return [
     'srtm_path' => env('SRTM_PATH', resource_path('srtm')),
 
     'backup_enabled' => (bool) env('BACKUP_ENABLED', false),
+    'backup_full' => (bool) env('BACKUP_FULL', false),
 ];
