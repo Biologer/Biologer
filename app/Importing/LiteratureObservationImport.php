@@ -284,7 +284,7 @@ class LiteratureObservationImport extends BaseImport
             'accuracy' => ['nullable', 'integer', 'max:500000'],
             'observer' => ['nullable', 'string'],
             'identifier' => ['nullable', 'string'],
-            'stage' => ['nullable', Rule::in($this->stages()->pluck('name_translation'))],
+            'stage' => ['nullable', Rule::in($this->stagesTranslatedNames())],
             'sex' => ['nullable', Rule::in(Sex::labels())],
             'number' => ['nullable', 'integer', 'min:1'],
             'time' => ['nullable', 'date_format:H:i'],
@@ -317,7 +317,7 @@ class LiteratureObservationImport extends BaseImport
             ]),
             'stage.in' => __('validation.in_extended', [
                 'attribute' => __('labels.literature_observations.stage'),
-                'options' => $this->stages()->pluck('name_translation')->implode(', '),
+                'options' => $this->stagesTranslatedNames()->implode(', '),
             ]),
         ], [
             'taxon' => __('labels.literature_observations.taxon'),
@@ -511,6 +511,18 @@ class LiteratureObservationImport extends BaseImport
     }
 
     /**
+     * Get correctly translated stages' names.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    protected function stagesTranslatedNames()
+    {
+        return $this->withLocale($this->model()->lang, function () {
+            return $this->stages()->pluck('name_translation');
+        });
+    }
+
+    /**
      * Get stage ID.
      *
      * @param  array  $data
@@ -520,8 +532,10 @@ class LiteratureObservationImport extends BaseImport
     {
         $translation = strtolower(Arr::get($data, 'stage', ''));
 
-        $stage = $this->stages()->first(function ($stage) use ($translation) {
-            return strtolower($stage->name_translation) === $translation;
+        $stage = $this->withLocale($this->model()->lang, function () use ($translation) {
+            return $this->stages()->first(function ($stage) use ($translation) {
+                return strtolower($stage->name_translation) === $translation;
+            });
         });
 
         return $stage ? $stage->id : null;

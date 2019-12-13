@@ -10,9 +10,12 @@ use Box\Spout\Reader\ReaderInterface;
 use Box\Spout\Reader\SheetInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Traits\Localizable;
 
 abstract class BaseImport
 {
+    use Localizable;
+
     /**
      * Import model instance.
      *
