@@ -141,7 +141,7 @@ return [
         ],
     ],
 
-    'in_extended' => 'Odabrano polje :attribute nije validno. Dozvoljene vrijednosti su: :options',
+    'in_extended' => 'Polje :attribute nije validno. Dozvoljene vrijednosti su: :options',
 
     /*
     |--------------------------------------------------------------------------
