@@ -5,11 +5,10 @@ namespace App\Events;
 use App\Announcement;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NewAnnouncement implements ShouldBroadcast
+class NewAnnouncement
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
