@@ -22,6 +22,10 @@ class AddLiteratureObservationTest extends TestCase
             'original_identification' => 'Testudo hermanii',
             'original_identification_validity' => LiteratureObservationIdentificationValidity::VALID,
             'other_original_data' => 'Some more information',
+            'collecting_start_year' => 1990,
+            'collecting_start_month' => 3,
+            'collecting_end_year' => 1990,
+            'collecting_end_month' => 6,
             'taxon_id' => function () {
                 return factory(Taxon::class)->create()->id;
             },
@@ -105,5 +109,9 @@ class AddLiteratureObservationTest extends TestCase
         $this->assertEquals('Pera Detlić', $literatureObservation->georeferenced_by);
         $this->assertEquals(now()->toDateString(), $literatureObservation->georeferenced_date->toDateString());
         $this->assertEquals('Some more information', $literatureObservation->other_original_data);
+        $this->assertEquals(1990, $literatureObservation->collecting_start_year);
+        $this->assertEquals(3, $literatureObservation->collecting_start_month);
+        $this->assertEquals(1990, $literatureObservation->collecting_end_year);
+        $this->assertEquals(6, $literatureObservation->collecting_end_month);
     }
 }

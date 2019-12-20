@@ -169,5 +169,25 @@
             <td><b>{{ __('labels.literature_observations.other_original_data') }}</b></td>
             <td class="is-fullwidth">{{ $literatureObservation->other_original_data }}</td>
         </tr>
+
+        <tr>
+            <td><b>{{ __('labels.literature_observations.collecting_start_year') }}</b></td>
+            <td class="is-fullwidth">{{ $literatureObservation->collecting_start_year }}</td>
+        </tr>
+
+        <tr>
+            <td><b>{{ __('labels.literature_observations.collecting_start_month') }}</b></td>
+            <td class="is-fullwidth">{{ $literatureObservation->collecting_start_month }}</td>
+        </tr>
+
+        <tr>
+            <td><b>{{ __('labels.literature_observations.collecting_end_year') }}</b></td>
+            <td class="is-fullwidth">{{ $literatureObservation->collecting_end_year }}</td>
+        </tr>
+
+        <tr>
+            <td><b>{{ __('labels.literature_observations.collecting_end_month') }}</b></td>
+            <td class="is-fullwidth">{{ $literatureObservation->collecting_end_month }}</td>
+        </tr>
     </tbody>
 </table>

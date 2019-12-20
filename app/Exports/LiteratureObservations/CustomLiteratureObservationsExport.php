@@ -160,6 +160,26 @@ class CustomLiteratureObservationsExport extends BaseExport
                 'label' => trans('labels.literature_observations.original_identification_validity'),
                 'value' => 'original_identification_validity',
             ],
+            [
+                'label' => trans('labels.literature_observations.other_original_data'),
+                'value' => 'other_original_data',
+            ],
+            [
+                'label' => trans('labels.literature_observations.collecting_start_year'),
+                'value' => 'collecting_start_year',
+            ],
+            [
+                'label' => trans('labels.literature_observations.collecting_start_month'),
+                'value' => 'collecting_start_month',
+            ],
+            [
+                'label' => trans('labels.literature_observations.collecting_end_year'),
+                'value' => 'collecting_end_year',
+            ],
+            [
+                'label' => trans('labels.literature_observations.collecting_end_month'),
+                'value' => 'collecting_end_month',
+            ],
         ]);
     }
 

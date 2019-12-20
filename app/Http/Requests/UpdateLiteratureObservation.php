@@ -6,7 +6,6 @@ use App\ActivityLog\LiteratureObservationDiff;
 use App\License;
 use App\LiteratureObservation;
 use App\LiteratureObservationIdentificationValidity;
-use App\Observation;
 use App\Rules\Day;
 use App\Rules\Decimal;
 use App\Rules\Month;
@@ -82,6 +81,10 @@ class UpdateLiteratureObservation extends FormRequest
             'original_identification' => ['required', 'string', 'max:255'],
             'original_identification_validity' => ['required', Rule::in(LiteratureObservationIdentificationValidity::values())],
             'other_original_data' => ['nullable', 'string'],
+            'collecting_start_year' => ['nullable', 'integer'],
+            'collecting_start_month' => ['nullable', 'integer', 'min:1', 'max:12'],
+            'collecting_end_year' => ['nullable', 'integer'],
+            'collecting_end_month' => ['nullable', 'integer', 'min:1', 'max:12'],
             'georeferenced_by' => ['nullable', 'string', 'max:255'],
             'georeferenced_date' => ['nullable', 'string', 'max:255'],
             'place_where_referenced_in_publication' => ['nullable', 'string', 'max:255'],
@@ -122,6 +125,10 @@ class UpdateLiteratureObservation extends FormRequest
             'original_coordinates' => $this->input('original_coordinates'),
             'original_identification_validity' => $this->input('original_identification_validity'),
             'other_original_data' => $this->input('other_original_data'),
+            'collecting_start_year' => $this->input('collecting_start_year'),
+            'collecting_start_month' => $this->input('collecting_start_month'),
+            'collecting_end_year' => $this->input('collecting_end_year'),
+            'collecting_end_month' => $this->input('collecting_end_month'),
             'georeferenced_by' => $this->input('georeferenced_by'),
             'georeferenced_date' => $this->input('georeferenced_date'),
             'minimum_elevation' => $this->input('minimum_elevation'),

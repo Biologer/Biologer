@@ -153,6 +153,46 @@
         >
            <b-input type="textarea" v-model="form.other_original_data" />
         </b-field>
+
+        <div class="columns">
+          <b-field
+            class="column"
+            :label="trans('labels.literature_observations.collecting_start_year')"
+            :type="form.errors.has('collecting_start_year') ? 'is-danger' : null"
+            :message="form.errors.has('collecting_start_year') ? form.errors.first('collecting_start_year') : null"
+          >
+            <b-input v-model="form.collecting_start_year"/>
+          </b-field>
+
+          <b-field
+            class="column"
+            :label="trans('labels.literature_observations.collecting_start_month')"
+            :type="form.errors.has('collecting_start_month') ? 'is-danger' : null"
+            :message="form.errors.has('collecting_start_month') ? form.errors.first('collecting_start_month') : null"
+          >
+            <b-input v-model="form.collecting_start_month"/>
+          </b-field>
+        </div>
+
+        <div class="columns">
+          <b-field
+            class="column"
+            :label="trans('labels.literature_observations.collecting_end_year')"
+            :type="form.errors.has('collecting_end_year') ? 'is-danger' : null"
+            :message="form.errors.has('collecting_end_year') ? form.errors.first('collecting_end_year') : null"
+          >
+            <b-input v-model="form.collecting_end_year"/>
+          </b-field>
+
+          <b-field
+            class="column"
+            :label="trans('labels.literature_observations.collecting_end_month')"
+            :type="form.errors.has('collecting_end_month') ? 'is-danger' : null"
+            :message="form.errors.has('collecting_end_month') ? form.errors.first('collecting_end_month') : null"
+          >
+            <b-input v-model="form.collecting_end_month"/>
+          </b-field>
+        </div>
       </div>
 
       <nz-spatial-input
@@ -421,6 +461,10 @@ export default {
           original_identification: null,
           original_identification_validity: null,
           other_original_data: null,
+          collecting_start_year: null,
+          collecting_start_month: null,
+          collecting_end_year: null,
+          collecting_end_month: null,
           place_where_referenced_in_publication: null,
           publication_id: null,
           taxon_id: null,
@@ -459,8 +503,8 @@ export default {
     },
 
     sexes: {
-      type: Array,
-      default: () => []
+      type: Object,
+      default: () => ({})
     },
 
     validityOptions: {

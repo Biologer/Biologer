@@ -80,6 +80,10 @@ class UpdateLiteratureObservationTest extends TestCase
         $this->assertEquals('female', $literatureObservation->observation->sex);
         $this->assertTrue($literatureObservation->observation->stage->is($stage));
         $this->assertEquals('Some other information', $literatureObservation->other_original_data);
+        $this->assertEquals(1990, $literatureObservation->collecting_start_year);
+        $this->assertEquals(3, $literatureObservation->collecting_start_month);
+        $this->assertEquals(1990, $literatureObservation->collecting_end_year);
+        $this->assertEquals(6, $literatureObservation->collecting_end_month);
     }
 
     protected function validParams($overrides = [])
@@ -92,6 +96,10 @@ class UpdateLiteratureObservationTest extends TestCase
             'original_identification' => 'Testuduo hermanii',
             'original_identification_validity' => LiteratureObservationIdentificationValidity::INVALID,
             'other_original_data' => 'Some other information',
+            'collecting_start_year' => 1990,
+            'collecting_start_month' => 3,
+            'collecting_end_year' => 1990,
+            'collecting_end_month' => 6,
             'taxon_id' => function () {
                 return factory(Taxon::class)->create()->id;
             },

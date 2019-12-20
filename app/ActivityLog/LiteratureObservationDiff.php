@@ -49,6 +49,10 @@ class LiteratureObservationDiff
             'original_identification',
             'original_identification_validity',
             'other_original_data',
+            'collecting_start_year',
+            'collecting_start_month',
+            'collecting_end_year',
+            'collecting_end_month',
         ];
     }
 

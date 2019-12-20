@@ -404,8 +404,8 @@ export default {
     },
 
     sexes: {
-        type: Array,
-        default: () => []
+        type: Object,
+        default: () => ({})
     },
 
     observationTypes: {
