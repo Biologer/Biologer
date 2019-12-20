@@ -536,9 +536,7 @@ class FieldObservationImport extends BaseImport
      */
     protected function stagesTranslatedNames()
     {
-        return $this->withLocale($this->model()->lang, function () {
-            return $this->stages()->pluck('name_translation');
-        });
+        return $this->stages()->pluck('name_translation');
     }
 
     /**
@@ -551,10 +549,8 @@ class FieldObservationImport extends BaseImport
     {
         $translation = strtolower(Arr::get($data, 'stage', ''));
 
-        $stage = $this->withLocale($this->model()->lang, function () use ($translation) {
-            return $this->stages()->first(function ($stage) use ($translation) {
-                return strtolower($stage->name_translation) === $translation;
-            });
+        $stage = $this->stages()->first(function ($stage) use ($translation) {
+            return strtolower($stage->name_translation) === $translation;
         });
 
         return $stage ? $stage->id : null;

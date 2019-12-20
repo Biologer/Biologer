@@ -295,22 +295,24 @@ abstract class BaseImport
      */
     private function validateParsedAndWriteErrors()
     {
-        $passed = true;
-        $rowNumber = 1;
+        return $this->withLocale($this->model()->lang, function () {
+            $passed = true;
+            $rowNumber = 1;
 
-        $writer = $this->makeValidationErrorWriter();
+            $writer = $this->makeValidationErrorWriter();
 
-        $this->readParsed(function ($item) use ($writer, &$rowNumber, &$passed) {
-            if (! $this->validateItemAndWriteErrors($item, $writer, $rowNumber)) {
-                $passed = false;
-            }
+            $this->readParsed(function ($item) use ($writer, &$rowNumber, &$passed) {
+                if (!$this->validateItemAndWriteErrors($item, $writer, $rowNumber)) {
+                    $passed = false;
+                }
 
-            $rowNumber++;
+                $rowNumber++;
+            });
+
+            $writer->close();
+
+            return $passed;
         });
-
-        $writer->close();
-
-        return $passed;
     }
 
     /**
@@ -344,7 +346,7 @@ abstract class BaseImport
      */
     private function validateItemAndWriteErrors($item, $writer, $rowNumber)
     {
-        $validator = $this->setValidatorLocale($this->makeValidator($item));
+        $validator = $this->makeValidator($item);
 
         $passed = $validator->passes();
 
@@ -382,19 +384,6 @@ abstract class BaseImport
     abstract protected function makeValidator(array $data);
 
     /**
-     * Set validator locale to use language set for import.
-     *
-     * @param  \Illuminate\Validation\Validator  $validator
-     * @return \Illuminate\Validation\Validator
-     */
-    protected function setValidatorLocale($validator)
-    {
-        $validator->getTranslator()->setLocale($this->import->lang);
-
-        return $validator;
-    }
-
-    /**
      * Store import in DB.
      *
      * @return void
@@ -406,12 +395,14 @@ abstract class BaseImport
         }
 
         if (! $this->import->status()->validationPassed()) {
-            throw new \Exception('Cannot store this import! Either validation didn\'t pass or it has already been stored.');
+            throw new \Exception("Cannot store this import! Either validation didn't pass or it has already been stored.");
         }
 
         $this->import->updateStatusToSaving();
 
-        $this->storeParsed();
+        $this->withLocale($this->model()->lang, function () {
+            $this->storeParsed();
+        });
 
         return $this->import;
     }

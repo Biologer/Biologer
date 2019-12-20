@@ -309,7 +309,7 @@ class LiteratureObservationImport extends BaseImport
             'year.date_format' => __('validation.year'),
             'original_identification_validity.in' => __('validation.in_extended', [
                 'attribute' => __('labels.literature_observations.original_identification_validity'),
-                'options' => LiteratureObservationIdentificationValidity::options()->values()->implode(', '),
+                'options' => LiteratureObservationIdentificationValidity::options()->implode(', '),
             ]),
             'sex.in' => __('validation.in_extended', [
                 'attribute' => __('labels.literature_observations.sex'),
@@ -517,9 +517,7 @@ class LiteratureObservationImport extends BaseImport
      */
     protected function stagesTranslatedNames()
     {
-        return $this->withLocale($this->model()->lang, function () {
-            return $this->stages()->pluck('name_translation');
-        });
+        return $this->stages()->pluck('name_translation');
     }
 
     /**
@@ -532,17 +530,15 @@ class LiteratureObservationImport extends BaseImport
     {
         $translation = strtolower(Arr::get($data, 'stage', ''));
 
-        $stage = $this->withLocale($this->model()->lang, function () use ($translation) {
-            return $this->stages()->first(function ($stage) use ($translation) {
-                return strtolower($stage->name_translation) === $translation;
-            });
+        $stage = $this->stages()->first(function ($stage) use ($translation) {
+            return strtolower($stage->name_translation) === $translation;
         });
 
         return $stage ? $stage->id : null;
     }
 
     /**
-     * Get original identification validity value.
+     * Get original identification validity value (from translated).
      *
      * @param array $data
      * @return int
