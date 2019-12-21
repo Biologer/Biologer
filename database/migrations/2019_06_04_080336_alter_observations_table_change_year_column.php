@@ -14,7 +14,7 @@ class AlterObservationsTableChangeYearColumn extends Migration
     public function up()
     {
         Schema::table('observations', function (Blueprint $table) {
-            $table->smallInteger('year')->nullable()->default(null)->change();
+            $table->smallInteger('year')->nullable()->default(null)->charset('')->collation('')->change();
         });
     }
 
