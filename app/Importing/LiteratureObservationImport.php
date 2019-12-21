@@ -448,7 +448,7 @@ class LiteratureObservationImport extends BaseImport
 
         return [
             'taxon_id' => $taxon ? $taxon->id : null,
-            'year' => Arr::get($item, 'year'),
+            'year' => Arr::get($item, 'year') ?: null,
             'month' => Arr::get($item, 'month') ?: null,
             'day' => Arr::get($item, 'day') ?: null,
             'location' => Arr::get($item, 'location') ?: null,
