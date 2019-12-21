@@ -8,6 +8,6 @@ class CollectionObservationsController
 {
     public function store(Request $request)
     {
-
+        //
     }
 }

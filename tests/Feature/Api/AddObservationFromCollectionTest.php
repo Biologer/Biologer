@@ -2,9 +2,12 @@
 
 namespace Tests\Feature\Api;
 
+use App\CollectionObservation;
 use App\Taxon;
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Passport\Passport;
 
 class AddObservationFromCollectionTest extends TestCase
 {
@@ -16,6 +19,7 @@ class AddObservationFromCollectionTest extends TestCase
             'taxon_id' => function () {
                 return factory(Taxon::class)->create()->id;
             },
+
         ], $overrides));
     }
 
@@ -29,15 +33,18 @@ class AddObservationFromCollectionTest extends TestCase
     /** @test */
     public function curator_can_add_observations_from_collections()
     {
+        $this->seed('RolesTableSeeder');
+        Passport::actingAs(factory(User::class)->create()->assignRoles('curator'));
+
         $taxon = factory(Taxon::class)->create();
 
         $this->postJson('/api/collection-observations', $this->validParams([
             'taxon_id' => $taxon->id,
         ]))->assertSuccessful();
 
-        $observation = CollectionObservation::latest()->first();
+        $collectionObservation = CollectionObservation::latest()->first();
 
-        $this->assertTrue($observation->taxon->is($taxon));
+        $this->assertTrue($collectionObservation->observation->taxon->is($taxon));
     }
 
     /** @test */
