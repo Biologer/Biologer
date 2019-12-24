@@ -150,12 +150,12 @@ class LiteratureObservation extends Model implements FlatArrayable
     /**
      * Get the instance of identification validity enum.
      *
-     * @return \App\LiteratureObservationIdentificationValidity
+     * @return \App\ObservationIdentificationValidity
      */
     public function identificationValidity()
     {
         return $this->memoize('original_identification_validity', function () {
-            return new LiteratureObservationIdentificationValidity(
+            return new ObservationIdentificationValidity(
                 $this->original_identification_validity
             );
         });

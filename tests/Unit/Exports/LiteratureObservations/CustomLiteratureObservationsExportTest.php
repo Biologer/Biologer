@@ -5,7 +5,7 @@ namespace Tests\Unit\Exports\LiteratureObservations;
 use App\Exports\LiteratureObservations\CustomLiteratureObservationsExport;
 use App\Jobs\PerformExport;
 use App\LiteratureObservation;
-use App\LiteratureObservationIdentificationValidity;
+use App\ObservationIdentificationValidity;
 use App\Observation;
 use App\Publication;
 use App\Taxon;
@@ -68,7 +68,7 @@ class CustomLiteratureObservationsExportTest extends TestCase
             'original_locality' => 'Gledić Mountains',
             'original_elevation' => '300-500m',
             'original_coordinates' => '20°22\'44",43°21\'35"',
-            'original_identification_validity' => LiteratureObservationIdentificationValidity::VALID,
+            'original_identification_validity' => ObservationIdentificationValidity::VALID,
             'publication_id' => factory(Publication::class)->create(['citation' => 'Test citation'])->id,
             'is_original_data' => true,
             'cited_publication_id' => null,

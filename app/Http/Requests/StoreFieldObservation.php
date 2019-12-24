@@ -38,7 +38,7 @@ class StoreFieldObservation extends FormRequest
     public function rules()
     {
         return [
-            'taxon_id' => ['nullable', 'exists:taxa,id'],
+            'taxon_id' => ['nullable', Rule::exists('taxa', 'id')],
             'taxon_suggestion' => ['nullable', 'string', 'max:191'],
             'year' => ['bail', 'required', 'date_format:Y', 'before_or_equal:now'],
             'month' => [

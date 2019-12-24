@@ -36,7 +36,7 @@ class UpdateTaxon extends FormRequest
     {
         return [
             'name' => ['bail', 'required', new UniqueTaxonName($this->parent_id, $this->taxon->id)],
-            'parent_id' => ['nullable', 'exists:taxa,id'],
+            'parent_id' => ['nullable', Rule::exists('taxa', 'id')],
             'rank' => ['required', Rule::in(array_keys(Taxon::RANKS))],
             'author' => ['nullable', 'string'],
             'fe_old_id' => ['nullable', 'integer'],

@@ -9,7 +9,7 @@
             cancel-url="{{ route('admin.literature-observations.index') }}"
             :observation="{{ json_encode($literatureObservation->toFlatArray()) }}"
             :sexes="{{ \App\Sex::options() }}"
-            :validity-options="{{ \App\LiteratureObservationIdentificationValidity::options() }}"
+            :validity-options="{{ \App\ObservationIdentificationValidity::options() }}"
             should-confirm-submit
             confirm-submit-message="{{ __('Reason for changing data. Please try to be precise in order to keep the track of changes and ensure data verification.') }}"
             should-ask-reason

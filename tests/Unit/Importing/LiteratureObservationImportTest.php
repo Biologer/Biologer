@@ -6,7 +6,7 @@ use App\DEM\Reader as DEMReader;
 use App\Import;
 use App\Importing\LiteratureObservationImport;
 use App\LiteratureObservation;
-use App\LiteratureObservationIdentificationValidity;
+use App\ObservationIdentificationValidity;
 use App\Publication;
 use App\Taxon;
 use App\User;
@@ -48,7 +48,7 @@ class LiteratureObservationImportTest extends TestCase
         $this->assertEquals(5, $literatureObservation->observation->month);
         $this->assertEquals(23, $literatureObservation->observation->day);
         $this->assertEquals('Cerambyx sp.', $literatureObservation->observation->original_identification);
-        $this->assertEquals(LiteratureObservationIdentificationValidity::INVALID, $literatureObservation->original_identification_validity);
+        $this->assertEquals(ObservationIdentificationValidity::INVALID, $literatureObservation->original_identification_validity);
         $this->assertEquals($taxon->id, $literatureObservation->observation->taxon_id);
         $this->assertEquals($user->id, $literatureObservation->observation->created_by_id);
         $this->assertEquals('Novi Sad', $literatureObservation->observation->location);

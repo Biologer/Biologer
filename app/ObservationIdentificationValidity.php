@@ -4,7 +4,7 @@ namespace App;
 
 use MyCLabs\Enum\Enum;
 
-class LiteratureObservationIdentificationValidity extends Enum
+class ObservationIdentificationValidity extends Enum
 {
     const INVALID = 0;
     const VALID = 1;
