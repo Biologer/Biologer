@@ -17,6 +17,8 @@ class AuthServiceProvider extends ServiceProvider
         'App\ConservationLegislation' => 'App\Policies\ConservationLegislationPolicy',
         'App\FieldObservation' => 'App\Policies\FieldObservationPolicy',
         'App\LiteratureObservation' => 'App\Policies\LiteratureObservationPolicy',
+        'App\CollectionObservation' => 'App\Policies\CollectionObservationPolicy',
+        'App\SpecimenCollection' => 'App\Policies\SpecimenCollectionPolicy',
         'App\Publication' => 'App\Policies\PublicationPolicy',
         'App\PublicationAttachment' => 'App\Policies\PublicationAttachmentPolicy',
         'App\RedList' => 'App\Policies\RedListPolicy',

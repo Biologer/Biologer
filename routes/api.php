@@ -229,8 +229,40 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::get('literature-observation-imports/{import}/errors', 'LiteratureObservationImportsController@errors')
         ->name('api.literature-observation-imports.errors');
 
+    // Specimen Collections
+    Route::get('specimen-collections', 'SpecimenCollectionsController@index')
+        ->middleware('can:list,App\SpecimenCollection')
+        ->name('api.specimen-collections.index');
+
+    Route::post('specimen-collections', 'SpecimenCollectionsController@store')
+        ->middleware('can:create,App\SpecimenCollection')
+        ->name('api.specimen-collections.store');
+
+    Route::put('specimen-collections/{specimenCollection}', 'SpecimenCollectionsController@update')
+        ->middleware('can:update,specimenCollection')
+        ->name('api.specimen-collections.update');
+
+    // Collection Observations
+
+    Route::get('collection-observations', 'CollectionObservationsController@index')
+        ->middleware('can:list,App\CollectionObservation')
+        ->name('api.collection-observations.index');
+
     Route::post('collection-observations', 'CollectionObservationsController@store')
+        ->middleware('can:create,App\CollectionObservation')
         ->name('api.collection-observations.store');
+
+    Route::get('collection-observations/{collectionObservation}', 'CollectionObservationsController@show')
+        ->middleware('can:view,collectionObservation')
+        ->name('api.collection-observations.show');
+
+    Route::put('collection-observations/{collectionObservation}', 'CollectionObservationsController@update')
+        ->middleware('can:update,collectionObservation')
+        ->name('api.collection-observations.update');
+
+    Route::delete('collection-observations/{collectionObservation}', 'CollectionObservationsController@destroy')
+        ->middleware('can:delete,collectionObservation')
+        ->name('api.collection-observations.destroy');
 
     // My
     Route::prefix('my')->namespace('My')->group(function () {
