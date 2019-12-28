@@ -209,7 +209,7 @@
       </template>
     </nz-table>
 
-    <b-modal :active="activityLog.length > 0" @close="activityLog = []">
+    <b-modal :active="activityLog.length > 0" @close="activityLog = []" has-modal-card>
       <div class="modal-card">
         <div class="modal-card-head">
           <b-icon icon="history" />
