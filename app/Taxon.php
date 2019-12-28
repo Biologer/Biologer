@@ -563,7 +563,7 @@ class Taxon extends Model
                 'value' => $rank,
                 'label' => trans('taxonomy.'.$rank),
             ];
-        })->all();
+        })->values();
     }
 
     /**

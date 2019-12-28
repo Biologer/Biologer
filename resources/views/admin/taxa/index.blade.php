@@ -8,7 +8,7 @@
             delete-route="api.taxa.destroy"
             export-url="{{ route('api.taxon-exports.store') }}"
             :export-columns="{{ $exportColumns }}"
-            :ranks="{{ json_encode(\App\Taxon::getRankOptions()) }}"
+            :ranks="{{ $ranks }}"
             empty="{{ __('No data...') }}"
             show-activity-log
         />

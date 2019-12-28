@@ -379,7 +379,7 @@ export default {
       this.form.parent_id = taxon ? taxon.id : null
 
       // Inherit parent's stages
-      if (taxon.stages.length) {
+      if (taxon && taxon.stages.length) {
         this.form.stages_ids = taxon.stages.map(stage => stage.id)
       }
     },

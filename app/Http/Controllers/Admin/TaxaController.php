@@ -20,6 +20,7 @@ class TaxaController
     {
         return view('admin.taxa.index', [
             'exportColumns' => CustomTaxaExport::availableColumnData(),
+            'ranks' => Taxon::getRankOptions(),
         ]);
     }
 
@@ -31,7 +32,7 @@ class TaxaController
     public function create()
     {
         return view('admin.taxa.create', [
-            'ranks' => collect(Taxon::getRankOptions()),
+            'ranks' => Taxon::getRankOptions(),
             'conservationLegislations' => ConservationLegislation::all(),
             'conservationDocuments' => ConservationDocument::all(),
             'redLists' => RedList::all(),
@@ -50,7 +51,7 @@ class TaxaController
     {
         return view('admin.taxa.edit', [
             'taxon' => $taxon->load(['parent', 'redLists', 'conservationLegislations', 'conservationDocuments', 'stages']),
-            'ranks' => collect(Taxon::getRankOptions()),
+            'ranks' => Taxon::getRankOptions(),
             'conservationLegislations' => ConservationLegislation::all(),
             'conservationDocuments' => ConservationDocument::all(),
             'redLists' => RedList::all(),
