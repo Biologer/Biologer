@@ -11,7 +11,7 @@
       </b-upload>
       <div class="flex items-center justify-between w-full" v-else>
         <div class="mr-4">
-          {{ attachmentFileName }}
+          <a :href="newAttachment.url" :download="newAttachment.original_name" target="_blank">{{ newAttachment.original_name }}</a>
         </div>
         <button type="button" class="button is-danger is-outlined" @click="remove">
           <b-icon icon="times" />
@@ -26,12 +26,12 @@ export default {
   name: 'nzPublicationAttachmentUpload',
 
   props: {
-    attachmentName: String
+    attachment: Object
   },
 
   data() {
     return {
-      attachmentFileName: this.attachmentName,
+      newAttachment: this.attachment,
       reader: null,
       uploading: false,
       progress: 0,
@@ -41,7 +41,7 @@ export default {
 
   computed: {
     hasAttachment() {
-      return !!this.attachmentFileName
+      return Boolean(this.newAttachment)
     }
   },
 
@@ -72,8 +72,7 @@ export default {
         }
       }).then(response => {
         const attachment = response.data.data
-
-        this.attachmentFileName = attachment.original_name
+        this.newAttachment = attachment
 
         this.uploading = false
         this.progress = 0
@@ -90,10 +89,12 @@ export default {
       return form
     },
 
-    remove() {
-      this.$emit('removed', this.attachment)
+    async remove() {
+      if (!this.hasAttachment) return
 
-      this.attachmentFileName = null
+      this.$emit('removed', this.newAttachment)
+
+      this.newAttachment = null
     },
 
     handleError(error) {

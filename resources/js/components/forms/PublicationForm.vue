@@ -246,7 +246,7 @@
           <nz-publication-attachment-upload
             @uploaded="handleAttachmentUploaded"
             @removed="handleRemovedAttachment"
-            :attachment-name="form.attachment ? form.attachment.original_name : null"
+            :attachment="form.attachment"
           />
         </b-field>
       </div>
