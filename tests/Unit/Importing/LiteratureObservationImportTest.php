@@ -224,13 +224,14 @@ class LiteratureObservationImportTest extends TestCase
      * @param  \App\User|null  $user
      * @return \App\Import
      */
-    protected function createImport($type, array $columns = [], $contents = null, $user = null)
+    protected function createImport($type, array $columns = [], $contents = null, $user = null, $owner = null)
     {
         return Import::create([
             'type' => $type,
             'columns' => $columns,
             'path' => $this->validFile($contents)->store('imports'),
-            'user_id' => $user ? $user->id : 1,
+            'user_id' => $user ? $user->id : factory(User::class)->create()->id,
+            'for_user_id' => $owner ? $owner->id : null,
             'lang' => app()->getLocale(),
             'options' => [
                 'publication_id' => factory(Publication::class)->create()->id,
@@ -258,5 +259,29 @@ class LiteratureObservationImportTest extends TestCase
         $literatureObservation = LiteratureObservation::latest()->first();
 
         $this->assertEquals('2010-06-12', $literatureObservation->georeferenced_date->toDateString());
+    }
+
+    /** @test */
+    public function observations_owner_can_be_selected()
+    {
+        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
+        $user = factory(User::class)->create();
+        $owner = factory(User::class)->create();
+
+        $import = $this->createImport(
+            LiteratureObservationImport::class,
+            $this->allColumns(),
+            $this->defaultContents(),
+            $user,
+            $owner
+        );
+
+        // Perform all the steps
+        $import->makeImporter()->parse()->validate()->store();
+
+        $this->assertTrue($import->fresh()->status()->saved());
+        $literatureObservation = LiteratureObservation::latest()->first();
+
+        $this->assertTrue($literatureObservation->observation->creator->is($owner));
     }
 }

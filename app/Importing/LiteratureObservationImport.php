@@ -258,10 +258,10 @@ class LiteratureObservationImport extends BaseImport
     public static function specificValidationRules()
     {
         return [
-            'publication_id' => ['required', 'exists:publications,id'],
+            'publication_id' => ['required', Rule::exists('publications', 'id')],
             'is_original_data' => ['required', 'bool'],
             'cited_publication_id' => [
-                'required_if:is_original_data,false', 'nullable', 'exists:publications,id',
+                'required_if:is_original_data,false', 'nullable', Rule::exists('publications', 'id'),
             ],
         ];
     }
@@ -277,6 +277,7 @@ class LiteratureObservationImport extends BaseImport
             'publication_id' => __('labels.literature_observations.publication'),
             'is_original_data' => __('labels.literature_observations.is_original_data'),
             'cited_publication_id' => __('labels.literature_observations.cited_publication'),
+            'user_id' => __('labels.imports.user'),
         ];
     }
 
@@ -457,7 +458,7 @@ class LiteratureObservationImport extends BaseImport
             'mgrs10k' => mgrs10k($latitude, $longitude),
             'accuracy' => Arr::get($item, 'accuracy') ?: null,
             'elevation' => $this->getElevation($item),
-            'created_by_id' => $this->model()->user_id,
+            'created_by_id' => $this->model()->for_user_id ?: $this->model()->user_id,
             'observer' => Arr::get($item, 'observer') ?: null,
             'identifier' => Arr::get($item, 'identifier') ?: null,
             'sex' => Sex::getValueFromLabel(Arr::get($item, 'sex', '')),
@@ -608,6 +609,7 @@ class LiteratureObservationImport extends BaseImport
             'columns' => $request->input('columns', []),
             'path' => $request->file('file')->store('imports'),
             'user_id' => $request->user()->id,
+            'for_user_id' => $request->input('user_id'),
             'lang' => app()->getLocale(),
             'has_heading' => (bool) $request->input('has_heading', false),
             'options' => [

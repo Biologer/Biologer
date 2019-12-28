@@ -1,5 +1,5 @@
 <template>
-  <div class="field-observations-import">
+  <div class="literature-observations-import">
     <div class="is-flex is-flex-center flex-col" v-if="importing">
       <div class="is-flex is-flex-center">
         <span class="loader mr-2"></span>
@@ -54,6 +54,13 @@
           :label="trans('labels.literature_observations.cited_publication')"
           :placeholder="trans('labels.literature_observations.search_for_publication')"
         />
+
+        <nz-user-autocomplete
+          :label="trans('labels.imports.user')"
+          :placeholder="userFullName"
+          @select="setUserId"
+          v-model="user"
+        />
       </div>
 
       <div class="level mb-4">
@@ -100,10 +107,6 @@
       </div>
 
       <b-checkbox v-model="hasHeading">{{ trans('labels.imports.has_heading') }}</b-checkbox>
-
-      <div v-if="canApproveCurated">
-        <b-checkbox v-model="approveCurated">{{ trans('labels.imports.approve_curated') }}</b-checkbox>
-      </div>
     </div>
 
     <b-collapse :open="showColumnsSelection">
@@ -135,6 +138,7 @@
 import _get from 'lodash/get'
 import { Errors } from 'form-backend-validation'
 import NzPublicationAutocomplete from '@/components/inputs/PublicationAutocomplete'
+import NzUserAutocomplete from '@/components/inputs/UserAutocomplete'
 import NzColumnsPicker from '@/components/inputs/ColumnsPicker'
 
 export default {
@@ -142,6 +146,7 @@ export default {
 
   components: {
     NzPublicationAutocomplete,
+    NzUserAutocomplete,
     NzColumnsPicker
   },
 
@@ -162,9 +167,6 @@ export default {
       type: Array,
       default: () => []
     },
-
-    canSubmitForUser: Boolean,
-    canApproveCurated: Boolean,
   },
 
   data() {
@@ -185,7 +187,9 @@ export default {
       citedPublicationSearch: '',
       publication: null,
       citedPublication: null,
-      isOriginalData: true
+      isOriginalData: true,
+      userId: null,
+      user: null
     }
   },
 
@@ -220,6 +224,10 @@ export default {
       return this.currentImport &&
         this.cancellableStatuses.includes(this.currentImport.status) &&
         !this.cancelling
+    },
+
+    userFullName() {
+      return window.App.User.full_name
     },
   },
 
@@ -261,6 +269,8 @@ export default {
       this.publication && form.append('publication_id', this.publication.id)
       form.append('is_original_data', this.isOriginalData ? 1 : 0)
       this.citedPublication && form.append('cited_publication_id', this.citedPublication.id)
+
+      this.userId && form.append('user_id',  this.userId)
 
       return form
     },
@@ -353,10 +363,12 @@ export default {
     handleStored() {
       this.showSuccessMessage = true
 
-      // Reset publication inputs
+      // Reset inputs
       this.publicationSearch = ''
       this.citedPublicationSearch = ''
       this.isOriginalData = true
+      this.user = null
+      this.userId = null
 
       this.stopCheckingImport()
     },
@@ -391,6 +403,10 @@ export default {
 
       this.isOriginalData = value
     },
+
+    setUserId(user) {
+      this.userId = user ? user.id : null
+    }
   }
 }
 </script>

@@ -329,6 +329,10 @@ export default {
     handleStored() {
       this.showSuccessMessage = true
 
+      // Reset inputs
+      this.user = null
+      this.userId = null
+
       this.stopCheckingImport()
     },
 
@@ -354,8 +358,8 @@ export default {
       this.currentImport = null
     },
 
-    setUserId(userId) {
-      this.userId = userId ? userId.id : null
+    setUserId(user) {
+      this.userId = user ? user.id : null
     }
   }
 }
