@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       newValue: this.value,
-      active: true
+      active: false
     }
   },
 
@@ -50,7 +50,6 @@ export default {
     },
 
     openImage: {
-      immediate: true,
       handler(value) {
         this.active = Boolean(value)
       }
@@ -59,6 +58,10 @@ export default {
 
   created() {
     document.addEventListener('keyup', this.registerKeyListener)
+  },
+
+  mounted() {
+    this.active = Boolean(this.openImage)
   },
 
   beforeDestroy() {
@@ -99,12 +102,11 @@ export default {
     onClose(e) {
       this.active = false
 
-      // Buefy modal component sets these classes and
-      // if we don't remove them scroll will not work.
-      document.documentElement.classList.remove('is-clipped')
-      document.body.classList.remove('is-noscroll')
-
-      this.$emit('close', e)
+      // b-modal component adds classes that prevent scrolling on body when active
+      // so we need to wait for it to remove them before we signal it's closing
+      this.$nextTick(() => {
+        this.$emit('close', e)
+      })
     }
   }
 }
