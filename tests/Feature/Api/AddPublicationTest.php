@@ -97,6 +97,28 @@ class AddPublicationTest extends TestCase
         $this->assertEquals('Author M. (2019). Title of Paper. In Editor J. (Ed.). Some Book (2ed, 30-140p). Kragujevac: University of Kragujevac. 1234567', $publication->citation);
     }
 
+    /**
+     * @test
+     */
+    public function generating_citation_is_properly_using_multibyte_strings()
+    {
+        $this->handleValidationExceptions();
+        $this->seed('RolesTableSeeder');
+        Passport::actingAs($user = factory(User::class)->create()->assignRoles('admin'));
+
+        $response = $this->postJson('/api/publications', $this->validBookChapter([
+            'citation' => '',
+            'title' => 'Наслов рада',
+            'authors' => [
+                ['first_name' => 'Петар', 'last_name' => 'Петровић'],
+            ],
+        ]));
+
+        $response->assertCreated();
+        $publication = Publication::find($response->json('data.id'));
+        $this->assertEquals('Петровић П. (2019). Наслов рада. In Editor J. (Ed.). Some Book (2ed, 30-140p). Kragujevac: University of Kragujevac. 1234567', $publication->citation);
+    }
+
     protected function validBookChapter($overrides = [])
     {
         return array_merge([

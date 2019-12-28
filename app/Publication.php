@@ -263,7 +263,7 @@ class Publication extends Model
         $lastName = ucfirst($name['last_name']);
 
         $firstName = implode('', array_map(function ($part) {
-            return sprintf('%s.', substr(ucfirst($part), 0, 1));
+            return sprintf('%s.', mb_strtoupper(mb_substr($part, 0, 1)));
         }, explode(' ', $name['first_name'])));
 
         return sprintf('%s %s', $lastName, $firstName);
