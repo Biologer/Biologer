@@ -179,6 +179,10 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->middleware('can:update,publication')
         ->name('api.publications.update');
 
+    Route::delete('publications/{publication}', 'PublicationsController@destroy')
+        ->middleware('can:delete,publication')
+        ->name('api.publications.destroy');
+
     Route::post('publication-attachments', 'PublicationAttachmentsController@store')
         ->middleware('can:create,App\PublicationAttachment')
         ->name('api.publication-attachments.store');

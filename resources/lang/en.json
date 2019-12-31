@@ -25,6 +25,7 @@
     "<strong>Note:</strong> Changes to license preferences will act as defaults for newly added observations and photos, and will not affect old entries.": "<strong>Note:</strong> Changes to license preferences will act as defaults for newly added observations and photos, and will not affect old entries.",
     "No data...": "No data...",
     "Are you sure you want to delete this record?": "Are you sure you want to delete this record?",
+    "This will remove all observations connected to this publications. Are you sure you want to delete this publicatoin?": "This will remove all observations connected to this publications. Are you sure you want to delete this publication?",
     "Record deleted": "Record deleted",
     "You are about to approve checked observations.<br/>Those of them that cannot be approved, will not be approved.": "You are about to approve checked observations.<br/>Those of them that cannot be approved, will not be approved.",
     "You are about to approve this field observation": "You are about to approve this field observation",

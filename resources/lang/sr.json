@@ -25,6 +25,7 @@
     "<strong>Note:</strong> Changes to license preferences will act as defaults for newly added observations and photos, and will not affect old entries.": "<strong>Напомена:</strong> Измене у подешавањима лиценце ће бити примењена као подразумеване вредности за нове уносе и фотографије, и неће имати утицаја на старе.",
     "No data...": "Нема података...",
     "Are you sure you want to delete this record?": "Да ли сте сигурни да желите обрисати овај унос?",
+    "This will remove all observations connected to this publications. Are you sure you want to delete this publication?": "Овим ћете обрисати и све налазе повезане са публикацијом. Да ли сте сигурни да желите обрисати ову публикацију?",
     "Record deleted": "Унос обрисан",
     "You are about to approve checked observations.<br/>Those of them that cannot be approved, will not be approved.": "Покушавате да одобрите означене уносе.<br/>Они који не могу бити одобрени, неће бити одобрени.",
     "You are about to approve this field observation": "Покушавате да одобрите овај унос",

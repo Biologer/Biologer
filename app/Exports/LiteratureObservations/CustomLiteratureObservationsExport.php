@@ -206,7 +206,7 @@ class CustomLiteratureObservationsExport extends BaseExport
     {
         return [
             'id' => $item->id,
-            'taxon' => optional($item->observation->taxon)->name,
+            'taxon' => data_get($item, 'observation.taxon.name'),
             'year' => $item->observation->year,
             'month' => $item->observation->month,
             'day' => $item->observation->day,
@@ -228,7 +228,7 @@ class CustomLiteratureObservationsExport extends BaseExport
             'project' => $item->observation->project,
             'found_on' => $item->observation->found_on,
             'habitat' => $item->observation->habitat,
-            'stage' => optional($item->observation->stage)->name_translation,
+            'stage' => data_get($item, 'observation.stage.name_translation'),
             'time' => optional($item->time)->format('H:i'),
             'dataset' => $item->observation->dataset,
             'publication' => $item->publication->citation,

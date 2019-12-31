@@ -23,4 +23,9 @@ class PublicationPolicy
     {
         return $user->hasAnyRole(['admin', 'curator']);
     }
+
+    public function delete(User $user)
+    {
+        return $user->hasAnyRole(['admin', 'curator']);
+    }
 }

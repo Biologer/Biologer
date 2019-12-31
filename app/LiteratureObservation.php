@@ -106,6 +106,24 @@ class LiteratureObservation extends Model implements FlatArrayable
     }
 
     /**
+     * Scope the query to get all literature observations connected to given publication.
+     *
+     * @param [type] $query
+     * @param Publication $publication
+     * @return void
+     */
+    public function scopeConnectedToPublication($query, Publication $publication)
+    {
+        $query->where(function ($q) use ($publication) {
+            $q->whereHas('publication', function ($q) use ($publication) {
+                $q->where('id', $publication->id);
+            })->orWhereHas('citedPublication', function ($q) use ($publication) {
+                $q->where('id', $publication->id);
+            });
+        });
+    }
+
+    /**
      * Getter for time attribute.
      *
      * @param string $value

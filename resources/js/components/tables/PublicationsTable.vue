@@ -182,7 +182,7 @@ export default {
 
     confirmRemove(row) {
       this.$buefy.dialog.confirm({
-        message: this.trans('Are you sure you want to delete this record?'),
+        message: this.trans('This will remove all observations connected to this publications. Are you sure you want to delete this publication?'),
         confirmText: this.trans('buttons.delete'),
         cancelText: this.trans('buttons.cancel'),
         type: 'is-danger',

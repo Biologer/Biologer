@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\SavePublication;
 use App\Http\Resources\PublicationResource;
+use App\LiteratureObservation;
 use App\Publication;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PublicationsController
 {
@@ -22,5 +24,18 @@ class PublicationsController
     public function update(SavePublication $request, Publication $publication)
     {
         return new PublicationResource($request->save($publication));
+    }
+
+    public function destroy(Publication $publication)
+    {
+        return DB::transaction(function () use ($publication) {
+            LiteratureObservation::connectedToPublication($publication)->each(function ($observation) {
+                $observation->delete();
+            });
+
+            $publication->delete();
+
+            return response()->noContent();
+        });
     }
 }
