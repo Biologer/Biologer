@@ -24,10 +24,12 @@ trait CanBeCurated
      */
     public function scopeCuratedBy($query, User $user)
     {
-        return $query->whereHas('curators', function ($q) use ($user) {
-            return $q->where('id', $user->id);
-        })->orWhereHas('ancestors.curators', function ($q) use ($user) {
-            return $q->where('id', $user->id);
+        return $query->where(function ($q) use ($user) {
+            $q->whereHas('curators', function ($q) use ($user) {
+                $q->where('id', $user->id);
+            })->orWhereHas('ancestors.curators', function ($q) use ($user) {
+                $q->where('id', $user->id);
+            });
         });
     }
 
@@ -50,9 +52,7 @@ trait CanBeCurated
      */
     public function isDirectlyCuratedBy(User $user)
     {
-        return $this->curators->contains(function ($curator) use ($user) {
-            return $curator->is($user);
-        });
+        return $this->curators->contains->is($user);
     }
 
     /**
@@ -63,9 +63,7 @@ trait CanBeCurated
      */
     public function ancestorIsCuratedBy(User $user)
     {
-        return $this->ancestors->loadMissing('curators')->contains(function ($ancestor) use ($user) {
-            return $ancestor->isDirectlyCuratedBy($user);
-        });
+        return $this->ancestors->loadMissing('curators')->contains->isDirectlyCuratedBy($user);
     }
 
     /**
