@@ -298,7 +298,7 @@ return [
         'institution_code' => 'Institution Code',
     ],
 
-    'literature_observations' => [
+    'collection_observations' => [
         'collection' => 'Collection',
         'search_for_collection' => 'Search for collection',
         'taxon' => 'Taxon',

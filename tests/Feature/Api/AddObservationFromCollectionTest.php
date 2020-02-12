@@ -31,7 +31,7 @@ class AddObservationFromCollectionTest extends TestCase
             'original_coordinates' => '20°22\'44",43°21\'35"',
             'original_identification' => 'Testudo hermanii',
             'original_identification_validity' => ObservationIdentificationValidity::VALID,
-            'other_original_data' => 'Some more information',
+            'verbatim_tag' => 'Some more information',
             'collecting_start_year' => 1990,
             'collecting_start_month' => 3,
             'collecting_end_year' => 1990,
@@ -55,6 +55,14 @@ class AddObservationFromCollectionTest extends TestCase
             'georeferenced_by' => 'Pera Detlić',
             'georeferenced_date' => now()->toDateString(),
             'preparator' => 'Someone who prepared the specimen',
+            'preparation_method' => null,
+            'collector' => 'Someone who collected the specimen',
+            'collecting_method' => null,
+            'catalogue_number' => '2DX',
+            'cabinet_number' => '1A',
+            'box_number' => 'A12',
+            'disposition' => 'in_collection',
+            'type_status' => null,
         ], $overrides));
     }
 
@@ -88,7 +96,7 @@ class AddObservationFromCollectionTest extends TestCase
         $this->assertEquals('20°22\'44",43°21\'35"', $collectionObservation->original_coordinates);
         $this->assertEquals('Testudo hermanii', $collectionObservation->observation->original_identification);
         $this->assertEquals(ObservationIdentificationValidity::VALID, $collectionObservation->original_identification_validity);
-        $this->assertEquals('Some more information', $collectionObservation->other_original_data);
+        $this->assertEquals('Some more information', $collectionObservation->verbatim_tag);
         $this->assertEquals(1990, $collectionObservation->collecting_start_year);
         $this->assertEquals(3, $collectionObservation->collecting_start_month);
         $this->assertEquals(1990, $collectionObservation->collecting_end_year);

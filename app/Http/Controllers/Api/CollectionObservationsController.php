@@ -16,13 +16,6 @@ class CollectionObservationsController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-
-    /**
-     * Get collection observations.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
     public function index(Request $request)
     {
         $observations = CollectionObservation::filter($request)->with([

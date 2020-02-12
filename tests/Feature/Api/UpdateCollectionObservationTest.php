@@ -75,7 +75,7 @@ class UpdateCollectionObservationTest extends TestCase
         $this->assertEquals(now()->subDay()->toDateString(), $collectionObservation->georeferenced_date->toDateString());
         $this->assertEquals('female', $collectionObservation->observation->sex);
         $this->assertTrue($collectionObservation->observation->stage->is($stage));
-        $this->assertEquals('Some other information', $collectionObservation->other_original_data);
+        $this->assertEquals('Some other information', $collectionObservation->verbatim_tag);
         $this->assertEquals(1990, $collectionObservation->collecting_start_year);
         $this->assertEquals(3, $collectionObservation->collecting_start_month);
         $this->assertEquals(1990, $collectionObservation->collecting_end_year);
@@ -91,7 +91,7 @@ class UpdateCollectionObservationTest extends TestCase
             'original_coordinates' => '21°22\'44",41°21\'35"',
             'original_identification' => 'Testuduo hermanii',
             'original_identification_validity' => ObservationIdentificationValidity::INVALID,
-            'other_original_data' => 'Some other information',
+            'verbatim_tag' => 'Some other information',
             'collecting_start_year' => 1990,
             'collecting_start_month' => 3,
             'collecting_end_year' => 1990,
@@ -130,7 +130,7 @@ class UpdateCollectionObservationTest extends TestCase
             'original_elevation' => '300-500m',
             'original_coordinates' => '20°22\'44",43°21\'35"',
             'original_identification_validity' => ObservationIdentificationValidity::VALID,
-            'other_original_data' => 'Some information',
+            'verbatim_tag' => 'Some information',
             'collection_id' => factory(SpecimenCollection::class)->create()->id,
             'minimum_elevation' => 350,
             'maximum_elevation' => 400,

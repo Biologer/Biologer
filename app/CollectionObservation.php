@@ -130,7 +130,7 @@ class CollectionObservation extends Model implements FlatArrayable
             'original_coordinates' => $this->original_coordinates,
             'original_identification' => $this->observation->original_identification,
             'original_identification_validity' => $this->original_identification_validity,
-            'other_original_data' => $this->other_original_data,
+            'verbatim_tag' => $this->verbatim_tag,
             'collecting_start_year' => $this->collecting_start_year,
             'collecting_start_month' => $this->collecting_start_month,
             'collecting_end_year' => $this->collecting_end_year,
