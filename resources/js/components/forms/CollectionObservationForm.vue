@@ -136,7 +136,19 @@
             :type="form.errors.has('collecting_start_month') ? 'is-danger' : null"
             :message="form.errors.has('collecting_start_month') ? form.errors.first('collecting_start_month') : null"
           >
-            <b-input v-model="form.collecting_start_month"/>
+            <b-select
+              :placeholder="trans('labels.collection_observations.collecting_start_month')"
+              v-model="form.collecting_start_month"
+              expanded
+            >
+                <option :value="null"></option>
+                <option
+                    v-for="(month, index) in months"
+                    :value="index + 1"
+                    :key="month">
+                    {{ month }}
+                </option>
+            </b-select>
           </b-field>
         </div>
 
@@ -156,7 +168,19 @@
             :type="form.errors.has('collecting_end_month') ? 'is-danger' : null"
             :message="form.errors.has('collecting_end_month') ? form.errors.first('collecting_end_month') : null"
           >
-            <b-input v-model="form.collecting_end_month"/>
+            <b-select
+              :placeholder="trans('labels.collection_observations.collecting_end_month')"
+              v-model="form.collecting_end_month"
+              expanded
+            >
+                <option :value="null"></option>
+                <option
+                    v-for="(month, index) in months"
+                    :value="index + 1"
+                    :key="month">
+                    {{ month }}
+                </option>
+            </b-select>
           </b-field>
         </div>
       </div>
@@ -500,7 +524,11 @@ export default {
       set(value) {
         this.form.georeferenced_date = dayjs(value).format('YYYY-MM-DD')
       }
-    }
+    },
+
+    months() {
+      return dayjs.months()
+    },
   },
 
   created() {
