@@ -113,11 +113,11 @@
 
         <b-field
           class="mb-8"
-          :label="trans('labels.collection_observations.other_original_data')"
-          :type="form.errors.has('other_original_data') ? 'is-danger' : null"
-          :message="form.errors.has('other_original_data') ? form.errors.first('other_original_data') : null"
+          :label="trans('labels.collection_observations.verbatim_tag')"
+          :type="form.errors.has('verbatim_tag') ? 'is-danger' : null"
+          :message="form.errors.has('verbatim_tag') ? form.errors.first('verbatim_tag') : null"
         >
-           <b-input type="textarea" v-model="form.other_original_data" />
+           <b-input type="textarea" v-model="form.verbatim_tag" />
         </b-field>
 
         <div class="columns">
@@ -418,7 +418,7 @@ export default {
           original_coordinates: null,
           original_identification: null,
           original_identification_validity: null,
-          other_original_data: null,
+          verbatim_tag: null,
           collecting_start_year: null,
           collecting_start_month: null,
           collecting_end_year: null,

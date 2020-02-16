@@ -340,7 +340,7 @@ return [
         'original_elevation_placeholder' => 'нпр. 100-200m',
         'original_identification' => 'Оригинална идентификација',
         'original_identification_validity' => 'Валидност оригиналне идентификације',
-        'other_original_data' => 'Остали оригинални подаци',
+        'verbatim_tag' => 'Tekst etikete',
         'collecting_start_year' => 'Година почетка сакупљања',
         'collecting_start_month' => 'Месец почетка сакупљања',
         'collecting_end_year' => 'Година краја сакупљања',

@@ -342,7 +342,7 @@ return [
         'original_elevation_placeholder' => 'f.e. 100-200m',
         'original_identification' => 'Original Identification',
         'original_identification_validity' => 'Original Identification Validity',
-        'other_original_data' => 'Other Original Data',
+        'verbatim_tag' => 'Verbatim information from tag',
         'collecting_start_year' => 'Collecting Start Year',
         'collecting_start_month' => 'Collecting Start Month',
         'collecting_end_year' => 'Collecting End Year',
