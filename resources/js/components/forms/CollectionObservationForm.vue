@@ -394,7 +394,7 @@ import NzCollectionAutocomplete from '@/components/inputs/CollectionAutocomplete
 import NzTaxonAutocomplete from '@/components/inputs/TaxonAutocomplete'
 
 export default {
-  name: 'nzLiteratureObservationForm',
+  name: 'nzCollectionObservationForm',
 
   mixins: [PersistentForm, FormMixin],
 
