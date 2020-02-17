@@ -82,6 +82,14 @@ class StoreCollectionObservation extends FormRequest
             'collecting_end_month' => ['nullable', 'integer', 'min:1', 'max:12'],
             'georeferenced_by' => ['nullable', 'string', 'max:255'],
             'georeferenced_date' => ['nullable', 'string', 'max:255'],
+            'collector' => ['nullable', 'string', 'max:191'],
+            'catalogue_number' => ['nullable', 'string', 'max:191'],
+            'cabinet_number' => ['nullable', 'string', 'max:191'],
+            'box_number' => ['nullable', 'string', 'max:191'],
+            'disposition' => ['nullable', 'string', 'max:191'],
+            'preparator' => ['nullable', 'string', 'max:191'],
+            'preparation_method' => ['nullable', 'string', 'max:191'],
+            'type_status' => ['nullable', 'string', 'max:191'],
         ];
     }
 
@@ -134,7 +142,14 @@ class StoreCollectionObservation extends FormRequest
             'minimum_elevation',
             'maximum_elevation',
             'collection_id',
+            'collector',
+            'catalogue_number',
+            'cabinet_number',
+            'box_number',
+            'disposition',
             'preparator',
+            'preparation_method',
+            'type_status',
         ]);
     }
 

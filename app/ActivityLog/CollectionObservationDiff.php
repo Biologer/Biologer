@@ -45,11 +45,20 @@ class CollectionObservationDiff
             'original_coordinates',
             'original_identification',
             'original_identification_validity',
-            'other_original_data',
+            'verbatim_tag',
             'collecting_start_year',
             'collecting_start_month',
             'collecting_end_year',
             'collecting_end_month',
+            'collecting_method',
+            'collector',
+            'catalogue_number',
+            'cabinet_number',
+            'box_number',
+            'disposition',
+            'type_status',
+            'preparator',
+            'preparation_method',
         ];
     }
 
@@ -102,9 +111,9 @@ class CollectionObservationDiff
                     'label' => "labels.literature_observations.validity.{$key}",
                 ];
             },
-            'other_original_data' => function ($collectionObservation) {
+            'verbatim_tag' => function ($collectionObservation) {
                 return [
-                    'value' => $collectionObservation->other_original_data,
+                    'value' => $collectionObservation->verbatim_tag,
                     'label' => null,
                 ];
             },

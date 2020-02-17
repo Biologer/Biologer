@@ -117,6 +117,14 @@ class AddObservationFromCollectionTest extends TestCase
         $this->assertEquals('Pera Detlić', $collectionObservation->georeferenced_by);
         $this->assertEquals(now()->toDateString(), $collectionObservation->georeferenced_date->toDateString());
         $this->assertEquals('Someone who prepared the specimen', $collectionObservation->preparator);
+        $this->assertNull($collectionObservation->preparation_method);
+        $this->assertEquals('Someone who collected the specimen', $collectionObservation->collector);
+        $this->assertNull($collectionObservation->collecting_method);
+        $this->assertEquals('2DX', $collectionObservation->catalogue_number);
+        $this->assertEquals('1A', $collectionObservation->cabinet_number);
+        $this->assertEquals('A12', $collectionObservation->box_number);
+        $this->assertEquals('in_collection', $collectionObservation->disposition);
+        $this->assertNull($collectionObservation->type_status);
     }
 
     /**
@@ -136,9 +144,9 @@ class AddObservationFromCollectionTest extends TestCase
 
     public function invalidTaxonId()
     {
-        yield [null];
-        yield ['invalid'];
-        yield [['invalid']];
+        yield 'Taxon ID is required' => [null];
+        yield 'Taxon ID cannot be array' => [['invalid']];
+        yield 'Taxon with given ID must exist' => ['invalid'];
     }
 
     /**
@@ -158,8 +166,8 @@ class AddObservationFromCollectionTest extends TestCase
 
     public function invalidCollectionId()
     {
-        yield [null];
-        yield ['invalid'];
-        yield [['invalid']];
+        yield 'Collection ID is required' => [null];
+        yield 'Collection ID cannot be array' => [['invalid']];
+        yield 'Collection with given ID must exist' => ['invalid'];
     }
 }

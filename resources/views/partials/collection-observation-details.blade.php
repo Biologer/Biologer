@@ -151,8 +151,8 @@
         </tr>
 
         <tr>
-            <td><b>{{ __('labels.collection_observations.other_original_data') }}</b></td>
-            <td class="is-fullwidth">{{ $collectionObservation->other_original_data }}</td>
+            <td><b>{{ __('labels.collection_observations.verbatim_tag') }}</b></td>
+            <td class="is-fullwidth">{{ $collectionObservation->verbatim_tag }}</td>
         </tr>
 
         <tr>
@@ -173,6 +173,51 @@
         <tr>
             <td><b>{{ __('labels.collection_observations.collecting_end_month') }}</b></td>
             <td class="is-fullwidth">{{ $collectionObservation->collecting_end_month }}</td>
+        </tr>
+
+        <tr>
+            <td><b>{{ __('labels.collection_observations.collecting_method') }}</b></td>
+            <td class="is-fullwidth">{{ $collectionObservation->collecting_method }}</td>
+        </tr>
+
+        <tr>
+            <td><b>{{ __('labels.collection_observations.collector') }}</b></td>
+            <td class="is-fullwidth">{{ $collectionObservation->collector }}</td>
+        </tr>
+
+        <tr>
+            <td><b>{{ __('labels.collection_observations.catalogue_number') }}</b></td>
+            <td class="is-fullwidth">{{ $collectionObservation->catalogue_number }}</td>
+        </tr>
+
+        <tr>
+            <td><b>{{ __('labels.collection_observations.cabinet_number') }}</b></td>
+            <td class="is-fullwidth">{{ $collectionObservation->cabinet_number }}</td>
+        </tr>
+
+        <tr>
+            <td><b>{{ __('labels.collection_observations.box_number') }}</b></td>
+            <td class="is-fullwidth">{{ $collectionObservation->box_number }}</td>
+        </tr>
+
+        <tr>
+            <td><b>{{ __('labels.collection_observations.disposition') }}</b></td>
+            <td class="is-fullwidth">{{ $collectionObservation->disposition }}</td>
+        </tr>
+
+        <tr>
+            <td><b>{{ __('labels.collection_observations.preparator') }}</b></td>
+            <td class="is-fullwidth">{{ $collectionObservation->preparator }}</td>
+        </tr>
+
+        <tr>
+            <td><b>{{ __('labels.collection_observations.preparation_method') }}</b></td>
+            <td class="is-fullwidth">{{ $collectionObservation->preparation_method }}</td>
+        </tr>
+
+        <tr>
+            <td><b>{{ __('labels.collection_observations.type_status') }}</b></td>
+            <td class="is-fullwidth">{{ $collectionObservation->type_status }}</td>
         </tr>
     </tbody>
 </table>

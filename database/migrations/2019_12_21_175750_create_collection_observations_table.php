@@ -40,7 +40,6 @@ class CreateCollectionObservationsTable extends Migration
             $table->string('collecting_method')->nullable();
             $table->string('collector')->nullable();
             $table->time('time')->nullable();
-
             $table->timestamps();
 
             $table->foreign('collection_id')
