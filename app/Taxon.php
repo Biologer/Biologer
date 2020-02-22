@@ -99,6 +99,7 @@ class Taxon extends Model
         'allochthonous' => 'boolean',
         'invasive' => 'boolean',
         'rank_level' => 'integer',
+        'elevation' => 'integer',
         'restricted' => 'boolean',
     ];
 
@@ -456,6 +457,7 @@ class Taxon extends Model
         return $this->memoize('occurrence', function () {
             return $this->approvedObservationsQuery()
                 ->withCompleteDate()
+                ->whereNotNull('elevation')
                 ->leftJoin('stages', 'observations.stage_id', '=', 'stages.id')
                 ->select('observations.id', 'elevation', 'year', 'month', 'day', 'stage_id', 'stages.name as stage_name')
                 ->getQuery()
@@ -465,7 +467,7 @@ class Taxon extends Model
                     $day = str_pad($observation->day, 2, '0', STR_PAD_LEFT);
 
                     return [
-                        'elevation' => $observation->elevation,
+                        'elevation' => (int) $observation->elevation,
                         'date' => $observation->year.'-'.$month.'-'.$day,
                         'stage' => $observation->stage_name ?? 'adult',
                     ];
