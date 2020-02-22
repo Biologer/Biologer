@@ -45,23 +45,23 @@
         <text x="400" y="590" font-size="20" fill="#000000" dominant-baseline="middle" text-anchor="middle">{{ monthsLabel }}</text>
 
         <template v-for="(elevation, index) in negativeElevations">
-          <line x1="60" :y1="elevation.y" x2="800" :y2="elevation.y" stroke-width="1" :stroke="(index + 1) % 2 ? '#555555' : '#222222'" />
-          <text x="55" :y="elevation.y" font-size="20" fill="#000000" dominant-baseline="central" text-anchor="end">{{ elevation.value }}</text>
+          <line x1="60" :y1="elevation.y" x2="800" :y2="elevation.y" stroke-width="1" :stroke="(index + 1) % 2 ? '#555555' : '#222222'" :key="`negative-y-line-${index}`" />
+          <text x="55" :y="elevation.y" font-size="20" fill="#000000" dominant-baseline="central" text-anchor="end" :key="`negative-y-label-${index}`">{{ elevation.value }}</text>
         </template>
 
         <line x1="60" :y1="yForZeroElevation" x2="800" :y2="yForZeroElevation" stroke-width="2" stroke="#222222" />
         <text x="55" :y="yForZeroElevation" font-size="20" fill="#000000" dominant-baseline="central" text-anchor="end">0</text>
 
         <template v-for="(elevation, index) in positiveElevations">
-          <line x1="60" :y1="elevation.y" x2="800" :y2="elevation.y" stroke-width="1" :stroke="(index + 1) % 2 ? '#555555' : '#222222'" />
-          <text x="55" :y="elevation.y" font-size="20" fill="#000000" dominant-baseline="central" text-anchor="end">{{ elevation.value }}</text>
+          <line x1="60" :y1="elevation.y" x2="800" :y2="elevation.y" stroke-width="1" :stroke="(index + 1) % 2 ? '#555555' : '#222222'" :key="`positive-y-line-${index}`" />
+          <text x="55" :y="elevation.y" font-size="20" fill="#000000" dominant-baseline="central" text-anchor="end" :key="`positive-y-label-${index}`">{{ elevation.value }}</text>
         </template>
       </g>
 
       <g>
         <!--Occurrence -->
-        <template v-for="point in preparedPoints">
-          <circle :cx="point.x" :cy="point.y" r="7" :fill="point.color" stroke-width="1" stroke="black" />
+        <template v-for="(point, index) in preparedPoints">
+          <circle :cx="point.x" :cy="point.y" r="7" :fill="point.color" stroke-width="1" stroke="black" :key="`pount-${index}`" />
         </template>
       </g>
 
@@ -70,7 +70,7 @@
     </svg>
 
     <div class="flex flex-col is-flex-center">
-      <div class="control" v-for="stage in allStages">
+      <div class="control" v-for="stage in allStages" :key="stage">
         <label class="checkbox">
           <input type="checkbox" name="stages" :value="stage" v-model="visibleStages"> {{ trans(`stages.${stage}`) }} <span :style="optionColor(stage)"></span>
         </label>
@@ -169,7 +169,7 @@ export default {
     sortedData() {
       const stageOrder = this.stageOrder
 
-      return _sortBy(this.filteredData, item => item.date)
+      return _sortBy(this.filteredData, 'date')
     },
 
     /**
@@ -178,7 +178,7 @@ export default {
      * @return {Number}
      */
     maxElevation() {
-      const max = _maxBy(this.data, item => item.elevation)
+      const max = _maxBy(this.data, 'elevation')
 
       return max ? max.elevation : 1000
     },
@@ -189,7 +189,7 @@ export default {
      * @return {Number}
      */
     minElevation() {
-      const min = _minBy(this.data, item => item.elevation)
+      const min = _minBy(this.data, 'elevation')
 
       return min ? min.elevation : 0
     },
