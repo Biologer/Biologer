@@ -145,8 +145,13 @@ class ViewGroup extends Model
         return Taxon::inGroup($this)
             ->speciesOrHigher()
             ->orderByAncestry()
-            ->with('descendants')
-            ->when($name, function ($query, $name) {
+            ->with(['descendants' => function ($query) {
+                $query->when($this->only_observed_taxa, function ($query) {
+                    $query->where(function ($query) {
+                        $query->has('observations')->orHas('descendants.observations');
+                    });
+                });
+            }])->when($name, function ($query, $name) {
                 $query->withScientificOrNativeName($name);
             });
     }
