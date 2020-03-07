@@ -310,7 +310,7 @@ export default {
     },
 
     days() {
-      return _range(1, 31)
+      return _range(1, 32)
     },
 
     hasActions() {
