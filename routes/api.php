@@ -44,6 +44,9 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->middleware('can:delete,taxon')
         ->name('api.taxa.destroy');
 
+    Route::get('observation-types', 'ObservationTypesController@index')
+        ->name('api.observation-types.index');
+
     // Field observations
     Route::get('field-observations', 'FieldObservationsController@index')
         ->middleware('can:list,App\FieldObservation')
