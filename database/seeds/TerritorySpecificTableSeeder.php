@@ -16,7 +16,9 @@ class TerritorySpecificTableSeeder extends Seeder
     {
         $method = 'runFor'.Str::studly(config('biologer.territory'));
 
-        $this->{$method}();
+        if (method_exists($this, 'method')) {
+            $this->{$method}();
+        }
     }
 
     public function runForSerbia()
@@ -64,6 +66,16 @@ class TerritorySpecificTableSeeder extends Seeder
             'hr' => ['name' => 'Hrvatska'],
             'sr' => ['name' => 'Хрватска'],
             'sr-Latn' => ['name' => 'Hrvatska'],
+        ]);
+    }
+
+    public function runForBiH()
+    {
+        RedList::firstOrCreate(['slug' => 'bih'])->update([
+            'en' => ['name' => 'BiH'],
+            'hr' => ['name' => 'BiH'],
+            'sr' => ['name' => 'БиХ'],
+            'sr-Latn' => ['name' => 'BiH'],
         ]);
     }
 }
