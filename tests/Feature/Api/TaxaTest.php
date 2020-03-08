@@ -62,25 +62,6 @@ class TaxaTest extends TestCase
     }
 
     /** @test */
-    public function returns_timestamp_of_last_update_to_taxa_tree()
-    {
-        $taxa = factory(Taxon::class, 5)->create();
-
-        $now = Carbon::now();
-        Carbon::setTestNow($now);
-        $taxa->first()->touch();
-
-        Passport::actingAs(factory(User::class)->make());
-
-        $response = $this->getJson('/api/taxa');
-
-        $response->assertStatus(200);
-        $response->assertJson([
-            'meta' => ['last_updated_at' => $now->timestamp],
-        ]);
-    }
-
-    /** @test */
     public function can_get_only_taxa_updated_after_given_timestamp()
     {
         Carbon::setTestNow($yesterday = Carbon::yesterday());
