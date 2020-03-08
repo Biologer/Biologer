@@ -31,6 +31,14 @@ return [
                 'zoom' => 7,
             ],
         ],
+
+        'BiH' => [
+            'center' => [
+                'latitude' => 43.9110729,
+                'longitude' => 17.8,
+                'zoom' => 7,
+            ],
+        ]
     ],
 
     'android_app_url' => env('ANDROID_APP_URL'),
