@@ -61,7 +61,7 @@ return [
     'gallery' => 'Galerija',
     'privacy_policy' => 'Politika privatnosti',
     'licenses' => 'Licence',
-    'partially_open_license' => 'Delimično otvorena licensa',
+    'partially_open_license' => 'Delimično otvorena licenca',
     'closed_license' => 'Zatvorena licenca',
     'literature_observations' => 'Literaturni podaci',
     'new_literature_observation' => 'Novi literaturni podatak',
