@@ -129,6 +129,10 @@ class ImportTaxa extends Command
         while (! feof($file)) {
             $row = fgetcsv($file);
 
+            if (empty($row)) {
+                break;
+            }
+
             if ($rowNumber === 1) {
                 $columns = $row;
             } else {
