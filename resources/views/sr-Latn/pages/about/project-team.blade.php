@@ -12,7 +12,7 @@
                 Projektni tim ili promenu postojećih članova neophodna je saglasnost 2/3 članova
                 Projektnog tima. Prilikom formiranja nove Lokalne zajednice, članovi
                 Projektnog tima imenuju bar dva Administratora lokalne Biologer platforme.
-                Članovi Projektnog tima su i isto vreme i predstavnici Organizacija koje
+                Članovi Projektnog tima su u isto vreme i predstavnici Organizacija koje
                 podržavaju rad platforme:
             </p>
 

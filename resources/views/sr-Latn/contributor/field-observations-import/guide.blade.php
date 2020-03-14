@@ -53,11 +53,11 @@
                 <b>Jedna od najčešćih greški je zamena koordinata geografske širine i
                 geografske dužine, zbog čega veliki broj nalaza može da završi na
                 pogrešnoj strani Zemljine kugle.</b> Geografska širina (y osa) predstavlja
-                rastojanje od Ekvatora, dok je geografska dužina (x osa) rastojanje od Grinča.
+                rastojanje od Ekvatora, dok je geografska dužina (x osa) rastojanje od Griniča.
                 Na području Istočne Evrope brojčane vrednosti geografske širine su uvek
                 veće od vrednosti geografske dužine, što vam može biti od pomoći.
                 Koordinate geografske širine i dužine se uvek daju u stepenima (npr. 43,1111).
-                Koordinate koje su dati u stepenima, minutima i sekundama (npr. 43°10'10" ili 43°10,81')
+                Koordinate koje su date u stepenima, minutima i sekundama (npr. 43°10'10" ili 43°10,81')
                 je potrebno pretvoriti u decimalni zapis. Isto važi i za koordinate koje su date
                 u koordinatnom sistemu različitom od WGS84.
             </li>

@@ -38,7 +38,7 @@
             <p class="mb-4">
                 Biologer može, u skladu sa zakonom, prikupljati neke podatke o svojim
                 korisnicima koji su dobijeni tokom korišćenja. Ove podatke Biologer
-                može koristi za prikazivanje statistike aktivnosti korisnika, za
+                može koristiti za prikazivanje statistike aktivnosti korisnika, za
                 poboljšanje i prilagođavanje sajta i njegovog sadržaja. Kontakt podaci
                 korisnika se u ovom slučaju, takođe, neće otkrivati.
             </p>
@@ -62,7 +62,7 @@
                 Biologer koristi kolačiće (eng. „cookies“) za lakše praćenje aktivnosti
                 korisnika. Određena podešavanja se čuvaju kao kolačići kako bi vam
                 olakšali korišćenje sajta prilikom narednih poseta (npr. radi provere
-                da li je korisnik već prijavljen). Kolačići ne narušavaju vašu bezbednosti
+                da li je korisnik već prijavljen). Kolačići ne narušavaju vašu bezbednost
                 i koriste se samo radi lakšeg i sigurnijeg korišćenja sajta.
             </p>
         </section>
