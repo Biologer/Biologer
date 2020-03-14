@@ -7,12 +7,12 @@
 
             <p class="has-text-justified">
                 Izvorni Projektni tim čini grupa entuzijasta koja je pokrenula projekat Biologer.
-                Projektni tim ima najveća ovlašćenja u Zajednici. Projektni tim direktno odlučuje
+                Projektni tim ima najveća ovlaštenja u Zajednici. Projektni tim direktno odlučuje
                 o pravcima daljeg razvoja platforme Biologer. Za uključenje novih ljudi u
-                Projektni tim ili promenu postojećih članova neophodna je saglasnost 2/3 članova
+                Projektni tim ili promjenu postojećih članova neophodna je saglasnost 2/3 članova
                 Projektnog tima. Prilikom formiranja nove Lokalne zajednice, članovi
                 Projektnog tima imenuju bar dva Administratora lokalne Biologer platforme.
-                Članovi Projektnog tima su i isto vreme i predstavnici Organizacija koje
+                Članovi Projektnog tima su u isto vrijeme i predstavnici Organizacija koje
                 podržavaju rad platforme:
             </p>
 

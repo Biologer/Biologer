@@ -7,9 +7,9 @@
 
             <p class="has-text-justified">
                 Projekat Biologer je nastao kao interaktivna platforma slobodnog
-                sadržaja namenjena prikupljanju i digitalizaciji znanja o biološkoj
+                sadržaja namijenjena prikupljanju i digitalizaciji znanja o biološkoj
                 raznovrsnosti na području Istočne Evrope. Platforma se zasniva na
-                korišćenju i razvoju softvera Biologer i dobrovoljnom radu Biologer zajednice.
+                korištenju i razvoju softvera Biologer i dobrovoljnom radu Biologer zajednice.
             </p>
 
             <p class="has-text-justified">

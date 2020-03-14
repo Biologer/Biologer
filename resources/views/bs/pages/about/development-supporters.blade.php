@@ -63,12 +63,12 @@
             preko Biološkog fakulteta, Univerziteta u Beogradu.
         </p>
 
-        <h2>Pojedinci koji su doprineli razvoju projekta Biologer</h2>
+        <h2>Pojedinci koji su doprinijeli razvoju projekta Biologer</h2>
 
         <p>
             Miloš Popović – Vođa projekta, organizacija portala i podataka, početni grafički dizajn, razvoj Android aplikacije.<br>
             Ana Golubović – Organizacija portala.<br>
-            Nenad Živanović – Softversko rešenje za Biologer platformu, veb dizajn, organizacija portala i podataka.<br>
+            Nenad Živanović – Softversko rješenje za Biologer platformu, web dizajn, organizacija portala i podataka.<br>
             Marko Nikolić – Legislativa Biologer zajednice.<br>
             Branko Jovanović – Razvoj Android aplikacije.<br>
             Vanja Lazić – Dizajn ikonica za životinjske grupe.

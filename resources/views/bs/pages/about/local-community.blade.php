@@ -14,12 +14,12 @@
             <p class="has-text-justified">
                 <b>Administratori</b> su lica koja upravljaju bazom podataka, imaju
                 uvid u sve podatke u okviru lokalne Biologer platforme i zaduženi
-                su za celokupnu organizaciju Lokalne zajednice. Početni tim Administratora
+                su za cjelokupnu organizaciju Lokalne zajednice. Početni tim Administratora
                 odobrava Projektni tim prilikom pokretanja nove Lokalne zajednice.
                 Novi Administratori se obično biraju iz redova Urednika, za šta je
                 neophodna saglasnost 2/3 postojećih Administratora. Administratori
                 imaju pravo da raspolažu svim podacima i da donose odluke o njihovom
-                korišćenju (u skladu sa licencama koje izaberu Korisnici).
+                korištenju (u skladu sa licencama koje izaberu Korisnici).
             </p>
 
             <p class="has-text-justified">
@@ -41,7 +41,7 @@
                 zajednici biraju Administratori iz redova Korisnika. Dodavanje novih
                 Urednika mora prihvatiti 2/3 postojećih Urednika određene taksonomske
                 grupe, kao i 2/3 Administratora. Urednici imaju pravo da raspolažu
-                podacima nad kojima su nadležni, i da donose odluke o njihovom korišćenju
+                podacima nad kojima su nadležni, i da donose odluke o njihovom korištenju
                 (u skladu sa licencama koje izaberu Korisnici).
             </p>
 
@@ -58,9 +58,9 @@
 
             <p class="has-text-justified">
                 <b>Korisnici</b> su svi članovi Lokalne zajednice, a status Korisnika
-                se stiče prilikom registracije na veb platformu. U Korisnike se ubrajaju
+                se stiče prilikom registracije na web platformu. U Korisnike se ubrajaju
                 i Urednici i Administratori. Korisnici čine Biologer zajednicu i njihovim
-                zalaganjem dolazimo do vrednih podataka o rasprostranjenju taksona na određenom
+                zalaganjem dolazimo do vrijednih podataka o rasprostranjenju taksona na određenom
                 geografskom području.
             </p>
 

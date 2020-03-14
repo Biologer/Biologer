@@ -9,18 +9,18 @@
 
             <p class="mb-4">
                 Podaci o korisniku predstavljaju: ime, prezime, adresu e-pošte,
-                instituciju i GPS lokaciju u vidu geografskih koordinata mesta
-                gde je zabeležen određeni takson.
+                instituciju i GPS lokaciju u vidu geografskih koordinata mjesta
+                gde je zabilježen određeni takson.
             </p>
 
             <p class="mb-4">
-                Izborom licence za korišćenje podataka korisnik može da odredi šta
-                želi da deli sa drugima. Biologer podržava otvoren softver i otvorene,
-                naučno proverljive podatke, zbog čega ne savetujemo izbor zatvorene
-                licence. Dobra naučna praksa podrazumeva da podaci o nalazima budu
-                proverljivi, pa se uz svaki nalaz prikazuje ko je (ime, prezime i
-                institucija), gde (geografske koordinate ili UTM polje) i kada (datum)
-                zabeležio određeni takson. Kako bi obezbedili proverljivost, korisnici
+                Izborom licence za korištenje podataka korisnik može da odredi šta
+                želi da dijeli sa drugima. Biologer podržava otvoren softver i otvorene,
+                naučno provjerljive podatke, zbog čega ne savjetujemo izbor zatvorene
+                licence. Dobra naučna praksa podrazumijeva da podaci o nalazima budu
+                provjerljivi, pa se uz svaki nalaz prikazuje ko je (ime, prezime i
+                institucija), gdje (geografske koordinate ili UTM polje) i kada (datum)
+                zabilježio određeni takson. Kako bi obezbijedili provjerljivost, korisnici
                 su dužni da tačno unesu svoje podatke, a unos lažnih podataka može
                 dovesti do brisanja korisničkog naloga. Ukoliko ne želite da osobe
                 izvan uredništva sajta (administratora i taksonomskih eksperata za
@@ -31,14 +31,14 @@
             <p class="mb-4">
                 Biologer se zalaže za očuvanje vaše privatnosti i neće distribuirati
                 ni prodavati privatne podatke trećoj strani, osim uz dozvolu korisnika.
-                Biologer zadržava pravo korišćenja ovih podataka u slučaju kršenja
-                pravila sajta i nezakonitog korišćenja od strane korisnika.
+                Biologer zadržava pravo korištenja ovih podataka u slučaju kršenja
+                pravila sajta i nezakonitog korištenja od strane korisnika.
             </p>
 
             <p class="mb-4">
                 Biologer može, u skladu sa zakonom, prikupljati neke podatke o svojim
-                korisnicima koji su dobijeni tokom korišćenja. Ove podatke Biologer
-                može koristi za prikazivanje statistike aktivnosti korisnika, za
+                korisnicima koji su dobijeni tokom korištenja. Ove podatke Biologer
+                može koristiti za prikazivanje statistike aktivnosti korisnika, za
                 poboljšanje i prilagođavanje sajta i njegovog sadržaja. Kontakt podaci
                 korisnika se u ovom slučaju, takođe, neće otkrivati.
             </p>
@@ -61,9 +61,9 @@
             <p class="mb-4">
                 Biologer koristi kolačiće (eng. „cookies“) za lakše praćenje aktivnosti
                 korisnika. Određena podešavanja se čuvaju kao kolačići kako bi vam
-                olakšali korišćenje sajta prilikom narednih poseta (npr. radi provere
-                da li je korisnik već prijavljen). Kolačići ne narušavaju vašu bezbednosti
-                i koriste se samo radi lakšeg i sigurnijeg korišćenja sajta.
+                olakšali korištenje sajta prilikom narednih posjeta (npr. radi provjere
+                da li je korisnik već prijavljen). Kolačići ne narušavaju vašu bezbednost
+                i koriste se samo radi lakšeg i sigurnijeg korištenja sajta.
             </p>
         </section>
     </div>
