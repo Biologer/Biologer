@@ -71,7 +71,9 @@
             Nenad Živanović – Softversko rješenje za Biologer platformu, veb dizajn, organizacija portala i podataka.<br>
             Marko Nikolić – Legislativa Biologer zajednice.<br>
             Branko Jovanović – Razvoj Android aplikacije.<br>
-            Vanja Lazić – Dizajn ikonica za životinjske grupe.
+            Vanja Lazić – Dizajn ikonica za životinjske grupe.<br>
+            Jožef Dožai - Dopuna ikonica za biljke i gljive.<br>
+            Boris Bradarić - Poboljšanje rada Android aplikacije na starijim uređajima.
         </p>
     </div>
 </section>

@@ -24,6 +24,7 @@
                 <li>Ana Golubović – Coordinator for development of Biologer platform in Serbia (Faculty of Biology, University of Belgrade).</li>
                 <li>Ivona Burić – Coordinator for development of Biologer platform in Croatia (Association Hyla, Zagreb).</li>
                 <li>Toni Koren – Coordinator for development of Biologer platform in Croatia (Association Hyla, Zagreb).</li>
+                <li>Dejan Kulijer - Coordinator for development of Biologer platform in Bosnia and Herzegovina (National Museum of Bosnia and Herzegovina).</li>
             </ol>
         </div>
     </section>

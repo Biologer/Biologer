@@ -21,8 +21,8 @@
                 <b>Organisations</b> that support the work and development of Biologer.
                 Local communities are taking active role in collecting, verifying
                 and presenting the data about geographical distribution of the organisms
-                in nature. Each local Biologer platform (e.g. <a href="https://biologer.hr">biologer.hr</a>
-                and <a href="https://biologer.rs">biologer.rs</a>) has its own Local
+                in nature. Each local Biologer platform (e.g. <a href="https://biologer.hr">biologer.hr</a>,
+                <a href="https://biologer.rs">biologer.rs</a> and <a href="https://biologer.ba">biologer.ba</a>) has its own Local
                 community made of <i>Administrators</i>, <i>Editors</i> and <i>Users</i>.
             </p>
 

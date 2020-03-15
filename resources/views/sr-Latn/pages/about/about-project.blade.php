@@ -20,9 +20,9 @@
                 <b>Organizacija</b> koje podržavaju rad i razvoj Biologera. Lokalne
                 zajednice aktivno rade na prikupljanju, verifikaciji i prikazivanju
                 podataka o rasprostranjenju organizama u prirodi. Svaka lokalna Biologer
-                platforma (npr. <a href="https://biologer.hr">biologer.hr</a>
-                i <a href="https://biologer.rs">biologer.rs</a>) ima svoju Lokalnu
-                zajednicu koju čine <i>Administratori</i>, <i>Urednici</i> i <i>Korisnici</i>.
+                platforma (npr. <a href="https://biologer.hr">biologer.hr</a>,
+                <a href="https://biologer.rs">biologer.rs</a> i <a href="https://biologer.ba">biologer.ba</a>)
+                ima svoju Lokalnu zajednicu koju čine <i>Administratori</i>, <i>Urednici</i> i <i>Korisnici</i>.
             </p>
 
             <h2>Misija</h2>

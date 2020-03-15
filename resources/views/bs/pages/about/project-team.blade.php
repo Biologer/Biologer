@@ -22,6 +22,7 @@
                 <li>Ana Golubović – Koordinator za razvoj Biologer platforme u Srbiji (Biološki fakultet, Univerzitet u Beogradu).</li>
                 <li>Ivona Burić – Koordinator za razvoj Biologer platforme u Hrvatskoj (Udruženje Hila, Zagreb).</li>
                 <li>Toni Koren – Koordinator za razvoj Biologer platforme u Hrvatskoj (Udruženje Hila, Zagreb).</li>
+                <li>Dejan Kulijer - Koordinator za razvoj Biologer platforme u Bosni i Hercegovini (Zemaljski muzej Bosne i Hercegovine).</li>
             </ol>
         </div>
     </section>
