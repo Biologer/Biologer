@@ -9,13 +9,6 @@ class ObservationType extends Model
     use Translatable;
 
     /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
      * The relations to eager load on every query.
      *
      * @var array
