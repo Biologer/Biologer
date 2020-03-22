@@ -29,7 +29,7 @@ trait Filterable
         $filters = $filters ?: $this->filters();
         $filterData = $this->getFilterData($data);
 
-        foreach ($filterData->all() as $param => $value) {
+        foreach ($filterData as $param => $value) {
             $shouldFilter = array_key_exists($param, $filters) && $value && class_exists($filters[$param]);
 
             if ($shouldFilter) {

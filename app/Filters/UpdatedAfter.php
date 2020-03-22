@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filters\Taxon;
+namespace App\Filters;
 
 use Illuminate\Support\Carbon;
 

@@ -2,11 +2,12 @@
 
 namespace App;
 
+use App\Filters\Filterable;
 use Astrotomic\Translatable\Translatable;
 
 class ObservationType extends Model
 {
-    use Translatable;
+    use Filterable, Translatable;
 
     /**
      * The relations to eager load on every query.
@@ -35,6 +36,18 @@ class ObservationType extends Model
      * @var array
      */
     public $translatedAttributes = ['name'];
+
+    /**
+     * Filter list.
+     *
+     * @return array
+     */
+    protected function filters()
+    {
+        return [
+            'updated_after' => \App\Filters\UpdatedAfter::class,
+        ];
+    }
 
     /**
      * Accessor for name attribute.
