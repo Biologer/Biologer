@@ -6,7 +6,7 @@ use App\Http\Resources\SpecimenCollectionResource;
 use App\SpecimenCollection;
 use Illuminate\Http\Request;
 
-class PublicationsController
+class SpecimenCollectionsController
 {
     public function index(Request $request)
     {

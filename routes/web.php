@@ -243,7 +243,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
                 ->middleware('can:create,App\SpecimenCollection')
                 ->name('specimen-collections.create');
 
-            Route::get('specimen-collections/{publication}/edit', 'SpecimenCollectionsController@edit')
+            Route::get('specimen-collections/{specimenCollection}/edit', 'SpecimenCollectionsController@edit')
                 ->middleware('can:update,specimenCollection')
                 ->name('specimen-collections.edit');
         });

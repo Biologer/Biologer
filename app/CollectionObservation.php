@@ -3,13 +3,14 @@
 namespace App;
 
 use App\Concerns\CanMemoize;
+use App\Concerns\MappedSorting;
 use App\Contracts\FlatArrayable;
 use App\Filters\Filterable;
 use Spatie\Activitylog\Models\Activity;
 
 class CollectionObservation extends Model implements FlatArrayable
 {
-    use CanMemoize, Filterable;
+    use CanMemoize, Filterable, MappedSorting;
 
     /**
      * The attributes that should be cast to native types.
@@ -30,7 +31,29 @@ class CollectionObservation extends Model implements FlatArrayable
      */
     protected function filters()
     {
-        return [];
+        return [
+            'sort_by' => \App\Filters\SortBy::class,
+        ];
+    }
+
+    /**
+     * List of fields that field observations can be sorted by.
+     *
+     * @return array
+     */
+    public static function sortableFields()
+    {
+        return [
+            'id', 'taxon_name', 'collection_name',
+        ];
+    }
+
+    protected function sortMap()
+    {
+        return [
+            'taxon_name' => 'observation.taxon.name',
+            'collection_name' => 'collection.name',
+        ];
     }
 
     /**

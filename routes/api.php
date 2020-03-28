@@ -242,6 +242,10 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->middleware('can:update,specimenCollection')
         ->name('api.specimen-collections.update');
 
+    Route::delete('specimen-collections/{specimenCollection}', 'SpecimenCollectionsController@destroy')
+        ->middleware('can:delete,specimenCollection')
+        ->name('api.specimen-collections.destroy');
+
     // Collection Observations
 
     Route::get('collection-observations', 'CollectionObservationsController@index')
@@ -311,8 +315,8 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
             ->middleware('role:admin,curator')
             ->name('api.autocomplete.publications.index');
 
-        Route::get('collections', 'CollectionsController@index')
+        Route::get('specimen-collections', 'SpecimenCollectionsController@index')
             ->middleware('role:admin,curator')
-            ->name('api.autocomplete.collections.index');
+            ->name('api.autocomplete.specimen-collections.index');
     });
 });

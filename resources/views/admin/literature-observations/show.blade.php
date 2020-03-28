@@ -27,7 +27,7 @@
     <div class="breadcrumb" aria-label="breadcrumbs">
         <ul>
             <li><a href="{{ route('contributor.index') }}">{{ __('navigation.dashboard') }}</a></li>
-            <li><a href="{{ route('curator.approved-observations.index') }}">{{ __('navigation.literature_observations') }}</a></li>
+            <li><a href="{{ route('admin.literature-observations.index') }}">{{ __('navigation.literature_observations') }}</a></li>
             <li class="is-active"><a>{{ $literatureObservation->id }}</a></li>
         </ul>
     </div>

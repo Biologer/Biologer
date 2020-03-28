@@ -92,9 +92,17 @@ class ViewServiceProvider extends ServiceProvider
                         )->route(
                             'admin.literature-observations.index',
                             trans('navigation.literature_observations')
+                        )->routeIfCan(
+                            ['list', \App\Publication::class],
+                            'admin.publications.index',
+                            trans('navigation.publications')
                         )->route(
                             'admin.collection-observations.index',
                             trans('navigation.collection_observations')
+                        )->routeIfCan(
+                            ['list', \App\SpecimenCollection::class],
+                            'admin.specimen-collections.index',
+                            trans('navigation.specimen_collections')
                         )->routeIfCan(
                             ['list', \App\Taxon::class],
                             'admin.taxa.index',
@@ -107,14 +115,6 @@ class ViewServiceProvider extends ServiceProvider
                             auth()->user()->hasRole('admin'),
                             'admin.view-groups.index',
                             trans('navigation.view_groups')
-                        )->routeIfCan(
-                            ['list', \App\Publication::class],
-                            'admin.publications.index',
-                            trans('navigation.publications')
-                        )->routeIfCan(
-                            ['list', \App\SpecimenCollection::class],
-                            'admin.specimen-collections.index',
-                            trans('navigation.collections')
                         )->setActiveClass('is-active')
                         ->setActiveClassOnLink()
                         ->setActiveFromRequest()

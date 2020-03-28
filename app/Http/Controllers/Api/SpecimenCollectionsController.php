@@ -11,7 +11,9 @@ class SpecimenCollectionsController
 {
     public function index(Request $request)
     {
-        return SpecimenCollectionResource::collection(SpecimenCollection::filter($request)->paginate($request->per_page ?? 15));
+        return SpecimenCollectionResource::collection(
+            SpecimenCollection::filter($request)->paginate($request->per_page ?? 15)
+        );
     }
 
     public function store(SaveSpecimenCollection $request)
@@ -22,5 +24,12 @@ class SpecimenCollectionsController
     public function update(SaveSpecimenCollection $request, SpecimenCollection $specimenCollection)
     {
         return new SpecimenCollectionResource($request->save($specimenCollection));
+    }
+
+    public function destroy(SpecimenCollection $specimenCollection)
+    {
+        $specimenCollection->delete();
+
+        return response()->noContent();
     }
 }

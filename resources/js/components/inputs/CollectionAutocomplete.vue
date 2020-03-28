@@ -34,16 +34,16 @@ import _debounce from 'lodash/debounce'
 import _get from 'lodash/get'
 
 export default {
-  name: 'nzPublicationAutocomplete',
+  name: 'nzCollectionAutocomplete',
 
   props: {
     label: {
       type: String,
-      default: 'Publication'
+      default: 'Collection'
     },
     placeholder: {
       type: String,
-      default: 'Search for publication...'
+      default: 'Search for collection...'
     },
     collection: {
       type: Object,
@@ -51,7 +51,7 @@ export default {
     },
     route: {
       type: String,
-      default: 'api.autocomplete.collections.index'
+      default: 'api.autocomplete.specimen-collections.index'
     },
     value: {
       type: String,

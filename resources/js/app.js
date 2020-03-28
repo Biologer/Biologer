@@ -45,6 +45,8 @@ Vue.component('NzViewGroupsTable', () => import('./components/tables/ViewGroupsT
 Vue.component('NzFieldObservationsTable', () => import('./components/tables/FieldObservationsTable'))
 Vue.component('NzLiteratureObservationsTable', () => import('./components/tables/LiteratureObservationsTable'))
 Vue.component('NzPublicationsTable', () => import('./components/tables/PublicationsTable'))
+Vue.component('NzCollectionObservationsTable', () => import('./components/tables/CollectionObservationsTable'))
+Vue.component('NzSpecimenCollectionsTable', () => import('./components/tables/SpecimenCollectionsTable'))
 
 Vue.component('NzRegistrationForm', () => import('./components/forms/RegistrationForm'))
 Vue.component('NzUserForm', () => import('./components/forms/UserForm'))
@@ -55,6 +57,7 @@ Vue.component('NzCollectionObservationForm', () => import('./components/forms/Co
 Vue.component('NzViewGroupForm', () => import('./components/forms/ViewGroupForm'))
 Vue.component('NzAnnouncementForm', () => import('./components/forms/AnnouncementForm'))
 Vue.component('NzPublicationForm', () => import('./components/forms/PublicationForm'))
+Vue.component('NzSpecimenCollectionForm', () => import('./components/forms/SpecimenCollectionForm'))
 
 Vue.component('NzFieldObservationActivityLog', () => import('./components/activity/FieldObservationActivityLog'))
 Vue.component('NzLiteratureObservationActivityLog', () => import('./components/activity/LiteratureObservationActivityLog'))

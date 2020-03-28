@@ -103,7 +103,6 @@ export default {
       type: String,
       default: 'Nothing here.'
     },
-    ranks: Array
   },
 
   data() {
