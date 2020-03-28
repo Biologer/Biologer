@@ -229,6 +229,9 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::get('literature-observation-imports/{import}/errors', 'LiteratureObservationImportsController@errors')
         ->name('api.literature-observation-imports.errors');
 
+    Route::post('collection-observations', 'CollectionObservationsController@store')
+        ->name('api.collection-observations.store');
+
     // My
     Route::prefix('my')->namespace('My')->group(function () {
         Route::get('field-observations', 'FieldObservationsController@index')
