@@ -222,6 +222,30 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::get('publications/{publication}/edit', 'PublicationsController@edit')
                 ->middleware('can:update,publication')
                 ->name('publications.edit');
+
+            Route::get('collection-observations', 'CollectionObservationsController@index')
+                ->name('collection-observations.index');
+
+            Route::get('collection-observations/new', 'CollectionObservationsController@create')
+                ->name('collection-observations.create');
+
+            Route::get('collection-observations/{collectionObservation}/edit', 'CollectionObservationsController@edit')
+                ->name('collection-observations.edit');
+
+            Route::get('collection-observations/{collectionObservation}', 'CollectionObservationsController@show')
+                ->name('collection-observations.show');
+
+            Route::get('specimen-collections', 'SpecimenCollectionsController@index')
+                ->middleware('can:list,App\SpecimenCollection')
+                ->name('specimen-collections.index');
+
+            Route::get('specimen-collections/new', 'SpecimenCollectionsController@create')
+                ->middleware('can:create,App\SpecimenCollection')
+                ->name('specimen-collections.create');
+
+            Route::get('specimen-collections/{publication}/edit', 'SpecimenCollectionsController@edit')
+                ->middleware('can:update,specimenCollection')
+                ->name('specimen-collections.edit');
         });
     });
 });

@@ -310,5 +310,9 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         Route::get('publications', 'PublicationsController@index')
             ->middleware('role:admin,curator')
             ->name('api.autocomplete.publications.index');
+
+        Route::get('collections', 'CollectionsController@index')
+            ->middleware('role:admin,curator')
+            ->name('api.autocomplete.collections.index');
     });
 });

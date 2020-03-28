@@ -2,12 +2,12 @@
 
 @section('content')
     <div class="box">
-        <nz-literature-observation-form
-            action="{{ route('api.literature-observations.update', $literatureObservation) }}"
+        <nz-collection-observation-form
+            action="{{ route('api.collection-observations.update', $collectionObservation) }}"
             method="PUT"
-            redirect-url="{{ route('admin.literature-observations.index') }}"
-            cancel-url="{{ route('admin.literature-observations.index') }}"
-            :observation="{{ json_encode($literatureObservation->toFlatArray()) }}"
+            redirect-url="{{ route('admin.collection-observations.index') }}"
+            cancel-url="{{ route('admin.collection-observations.index') }}"
+            :observation="{{ json_encode($collectionObservation->toFlatArray()) }}"
             :sexes="{{ \App\Sex::options() }}"
             :validity-options="{{ \App\ObservationIdentificationValidity::options() }}"
             should-confirm-submit
@@ -15,7 +15,7 @@
             should-ask-reason
             should-confirm-cancel
             submit-only-dirty
-        ></nz-literature-observation-form>
+        ></nz-collection-observation-form>
     </div>
 @endsection
 
@@ -23,8 +23,8 @@
     <div class="breadcrumb" aria-label="breadcrumbs">
         <ul>
             <li><a href="{{ route('contributor.index') }}">{{ __('navigation.dashboard') }}</a></li>
-            <li><a href="{{ route('admin.literature-observations.index') }}">{{ __('navigation.literature_observations') }}</a></li>
-            <li><a href="{{ route('admin.literature-observations.show', $literatureObservation) }}">{{ $literatureObservation->id }}</a></li>
+            <li><a href="{{ route('admin.collection-observations.index') }}">{{ __('navigation.collection_observations') }}</a></li>
+            <li><a href="{{ route('admin.collection-observations.show', $collectionObservation) }}">{{ $collectionObservation->id }}</a></li>
             <li class="is-active"><a>{{ __('navigation.edit') }}</a></li>
         </ul>
     </div>
