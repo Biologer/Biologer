@@ -48,138 +48,26 @@
         }"
       />
 
-      <div>
-        <h2 class="is-size-4">{{ trans('labels.collection_observations.verbatim_data') }}</h2>
-
-        <b-field
-          class="is-required"
-          :label="trans('labels.collection_observations.original_identification')"
-          :type="form.errors.has('original_identification') ? 'is-danger' : null"
-          :message="form.errors.has('original_identification') ? form.errors.first('original_identification') : null"
-        >
-          <b-input name="original_identification" v-model="form.original_identification" />
-        </b-field>
-
-        <b-field
-          class="is-required"
-          :label="trans('labels.collection_observations.original_identification_validity')"
-          :type="form.errors.has('original_identification_validity') ? 'is-danger' : null"
-          :message="form.errors.has('original_identification_validity') ? form.errors.first('original_identification_validity') : null"
-        >
-          <b-select name="original_identification_validity" v-model="form.original_identification_validity" expanded>
-            <option :value="value" v-for="(label, value) in validityOptions" :key="value">{{ label }}</option>
-          </b-select>
-        </b-field>
-
-        <div class="columns">
-          <b-field
-            class="column"
-            :label="trans('labels.collection_observations.original_date')"
-            :type="form.errors.has('original_date') ? 'is-danger' : null"
-            :message="form.errors.has('original_date') ? form.errors.first('original_date') : null"
-          >
-            <b-input name="original_date" v-model="form.original_date"/>
-          </b-field>
-
-          <b-field
-            class="column"
-            :label="trans('labels.collection_observations.original_locality')"
-            :type="form.errors.has('original_locality') ? 'is-danger' : null"
-            :message="form.errors.has('original_locality') ? form.errors.first('original_locality') : null"
-          >
-            <b-input v-model="form.original_locality"/>
-          </b-field>
-        </div>
-
-        <div class="columns">
-          <b-field
-            class="column"
-            :label="trans('labels.collection_observations.original_coordinates')"
-            :type="form.errors.has('original_coordinates') ? 'is-danger' : null"
-            :message="form.errors.has('original_coordinates') ? form.errors.first('original_coordinates') : null"
-          >
-            <b-input v-model="form.original_coordinates"/>
-          </b-field>
-
-          <b-field
-            class="column"
-            :label="trans('labels.collection_observations.original_elevation')"
-            :type="form.errors.has('original_elevation') ? 'is-danger' : null"
-            :message="form.errors.has('original_elevation') ? form.errors.first('original_elevation') : null"
-          >
-            <b-input v-model="form.original_elevation" :placeholder="trans('labels.collection_observations.original_elevation_placeholder')"/>
-          </b-field>
-        </div>
-
-        <b-field
-          class="mb-8"
-          :label="trans('labels.collection_observations.verbatim_tag')"
-          :type="form.errors.has('verbatim_tag') ? 'is-danger' : null"
-          :message="form.errors.has('verbatim_tag') ? form.errors.first('verbatim_tag') : null"
-        >
-           <b-input type="textarea" v-model="form.verbatim_tag" />
-        </b-field>
-
-        <div class="columns">
-          <b-field
-            class="column"
-            :label="trans('labels.collection_observations.collecting_start_year')"
-            :type="form.errors.has('collecting_start_year') ? 'is-danger' : null"
-            :message="form.errors.has('collecting_start_year') ? form.errors.first('collecting_start_year') : null"
-          >
-            <b-input v-model="form.collecting_start_year"/>
-          </b-field>
-
-          <b-field
-            class="column"
-            :label="trans('labels.collection_observations.collecting_start_month')"
-            :type="form.errors.has('collecting_start_month') ? 'is-danger' : null"
-            :message="form.errors.has('collecting_start_month') ? form.errors.first('collecting_start_month') : null"
-          >
-            <b-select
-              :placeholder="trans('labels.collection_observations.collecting_start_month')"
-              v-model="form.collecting_start_month"
-              expanded
+      <div class="columns">
+        <div class="column">
+           <b-field
+              class="is-required"
+              :label="trans('labels.collection_observations.original_identification')"
+              :type="form.errors.has('original_identification') ? 'is-danger' : null"
+              :message="form.errors.has('original_identification') ? form.errors.first('original_identification') : null"
             >
-                <option :value="null"></option>
-                <option
-                    v-for="(month, index) in months"
-                    :value="index + 1"
-                    :key="month">
-                    {{ month }}
-                </option>
-            </b-select>
-          </b-field>
+              <b-input name="original_identification" v-model="form.original_identification" />
+            </b-field>
         </div>
-
-        <div class="columns">
+        <div class="column">
           <b-field
-            class="column"
-            :label="trans('labels.collection_observations.collecting_end_year')"
-            :type="form.errors.has('collecting_end_year') ? 'is-danger' : null"
-            :message="form.errors.has('collecting_end_year') ? form.errors.first('collecting_end_year') : null"
+            class="is-required"
+            :label="trans('labels.collection_observations.original_identification_validity')"
+            :type="form.errors.has('original_identification_validity') ? 'is-danger' : null"
+            :message="form.errors.has('original_identification_validity') ? form.errors.first('original_identification_validity') : null"
           >
-            <b-input v-model="form.collecting_end_year"/>
-          </b-field>
-
-          <b-field
-            class="column"
-            :label="trans('labels.collection_observations.collecting_end_month')"
-            :type="form.errors.has('collecting_end_month') ? 'is-danger' : null"
-            :message="form.errors.has('collecting_end_month') ? form.errors.first('collecting_end_month') : null"
-          >
-            <b-select
-              :placeholder="trans('labels.collection_observations.collecting_end_month')"
-              v-model="form.collecting_end_month"
-              expanded
-            >
-                <option :value="null"></option>
-                <option
-                    v-for="(month, index) in months"
-                    :value="index + 1"
-                    :key="month">
-                    {{ month }}
-                </option>
+            <b-select name="original_identification_validity" v-model="form.original_identification_validity" expanded>
+              <option :value="value" v-for="(label, value) in validityOptions" :key="value">{{ label }}</option>
             </b-select>
           </b-field>
         </div>
@@ -249,52 +137,61 @@
         </div>
       </div>
 
-      <b-field :label="trans('labels.collection_observations.stage')" :type="form.errors.has('stage_id') ? 'is-danger' : null" :message="form.errors.has('stage_id') ? form.errors.first('stage_id') : null">
-        <b-select v-model="form.stage_id" :disabled="!stages.length" expanded="expanded">
-          <option :value="null">{{ trans('labels.collection_observations.choose_a_stage') }}</option>
-          <option v-for="stage in stages" :value="stage.id" :key="stage.id" v-text="trans('stages.'+stage.name)"></option>
-        </b-select>
-      </b-field>
-
-      <b-field :label="trans('labels.collection_observations.sex')" :type="form.errors.has('sex') ? 'is-danger' : null" :message="form.errors.has('sex') ? form.errors.first('sex') : null">
-        <b-select v-model="form.sex" expanded="expanded">
-          <option :value="null">{{ trans('labels.collection_observations.choose_a_value') }}</option>
-          <option v-for="(label,sex) in sexes" :key="sex" :value="sex" v-text="label"></option>
-        </b-select>
-      </b-field>
-
-      <b-field
-        :label="trans('labels.collection_observations.number')"
-        :type="form.errors.has('number') ? 'is-danger' : null"
-        :message="form.errors.has('number') ? form.errors.first('number') : null"
-      >
-        <b-input type="number" v-model="form.number"/>
-      </b-field>
+      <div class="columns">
+        <div class="column">
+          <b-field :label="trans('labels.collection_observations.stage')" :type="form.errors.has('stage_id') ? 'is-danger' : null" :message="form.errors.has('stage_id') ? form.errors.first('stage_id') : null">
+            <b-select v-model="form.stage_id" :disabled="!stages.length" expanded="expanded">
+              <option :value="null">{{ trans('labels.collection_observations.choose_a_stage') }}</option>
+              <option v-for="stage in stages" :value="stage.id" :key="stage.id" v-text="trans('stages.'+stage.name)"></option>
+            </b-select>
+          </b-field>
+        </div>
+        <div class="column">
+          <b-field :label="trans('labels.collection_observations.sex')" :type="form.errors.has('sex') ? 'is-danger' : null" :message="form.errors.has('sex') ? form.errors.first('sex') : null">
+            <b-select v-model="form.sex" expanded="expanded">
+              <option :value="null">{{ trans('labels.collection_observations.choose_a_value') }}</option>
+              <option v-for="(label,sex) in sexes" :key="sex" :value="sex" v-text="label"></option>
+            </b-select>
+          </b-field>
+        </div>
+        <div class="column">
+          <b-field
+            :label="trans('labels.collection_observations.number')"
+            :type="form.errors.has('number') ? 'is-danger' : null"
+            :message="form.errors.has('number') ? form.errors.first('number') : null"
+          >
+            <b-input type="number" v-model="form.number"/>
+          </b-field>
+        </div>
+      </div>
 
       <div class="mt-4">
-        <b-field :label="trans('labels.collection_observations.note')" :error="form.errors.has('note')" :message="form.errors.has('note') ? form.errors.first('note') : null"><b-input type="textarea" v-model="form.note"/></b-field>
+        <div class="columns">
+          <div class="column">
+            <b-field
+              :label="trans('labels.collection_observations.habitat')"
+              :type="form.errors.has('habitat') ? 'is-danger' : null"
+              :message="form.errors.has('habitat') ? form.errors.first('habitat') : null"
+            >
+              <b-input v-model="form.habitat"/>
+            </b-field>
+          </div>
+          <div class="column">
+            <b-field
+              :label="trans('labels.collection_observations.found_on')"
+              :type="form.errors.has('found_on') ? 'is-danger' : null"
+              :message="form.errors.has('found_on') ? form.errors.first('found_on') : null"
+            >
+              <label for="found_on" class="label" slot="label">
+                <span class="is-dashed" v-tooltip="{content: trans('labels.collection_observations.found_on_tooltip')}">
+                  {{ trans('labels.collection_observations.found_on') }}
+                </span>
+              </label>
 
-        <b-field
-          :label="trans('labels.collection_observations.habitat')"
-          :type="form.errors.has('habitat') ? 'is-danger' : null"
-          :message="form.errors.has('habitat') ? form.errors.first('habitat') : null"
-        >
-          <b-input v-model="form.habitat"/>
-        </b-field>
-
-        <b-field
-          :label="trans('labels.collection_observations.found_on')"
-          :type="form.errors.has('found_on') ? 'is-danger' : null"
-          :message="form.errors.has('found_on') ? form.errors.first('found_on') : null"
-        >
-          <label for="found_on" class="label" slot="label">
-            <span class="is-dashed" v-tooltip="{content: trans('labels.collection_observations.found_on_tooltip')}">
-              {{ trans('labels.collection_observations.found_on') }}
-            </span>
-          </label>
-
-          <b-input id="found_on" name="found_on" v-model="form.found_on"/>
-        </b-field>
+              <b-input id="found_on" name="found_on" v-model="form.found_on"/>
+            </b-field>
+          </div>
+        </div>
 
         <b-field
           :label="trans('labels.collection_observations.time')"
@@ -342,20 +239,276 @@
           </div>
         </div>
 
-        <b-field
-          :label="trans('labels.collection_observations.observer')"
-          :type="form.errors.has('observer') ? 'is-danger' : null"
-          :message="form.errors.has('observer') ? form.errors.first('observer') : null"
-        >
-          <b-input name="observer" v-model="form.observer"/>
-        </b-field>
+        <div class="columns">
+          <div class="column">
+            <b-field
+              :label="trans('labels.collection_observations.observer')"
+              :type="form.errors.has('observer') ? 'is-danger' : null"
+              :message="form.errors.has('observer') ? form.errors.first('observer') : null"
+            >
+              <b-input name="observer" v-model="form.observer"/>
+            </b-field>
+          </div>
+
+          <div class="column">
+            <b-field
+              :label="trans('labels.collection_observations.identifier')"
+              :type="form.errors.has('identifier') ? 'is-danger' : null"
+              :message="form.errors.has('identifier') ? form.errors.first('identifier') : null"
+            >
+              <b-input name="identifier" v-model="form.identifier"/>
+            </b-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="columns">
+          <div class="column">
+            <b-field
+              :label="trans('labels.collection_observations.collector')"
+              :type="form.errors.has('collector') ? 'is-danger' : null"
+              :message="form.errors.has('collector') ? form.errors.first('collector') : null"
+            >
+              <b-input name="collector" v-model="form.collector"/>
+            </b-field>
+          </div>
+
+          <div class="column">
+            <b-field
+              :label="trans('labels.collection_observations.preparator')"
+              :type="form.errors.has('preparator') ? 'is-danger' : null"
+              :message="form.errors.has('preparator') ? form.errors.first('preparator') : null"
+            >
+              <b-input name="preparator" v-model="form.preparator"/>
+            </b-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column">
+          <b-field
+            :label="trans('labels.collection_observations.catalogue_number')"
+            :type="form.errors.has('catalogue_number') ? 'is-danger' : null"
+            :message="form.errors.has('catalogue_number') ? form.errors.first('catalogue_number') : null"
+          >
+            <b-input name="catalogue_number" v-model="form.catalogue_number"/>
+          </b-field>
+        </div>
+
+        <div class="column">
+          <b-field
+            :label="trans('labels.collection_observations.cabinet_number')"
+            :type="form.errors.has('cabinet_number') ? 'is-danger' : null"
+            :message="form.errors.has('cabinet_number') ? form.errors.first('cabinet_number') : null"
+          >
+            <b-input name="cabinet_number" v-model="form.cabinet_number"/>
+          </b-field>
+        </div>
+
+        <div class="column">
+          <b-field
+            :label="trans('labels.collection_observations.box_number')"
+            :type="form.errors.has('box_number') ? 'is-danger' : null"
+            :message="form.errors.has('box_number') ? form.errors.first('box_number') : null"
+          >
+            <b-input name="box_number" v-model="form.box_number"/>
+          </b-field>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column">
+          <b-field
+            :label="trans('labels.collection_observations.disposition')"
+            :type="form.errors.has('disposition') ? 'is-danger' : null"
+            :message="form.errors.has('disposition') ? form.errors.first('disposition') : null"
+          >
+            <b-select v-model="form.disposition" expanded="expanded">
+              <option :value="null">{{ trans('labels.collection_observations.choose_a_value') }}</option>
+              <option v-for="(label,disposition) in dispositions" :key="disposition" :value="disposition" v-text="label"></option>
+            </b-select>
+          </b-field>
+        </div>
+
+        <div class="column">
+          <b-field
+            :label="trans('labels.collection_observations.preparation_method')"
+            :type="form.errors.has('preparation_method') ? 'is-danger' : null"
+            :message="form.errors.has('preparation_method') ? form.errors.first('preparation_method') : null"
+          >
+            <b-input name="preparation_method" v-model="form.preparation_method"/>
+          </b-field>
+        </div>
+
+      </div>
+
+      <b-field :label="trans('labels.collection_observations.note')" :error="form.errors.has('note')" :message="form.errors.has('note') ? form.errors.first('note') : null"><b-input type="textarea" v-model="form.note"/></b-field>
+
+      <div class="mt-8">
+        <h2 class="is-size-4">{{ trans('labels.collection_observations.verbatim_data') }}</h2>
+
+        <div class="columns">
+          <b-field
+            class="column"
+            :label="trans('labels.collection_observations.original_date')"
+            :type="form.errors.has('original_date') ? 'is-danger' : null"
+            :message="form.errors.has('original_date') ? form.errors.first('original_date') : null"
+          >
+            <b-input name="original_date" v-model="form.original_date"/>
+          </b-field>
+
+          <b-field
+            class="column"
+            :label="trans('labels.collection_observations.original_locality')"
+            :type="form.errors.has('original_locality') ? 'is-danger' : null"
+            :message="form.errors.has('original_locality') ? form.errors.first('original_locality') : null"
+          >
+            <b-input v-model="form.original_locality"/>
+          </b-field>
+        </div>
+
+        <div class="columns">
+          <b-field
+            class="column"
+            :label="trans('labels.collection_observations.original_coordinates')"
+            :type="form.errors.has('original_coordinates') ? 'is-danger' : null"
+            :message="form.errors.has('original_coordinates') ? form.errors.first('original_coordinates') : null"
+          >
+            <b-input v-model="form.original_coordinates"/>
+          </b-field>
+
+          <b-field
+            class="column"
+            :label="trans('labels.collection_observations.original_elevation')"
+            :type="form.errors.has('original_elevation') ? 'is-danger' : null"
+            :message="form.errors.has('original_elevation') ? form.errors.first('original_elevation') : null"
+          >
+            <b-input v-model="form.original_elevation" :placeholder="trans('labels.collection_observations.original_elevation_placeholder')"/>
+          </b-field>
+        </div>
 
         <b-field
-          :label="trans('labels.collection_observations.identifier')"
-          :type="form.errors.has('identifier') ? 'is-danger' : null"
-          :message="form.errors.has('identifier') ? form.errors.first('identifier') : null"
+          class="mb-8"
+          :label="trans('labels.collection_observations.verbatim_tag')"
+          :type="form.errors.has('verbatim_tag') ? 'is-danger' : null"
+          :message="form.errors.has('verbatim_tag') ? form.errors.first('verbatim_tag') : null"
         >
-          <b-input name="identifier" v-model="form.identifier"/>
+           <b-input type="textarea" v-model="form.verbatim_tag" />
+        </b-field>
+
+        <div class="columns">
+          <b-field
+            class="column"
+            :label="trans('labels.collection_observations.collecting_start_year')"
+            :type="form.errors.has('collecting_start_year') ? 'is-danger' : null"
+            :message="form.errors.has('collecting_start_year') ? form.errors.first('collecting_start_year') : null"
+          >
+            <b-input v-model="form.collecting_start_year" type="number"/>
+          </b-field>
+
+          <b-field
+            class="column"
+            :label="trans('labels.collection_observations.collecting_start_month')"
+            :type="form.errors.has('collecting_start_month') ? 'is-danger' : null"
+            :message="form.errors.has('collecting_start_month') ? form.errors.first('collecting_start_month') : null"
+          >
+            <b-select
+              v-model="form.collecting_start_month"
+              expanded
+            >
+                <option :value="null"></option>
+                <option
+                    v-for="(month, index) in months"
+                    :value="index + 1"
+                    :key="month">
+                    {{ month }}
+                </option>
+            </b-select>
+          </b-field>
+        </div>
+
+        <div class="columns">
+          <b-field
+            class="column"
+            :label="trans('labels.collection_observations.collecting_end_year')"
+            :type="form.errors.has('collecting_end_year') ? 'is-danger' : null"
+            :message="form.errors.has('collecting_end_year') ? form.errors.first('collecting_end_year') : null"
+          >
+            <b-input v-model="form.collecting_end_year" type="number"/>
+          </b-field>
+
+          <b-field
+            class="column"
+            :label="trans('labels.collection_observations.collecting_end_month')"
+            :type="form.errors.has('collecting_end_month') ? 'is-danger' : null"
+            :message="form.errors.has('collecting_end_month') ? form.errors.first('collecting_end_month') : null"
+          >
+            <b-select
+              v-model="form.collecting_end_month"
+              expanded
+            >
+                <option :value="null"></option>
+                <option
+                    v-for="(month, index) in months"
+                    :value="index + 1"
+                    :key="month">
+                    {{ month }}
+                </option>
+            </b-select>
+          </b-field>
+        </div>
+
+        <b-field :label="trans('labels.field_observations.photos')">
+          <div class="columns">
+            <div class="column is-one-third">
+              <nz-photo-upload
+                :image-url="getObservationPhotoAttribute(0, 'url')"
+                :image-path="getObservationPhotoAttribute(0, 'path')"
+                :image-license="getObservationPhotoAttribute(0, 'license')"
+                :licenses="licenses"
+                :text="trans('labels.field_observations.upload')"
+                @uploaded="onPhotoUploaded"
+                @removed="onPhotoRemoved"
+                @cropped="onPhotoCropped"
+                @license-changed="onLicenseChanged(0, $event)"
+                :errors="form.errors"
+                ref="photoUpload-1"
+              />
+            </div>
+
+            <div class="column is-one-third">
+              <nz-photo-upload
+                :image-path="getObservationPhotoAttribute(1, 'path')"
+                :image-url="getObservationPhotoAttribute(1, 'url')"
+                :image-license="getObservationPhotoAttribute(1, 'license')"
+                :licenses="licenses"
+                :text="trans('labels.field_observations.upload')"
+                @uploaded="onPhotoUploaded"
+                @removed="onPhotoRemoved"
+                @cropped="onPhotoCropped"
+                @license-changed="onLicenseChanged(1, $event)"
+                :errors="form.errors"
+                ref="photoUpload-2"
+              />
+            </div>
+
+            <div class="column is-one-third">
+              <nz-photo-upload
+                :image-url="getObservationPhotoAttribute(2, 'url')"
+                :image-path="getObservationPhotoAttribute(2, 'path')"
+                :image-license="getObservationPhotoAttribute(2, 'license')"
+                :licenses="licenses"
+                :text="trans('labels.field_observations.upload')"
+                @uploaded="onPhotoUploaded"
+                @removed="onPhotoRemoved"
+                @cropped="onPhotoCropped"
+                @license-changed="onLicenseChanged(2, $event)"
+                :errors="form.errors"
+                ref="photoUpload-3"
+              />
+            </div>
+          </div>
         </b-field>
       </div>
     </div>
@@ -407,12 +560,16 @@
 <script>
 import Form from 'form-backend-validation'
 import dayjs from '@/dayjs'
+import _cloneDeep from 'lodash/cloneDeep'
 import _get from 'lodash/get'
 import _find from 'lodash/find'
+import _findIndex from 'lodash/findIndex'
 import _pick from 'lodash/pick'
+import _remove from 'lodash/remove'
 import FormMixin from '@/mixins/FormMixin'
 import PersistentForm from '@/mixins/PersistentForm'
 import NzDateInput from '@/components/inputs/DateInput'
+import NzPhotoUpload from '@/components/inputs/PhotoUpload'
 import NzSpatialInput from '@/components/inputs/SpatialInput'
 import NzCollectionAutocomplete from '@/components/inputs/CollectionAutocomplete'
 import NzTaxonAutocomplete from '@/components/inputs/TaxonAutocomplete'
@@ -424,6 +581,7 @@ export default {
 
   components: {
     NzDateInput,
+    NzPhotoUpload,
     NzSpatialInput,
     NzCollectionAutocomplete,
     NzTaxonAutocomplete
@@ -489,7 +647,17 @@ export default {
       }
     },
 
+    licenses: {
+        type: Object,
+        default: () => ({})
+    },
+
     sexes: {
+      type: Object,
+      default: () => ({})
+    },
+
+    dispositions: {
       type: Object,
       default: () => ({})
     },
@@ -698,6 +866,153 @@ export default {
       this.form.reset()
       this.form.populate(keep)
     },
-  }
+    /**
+     * Get observation photo attribute.
+     *
+     * @param  {Number} [photoIndex=0]
+     * @param  {String} [attribute='url']
+     * @return {String}
+     */
+    getObservationPhotoAttribute(photoIndex = 0, attribute = 'url') {
+      let value = _get(this.observation, `photos.${photoIndex}.${attribute}`, '')
+
+      if (attribute === 'url' && value) {
+        const updated = dayjs(_get(this.observation, `photos.${photoIndex}.updated_at`, null))
+
+        value += updated.isValid() ? `?v=${updated.format('X')}` : ''
+      }
+
+      return value
+    },
+    /**
+     * Add uploaded photo's filename to array.
+     *
+     * @param {String} file name
+     */
+    onPhotoUploaded(image) {
+      this.form.photos.push({
+				path: image.path,
+				crop: image.crop,
+				license: image.license
+      })
+
+      const availableType = _find(this.availableObservationTypes, { slug: 'photographed' })
+
+      if (availableType) {
+        this.pushSelectedObservationType(availableType)
+      }
+
+      this.promptToExtractExifData(image)
+    },
+    /**
+     * Add observation type to selections.
+     *
+     * @param  {Object} type
+     */
+    pushSelectedObservationType(type) {
+      const selectedObservationTypes = this.selectedObservationTypes
+
+      selectedObservationTypes.push(type)
+
+      this.selectedObservationTypes = selectedObservationTypes
+    },
+     /**
+     * Ask the user to use EXIF data to populate the fields.
+     *
+     * @param  {Object} image
+     */
+    promptToExtractExifData(image) {
+      if (this.exifExtracted || !image.exif) return
+
+      this.$buefy.dialog.confirm({
+        message: this.extractExifMessage(image).replace(/\n/g, '<br>'),
+        cancelText: this.trans('No'),
+        confirmText: this.trans('Yes'),
+        onConfirm: () => { this.fillFromExif(image) },
+        onCancel: () => { this.exifExtracted = true }
+      })
+    },
+
+    /**
+     * Format message to use EXIF data from image.
+     */
+    extractExifMessage(image) {
+      const data = this.extractExifData(image)
+
+      return [
+        this.trans('Use data from photo to fill the form?') + "\n",
+        ...Object.keys(data).map(key => `${this.trans('labels.field_observations.'+key)}: ${data[key]}`)
+      ].join("\n")
+    },
+
+    /**
+     * Extract EXIF data from image.
+     */
+    extractExifData(image) {
+      const data = {}
+
+      for (let exif in image.exif) {
+        let value = image.exif[exif]
+
+        if (value) {
+         data[exif] = value
+        }
+      }
+
+      return data
+    },
+
+    /**
+     * Fill the fields with EXIF data.
+     *
+     * @param  {Object} image
+     */
+    fillFromExif(image) {
+      const data = this.extractExifData(image)
+
+      for (const exif in data) {
+        this.form[exif] = data[exif]
+      }
+
+      this.exifExtracted = true
+    },
+    /**
+     * Remove photo from form.
+     *
+     * @param {Object} image
+     */
+    onPhotoRemoved(image) {
+      _remove(this.form.photos, { path: image.path })
+    },
+    /**
+     * Add/remove cropping information.
+     *
+     * @param {Object} image
+     */
+    onPhotoCropped(croppedImage) {
+      const photoIndex = _findIndex(this.form.photos, { path: croppedImage.path })
+
+      if (photoIndex >= 0) {
+        const photo = _cloneDeep(this.form.photos[photoIndex])
+
+        photo.crop = croppedImage.crop
+
+        this.form.photos.splice(photoIndex, 1, photo)
+      }
+    },
+    /**
+     * Change photo license.
+     *
+     * @param {Number} photoIndex
+     * @param {Number} license
+     */
+    onLicenseChanged(photoIndex, license) {
+      const photo = _cloneDeep(this.form.photos[photoIndex])
+
+      photo.license = license
+
+      this.form.photos[photoIndex] = photo
+    }
+  },
 }
 </script>

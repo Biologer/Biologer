@@ -70,6 +70,7 @@ return [
     'new_publication' => 'New Publication',
     'edit_publication' => 'Edit Publication',
     'collection_observations' => 'Observations from Collections',
+    'new_collection_observation' => 'New Collection Observation',
     'specimen_collections' => 'Collections',
     'new_specimen_collection' => 'New Collection',
     'edit_specimen_collection' => 'Edit Collection',

@@ -6,6 +6,7 @@ use App\Concerns\CanMemoize;
 use App\Concerns\MappedSorting;
 use App\Contracts\FlatArrayable;
 use App\Filters\Filterable;
+use Illuminate\Support\Arr;
 use Spatie\Activitylog\Models\Activity;
 
 class CollectionObservation extends Model implements FlatArrayable
@@ -64,6 +65,14 @@ class CollectionObservation extends Model implements FlatArrayable
     public function observation()
     {
         return $this->morphOne(Observation::class, 'details');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function photos()
+    {
+        return $this->observation->photos();
     }
 
     /**
@@ -150,5 +159,77 @@ class CollectionObservation extends Model implements FlatArrayable
                 $this->original_identification_validity
             );
         });
+    }
+
+    /**
+     * Add photos to the observation, using photos' paths.
+     *
+     * @param  array  $photos Paths
+     * @param  int  $defaultLicense
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function addPhotos($photos, $defaultLicense)
+    {
+        return $this->photos()->saveMany(
+            collect($photos)->filter(function ($photo) {
+                return UploadedPhoto::exists($photo['path']);
+            })->map(function ($photo) use ($defaultLicense) {
+                return Photo::store(UploadedPhoto::relativePath($photo['path']), [
+                    'author' => $this->observation->observer,
+                    'license' => empty($photo['license']) ? $defaultLicense : $photo['license'],
+                ], Arr::get($photo, 'crop', []));
+            })
+        );
+    }
+
+    /**
+     * Remove unused photos and and add new ones.
+     *
+     * @param  array  $photos
+     * @param  int  $defaultLicense
+     * @return void
+     */
+    public function syncPhotos($photos, $defaultLicense)
+    {
+        $result = [
+            'cropped' => [],
+            'added' => [],
+            'removed' => [],
+        ];
+
+        $current = $this->photos()->get();
+
+        // Removing
+        $current->whereNotIn('id', $photos->pluck('id'))->each(function ($photo) use (&$result) {
+            $result['removed'][] = $photo;
+            $photo->delete();
+        });
+
+        // Cropping old
+        $old = $current->pluck('id')->intersect($photos->pluck('id'));
+
+        $current->whereIn('id', $old)->each(function ($photo) use ($photos, &$result, $defaultLicense) {
+            $updatedPhoto = $photos->where('id', $photo->id)->first();
+
+            if (array_key_exists('license', $updatedPhoto) && $updatedPhoto['license'] != $photo->license) {
+                $photo->update(['license' => $updatedPhoto['license'] ?? $defaultLicense]);
+            }
+
+            $crop = Arr::get($updatedPhoto, 'crop');
+
+            if ($crop) {
+                $photo->crop($crop['width'], $crop['height'], $crop['x'], $crop['y']);
+                $result['cropped'][] = $photo;
+            }
+        });
+
+        // Adding new
+        $new = $photos->filter(function ($photo) {
+            return empty(Arr::get($photo, 'id'));
+        });
+
+        $result['added'] = $this->addPhotos($new, $defaultLicense)->all();
+
+        return $result;
     }
 }
