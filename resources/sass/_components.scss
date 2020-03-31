@@ -161,6 +161,11 @@
     border-bottom-left-radius: .25rem;
     text-align: center;
     overflow: hidden;
+    padding: .25rem;
+}
+
+.view-group-card__image--default {
+    padding: 0;
 }
 
 .view-group-card__content {

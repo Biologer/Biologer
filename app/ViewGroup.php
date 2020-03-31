@@ -30,6 +30,13 @@ class ViewGroup extends Model
      */
     protected $appends = ['name', 'description'];
 
+   /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array
+     */
+    protected $hidden = ['image_path'];
+
     /**
      * The relations to eager load on every query.
      *
@@ -205,7 +212,12 @@ class ViewGroup extends Model
 
         Storage::disk('public')->put($path, $image);
 
-        return Storage::disk('public')->url($path);
+        return $path;
+    }
+
+    protected function deleteImage($path)
+    {
+        Storage::disk('public')->delete($path);
     }
 
     /**
@@ -216,5 +228,26 @@ class ViewGroup extends Model
     public static function defaultImage()
     {
         return asset('img/default-image.svg');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            $model->image_url = $model->image_path
+                ? Storage::disk('public')->url($model->image_path)
+                : null;
+        });
+
+        static::updated(function ($model) {
+            if ($model->wasChanged('image_path') && $path = $model->getOriginal('image_path')) {
+                $model->deleteImage($path);
+            };
+        });
+
+        static::deleted(function ($model) {
+            $model->deleteImage($model->image_path);
+        });
     }
 }
