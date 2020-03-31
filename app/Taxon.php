@@ -454,8 +454,15 @@ class Taxon extends Model
      */
     public function occurrence()
     {
-        return $this->memoize('occurrence', function () {
+        return $this->memoize(__FUNCTION__, function () {
             return $this->approvedObservationsQuery()
+                ->where(function ($query) {
+                    // Exclude those that are found dead
+                    $query->where('details_type', '!=', (new FieldObservation)->getMorphClass())
+                        ->orWhereHasMorph('details', [FieldObservation::class], function ($query) {
+                            $query->where('found_dead', false);
+                        });
+                })
                 ->withCompleteDate()
                 ->whereNotNull('elevation')
                 ->leftJoin('stages', 'observations.stage_id', '=', 'stages.id')
