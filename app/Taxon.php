@@ -465,8 +465,11 @@ class Taxon extends Model
                 })
                 ->withCompleteDate()
                 ->whereNotNull('elevation')
-                ->leftJoin('stages', 'observations.stage_id', '=', 'stages.id')
-                ->select('observations.id', 'elevation', 'year', 'month', 'day', 'stage_id', 'stages.name as stage_name')
+                ->whereDoesntHave('types', function ($query) {
+                    $query->where('slug', 'exuviae');
+                })
+                ->select('observations.id', 'observations.elevation', 'observations.year', 'observations.month', 'observations.day')
+                ->addSelect(['stage_name' => Stage::select('name')->whereColumn('id', 'observations.stage_id')])
                 ->getQuery()
                 ->get()
                 ->map(function ($observation) {
