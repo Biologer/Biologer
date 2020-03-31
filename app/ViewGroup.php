@@ -183,53 +183,13 @@ class ViewGroup extends Model
     /**
      * Relation to first species, which we get through subquery select.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \App\Taxon|null
      */
     public function firstSpecies()
     {
-        return $this->belongsTo(Taxon::class);
-    }
-
-    /**
-     * Eager load first species for group.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return void
-     */
-    public function scopeWithFirstSpecies($query)
-    {
-        $query->selectFirstSpeciesId()->with('firstSpecies');
-    }
-
-    /**
-     * Add select for first species using subquery.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return void
-     */
-    public function scopeSelectFirstSpeciesId($query)
-    {
-        $firstSpeciesIdQuery = Taxon::select('id')
-            ->fromSub(function ($query) {
-                $query->select('direct_taxa.*', 'taxon_view_group.view_group_id')
-                    ->from('taxa as direct_taxa')
-                    ->join('taxon_view_group', 'taxon_view_group.taxon_id', '=', 'direct_taxa.id')
-                    ->union(function ($query) {
-                        $query->select('ancestor_taxa.*', 'taxon_view_group.view_group_id')
-                            ->from('taxa as ancestor_taxa')
-                            ->join('taxon_ancestors', 'taxon_ancestors.model_id', '=', 'ancestor_taxa.id')
-                            ->join('taxon_view_group', 'taxon_ancestors.ancestor_id', '=', 'taxon_view_group.taxon_id');
-                    });
-            }, 'taxa')
-            ->whereColumn('view_group_id', 'view_groups.id')
-            ->where(function ($query) {
-                $query->where('view_groups.only_observed_taxa', false)->orWhere(function ($query) {
-                    $query->has('observations')->orHas('descendants.observations');
-                });
-            })
-            ->species()->orderByAncestry()->limit(1);
-
-        $query->addSelect(['first_species_id' => $firstSpeciesIdQuery]);
+        return $this->memoize(__FUNCTION__, function () {
+            return Taxon::speciesInGroup($this)->withCount('observations')->orderByAncestry()->first();
+        });
     }
 
     /**
