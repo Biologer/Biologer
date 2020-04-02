@@ -5,6 +5,7 @@ namespace App;
 use App\Concerns\CanMemoize;
 use App\Concerns\HasTranslatableAttributes;
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -224,14 +225,37 @@ class ViewGroup extends Model
      */
     public function firstSpecies()
     {
-        return $this->memoize(__FUNCTION__, function () {
-            return $this->species()
-                ->when($this->only_observed_taxa, function ($query) {
-                    $query->observed();
-                })
-                ->orderByAncestry()
-                ->first();
-        });
+        return $this->belongsTo(Taxon::class);
+    }
+
+    /**
+     * Eager load first species for group.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
+    public function scopeWithFirstSpecies($query)
+    {
+        $query->selectFirstSpeciesId()->with('firstSpecies');
+    }
+
+    /**
+     * Add select for first species using subquery.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
+    public function scopeSelectFirstSpeciesId($query)
+    {
+        $firstSpeciesIdQuery = Taxon::select('id')
+            ->join('view_group_taxa', 'view_group_taxa.taxon_id', '=', 'taxa.id')
+            ->whereColumn('view_group_taxa.view_group_id', 'view_groups.id')
+            ->where(function ($query) {
+                $query->where('view_groups.only_observed_taxa', false)->orWhere->observed();
+            })
+            ->species()->orderByAncestry()->limit(1);
+
+        $query->addSelect(['first_species_id' => $firstSpeciesIdQuery]);
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace App\Concerns;
 
+use Illuminate\Support\Facades\DB;
+
 /**
  * Provides ancestry related functionality to the model.
  */
@@ -36,7 +38,7 @@ trait HasAncestry
     {
         return $this->belongsToMany(
             static::class,
-            $this->ancestorsPivotTableName(),
+            static::ancestorsPivotTableName(),
             'model_id',
             'ancestor_id'
         )->orderBy('rank_level', 'desc');
@@ -47,9 +49,9 @@ trait HasAncestry
      *
      * @return string
      */
-    private function ancestorsPivotTableName()
+    private static function ancestorsPivotTableName()
     {
-        return $this->getModelNameLower().'_ancestors';
+        return static::getModelNameLower().'_ancestors';
     }
 
     /**
@@ -61,7 +63,7 @@ trait HasAncestry
     {
         return $this->belongsToMany(
             static::class,
-            $this->ancestorsPivotTableName(),
+            static::ancestorsPivotTableName(),
             'ancestor_id',
             'model_id'
         )->orderByAncestry();
@@ -97,17 +99,20 @@ trait HasAncestry
      */
     public function scopeOrderByAncestry($query, $order = 'asc')
     {
-        $subquery = static::query()
+        return $query->orderBy('ancestors_names', $order)->orderBy('name', $order);
+    }
+
+    protected function orderByAncestrySubquery()
+    {
+        return static::query()
             // We can't expect ancestors to be sorted how we want them before we concatenate
             // their names, and while MySQL supports `ORDER BY` inside `GROUP_CONCAT`,
             // SQLite doesn't. That's why we use derived table that is already
             // sorted properly (by rank level, descending).
             ->fromSub(static::query()->orderBy('rank_level', 'desc'), 'ancestors')
             ->selectRaw('GROUP_CONCAT(`ancestors`.`name`)')
-            ->join($this->ancestorsPivotTableName(), 'ancestors.id', '=', $this->ancestorsPivotTableName().'.ancestor_id')
-            ->whereColumn($this->ancestorsPivotTableName().'.model_id', $this->getQualifiedKeyName());
-
-        return $query->orderBy($subquery, $order)->orderBy('name', $order);
+            ->join(static::ancestorsPivotTableName(), 'ancestors.id', '=', static::ancestorsPivotTableName() . '.ancestor_id')
+            ->whereColumn(static::ancestorsPivotTableName() . '.model_id', $this->getQualifiedKeyName());
     }
 
     /**
@@ -126,7 +131,7 @@ trait HasAncestry
      *
      * @return string
      */
-    protected function getModelNameLower()
+    protected static function getModelNameLower()
     {
         return strtolower(class_basename(static::class));
     }
@@ -183,6 +188,7 @@ trait HasAncestry
         $ancestors = $this->parent->ancestors->concat([$this->parent]);
 
         $this->ancestors()->sync($ancestors);
+        $this->setRelation('ancestors', $ancestors);
 
         return $this;
     }
@@ -246,10 +252,28 @@ trait HasAncestry
         $this->descendants()
             ->with(['parent.ancestors'])
             ->orderBy('rank_level', 'desc')
-            ->get()
-            ->each->linkAncestors();
+            ->each(function ($taxon) {
+                $taxon->linkAncestors();
+            });
 
         return $this;
+    }
+
+    public function cacheAncestorsName()
+    {
+        return $this->update([
+            'ancestors_names' => $this->ancestors->pluck('name')->implode(','),
+        ]);
+    }
+
+    public function cacheAncestorsNamesOnDescendants()
+    {
+        return static::query()
+            ->join(static::ncestorsPivotTableName(), $this->getTable().'.id', '=', static::ancestorsPivotTableName() . '.model_id')
+            ->where(static::ancestorsPivotTableName() . '.ancestor_id', $this->getKey())
+            ->update([
+                'ancestors_names' => DB::raw("({$this->orderByAncestrySubquery()->toSql()})"),
+            ]);
     }
 
     /**
@@ -262,11 +286,18 @@ trait HasAncestry
         // Store links
         static::created(function ($model) {
             $model->linkAncestors();
+            $model->cacheAncestorsName();
         });
 
         static::updating(function ($model) {
             if ($model->isDirty('parent_id')) {
                 $model->load('parent')->rebuildAncestryDown();
+            }
+        });
+
+        static::updated(function ($model) {
+            if ($model->hasChanges(['parent_id', 'name'])) {
+                $model->cacheAncestorsNamesOnDescendants();
             }
         });
     }
