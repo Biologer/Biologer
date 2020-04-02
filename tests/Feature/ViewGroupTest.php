@@ -21,7 +21,9 @@ class ViewGroupTest extends TestCase
         $species = factory(Taxon::class)->create(['rank' => 'species', 'parent_id' => $genus->id]);
         $group->taxa()->attach($genus);
 
-        $this->assertTrue($group->firstSpecies()->is($species));
+        $groupWithSpecies = ViewGroup::withFirstSpecies()->find($group->id);
+
+        $this->assertTrue($groupWithSpecies->firstSpecies->is($species));
     }
 
     /** @test */
@@ -37,7 +39,9 @@ class ViewGroupTest extends TestCase
         ObservationFactory::createFieldObservation(['taxon_id' => $species2->id]);
         $group->taxa()->attach($genus);
 
-        $this->assertTrue($group->firstSpecies()->is($species2));
-        $this->assertFalse($group->firstSpecies()->is($species1));
+        $groupWithSpecies = ViewGroup::withFirstSpecies()->find($group->id);
+
+        $this->assertTrue($groupWithSpecies->firstSpecies->is($species2));
+        $this->assertFalse($groupWithSpecies->firstSpecies->is($species1));
     }
 }
