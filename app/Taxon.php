@@ -340,9 +340,17 @@ class Taxon extends Model
                 $query->where('id', $group->id);
             });
         })->when($group->only_observed_taxa, function ($query) {
-            $query->where(function ($query) {
-                $query->has('observations')->orHas('descendants.observations');
-            });
+            $query->observed();
+        });
+    }
+
+    /**
+     * Get only taxa that have been observed, either directly or their descendent.
+     */
+    public function scopeObserved($query)
+    {
+        $query->where(function ($query) {
+            $query->has('observations')->orHas('descendants.observations');
         });
     }
 

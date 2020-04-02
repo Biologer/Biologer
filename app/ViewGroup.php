@@ -90,13 +90,33 @@ class ViewGroup extends Model
     }
 
     /**
-     * Taxa in this group.
+     * Taxa connected to group.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function taxa()
     {
         return $this->belongsToMany(Taxon::class);
+    }
+
+    /**
+     * All taxa in this group, directly connected to group or descendants of those directly connected.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function allTaxa()
+    {
+        return $this->belongsToMany(Taxon::class, 'view_group_taxa');
+    }
+
+    /**
+     * Species in the group.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function species()
+    {
+        return $this->allTaxa()->species();
     }
 
     /**
@@ -137,7 +157,9 @@ class ViewGroup extends Model
     public function speciesIds()
     {
         return $this->memoize('speciesIds', function () {
-            return Taxon::speciesInGroup($this)->pluck('id');
+            return $this->species()->when($this->only_observed_taxa, function ($query) {
+                $query->observed();
+            })->pluck('id');
         });
     }
 
@@ -149,14 +171,15 @@ class ViewGroup extends Model
      */
     public function allTaxaHigherOrEqualSpeciesRank($name = null)
     {
-        return Taxon::inGroup($this)
+        return $this->allTaxa()
+            ->when($this->only_observed_taxa, function ($query) {
+                $query->observed();
+            })
             ->speciesOrHigher()
             ->orderByAncestry()
             ->with(['descendants' => function ($query) {
                 $query->when($this->only_observed_taxa, function ($query) {
-                    $query->where(function ($query) {
-                        $query->has('observations')->orHas('descendants.observations');
-                    });
+                    $query->observed();
                 });
             }])->when($name, function ($query, $name) {
                 $query->withScientificOrNativeName($name);
@@ -171,7 +194,9 @@ class ViewGroup extends Model
      */
     public function paginatedSpeciesList($perPage = 30)
     {
-        return Taxon::speciesInGroup($this)->orderByAncestry()->paginate($perPage);
+        return $this->species()->when($this->only_observed_taxa, function ($query) {
+            $query->observed();
+        })->orderByAncestry()->paginate($perPage);
     }
 
     /**
@@ -182,7 +207,12 @@ class ViewGroup extends Model
      */
     public function findSpecies($speciesId)
     {
-        $species = Taxon::speciesInGroup($this)->with('ancestors')->findOrFail($speciesId);
+        $species = $this->species()
+            ->when($this->only_observed_taxa, function ($query) {
+                $query->observed();
+            })
+            ->with('ancestors')
+            ->findOrFail($speciesId);
 
         return new SpeciesGroupPaginator($this, $species);
     }
@@ -190,12 +220,17 @@ class ViewGroup extends Model
     /**
      * Relation to first species, which we get through subquery select.
      *
-     * @return \App\Taxon|null
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function firstSpecies()
     {
         return $this->memoize(__FUNCTION__, function () {
-            return Taxon::speciesInGroup($this)->withCount('observations')->orderByAncestry()->first();
+            return $this->species()
+                ->when($this->only_observed_taxa, function ($query) {
+                    $query->observed();
+                })
+                ->orderByAncestry()
+                ->first();
         });
     }
 
