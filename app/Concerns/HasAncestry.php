@@ -269,7 +269,7 @@ trait HasAncestry
     public function cacheAncestorsNamesOnDescendants()
     {
         return static::query()
-            ->join(static::ncestorsPivotTableName(), $this->getTable().'.id', '=', static::ancestorsPivotTableName() . '.model_id')
+            ->join(static::ancestorsPivotTableName(), $this->getTable().'.id', '=', static::ancestorsPivotTableName() . '.model_id')
             ->where(static::ancestorsPivotTableName() . '.ancestor_id', $this->getKey())
             ->update([
                 'ancestors_names' => DB::raw("({$this->orderByAncestrySubquery()->toSql()})"),
