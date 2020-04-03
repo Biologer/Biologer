@@ -218,9 +218,16 @@ trait HasAncestry
         return $ids->prepend($this->id);
     }
 
+    /**
+     * Get IDs of this taxon and its decendants.
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function selfAndDescendantsIds()
     {
-        return $this->descendants()->pluck('id')->prepend($this->id);
+        return $this->memoize(__FUNCTION__, function () {
+            return $this->descendants()->pluck('id')->prepend($this->id);
+        });
     }
 
     /**
