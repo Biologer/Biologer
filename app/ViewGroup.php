@@ -160,11 +160,10 @@ class ViewGroup extends Model
         return $this->memoize('speciesIds', function () {
             return $this->species()->when($this->only_observed_taxa, function ($query) {
                 $query->leftJoin('taxon_ancestors', 'taxon_ancestors.ancestor_id', '=', 'taxa.id')
-                    ->addWhereExistsQuery(
-                        Observation::whereColumn('taxon_id', 'taxa.id')
-                            ->orWhereColumn('taxon_id', 'taxon_ancestors.model_id')
-                            ->getQuery()
-                    );
+                    ->where(function ($query) {
+                        $query->addWhereExistsQuery(Observation::whereColumn('taxon_id', 'taxa.id')->getQuery())
+                            ->addWhereExistsQuery(Observation::whereColumn('taxon_id', 'taxon_ancestors.model_id')->getQuery(), 'or');
+                    });
             })->selectRaw('DISTINCT(id) as id')->pluck('id');
         });
     }
