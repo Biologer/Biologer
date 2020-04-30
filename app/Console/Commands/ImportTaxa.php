@@ -321,10 +321,10 @@ class ImportTaxa extends Command
     private function buildCompoundSubspeciesName($taxon)
     {
         return implode(' ', array_filter([
-            $taxon['genus'],
-            empty($taxon['subgenus']) ? null : '('.$taxon['subgenus'].')',
-            $taxon['species'],
-            $taxon['subspecies'],
+            trim($taxon['genus']),
+            empty($taxon['subgenus']) ? null : '(' . $taxon['subgenus'] . ')',
+            trim($taxon['species']),
+            trim($taxon['subspecies']),
         ]));
     }
 
@@ -351,9 +351,9 @@ class ImportTaxa extends Command
     private function buildCompoundSpeciesName($taxon)
     {
         return implode(' ', array_filter([
-            $taxon['genus'],
-            empty($taxon['subgenus']) ? null : '('.$taxon['subgenus'].')',
-            $taxon['species'],
+            trim($taxon['genus']),
+            empty($taxon['subgenus']) ? null : '(' . $taxon['subgenus'] . ')',
+            trim($taxon['species']),
         ]));
     }
 
@@ -411,6 +411,10 @@ class ImportTaxa extends Command
             'hr' => [
                 'native_name' => $row['name_hr'] ?? null,
                 'description' => $row['description_hr'] ?? null,
+            ],
+            'bs' => [
+                'native_name' => $row['name_bs'] ?? null,
+                'description' => $row['description_bs'] ?? null,
             ],
         ];
     }
