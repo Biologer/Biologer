@@ -10,6 +10,7 @@
             :licenses="{{ json_encode(\App\License::getOptions()) }}"
             :sexes="{{ \App\Sex::options() }}"
             :observation-types="{{ \App\ObservationType::all() }}"
+            :atlas-codes="{{ \App\AtlasCode::all() }}"
             submit-more
             should-confirm-cancel
             @role(['admin', 'curator'])

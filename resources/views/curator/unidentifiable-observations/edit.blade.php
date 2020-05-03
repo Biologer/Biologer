@@ -10,6 +10,7 @@
             :licenses="{{ json_encode(\App\License::getOptions()) }}"
             :sexes="{{ \App\Sex::options() }}"
             :observation-types="{{ $observationTypes }}"
+            :atlas-codes="{{ \App\AtlasCode::all() }}"
             :observation="{{ $fieldObservation }}"
             should-confirm-submit
             confirm-submit-message="{{ __('Reason for changing data. Please try to be precise in order to keep the track of changes and ensure data verification.') }}"

@@ -79,6 +79,9 @@ return [
         'no' => 'Ne',
 
         'include_lower_taxa' => 'Uključujući niže taksone',
+
+        'atlas_codes' => 'Atlas kodovi',
+        'uses_atlas_codes' => 'Koristi Atlas kodove',
     ],
 
     'field_observations' => [
@@ -127,6 +130,7 @@ return [
         'types_placeholder' => 'Odaberite tip nalaza',
         'dataset' => 'Set podataka',
         'mgrs10k' => 'MGRS 10K',
+        'atlas_code' => 'Atlas kod',
 
         'statuses' => [
             'approved' => 'Odobreno',

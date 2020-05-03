@@ -663,6 +663,7 @@ class FieldObservation extends Model implements FlatArrayable
             'identified_by_id' => $this->identified_by_id,
             'identified_by' => $this->identifiedBy,
             'dataset' => $this->observation->dataset,
+            'atlas_code' => null,
         ];
     }
 

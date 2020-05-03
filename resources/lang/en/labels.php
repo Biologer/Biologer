@@ -79,6 +79,9 @@ return [
         'no' => 'No',
 
         'include_lower_taxa' => 'Include lower taxa',
+
+        'atlas_codes' => 'Atlas Codes',
+        'uses_atlas_codes' => 'Uses Atlas Codes',
     ],
 
     'field_observations' => [
@@ -127,6 +130,7 @@ return [
         'types_placeholder' => 'Select Observation Type',
         'dataset' => 'Dataset',
         'mgrs10k' => 'MGRS 10K',
+        'atlas_code' => 'Atlas Code',
 
         'statuses' => [
             'approved' => 'Approved',
