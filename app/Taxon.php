@@ -101,6 +101,7 @@ class Taxon extends Model
         'rank_level' => 'integer',
         'elevation' => 'integer',
         'restricted' => 'boolean',
+        'uses_atlas_codes' => 'boolean',
     ];
 
     /**
