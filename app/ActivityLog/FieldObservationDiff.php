@@ -90,7 +90,7 @@ class FieldObservationDiff
             },
             'types' => function ($fieldObservation) {
                 return [
-                    'value' => $fieldObservation->observation->types->sortBy('id')->all(),
+                    'value' => $fieldObservation->observation->types->pluck('id')->sortBy('id')->all(),
                     'label' => null,
                 ];
             },
