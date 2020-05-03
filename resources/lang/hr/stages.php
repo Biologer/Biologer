@@ -6,4 +6,5 @@ return [
     'pupa' => 'Kukuljica',
     'juvenile' => 'Juvenilna jedinka',
     'adult' => 'Odrasla jedinka',
+    'unknown' => 'Nepoznat',
 ];

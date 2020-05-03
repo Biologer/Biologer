@@ -97,7 +97,8 @@ const STAGE_COLORS = {
   larva: 'green',
   pupa: 'yellow',
   juvenile: 'orange',
-  adult: 'red'
+  adult: 'red',
+  unknown: '#d2d2d2'
 }
 
 const ALL_STAGES = Object.keys(STAGE_COLORS)
@@ -140,7 +141,7 @@ export default {
      * @return {Array}
      */
     allStages() {
-      return ALL_STAGES.filter(stage => this.availableStages.includes(stage))
+      return ALL_STAGES.filter(stage => this.availableStages.includes(stage) || stage === 'unknown')
     },
 
     /**
@@ -158,7 +159,7 @@ export default {
      * @return {Array}
      */
     filteredData() {
-      return this.data.filter(item => this.visibleStages.includes(item.stage) && item.elevation !== null)
+      return this.data.filter(item => this.visibleStages.includes(item.stage))
     },
 
     /**

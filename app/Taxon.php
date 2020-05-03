@@ -478,7 +478,7 @@ class Taxon extends Model
                 ->whereDoesntHave('types', function ($query) {
                     $query->where('slug', 'exuviae');
                 })
-                ->join('stages', 'stages.id', '=', 'observations.stage_id')
+                ->leftJoin('stages', 'stages.id', '=', 'observations.stage_id')
                 ->select('observations.id', 'observations.elevation', 'observations.year', 'observations.month', 'observations.day', 'stages.name as stage_name')
                 ->getQuery()
                 ->get()
@@ -496,7 +496,7 @@ class Taxon extends Model
         return [
             'elevation' => (int) $observation->elevation,
             'date' => $observation->year . '-' . $month . '-' . $day,
-            'stage' => $observation->stage_name ?? 'adult',
+            'stage' => $observation->stage_name ?? 'unknown',
         ];
     }
 

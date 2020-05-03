@@ -6,4 +6,5 @@ return [
     'pupa' => 'Pupa',
     'juvenile' => 'Juvenile',
     'adult' => 'Adult',
+    'unknown' => 'Unknown',
 ];
