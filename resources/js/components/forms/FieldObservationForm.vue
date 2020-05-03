@@ -423,7 +423,8 @@ export default {
       locale: window.App.locale,
       observationTypeSearch: '',
       shouldClearType: false,
-      exifExtracted: false
+      exifExtracted: false,
+      lastStageId: null,
     }
   },
 
@@ -521,15 +522,17 @@ export default {
      * @param {Object} value
      */
     onTaxonSelect(taxon) {
+      if (this.form.taxon) {
+        this.lastStageId = this.form.stage_id
+      }
+
       this.form.taxon = taxon || null
       this.form.taxon_id = taxon ? taxon.id : null
       this.form.taxon_suggestion = taxon ? taxon.name : null
 
-      const invalidStage = !_find(this.stages, stage => stage.id === this.form.stage_id)
+      const invalidStage = this.lastStageId && !_find(this.stages, stage => stage.id === this.lastStageId)
 
-      if (invalidStage) {
-        this.form.stage_id = null
-      }
+      this.form.stage_id = invalidStage ? null : this.lastStageId
 
       this.updateIdentifier()
     },
