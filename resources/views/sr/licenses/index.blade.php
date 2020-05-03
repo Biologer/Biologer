@@ -2,12 +2,28 @@
 
 @section('content')
     <div class="container">
-        <h1 class="title is-1 has-text-centered mt-4">Dostupne licence</h1>
+        <h1 class="title is-size-1 has-text-centered mt-4">Доступне лиценце</h1>
 
-        @foreach (\App\License::allActive() as $license)
-            <div>
-                <a href="{{ $license->link }}">{{ $license->name() }}</a>
+        <div class="columns">
+            <div class="column">
+                <h2 class="is-size-3 mb-2">Лиценце података</h2>
+
+                @foreach (\App\License::allActive() as $license)
+                    <p>
+                        <a href="{{ $license->link }}">{{ $license->name() }}</a>
+                    </p>
+                @endforeach
             </div>
-        @endforeach
+
+            <div class="column">
+                <h2 class="is-size-3 mb-2">Лиценце фотографија</h2>
+
+                @foreach (\App\License::allActive() as $license)
+                    <p>
+                        <a href="{{ $license->link }}">{{ $license->name() }}</a>
+                    </p>
+                @endforeach
+            </div>
+        </div>
     </div>
 @endsection
