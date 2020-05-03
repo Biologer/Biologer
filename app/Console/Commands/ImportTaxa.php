@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\ConservationLegislation;
 use App\RedList;
+use App\Stage;
 use App\Taxon;
 use App\User;
 use Illuminate\Console\Command;
@@ -54,6 +55,13 @@ class ImportTaxa extends Command
     private $redLists;
 
     /**
+     * Available stages
+     *
+     * @var \Illuminate\Database\Eloquent\Collection
+     */
+    private $stages;
+
+    /**
      * Execute the console command.
      *
      * @return mixed
@@ -88,6 +96,7 @@ class ImportTaxa extends Command
     {
         $this->conservationLegislations = ConservationLegislation::all();
         $this->redLists = RedList::all();
+        $this->stages = Stage::all();
         $this->user = $this->option('user') ? User::find($this->option('user')) : null;
     }
 
@@ -467,19 +476,30 @@ class ImportTaxa extends Command
     private function saveRelations($taxon, $data)
     {
         $conservationLegislationSlugs = [];
+        $stageNames = [];
 
         foreach ($data as $key => $value) {
-            if (Str::startsWith($key, 'red_list_') && ! empty($value)) {
-                $redList = $this->redLists->where('slug', str_replace('red_list_', '', $key))->first();
+            if (empty($value)) {
+                continue;
+            }
+
+            if (Str::startsWith($key, 'red_list_')) {
+                $redList = $this->redLists->where('slug', Str::after($key, 'red_list_'))->first();
 
                 $taxon->redLists()->attach($redList, ['category' => $value]);
-            } elseif (Str::startsWith($key, 'conservation_legislation_') && ! empty($value)) {
-                $conservationLegislationSlugs[] = str_replace('conservation_legislation_', '', $key);
+            } elseif (Str::startsWith($key, 'conservation_legislation_')) {
+                $conservationLegislationSlugs[] = Str::after($key, 'conservation_legislation_');
+            } elseif (Str::startsWith($key, 'stage_')) {
+                $stageNames[] = Str::after($key, 'stage_');
             }
         }
 
         $taxon->conservationLegislations()->sync(
             $this->conservationLegislations->whereIn('slug', $conservationLegislationSlugs)
+        );
+
+        $taxon->stages()->sync(
+            $this->stages->whereIn('name', $stageNames)
         );
     }
 }
