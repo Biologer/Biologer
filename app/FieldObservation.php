@@ -616,6 +616,7 @@ class FieldObservation extends Model implements FlatArrayable
             'identified_by_id' => $this->identified_by_id,
             'identified_by' => $this->identifiedBy,
             'dataset' => $this->observation->dataset,
+            'atlas_code' => $this->atlas_code,
         ];
     }
 
@@ -663,7 +664,7 @@ class FieldObservation extends Model implements FlatArrayable
             'identified_by_id' => $this->identified_by_id,
             'identified_by' => $this->identifiedBy,
             'dataset' => $this->observation->dataset,
-            'atlas_code' => null,
+            'atlas_code' => $this->atlas_code,
         ];
     }
 
@@ -691,5 +692,10 @@ class FieldObservation extends Model implements FlatArrayable
             $model->observation->delete();
             $model->activity()->delete();
         });
+    }
+
+    public function atlasCode()
+    {
+        return AtlasCode::findByCode($this->atlas_code);
     }
 }

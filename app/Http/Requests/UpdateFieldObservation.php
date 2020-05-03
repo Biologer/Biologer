@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\ActivityLog\FieldObservationDiff;
+use App\AtlasCode;
 use App\FieldObservation;
 use App\License;
 use App\Notifications\FieldObservationEdited;
@@ -21,16 +22,6 @@ use Illuminate\Validation\Rule;
 
 class UpdateFieldObservation extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -87,6 +78,7 @@ class UpdateFieldObservation extends FormRequest
             'observed_by_id' => ['nullable', Rule::exists('users', 'id')],
             'identified_by_id' => ['nullable', Rule::exists('users', 'id')],
             'dataset' => ['nullable', 'string', 'max:255'],
+            'atlas_code' => ['nullable', 'integer', Rule::in(AtlasCode::CODES)],
         ];
     }
 
@@ -144,6 +136,7 @@ class UpdateFieldObservation extends FormRequest
                 ? Taxon::find($this->input('taxon_id'))->name
                 : $this->input('taxon_suggestion'),
             'time' => $this->input('time'),
+            'atlas_code' => $this->input('atlas_code'),
         ];
 
         if ($this->user()->hasAnyRole(['admin', 'curator'])) {

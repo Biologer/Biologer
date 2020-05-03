@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use App\AtlasCode;
 use App\FieldObservation;
 use App\Jobs\ProcessUploadedPhoto;
 use App\Notifications\FieldObservationForApproval;
@@ -53,6 +54,7 @@ class AddFieldObservationTest extends TestCase
             'project' => 'The Big Project',
             'habitat' => 'Swamp',
             'found_on' => 'Leaf of birch',
+            'atlas_code' => AtlasCode::CODES[0],
         ], $overrides);
     }
 
@@ -112,6 +114,7 @@ class AddFieldObservationTest extends TestCase
 
         $this->assertEquals('12:00', $fieldObservation->time->format('H:i'));
         $this->assertEquals('Cerambyx cerdo', $fieldObservation->taxon_suggestion);
+        $this->assertEquals(AtlasCode::CODES[0], $fieldObservation->atlas_code);
 
         tap($fieldObservation->observation, function ($observation) use ($user, $taxon) {
             $this->assertTrue($observation->taxon->is($taxon));

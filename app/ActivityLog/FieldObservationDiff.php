@@ -40,6 +40,7 @@ class FieldObservationDiff
             'observer',
             'identifier',
             'dataset',
+            'atlas_code',
         ];
     }
 

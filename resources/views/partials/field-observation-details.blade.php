@@ -73,6 +73,16 @@
             <td class="is-fullwidth">{{ $fieldObservation->observation->types->pluck('name')->filter()->implode(', ') }}</td>
         </tr>
 
+        @if ($atlasCode = $fieldObservation->atlasCode())
+            <tr>
+                <td><b>{{ __('labels.field_observations.atlas_code') }}</b></td>
+                <td class="is-fullwidth">
+                    <div>{{ $atlasCode->name() }}</div>
+                    <div>{{ $atlasCode->description() }}</div>
+                </td>
+            </tr>
+        @endif
+
         <tr>
             <td><b>{{ __('labels.field_observations.number') }}</b></td>
             <td class="is-fullwidth">{{ $fieldObservation->observation->number }}</td>
