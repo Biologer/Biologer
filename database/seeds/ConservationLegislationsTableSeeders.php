@@ -124,12 +124,20 @@ class ConservationLegislationsTableSeeder extends Seeder
             'sr-Latn' => ['name' => 'Direktiva o pticama, Aneks 3b', 'description' => 'Direktiva 2009/147/EC Evropskog parlamenta i Saveta Evrope od 30. novembra 2009. o očuvanju divljih ptica- Aneks 3b'],
         ]);
 
-        ConservationLegislation::firstOrCreate(['slug' => 'bonn'])->update([
-            'bs' => ['name' => 'CMS', 'description' => 'Konvencija o zaštiti migratornih vrsta divljih životinja ili Bonska konvencija'],
-            'en' => ['name' => 'CMS', 'description' => 'Convention on the Conservation of Migratory Species of Wild Animals (Bonn Convention)'],
-            'hr' => ['name' => 'CMS', 'description' => 'Konvencija o zaštiti migratornih vrsta divljih životinja ili Bonska konvencija'],
-            'sr' => ['name' => 'ЦМС', 'description' => 'Конвенција о очувању миграторних врста дивљих животиња ili Бонска конвенција'],
-            'sr-Latn' => ['name' => 'CMS', 'description' => 'Konvenciјa o očuvanju migratornih vrsta divljih životinja ili Bonska konvenciјa'],
+        ConservationLegislation::firstOrCreate(['slug' => 'bonn-1'])->update([
+            'bs' => ['name' => 'CMS, Aneks 1', 'description' => 'Konvencija o zaštiti migratornih vrsta divljih životinja ili Bonska konvencija - Aneks 1'],
+            'en' => ['name' => 'CMS, Appendix 1', 'description' => 'Convention on the Conservation of Migratory Species of Wild Animals (Bonn Convention) - Appendix 1'],
+            'hr' => ['name' => 'CMS, Aneks 1', 'description' => 'Konvencija o zaštiti migratornih vrsta divljih životinja ili Bonska konvencija - Aneks 1'],
+            'sr' => ['name' => 'ЦМС, Анекс 1', 'description' => 'Конвенција о очувању миграторних врста дивљих животиња ili Бонска конвенција - Анекс 1'],
+            'sr-Latn' => ['name' => 'CMS, Aneks 1', 'description' => 'Konvenciјa o očuvanju migratornih vrsta divljih životinja ili Bonska konvenciјa - Aneks 1'],
+        ]);
+
+        ConservationLegislation::firstOrCreate(['slug' => 'bonn-2'])->update([
+            'bs' => ['name' => 'CMS, Aneks 2', 'description' => 'Konvencija o zaštiti migratornih vrsta divljih životinja ili Bonska konvencija - Aneks 2'],
+            'en' => ['name' => 'CMS, Appendix 2', 'description' => 'Convention on the Conservation of Migratory Species of Wild Animals (Bonn Convention) - Appendix 2'],
+            'hr' => ['name' => 'CMS, Aneks 2', 'description' => 'Konvencija o zaštiti migratornih vrsta divljih životinja ili Bonska konvencija - Aneks 2'],
+            'sr' => ['name' => 'ЦМС, Анекс 2', 'description' => 'Конвенција о очувању миграторних врста дивљих животиња ili Бонска конвенција - Анекс 2'],
+            'sr-Latn' => ['name' => 'CMS, Aneks 2', 'description' => 'Konvenciјa o očuvanju migratornih vrsta divljih životinja ili Bonska konvenciјa - Aneks 2'],
         ]);
     }
 }
