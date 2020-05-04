@@ -477,6 +477,7 @@ class ImportTaxa extends Command
     {
         $conservationLegislationSlugs = [];
         $stageNames = [];
+        $redLists = [];
 
         foreach ($data as $key => $value) {
             if (empty($value)) {
@@ -484,9 +485,7 @@ class ImportTaxa extends Command
             }
 
             if (Str::startsWith($key, 'red_list_')) {
-                $redList = $this->redLists->where('slug', Str::after($key, 'red_list_'))->first();
-
-                $taxon->redLists()->attach($redList, ['category' => $value]);
+                $redLists[Str::after($key, 'red_list_')] = $value;
             } elseif (Str::startsWith($key, 'conservation_legislation_')) {
                 $conservationLegislationSlugs[] = Str::after($key, 'conservation_legislation_');
             } elseif (Str::startsWith($key, 'stage_')) {
@@ -500,6 +499,12 @@ class ImportTaxa extends Command
 
         $taxon->stages()->sync(
             $this->stages->whereIn('name', $stageNames)
+        );
+
+        $taxon->redLists()->sync(
+            collect($redLists)->mapWithKeys(function ($category, $slug) {
+                return [$this->redLists->where('slug', $slug)->first()->id => ['category' => $category]];
+            })
         );
     }
 }
