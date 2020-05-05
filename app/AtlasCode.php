@@ -43,7 +43,13 @@ class AtlasCode implements Arrayable
      */
     public static function findByCode($code)
     {
-        return self::all()->where('code', $code)->first();
+        if (is_null($code)) {
+            return null;
+        }
+
+        return self::all()->first(function ($atlasCode) use ($code) {
+            return $atlasCode->code === $code;
+        });
     }
 
     /**

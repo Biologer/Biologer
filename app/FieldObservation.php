@@ -44,6 +44,7 @@ class FieldObservation extends Model implements FlatArrayable
         'license' => 'integer',
         'unidentifiable' => 'boolean',
         'approved_at' => 'datetime',
+        'atlas_code' => 'integer',
     ];
 
     protected function filters()
