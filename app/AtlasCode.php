@@ -36,18 +36,6 @@ class AtlasCode implements Arrayable
     }
 
     /**
-     * List of available licenses.
-     *
-     * @return array
-     */
-    public static function getOptions()
-    {
-        return self::all()->mapWithKeys(function ($atlasCode) {
-            return [$atlasCode->code => $atlasCode->name()];
-        })->all();
-    }
-
-    /**
      * Find instance by given code.
      *
      * @param  int  $code
