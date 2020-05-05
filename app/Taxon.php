@@ -419,6 +419,16 @@ class Taxon extends Model
     }
 
     /**
+     * Check if taxon is a species.
+     *
+     * @return bool
+     */
+    public function isSpeciesLike()
+    {
+        return $this->rank_level === self::RANKS['species'];
+    }
+
+    /**
      * Check if taxon is a species or lower.
      *
      * @return bool

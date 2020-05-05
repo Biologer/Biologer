@@ -14,10 +14,10 @@ class GroupTaxonResource extends JsonResource
      */
     public function toArray($request)
     {
-        $firstSpeciesId = $this->isSpecies()
+        $firstSpeciesId = $this->isSpeciesLike()
             ? $this->id
             : optional($this->descendants->first(function ($descendant) {
-                return $descendant->isSpecies();
+                return $descendant->isSpeciesLike();
             }))->id;
 
         return [

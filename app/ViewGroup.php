@@ -185,7 +185,7 @@ class ViewGroup extends Model
             ->with(['descendants' => function ($query) {
                 $query->when($this->only_observed_taxa, function ($query) {
                     $query->observed();
-                });
+                })->orderByAncestry();
             }])->when($name, function ($query, $name) {
                 $query->withScientificOrNativeName($name);
             });
