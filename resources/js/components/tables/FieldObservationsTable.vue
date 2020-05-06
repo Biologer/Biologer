@@ -423,6 +423,7 @@ export default {
     this.loadAsyncData()
 
     this.$on('filter', () => {
+      this.page = 1
       this.saveState()
       this.loadAsyncData()
     })
