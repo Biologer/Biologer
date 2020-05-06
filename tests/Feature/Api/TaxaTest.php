@@ -106,4 +106,31 @@ class TaxaTest extends TestCase
             ],
         ]);
     }
+
+    /** @test */
+    public function filtering_by_name_and_id()
+    {
+        $cerdo = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
+        $scopolii = factory(Taxon::class)->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
+
+        $cerdo->update([
+            'sr' => ['native_name' => 'Test Name', 'description' => 'Test description'],
+        ]);
+
+        Passport::actingAs(factory(User::class)->create());
+
+        $response = $this->getJson('/api/taxa?' . http_build_query([
+            'name' => 'Cerambyx cerdo',
+            'taxonId' => $cerdo->id,
+        ]));
+
+        $response->assertStatus(200);
+        $this->assertCount(1, $response->json('data'));
+        $response->assertJson([
+            'data' => [
+                ['id' => $cerdo->id],
+            ],
+        ]);
+        $response->assertJsonMissing(['id' => $scopolii->id]);
+    }
 }
