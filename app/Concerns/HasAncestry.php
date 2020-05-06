@@ -256,12 +256,18 @@ trait HasAncestry
     {
         $this->linkAncestors();
 
-        $this->descendants()
-            ->with(['parent.ancestors'])
-            ->orderBy('rank_level', 'desc')
-            ->each(function ($taxon) {
-                $taxon->linkAncestors();
-            });
+        foreach (static::RANKS as $rankLevel) {
+            if ($rankLevel >= $this->rank_level) {
+                continue;
+            }
+
+            $this->descendants()
+                ->with(['parent.ancestors'])
+                ->where('rank_level', $rankLevel)
+                ->each(function ($taxon) {
+                    $taxon->linkAncestors();
+                });
+        }
 
         return $this;
     }
