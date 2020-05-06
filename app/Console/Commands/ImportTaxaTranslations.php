@@ -6,7 +6,7 @@ use App\Taxon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class ImportTaxa extends Command
+class ImportTaxaTranslations extends Command
 {
     /**
      * The name and signature of the console command.
