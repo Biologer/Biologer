@@ -21,8 +21,14 @@ class TaxonCollectionResource extends ResourceCollection
             $taxon->can_edit = $user->can('update', $taxon);
             $taxon->can_delete = $user->can('delete', $taxon);
 
-            return $taxon->makeVisible(['can_edit', 'can_delete'])
-                ->makeHidden(['curators', 'ancestors']);
+            $resource = $taxon->makeVisible(['can_edit', 'can_delete'])
+                ->makeHidden(['curators', 'ancestors'])
+                ->toArray();
+
+            // Non-existing translations only cause confusion and trouble
+            $resource['translations'] = $taxon->translations->filter->exists->toArray();
+
+            return $resource;
         });
 
         return [
