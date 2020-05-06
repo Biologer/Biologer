@@ -109,7 +109,7 @@
             :type="form.errors.has('stage_id') ? 'is-danger' : null"
             :message="form.errors.has('stage_id') ? form.errors.first('stage_id') : null"
           >
-            <b-select id="stage" v-model="form.stage_id" :disabled="!stages.length" expanded>
+            <b-select id="stage" v-model="form.stage_id" :disabled="!stages.length" @input="lastStageId = $event" expanded>
               <option :value="null">{{ trans('labels.field_observations.choose_a_stage') }}</option>
               <option v-for="stage in stages" :value="stage.id" :key="stage.id" v-text="trans(`stages.${stage.name}`)"></option>
             </b-select>
@@ -446,7 +446,7 @@ export default {
       observationTypeSearch: '',
       shouldClearType: false,
       exifExtracted: false,
-      lastStageId: null,
+      lastStageId: this.observation.stage_id,
     }
   },
 
@@ -548,10 +548,6 @@ export default {
      * @param {Object} value
      */
     onTaxonSelect(taxon) {
-      if (this.form.taxon) {
-        this.lastStageId = this.form.stage_id
-      }
-
       this.form.taxon = taxon || null
       this.form.taxon_id = taxon ? taxon.id : null
       this.form.taxon_suggestion = taxon ? taxon.name : null

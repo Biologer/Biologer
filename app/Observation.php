@@ -24,6 +24,7 @@ class Observation extends Model
         'month' => 'integer',
         'day' => 'integer',
         'number' => 'integer',
+        'stage_id' => 'integer',
     ];
 
     /**
