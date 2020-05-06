@@ -292,8 +292,11 @@ class Taxon extends Model
      */
     public function scopeWithScientificOrNativeName($query, $name)
     {
-        return $query->where('name', 'like', '%'.$name.'%')
-            ->orWhereTranslationLike('native_name', '%'.$name.'%');
+        return $query->where(function ($query) use ($name) {
+            $query->where('name', 'like', '%' . $name . '%')
+                ->orWhereTranslationLike('native_name', '%'.$name.'%');
+        });
+
     }
 
     /**
