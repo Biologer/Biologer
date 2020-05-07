@@ -402,6 +402,7 @@ class ImportTaxa extends Command
             'allochthonous' => ! empty($row['allochthonous']),
             'invasive' => ! empty($row['invasive']),
             'restricted' => ! empty($row['restricted']),
+            'uses_atlas_codes' => ! empty($row['uses_atlas_codes']),
             'author' => $row['author'] ?? null,
             'fe_old_id' => $row['fe_old_id'] ?? null,
             'fe_id' => $row['fe_id'] ?? null,

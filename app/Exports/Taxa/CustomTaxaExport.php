@@ -65,6 +65,10 @@ class CustomTaxaExport extends BaseExport
                 'label' => trans('labels.taxa.red_lists'),
                 'value' => 'red_lists',
             ],
+            [
+                'label' => trans('labels.taxa.uses_atlas_codes'),
+                'value' => 'uses_atlas_codes',
+            ],
         ])->concat($locales->map(function ($locale, $localeCode) {
             $nativeName = trans('labels.taxa.native_name');
             $localeTranslation = trans('languages.'.$locale['name']);
@@ -118,6 +122,7 @@ class CustomTaxaExport extends BaseExport
             'red_lists' => $item->redLists->map(function ($redList) {
                 return "{$redList->name} ({$redList->pivot->category})";
             })->implode(', '),
+            'uses_atlas_codes' => $item->uses_atlas_codes ? __('Yes') : __('No'),
         ];
 
         foreach ($item->ancestors as $ancestor) {
