@@ -185,23 +185,19 @@ class TaxonTest extends TestCase
     /** @test */
     public function ancestry_for_descendants_is_relinked_when_taxon_parent_changes()
     {
-        $root1 = factory(Taxon::class)->create(['parent_id' => null]);
-        $root2 = factory(Taxon::class)->create(['parent_id' => null]);
-        $parent = factory(Taxon::class)->create(['parent_id' => $root1->id]);
-        $taxon = factory(Taxon::class)->create(['parent_id' => $parent->id]);
+        $root1 = factory(Taxon::class)->create(['parent_id' => null, 'rank' => 'class']);
+        $root2 = factory(Taxon::class)->create(['parent_id' => null, 'rank' => 'class']);
+        $parent = factory(Taxon::class)->create(['parent_id' => $root1->id, 'rank' => 'order']);
+        $taxon = factory(Taxon::class)->create(['parent_id' => $parent->id, 'rank' => 'family']);
 
         $taxon->ancestors->assertDoesntContain($root2);
 
-        $parent->fresh()->update(['parent_id' => $root2->id]);
+        $parent->update(['parent_id' => $root2->id]);
 
-        tap($parent->fresh(), function ($parent) use ($root2) {
-            $parent->ancestors->assertContains($root2);
-        });
-
-        tap($taxon->fresh(), function ($taxon) use ($root1, $root2, $parent) {
-            $taxon->ancestors->assertDoesntContain($root1);
-            $taxon->ancestors->assertContains($root2);
-            $taxon->ancestors->assertContains($parent);
-        });
+        $parent->ancestors->assertContains($root2);
+        $taxon->load('ancestors');
+        $taxon->ancestors->assertDoesntContain($root1);
+        $taxon->ancestors->assertContains($root2);
+        $taxon->ancestors->assertContains($parent);
     }
 }
