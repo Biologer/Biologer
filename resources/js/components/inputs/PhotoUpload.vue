@@ -1,6 +1,6 @@
 <template>
 	<b-field v-if="!haveImage" :message="error || null" :type="error ? 'is-danger' : null" expanded>
-		<b-upload @input="onInput" drag-drop type="is-fullwidth" class="is-fullwidth">
+		<b-upload @input="onInput" drag-drop expanded :disabled="uploading || loading">
 			<section class="section is-relative" ref="uploadZone">
 				<div class="has-text-centered">
 					<div>
