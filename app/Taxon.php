@@ -96,6 +96,7 @@ class Taxon extends Model
      * @var array
      */
     protected $casts = [
+        'parent_id' => 'integer',
         'allochthonous' => 'boolean',
         'invasive' => 'boolean',
         'rank_level' => 'integer',
