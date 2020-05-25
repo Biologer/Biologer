@@ -268,7 +268,7 @@ class ImportTaxa extends Command
         $ranks = array_keys(Taxon::RANKS);
 
         foreach ($ranks as $rank) {
-            $name = $this->getNameForRank($rank, $taxon);
+            $name = trim($this->getNameForRank($rank, $taxon));
 
             if (! $name) {
                 continue;
@@ -403,28 +403,28 @@ class ImportTaxa extends Command
             'invasive' => ! empty($row['invasive']),
             'restricted' => ! empty($row['restricted']),
             'uses_atlas_codes' => ! empty($row['uses_atlas_codes']),
-            'author' => $row['author'] ?? null,
+            'author' => isset($row['author']) ? trim($row['author']) : null,
             'fe_old_id' => $row['fe_old_id'] ?? null,
             'fe_id' => $row['fe_id'] ?? null,
             'en' => [
-                'native_name' => $row['name_en'] ?? null,
-                'description' => $row['description_en'] ?? null,
+                'native_name' => isset($row['name_en']) ? trim($row['name_en']) : null,
+                'description' => isset($row['description_en']) ? trim($row['description_en']) : null,
             ],
             'sr' => [
-                'native_name' => $row['name_sr'] ?? null,
-                'description' => $row['description_sr'] ?? null,
+                'native_name' => isset($row['name_sr']) ? trim($row['name_sr']) : null,
+                'description' => isset($row['description_sr']) ? trim($row['description_sr']) : null,
             ],
             'sr-Latn' => [
-                'native_name' => $row['name_sr_latn'] ?? null,
-                'description' => $row['description_sr_latn'] ?? null,
+                'native_name' => isset($row['name_sr_latn']) ? trim($row['name_sr_latn']) : null,
+                'description' => isset($row['description_sr_latn']) ? trim($row['description_sr_latn']) : null,
             ],
             'hr' => [
-                'native_name' => $row['name_hr'] ?? null,
-                'description' => $row['description_hr'] ?? null,
+                'native_name' => isset($row['name_hr']) ? trim($row['name_hr']) : null,
+                'description' => isset($row['description_hr']) ? trim($row['description_hr']) : null,
             ],
             'bs' => [
-                'native_name' => $row['name_bs'] ?? null,
-                'description' => $row['description_bs'] ?? null,
+                'native_name' => isset($row['name_bs']) ? trim($row['name_bs']) : null,
+                'description' => isset($row['description_bs']) ? trim($row['description_bs']) : null,
             ],
         ];
     }
