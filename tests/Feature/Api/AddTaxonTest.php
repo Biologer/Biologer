@@ -73,12 +73,14 @@ class AddTaxonTest extends TestCase
     public function user_with_the_role_of_admin_can_create_taxon()
     {
         Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        $parentTaxon = factory(Taxon::class)->create(['rank' => 'genus', 'name' => 'Cerambyx']);
         $stages = factory(Stage::class, 2)->create();
         $conservationLegislations = factory(ConservationLegislation::class, 2)->create();
         $conservationDocuments = factory(ConservationDocument::class, 2)->create();
         $redLists = factory(RedList::class, 2)->create();
 
         $response = $this->postJson('/api/taxa', $this->validParams([
+            'parent_id' => $parentTaxon->id,
             'name' => 'Cerambyx cerdo',
             'restricted' => true,
             'allochthonous' => true,
@@ -93,7 +95,9 @@ class AddTaxonTest extends TestCase
 
         $response->assertCreated();
 
-        $this->assertNotNull($taxon = Taxon::findByName('Cerambyx cerdo'));
+        $taxon = Taxon::findByName('Cerambyx cerdo');
+
+        $this->assertNotNull($taxon);
         $this->assertEquals('species', $taxon->rank);
         $this->assertEquals(Taxon::RANKS['species'], $taxon->rank_level);
         $this->assertEquals('12345', $taxon->fe_old_id);
@@ -107,6 +111,7 @@ class AddTaxonTest extends TestCase
         $taxon->conservationLegislations->assertEquals($conservationLegislations);
         $taxon->conservationDocuments->assertEquals($conservationDocuments);
         $taxon->redLists->assertEquals($redLists);
+        $this->assertEquals('Cerambyx', $taxon->ancestors_names);
     }
 
     /** @test */

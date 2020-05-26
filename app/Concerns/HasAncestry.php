@@ -244,6 +244,10 @@ trait HasAncestry
                     $taxon->linkAncestors();
                 });
         }
+
+        static::whereNull('parent_id')->each(function ($taxon) {
+            $taxon->cacheAncestorsNamesOnDescendants();
+        });
     }
 
 
@@ -252,10 +256,8 @@ trait HasAncestry
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function rebuildAncestryDown()
+    public function rebuildAncestryOnDescendants()
     {
-        $this->linkAncestors();
-
         foreach (static::RANKS as $rankLevel) {
             if ($rankLevel >= $this->rank_level) {
                 continue;
@@ -268,6 +270,8 @@ trait HasAncestry
                     $taxon->linkAncestors();
                 });
         }
+
+        $this->cacheAncestorsNamesOnDescendants();
 
         return $this;
     }
@@ -304,7 +308,10 @@ trait HasAncestry
 
         static::updating(function ($model) {
             if ($model->isDirty('parent_id')) {
-                $model->load('parent')->rebuildAncestryDown();
+                $model->load('parent')->linkAncestors();
+                $model->ancestors_names = $model->ancestors->pluck('name')->implode(',');
+
+                $model->rebuildAncestryOnDescendants();
             }
         });
 
