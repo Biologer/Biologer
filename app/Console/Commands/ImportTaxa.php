@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\ConservationDocument;
 use App\ConservationLegislation;
 use App\RedList;
 use App\Stage;
@@ -39,6 +40,13 @@ class ImportTaxa extends Command
      * @var \App\User|null
      */
     private $user;
+
+    /**
+     * Available conservation documents.
+     *
+     * @var \Illuminate\Database\Eloquent\Collection
+     */
+    private $conservationDocuments;
 
     /**
      * Available conservation legislations.
@@ -94,6 +102,7 @@ class ImportTaxa extends Command
      */
     private function fetchRelated()
     {
+        $this->conservationDocuments = ConservationDocument::all();
         $this->conservationLegislations = ConservationLegislation::all();
         $this->redLists = RedList::all();
         $this->stages = Stage::all();
@@ -476,6 +485,7 @@ class ImportTaxa extends Command
      */
     private function saveRelations($taxon, $data)
     {
+        $conservationDocumentSlugs = [];
         $conservationLegislationSlugs = [];
         $stageNames = [];
         $redLists = [];
@@ -489,6 +499,8 @@ class ImportTaxa extends Command
                 $redLists[Str::after($key, 'red_list_')] = $value;
             } elseif (Str::startsWith($key, 'conservation_legislation_')) {
                 $conservationLegislationSlugs[] = Str::after($key, 'conservation_legislation_');
+            } elseif (Str::startsWith($key, 'conservation_document_')) {
+                $conservationDocumentSlugs[] = Str::after($key, 'conservation_document_');
             } elseif (Str::startsWith($key, 'stage_')) {
                 $stageNames[] = Str::after($key, 'stage_');
             }
@@ -496,6 +508,10 @@ class ImportTaxa extends Command
 
         $taxon->conservationLegislations()->sync(
             $this->conservationLegislations->whereIn('slug', $conservationLegislationSlugs)
+        );
+
+        $taxon->conservationDocuments()->sync(
+            $this->conservationDocuments->whereIn('slug', $conservationDocumentSlugs)
         );
 
         $taxon->stages()->sync(
