@@ -49,6 +49,7 @@ class ViewServiceProvider extends ServiceProvider
                         ->prepend('<p class="menu-label">'.trans('navigation.public').'</p>')
                         ->addClass('menu-list')
                         ->route('contributor.public-field-observations.index', trans('navigation.field_observations'))
+                        ->route('contributor.public-literature-observations.index', trans('navigation.literature_observations'))
                         ->setActiveClass('is-active')
                         ->setActiveClassOnLink()
                         ->setActiveFromRequest()

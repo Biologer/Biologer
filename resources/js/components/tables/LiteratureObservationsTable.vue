@@ -173,14 +173,18 @@
           {{ row.day }}
         </b-table-column>
 
+        <b-table-column field="publication_citation" :label="trans('labels.literature_observations.publication')">
+          <span v-tooltip="{ content: row.publication.citation }">{{ row.publication.citation | truncate(50) }}</span>
+        </b-table-column>
+
         <b-table-column width="150" numeric>
-          <a @click="openActivityLogModal(row)" v-if="showActivityLog && row.activity" :title="trans('Activity Log')"><b-icon icon="history" /></a>
+          <a @click.prevent="openActivityLogModal(row)" v-if="showActivityLog && row.activity" :title="trans('Activity Log')"><b-icon icon="history" /></a>
 
           <a :href="viewLink(row)" v-if="viewRoute" :title="trans('buttons.view')"><b-icon icon="eye" /></a>
 
-          <a :href="editLink(row)" :title="trans('buttons.edit')"><b-icon icon="edit" /></a>
+          <a :href="editLink(row)" v-if="editRoute" :title="trans('buttons.edit')"><b-icon icon="edit" /></a>
 
-          <a @click="confirmRemove(row)" :title="trans('buttons.delete')"><b-icon icon="trash" /></a>
+          <a @click.prevent="confirmRemove(row)" v-if="deleteRoute" :title="trans('buttons.delete')"><b-icon icon="trash" /></a>
         </b-table-column>
       </template>
 
