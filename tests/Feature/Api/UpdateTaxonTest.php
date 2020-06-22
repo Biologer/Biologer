@@ -27,7 +27,6 @@ class UpdateTaxonTest extends TestCase
             'name' => 'Cerambyx cerdo',
             'rank' => 'species',
             'fe_id' => 'random-string',
-            'fe_old_id' => '12345',
             'restricted' => false,
             'allochthonous' => false,
             'invasive' => false,
@@ -42,6 +41,19 @@ class UpdateTaxonTest extends TestCase
                 app()->getLocale() => 'test description',
             ],
             'reason' => 'Testing',
+            'spid' => 'random-str',
+            'birdlife_seq' => 10,
+            'birdlife_id' => 15,
+            'ebba_code' => 20,
+            'euring_code' => 30,
+            'euring_sci_name' => 'null',
+            'eunis_n2000code' => null,
+            'eunis_sci_name' => null,
+            'bioras_sci_name' => null,
+            'refer' => false,
+            'prior' => null,
+            'sg' => null,
+            'gn_status' => null,
         ], $overrides);
     }
 
@@ -108,7 +120,6 @@ class UpdateTaxonTest extends TestCase
         $this->assertEquals('Cerambyx scopolii', $taxon->name);
         $this->assertEquals('species', $taxon->rank);
         $this->assertEquals(Taxon::RANKS['species'], $taxon->rank_level);
-        $this->assertEquals('12345', $taxon->fe_old_id);
         $this->assertEquals('random-string', $taxon->fe_id);
         $this->assertTrue($taxon->restricted);
         $this->assertTrue($taxon->allochthonous);

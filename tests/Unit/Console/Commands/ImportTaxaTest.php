@@ -19,7 +19,7 @@ class ImportTaxaTest extends TestCase
         $conservationLegislation = factory(ConservationLegislation::class)->create();
 
         $path = $this->createTempFile(
-            "kingdom,species,allochthonous,invasive,restricted,fe_id,fe_old_id,name_en,red_list_{$redList->slug},conservation_legislation_{$conservationLegislation->slug}\n".
+            "kingdom,species,allochthonous,invasive,restricted,fe_id,name_en,red_list_{$redList->slug},conservation_legislation_{$conservationLegislation->slug}\n".
             'Animalia,Cerambyx cerdo,X,X,,feId,123,great capricorn beetle,EX,X'
         );
 
@@ -32,7 +32,7 @@ class ImportTaxaTest extends TestCase
             'invasive' => true,
             'restricted' => false,
             'fe_id' => 'feId',
-            'fe_old_id' => '123',
+            /*'fe_old_id' => '123',*/
             'rank' => 'species',
         ]);
         $this->assertDatabaseHas('taxon_translations', [
@@ -57,7 +57,7 @@ class ImportTaxaTest extends TestCase
         factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
 
         $path = $this->createTempFile(
-            "kingdom,species,allochthonous,invasive,restricted,fe_id,fe_old_id,name_en\n".
+            "kingdom,species,allochthonous,invasive,restricted,fe_id,name_en\n".
             'Animalia,Cerambyx cerdo,X,X,,feId,123,great capricorn beetle'
         );
 
@@ -69,7 +69,7 @@ class ImportTaxaTest extends TestCase
             'invasive' => true,
             'restricted' => false,
             'fe_id' => 'feId',
-            'fe_old_id' => '123',
+            /*'fe_old_id' => '123',*/
         ])->get();
 
         $taxon->assertCount(1);
@@ -101,7 +101,7 @@ class ImportTaxaTest extends TestCase
         ]);
 
         $path = $this->createTempFile(
-            "kingdom,species,allochthonous,invasive,restricted,fe_id,fe_old_id,name_en\n".
+            "kingdom,species,allochthonous,invasive,restricted,fe_id,name_en\n".
             'Animalia,Cerambyx cerdo,X,X,,feId,123,great capricorn beetle'
         );
 
@@ -114,14 +114,14 @@ class ImportTaxaTest extends TestCase
         $this->assertTrue($animalSpecies->invasive);
         $this->assertFalse($animalSpecies->restricted);
         $this->assertEquals('feId', $animalSpecies->fe_id);
-        $this->assertEquals('123', $animalSpecies->fe_old_id);
+        /*$this->assertEquals('123', $animalSpecies->fe_old_id);*/
         $this->assertEquals('great capricorn beetle', $animalSpecies->translateOrNew('en')->native_name);
 
         $this->assertFalse($plantSpecies->allochthonous);
         $this->assertFalse($plantSpecies->invasive);
         $this->assertFalse($plantSpecies->restricted);
         $this->assertEmpty($plantSpecies->fe_id);
-        $this->assertEmpty($plantSpecies->fe_old_id);
+        /*$this->assertEmpty($plantSpecies->fe_old_id);*/
         $this->assertNull($plantSpecies->translateOrNew('en')->native_name);
     }
 

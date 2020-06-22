@@ -38,7 +38,7 @@ class StoreTaxon extends FormRequest
             'parent_id' => ['nullable', 'exists:taxa,id'],
             'rank' => ['required', Rule::in(array_keys(Taxon::RANKS))],
             'author' => ['nullable', 'string'],
-            'fe_old_id' => ['nullable', 'integer'],
+            /*'fe_old_id' => ['nullable', 'integer'],*/
             'fe_id' => ['nullable'],
             'restricted' => ['boolean'],
             'allochthonous' => ['boolean'],
@@ -64,6 +64,21 @@ class StoreTaxon extends FormRequest
             'native_name' => ['required', 'array'],
             'description' => ['required', 'array'],
             'uses_atlas_codes' => ['boolean'],
+
+            'spid' => ['required', 'string'],
+            'birdlife_seq' => ['required', 'integer'],
+            'birdlife_id' => ['required', 'integer'],
+            'ebba_code' => ['required', 'integer'],
+            'euring_code' => ['required', 'integer'],
+            'euring_sci_name' => ['required', 'string'],
+            'eunis_n2000code' => ['nullable', 'string'],
+            'eunis_sci_name' => ['nullable', 'string'],
+            'bioras_sci_name' => ['nullable', 'string'],
+            'refer' => ['nullable', 'boolean'],
+            'prior' => ['nullable', 'string'],
+            'sg' => ['nullable', 'string'],
+            'gn_status' => ['nullable', 'string'],
+
         ];
     }
 
@@ -87,7 +102,10 @@ class StoreTaxon extends FormRequest
     protected function createTaxon()
     {
         return Taxon::create(array_merge(array_map('trim', $this->only(['name', 'rank'])), $this->only([
-            'parent_id', 'fe_id', 'author', 'fe_old_id', 'restricted', 'allochthonous', 'invasive', 'uses_atlas_codes'
+            'parent_id', 'fe_id', 'author', 'restricted', 'allochthonous', 'invasive', 'uses_atlas_codes',
+            'spid', 'birdlife_seq', 'birdlife_id', 'ebba_code', 'euring_code',
+            'euring_sci_name', 'eunis_n2000code', 'eunis_sci_name', 'bioras_sci_name',
+            'refer', 'prior', 'sg', 'gn_status'
         ]), Localization::transformTranslations($this->only([
             'description', 'native_name',
         ]))));

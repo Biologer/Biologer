@@ -64,7 +64,6 @@ return [
         'author' => 'Autor',
         'native_name' => 'Narodni naziv',
         'description' => 'Opis',
-        'fe_old_id' => '(stara) FaunaEuropea ID',
         'fe_id' => 'FaunaEuropea ID',
         'restricted' => 'Takson sa ograničenim podacima',
         'allochthonous' => 'Takson je alohton',
@@ -77,6 +76,20 @@ return [
         'search_for_taxon' => 'Traži takson...',
         'yes' => 'Da',
         'no' => 'Ne',
+
+        'spid' => 'Spicies ID',
+        'birdlife_seq' => 'BirdLife Sequence',
+        'birdlife_id' => 'BirdLife ID',
+        'ebba_code' => 'EBBA code',
+        'euring_code' => 'EURING code',
+        'euring_sci_name' => 'EURING SCI name',
+        'eunis_n2000code' => 'EUNIS N2000 code',
+        'eunis_sci_name' => 'EUNIS SCI name',
+        'bioras_sci_name' => 'BioRas SCI name',
+        'refer' => 'Refer',
+        'prior' => "Prior",
+        'sg' => 'SG',
+        'gn_status' => 'GN Status',
 
         'include_lower_taxa' => 'Uključujući niže taksone',
 

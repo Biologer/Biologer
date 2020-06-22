@@ -117,7 +117,10 @@ class ExportTaxa extends Command
 
         return collect(array_keys(Taxon::RANKS))->concat([
             'id', 'author', 'restricted', 'allochthonous', 'invasive',
-            'fe_old_id', 'fe_id', 'uses_atlas_codes',
+            'fe_id', 'uses_atlas_codes', 'spid', 'birdlife_seq', 'birdlife_id',
+            'ebba_code', 'euring_code', 'euring_sci_name', 'eunis_n2000code',
+            'eunis_sci_name', 'bioras_sci_name', 'refer', 'prior',
+            'sg', 'gn_status'
         ])->concat($this->redLists->map(function ($redList) {
             return "red_list_{$redList->slug}";
         }))->concat($this->conservationLegislations->map(function ($conservationLegislation) {
@@ -154,7 +157,7 @@ class ExportTaxa extends Command
             'restricted' => $taxon->restricted ? 'X' : null,
             'allochthonous' => $taxon->allochthonous ? 'X' : null,
             'invasive' => $taxon->invasive ? 'X' : null,
-            'fe_old_id' => $taxon->fe_old_id ?: null,
+            /*'fe_old_id' => $taxon->fe_old_id ?: null,*/
             'fe_id' => $taxon->fe_id ?: null,
             'uses_atlas_codes' => $taxon->uses_atlas_codes ? 'X' : null,
         ];

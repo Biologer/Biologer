@@ -413,7 +413,7 @@ class ImportTaxa extends Command
             'restricted' => ! empty($row['restricted']),
             'uses_atlas_codes' => ! empty($row['uses_atlas_codes']),
             'author' => isset($row['author']) ? trim($row['author']) : null,
-            'fe_old_id' => empty($row['fe_old_id']) ? null : $row['fe_old_id'],
+            /*'fe_old_id' => empty($row['fe_old_id']) ? null : $row['fe_old_id'],*/
             'fe_id' => empty($row['fe_id']) ? null : $row['fe_id'],
             'en' => [
                 'native_name' => isset($row['name_en']) ? trim($row['name_en']) : null,

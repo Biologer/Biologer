@@ -45,10 +45,10 @@ class CustomTaxaExport extends BaseExport
                 'label' => trans('labels.taxa.invasive'),
                 'value' => 'invasive',
             ],
-            [
+            /*[
                 'label' => trans('labels.taxa.fe_old_id'),
                 'value' => 'fe_old_id',
-            ],
+            ],*/
             [
                 'label' => trans('labels.taxa.fe_id'),
                 'value' => 'fe_id',
@@ -114,7 +114,7 @@ class CustomTaxaExport extends BaseExport
             'restricted' => $item->restricted ? __('Yes') : __('No'),
             'allochthonous' => $item->allochthonous ? __('Yes') : __('No'),
             'invasive' => $item->invasive ? __('Yes') : __('No'),
-            'fe_old_id' => $item->fe_old_id,
+            /*'fe_old_id' => $item->fe_old_id,*/
             'fe_id' => $item->fe_id,
             'stages' => $item->stages->map->name_translation->implode(', '),
             'conservation_legislations' => $item->conservationLegislations->map->name->implode(', '),

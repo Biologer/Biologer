@@ -13,6 +13,7 @@
           :placeholder="trans('labels.taxa.search_for_taxon')"
           autofocus
         />
+
       </div>
 
       <div class="column is-5">
@@ -73,27 +74,15 @@
 
     <hr>
 
-    <div class="columns">
-      <div class="column is-half">
-        <b-field
-          :label="trans('labels.taxa.fe_old_id')"
-          :type="form.errors.has('fe_old_id') ? 'is-danger' : ''"
-          :message="form.errors.has('fe_old_id') ? form.errors.first('fe_old_id') : ''"
-        >
-          <b-input v-model="form.fe_old_id" />
-        </b-field>
-      </div>
 
-      <div class="column is-half">
-        <b-field
-          :label="trans('labels.taxa.fe_id')"
-          :type="form.errors.has('fe_id') ? 'is-danger' : ''"
-          :message="form.errors.has('fe_id') ? form.errors.first('fe_id') : ''"
-        >
-          <b-input v-model="form.fe_id" />
-        </b-field>
-      </div>
-    </div>
+    <b-field
+      :label="trans('labels.taxa.fe_id')"
+      :type="form.errors.has('fe_id') ? 'is-danger' : ''"
+      :message="form.errors.has('fe_id') ? form.errors.first('fe_id') : ''"
+    >
+      <b-input v-model="form.fe_id" />
+    </b-field>
+
 
     <div class="columns">
       <div class="column">
@@ -196,6 +185,7 @@
           <button type="button" class="button" @click="addRedList">{{ trans('labels.taxa.add_red_list') }}</button>
         </div>
       </b-field>
+
     </div>
 
     <b-field :label="trans('labels.taxa.atlas_codes')">
@@ -203,6 +193,142 @@
         {{ trans('labels.taxa.uses_atlas_codes') }}
       </b-checkbox>
     </b-field>
+
+    <hr>
+
+    <div class="columns">
+
+      <div class="column">
+        <b-field
+          :label="'Species ID'"
+          class="is-required"
+          :type="form.errors.has('spid') ? 'is-danger' : ''"
+          :message="form.errors.has('spid') ? form.errors.first('spid') : ''"
+        >
+          <b-input maxlength="10" v-model="form.spid" />
+        </b-field>
+      </div>
+
+      <div class="column">
+        <b-field
+          :label="'BirdLife sequence'"
+          class="is-required"
+          :type="form.errors.has('birdlife_seq') ? 'is-danger' : ''"
+          :message="form.errors.has('birdlife_seq') ? form.errors.first('birdlife_seq') : ''"
+        >
+          <b-input type="number" v-model="form.birdlife_seq" />
+        </b-field>
+      </div>
+
+      <div class="column">
+        <b-field
+          :label="'BirdLife ID'"
+          class="is-required"
+          :type="form.errors.has('birdlife_id') ? 'is-danger' : ''"
+          :message="form.errors.has('birdlife_id') ? form.errors.first('birdlife_id') : ''"
+        >
+          <b-input type="number" v-model="form.birdlife_id" />
+        </b-field>
+      </div>
+
+      <div class="column">
+        <b-field
+          :label="'EBBA code'"
+          class="is-required"
+          :type="form.errors.has('ebba_code') ? 'is-danger' : ''"
+          :message="form.errors.has('ebba_code') ? form.errors.first('ebba_code') : ''"
+        >
+          <b-input type="number" v-model="form.ebba_code" />
+        </b-field>
+      </div>
+
+    </div>
+
+    <div class="columns">
+      <div class="column">
+        <b-field
+          :label="'EURING code'"
+          class="is-required"
+          :type="form.errors.has('euring_code') ? 'is-danger' : ''"
+          :message="form.errors.has('euring_code') ? form.errors.first('euring_code') : ''"
+        >
+          <b-input type="number" v-model="form.euring_code" />
+        </b-field>
+      </div>
+      <div class="column">
+        <b-field
+          :label="'EURING SCI name'"
+          class="is-required"
+          :type="form.errors.has('euring_code') ? 'is-danger' : ''"
+          :message="form.errors.has('euring_code') ? form.errors.first('euring_code') : ''"
+        >
+          <b-input maxlength="100" v-model="form.euring_sci_name" />
+        </b-field>
+      </div>
+
+      <div class="column">
+        <b-field
+          :label="'EUNIS N2000 code'"
+        >
+          <b-input maxlength="10" v-model="form.eunis_n2000code" />
+        </b-field>
+      </div>
+
+      <div class="column">
+        <b-field
+          :label="'EUNIS SCI name'"
+        >
+          <b-input maxlength="100" v-model="form.eunis_sci_name" />
+        </b-field>
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="column">
+        <b-field
+          :label="'BioRas SCI name'"
+        >
+          <b-input maxlength="200" v-model="form.bioras_sci_name" />
+        </b-field>
+      </div>
+
+
+      <div class="column">
+        <b-field
+          :label="'SG'"
+        >
+          <b-input maxlength="10" v-model="form.sg" />
+        </b-field>
+      </div>
+
+      <div class="column">
+        <b-field
+          :label="'GN Status'"
+        >
+          <b-input maxlength="10" v-model="form.gn_status" />
+        </b-field>
+      </div>
+
+      <div class="column">
+        <b-field
+          :label="'Prior'"
+        >
+          <b-select v-model="form.prior" expanded>
+            <option value="null">null</option>
+            <option value="PR">PR</option>
+            <option value="PR+">PR+</option>
+          </b-select>
+        </b-field>
+      </div>
+
+    </div>
+
+    <b-field
+      :label="'REFER'"
+    >
+      <b-switch v-model="form.refer" />
+    </b-field>
+
 
     <hr>
 
@@ -262,7 +388,6 @@ export default {
           rank_level: 10,
           author: null,
           fe_id: null,
-          fe_old_id: null,
           conservation_legislations: [],
           conservation_documents: [],
           red_lists: [],
@@ -270,8 +395,20 @@ export default {
           restricted: false,
           allochthonous: false,
           invasive: false,
-          restricted: false,
-          uses_atlas_codes: false
+          uses_atlas_codes: false,
+          spid: null,
+          birdlife_seq: null,
+          birdlife_id: null,
+          ebba_code: null,
+          euring_code: null,
+          euring_sci_name: null,
+          eunis_n2000code: null,
+          eunis_sci_name: null,
+          bioras_sci_name: null,
+          refer: null,
+          prior: null,
+          sg: null,
+          gn_status: null,
         }
       }
     },
@@ -345,6 +482,19 @@ export default {
         description: this.descriptions,
         reason: null,
         uses_atlas_codes: this.taxon.uses_atlas_codes,
+        spid: this.taxon.spid,
+        birdlife_seq: this.taxon.birdlife_seq,
+        birdlife_id: this.taxon.birdlife_id,
+        ebba_code: this.taxon.ebba_code,
+        euring_code: this.taxon.euring_code,
+        euring_sci_name: this.taxon.euring_sci_name,
+        eunis_n2000code: this.taxon.eunis_n2000code,
+        eunis_sci_name: this.taxon.eunis_sci_name,
+        bioras_sci_name: this.taxon.bioras_sci_name,
+        refer: this.taxon.refer,
+        prior: this.taxon.prior,
+        sg: this.taxon.sg,
+        gn_status: this.taxon.gn_status,
       }, {
         resetOnSuccess: false
       })

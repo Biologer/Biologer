@@ -1,5 +1,7 @@
 <template>
+
   <div class="taxa-table">
+
     <div class="level">
       <div class="level-left">
         <div class="level-item">
@@ -227,7 +229,9 @@ export default {
 
     sortBy() {
       return `${this.sortField}.${this.sortOrder}`
-    }
+    },
+
+
   },
 
   created() {
