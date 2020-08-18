@@ -10,7 +10,9 @@
 
         <link rel="canonical" href="{{ LaravelLocalization::getNonLocalizedURL() }}" />
 
-        @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+        <link rel="alternate" hreflang="x-default" href="{{ LaravelLocalization::getNonLocalizedURL() }}" />
+
+        @foreach(LaravelLocalization::getSupportedLanguagesKeys() as $localeCode)
             <link rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" />
         @endforeach
 

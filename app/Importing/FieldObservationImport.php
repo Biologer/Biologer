@@ -2,6 +2,7 @@
 
 namespace App\Importing;
 
+use App\AtlasCode;
 use App\DEM\Reader as DEMReader;
 use App\FieldObservation;
 use App\License;
@@ -185,6 +186,11 @@ class FieldObservationImport extends BaseImport
                 'value' => 'license',
                 'required' => true,
             ],
+            [
+                'label' => trans('labels.field_observations.atlas_code'),
+                'value' => 'atlas_code',
+                'required' => false,
+            ],
         ])->pipe(function ($columns) use ($user) {
             if (! $user || optional($user)->hasAnyRole(['admin', 'curator'])) {
                 return $columns;
@@ -258,6 +264,7 @@ class FieldObservationImport extends BaseImport
             'original_identification' => ['nullable', 'string'],
             'dataset' => ['nullable', 'string'],
             'license' => ['nullable', 'string', Rule::in(License::allActive()->pluck('name'))],
+            'atlas_code' => ['nullable', 'integer', Rule::in(AtlasCode::CODES)],
         ], [
             'year.date_format' => trans('validation.year'),
             'sex.in' => __('validation.in_extended', [
@@ -292,6 +299,7 @@ class FieldObservationImport extends BaseImport
             'original_identification' => trans('labels.field_observations.original_identification'),
             'dataset' => trans('labels.field_observations.dataset'),
             'license' => trans('labels.field_observations.data_license'),
+            'atlas_code' => trans('labels.field_observations.atlas_code'),
         ]);
     }
 
@@ -342,6 +350,8 @@ class FieldObservationImport extends BaseImport
      */
     protected function getSpecificObservationData(array $item)
     {
+        $atlasCode = Arr::get($item, 'atlas_code');
+
         return [
             'license' => Arr::get($item, 'data_license') ?: $this->model()->user->settings()->get('data_license'),
             'taxon_suggestion' => Arr::get($item, 'taxon') ?: null,
@@ -351,6 +361,7 @@ class FieldObservationImport extends BaseImport
             'observed_by_id' => $this->getObserverId($item),
             'identified_by_id' => $this->getIdentifierId($item),
             'license' => $this->getLicense($item),
+            'atlas_code' => $atlasCode === '' ? null : (int) $atlasCode,
         ];
     }
 

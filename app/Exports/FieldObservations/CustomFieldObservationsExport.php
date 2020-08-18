@@ -121,6 +121,10 @@ class CustomFieldObservationsExport extends BaseExport
                 'label' => trans('labels.field_observations.types'),
                 'value' => 'types',
             ],
+            [
+                'label' => trans('labels.field_observations.atlas_code'),
+                'value' => 'atlas_code',
+            ],
         ]);
     }
 
@@ -166,9 +170,11 @@ class CustomFieldObservationsExport extends BaseExport
      */
     protected function transformItem($item)
     {
+        $taxon = optional($item->observation->taxon);
+
         return [
             'id' => $item->id,
-            'taxon' => optional($item->observation->taxon)->name,
+            'taxon' => $taxon->name,
             'year' => $item->observation->year,
             'month' => $item->observation->month,
             'day' => $item->observation->day,
@@ -193,6 +199,7 @@ class CustomFieldObservationsExport extends BaseExport
             'found_dead_note' => $item->found_dead_note,
             'status' => $item->status_translation,
             'types' => $item->observation->types->pluck('name')->implode(', '),
+            'atlas_code' => $taxon->uses_atlas_codes ? $item->atlas_code : null,
         ];
     }
 }

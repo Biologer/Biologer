@@ -298,4 +298,35 @@ class UpdateTaxonTest extends TestCase
 
         $response->assertSuccessful();
     }
+
+    /** @test */
+    public function changing_parent_rebuilds_ancestry_for_descendants()
+    {
+        $oldParent = factory(Taxon::class)->create(['rank' => 'order', 'name' => 'Wrong']);
+        $newParent = factory(Taxon::class)->create(['rank' => 'order', 'name' => 'Coleoptera']);
+        $taxon = factory(Taxon::class)->create(['rank' => 'family', 'parent_id' => $oldParent->id, 'name' => 'Cerambycidae']);
+        $child = factory(Taxon::class)->create(['rank' => 'genus', 'parent_id' => $taxon->id, 'name' => 'Cerambyx']);
+        $grandChild = factory(Taxon::class)->create(['rank' => 'species', 'parent_id' => $child->id, 'name' => 'Cerambyx cerdo']);
+
+        // Sanity check
+        $child->ancestors->assertContains($oldParent);
+        $child->ancestors->assertContains($taxon);
+        $grandChild->ancestors->assertContains($oldParent);
+        $grandChild->ancestors->assertContains($taxon);
+        $grandChild->ancestors->assertContains($child);
+        $this->assertEquals('Wrong,Cerambycidae', $child->fresh()->ancestors_names);
+        $this->assertEquals('Wrong,Cerambycidae,Cerambyx', $grandChild->fresh()->ancestors_names);
+
+        $taxon->update(['parent_id' => $newParent->id]);
+        $child->refresh();
+        $grandChild->refresh();
+
+        $child->ancestors->assertContains($newParent);
+        $child->ancestors->assertContains($taxon);
+        $grandChild->ancestors->assertContains($newParent);
+        $grandChild->ancestors->assertContains($taxon);
+        $grandChild->ancestors->assertContains($child);
+        $this->assertEquals('Coleoptera,Cerambycidae', $child->ancestors_names);
+        $this->assertEquals('Coleoptera,Cerambycidae,Cerambyx', $grandChild->ancestors_names);
+    }
 }

@@ -87,7 +87,8 @@ class CustomFieldObservationsExportTest extends TestCase
             'id', 'taxon', 'year', 'month', 'day', 'time', 'latitude', 'longitude',
             'location', 'mgrs10k', 'accuracy', 'elevation', 'sex', 'observer',
             'identifier', 'stage', 'license', 'number', 'note', 'project',
-            'habitat', 'found_on', 'found_dead', 'found_dead_note', 'status', 'types',
+            'habitat', 'found_on', 'found_dead', 'found_dead_note',
+            'status', 'types', 'atlas_code',
         ], CustomFieldObservationsExport::availableColumns()->all());
     }
 }

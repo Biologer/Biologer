@@ -5,6 +5,7 @@ namespace App;
 use App\Concerns\CanMemoize;
 use App\Concerns\HasTranslatableAttributes;
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -29,6 +30,13 @@ class ViewGroup extends Model
      * @var array
      */
     protected $appends = ['name', 'description'];
+
+   /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array
+     */
+    protected $hidden = ['image_path'];
 
     /**
      * The relations to eager load on every query.
@@ -83,13 +91,33 @@ class ViewGroup extends Model
     }
 
     /**
-     * Taxa in this group.
+     * Taxa connected to group.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function taxa()
     {
         return $this->belongsToMany(Taxon::class);
+    }
+
+    /**
+     * All taxa in this group, directly connected to group or descendants of those directly connected.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function allTaxa()
+    {
+        return $this->belongsToMany(Taxon::class, 'view_group_taxa');
+    }
+
+    /**
+     * Species in the group.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function species()
+    {
+        return $this->allTaxa()->species();
     }
 
     /**
@@ -130,7 +158,13 @@ class ViewGroup extends Model
     public function speciesIds()
     {
         return $this->memoize('speciesIds', function () {
-            return Taxon::speciesInGroup($this)->pluck('id');
+            return $this->species()->when($this->only_observed_taxa, function ($query) {
+                $query->leftJoin('taxon_ancestors', 'taxon_ancestors.ancestor_id', '=', 'taxa.id')
+                    ->where(function ($query) {
+                        $query->addWhereExistsQuery(Observation::whereColumn('taxon_id', 'taxa.id')->getQuery())
+                            ->addWhereExistsQuery(Observation::whereColumn('taxon_id', 'taxon_ancestors.model_id')->getQuery(), 'or');
+                    });
+            })->selectRaw('DISTINCT(id) as id')->pluck('id');
         });
     }
 
@@ -142,15 +176,16 @@ class ViewGroup extends Model
      */
     public function allTaxaHigherOrEqualSpeciesRank($name = null)
     {
-        return Taxon::inGroup($this)
+        return $this->allTaxa()
+            ->when($this->only_observed_taxa, function ($query) {
+                $query->observed();
+            })
             ->speciesOrHigher()
             ->orderByAncestry()
             ->with(['descendants' => function ($query) {
                 $query->when($this->only_observed_taxa, function ($query) {
-                    $query->where(function ($query) {
-                        $query->has('observations')->orHas('descendants.observations');
-                    });
-                });
+                    $query->observed();
+                })->orderByAncestry();
             }])->when($name, function ($query, $name) {
                 $query->withScientificOrNativeName($name);
             });
@@ -164,7 +199,9 @@ class ViewGroup extends Model
      */
     public function paginatedSpeciesList($perPage = 30)
     {
-        return Taxon::speciesInGroup($this)->orderByAncestry()->paginate($perPage);
+        return $this->species()->when($this->only_observed_taxa, function ($query) {
+            $query->observed();
+        })->orderByAncestry()->paginate($perPage);
     }
 
     /**
@@ -175,7 +212,12 @@ class ViewGroup extends Model
      */
     public function findSpecies($speciesId)
     {
-        $species = Taxon::speciesInGroup($this)->with('ancestors')->findOrFail($speciesId);
+        $species = $this->species()
+            ->when($this->only_observed_taxa, function ($query) {
+                $query->observed();
+            })
+            ->with('ancestors')
+            ->findOrFail($speciesId);
 
         return new SpeciesGroupPaginator($this, $species);
     }
@@ -210,22 +252,10 @@ class ViewGroup extends Model
     public function scopeSelectFirstSpeciesId($query)
     {
         $firstSpeciesIdQuery = Taxon::select('id')
-            ->fromSub(function ($query) {
-                $query->select('direct_taxa.*', 'taxon_view_group.view_group_id')
-                    ->from('taxa as direct_taxa')
-                    ->join('taxon_view_group', 'taxon_view_group.taxon_id', '=', 'direct_taxa.id')
-                    ->union(function ($query) {
-                        $query->select('ancestor_taxa.*', 'taxon_view_group.view_group_id')
-                            ->from('taxa as ancestor_taxa')
-                            ->join('taxon_ancestors', 'taxon_ancestors.model_id', '=', 'ancestor_taxa.id')
-                            ->join('taxon_view_group', 'taxon_ancestors.ancestor_id', '=', 'taxon_view_group.taxon_id');
-                    });
-            }, 'taxa')
-            ->whereColumn('view_group_id', 'view_groups.id')
+            ->join('view_group_taxa', 'view_group_taxa.taxon_id', '=', 'taxa.id')
+            ->whereColumn('view_group_taxa.view_group_id', 'view_groups.id')
             ->where(function ($query) {
-                $query->where('view_groups.only_observed_taxa', false)->orWhere(function ($query) {
-                    $query->has('observations')->orHas('descendants.observations');
-                });
+                $query->where('view_groups.only_observed_taxa', false)->orWhere->observed();
             })
             ->species()->orderByAncestry()->limit(1);
 
@@ -245,7 +275,12 @@ class ViewGroup extends Model
 
         Storage::disk('public')->put($path, $image);
 
-        return Storage::disk('public')->url($path);
+        return $path;
+    }
+
+    protected function deleteImage($path)
+    {
+        Storage::disk('public')->delete($path);
     }
 
     /**
@@ -256,5 +291,26 @@ class ViewGroup extends Model
     public static function defaultImage()
     {
         return asset('img/default-image.svg');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            $model->image_url = $model->image_path
+                ? Storage::disk('public')->url($model->image_path)
+                : null;
+        });
+
+        static::updated(function ($model) {
+            if ($model->wasChanged('image_path') && $path = $model->getOriginal('image_path')) {
+                $model->deleteImage($path);
+            };
+        });
+
+        static::deleted(function ($model) {
+            $model->deleteImage($model->image_path);
+        });
     }
 }

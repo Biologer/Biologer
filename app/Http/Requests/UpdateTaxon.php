@@ -65,6 +65,7 @@ class UpdateTaxon extends FormRequest
             'reason' => ['required', 'string', 'max:255'],
             'native_name' => ['required', 'array'],
             'description' => ['required', 'array'],
+            'uses_atlas_codes' => ['boolean'],
         ];
     }
 
@@ -95,7 +96,7 @@ class UpdateTaxon extends FormRequest
             ])->toArray();
 
             $taxon->update(array_merge(array_map('trim', $this->only(['name', 'rank'])), $this->only([
-                'parent_id', 'fe_old_id', 'fe_id', 'author', 'restricted', 'allochthonous', 'invasive',
+                'parent_id', 'fe_old_id', 'fe_id', 'author', 'restricted', 'allochthonous', 'invasive', 'uses_atlas_codes',
             ]), Localization::transformTranslations($this->only([
                 'description', 'native_name',
             ]))));
@@ -175,7 +176,7 @@ class UpdateTaxon extends FormRequest
                     $data[$key] = ['value' => $value, 'label' => 'taxonomy.'.$value];
                 } elseif (in_array($key, ['description', 'native_name'])) {
                     $data[$key] = null;
-                } elseif (in_array($key, ['restricted', 'allochthonous', 'invasive'])) {
+                } elseif (in_array($key, ['restricted', 'allochthonous', 'invasive', 'uses_atlas_codes'])) {
                     $data[$key] = ['value' => $value, 'label' => $value ? 'Yes' : 'No'];
                 } else {
                     $data[$key] = $value;

@@ -5,10 +5,11 @@
                 <a href="{{ $group->firstSpecies ? route('groups.species.show', ['group' => $group, 'species' => $group->firstSpecies]) : '' }}" title="{{ $group->name }}">
                     <div class="view-group-card hover:shadow-link">
                         <div
-                            class="view-group-card__image"
-                            style="background-image: url('{{ $group->image_url ?? \App\ViewGroup::defaultImage() }}')"
+                            class="view-group-card__image {{ $group->image_url ? '' : 'view-group-card__image--default' }}"
                             title="{{ $group->name }}"
-                        ></div>
+                        >
+                            <img src="{{ $group->image_url ?? \App\ViewGroup::defaultImage() }}">
+                        </div>
 
                         <div class="view-group-card__content">
                             <div>

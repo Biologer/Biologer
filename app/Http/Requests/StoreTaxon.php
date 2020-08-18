@@ -63,6 +63,7 @@ class StoreTaxon extends FormRequest
             ],
             'native_name' => ['required', 'array'],
             'description' => ['required', 'array'],
+            'uses_atlas_codes' => ['boolean'],
         ];
     }
 
@@ -86,7 +87,7 @@ class StoreTaxon extends FormRequest
     protected function createTaxon()
     {
         return Taxon::create(array_merge(array_map('trim', $this->only(['name', 'rank'])), $this->only([
-            'parent_id', 'fe_id', 'author', 'fe_old_id', 'restricted', 'allochthonous', 'invasive',
+            'parent_id', 'fe_id', 'author', 'fe_old_id', 'restricted', 'allochthonous', 'invasive', 'uses_atlas_codes'
         ]), Localization::transformTranslations($this->only([
             'description', 'native_name',
         ]))));

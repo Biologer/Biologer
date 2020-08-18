@@ -62,5 +62,6 @@
     "You account has been deleted. Your observations will be deleted shortly.": "Vaš korisnički nalog je obrisan. Podaci koje ste unijeli će ubrzo biti obrisani.",
     "You account has been deleted.": "Vaš korisnički nalog je obrisan.",
     "This action is irreversible, once an account is deleted it cannot be restored.": "Ova akcija je nepovratna, jednom kada je korisnički nalog obrisan ne može se više vratiti.",
-    "Are you sure you want to delete your account?": "Da li ste sigurni da želite da obrišete Vaš korisnički nalog?"
+    "Are you sure you want to delete your account?": "Da li ste sigurni da želite da obrišete Vaš korisnički nalog?",
+    "Loading...": "Učitava se..."
 }

@@ -96,11 +96,13 @@ class Taxon extends Model
      * @var array
      */
     protected $casts = [
+        'parent_id' => 'integer',
         'allochthonous' => 'boolean',
         'invasive' => 'boolean',
         'rank_level' => 'integer',
         'elevation' => 'integer',
         'restricted' => 'boolean',
+        'uses_atlas_codes' => 'boolean',
     ];
 
     /**
@@ -291,8 +293,11 @@ class Taxon extends Model
      */
     public function scopeWithScientificOrNativeName($query, $name)
     {
-        return $query->where('name', 'like', '%'.$name.'%')
-            ->orWhereTranslationLike('native_name', '%'.$name.'%');
+        return $query->where(function ($query) use ($name) {
+            $query->where('name', 'like', '%' . $name . '%')
+                ->orWhereTranslationLike('native_name', '%'.$name.'%');
+        });
+
     }
 
     /**
@@ -340,9 +345,17 @@ class Taxon extends Model
                 $query->where('id', $group->id);
             });
         })->when($group->only_observed_taxa, function ($query) {
-            $query->where(function ($query) {
-                $query->has('observations')->orHas('descendants.observations');
-            });
+            $query->observed();
+        });
+    }
+
+    /**
+     * Get only taxa that have been observed, either directly or their descendent.
+     */
+    public function scopeObserved($query)
+    {
+        $query->where(function ($query) {
+            $query->has('observations')->orHas('descendants.observations');
         });
     }
 
@@ -410,6 +423,16 @@ class Taxon extends Model
     }
 
     /**
+     * Check if taxon is a species.
+     *
+     * @return bool
+     */
+    public function isSpeciesLike()
+    {
+        return $this->rank_level === self::RANKS['species'];
+    }
+
+    /**
      * Check if taxon is a species or lower.
      *
      * @return bool
@@ -427,7 +450,8 @@ class Taxon extends Model
     public function mgrs10k()
     {
         return $this->memoize('mgrs', function () {
-            $result = $this->approvedObservationsQuery()
+            $result = Observation::approved()
+                ->ofTaxa($this->selfAndDescendantsIds())
                 ->getQuery()
                 ->groupBy('mgrs10k', 'details_type')
                 ->get([
@@ -454,37 +478,41 @@ class Taxon extends Model
      */
     public function occurrence()
     {
-        return $this->memoize('occurrence', function () {
-            return $this->approvedObservationsQuery()
+        return $this->memoize(__FUNCTION__, function () {
+            return Observation::approved()
+                ->ofTaxa($this->selfAndDescendantsIds())
+                ->where(function ($query) {
+                    // Exclude those that are found dead
+                    $query->where('details_type', '!=', (new FieldObservation)->getMorphClass())
+                        ->orWhereHasMorph('details', [FieldObservation::class], function ($query) {
+                            $query->where('found_dead', false);
+                        });
+                })
                 ->withCompleteDate()
                 ->whereNotNull('elevation')
-                ->leftJoin('stages', 'observations.stage_id', '=', 'stages.id')
-                ->select('observations.id', 'elevation', 'year', 'month', 'day', 'stage_id', 'stages.name as stage_name')
+                ->whereDoesntHave('types', function ($query) {
+                    $query->where('slug', 'exuviae');
+                })
+                ->leftJoin('stages', 'stages.id', '=', 'observations.stage_id')
+                ->select('observations.id', 'observations.elevation', 'observations.year', 'observations.month', 'observations.day', 'stages.name as stage_name')
                 ->getQuery()
                 ->get()
                 ->map(function ($observation) {
-                    $month = str_pad($observation->month, 2, '0', STR_PAD_LEFT);
-                    $day = str_pad($observation->day, 2, '0', STR_PAD_LEFT);
-
-                    return [
-                        'elevation' => (int) $observation->elevation,
-                        'date' => $observation->year.'-'.$month.'-'.$day,
-                        'stage' => $observation->stage_name ?? 'adult',
-                    ];
+                    return $this->mapOccurrence($observation);
                 });
         });
     }
 
-    /**
-     * Build the query for taxon's approved observations.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function approvedObservationsQuery()
+    protected function mapOccurrence($observation)
     {
-        return Observation::approved()->whereHas('taxon', function ($query) {
-            $query->where('id', $this->id)->orHasAncestorWithId($this->id);
-        });
+        $month = str_pad($observation->month, 2, '0', STR_PAD_LEFT);
+        $day = str_pad($observation->day, 2, '0', STR_PAD_LEFT);
+
+        return [
+            'elevation' => (int) $observation->elevation,
+            'date' => $observation->year . '-' . $month . '-' . $day,
+            'stage' => $observation->stage_name ?? 'unknown',
+        ];
     }
 
     /**
@@ -494,10 +522,10 @@ class Taxon extends Model
      */
     public function publicPhotos()
     {
-        return $this->memoize('publicPhotos', function () {
-            return Observation::approved()->whereHas('taxon', function ($query) {
-                $query->where('id', $this->id)->orHasAncestorWithId($this->id);
-            })->with('publicPhotos')->get()->pluck('publicPhotos')->flatten();
+        return $this->memoize(__FUNCTION__, function () {
+            return Photo::public()->whereHas('observations', function ($query) {
+                $query->approved()->ofTaxa($this->selfAndDescendantsIds());
+            })->get();
         });
     }
 

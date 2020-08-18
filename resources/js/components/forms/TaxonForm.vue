@@ -198,6 +198,12 @@
       </b-field>
     </div>
 
+    <b-field :label="trans('labels.taxa.atlas_codes')">
+      <b-checkbox v-model="form.uses_atlas_codes">
+        {{ trans('labels.taxa.uses_atlas_codes') }}
+      </b-checkbox>
+    </b-field>
+
     <hr>
 
     <button
@@ -264,7 +270,8 @@ export default {
           restricted: false,
           allochthonous: false,
           invasive: false,
-          restricted: false
+          restricted: false,
+          uses_atlas_codes: false
         }
       }
     },
@@ -336,7 +343,8 @@ export default {
         }),
         native_name: this.nativeNames,
         description: this.descriptions,
-        reason: null
+        reason: null,
+        uses_atlas_codes: this.taxon.uses_atlas_codes,
       }, {
         resetOnSuccess: false
       })

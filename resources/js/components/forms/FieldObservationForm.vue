@@ -109,7 +109,7 @@
             :type="form.errors.has('stage_id') ? 'is-danger' : null"
             :message="form.errors.has('stage_id') ? form.errors.first('stage_id') : null"
           >
-            <b-select id="stage" v-model="form.stage_id" :disabled="!stages.length" expanded>
+            <b-select id="stage" v-model="form.stage_id" :disabled="!stages.length" @input="lastStageId = $event" expanded>
               <option :value="null">{{ trans('labels.field_observations.choose_a_stage') }}</option>
               <option v-for="stage in stages" :value="stage.id" :key="stage.id" v-text="trans(`stages.${stage.name}`)"></option>
             </b-select>
@@ -154,6 +154,19 @@
       </b-field>
 
       <b-field
+        v-if="usesAtlasCodes"
+        :label="trans('labels.field_observations.atlas_code')"
+        label-for="atlas-code"
+        :type="form.errors.has('atlas_code') ? 'is-danger' : null"
+        :message="form.errors.has('atlas_code') ? form.errors.first('atlas_code') : null"
+      >
+        <b-select id="atlas-code" v-model="form.atlas_code" expanded>
+          <option :value="null">{{ trans('labels.field_observations.choose_a_value') }}</option>
+          <option v-for="atlasCode in atlasCodes" :value="atlasCode.code" v-text="atlasCode.name" :key="atlasCode.code"></option>
+        </b-select>
+      </b-field>
+
+      <b-field
         :label="trans('labels.field_observations.number')"
         label-for="number"
         :type="form.errors.has('number') ? 'is-danger' : null"
@@ -171,28 +184,34 @@
         <b-input id="note" type="textarea" v-model="form.note" />
       </b-field>
 
-      <b-field
-        :label="trans('labels.field_observations.habitat')"
-        label-for="habitat"
-        :error="form.errors.has('habitat')"
-        :message="form.errors.has('habitat') ? form.errors.first('habitat') : null"
-      >
-        <b-input id="habitat" name="habitat" v-model="form.habitat" />
-      </b-field>
+      <div class="columns">
+        <div class="column">
+          <b-field
+            :label="trans('labels.field_observations.habitat')"
+            label-for="habitat"
+            :error="form.errors.has('habitat')"
+            :message="form.errors.has('habitat') ? form.errors.first('habitat') : null"
+          >
+            <b-input id="habitat" name="habitat" v-model="form.habitat" />
+          </b-field>
+        </div>
 
-      <b-field
-        :label="trans('labels.literature_observations.found_on')"
-        :type="form.errors.has('found_on') ? 'is-danger' : null"
-        :message="form.errors.has('found_on') ? form.errors.first('found_on') : null"
-      >
-        <label for="found_on" class="label" slot="label">
-          <span class="is-dashed" v-tooltip="{content: trans('labels.literature_observations.found_on_tooltip')}">
-            {{ trans('labels.literature_observations.found_on') }}
-          </span>
-        </label>
+        <div class="column">
+          <b-field
+            :label="trans('labels.literature_observations.found_on')"
+            :type="form.errors.has('found_on') ? 'is-danger' : null"
+            :message="form.errors.has('found_on') ? form.errors.first('found_on') : null"
+          >
+            <label for="found_on" class="label" slot="label">
+              <span class="is-dashed" v-tooltip="{content: trans('labels.literature_observations.found_on_tooltip')}">
+                {{ trans('labels.literature_observations.found_on') }}
+              </span>
+            </label>
 
-        <b-input id="found_on" name="found_on" v-model="form.found_on"/>
-      </b-field>
+            <b-input id="found_on" name="found_on" v-model="form.found_on"/>
+          </b-field>
+        </div>
+      </div>
 
       <b-field
         :label="trans('labels.field_observations.time')"
@@ -393,7 +412,8 @@ export default {
           observed_by: null,
           identified_by_id: null,
           identified_by: null,
-          dataset: null
+          dataset: null,
+          atlas_code: null,
         }
       }
     },
@@ -413,7 +433,9 @@ export default {
         default: () => []
     },
 
-    showObserverIdentifier: Boolean
+    showObserverIdentifier: Boolean,
+
+    atlasCodes: Array,
   },
 
   data() {
@@ -423,7 +445,8 @@ export default {
       locale: window.App.locale,
       observationTypeSearch: '',
       shouldClearType: false,
-      exifExtracted: false
+      exifExtracted: false,
+      lastStageId: this.observation.stage_id,
     }
   },
 
@@ -466,6 +489,10 @@ export default {
     identificationChanged() {
       return this.form.taxon_id != this.observation.taxon_id ||
         this.form.taxon_suggestion != this.observation.taxon_suggestion
+    },
+
+    usesAtlasCodes() {
+      return this.form.taxon ? this.form.taxon.uses_atlas_codes : false;
     }
   },
 
@@ -525,10 +552,12 @@ export default {
       this.form.taxon_id = taxon ? taxon.id : null
       this.form.taxon_suggestion = taxon ? taxon.name : null
 
-      const invalidStage = !_find(this.stages, stage => stage.id === this.form.stage_id)
+      const invalidStage = this.lastStageId && !_find(this.stages, stage => stage.id === this.lastStageId)
 
-      if (invalidStage) {
-        this.form.stage_id = null
+      this.form.stage_id = invalidStage ? null : this.lastStageId
+
+      if (!this.usesAtlasCodes) {
+        this.form.atlas_code = null;
       }
 
       this.updateIdentifier()

@@ -77,6 +77,10 @@ return [
         'search_for_taxon' => 'Тражи таксон...',
 
         'include_lower_taxa' => 'Укључујући ниже таксоне',
+
+
+        'atlas_codes' => 'Атлас кодови',
+        'uses_atlas_codes' => 'Користи Атлас кодове',
     ],
 
     'field_observations' => [
@@ -125,6 +129,7 @@ return [
         'types_placeholder' => 'Одаберите тип налаза',
         'dataset' => 'Сет података',
         'mgrs10k' => 'MGRS 10K',
+        'atlas_code' => 'Атлас код',
 
         'statuses' => [
             'approved' => 'Одобрено',

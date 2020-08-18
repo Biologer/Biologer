@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Support\Collection;
+
 class Observation extends Model
 {
     const SEX_OPTIONS = [
@@ -22,6 +24,7 @@ class Observation extends Model
         'month' => 'integer',
         'day' => 'integer',
         'number' => 'integer',
+        'stage_id' => 'integer',
     ];
 
     /**
@@ -130,6 +133,22 @@ class Observation extends Model
 
             return $query;
         });
+    }
+
+    /**
+     * Scope the query to get observations for given taxa IDs.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Support\Collection  $taxaIds
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfTaxa($query, Collection $taxaIds)
+    {
+        if ($taxaIds->count() === 1) {
+            return $query->where('taxon_id', $taxaIds->first());
+        }
+
+        return $query->whereIn('taxon_id', $taxaIds);
     }
 
     /**

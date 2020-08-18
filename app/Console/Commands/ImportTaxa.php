@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\ConservationDocument;
 use App\ConservationLegislation;
 use App\RedList;
+use App\Stage;
 use App\Taxon;
 use App\User;
 use Illuminate\Console\Command;
@@ -40,6 +42,13 @@ class ImportTaxa extends Command
     private $user;
 
     /**
+     * Available conservation documents.
+     *
+     * @var \Illuminate\Database\Eloquent\Collection
+     */
+    private $conservationDocuments;
+
+    /**
      * Available conservation legislations.
      *
      * @var \Illuminate\Database\Eloquent\Collection
@@ -52,6 +61,13 @@ class ImportTaxa extends Command
      * @var \Illuminate\Database\Eloquent\Collection
      */
     private $redLists;
+
+    /**
+     * Available stages
+     *
+     * @var \Illuminate\Database\Eloquent\Collection
+     */
+    private $stages;
 
     /**
      * Execute the console command.
@@ -86,8 +102,10 @@ class ImportTaxa extends Command
      */
     private function fetchRelated()
     {
+        $this->conservationDocuments = ConservationDocument::all();
         $this->conservationLegislations = ConservationLegislation::all();
         $this->redLists = RedList::all();
+        $this->stages = Stage::all();
         $this->user = $this->option('user') ? User::find($this->option('user')) : null;
     }
 
@@ -259,7 +277,7 @@ class ImportTaxa extends Command
         $ranks = array_keys(Taxon::RANKS);
 
         foreach ($ranks as $rank) {
-            $name = $this->getNameForRank($rank, $taxon);
+            $name = trim($this->getNameForRank($rank, $taxon));
 
             if (! $name) {
                 continue;
@@ -321,10 +339,10 @@ class ImportTaxa extends Command
     private function buildCompoundSubspeciesName($taxon)
     {
         return implode(' ', array_filter([
-            $taxon['genus'],
-            empty($taxon['subgenus']) ? null : '('.$taxon['subgenus'].')',
-            $taxon['species'],
-            $taxon['subspecies'],
+            trim($taxon['genus']),
+            empty($taxon['subgenus']) ? null : '(' . $taxon['subgenus'] . ')',
+            trim($taxon['species']),
+            trim($taxon['subspecies']),
         ]));
     }
 
@@ -351,9 +369,9 @@ class ImportTaxa extends Command
     private function buildCompoundSpeciesName($taxon)
     {
         return implode(' ', array_filter([
-            $taxon['genus'],
-            empty($taxon['subgenus']) ? null : '('.$taxon['subgenus'].')',
-            $taxon['species'],
+            trim($taxon['genus']),
+            empty($taxon['subgenus']) ? null : '(' . $taxon['subgenus'] . ')',
+            trim($taxon['species']),
         ]));
     }
 
@@ -393,24 +411,29 @@ class ImportTaxa extends Command
             'allochthonous' => ! empty($row['allochthonous']),
             'invasive' => ! empty($row['invasive']),
             'restricted' => ! empty($row['restricted']),
-            'author' => $row['author'] ?? null,
-            'fe_old_id' => $row['fe_old_id'] ?? null,
-            'fe_id' => $row['fe_id'] ?? null,
+            'uses_atlas_codes' => ! empty($row['uses_atlas_codes']),
+            'author' => isset($row['author']) ? trim($row['author']) : null,
+            'fe_old_id' => empty($row['fe_old_id']) ? null : $row['fe_old_id'],
+            'fe_id' => empty($row['fe_id']) ? null : $row['fe_id'],
             'en' => [
-                'native_name' => $row['name_en'] ?? null,
-                'description' => $row['description_en'] ?? null,
+                'native_name' => isset($row['name_en']) ? trim($row['name_en']) : null,
+                'description' => isset($row['description_en']) ? trim($row['description_en']) : null,
             ],
             'sr' => [
-                'native_name' => $row['name_sr'] ?? null,
-                'description' => $row['description_sr'] ?? null,
+                'native_name' => isset($row['name_sr']) ? trim($row['name_sr']) : null,
+                'description' => isset($row['description_sr']) ? trim($row['description_sr']) : null,
             ],
             'sr-Latn' => [
-                'native_name' => $row['name_sr_latn'] ?? null,
-                'description' => $row['description_sr_latn'] ?? null,
+                'native_name' => isset($row['name_sr_latn']) ? trim($row['name_sr_latn']) : null,
+                'description' => isset($row['description_sr_latn']) ? trim($row['description_sr_latn']) : null,
             ],
             'hr' => [
-                'native_name' => $row['name_hr'] ?? null,
-                'description' => $row['description_hr'] ?? null,
+                'native_name' => isset($row['name_hr']) ? trim($row['name_hr']) : null,
+                'description' => isset($row['description_hr']) ? trim($row['description_hr']) : null,
+            ],
+            'bs' => [
+                'native_name' => isset($row['name_bs']) ? trim($row['name_bs']) : null,
+                'description' => isset($row['description_bs']) ? trim($row['description_bs']) : null,
             ],
         ];
     }
@@ -462,20 +485,43 @@ class ImportTaxa extends Command
      */
     private function saveRelations($taxon, $data)
     {
+        $conservationDocumentSlugs = [];
         $conservationLegislationSlugs = [];
+        $stageNames = [];
+        $redLists = [];
 
         foreach ($data as $key => $value) {
-            if (Str::startsWith($key, 'red_list_') && ! empty($value)) {
-                $redList = $this->redLists->where('slug', str_replace('red_list_', '', $key))->first();
+            if (empty($value)) {
+                continue;
+            }
 
-                $taxon->redLists()->attach($redList, ['category' => $value]);
-            } elseif (Str::startsWith($key, 'conservation_legislation_') && ! empty($value)) {
-                $conservationLegislationSlugs[] = str_replace('conservation_legislation_', '', $key);
+            if (Str::startsWith($key, 'red_list_')) {
+                $redLists[Str::after($key, 'red_list_')] = $value;
+            } elseif (Str::startsWith($key, 'conservation_legislation_')) {
+                $conservationLegislationSlugs[] = Str::after($key, 'conservation_legislation_');
+            } elseif (Str::startsWith($key, 'conservation_document_')) {
+                $conservationDocumentSlugs[] = Str::after($key, 'conservation_document_');
+            } elseif (Str::startsWith($key, 'stage_')) {
+                $stageNames[] = Str::after($key, 'stage_');
             }
         }
 
         $taxon->conservationLegislations()->sync(
             $this->conservationLegislations->whereIn('slug', $conservationLegislationSlugs)
+        );
+
+        $taxon->conservationDocuments()->sync(
+            $this->conservationDocuments->whereIn('slug', $conservationDocumentSlugs)
+        );
+
+        $taxon->stages()->sync(
+            $this->stages->whereIn('name', $stageNames)
+        );
+
+        $taxon->redLists()->sync(
+            collect($redLists)->mapWithKeys(function ($category, $slug) {
+                return [$this->redLists->where('slug', $slug)->first()->id => ['category' => $category]];
+            })
         );
     }
 }

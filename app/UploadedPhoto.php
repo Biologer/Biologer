@@ -79,6 +79,11 @@ class UploadedPhoto
         return Storage::disk('public')->path(static::relativePath($filename));
     }
 
+    protected static function url($filename)
+    {
+        return Storage::disk('public')->url(static::relativePath($filename));
+    }
+
     /**
      * Delete the uploaded photo.
      *

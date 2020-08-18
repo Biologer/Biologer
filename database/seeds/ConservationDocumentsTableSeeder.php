@@ -13,6 +13,7 @@ class ConservationDocumentsTableSeeder extends Seeder
     public function run()
     {
         ConservationDocument::firstOrCreate(['slug' => 'pba'])->update([
+            'bs' => ['name' => 'PBA', 'description' => 'Odabrana područja za dnevne leptire'],
             'en' => ['name' => 'PBA', 'description' => 'Prime Butterfly Areas'],
             'hr' => ['name' => 'PBA', 'description' => 'Odabrana područja za dnevne leptire'],
             'sr' => ['name' => 'ПБА', 'description' => 'Одабрана подручја за дневне лептире'],

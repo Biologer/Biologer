@@ -12,7 +12,7 @@
             </div>
 
             <div class="level-right">
-                @include('components.languageSelector')
+                @include('components.language-selector')
             </div>
         </div>
     </div>

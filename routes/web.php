@@ -92,6 +92,12 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
             Route::get('public-field-observations/{fieldObservation}', 'PublicFieldObservationsController@show')
                 ->name('public-field-observations.show');
+
+            Route::get('public-literature-observations', 'PublicLiteratureObservationsController@index')
+                ->name('public-literature-observations.index');
+
+            Route::get('public-literature-observations/{literatureObservation}', 'PublicLiteratureObservationsController@show')
+                ->name('public-literature-observations.show');
         });
 
         Route::prefix('curator')->namespace('Curator')->name('curator.')->group(function () {

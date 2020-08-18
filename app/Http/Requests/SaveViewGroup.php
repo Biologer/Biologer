@@ -13,16 +13,6 @@ use Illuminate\Validation\Rule;
 class SaveViewGroup extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -56,7 +46,7 @@ class SaveViewGroup extends FormRequest
     {
         $group->fill(array_merge(
             $this->getData($group),
-            ['image_url' => $this->saveImage()]
+            ['image_path' => $this->saveImage($group)]
         ))->save();
 
         $group->taxa()->sync(request('taxa_ids', []));
@@ -81,9 +71,10 @@ class SaveViewGroup extends FormRequest
     /**
      * Save uploaded image for the ViewGroup.
      *
+     * @param  \App\ViewGroup  $group
      * @return string|null  URL of the image
      */
-    private function saveImage()
+    private function saveImage(ViewGroup $group)
     {
         if (($uploadPath = $this->getUploadedImagePath()) && Storage::disk('public')->exists($uploadPath)) {
             return ViewGroup::saveImageToDisk(
@@ -92,7 +83,9 @@ class SaveViewGroup extends FormRequest
             );
         }
 
-        return $this->input('image_url');
+        return $this->input('image_url')
+            ? $group->image_path
+            : null;
     }
 
     /**

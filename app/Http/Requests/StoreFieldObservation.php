@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\AtlasCode;
 use App\FieldObservation;
 use App\License;
 use App\Notifications\FieldObservationForApproval;
@@ -20,16 +21,6 @@ use Illuminate\Validation\Rule;
 
 class StoreFieldObservation extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -87,6 +78,7 @@ class StoreFieldObservation extends FormRequest
             'observed_by_id' => ['nullable', Rule::exists('users', 'id')],
             'identified_by_id' => ['nullable', Rule::exists('users', 'id')],
             'dataset' => ['nullable', 'string', 'max:255'],
+            'atlas_code' => ['nullable', 'integer', Rule::in(AtlasCode::CODES)],
         ];
     }
 
@@ -142,6 +134,7 @@ class StoreFieldObservation extends FormRequest
             'time' => $this->input('time'),
             'observed_by_id' => $this->getObservedBy(),
             'identified_by_id' => $this->getIdentifedBy(),
+            'atlas_code' => $this->input('atlas_code'),
         ];
     }
 

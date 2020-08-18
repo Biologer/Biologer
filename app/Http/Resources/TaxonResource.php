@@ -14,6 +14,11 @@ class TaxonResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $resource = parent::toArray($request);
+
+        // Non-existing translations only cause confusion and trouble
+        $resource['translations'] = $this->translations->filter->exists->toArray();
+
+        return $resource;
     }
 }
