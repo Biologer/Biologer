@@ -179,7 +179,7 @@ class AddObservationFromCollectionTest extends TestCase
     public function photo_can_be_saved_with_observation()
     {
         config(['biologer.photos_per_observation' => 3]);
-        config(['biologer.photo_size_dimension' => null]);
+        config(['biologer.photo_resize_dimension' => null]);
 
         Queue::fake();
         Storage::fake('public');
