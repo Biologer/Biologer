@@ -458,7 +458,7 @@ class AddFieldObservationTest extends TestCase
     public function photo_can_be_saved_with_observation()
     {
         config(['biologer.photos_per_observation' => 3]);
-        config(['biologer.photo_size_dimension' => null]);
+        config(['biologer.photo_resize_dimension' => null]);
 
         Queue::fake();
         Storage::fake('public');
@@ -493,7 +493,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function photos_are_queued_to_be_processed_if_needed()
     {
-        config(['biologer.photo_size_dimension' => 800]);
+        config(['biologer.photo_resize_dimension' => 800]);
 
         Queue::fake();
         Storage::fake('public');
