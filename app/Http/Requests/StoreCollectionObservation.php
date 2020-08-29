@@ -108,6 +108,11 @@ class StoreCollectionObservation extends FormRequest
         return DB::transaction(function () {
             $observation = $this->createObservation();
 
+            $observation->addPhotos(
+                collect($this->input('photos', [])),
+                $this->user()->settings()->get('image_license')
+            );
+
             $this->logActivity($observation);
 
             return $observation;

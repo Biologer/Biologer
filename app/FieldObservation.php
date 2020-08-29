@@ -8,6 +8,7 @@ use App\Contracts\FlatArrayable;
 use App\Filters\Filterable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Spatie\Activitylog\Models\Activity;
 
 class FieldObservation extends Model implements FlatArrayable
@@ -368,11 +369,11 @@ class FieldObservation extends Model implements FlatArrayable
     /**
      * Remove unused photos and and add new ones.
      *
-     * @param  array  $photos
+     * @param  \Illuminate\Support\Collection  $photos
      * @param  int  $defaultLicense
      * @return void
      */
-    public function syncPhotos($photos, $defaultLicense)
+    public function syncPhotos(Collection $photos, $defaultLicense)
     {
         $result = [
             'cropped' => [],

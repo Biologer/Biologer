@@ -7,6 +7,7 @@ use App\Concerns\MappedSorting;
 use App\Contracts\FlatArrayable;
 use App\Filters\Filterable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Spatie\Activitylog\Models\Activity;
 
 class CollectionObservation extends Model implements FlatArrayable
@@ -131,6 +132,7 @@ class CollectionObservation extends Model implements FlatArrayable
             'stage_id' => $this->observation->stage_id,
             'time' => optional($this->time)->format('H:i'),
             'dataset' => $this->observation->dataset,
+            'photos' => $this->observation->photos,
             'collection' => $this->collection,
             'collection_id' => $this->collection_id,
             'original_date' => $this->original_date,
@@ -164,7 +166,7 @@ class CollectionObservation extends Model implements FlatArrayable
     /**
      * Add photos to the observation, using photos' paths.
      *
-     * @param  array  $photos Paths
+     * @param array  $photos Paths
      * @param  int  $defaultLicense
      * @return \Illuminate\Database\Eloquent\Collection
      */
@@ -175,7 +177,7 @@ class CollectionObservation extends Model implements FlatArrayable
                 return UploadedPhoto::exists($photo['path']);
             })->map(function ($photo) use ($defaultLicense) {
                 return Photo::store(UploadedPhoto::relativePath($photo['path']), [
-                    'author' => $this->observation->observer,
+                    'author' => $this->observation->observer ?? auth()->user()->full_name,
                     'license' => empty($photo['license']) ? $defaultLicense : $photo['license'],
                 ], Arr::get($photo, 'crop', []));
             })
@@ -185,11 +187,11 @@ class CollectionObservation extends Model implements FlatArrayable
     /**
      * Remove unused photos and and add new ones.
      *
-     * @param  array  $photos
+     * @param  \Illuminate\Support\Collection  $photos
      * @param  int  $defaultLicense
      * @return void
      */
-    public function syncPhotos($photos, $defaultLicense)
+    public function syncPhotos(Collection $photos, $defaultLicense)
     {
         $result = [
             'cropped' => [],

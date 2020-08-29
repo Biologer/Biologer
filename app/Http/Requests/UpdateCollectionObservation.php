@@ -94,6 +94,11 @@ class UpdateCollectionObservation extends FormRequest
             // Refresh the relation
             $collectionObservation->load('observation')->observation->update($this->getGeneralObservationData());
 
+            $collectionObservation->syncPhotos(
+                collect($this->input('photos', [])),
+                $this->user()->settings()->get('image_license')
+            );
+
             $collectionObservation->update($this->getSpecificObservationData());
 
             $this->logActivity($collectionObservation, $oldCollectionObservation);

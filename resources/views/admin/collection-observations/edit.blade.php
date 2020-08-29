@@ -8,6 +8,7 @@
             redirect-url="{{ route('admin.collection-observations.index') }}"
             cancel-url="{{ route('admin.collection-observations.index') }}"
             :observation="{{ json_encode($collectionObservation->toFlatArray()) }}"
+            :licenses="{{ json_encode(\App\License::getOptions()) }}"
             :sexes="{{ \App\Sex::options() }}"
             :validity-options="{{ \App\ObservationIdentificationValidity::options() }}"
             should-confirm-submit

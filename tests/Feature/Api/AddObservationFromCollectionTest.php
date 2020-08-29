@@ -4,11 +4,15 @@ namespace Tests\Feature\Api;
 
 use App\CollectionObservation;
 use App\ObservationIdentificationValidity;
+use App\Photo;
 use App\SpecimenCollection;
 use App\Taxon;
 use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
 
 class AddObservationFromCollectionTest extends TestCase
@@ -169,5 +173,63 @@ class AddObservationFromCollectionTest extends TestCase
         yield 'Collection ID is required' => [null];
         yield 'Collection ID cannot be array' => [['invalid']];
         yield 'Collection with given ID must exist' => ['invalid'];
+    }
+
+    /** @test */
+    public function photo_can_be_saved_with_observation()
+    {
+        config(['biologer.photos_per_observation' => 3]);
+        config(['biologer.photo_size_dimension' => null]);
+
+        Queue::fake();
+        Storage::fake('public');
+
+        $user = $this->createAuthenticatedUser([
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+        ]);
+        File::image('test-image.jpg')->storeAs("uploads/{$user->id}", 'test-image.jpg', 'public');
+
+        $photosCount = Photo::count();
+
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+            'observer' => 'John Doe',
+            'photos' => [
+                [
+                    'path' => 'test-image.jpg',
+                ],
+            ],
+        ]));
+
+        $response->assertCreated();
+
+        Photo::assertCount($photosCount + 1);
+        $photo = Photo::latest()->first();
+        $this->assertEquals("photos/{$photo->id}/test-image.jpg", $photo->path);
+        $this->assertNotEmpty($photo->url);
+        $this->assertTrue(Storage::disk('public')->exists($photo->path));
+        $this->assertEquals('John Doe', $photo->author);
+    }
+
+    private function createAuthenticatedUser($data = [])
+    {
+        return $this->setTestClientMock(Passport::actingAs(factory(User::class)->create($data)));
+    }
+
+    private function makeAuthenticatedUser($data = [])
+    {
+        return $this->setTestClientMock(Passport::actingAs(factory(User::class)->make($data)));
+    }
+
+    private function setTestClientMock($user)
+    {
+        $user->token()
+            ->shouldReceive('getAttribute')
+            ->with('client')
+            ->andReturn(new class {
+                public $name = 'Test Client App';
+            });
+
+        return $user;
     }
 }

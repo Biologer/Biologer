@@ -330,6 +330,8 @@ return [
         'stage' => 'Životni stadij',
         'choose_a_stage' => 'Odaberite životni stadij',
         'sex' => 'Spol',
+        'photos' => 'Fotografije',
+        'upload' => 'Učitaj',
         'choose_a_value' => 'Odaberite vrijednost',
         'number' => 'Broj',
         'note' => 'Bilješka',

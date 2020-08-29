@@ -326,6 +326,8 @@ return [
         'stage' => 'Stadijum',
         'choose_a_stage' => 'Odaberite stadijum',
         'sex' => 'Pol',
+        'photos' => 'Fotografije',
+        'upload' => 'Otpremi',
         'choose_a_value' => 'Odaberite vrednost',
         'number' => 'Broj',
         'note' => 'Beleška',

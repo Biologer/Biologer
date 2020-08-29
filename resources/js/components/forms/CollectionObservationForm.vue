@@ -459,7 +459,7 @@
           </b-field>
         </div>
 
-        <b-field :label="trans('labels.field_observations.photos')">
+        <b-field :label="trans('labels.collection_observations.photos')">
           <div class="columns">
             <div class="column is-one-third">
               <nz-photo-upload
@@ -467,7 +467,7 @@
                 :image-path="getObservationPhotoAttribute(0, 'path')"
                 :image-license="getObservationPhotoAttribute(0, 'license')"
                 :licenses="licenses"
-                :text="trans('labels.field_observations.upload')"
+                :text="trans('labels.collection_observations.upload')"
                 @uploaded="onPhotoUploaded"
                 @removed="onPhotoRemoved"
                 @cropped="onPhotoCropped"
@@ -483,7 +483,7 @@
                 :image-url="getObservationPhotoAttribute(1, 'url')"
                 :image-license="getObservationPhotoAttribute(1, 'license')"
                 :licenses="licenses"
-                :text="trans('labels.field_observations.upload')"
+                :text="trans('labels.collection_observations.upload')"
                 @uploaded="onPhotoUploaded"
                 @removed="onPhotoRemoved"
                 @cropped="onPhotoCropped"
@@ -499,7 +499,7 @@
                 :image-path="getObservationPhotoAttribute(2, 'path')"
                 :image-license="getObservationPhotoAttribute(2, 'license')"
                 :licenses="licenses"
-                :text="trans('labels.field_observations.upload')"
+                :text="trans('labels.collection_observations.upload')"
                 @uploaded="onPhotoUploaded"
                 @removed="onPhotoRemoved"
                 @cropped="onPhotoCropped"
@@ -643,6 +643,7 @@ export default {
 
           taxon: null,
           collection: null,
+          photos: [],
         }
       }
     },
@@ -896,25 +897,7 @@ export default {
 				license: image.license
       })
 
-      const availableType = _find(this.availableObservationTypes, { slug: 'photographed' })
-
-      if (availableType) {
-        this.pushSelectedObservationType(availableType)
-      }
-
       this.promptToExtractExifData(image)
-    },
-    /**
-     * Add observation type to selections.
-     *
-     * @param  {Object} type
-     */
-    pushSelectedObservationType(type) {
-      const selectedObservationTypes = this.selectedObservationTypes
-
-      selectedObservationTypes.push(type)
-
-      this.selectedObservationTypes = selectedObservationTypes
     },
      /**
      * Ask the user to use EXIF data to populate the fields.
@@ -941,7 +924,7 @@ export default {
 
       return [
         this.trans('Use data from photo to fill the form?') + "\n",
-        ...Object.keys(data).map(key => `${this.trans('labels.field_observations.'+key)}: ${data[key]}`)
+        ...Object.keys(data).map(key => `${this.trans('labels.collection_observations.'+key)}: ${data[key]}`)
       ].join("\n")
     },
 

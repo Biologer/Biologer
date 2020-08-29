@@ -246,6 +246,8 @@ return [
         'stage' => 'Stage',
         'choose_a_stage' => 'Choose a stage',
         'sex' => 'Sex',
+        'photos' => 'Photos',
+        'upload' => 'Upload',
         'choose_a_value' => 'Choose a value',
         'number' => 'Number',
         'note' => 'Note',

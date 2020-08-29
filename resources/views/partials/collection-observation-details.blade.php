@@ -156,6 +156,19 @@
         </tr>
 
         <tr>
+            <td><b>{{ __('labels.collection_observations.photos') }}</b></td>
+            <td class="is-fullwidth">
+                <div class="columns">
+                    @foreach ($collectionObservation->photos as $photo)
+                        <div class="column is-one-third">
+                            <img src="{{ "{$photo->url}?v={$photo->updated_at->timestamp}" }}">
+                        </div>
+                    @endforeach
+                </div>
+            </td>
+        </tr>
+
+        <tr>
             <td><b>{{ __('labels.collection_observations.collecting_start_year') }}</b></td>
             <td class="is-fullwidth">{{ $collectionObservation->collecting_start_year }}</td>
         </tr>
