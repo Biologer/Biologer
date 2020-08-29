@@ -457,8 +457,8 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function photo_can_be_saved_with_observation()
     {
-        config(['alciphron.photos_per_observation' => 3]);
-        config(['alciphron.photo_size_dimension' => null]);
+        config(['biologer.photos_per_observation' => 3]);
+        config(['biologer.photo_resize_dimension' => null]);
 
         Queue::fake();
         Storage::fake('public');
@@ -493,7 +493,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function photos_are_queued_to_be_processed_if_needed()
     {
-        config(['alciphron.photo_size_dimension' => 800]);
+        config(['biologer.photo_resize_dimension' => 800]);
 
         Queue::fake();
         Storage::fake('public');
@@ -524,7 +524,7 @@ class AddFieldObservationTest extends TestCase
     /** @test */
     public function maximum_number_of_photos_that_can_be_saved_with_observation_can_be_set()
     {
-        config(['alciphron.photos_per_observation' => 3]);
+        config(['biologer.photos_per_observation' => 3]);
 
         $this->makeAuthenticatedUser();
         Storage::fake('public');
