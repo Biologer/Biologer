@@ -5,13 +5,15 @@ namespace App;
 use App\Concerns\CanMemoize;
 use App\Concerns\HasTranslatableAttributes;
 use Astrotomic\Translatable\Translatable;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ViewGroup extends Model
 {
     use CanMemoize, HasTranslatableAttributes, Translatable;
+
+    const CACHE_GROUPS_WITH_FIRST_SPECIES = 'groups_with_first_species';
 
     /**
      * The attributes that should be cast to native types.
@@ -309,8 +311,13 @@ class ViewGroup extends Model
             };
         });
 
+        static::saved(function () {
+            Cache::forget(static::CACHE_GROUPS_WITH_FIRST_SPECIES);
+        });
+
         static::deleted(function ($model) {
             $model->deleteImage($model->image_path);
+            Cache::forget(static::CACHE_GROUPS_WITH_FIRST_SPECIES);
         });
     }
 }
