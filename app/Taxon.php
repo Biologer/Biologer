@@ -120,6 +120,18 @@ class Taxon extends Model
     public $useTranslationFallback = false;
 
     /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => \App\Events\TaxonCreated::class,
+        'deleted' => \App\Events\TaxonDeleted::class,
+    ];
+
+    /**
      * Filters that can be used on queries.
      *
      * @var array

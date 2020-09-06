@@ -5,7 +5,6 @@ namespace App;
 use App\Concerns\CanMemoize;
 use App\Concerns\HasTranslatableAttributes;
 use Astrotomic\Translatable\Translatable;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -53,6 +52,18 @@ class ViewGroup extends Model
      * @var array
      */
     public $translatedAttributes = ['name', 'description'];
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'saved' => \App\Events\ViewGroupSaved::class,
+        'deleted' => \App\Events\ViewGroupDeleted::class,
+    ];
 
     /**
      * Query only main groups. We'll use these for tabs.
@@ -311,13 +322,8 @@ class ViewGroup extends Model
             };
         });
 
-        static::saved(function () {
-            Cache::forget(static::CACHE_GROUPS_WITH_FIRST_SPECIES);
-        });
-
         static::deleted(function ($model) {
             $model->deleteImage($model->image_path);
-            Cache::forget(static::CACHE_GROUPS_WITH_FIRST_SPECIES);
         });
     }
 }
