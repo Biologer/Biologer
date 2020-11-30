@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ViewGroup;
+use Illuminate\Support\Facades\Cache;
 
 class GroupsController
 {
@@ -14,9 +15,11 @@ class GroupsController
     public function index()
     {
         return view('groups.index', [
-            'rootGroups' => ViewGroup::roots()->with(['groups' => function ($query) {
-                $query->withFirstSpecies();
-            }])->get(),
+            'rootGroups' => Cache::rememberForever(ViewGroup::CACHE_GROUPS_WITH_FIRST_SPECIES, function () {
+                return ViewGroup::roots()->with(['groups' => function ($query) {
+                    $query->withFirstSpecies();
+                }])->get();
+            }),
         ]);
     }
 }

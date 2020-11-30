@@ -5,13 +5,14 @@ namespace App;
 use App\Concerns\CanMemoize;
 use App\Concerns\HasTranslatableAttributes;
 use Astrotomic\Translatable\Translatable;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ViewGroup extends Model
 {
     use CanMemoize, HasTranslatableAttributes, Translatable;
+
+    const CACHE_GROUPS_WITH_FIRST_SPECIES = 'groups_with_first_species';
 
     /**
      * The attributes that should be cast to native types.
@@ -51,6 +52,18 @@ class ViewGroup extends Model
      * @var array
      */
     public $translatedAttributes = ['name', 'description'];
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'saved' => \App\Events\ViewGroupSaved::class,
+        'deleted' => \App\Events\ViewGroupDeleted::class,
+    ];
 
     /**
      * Query only main groups. We'll use these for tabs.

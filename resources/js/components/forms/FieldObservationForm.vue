@@ -351,7 +351,6 @@ import dayjs from '@/dayjs'
 import _get from 'lodash/get'
 import _find from 'lodash/find'
 import _includes from 'lodash/includes'
-import _range from 'lodash/range'
 import _findIndex from 'lodash/findIndex'
 import _remove from 'lodash/remove'
 import _cloneDeep from 'lodash/cloneDeep'
@@ -537,7 +536,7 @@ export default {
      * Clear all photos.
      */
     clearPhotos() {
-      _range(1, 3).forEach(number => {
+      [1, 2, 3].forEach(number => {
         this.$refs[`photoUpload-${number}`].clearPhoto()
       })
     },
