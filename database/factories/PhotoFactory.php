@@ -1,5 +1,6 @@
 <?php
 
+use App\License;
 use App\Photo;
 use Faker\Generator as Faker;
 use Illuminate\Http\Testing\File;
@@ -14,6 +15,10 @@ $factory->define(Photo::class, function (Faker $faker) {
         'path' => $path,
         'url' => 'storage/'.$path,
         'author' => $faker->name,
-        'license' => 10,
+        'license' => License::CC_BY_SA,
     ];
 });
+
+$factory->state(Photo::class, 'public', [
+    'license' => License::CC_BY_SA,
+]);

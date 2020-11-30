@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('groups/{group}/taxa', 'GroupTaxaController@index')
     ->name('api.groups.taxa.index');
 
+Route::get('taxa/{taxon}/public-photos', 'TaxonPublicPhotosController@index')
+    ->name('api.taxa.public-photos.index');
+
 Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('elevation', 'ElevationController');
 
