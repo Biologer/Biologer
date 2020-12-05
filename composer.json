@@ -21,7 +21,7 @@
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
         "intervention/image": "^2.5",
-        "laravel/framework": "^7.29",
+        "laravel/framework": "^7.30",
         "laravel/passport": "^9.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
@@ -36,7 +36,6 @@
         "spatie/laravel-backup": "^6.7.5",
         "spatie/laravel-cookie-consent": "^2.10",
         "spatie/laravel-menu": "^3.4",
-        "symfony/mime": "5.1.*",
         "stevebauman/purify": "^3.0",
         "tightenco/ziggy": "^0.9"
     },
