@@ -23,6 +23,8 @@ class Taxon extends Model
     const RANKS = [
         // 'root' => 100,
         'kingdom' => 70,
+        'subkingdom' => 67,
+        'infrakingdom' => 65,
         'phylum' => 60,
         'subphylum' => 57,
         // 'superclass' => 53,
