@@ -16,7 +16,7 @@ class TerritorySpecificTableSeeder extends Seeder
     {
         $method = 'runFor'.Str::studly(config('biologer.territory'));
 
-        if (method_exists($this, 'method')) {
+        if (method_exists($this, $method)) {
             $this->{$method}();
         }
     }
