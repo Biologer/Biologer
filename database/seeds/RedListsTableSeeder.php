@@ -13,6 +13,7 @@ class RedListsTableSeeder extends Seeder
     public function run()
     {
         RedList::firstOrCreate(['slug' => 'global'])->update([
+            'bs' => ['name' => 'Globalna'],
             'en' => ['name' => 'Global'],
             'hr' => ['name' => 'Globalna'],
             'sr' => ['name' => 'Глобална'],
@@ -20,6 +21,7 @@ class RedListsTableSeeder extends Seeder
         ]);
 
         RedList::firstOrCreate(['slug' => 'europe'])->update([
+            'bs' => ['name' => 'Evropa'],
             'en' => ['name' => 'Europe'],
             'hr' => ['name' => 'Evropa'],
             'sr' => ['name' => 'Европа'],
