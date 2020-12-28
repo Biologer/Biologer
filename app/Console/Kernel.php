@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('exports:clear')->daily();
         $schedule->command('imports:clear')->daily();
         $schedule->command('uploads:clean')->dailyAt('03:00');
+        $schedule->command('photos:watermark')->dailyAt('04:00');
 
         $schedule->call(function () {
             PublicationAttachment::deleteOldUnattached();

@@ -9,6 +9,6 @@ class TaxonPublicPhotosController
 {
     public function index(Taxon $taxon)
     {
-        return PublicPhotoResource::collection($taxon->publicPhotos());
+        return PublicPhotoResource::collection($taxon->publicPhotos()->filter->public_url);
     }
 }
