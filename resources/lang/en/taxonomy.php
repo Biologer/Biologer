@@ -10,6 +10,8 @@ return [
 
     'root' => 'Root',
     'kingdom' => 'Kingdom',
+    'subkingdom' => 'Subkingdom',
+    'infrakingdom' => 'Infrakingdom',
     'phylum' => 'Phylum',
     'subphylum' => 'Subphylum',
     'superclass' => 'Superclass',
