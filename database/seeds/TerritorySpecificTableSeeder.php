@@ -39,6 +39,13 @@ class TerritorySpecificTableSeeder extends Seeder
             'sr-Latn' => ['name' => 'Zaštićena (RS)', 'description' => 'Prilog 2 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gliva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
         ]);
 
+        RedList::firstOrCreate(['slug' => 'balkans'])->update([
+            'bs' => ['name' => 'Balkan'],
+            'en' => ['name' => 'Balkans'],
+            'hr' => ['name' => 'Balkan'],
+            'sr' => ['name' => 'Балкан'],
+            'sr-Latn' => ['name' => 'Balkan'],
+        ]);
 
         RedList::firstOrCreate(['slug' => 'serbia'])->update([
             'bs' => ['name' => 'Srbija'],
