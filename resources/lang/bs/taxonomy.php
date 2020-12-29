@@ -10,6 +10,8 @@ return [
 
     'root' => 'Korijen',
     'kingdom' => 'Carstvo',
+    'subkingdom' => 'Podcarstvo',
+    'infrakingdom' => 'Infracarstvo',
     'phylum' => 'Tip',
     'subphylum' => 'Podtip',
     'superclass' => 'Nadklasa',

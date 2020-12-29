@@ -14,6 +14,7 @@ class ObservationTypesTableSeeder extends Seeder
     public function run()
     {
         ObservationType::firstOrCreate(['slug' => 'observed'])->update([
+            'bs' => ['name' => 'Opaženo'],
             'en' => ['name' => 'Observed'],
             'hr' => ['name' => 'Opaženo'],
             'sr' => ['name' => 'Посматрано'],
@@ -21,6 +22,7 @@ class ObservationTypesTableSeeder extends Seeder
         ]);
 
         ObservationType::firstOrCreate(['slug' => 'photographed'])->update([
+            'bs' => ['name' => 'Fotografisano'],
             'en' => ['name' => 'Photographed'],
             'hr' => ['name' => 'Fotografirano'],
             'sr' => ['name' => 'Фотографисано'],
@@ -28,6 +30,7 @@ class ObservationTypesTableSeeder extends Seeder
         ]);
 
         ObservationType::firstOrCreate(['slug' => 'call'])->update([
+            'bs' => ['name' => 'Oglašavanje'],
             'en' => ['name' => 'Call'],
             'hr' => ['name' => 'Glasanje'],
             'sr' => ['name' => 'Оглашавање'],
@@ -35,6 +38,7 @@ class ObservationTypesTableSeeder extends Seeder
         ]);
 
         ObservationType::firstOrCreate(['slug' => 'exuviae'])->update([
+            'bs' => ['name' => 'Svlak'],
             'en' => ['name' => 'Exuviae'],
             'hr' => ['name' => 'Svlak'],
             'sr' => ['name' => 'Егзувија'],

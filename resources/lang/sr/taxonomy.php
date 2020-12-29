@@ -10,6 +10,8 @@ return [
 
     'root' => 'Корен',
     'kingdom' => 'Царство',
+    'subkingdom' => 'Подцарство',
+    'infrakingdom' => 'Инфрацарство',
     'phylum' => 'Тип',
     'subphylum' => 'Подтип',
     'superclass' => 'Надкласа',
