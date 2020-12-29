@@ -7,7 +7,14 @@
 
         <tr>
             <td><b>{{ __('labels.field_observations.taxon') }}</b></td>
-            <td class="is-fullwidth">{{ optional($fieldObservation->observation->taxon)->name }}</td>
+            <td class="is-fullwidth">
+                @if ($fieldObservation->observation->taxon)
+                    {{ $fieldObservation->observation->taxon->name }}
+                @else
+                    {{ $fieldObservation->taxon_suggestion }}
+                    <b-icon icon="question" size="is-small"></b-icon>
+                @endif
+            </td>
         </tr>
 
         <tr>
