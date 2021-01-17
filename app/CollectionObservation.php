@@ -86,6 +86,11 @@ class CollectionObservation extends Model implements FlatArrayable
         return $this->belongsTo(SpecimenCollection::class);
     }
 
+    public function preparations()
+    {
+        return $this->belongsToMany(Preparation::class);
+    }
+
     /**
      * Activity recorded on the model.
      *
