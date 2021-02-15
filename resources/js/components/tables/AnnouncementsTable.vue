@@ -1,6 +1,6 @@
 <template>
   <div class="announcements-table">
-    <nz-table
+    <b-table
       :data="data"
       :loading="loading"
 
@@ -9,43 +9,63 @@
       :total="total"
       :per-page="perPage"
       @page-change="onPageChange"
-      @per-page-change="onPerPageChange"
+      pagination-position="both"
 
       backend-sorting
-      :default-sort-direction="defaultSortOrder"
+      default-sort-direction="asc"
       :default-sort="[sortField, sortOrder]"
       @sort="onSort"
 
-      :mobile-cards="true"
+      mobile-cards
     >
-      <template slot-scope="props">
-        <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
-          {{ props.row.id }}
-        </b-table-column>
-
-        <b-table-column field="title" :label="trans('labels.announcements.title')" sortable>
-          {{ props.row.title || '--' }}
-        </b-table-column>
-
-        <b-table-column field="created_at" :label="trans('labels.created_at')" sortable>
-          {{ props.row.created_at | formatDateTime }}
-        </b-table-column>
-
-        <b-table-column width="150" numeric>
-          <a :href="editLink(props.row)"><b-icon icon="edit"></b-icon></a>
-
-          <a @click="confirmRemove(props.row)"><b-icon icon="trash"></b-icon></a>
-        </b-table-column>
+      <template #top-left>
+        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
+      </template>
+      <template #bottom-left>
+        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
       </template>
 
-      <template slot="empty">
+      <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
+        <template #default="{ row }">
+          {{ row.id }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="title" :label="trans('labels.announcements.title')" sortable>
+        <template #default="{ row }">
+          {{ row.title || '--' }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="created_at" :label="trans('labels.created_at')" sortable>
+        <template #default="{ row }">
+          {{ row.created_at | formatDateTime }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column width="150" numeric v-slot="{ row }">
+        <a :href="editLink(row)"><b-icon icon="edit"></b-icon></a>
+
+        <a @click="confirmRemove(row)"><b-icon icon="trash"></b-icon></a>
+      </b-table-column>
+
+      <template #empty>
         <section class="section">
           <div class="content has-text-grey has-text-centered">
             <p>{{ empty }}</p>
           </div>
         </section>
       </template>
-    </nz-table>
+    </b-table>
   </div>
 </template>
 
@@ -53,7 +73,8 @@
 import dayjs from '@/dayjs'
 import _get from 'lodash/get'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
-import NzTable from '@/components/table/Table'
+import NzPerPageSelect from '@/components/table/PerPageSelect'
+import NzSortableColumnHeader from '@/components/table/SortableColumnHeader'
 
 export default {
   name: 'nzAnnouncementsTable',
@@ -61,7 +82,8 @@ export default {
   mixins: [PersistentTableMixin],
 
   components: {
-    NzTable
+    NzPerPageSelect,
+    NzSortableColumnHeader
   },
 
   props: {
@@ -88,7 +110,6 @@ export default {
       loading: false,
       sortField: 'name',
       sortOrder: 'asc',
-      defaultSortOrder: 'asc',
       page: 1,
       perPage: this.perPageOptions[0],
       checkedRows: []

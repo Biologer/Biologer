@@ -128,7 +128,7 @@
 
     <hr>
 
-    <nz-table
+    <b-table
       :data="data"
       :loading="loading"
 
@@ -136,59 +136,92 @@
       backend-pagination
       :total="total"
       :per-page="perPage"
+      :current-page="page"
       @page-change="onPageChange"
-      @per-page-change="onPerPageChange"
-      :per-page-options="perPageOptions"
-      pagination-on-top
+      pagination-position="both"
 
       backend-sorting
-      :default-sort-direction="defaultSortOrder"
+      default-sort-direction="asc"
       :default-sort="[sortField, sortOrder]"
       @sort="onSort"
 
       detailed
-      :mobile-cards="true"
+      mobile-cards
 
       :checkable="hasActions"
       :checked-rows.sync="checkedRows"
     >
-      <template slot-scope="{ row }">
-        <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
-          {{ row.id }}
-        </b-table-column>
-
-        <b-table-column field="taxon_name" :label="trans('labels.literature_observations.taxon')" sortable>
-          {{ row.taxon ? row.taxon.name : '' }}
-        </b-table-column>
-
-        <b-table-column field="year" :label="trans('labels.literature_observations.year')" numeric sortable>
-          {{ row.year }}
-        </b-table-column>
-
-        <b-table-column field="month" :label="trans('labels.literature_observations.month')" numeric sortable>
-          {{ row.month }}
-        </b-table-column>
-
-        <b-table-column field="day" :label="trans('labels.literature_observations.day')" numeric sortable>
-          {{ row.day }}
-        </b-table-column>
-
-        <b-table-column field="publication_citation" :label="trans('labels.literature_observations.publication')">
-          <span v-tooltip="{ content: row.publication.citation }">{{ row.publication.citation | truncate(50) }}</span>
-        </b-table-column>
-
-        <b-table-column width="150" numeric>
-          <a @click.prevent="openActivityLogModal(row)" v-if="showActivityLog && row.activity" :title="trans('Activity Log')"><b-icon icon="history" /></a>
-
-          <a :href="viewLink(row)" v-if="viewRoute" :title="trans('buttons.view')"><b-icon icon="eye" /></a>
-
-          <a :href="editLink(row)" v-if="editRoute" :title="trans('buttons.edit')"><b-icon icon="edit" /></a>
-
-          <a @click.prevent="confirmRemove(row)" v-if="deleteRoute" :title="trans('buttons.delete')"><b-icon icon="trash" /></a>
-        </b-table-column>
+      <template #top-left>
+        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
+      </template>
+      <template #bottom-left>
+        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
       </template>
 
-      <template slot="empty">
+      <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
+        <template #default="{ row }">
+          {{ row.id }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="taxon_name" :label="trans('labels.literature_observations.taxon')" sortable>
+        <template #default="{ row }">
+          {{ row.taxon ? row.taxon.name : '' }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="year" :label="trans('labels.literature_observations.year')" numeric sortable>
+        <template #default="{ row }">
+          {{ row.year }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="month" :label="trans('labels.literature_observations.month')" numeric sortable>
+        <template #default="{ row }">
+          {{ row.month }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="day" :label="trans('labels.literature_observations.day')" numeric sortable>
+        <template #default="{ row }">
+          {{ row.day }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="publication_citation" :label="trans('labels.literature_observations.publication')">
+        <template #default="{ row }">
+          <span v-tooltip="{ content: row.publication.citation }">
+            {{ row.publication.citation | truncate(50) }}
+          </span>
+        </template>
+      </b-table-column>
+
+      <b-table-column width="150" numeric v-slot="{ row }">
+        <a @click.prevent="openActivityLogModal(row)" v-if="showActivityLog && row.activity" :title="trans('Activity Log')"><b-icon icon="history" /></a>
+
+        <a :href="viewLink(row)" v-if="viewRoute" :title="trans('buttons.view')"><b-icon icon="eye" /></a>
+
+        <a :href="editLink(row)" v-if="editRoute" :title="trans('buttons.edit')"><b-icon icon="edit" /></a>
+
+        <a @click.prevent="confirmRemove(row)" v-if="deleteRoute" :title="trans('buttons.delete')"><b-icon icon="trash" /></a>
+      </b-table-column>
+
+      <template #empty>
         <section class="section">
           <div class="content has-text-grey has-text-centered">
             <p>{{ empty }}</p>
@@ -196,7 +229,7 @@
         </section>
       </template>
 
-      <template slot="detail" slot-scope="{ row }">
+      <template #detail="{ row }">
         <article class="media">
           <div class="media-content">
             <div class="content">
@@ -211,7 +244,7 @@
           </div>
         </article>
       </template>
-    </nz-table>
+    </b-table>
 
     <b-modal :active="activityLog.length > 0" @close="activityLog = []" has-modal-card>
       <div class="modal-card">
@@ -249,7 +282,8 @@ import ExportDownloadModal from '@/components/exports/ExportDownloadModal'
 import NzPublicationAutocomplete from '@/components/inputs/PublicationAutocomplete'
 import NzTaxonAutocomplete from '@/components/inputs/TaxonAutocomplete'
 import NzUserAutocomplete from '@/components/inputs/UserAutocomplete'
-import NzTable from '@/components/table/Table'
+import NzPerPageSelect from '@/components/table/PerPageSelect'
+import NzSortableColumnHeader from '@/components/table/SortableColumnHeader'
 import NzExportModal from '@/components/exports/ExportModal'
 
 export default {
@@ -258,7 +292,8 @@ export default {
   mixins: [FilterableTableMixin, PersistentTableMixin],
 
   components: {
-    NzTable,
+    NzPerPageSelect,
+    NzSortableColumnHeader,
     NzExportModal,
     NzPublicationAutocomplete,
     NzTaxonAutocomplete,
@@ -298,7 +333,6 @@ export default {
       loading: false,
       sortField: 'id',
       sortOrder: 'desc',
-      defaultSortOrder: 'asc',
       page: 1,
       perPage: this.perPageOptions[0],
       checkedRows: [],
@@ -348,6 +382,7 @@ export default {
   methods: {
     loadAsyncData() {
       this.loading = true
+      this.checkedRows = []
 
       const { selected_taxon, selected_publication, publication_citation, ...filter } = this.filter
 
