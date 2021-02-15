@@ -2,7 +2,6 @@
   <b-field :label="label" class="nz-taxon-autocomplete" :type="error ? 'is-danger' : null" :message="message">
     <b-field grouped>
       <img width="32" :src="this.selected.thumbnail_url" v-if="haveThumbnail">
-
       <b-autocomplete
         ref="autocomplete"
         :value="value"
@@ -16,19 +15,18 @@
         expanded
         :autofocus="autofocus"
         @keydown.native.enter="enterPressed"
+        :class="[selected ? 'has-icon-success' : '']"
       >
-        <template slot-scope="props">
+        <template #detault="{ option }">
           <div class="media">
             <div class="media-left">
-              <img width="32" :src="props.option.thumbnail_url" v-if="props.option.thumbnail_url">
+              <img width="32" :src="option.thumbnail_url" v-if="option.thumbnail_url">
             </div>
-
             <div class="media-content">
-              {{ props.option.name }}{{ props.option.native_name ? ` (${props.option.native_name})` : ''}}
+              {{ option.name }}{{ option.native_name ? ` (${option.native_name})` : ''}}
             </div>
           </div>
         </template>
-
       </b-autocomplete>
     </b-field>
   </b-field>

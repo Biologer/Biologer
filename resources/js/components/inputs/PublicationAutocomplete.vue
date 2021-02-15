@@ -13,16 +13,16 @@
         expanded
         :autofocus="autofocus"
         :disabled="disabled"
+        :class="[selected ? 'has-icon-success' : '']"
       >
-        <template slot-scope="props">
+        <template #default="{ option }">
           <div class="media">
             <div class="media-content">
-              {{ props.option.citation }}
+              {{ option.citation }}
             </div>
           </div>
         </template>
       </b-autocomplete>
-
       <slot />
     </b-field>
   </b-field>
