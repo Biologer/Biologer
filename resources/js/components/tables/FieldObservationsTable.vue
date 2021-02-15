@@ -170,7 +170,7 @@
 
     <hr>
 
-    <nz-table
+    <b-table
       :data="data"
       :loading="loading"
 
@@ -180,9 +180,7 @@
       :per-page="perPage"
       :current-page="page"
       @page-change="onPageChange"
-      @per-page-change="onPerPageChange"
-      :per-page-options="perPageOptions"
-      pagination-on-top
+      pagination-position="both"
 
       backend-sorting
       default-sort-direction="asc"
@@ -190,59 +188,99 @@
       @sort="onSort"
 
       detailed
-      :mobile-cards="true"
+      mobile-cards
 
       :checkable="hasActions"
       :checked-rows.sync="checkedRows"
     >
-      <template slot-scope="{ row }">
-        <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
-          {{ row.id }}
-        </b-table-column>
+      <template #top-left>
+        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
+      </template>
+      <template #bottom-left>
+        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
+      </template>
 
-        <b-table-column field="taxon_name" :label="trans('labels.field_observations.taxon')" sortable>
+      <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
+        <template #default="{ row }">
+          {{ row.id }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="taxon_name" :label="trans('labels.field_observations.taxon')" sortable>
+        <template #default="{ row }">
           <div :class="{'has-text-grey': !row.taxon}">
             <span>{{ row.taxon ? row.taxon.name : row.taxon_suggestion }}</span>
             <b-icon v-if="!row.taxon" icon="question" size="is-small"></b-icon>
           </div>
-        </b-table-column>
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
 
-        <b-table-column field="year" :label="trans('labels.field_observations.year')" numeric sortable>
+      <b-table-column field="year" :label="trans('labels.field_observations.year')" numeric sortable>
+        <template #default="{ row }">
           {{ row.year }}
-        </b-table-column>
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
 
-        <b-table-column field="month" :label="trans('labels.field_observations.month')" numeric sortable>
+      <b-table-column field="month" :label="trans('labels.field_observations.month')" numeric sortable>
+        <template #default="{ row }">
           {{ row.month }}
-        </b-table-column>
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
 
-        <b-table-column field="day" :label="trans('labels.field_observations.day')" numeric sortable>
+      <b-table-column field="day" :label="trans('labels.field_observations.day')" numeric sortable>
+        <template #default="{ row }">
           {{ row.day }}
-        </b-table-column>
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
 
-        <b-table-column field="observer" :label="trans('labels.field_observations.observer')" sortable v-if="showObserver">
+      <b-table-column field="observer" :label="trans('labels.field_observations.observer')" sortable v-if="showObserver">
+        <template #default="{ row }">
           {{ row.observer }}
-        </b-table-column>
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
 
-        <b-table-column field="status" :label="trans('labels.field_observations.status')" v-if="showStatus">
+      <b-table-column field="status" :label="trans('labels.field_observations.status')" v-if="showStatus">
+        <template #default="{ row }">
           <span :class="determineStatusClass(row.status)" :title="trans(`labels.field_observations.statuses.${row.status}`)">
             <b-icon :icon="determineStatusIcon(row.status)" />
           </span>
-        </b-table-column>
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
 
-        <b-table-column width="150" numeric>
-          <a @click="openImageModal(row.photos)" v-if="observationHasPhotos(row)"><b-icon icon="photo" /></a>
+      <b-table-column width="150" numeric v-slot="{ row }">
+        <a @click="openImageModal(row.photos)" v-if="observationHasPhotos(row)"><b-icon icon="photo" /></a>
 
-          <a @click="openActivityLogModal(row)" v-if="showActivityLog" :title="trans('Activity Log')"><b-icon icon="history" /></a>
+        <a @click="openActivityLogModal(row)" v-if="showActivityLog" :title="trans('Activity Log')"><b-icon icon="history" /></a>
 
-          <a :href="viewLink(row)" v-if="viewRoute" :title="trans('buttons.view')"><b-icon icon="eye" /></a>
+        <a :href="viewLink(row)" v-if="viewRoute" :title="trans('buttons.view')"><b-icon icon="eye" /></a>
 
-          <a :href="editLink(row)" v-if="editRoute" :title="trans('buttons.edit')"><b-icon icon="edit" /></a>
+        <a :href="editLink(row)" v-if="editRoute" :title="trans('buttons.edit')"><b-icon icon="edit" /></a>
 
-          <a @click="confirmRemove(row)" v-if="deleteRoute" :title="trans('buttons.delete')"><b-icon icon="trash" /></a>
-        </b-table-column>
-      </template>
+        <a @click="confirmRemove(row)" v-if="deleteRoute" :title="trans('buttons.delete')"><b-icon icon="trash" /></a>
+      </b-table-column>
 
-      <template slot="empty">
+      <template #empty>
         <section class="section">
           <div class="content has-text-grey has-text-centered">
             <p>{{ empty }}</p>
@@ -250,7 +288,7 @@
         </section>
       </template>
 
-      <template slot="detail" slot-scope="{ row }">
+      <template #detail="{ row }">
         <article class="media">
           <figure class="media-left">
             <p class="image is-64x64" v-for="(photo, index) in row.photos" :key="photo.id">
@@ -277,7 +315,7 @@
           </div>
         </article>
       </template>
-    </nz-table>
+    </b-table>
 
     <nz-image-modal :items="modalImages" v-model="modalImageIndex" @close="onCarouselClose"/>
 
@@ -316,7 +354,8 @@ import ExportDownloadModal from '@/components/exports/ExportDownloadModal'
 import NzImageModal from '@/components/ImageModal'
 import NzTaxonAutocomplete from '@/components/inputs/TaxonAutocomplete'
 import NzUserAutocomplete from '@/components/inputs/UserAutocomplete'
-import NzTable from '@/components/table/Table'
+import NzPerPageSelect from '@/components/table/PerPageSelect'
+import NzSortableColumnHeader from '@/components/table/SortableColumnHeader'
 import NzExportModal from '@/components/exports/ExportModal'
 
 export default {
@@ -328,7 +367,8 @@ export default {
     NzImageModal,
     NzTaxonAutocomplete,
     NzUserAutocomplete,
-    NzTable,
+    NzPerPageSelect,
+    NzSortableColumnHeader,
     NzExportModal
   },
 
@@ -432,6 +472,7 @@ export default {
   methods: {
     loadAsyncData() {
       this.loading = true
+      this.checkedRows = []
 
       const { selectedTaxon, ...filter } = this.filter
 

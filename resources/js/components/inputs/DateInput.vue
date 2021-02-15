@@ -16,7 +16,7 @@
       >
         <b-select :placeholder="placeholders.month" :value="month" @input="onMonthInput" expanded>
           <option :value="null"></option>
-          <option v-for="(month, index) in months" :value="(index + 1)" v-text="month"></option>
+          <option v-for="(month, index) in months" :value="(index + 1)" v-text="month" :key="`month-select-${index}`"></option>
         </b-select>
       </b-field>
 
@@ -27,7 +27,7 @@
       >
         <b-select :placeholder="placeholders.day" :value="day" @input="onDayInput" expanded>
           <option :value="null"></option>
-          <option v-for="day in days" :value="day" v-text="day"></option>
+          <option v-for="day in days" :value="day" v-text="day" :key="`day-select-${day}`"></option>
         </b-select>
       </b-field>
     </b-field>

@@ -7,11 +7,21 @@
 }
 
 .h-4 {
-    height: 1rem;
+    height: 1rem !important;
 }
 
 .h-5 {
-    height: 1.25rem;
+    height: 1.25rem !important;
+}
+
+.h-6 {
+    height: 1.5rem !important;
+}
+.h-7 {
+    height: 1.75rem !important;
+}
+.h-8 {
+    height: 2rem !important;
 }
 
 .is-fullheight, .h-full {
@@ -34,8 +44,22 @@
     width: 100%
 }
 
+.w-4 {
+    width: 1rem !important;
+}
+
 .w-5 {
-    height: 1.25rem;
+    height: 1.25rem !important;
+}
+
+.w-6 {
+    height: 1.5rem !important;
+}
+.w-7 {
+    height: 1.75rem !important;
+}
+.w-8 {
+    height: 2rem !important;
 }
 
 .max-w-12 {
@@ -141,6 +165,9 @@
 
 .ml-2 {
     margin-left: .5rem;
+}
+.ml-4 {
+    margin-left: 1rem;
 }
 
 .mr-2 {

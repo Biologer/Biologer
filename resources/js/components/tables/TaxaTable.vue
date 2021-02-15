@@ -76,7 +76,7 @@
 
     <hr>
 
-    <nz-table
+    <b-table
       :data="data"
       :loading="loading"
 
@@ -84,52 +84,70 @@
       backend-pagination
       :total="total"
       :per-page="perPage"
+      :current-page="page"
       @page-change="onPageChange"
-      @per-page-change="onPerPageChange"
-      :per-page-options="perPageOptions"
-      pagination-on-top
+      pagination-position="both"
 
       backend-sorting
-      :default-sort-direction="defaultSortOrder"
+      default-sort-direction="asc"
       :default-sort="[sortField, sortOrder]"
       @sort="onSort"
 
-      :mobile-cards="true"
+      mobile-cards
 
       :checkable="hasActions"
       :checked-rows.sync="checkedRows"
     >
-
-      <template slot-scope="{ row }">
-        <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
-          {{ row.id }}
-        </b-table-column>
-
-        <b-table-column field="rank_level" :label="trans('labels.taxa.rank')" sortable>
-          {{ row.rank_translation }}
-        </b-table-column>
-
-        <b-table-column field="name" :label="trans('labels.taxa.name')" sortable>
-          {{ row.name + (row.native_name ? ` (${row.native_name})` : '') }}
-        </b-table-column>
-
-        <b-table-column width="150" numeric>
-          <a @click="openActivityLogModal(row)" v-if="showActivityLog && row.activity && row.activity.length > 0" :title="trans('Activity Log')"><b-icon icon="history" /></a>
-
-          <a :href="editLink(row)" v-if="row.can_edit"><b-icon icon="edit"></b-icon></a>
-
-          <a @click="confirmRemove(row)" v-if="row.can_delete"><b-icon icon="trash"></b-icon></a>
-        </b-table-column>
+      <template #top-left>
+        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
+      </template>
+      <template #bottom-left>
+        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
       </template>
 
-      <template slot="empty">
+      <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
+        <template #default="{ row }">
+          {{ row.id }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="rank_level" :label="trans('labels.taxa.rank')" sortable>
+        <template #default="{ row }">
+          {{ row.rank_translation }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="name" :label="trans('labels.taxa.name')" sortable>
+        <template #default="{ row }">
+          {{ row.name + (row.native_name ? ` (${row.native_name})` : '') }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column width="150" numeric v-slot="{ row }">
+        <a @click="openActivityLogModal(row)" v-if="showActivityLog && row.activity && row.activity.length > 0" :title="trans('Activity Log')"><b-icon icon="history" /></a>
+
+        <a :href="editLink(row)" v-if="row.can_edit"><b-icon icon="edit"></b-icon></a>
+
+        <a @click="confirmRemove(row)" v-if="row.can_delete"><b-icon icon="trash"></b-icon></a>
+      </b-table-column>
+
+      <template #empty>
         <section class="section">
           <div class="content has-text-grey has-text-centered">
             <p>{{ empty }}</p>
           </div>
         </section>
       </template>
-    </nz-table>
+    </b-table>
 
     <b-modal :active="activityLog.length > 0" @close="activityLog = []" has-modal-card>
       <div class="modal-card">
@@ -163,7 +181,8 @@ import FilterableTableMixin from '@/mixins/FilterableTableMixin'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
 import ExportDownloadModal from '@/components/exports/ExportDownloadModal'
 import NzTaxonAutocomplete from '@/components/inputs/TaxonAutocomplete'
-import NzTable from '@/components/table/Table'
+import NzPerPageSelect from '@/components/table/PerPageSelect'
+import NzSortableColumnHeader from '@/components/table/SortableColumnHeader'
 import NzExportModal from '@/components/exports/ExportModal'
 
 export default {
@@ -173,7 +192,8 @@ export default {
 
   components: {
     NzTaxonAutocomplete,
-    NzTable,
+    NzPerPageSelect,
+    NzSortableColumnHeader,
     NzExportModal
   },
 
@@ -203,7 +223,6 @@ export default {
       loading: false,
       sortField: 'id',
       sortOrder: 'desc',
-      defaultSortOrder: 'asc',
       page: 1,
       perPage: this.perPageOptions[0],
       checkedRows: [],
@@ -245,6 +264,7 @@ export default {
   methods: {
     loadAsyncData() {
       this.loading = true
+      this.checkedRows = []
 
       const { selectedTaxon, ...filter } = this.filter
 

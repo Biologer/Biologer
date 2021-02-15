@@ -168,3 +168,9 @@ ul.is-not-done li:before {
         }
     }
 }
+
+.has-icon-success {
+    .icon {
+        color: $success !important;
+    }
+}

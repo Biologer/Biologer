@@ -13,11 +13,12 @@
         expanded
         :autofocus="autofocus"
         :disabled="disabled"
+        :class="[selected ? 'has-icon-success' : '']"
       >
-        <template slot-scope="props">
+        <template #default="{ option }">
           <div class="media">
             <div class="media-content">
-              {{ props.option.full_name }} <small>&lt;{{ props.option.email }}&gt;</small>
+              {{ option.full_name }} <small>&lt;{{ option.email }}&gt;</small>
             </div>
           </div>
         </template>
@@ -77,7 +78,7 @@ export default {
   computed: {
     icon() {
       return this.selected ? 'check' : null
-    }
+    },
   },
 
   watch: {

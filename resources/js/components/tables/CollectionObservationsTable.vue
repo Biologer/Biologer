@@ -1,6 +1,6 @@
 <template>
   <div class="collection-observations-table">
-    <nz-table
+    <b-table
       :data="data"
       :loading="loading"
 
@@ -8,45 +8,64 @@
       backend-pagination
       :total="total"
       :per-page="perPage"
+      :current-page="page"
       @page-change="onPageChange"
-      @per-page-change="onPerPageChange"
-      :per-page-options="perPageOptions"
-      pagination-on-top
+      pagination-position="both"
 
       backend-sorting
-      :default-sort-direction="defaultSortOrder"
+      default-sort-direction="asc"
       :default-sort="[sortField, sortOrder]"
       @sort="onSort"
 
       detailed
-      :mobile-cards="true"
+      mobile-cards
 
       :checkable="hasActions"
       :checked-rows.sync="checkedRows"
     >
-      <template slot-scope="{ row }">
-        <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
-          {{ row.id }}
-        </b-table-column>
-
-        <b-table-column field="taxon_name" :label="trans('labels.collection_observations.taxon')" sortable>
-          {{ row.taxon ? row.taxon.name : '' }}
-        </b-table-column>
-
-        <b-table-column field="collection_name" :label="trans('labels.collection_observations.collection')" sortable>
-          {{ row.collection ? row.collection.name : '' }}
-        </b-table-column>
-
-        <b-table-column width="150" numeric>
-          <a :href="viewLink(row)" v-if="viewRoute" :title="trans('buttons.view')"><b-icon icon="eye" /></a>
-
-          <a :href="editLink(row)" :title="trans('buttons.edit')"><b-icon icon="edit" /></a>
-
-          <a @click="confirmRemove(row)" :title="trans('buttons.delete')"><b-icon icon="trash" /></a>
-        </b-table-column>
+      <template #top-left>
+        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
+      </template>
+      <template #bottom-left>
+        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
       </template>
 
-      <template slot="empty">
+      <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
+        <template #default="{ row }">
+          {{ row.id }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="taxon_name" :label="trans('labels.collection_observations.taxon')" sortable>
+        <template #default="{ row }">
+          {{ row.taxon ? row.taxon.name : '' }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="collection_name" :label="trans('labels.collection_observations.collection')" sortable>
+        <template #default="{ row }">
+          {{ row.collection ? row.collection.name : '' }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column width="150" numeric v-slot="{ row }">
+        <a :href="viewLink(row)" v-if="viewRoute" :title="trans('buttons.view')"><b-icon icon="eye" /></a>
+
+        <a :href="editLink(row)" :title="trans('buttons.edit')"><b-icon icon="edit" /></a>
+
+        <a @click="confirmRemove(row)" :title="trans('buttons.delete')"><b-icon icon="trash" /></a>
+      </b-table-column>
+
+      <template #empty>
         <section class="section">
           <div class="content has-text-grey has-text-centered">
             <p>{{ empty }}</p>
@@ -54,7 +73,7 @@
         </section>
       </template>
 
-      <template slot="detail" slot-scope="{ row }">
+      <template #detail="{ row }">
         <article class="media">
           <div class="media-content">
             <div class="content">
@@ -69,7 +88,7 @@
           </div>
         </article>
       </template>
-    </nz-table>
+    </b-table>
   </div>
 </template>
 
@@ -79,7 +98,8 @@ import _range from 'lodash/range'
 import dayjs from '@/dayjs'
 import FilterableTableMixin from '@/mixins/FilterableTableMixin'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
-import NzTable from '@/components/table/Table'
+import NzPerPageSelect from '@/components/table/PerPageSelect'
+import NzSortableColumnHeader from '@/components/table/SortableColumnHeader'
 
 export default {
   name: 'nzLiteratureObservationsTable',
@@ -87,7 +107,8 @@ export default {
   mixins: [FilterableTableMixin, PersistentTableMixin],
 
   components: {
-    NzTable,
+    NzPerPageSelect,
+    NzSortableColumnHeader
   },
 
   props: {
@@ -172,6 +193,7 @@ export default {
   methods: {
     loadAsyncData() {
       this.loading = true
+      this.checkedRows = []
 
       const { ...filter } = this.filter
 

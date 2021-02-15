@@ -3,7 +3,7 @@
     <div class="level">
       <div class="level-left">
         <div class="level-item">
-          <b-field>
+          <b-field grouped>
             <b-input
               :placeholder="trans('labels.users.search')"
               :value="search"
@@ -24,7 +24,7 @@
 
     <hr>
 
-    <nz-table
+    <b-table
       :data="data"
       :loading="loading"
 
@@ -32,61 +32,91 @@
       backend-pagination
       :total="total"
       :per-page="perPage"
+      :current-page="page"
       @page-change="onPageChange"
-      @per-page-change="onPerPageChange"
-      :per-page-options="perPageOptions"
-      pagination-on-top
+      pagination-position="both"
 
       backend-sorting
-      :default-sort-direction="defaultSortOrder"
+      default-sort-direction="asc"
       :default-sort="[sortField, sortOrder]"
       @sort="onSort"
 
-      :mobile-cards="true"
+      mobile-cards
     >
-      <template slot-scope="props">
-        <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
-          {{ props.row.id }}
-        </b-table-column>
-
-        <b-table-column field="first_name" :label="trans('labels.users.first_name')" sortable>
-          {{ props.row.first_name }}
-        </b-table-column>
-
-        <b-table-column field="last_name" :label="trans('labels.users.last_name')" sortable>
-          {{ props.row.last_name }}
-        </b-table-column>
-
-        <b-table-column field="email" :label="trans('labels.users.email')" sortable>
-          {{ props.row.email }}
-        </b-table-column>
-
-        <b-table-column field="institution" :label="trans('labels.users.institution')" sortable>
-          {{ props.row.institution }}
-        </b-table-column>
-
-        <b-table-column width="150" numeric>
-          <a :href="editLink(props.row)"><b-icon icon="edit"></b-icon></a>
-
-          <a @click="confirmRemove(props.row)"><b-icon icon="trash"></b-icon></a>
-        </b-table-column>
+      <template #top-left>
+        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
+      </template>
+      <template #bottom-left>
+        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
       </template>
 
-      <template slot="empty">
+      <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
+        <template #default="{ row }">
+          {{ row.id }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="first_name" :label="trans('labels.users.first_name')" sortable>
+        <template #default="{ row }">
+          {{ row.first_name }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="last_name" :label="trans('labels.users.last_name')" sortable>
+        <template #default="{ row }">
+          {{ row.last_name }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="email" :label="trans('labels.users.email')" sortable>
+        <template #default="{ row }">
+          {{ row.email }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="institution" :label="trans('labels.users.institution')" sortable>
+       <template #default="{ row }">
+          {{ row.institution }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column width="150" numeric v-slot="{ row }">
+        <a :href="editLink(row)"><b-icon icon="edit"></b-icon></a>
+
+        <a @click="confirmRemove(row)"><b-icon icon="trash"></b-icon></a>
+      </b-table-column>
+
+      <template #empty>
         <section class="section">
           <div class="content has-text-grey has-text-centered">
             <p>{{ empty }}</p>
           </div>
         </section>
       </template>
-    </nz-table>
+    </b-table>
   </div>
 </template>
 
 <script>
 import _debounce from 'lodash/debounce'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
-import NzTable from '@/components/table/Table'
+import NzPerPageSelect from '@/components/table/PerPageSelect'
+import NzSortableColumnHeader from '@/components/table/SortableColumnHeader'
 
 export default {
   name: 'nzUsersTable',
@@ -94,7 +124,8 @@ export default {
   mixins: [PersistentTableMixin],
 
   components: {
-    NzTable
+    NzPerPageSelect,
+    NzSortableColumnHeader
   },
 
   props: {
@@ -110,7 +141,6 @@ export default {
       type: String,
       default: 'Nothing here.'
     },
-    ranks: Array
   },
 
   data() {
@@ -120,7 +150,6 @@ export default {
       loading: false,
       sortField: 'id',
       sortOrder: 'asc',
-      defaultSortOrder: 'asc',
       page: 1,
       perPage: this.perPageOptions[0],
       checkedRows: [],

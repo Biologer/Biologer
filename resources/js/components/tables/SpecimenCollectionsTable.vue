@@ -1,6 +1,6 @@
 <template>
   <div class="specimen-collections-table">
-    <nz-table
+    <b-table
       :data="data"
       :loading="loading"
 
@@ -8,48 +8,63 @@
       backend-pagination
       :total="total"
       :per-page="perPage"
+      :current-page="page"
       @page-change="onPageChange"
-      @per-page-change="onPerPageChange"
-      :per-page-options="perPageOptions"
-      pagination-on-top
+      pagination-position="both"
 
       backend-sorting
-      :default-sort-direction="defaultSortOrder"
+      default-sort-direction="asc"
       :default-sort="[sortField, sortOrder]"
       @sort="onSort"
 
-      :mobile-cards="true"
+      mobile-cards
     >
-      <template slot-scope="props">
-        <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
-          {{ props.row.id }}
-        </b-table-column>
-
-        <b-table-column field="name" :label="trans('labels.specimen_collections.name')" sortable>
-          {{ props.row.name }}
-        </b-table-column>
-
-        <b-table-column width="150" numeric>
-          <a :href="editLink(props.row)"><b-icon icon="edit"></b-icon></a>
-
-          <a @click="confirmRemove(props.row)"><b-icon icon="trash"></b-icon></a>
-        </b-table-column>
+      <template #top-left>
+        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
+      </template>
+      <template #bottom-left>
+        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
       </template>
 
-      <template slot="empty">
+      <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
+        <template #default="{ row }">
+          {{ row.id }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column field="name" :label="trans('labels.specimen_collections.name')" sortable>
+        <template #default="{ row }">
+          {{ row.name }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
+      <b-table-column width="150" numeric v-slot="{ row }">
+        <a :href="editLink(row)"><b-icon icon="edit"></b-icon></a>
+
+        <a @click="confirmRemove(row)"><b-icon icon="trash"></b-icon></a>
+      </b-table-column>
+
+      <template #empty>
         <section class="section">
           <div class="content has-text-grey has-text-centered">
             <p>{{ empty }}</p>
           </div>
         </section>
       </template>
-    </nz-table>
+    </b-table>
   </div>
 </template>
 
 <script>
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
-import NzTable from '@/components/table/Table'
+import NzPerPageSelect from '@/components/table/PerPageSelect'
+import NzSortableColumnHeader from '@/components/table/SortableColumnHeader'
 
 export default {
   name: 'nzSpecimenCollectionsTable',
@@ -57,7 +72,8 @@ export default {
   mixins: [PersistentTableMixin],
 
   components: {
-    NzTable
+    NzPerPageSelect,
+    NzSortableColumnHeader
   },
 
   props: {
@@ -97,6 +113,7 @@ export default {
   methods: {
     loadAsyncData() {
       this.loading = true
+      this.checkedRows = []
 
       return axios.get(route(this.listRoute).withQuery({
         sort_by: `${this.sortField}.${this.sortOrder}`,
