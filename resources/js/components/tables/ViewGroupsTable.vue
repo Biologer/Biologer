@@ -20,10 +20,16 @@
       mobile-cards
     >
       <template #top-left>
-        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
+        <div class="level-item">
+          <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
+        </div>
+        <div class="level-item">{{ showing }}</div>
       </template>
       <template #bottom-left>
-        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
+        <div class="level-item">
+          <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
+        </div>
+        <div class="level-item">{{ showing }}</div>
       </template>
 
       <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>
@@ -98,6 +104,22 @@ export default {
       page: 1,
       perPage: this.perPageOptions[0],
       checkedRows: []
+    }
+  },
+
+  computed: {
+    showing() {
+      const to = this.page * this.perPage <= this.total
+        ? this.page * this.perPage
+        : this.total
+
+      const from = this.page > 1 ? (this.page - 1) * this.perPage + 1 : 1
+
+      return this.total ? this.trans('labels.tables.from_to_total', {
+          total: this.total,
+          from,
+          to
+      }) : '';
     }
   },
 
