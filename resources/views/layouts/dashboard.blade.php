@@ -36,7 +36,7 @@
     </head>
     <body class="bg-light">
         <div id="app" class="is-flex flex-col min-h-screen">
-            <nz-dashboard-navbar :has-unread="{{ json_encode($unreadNotifications->isNotEmpty()) }}" inline-template>
+            <nz-dashboard-navbar :has-unread="{{ json_encode($hasUnreadNotifications) }}" inline-template>
                 <nav class="navbar is-primary">
                     <div class="container is-fluid">
                         <div class="navbar-brand">
@@ -106,9 +106,8 @@
 
                     <nz-sidebar
                         :active="showSidebar"
+                        :has-unread-notifications.sync="hasUnreadNotifications"
                         @close="showSidebar = false"
-                        :notifications="{{ $unreadNotifications }}"
-                        @update:has-unread-notifications="updateNotificationStatus"
                     ></nz-sidebar>
                 </nav>
             </nz-dashboard-navbar>

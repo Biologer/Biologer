@@ -245,6 +245,9 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
         Route::post('read-notifications/batch', 'ReadNotificationsBatchController@store')
             ->name('api.my.read-notifications-batch.store');
+
+        Route::get('unread-notifications', 'UnreadNotificationsController@index')
+            ->name('api.my.unread-notifications.index');
     });
 
     Route::prefix('curator')->namespace('Curator')->group(function () {

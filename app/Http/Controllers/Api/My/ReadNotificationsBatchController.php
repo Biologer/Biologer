@@ -15,12 +15,18 @@ class ReadNotificationsBatchController
      */
     public function store(Request $request)
     {
-        $notifications = $request->user()
-            ->unreadNotifications
-            ->whereIn('id', $request->input('notifications_ids', []));
+        $query = $request->user()->unreadNotifications();
 
-        $notifications->markAsRead();
+        if (!$request->input('all')) {
+            $query->whereIn('id', $request->input('notifications_ids', []));
+        }
 
-        return NotificationResource::collection($notifications);
+        $query->update(['read_at' => now()]);
+
+        return [
+            'meta' => [
+                'has_unread' => $request->user()->unreadNotifications()->exists(),
+            ]
+        ];
     }
 }

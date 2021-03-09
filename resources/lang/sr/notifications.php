@@ -12,6 +12,8 @@ return [
 
     'title' => 'Обавештења',
 
+    'load_more' => 'Учитај још',
+
     'mark_as_read' => 'Означи као прочитано',
     'mark_all_as_read' => 'Означи све као прочитано',
     'no_new_notifications' => 'Нема нових обавештења.',

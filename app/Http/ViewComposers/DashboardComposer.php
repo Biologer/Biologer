@@ -17,6 +17,6 @@ class DashboardComposer
     {
         $view->with('lastAnnouncement', Announcement::latest()->thatAreTranslated()->first());
 
-        $view->with('unreadNotifications', auth()->user()->unreadNotifications);
+        $view->with('hasUnreadNotifications', auth()->user()->unreadNotifications()->exists());
     }
 }
