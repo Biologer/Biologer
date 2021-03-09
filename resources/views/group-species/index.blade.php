@@ -4,7 +4,7 @@
     <div class="container pb-8">
         <nav class="pagination is-species mb-8 mt-4" role="navigation" aria-label="pagination">
             <h1 class="is-size-3 pagination-title">
-                {{ $group->name }}
+                {{ $group->name_with_fallback }}
             </h1>
 
             <div class="pagination-search">

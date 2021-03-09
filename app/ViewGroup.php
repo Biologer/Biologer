@@ -154,6 +154,18 @@ class ViewGroup extends Model
     }
 
     /**
+     * Name translation in current locale with fallback to configured
+     * fallback locale if there is no name in current locale.
+     *
+     * @return string
+     */
+    public function getNameWithFallbackAttribute()
+    {
+        return $this->translateOrNew($this->locale())->name
+            ?? $this->translateOrNew($this->getFallbackLocale())->name;
+    }
+
+    /**
      * Check if group is root.
      *
      * @return bool
