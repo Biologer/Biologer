@@ -21,7 +21,7 @@
             type="button"
             class="button is-primary"
             :class="{'is-loading': loading}"
-            :disabled="loading"
+            :disabled="!hasMoreToLoad"
             @click="loadMore"
           >
             {{ trans('notifications.load_more') }}
@@ -64,7 +64,7 @@ export default {
       activeTab: 'notifications',
       notifications: [],
       currentPage: 1,
-      hasMoreToLoad: true,
+      hasMoreToLoad: this.hasUnreadNotifications,
       loading: false,
     }
   },
@@ -74,7 +74,7 @@ export default {
       document.addEventListener('keyup', this.keyPress)
     }
 
-    this.load()
+    this.hasUnreadNotifications && this.load()
   },
 
   beforeDestroy() {
@@ -119,7 +119,7 @@ export default {
     },
 
     loadMore() {
-      if (this.loading) return
+      if (this.loading || !this.hasMoreToLoad) return
 
       this.currentPage++
       this.load()
