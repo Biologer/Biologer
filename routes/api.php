@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('register', 'RegisterController@store');
+
 Route::get('groups/{group}/taxa', 'GroupTaxaController@index')
     ->name('api.groups.taxa.index');
 
