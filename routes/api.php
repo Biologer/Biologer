@@ -241,7 +241,8 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
             ->name('api.my.field-observation-exports.store');
 
         Route::get('profile', 'ProfileController@show')
-            ->name('api.my.profile.show');
+            ->name('api.my.profile.show')
+            ->withoutMiddleware('verified');
 
         Route::post('read-notifications/batch', 'ReadNotificationsBatchController@store')
             ->name('api.my.read-notifications-batch.store');
