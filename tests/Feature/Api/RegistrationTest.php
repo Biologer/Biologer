@@ -28,21 +28,16 @@ class RegistrationTest extends TestCase
     /** @test */
     public function can_register_user_through_api()
     {
-        $payload = [
+        $response = $this->postJson('/api/register', [
             'client_id' => $this->passwordClient->id,
+            'client_secret' => $this->passwordClient->secret,
             'first_name' => 'Tester',
             'last_name' => 'Testerson',
             'data_license' => License::CC_BY_NC_SA,
             'image_license' => License::CC_BY_NC_SA,
             'email' => 'test@example.com',
             'password' => 'supersecret',
-        ];
-
-        ksort($payload);
-
-        $response = $this->postJson('/api/register', array_merge($payload, [
-            'signature' => hash_hmac('sha256', json_encode($payload), $this->passwordClient->secret),
-        ]));
+        ])->assertOk();
 
         $this->assertNotNull($user = User::firstWhere(['email' => 'test@example.com']));
 
@@ -57,23 +52,18 @@ class RegistrationTest extends TestCase
     }
 
     /** @test */
-    public function needs_valid_signature()
+    public function needs_valid_client_secret()
     {
-        $payload = [
+        $this->postJson('/api/register', [
             'client_id' => $this->passwordClient->id,
+            'client_secret' => 'invalid',
             'first_name' => 'Tester',
             'last_name' => 'Testerson',
             'data_license' => License::CC_BY_NC_SA,
             'image_license' => License::CC_BY_NC_SA,
             'email' => 'test@example.com',
             'password' => 'supersecret',
-        ];
-
-        ksort($payload);
-
-        $this->postJson('/api/register', array_merge($payload, [
-            'signature' => 'invalid',
-        ]))->assertJsonValidationErrors('signature');
+        ])->assertJsonValidationErrors('client_secret');
 
         $this->assertFalse(User::where('email', 'test@example.com')->exists());
     }
@@ -81,23 +71,16 @@ class RegistrationTest extends TestCase
     /** @test */
     public function signature_is_not_checked_if_client_is_not_valid()
     {
-        $payload = [
+        $this->postJson('/api/register', [
             'client_id' => 'invalid',
+            'client_secret' => 'invalid',
             'first_name' => 'Tester',
             'last_name' => 'Testerson',
             'data_license' => License::CC_BY_NC_SA,
             'image_license' => License::CC_BY_NC_SA,
             'email' => 'test@example.com',
             'password' => 'supersecret',
-        ];
-
-        ksort($payload);
-
-        $this->postJson('/api/register', array_merge($payload, [
-            'signature' => 'invalid',
-        ]))
-            ->assertJsonValidationErrors('client_id')
-            ->assertJsonMissingValidationErrors('signature');
+        ])->assertJsonValidationErrors('client_id')->assertJsonMissingValidationErrors('client_secret');
 
         $this->assertFalse(User::where('email', 'test@example.com')->exists());
     }
@@ -111,21 +94,16 @@ class RegistrationTest extends TestCase
             url('/'),
         );
 
-        $payload = [
+        $this->postJson('/api/register', [
             'client_id' => $client->id,
+            'client_secret' => $client->secret,
             'first_name' => 'Tester',
             'last_name' => 'Testerson',
             'data_license' => License::CC_BY_NC_SA,
             'image_license' => License::CC_BY_NC_SA,
             'email' => 'test@example.com',
             'password' => 'supersecret',
-        ];
-
-        ksort($payload);
-
-        $this->postJson('/api/register', array_merge($payload, [
-            'signature' => hash_hmac('sha256', json_encode($payload), $client->secret),
-        ]))->assertJsonValidationErrors('client_id');
+        ])->assertJsonValidationErrors('client_id');
 
         $this->assertFalse(User::where('email', 'test@example.com')->exists());
     }

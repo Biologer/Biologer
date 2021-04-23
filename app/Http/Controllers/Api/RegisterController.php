@@ -24,6 +24,7 @@ class RegisterController
     {
         return validator($request->all(), [
             'client_id' => ['required', Rule::exists(Client::class, 'id')->where('password_client', true)],
+            'client_secret' => ['required', 'string'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email:rfc,filter', 'max:255', 'unique:users'],
@@ -38,13 +39,8 @@ class RegisterController
 
             $client = Client::find($request->client_id);
 
-            $payload = $request->except('signature');
-            ksort($payload);
-
-            $expectedPayloadHmacHash = hash_hmac('sha256', json_encode($payload), $client->secret);
-
-            if (! hash_equals($expectedPayloadHmacHash, $request->signature)) {
-                $validator->errors()->add('signature', __('Invalid signature'));
+            if ($client->secret !== $request->client_secret) {
+                $validator->errors()->add('client_secret', __('Client secret is not valid.'));
             }
         })->validate();
     }
