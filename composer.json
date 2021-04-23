@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "php": "^7.2.5|^8.0",
+        "php": "^7.4|^8.0",
         "astrotomic/laravel-translatable": "^11.8",
         "box/spout": "^2.7",
         "doctrine/dbal": "^2.10",
@@ -53,7 +53,7 @@
         "sort-packages": true,
         "optimize-autoloader": true,
         "platform": {
-            "php": "7.3"
+            "php": "7.4"
         }
     },
     "extra": {
