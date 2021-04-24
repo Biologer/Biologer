@@ -150,6 +150,7 @@ class Taxon extends Model
             'limit' => \App\Filters\Limit::class,
             'taxonId' => \App\Filters\NullFilter::class,
             'includeChildTaxa' => \App\Filters\NullFilter::class,
+            'group' => \App\Filters\Taxon\Group::class,
         ];
     }
 
