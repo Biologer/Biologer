@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\MissingValue;
 
 class PublicPhotoResource extends JsonResource
 {
@@ -20,6 +21,33 @@ class PublicPhotoResource extends JsonResource
             'url' => $this->public_url
                 ? url("{$this->public_url}?v={$this->updated_at->timestamp}")
                 : null,
+            'is_dead' => $this->whenLoaded('observations', function () {
+                if (! $observation = $this->observations->first()) {
+                    return false;
+                };
+
+                return $observation->details->found_dead ?? false;
+            }),
+            'stage' => $this->whenLoaded('observations', function () {
+                if (! $observation = $this->observations->first()) {
+                    return false;
+                };
+
+                return $observation->stage ? [
+                    'id' => $observation->stage->id,
+                    'name' => $observation->stage->name,
+                ] : null;
+            }),
+            'observation' => $this->whenLoaded('observations', function () {
+                if (!$observation = $this->observations->first()) {
+                    return new MissingValue;
+                };
+
+                return [
+                    'id' => $observation->details_id,
+                    'type' => $observation->details_type,
+                ];
+            })
         ];
     }
 }
