@@ -17,7 +17,7 @@ class TaxonCollectionResource extends ResourceCollection
     {
         $user = $request->user();
 
-        $data = $this->collection->map(function (Taxon $taxon) use ($user) {
+        $data = $this->collection->map(function (Taxon $taxon) use ($user, $request) {
             $taxon->can_edit = $user->can('update', $taxon);
             $taxon->can_delete = $user->can('delete', $taxon);
 
@@ -28,11 +28,24 @@ class TaxonCollectionResource extends ResourceCollection
             // Non-existing translations only cause confusion and trouble
             $resource['translations'] = $taxon->translations->filter->exists->toArray();
 
+            if ($request->boolean('includeGroups')) {
+                $resource['groups'] = $this->groups($taxon);
+            }
+
             return $resource;
         });
 
         return [
             'data' => $data,
         ];
+    }
+
+    protected function groups($taxon)
+    {
+        $groups = $taxon->groups->concat(
+            $taxon->ancestors->pluck('groups')->flatten()
+        )->unique();
+
+        return $groups->pluck('id')->concat($groups->pluck('parent_id'))->filter();
     }
 }
