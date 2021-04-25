@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\License;
 use App\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
@@ -47,7 +48,7 @@ class RegisterController
 
     protected function createUser(Request $request)
     {
-        User::create([
+        $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
@@ -59,6 +60,8 @@ class RegisterController
                 'language' => app()->getLocale(),
             ],
         ]);
+
+        event(new Registered($user));
     }
 
     protected function authenticate(Request $request)
