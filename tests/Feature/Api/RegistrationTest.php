@@ -4,7 +4,9 @@ namespace Tests\Feature\Api;
 
 use App\License;
 use App\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Laravel\Passport\ClientRepository;
 use Tests\TestCase;
 
@@ -28,6 +30,8 @@ class RegistrationTest extends TestCase
     /** @test */
     public function can_register_user_through_api()
     {
+        Event::fake();
+
         $response = $this->postJson('/api/register', [
             'client_id' => $this->passwordClient->id,
             'client_secret' => $this->passwordClient->secret,
@@ -49,6 +53,10 @@ class RegistrationTest extends TestCase
         $this->assertEquals('Tester', $profileResponse->json('data.first_name'));
         $this->assertEquals('Testerson', $profileResponse->json('data.last_name'));
         $this->assertEquals($user->id, $profileResponse->json('data.id'));
+
+        Event::assertDispatched(Registered::class, function ($event) use ($user) {
+            return $event->user->is($user);
+        });
     }
 
     /** @test */
