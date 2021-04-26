@@ -2,15 +2,19 @@
 
 namespace App\Filters\Taxon;
 
-class Group
+use Illuminate\Support\Arr;
+
+class Groups
 {
     public function apply($query, $value)
     {
+        $value = Arr::wrap($value);
+
         return $query->where(function ($query) use ($value) {
             $query->whereHas('groups', function ($query) use ($value) {
-                $query->where('id', $value)->orWhere('parent_id', $value);
+                $query->whereIn('id', $value)->orWhereIn('parent_id', $value);
             })->orWhereHas('ancestors.groups', function ($query) use ($value) {
-                $query->where('id', $value)->orWhere('parent_id', $value);
+                $query->whereIn('id', $value)->orWhereIn('parent_id', $value);
             });
         });
     }
