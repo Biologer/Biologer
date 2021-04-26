@@ -44,8 +44,8 @@ class TaxonCollectionResource extends ResourceCollection
     {
         $groups = $taxon->groups->concat(
             $taxon->ancestors->pluck('groups')->flatten()
-        )->unique();
+        );
 
-        return $groups->pluck('id')->concat($groups->pluck('parent_id'))->filter();
+        return $groups->pluck('parent_id')->concat($groups->pluck('id'))->filter()->unique();
     }
 }

@@ -23,7 +23,7 @@ class TaxaController
         ];
 
         if ($request->boolean('includeGroups')) {
-            $relations = array_merge($relations, ['groups.parent', 'ancestors.groups.parent']);
+            $relations = array_merge($relations, ['groups', 'ancestors.groups']);
         }
 
         $taxa = Taxon::with($relations)
