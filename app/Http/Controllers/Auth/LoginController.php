@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class LoginController extends Controller
@@ -67,9 +68,32 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
+        $redirectUrl = redirect()->intended($this->redirectPath())->getTargetUrl();
+
+        if ($this->isNotLocalizedRoute($redirectUrl)) {
+            return redirect($redirectUrl);
+        }
+
         return redirect(LaravelLocalization::getLocalizedURL(
             $user->preferredLocale(),
-            redirect()->intended($this->redirectPath())->getTargetUrl()
+            $redirectUrl
         ));
+    }
+
+    /**
+     * Check if route is under localization middleware.
+     *
+     * @param  string  $url
+     * @return bool
+     */
+    protected function isNotLocalizedRoute($url)
+    {
+        try {
+            $route = Route::getRoutes()->match(Request::create($url));
+
+            return ! in_array('localizationRedirect', $route->gatherMiddleware());
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
