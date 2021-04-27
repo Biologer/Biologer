@@ -14,10 +14,14 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 |
 */
 
+Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
+
 Route::prefix(LaravelLocalization::setLocale())->middleware([
     'localeCookieRedirect', 'localizationRedirect', 'localeViewPath', 'localizationPreferenceUpdate',
 ])->group(function () {
-    Route::auth(['verify' => true, 'confirm' => false]);
+    Route::auth(['verify' => false, 'confirm' => false]);
+    Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
+    Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('taxa/{taxon}', 'TaxaController@show')->name('taxa.show');
