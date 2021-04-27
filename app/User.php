@@ -214,14 +214,4 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
         $this->delete();
     }
-
-    /**
-     * Send the email verification notification.
-     *
-     * @return void
-     */
-    public function sendEmailVerificationNotification()
-    {
-        $this->notify(new Notifications\VerifyEmail);
-    }
 }
