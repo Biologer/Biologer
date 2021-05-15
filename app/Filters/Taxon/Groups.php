@@ -12,9 +12,9 @@ class Groups
 
         return $query->where(function ($query) use ($value) {
             $query->whereHas('groups', function ($query) use ($value) {
-                $query->whereIn('id', $value)->orWhereIn('parent_id', $value);
+                $query->whereIn('id', $value);
             })->orWhereHas('ancestors.groups', function ($query) use ($value) {
-                $query->whereIn('id', $value)->orWhereIn('parent_id', $value);
+                $query->whereIn('id', $value);
             });
         });
     }

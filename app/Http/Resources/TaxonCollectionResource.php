@@ -28,7 +28,7 @@ class TaxonCollectionResource extends ResourceCollection
             // Non-existing translations only cause confusion and trouble
             $resource['translations'] = $taxon->translations->filter->exists->toArray();
 
-            if ($request->boolean('includeGroups')) {
+            if ($request->boolean('withGroupsIds')) {
                 $resource['groups'] = $this->groups($taxon);
             }
 
@@ -42,10 +42,8 @@ class TaxonCollectionResource extends ResourceCollection
 
     protected function groups($taxon)
     {
-        $groups = $taxon->groups->concat(
-            $taxon->ancestors->pluck('groups')->flatten()
-        );
-
-        return $groups->pluck('parent_id')->concat($groups->pluck('id'))->filter()->unique();
+        return $taxon->groups->pluck('id')->concat(
+            $taxon->ancestors->pluck('groups.id')->flatten()
+        )->unique();
     }
 }

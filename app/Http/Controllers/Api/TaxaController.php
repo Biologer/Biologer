@@ -22,7 +22,7 @@ class TaxaController
             'parent', 'stages', 'activity.causer', 'curators', 'ancestors.curators',
         ];
 
-        if ($request->boolean('includeGroups')) {
+        if ($request->boolean('withGroupsIds')) {
             $relations = array_merge($relations, ['groups', 'ancestors.groups']);
         }
 
