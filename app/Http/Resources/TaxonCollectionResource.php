@@ -43,7 +43,7 @@ class TaxonCollectionResource extends ResourceCollection
     protected function groups($taxon)
     {
         return $taxon->groups->pluck('id')->concat(
-            $taxon->ancestors->pluck('groups.id')->flatten()
-        )->filter()->unique();
+            $taxon->ancestors->pluck('groups')->flatten()->pluck('id')
+        )->unique();
     }
 }

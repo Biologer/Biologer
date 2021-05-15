@@ -165,12 +165,11 @@ class TaxaTest extends TestCase
     /** @test */
     public function include_groups_ids()
     {
-        $cerdo = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
-        $scopolii = factory(Taxon::class)->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
+        $cerambyx = factory(Taxon::class)->create(['name' => 'Cerambyx', 'rank' => 'genus']);
+        $cerambyxScopolii = factory(Taxon::class)->create(['name' => 'Cerambyx scopolii', 'rank' => 'species', 'parent_id' => $cerambyx->id]);
 
         $viewGroup = factory(ViewGroup::class)->create();
-        $viewGroup->taxa()->attach($cerdo);
-        $viewGroup->taxa()->attach($scopolii);
+        $viewGroup->taxa()->attach($cerambyx);
 
         Passport::actingAs(factory(User::class)->create());
 
@@ -182,8 +181,8 @@ class TaxaTest extends TestCase
         $this->assertCount(2, $response->json('data'));
         $response->assertJson([
             'data' => [
-                ['groups' => [$viewGroup->id]],
-                ['groups' => [$viewGroup->id]],
+                ['id' => $cerambyx->id, 'groups' => [$viewGroup->id]],
+                ['id' => $cerambyxScopolii->id, 'groups' => [$viewGroup->id]],
             ],
         ]);
     }
