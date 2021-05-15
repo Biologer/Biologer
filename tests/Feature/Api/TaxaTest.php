@@ -4,6 +4,7 @@ namespace Tests\Feature\Api;
 
 use App\Taxon;
 use App\User;
+use App\ViewGroup;
 use Illuminate\Support\Carbon;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -132,5 +133,58 @@ class TaxaTest extends TestCase
             ],
         ]);
         $response->assertJsonMissing(['id' => $scopolii->id]);
+    }
+
+    /** @test */
+    public function filtering_by_groups()
+    {
+        $cerdo = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
+        $scopolii = factory(Taxon::class)->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
+
+        $viewGroupCerdo = factory(ViewGroup::class)->create();
+        $viewGroupCerdo->taxa()->attach($cerdo);
+
+        Passport::actingAs(factory(User::class)->create());
+
+        $response = $this->getJson('/api/taxa?' . http_build_query([
+            'groups' => [
+                $viewGroupCerdo->id,
+            ],
+        ]));
+
+        $response->assertStatus(200);
+        $this->assertCount(1, $response->json('data'));
+        $response->assertJson([
+            'data' => [
+                ['id' => $cerdo->id],
+            ],
+        ]);
+        $response->assertJsonMissing(['id' => $scopolii->id]);
+    }
+
+    /** @test */
+    public function include_groups_ids()
+    {
+        $cerdo = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
+        $scopolii = factory(Taxon::class)->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
+
+        $viewGroup = factory(ViewGroup::class)->create();
+        $viewGroup->taxa()->attach($cerdo);
+        $viewGroup->taxa()->attach($scopolii);
+
+        Passport::actingAs(factory(User::class)->create());
+
+        $response = $this->getJson('/api/taxa?' . http_build_query([
+            'withGroupsIds' => true,
+        ]));
+
+        $response->assertStatus(200);
+        $this->assertCount(2, $response->json('data'));
+        $response->assertJson([
+            'data' => [
+                ['groups' => [$viewGroup->id]],
+                ['groups' => [$viewGroup->id]],
+            ],
+        ]);
     }
 }
