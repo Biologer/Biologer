@@ -24,7 +24,7 @@ class CreateViewGroupTranslationsTable extends Migration
 
             $table->foreign('view_group_id')
                   ->references('id')
-                  ->on('taxa')
+                  ->on('view_group')
                   ->onDelete('cascade');
         });
     }
