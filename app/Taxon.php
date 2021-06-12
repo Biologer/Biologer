@@ -151,6 +151,7 @@ class Taxon extends Model
             'taxonId' => \App\Filters\NullFilter::class,
             'includeChildTaxa' => \App\Filters\NullFilter::class,
             'groups' => \App\Filters\Taxon\Groups::class,
+            'ungrouped' => \App\Filters\Taxon\Ungrouped::class,
         ];
     }
 

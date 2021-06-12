@@ -163,6 +163,57 @@ class TaxaTest extends TestCase
     }
 
     /** @test */
+    public function filtering_by_not_being_in_any_group()
+    {
+        $cerdo = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
+        $scopolii = factory(Taxon::class)->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
+
+        $viewGroupCerdo = factory(ViewGroup::class)->create();
+        $viewGroupCerdo->taxa()->attach($cerdo);
+
+        Passport::actingAs(factory(User::class)->create());
+
+        $response = $this->getJson('/api/taxa?' . http_build_query([
+            'ungrouped' => true
+        ]));
+
+        $response->assertStatus(200);
+        $this->assertCount(1, $response->json('data'));
+        $response->assertJson([
+            'data' => [
+                ['id' => $scopolii->id],
+            ],
+        ]);
+        $response->assertJsonMissing(['id' => $cerdo->id]);
+    }
+
+    /** @test */
+    public function filtering_both_in_group_and_ungrouped()
+    {
+        $cerdo = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
+        $scopolii = factory(Taxon::class)->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
+
+        $viewGroupCerdo = factory(ViewGroup::class)->create();
+        $viewGroupCerdo->taxa()->attach($cerdo);
+
+        Passport::actingAs(factory(User::class)->create());
+
+        $response = $this->getJson('/api/taxa?' . http_build_query([
+            'groups' => [$viewGroupCerdo->id],
+            'ungrouped' => true
+        ]));
+
+        $response->assertStatus(200);
+        $this->assertCount(2, $response->json('data'));
+        $response->assertJson([
+            'data' => [
+                ['id' => $cerdo->id],
+                ['id' => $scopolii->id],
+            ],
+        ]);
+    }
+
+    /** @test */
     public function include_groups_ids()
     {
         $cerambyx = factory(Taxon::class)->create(['name' => 'Cerambyx', 'rank' => 'genus']);
