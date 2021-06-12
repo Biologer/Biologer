@@ -38,7 +38,7 @@ return [
                 'longitude' => 17.8,
                 'zoom' => 7,
             ],
-        ]
+        ],
     ],
 
     'android_app_url' => env('ANDROID_APP_URL'),

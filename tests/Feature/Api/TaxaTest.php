@@ -120,7 +120,7 @@ class TaxaTest extends TestCase
 
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->getJson('/api/taxa?' . http_build_query([
+        $response = $this->getJson('/api/taxa?'.http_build_query([
             'name' => 'Cerambyx cerdo',
             'taxonId' => $cerdo->id,
         ]));
@@ -146,7 +146,7 @@ class TaxaTest extends TestCase
 
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->getJson('/api/taxa?' . http_build_query([
+        $response = $this->getJson('/api/taxa?'.http_build_query([
             'groups' => [
                 $viewGroupCerdo->id,
             ],
@@ -173,8 +173,8 @@ class TaxaTest extends TestCase
 
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->getJson('/api/taxa?' . http_build_query([
-            'ungrouped' => true
+        $response = $this->getJson('/api/taxa?'.http_build_query([
+            'ungrouped' => true,
         ]));
 
         $response->assertStatus(200);
@@ -198,9 +198,9 @@ class TaxaTest extends TestCase
 
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->getJson('/api/taxa?' . http_build_query([
+        $response = $this->getJson('/api/taxa?'.http_build_query([
             'groups' => [$viewGroupCerdo->id],
-            'ungrouped' => true
+            'ungrouped' => true,
         ]));
 
         $response->assertStatus(200);
@@ -224,7 +224,7 @@ class TaxaTest extends TestCase
 
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->getJson('/api/taxa?' . http_build_query([
+        $response = $this->getJson('/api/taxa?'.http_build_query([
             'withGroupsIds' => true,
         ]));
 

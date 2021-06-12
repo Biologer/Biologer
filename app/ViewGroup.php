@@ -32,7 +32,7 @@ class ViewGroup extends Model
      */
     protected $appends = ['name', 'description'];
 
-   /**
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array
@@ -331,7 +331,7 @@ class ViewGroup extends Model
         static::updated(function ($model) {
             if ($model->wasChanged('image_path') && $path = $model->getOriginal('image_path')) {
                 $model->deleteImage($path);
-            };
+            }
         });
 
         static::deleted(function ($model) {

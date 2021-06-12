@@ -24,14 +24,14 @@ class PublicPhotoResource extends JsonResource
             'is_dead' => $this->whenLoaded('observations', function () {
                 if (! $observation = $this->observations->first()) {
                     return false;
-                };
+                }
 
                 return $observation->details->found_dead ?? false;
             }),
             'stage' => $this->whenLoaded('observations', function () {
                 if (! $observation = $this->observations->first()) {
                     return false;
-                };
+                }
 
                 return $observation->stage ? [
                     'id' => $observation->stage->id,
@@ -39,15 +39,15 @@ class PublicPhotoResource extends JsonResource
                 ] : null;
             }),
             'observation' => $this->whenLoaded('observations', function () {
-                if (!$observation = $this->observations->first()) {
+                if (! $observation = $this->observations->first()) {
                     return new MissingValue;
-                };
+                }
 
                 return [
                     'id' => $observation->details_id,
                     'type' => $observation->details_type,
                 ];
-            })
+            }),
         ];
     }
 }

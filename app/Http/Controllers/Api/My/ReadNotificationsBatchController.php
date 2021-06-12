@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\My;
 
-use App\Http\Resources\NotificationResource;
 use Illuminate\Http\Request;
 
 class ReadNotificationsBatchController
@@ -17,7 +16,7 @@ class ReadNotificationsBatchController
     {
         $query = $request->user()->unreadNotifications();
 
-        if (!$request->input('all')) {
+        if (! $request->input('all')) {
             $query->whereIn('id', $request->input('notifications_ids', []));
         }
 
@@ -26,7 +25,7 @@ class ReadNotificationsBatchController
         return [
             'meta' => [
                 'has_unread' => $request->user()->unreadNotifications()->exists(),
-            ]
+            ],
         ];
     }
 }

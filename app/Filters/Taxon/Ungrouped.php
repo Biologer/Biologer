@@ -8,7 +8,7 @@ class Ungrouped
     {
         $includeUngrouped = filter_var($value, FILTER_VALIDATE_BOOLEAN);
 
-        if ($requestData->has('groups') || !$includeUngrouped) {
+        if ($requestData->has('groups') || ! $includeUngrouped) {
             return $query;
         }
 
