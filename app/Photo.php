@@ -6,6 +6,7 @@ use App\Jobs\ProcessUploadedPhoto;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use League\Flysystem\Adapter\Local as LocalAdapter;
 
 class Photo extends Model
 {
@@ -115,7 +116,22 @@ class Photo extends Model
             return $this->watermarkedUrl();
         }
 
-        return $this->filesystem()->temporaryUrl($this->path, now()->addHour());
+        return $this->makeUrl($this->path);
+    }
+
+    /**
+     * Make a URL for the path.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    protected function makeUrl($path)
+    {
+        if ($this->filesystem()->getDriver()->getAdapter() instanceof LocalAdapter) {
+            return $this->filesystem()->url($path);
+        }
+
+        return $this->filesystem()->temporaryUrl($path, now()->addMinutes(30));
     }
 
     /**
@@ -151,7 +167,7 @@ class Photo extends Model
             return;
         }
 
-        return $this->filesystem()->temporaryUrl($path, now()->addHour());
+        return $this->makeUrl($path);
     }
 
     /**

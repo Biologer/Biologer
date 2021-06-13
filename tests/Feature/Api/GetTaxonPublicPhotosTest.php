@@ -5,6 +5,7 @@ namespace Tests\Feature\Api;
 use App\Photo;
 use App\Taxon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tests\ObservationFactory;
 use Tests\TestCase;
@@ -18,6 +19,8 @@ class GetTaxonPublicPhotosTest extends TestCase
      */
     public function can_get_public_photos_for_taxon()
     {
+        Storage::fake(config('biologer.photos_disk'));
+
         $taxon = factory(Taxon::class)->create();
 
         $photos = ObservationFactory::createManyFieldObservations(3, [
