@@ -16,6 +16,12 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
 
+Route::get('exports/{export}/download', 'ExportDownloadController')
+    ->middleware(['auth', 'verified'])
+    ->name('export-download');
+
+Route::get('photos/{photo}/file', 'PhotosController@file')->name('photos.file');
+
 Route::prefix(LaravelLocalization::setLocale())->middleware([
     'localeCookieRedirect', 'localizationRedirect', 'localeViewPath', 'localizationPreferenceUpdate',
 ])->group(function () {
@@ -235,9 +241,3 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
         });
     });
 });
-
-Route::get('exports/{export}/download', 'ExportDownloadController')
-    ->middleware(['auth', 'verified'])
-    ->name('export-download');
-
-Route::get('photos/{photo}/file', 'PhotosController@file')->name('photos.file');
