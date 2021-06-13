@@ -239,3 +239,5 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 Route::get('exports/{export}/download', 'ExportDownloadController')
     ->middleware(['auth', 'verified'])
     ->name('export-download');
+
+Route::get('photos/{photo}/file', 'PhotosController@file')->name('photos.file');

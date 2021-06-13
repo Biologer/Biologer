@@ -18,9 +18,7 @@ class PublicPhotoResource extends JsonResource
         return [
             'author' => $this->author,
             'license' => $this->license()->toArray(),
-            'url' => $this->public_url
-                ? url("{$this->public_url}?v={$this->updated_at->timestamp}")
-                : null,
+            'url' => $this->public_url,
             'is_dead' => $this->whenLoaded('observations', function () {
                 if (! $observation = $this->observations->first()) {
                     return false;
