@@ -77,6 +77,14 @@ return [
             // 'timeout'  => 30,
         ],
 
+        'photos_s3' => [
+            'driver' => 's3',
+            'key' => env('PHOTOS_S3_KEY'),
+            'secret' => env('PHOTOS_S3_SECRET'),
+            'region' => env('PHOTOS_S3_REGION'),
+            'bucket' => env('PHOTOS_S3_BUCKET'),
+            'endpoint' => env('PHOTOS_S3_ENDPOINT'),
+        ],
     ],
 
     /*

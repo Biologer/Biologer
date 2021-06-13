@@ -53,4 +53,6 @@ return [
 
     'backup_enabled' => (bool) env('BACKUP_ENABLED', false),
     'backup_full' => (bool) env('BACKUP_FULL', false),
+
+    'photos_disk' => env('PHOTOS_DISK', 'public'),
 ];
