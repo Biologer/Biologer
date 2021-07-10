@@ -37,6 +37,7 @@ class ChangePreferencesTest extends TestCase
     /** @test */
     public function can_see_license_preferences_page()
     {
+        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)->get('/preferences/license');

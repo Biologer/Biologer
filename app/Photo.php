@@ -68,7 +68,7 @@ class Photo extends Model
      */
     public function scopePublic($query)
     {
-        return $query->where('license', '<=', License::PARTIALLY_OPEN);
+        return $query->where('license', '<=', ImageLicense::PARTIALLY_OPEN);
     }
 
     /**
@@ -84,11 +84,11 @@ class Photo extends Model
     /**
      * Get photo license instance.
      *
-     * @return \App\License
+     * @return \App\ImageLicense
      */
     public function license()
     {
-        return License::findById($this->license);
+        return ImageLicense::findById($this->license);
     }
 
     /**
@@ -112,7 +112,7 @@ class Photo extends Model
             return;
         }
 
-        if (License::PARTIALLY_OPEN === $this->license) {
+        if (ImageLicense::PARTIALLY_OPEN === $this->license) {
             return $this->watermarkedUrl();
         }
 
@@ -141,17 +141,7 @@ class Photo extends Model
      */
     public function isVisibleToPublic()
     {
-        if (License::CLOSED === $this->license) {
-            return false;
-        }
-
-        if (License::CLOSED_FOR_A_PERIOD === $this->license) {
-            $openAt = $this->created_at->copy()->addYears(config('biologer.license_closed_period'));
-
-            return now()->gt($openAt);
-        }
-
-        return true;
+        return ImageLicense::CLOSED !== $this->license;
     }
 
     /**
@@ -337,7 +327,7 @@ class Photo extends Model
      */
     public function needsToBeWatermarked()
     {
-        return License::PARTIALLY_OPEN === $this->license;
+        return ImageLicense::PARTIALLY_OPEN === $this->license;
     }
 
     /**

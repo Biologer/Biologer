@@ -263,7 +263,7 @@ class FieldObservationImport extends BaseImport
             'note' => ['nullable', 'string'],
             'original_identification' => ['nullable', 'string'],
             'dataset' => ['nullable', 'string'],
-            'license' => ['nullable', 'string', Rule::in(License::allActive()->pluck('name'))],
+            'license' => ['nullable', 'string', Rule::in(License::all()->pluck('name'))],
             'atlas_code' => ['nullable', 'integer', Rule::in(AtlasCode::CODES)],
         ], [
             'year.date_format' => trans('validation.year'),

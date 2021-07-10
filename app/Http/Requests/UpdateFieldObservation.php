@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\ActivityLog\FieldObservationDiff;
 use App\AtlasCode;
 use App\FieldObservation;
+use App\ImageLicense;
 use App\License;
 use App\Notifications\FieldObservationEdited;
 use App\ObservationType;
@@ -56,7 +57,7 @@ class UpdateFieldObservation extends FormRequest
             'number' => ['nullable', 'integer', 'min:1'],
             'found_dead' => ['nullable', 'boolean'],
             'found_dead_note' => ['nullable'],
-            'data_license' => ['nullable', Rule::in(License::activeIds())],
+            'data_license' => ['nullable', Rule::in(License::ids())],
             'photos' => ['nullable', 'array', 'max:'.config('biologer.photos_per_observation')],
             'photos.*.id' => ['required_without:photos.*.path', 'integer'],
             'photos.*.path' => ['required_without:photos.*.id', 'string'],
@@ -65,7 +66,7 @@ class UpdateFieldObservation extends FormRequest
             'photos.*.crop.y' => ['required_with:photos.*.crop', 'integer'],
             'photos.*.crop.width' => ['required_with:photos.*.crop', 'integer'],
             'photos.*.crop.height' => ['required_with:photos.*.crop', 'integer'],
-            'photos.*.license' => ['nullable', Rule::in(License::activeIds())],
+            'photos.*.license' => ['nullable', Rule::in(ImageLicense::ids())],
             'time' => ['nullable' ,'date_format:H:i'],
             'project' => ['nullable', 'string', 'max:191'],
             'habitat' => ['nullable', 'string', 'max:191'],
