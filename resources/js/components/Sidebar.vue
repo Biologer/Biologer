@@ -5,15 +5,29 @@
     </div>
 
     <div class="sidebar-body">
-      <transition-group name="notification-list" v-if="currentNotifications.length">
-        <nz-notification
-          class="sidebar-block"
-          v-for="notification in currentNotifications"
-          :notification="notification"
-          @mark-read="markNotificationAsRead"
-          :key="notification.id"
-        />
-      </transition-group>
+      <template v-if="hasUnreadNotifications">
+        <transition-group name="notification-list" v-if="notifications.length">
+          <nz-notification
+            class="sidebar-block"
+            v-for="notification in notifications"
+            :notification="notification"
+            @mark-read="markNotificationAsRead"
+            :key="`notification-${notification.id}`"
+          />
+        </transition-group>
+
+        <div class="sidebar-block justify-center py-8">
+          <button
+            type="button"
+            class="button is-primary"
+            :class="{'is-loading': loading}"
+            :disabled="!hasMoreToLoad"
+            @click="loadMore"
+          >
+            {{ trans('notifications.load_more') }}
+          </button>
+        </div>
+      </template>
 
       <div class="sidebar-block justify-center py-8" v-else>
         {{ trans('notifications.no_new_notifications') }}
@@ -23,7 +37,7 @@
     <footer class="sidebar-footer">
       <button type="button" class="button" @click="hide">{{ trans('buttons.close') }}</button>
 
-      <button type="button" class="button is-text" @click="markAllNotificationsAsRead" v-if="currentNotifications.length">
+      <button type="button" class="button is-text" @click="markAllNotificationsAsRead" v-if="notifications.length">
         {{ trans('notifications.mark_all_as_read') }}
       </button>
     </footer>
@@ -42,17 +56,16 @@ export default {
 
   props: {
     active: Boolean,
-
-    notifications: {
-      type: Array,
-      default: () => []
-    }
+    hasUnreadNotifications: Boolean,
   },
 
   data() {
     return {
       activeTab: 'notifications',
-      currentNotifications: this.notifications,
+      notifications: [],
+      currentPage: 1,
+      hasMoreToLoad: this.hasUnreadNotifications,
+      loading: false,
     }
   },
 
@@ -60,6 +73,8 @@ export default {
     if (typeof window !== 'undefined') {
       document.addEventListener('keyup', this.keyPress)
     }
+
+    this.hasUnreadNotifications && this.load()
   },
 
   beforeDestroy() {
@@ -86,6 +101,30 @@ export default {
       if (event.keyCode === 27) this.hide()
     },
 
+    load() {
+      if (this.loading) return
+
+      this.loading = true
+      const page = this.currentPage
+
+      axios.get(route('api.my.unread-notifications.index', {
+        page,
+      })).then((response) => {
+        this.notifications = this.notifications.concat(response.data.data)
+
+        this.hasMoreToLoad = this.page < response.data.meta.last_page
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+
+    loadMore() {
+      if (this.loading || !this.hasMoreToLoad) return
+
+      this.currentPage++
+      this.load()
+    },
+
     /**
      * Mark single notification as read.
      *
@@ -94,14 +133,14 @@ export default {
     markNotificationAsRead(notificationId, callback) {
       axios.post(route('api.my.read-notifications-batch.store'), {
         notifications_ids: [notificationId]
-      }).then(() => {
-        this.currentNotifications = this.currentNotifications.filter(notification => {
+      }).then((response) => {
+        this.notifications = this.notifications.filter(notification => {
           return notification.id !== notificationId
         })
 
-        this.$emit('update:has-unread-notifications', !!this.currentNotifications.length)
+        this.$emit('update:has-unread-notifications', response.data.meta.has_unread)
 
-        callback()
+        callback && callback()
       })
     },
 
@@ -109,12 +148,12 @@ export default {
      * Mark all unread notifications as read.
      */
     markAllNotificationsAsRead() {
-      if (!this.currentNotifications.length) return
+      if (!this.hasUnreadNotifications) return
 
       axios.post(route('api.my.read-notifications-batch.store'), {
-        notifications_ids: this.currentNotifications.map(notification => notification.id)
+        all: true,
       }).then(() => {
-        this.currentNotifications = []
+        this.notifications = []
 
         this.$emit('update:has-unread-notifications', false)
       })

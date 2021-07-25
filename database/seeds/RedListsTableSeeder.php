@@ -23,7 +23,7 @@ class RedListsTableSeeder extends Seeder
         RedList::firstOrCreate(['slug' => 'europe'])->update([
             'bs' => ['name' => 'Evropa'],
             'en' => ['name' => 'Europe'],
-            'hr' => ['name' => 'Evropa'],
+            'hr' => ['name' => 'Europa'],
             'sr' => ['name' => 'Европа'],
             'sr-Latn' => ['name' => 'Evropa'],
         ]);

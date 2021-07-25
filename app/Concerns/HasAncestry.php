@@ -111,8 +111,8 @@ trait HasAncestry
             // sorted properly (by rank level, descending).
             ->fromSub(static::query()->orderBy('rank_level', 'desc'), 'ancestors')
             ->selectRaw('GROUP_CONCAT(`ancestors`.`name`)')
-            ->join(static::ancestorsPivotTableName(), 'ancestors.id', '=', static::ancestorsPivotTableName() . '.ancestor_id')
-            ->whereColumn(static::ancestorsPivotTableName() . '.model_id', $this->getQualifiedKeyName());
+            ->join(static::ancestorsPivotTableName(), 'ancestors.id', '=', static::ancestorsPivotTableName().'.ancestor_id')
+            ->whereColumn(static::ancestorsPivotTableName().'.model_id', $this->getQualifiedKeyName());
     }
 
     /**
@@ -286,8 +286,8 @@ trait HasAncestry
     public function cacheAncestorsNamesOnDescendants()
     {
         return static::query()
-            ->join(static::ancestorsPivotTableName(), $this->getTable().'.id', '=', static::ancestorsPivotTableName() . '.model_id')
-            ->where(static::ancestorsPivotTableName() . '.ancestor_id', $this->getKey())
+            ->join(static::ancestorsPivotTableName(), $this->getTable().'.id', '=', static::ancestorsPivotTableName().'.model_id')
+            ->where(static::ancestorsPivotTableName().'.ancestor_id', $this->getKey())
             ->update([
                 'ancestors_names' => DB::raw("({$this->orderByAncestrySubquery()->toSql()})"),
             ]);

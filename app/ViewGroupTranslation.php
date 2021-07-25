@@ -9,4 +9,8 @@ class ViewGroupTranslation extends Model
     public $timestamps = false;
 
     protected $fillable = ['name', 'description'];
+
+    protected $casts = [
+        'view_group_id' => 'integer',
+    ];
 }

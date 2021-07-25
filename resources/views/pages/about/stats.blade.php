@@ -56,12 +56,12 @@
                 <tbody>
                     @foreach ($groups as $rootGroup)
                         <tr class="has-background-light">
-                            <td colspan="2">{{ $rootGroup->name }}</td>
+                            <td colspan="2">{{ $rootGroup->name_with_fallback }}</td>
                         </tr>
 
                         @foreach ($rootGroup->groups as $group)
                             <tr>
-                                <td>{{ $group->name }}</td>
+                                <td>{{ $group->name_with_fallback }}</td>
                                 <td>{{ $group->observations_count }}</td>
                             </tr>
                         @endforeach

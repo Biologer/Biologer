@@ -12,6 +12,8 @@ return [
 
     'title' => 'Notifications',
 
+    'load_more' => 'Load more',
+
     'mark_as_read' => 'Mark as read',
     'mark_all_as_read' => 'Mark all as read',
     'no_new_notifications' => 'There are no new notifications.',

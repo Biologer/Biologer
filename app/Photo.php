@@ -6,6 +6,7 @@ use App\Jobs\ProcessUploadedPhoto;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use League\Flysystem\Adapter\Local as LocalAdapter;
 
 class Photo extends Model
 {
@@ -34,6 +35,7 @@ class Photo extends Model
      * @var array
      */
     protected $appends = [
+        'url',
         'public_url',
     ];
 
@@ -96,7 +98,7 @@ class Photo extends Model
      */
     public function getUrlAttribute()
     {
-        return $this->attributes['url'] ?: $this->filesystem()->url($this->path);
+        return route('photos.file', $this);
     }
 
     /**
@@ -106,21 +108,50 @@ class Photo extends Model
      */
     public function getPublicUrlAttribute()
     {
-        if (License::CLOSED === $this->license) {
+        if (! $this->isVisibleToPublic()) {
             return;
-        }
-
-        if (License::CLOSED_FOR_A_PERIOD === $this->license) {
-            $openAt = $this->created_at->copy()->addYears(config('biologer.license_closed_period', 1));
-
-            return now()->gt($openAt) ? $this->url : null;
         }
 
         if (License::PARTIALLY_OPEN === $this->license) {
             return $this->watermarkedUrl();
         }
 
-        return $this->url;
+        return $this->makeUrl($this->path);
+    }
+
+    /**
+     * Make a URL for the path.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    protected function makeUrl($path)
+    {
+        if ($this->filesystem()->getDriver()->getAdapter() instanceof LocalAdapter) {
+            return $this->filesystem()->url($path);
+        }
+
+        return $this->filesystem()->temporaryUrl($path, now()->addMinutes(30));
+    }
+
+    /**
+     * Check if we can show the photo in some form to the public.
+     *
+     * @return bool
+     */
+    public function isVisibleToPublic()
+    {
+        if (License::CLOSED === $this->license) {
+            return false;
+        }
+
+        if (License::CLOSED_FOR_A_PERIOD === $this->license) {
+            $openAt = $this->created_at->copy()->addYears(config('biologer.license_closed_period'));
+
+            return now()->gt($openAt);
+        }
+
+        return true;
     }
 
     /**
@@ -136,7 +167,7 @@ class Photo extends Model
             return;
         }
 
-        return $this->filesystem()->url($path);
+        return $this->makeUrl($path);
     }
 
     /**
@@ -253,11 +284,15 @@ class Photo extends Model
      */
     public function moveToFinalPath()
     {
-        $this->filesystem()->move($this->path, $path = $this->finalPath());
+        $this->filesystem()->put(
+            $path = $this->finalPath(),
+            Storage::disk('public')->readStream($this->path)
+        );
+
+        Storage::disk('public')->delete($this->path);
 
         return tap($this)->update([
             'path' => $path,
-            'url' => $this->filesystem()->url($path),
         ]);
     }
 
@@ -333,7 +368,12 @@ class Photo extends Model
      */
     protected function filesystem()
     {
-        return Storage::disk('public');
+        return Storage::disk(config('biologer.photos_disk'));
+    }
+
+    public function streamResponse(): \Symfony\Component\HttpFoundation\Response
+    {
+        return $this->filesystem()->response($this->finalPath());
     }
 
     /**
@@ -344,7 +384,7 @@ class Photo extends Model
     public function forGallery()
     {
         return [
-            'url' => "{$this->public_url}?v={$this->updated_at->timestamp}",
+            'url' => $this->public_url,
             'caption' => "&copy; {$this->author} ({$this->license_name})",
         ];
     }

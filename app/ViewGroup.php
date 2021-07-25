@@ -32,7 +32,7 @@ class ViewGroup extends Model
      */
     protected $appends = ['name', 'description'];
 
-   /**
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array
@@ -151,6 +151,18 @@ class ViewGroup extends Model
     public function getNameAttribute()
     {
         return $this->translateOrNew($this->locale())->name;
+    }
+
+    /**
+     * Name translation in current locale with fallback to configured
+     * fallback locale if there is no name in current locale.
+     *
+     * @return string
+     */
+    public function getNameWithFallbackAttribute()
+    {
+        return $this->translateOrNew($this->locale())->name
+            ?? $this->translateOrNew($this->getFallbackLocale())->name;
     }
 
     /**
@@ -319,7 +331,7 @@ class ViewGroup extends Model
         static::updated(function ($model) {
             if ($model->wasChanged('image_path') && $path = $model->getOriginal('image_path')) {
                 $model->deleteImage($path);
-            };
+            }
         });
 
         static::deleted(function ($model) {

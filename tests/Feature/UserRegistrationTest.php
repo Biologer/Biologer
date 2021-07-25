@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Notifications\VerifyEmail;
 use App\User;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Nikazooz\LaravelCaptcha\Facades\Captcha;

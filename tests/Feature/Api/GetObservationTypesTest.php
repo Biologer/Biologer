@@ -32,7 +32,7 @@ class GetObservationTypesTest extends TestCase
             'slug' => 'test',
         ]);
         $response->assertJsonFragment([
-            'locale'=> 'en',
+            'locale' => 'en',
             'name' => 'Test',
         ]);
     }

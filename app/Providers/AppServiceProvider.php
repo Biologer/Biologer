@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Watermark;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Lang;
@@ -50,6 +52,17 @@ class AppServiceProvider extends ServiceProvider
 
                 return parent::getPluralIndex($locale, $number);
             }
+        });
+    }
+
+    protected function customizeVerificationMail()
+    {
+        VerifyEmail::toMailUsing(function ($notifiable, $verificationUrl) {
+            return (new MailMessage)
+                ->subject(Lang::get('Verify Email Address'))
+                ->line(Lang::get('Please click the button below to verify your email address.'))
+                ->action(Lang::get('Verify Email Address'), $verificationUrl)
+                ->line(Lang::get('If you did not create an account, no further action is required.'));
         });
     }
 

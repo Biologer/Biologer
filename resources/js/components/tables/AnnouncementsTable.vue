@@ -19,10 +19,16 @@
       mobile-cards
     >
       <template #top-left>
-        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
+        <div class="level-item">
+          <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
+        </div>
+        <div class="level-item">{{ showing }}</div>
       </template>
       <template #bottom-left>
-        <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
+        <div class="level-item">
+          <nz-per-page-select :value="perPage" @input="onPerPageChange" :options="perPageOptions" />
+        </div>
+        <div class="level-item">{{ showing }}</div>
       </template>
 
       <b-table-column field="id" :label="trans('labels.id')" width="40" numeric sortable>

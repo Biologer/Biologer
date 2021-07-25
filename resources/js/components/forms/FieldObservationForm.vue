@@ -639,7 +639,7 @@ export default {
       if (attribute === 'url' && value) {
         const updated = dayjs(_get(this.observation, `photos.${photoIndex}.updated_at`, null))
 
-        value += updated.isValid() ? `?v=${updated.format('X')}` : ''
+        value += updated.isValid() ? `?v=${updated.unix()}` : ''
       }
 
       return value

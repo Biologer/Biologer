@@ -71,9 +71,9 @@ class ProcessUploadedPhoto implements ShouldQueue
         }
 
         // Cleanup. We don't need leftover files.
-        @unlink($tempPath);
         $image->destroy();
         unset($image);
+        @unlink($tempPath);
 
         if ($this->photo->needsToBeWatermarked()) {
             $this->photo->watermark();

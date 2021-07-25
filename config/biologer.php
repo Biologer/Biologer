@@ -38,7 +38,7 @@ return [
                 'longitude' => 17.8,
                 'zoom' => 7,
             ],
-        ]
+        ],
     ],
 
     'android_app_url' => env('ANDROID_APP_URL'),
@@ -53,4 +53,6 @@ return [
 
     'backup_enabled' => (bool) env('BACKUP_ENABLED', false),
     'backup_full' => (bool) env('BACKUP_FULL', false),
+
+    'photos_disk' => env('PHOTOS_DISK', 'public'),
 ];

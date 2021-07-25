@@ -150,6 +150,8 @@ class Taxon extends Model
             'limit' => \App\Filters\Limit::class,
             'taxonId' => \App\Filters\NullFilter::class,
             'includeChildTaxa' => \App\Filters\NullFilter::class,
+            'groups' => \App\Filters\Taxon\Groups::class,
+            'ungrouped' => \App\Filters\Taxon\Ungrouped::class,
         ];
     }
 
@@ -308,10 +310,9 @@ class Taxon extends Model
     public function scopeWithScientificOrNativeName($query, $name)
     {
         return $query->where(function ($query) use ($name) {
-            $query->where('name', 'like', '%' . $name . '%')
+            $query->where('name', 'like', '%'.$name.'%')
                 ->orWhereTranslationLike('native_name', '%'.$name.'%');
         });
-
     }
 
     /**
@@ -524,7 +525,7 @@ class Taxon extends Model
 
         return [
             'elevation' => (int) $observation->elevation,
-            'date' => $observation->year . '-' . $month . '-' . $day,
+            'date' => $observation->year.'-'.$month.'-'.$day,
             'stage' => $observation->stage_name ?? 'unknown',
         ];
     }
