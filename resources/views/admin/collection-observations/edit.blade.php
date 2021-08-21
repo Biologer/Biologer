@@ -8,8 +8,9 @@
             redirect-url="{{ route('admin.collection-observations.index') }}"
             cancel-url="{{ route('admin.collection-observations.index') }}"
             :observation="{{ json_encode($collectionObservation->toFlatArray()) }}"
-            :licenses="{{ json_encode(\App\License::getOptions()) }}"
+            :image-licenses="{{ json_encode(\App\License::getOptions()) }}"
             :sexes="{{ \App\Sex::options() }}"
+            :dispositions="{{ \App\CollectionSpecimenDisposition::options() }}"
             :validity-options="{{ \App\ObservationIdentificationValidity::options() }}"
             should-confirm-submit
             confirm-submit-message="{{ __('Reason for changing data. Please try to be precise in order to keep the track of changes and ensure data verification.') }}"

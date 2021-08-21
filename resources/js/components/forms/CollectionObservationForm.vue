@@ -326,7 +326,7 @@
           >
             <b-select v-model="form.disposition" expanded="expanded">
               <option :value="null">{{ trans('labels.collection_observations.choose_a_value') }}</option>
-              <option v-for="(label,disposition) in dispositions" :key="disposition" :value="disposition" v-text="label"></option>
+              <option v-for="disposition in dispositions" :key="disposition.value" :value="disposition.value" v-text="disposition.label"></option>
             </b-select>
           </b-field>
         </div>
@@ -466,12 +466,12 @@
                 :image-url="getObservationPhotoAttribute(0, 'url')"
                 :image-path="getObservationPhotoAttribute(0, 'path')"
                 :image-license="getObservationPhotoAttribute(0, 'license')"
-                :licenses="licenses"
+                :licenses="imageLiceneses"
                 :text="trans('labels.collection_observations.upload')"
                 @uploaded="onPhotoUploaded"
                 @removed="onPhotoRemoved"
                 @cropped="onPhotoCropped"
-                @license-changed="onLicenseChanged(0, $event)"
+                @license-changed="onImageLicenseChanged(0, $event)"
                 :errors="form.errors"
                 ref="photoUpload-1"
               />
@@ -482,12 +482,12 @@
                 :image-path="getObservationPhotoAttribute(1, 'path')"
                 :image-url="getObservationPhotoAttribute(1, 'url')"
                 :image-license="getObservationPhotoAttribute(1, 'license')"
-                :licenses="licenses"
+                :licenses="imageLicenses"
                 :text="trans('labels.collection_observations.upload')"
                 @uploaded="onPhotoUploaded"
                 @removed="onPhotoRemoved"
                 @cropped="onPhotoCropped"
-                @license-changed="onLicenseChanged(1, $event)"
+                @license-changed="onImageLicenseChanged(1, $event)"
                 :errors="form.errors"
                 ref="photoUpload-2"
               />
@@ -498,12 +498,12 @@
                 :image-url="getObservationPhotoAttribute(2, 'url')"
                 :image-path="getObservationPhotoAttribute(2, 'path')"
                 :image-license="getObservationPhotoAttribute(2, 'license')"
-                :licenses="licenses"
+                :licenses="imageLicenses"
                 :text="trans('labels.collection_observations.upload')"
                 @uploaded="onPhotoUploaded"
                 @removed="onPhotoRemoved"
                 @cropped="onPhotoCropped"
-                @license-changed="onLicenseChanged(2, $event)"
+                @license-changed="onImageLicenseChanged(2, $event)"
                 :errors="form.errors"
                 ref="photoUpload-3"
               />
@@ -648,7 +648,7 @@ export default {
       }
     },
 
-    licenses: {
+    imageLiceneses: {
         type: Object,
         default: () => ({})
     },
@@ -989,7 +989,7 @@ export default {
      * @param {Number} photoIndex
      * @param {Number} license
      */
-    onLicenseChanged(photoIndex, license) {
+    onImageLicenseChanged(photoIndex, license) {
       const photo = _cloneDeep(this.form.photos[photoIndex])
 
       photo.license = license
