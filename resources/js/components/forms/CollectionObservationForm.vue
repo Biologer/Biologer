@@ -326,7 +326,7 @@
           >
             <b-select v-model="form.disposition" expanded="expanded">
               <option :value="null">{{ trans('labels.collection_observations.choose_a_value') }}</option>
-              <option v-for="disposition in dispositions" :key="disposition.value" :value="disposition.value" v-text="disposition.label"></option>
+              <option v-for="(label, value) in dispositions" :key="`disposition-option-${value}`" :value="value" v-text="label"></option>
             </b-select>
           </b-field>
         </div>
@@ -466,7 +466,7 @@
                 :image-url="getObservationPhotoAttribute(0, 'url')"
                 :image-path="getObservationPhotoAttribute(0, 'path')"
                 :image-license="getObservationPhotoAttribute(0, 'license')"
-                :licenses="imageLiceneses"
+                :licenses="imageLicenses"
                 :text="trans('labels.collection_observations.upload')"
                 @uploaded="onPhotoUploaded"
                 @removed="onPhotoRemoved"
@@ -648,7 +648,7 @@ export default {
       }
     },
 
-    imageLiceneses: {
+    imageLicenses: {
         type: Object,
         default: () => ({})
     },

@@ -11,6 +11,13 @@ class CollectionSpecimenDisposition implements Arrayable
     const VOUCHER_ELSEWHERE = 'voucher_elsewhere';
     const DUPLICATE_ELSEWHERE = 'duplicate_elswhere';
 
+    const ALL = [
+        self::IN_COLLECTION,
+        self::MISSING,
+        self::VOUCHER_ELSEWHERE,
+        self::DUPLICATE_ELSEWHERE,
+    ];
+
     /**
      * @var string
      */
@@ -33,24 +40,21 @@ class CollectionSpecimenDisposition implements Arrayable
      */
     public static function all()
     {
-        return collect([
-            new static(self::IN_COLLECTION),
-            new static(self::MISSING),
-            new static(self::VOUCHER_ELSEWHERE),
-            new static(self::DUPLICATE_ELSEWHERE),
-        ]);
+        return collect(self::ALL)->map(function ($value) {
+            return new static($value);
+        });
     }
 
     /**
      * List of available licenses.
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     public static function options()
     {
         return self::all()->mapWithKeys(function ($license) {
             return [$license->value => $license->label()];
-        })->all();
+        });
     }
 
     /**
@@ -101,7 +105,7 @@ class CollectionSpecimenDisposition implements Arrayable
      */
     public function label()
     {
-        return trans('collection_specimen_disposition.'.$this->value);
+        return trans('specimenDisposition.'.$this->value);
     }
 
     /**

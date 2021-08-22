@@ -7,8 +7,9 @@
             method="POST"
             redirect-url="{{ route('admin.collection-observations.index') }}"
             cancel-url="{{ route('admin.collection-observations.index') }}"
-            :licenses="{{ json_encode(\App\License::getOptions()) }}"
+            :image-licenses="{{ json_encode(\App\License::getOptions()) }}"
             :sexes="{{ \App\Sex::options() }}"
+            :dispositions="{{ \App\CollectionSpecimenDisposition::options() }}"
             :validity-options="{{ \App\ObservationIdentificationValidity::options() }}"
             should-confirm-cancel
             submit-more

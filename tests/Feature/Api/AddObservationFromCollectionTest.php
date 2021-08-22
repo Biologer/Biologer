@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api;
 
 use App\CollectionObservation;
+use App\CollectionSpecimenDisposition;
 use App\ObservationIdentificationValidity;
 use App\Photo;
 use App\SpecimenCollection;
@@ -65,7 +66,7 @@ class AddObservationFromCollectionTest extends TestCase
             'catalogue_number' => '2DX',
             'cabinet_number' => '1A',
             'box_number' => 'A12',
-            'disposition' => 'in_collection',
+            'disposition' => CollectionSpecimenDisposition::IN_COLLECTION,
             'type_status' => null,
         ], $overrides));
     }
