@@ -1,8 +1,7 @@
 <?php
 
 return [
-    'license_closed_period' => (int) env('LICENSE_CLOSED_PERIOD', 3),
-
+    'license_closed_period' => 3,
     'photos_per_observation' => 3,
 
     'photo_resize_dimension' => (int) env('PHOTO_RESIZE_DIMENSION', null),
