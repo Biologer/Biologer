@@ -22,16 +22,16 @@
             </p>
 
             <p class="mb-4">
-                By selecting this license authors retain all rights to the data
-                they entered. Biologer.org administrators and taxonomic experts
-                reserve the right to use data entered under this license in order
-                to produce the documents of national importance (Red Book, Red List, etc.),
-                as well as for statistical data processing (eg. protection and
-                conservation of the taxons and their habitats) but without publicly
-                releasing the exact location of the original data. In the case that
-                the location of the original data, which is recorded under this license,
-                is needed for publishing, administrators of Biologer.org and taxonomic
-                experts must do so with the consent of the authors.
+                By selecting this license authors retain all rights to the data they entered.
+                Biologer.org administrators and taxonomic experts reserve the right to use
+                data entered under this license in order to produce the documents of national importance,
+                for nature conservation (Red Book, Red List, revision of legislature,
+                defining borders of the protected areas etc.), as well as for statistical data processing
+                (e.g. protection and conservation of the species and their habitats) but without
+                publicly releasing the exact location of the original data. In scientific publications,
+                this data could only be used in summary form, without details about original record.
+                In the case that the location of the original data, which is recorded under this license,
+                is required for publishing, Administrators of Biologer.org and taxonomic experts must do so with the consent of the authors.
             </p>
 
             <p class="mb-4">

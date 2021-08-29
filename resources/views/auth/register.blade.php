@@ -149,7 +149,7 @@
 
                                 @include('partials.licenses', [
                                     'dataLicense' => old('data_license', \App\License::firstId()),
-                                    'imageLicense' => old('image_license', \App\License::firstId()),
+                                    'imageLicense' => old('image_license', \App\ImageLicense::firstId()),
                                 ])
 
                                 <hr>

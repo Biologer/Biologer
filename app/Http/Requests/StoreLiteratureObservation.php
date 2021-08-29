@@ -60,7 +60,7 @@ class StoreLiteratureObservation extends FormRequest
             'observed_by_id' => ['nullable', Rule::exists('users', 'id')],
             'identified_by_id' => ['nullable', Rule::exists('users', 'id')],
             'dataset' => ['nullable', 'string', 'max:255'],
-            'data_license' => ['nullable', Rule::in(License::activeIds())],
+            'data_license' => ['nullable', Rule::in(License::ids())],
             'minimum_elevation' => [
                 'nullable', 'integer', 'max:10000', 'lte:maximum_elevation', 'lte:elevation',
             ],

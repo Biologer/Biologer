@@ -22,15 +22,16 @@
             </p>
 
             <p class="mb-4">
-                Izborom ove licence autori zadržavaju sva prava nad unetim podacima.
-                Administratori Biologera i taksonomski eksperti zadržavaju pravo
+                Izborom ove licence autori zadržavaјu sva prava nad unetim podacima.
+                Administratori Biologera i taksonomski eksperti zadržavaјu pravo
                 na upotrebu podataka unetih pod ovom licencom i to za potrebe
-                izrade dokumenata od nacionalnog značaja (Crvene knjige, Crvene liste i sl.),
-                kao i za potrebe statističke obrade podataka (npr. zarad zaštite i
-                očuvanja taksona i njihovih staništa), ali bez objavljivanja izvornog
-                podatka. U slučaju da postoji potreba da se izvorni podatak zabeležen
-                pod ovom licencom objavi u celosti, administratori Biologera i
-                taksonomski eksperti moraju to učiniti uz saglasnost autora podatka.
+                izrade dokumenata od nacionalnog značaјa, potrebe zaštite prirode
+                (Crvene knjige, Crvene liste, reviziјa zakona, definisanje granidža zaštićenih područјa i sl.)
+                i za potrebe statističke obrade podataka (npr. zarad zaštite i očuvanja vrsta i njihovih staništa),
+                ali bez obјavljivanja izvornog podatka. U slučaјu korišćena podataka za naučne publikaciјe,
+                moguće јe upotrebiti podatak u sumarnom prikazu, bez detalja o originalnom nalazu.
+                U slučaјu da postoјi potreba da se izvorni podatak pod ovom licencom obјavi u celosti,
+                Administratori Biologera i taksonomski eksperti moraјu to učiniti uz saglasnost autora podatka.
             </p>
 
             <p class="mb-4">
