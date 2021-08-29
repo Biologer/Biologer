@@ -2,9 +2,11 @@
 
 namespace App\Support;
 
-use PHPCoord\LatLng;
-use PHPCoord\RefEll;
-use PHPCoord\UTMRef;
+use PHPCoord\CoordinateReferenceSystem\Geographic2D;
+use PHPCoord\GeographicPoint;
+use PHPCoord\UnitOfMeasure\Angle\Degree;
+use PHPCoord\UnitOfMeasure\Length\Metre;
+use PHPCoord\UTMPoint;
 
 class Mgrs
 {
@@ -30,18 +32,47 @@ class Mgrs
     protected static $n100kLetters = ['ABCDEFGHJKLMNPQRSTUV', 'FGHJKLMNPQRSTUVABCDE'];
 
     /**
-     * @var UTMRef
+     * @var UTMPoint
      */
     protected $utm;
 
     /**
+     * @var string
+     */
+    protected $latitudeZoneLetter;
+
+    /**
      * Create instance.
      *
-     * @param  UTMRef  $utm
+     * @param  UTMPoint  $utm
      */
-    protected function __construct(UTMRef $utm)
+    protected function __construct(UTMPoint $utm)
     {
         $this->utm = $utm;
+
+        $this->latitudeZoneLetter = $this->calculateLatitudeZone(
+            $utm->asGeographicPoint()->getLatitude()->getValue(),
+        );
+    }
+
+    /**
+     * Calculate latitude zone based on provided latitude.
+     *
+     * @param  float  $latitude
+     * @return string
+     *
+     * @throws \OutOfRangeException when polar region latitude is provided.
+     */
+    protected function calculateLatitudeZone($latitude)
+    {
+        if ($latitude < -80 || $latitude > 84) {
+            throw new \OutOfRangeException('UTM zones do not apply in polar regions');
+        }
+
+        $zones = 'CDEFGHJKLMNPQRSTUVWXX';
+        $zoneIndex = (int) (($latitude + 80) / 8);
+
+        return $zones[$zoneIndex];
     }
 
     /**
@@ -52,12 +83,17 @@ class Mgrs
      * @param  float  $altitude
      * @return self
      */
-    public static function makeFromLatLong($latitude, $longitude, $altitude = 0)
+    public static function makeFromLatLong($latitude, $longitude)
     {
-        $latLong = new LatLng($latitude, $longitude, $altitude, RefEll::wgs84());
-
         try {
-            return new static($latLong->toUTMRef());
+            $utmPoint = GeographicPoint::create(
+                new Degree($latitude),
+                new Degree($longitude),
+                null,
+                Geographic2D::fromSRID(Geographic2D::EPSG_WGS_84)
+            )->asUTMPoint();
+
+            return new static($utmPoint);
         } catch (\Exception $e) {
             return new NullMgrs;
         }
@@ -83,7 +119,7 @@ class Mgrs
     {
         return vsprintf('%s%s%s%s%s%s', [
             $this->zone(),
-            $this->band(),
+            $this->latitudeZoneLetter,
             $this->e100k(),
             $this->n100k(),
             $this->easting($precision),
@@ -98,17 +134,7 @@ class Mgrs
      */
     protected function zone()
     {
-        return (int) $this->utm->getLngZone();
-    }
-
-    /**
-     * Zone letter.
-     *
-     * @return string
-     */
-    protected function band()
-    {
-        return $this->utm->getLatZone();
+        return (int) $this->utm->getZone();
     }
 
     /**
@@ -118,7 +144,7 @@ class Mgrs
      */
     protected function utmEasting()
     {
-        return $this->utm->getX();
+        return $this->utm->getEasting()->getValue();
     }
 
     /**
@@ -128,7 +154,7 @@ class Mgrs
      */
     protected function utmNorthing()
     {
-        return $this->utm->getY();
+        return $this->utm->getNorthing()->getValue();
     }
 
     /**
@@ -210,19 +236,19 @@ class Mgrs
     /**
      * Get LatLng instance with coordinates of 10k square center.
      *
-     * @return \PHPCoord\LatLng
+     * @return \PHPCoord\GeographicPoin
      */
     public function centerOf10kLatLng()
     {
         // Starting point of 10k square
-        $startX = $this->utm->getX() - ($this->utm->getX() % static::METERS_IN_10K);
-        $startY = $this->utm->getY() - ($this->utm->getY() % static::METERS_IN_10K);
+        $startX = $this->utmEasting() - ($this->utmEasting() % static::METERS_IN_10K);
+        $startY = $this->utmNorthing() - ($this->utmNorthing() % static::METERS_IN_10K);
 
         // Center point of 10k square
         $centerX = $startX + static::METERS_IN_10K / 2;
         $centerY = $startY + static::METERS_IN_10K / 2;
 
-        return $this->cloneUtm($centerX, $centerY)->toLatLng();
+        return $this->cloneUtm($centerX, $centerY)->asGeographicPoint();
     }
 
     /**
@@ -230,10 +256,16 @@ class Mgrs
      *
      * @param  int  $x
      * @param  int  $y
-     * @return \PHPCoord\UTMRef
+     * @return \PHPCoord\UTMPoint
      */
     private function cloneUtm(int $x, int $y)
     {
-        return new UTMRef($x, $y, $this->utm->getH(), $this->utm->getLatZone(), $this->utm->getLngZone());
+        return new UTMPoint(
+            new Metre($x),
+            new Metre($y),
+            $this->utm->getZone(),
+            $this->utm->getHemisphere(),
+            $this->utm->getBaseCRS(),
+        );
     }
 }

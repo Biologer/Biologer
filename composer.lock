@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "af5c3190a7d1ec59f434ca43b33f926f",
+    "content-hash": "66782fd4e2453aff8fe387bee1f817d7",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3912,26 +3912,53 @@
         },
         {
             "name": "php-coord/php-coord",
-            "version": "v3.1.2",
+            "version": "v4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dvdoug/PHPCoord.git",
-                "reference": "1c87d296c70ab8f63483323058298267342eecd6"
+                "reference": "753db6bae43f5bfd5b84f098b316045f25b6d005"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dvdoug/PHPCoord/zipball/1c87d296c70ab8f63483323058298267342eecd6",
-                "reference": "1c87d296c70ab8f63483323058298267342eecd6",
+                "url": "https://api.github.com/repos/dvdoug/PHPCoord/zipball/753db6bae43f5bfd5b84f098b316045f25b6d005",
+                "reference": "753db6bae43f5bfd5b84f098b316045f25b6d005",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.3||^8.0"
+                "php": "^7.4||^8.0",
+                "symfony/polyfill-php80": "^1.18"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.16.4",
-                "phpunit/phpunit": "^9.3.5"
+                "ext-json": "*",
+                "ext-sqlite3": "*",
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "nikic/php-parser": "^4.10",
+                "php-coord/datapack-africa": "dev-master",
+                "php-coord/datapack-antarctic": "dev-master",
+                "php-coord/datapack-arctic": "dev-master",
+                "php-coord/datapack-asia": "dev-master",
+                "php-coord/datapack-europe": "dev-master",
+                "php-coord/datapack-northamerica": "dev-master",
+                "php-coord/datapack-oceania": "dev-master",
+                "php-coord/datapack-southamerica": "dev-master",
+                "phpunit/phpunit": "^9.5.0"
+            },
+            "suggest": {
+                "php-coord/datapack-africa": "High-accuracy addon datapack for Africa",
+                "php-coord/datapack-antarctic": "High-accuracy addon datapack for the Antartic",
+                "php-coord/datapack-arctic": "High-accuracy addon datapack for the Arctic",
+                "php-coord/datapack-asia": "High-accuracy addon datapack for Asia",
+                "php-coord/datapack-europe": "High-accuracy addon datapack for Europe",
+                "php-coord/datapack-northamerica": "High-accuracy addon datapack for North America",
+                "php-coord/datapack-oceania": "High-accuracy addon datapack for Oceania",
+                "php-coord/datapack-southamerica": "High-accuracy addon datapack for South America"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "PHPCoord\\": "src/"
@@ -3939,35 +3966,36 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-2.0-or-later"
+                "(MIT and proprietary)"
             ],
             "authors": [
                 {
                     "name": "Doug Wright",
                     "role": "Developer"
-                },
-                {
-                    "name": "Jonathan Stott",
-                    "role": "Original Developer"
                 }
             ],
-            "description": "PHPCoord is a set of PHP functions for handling various co-ordinate systems and converting between them",
-            "homepage": "https://github.com/dvdoug/PHPCoord",
+            "description": "PHPCoord is a PHP library to aid in handling coordinates. It can convert coordinates for a point from one system to another and also calculate distance between points.",
+            "homepage": "https://www.phpcoord.net/",
             "keywords": [
                 "UTM",
                 "coord",
+                "ed50",
+                "epsg",
+                "gda",
                 "geo",
-                "gps",
                 "grid ref",
-                "itm",
                 "latitude",
                 "longitude",
+                "map",
+                "nad",
+                "nzmg",
                 "osgb36",
+                "projection",
                 "wgs84"
             ],
             "support": {
                 "issues": "https://github.com/dvdoug/PHPCoord/issues",
-                "source": "https://github.com/dvdoug/PHPCoord/tree/master"
+                "source": "https://github.com/dvdoug/PHPCoord/tree/v4.4.0"
             },
             "funding": [
                 {
@@ -3975,7 +4003,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-08-14T18:03:31+00:00"
+            "time": "2021-06-24T06:06:38+00:00"
         },
         {
             "name": "php-http/message-factory",
