@@ -34,7 +34,7 @@
                 :image-url="getObservationPhotoAttribute(0, 'url')"
                 :image-path="getObservationPhotoAttribute(0, 'path')"
                 :image-license="getObservationPhotoAttribute(0, 'license')"
-                :licenses="licenses"
+                :licenses="imageLicenses"
                 :text="trans('labels.field_observations.upload')"
                 @uploaded="onPhotoUploaded"
                 @removed="onPhotoRemoved"
@@ -50,7 +50,7 @@
                 :image-url="getObservationPhotoAttribute(1, 'url')"
                 :image-path="getObservationPhotoAttribute(1, 'path')"
                 :image-license="getObservationPhotoAttribute(1, 'license')"
-                :licenses="licenses"
+                :licenses="imageLicenses"
                 :text="trans('labels.field_observations.upload')"
                 @uploaded="onPhotoUploaded"
                 @removed="onPhotoRemoved"
@@ -66,7 +66,7 @@
                 :image-url="getObservationPhotoAttribute(2, 'url')"
                 :image-path="getObservationPhotoAttribute(2, 'path')"
                 :image-license="getObservationPhotoAttribute(2, 'license')"
-                :licenses="licenses"
+                :licenses="imageLicenses"
                 :text="trans('labels.field_observations.upload')"
                 @uploaded="onPhotoUploaded"
                 @removed="onPhotoRemoved"
@@ -306,7 +306,7 @@
           >
             <b-select id="data_license" v-model="form.data_license" expanded>
               <option :value="null">{{ trans('labels.field_observations.default') }}</option>
-              <option v-for="(label, value) in licenses" :value="value" v-text="label"></option>
+              <option v-for="(label, value) in dataLicenses" :value="value" v-text="label" :key="`license-${value}`"></option>
             </b-select>
           </b-field>
         </div>
@@ -417,7 +417,12 @@ export default {
       }
     },
 
-    licenses: {
+    dataLicenses: {
+        type: Object,
+        default: () => ({})
+    },
+
+    imageLicenses: {
         type: Object,
         default: () => ({})
     },

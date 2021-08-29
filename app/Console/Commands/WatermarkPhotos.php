@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\License;
+use App\ImageLicense;
 use App\Photo;
 use Illuminate\Console\Command;
 
@@ -31,7 +31,7 @@ class WatermarkPhotos extends Command
     {
         $this->warn('Starting to watermark photos that require it...');
 
-        Photo::where('license', License::PARTIALLY_OPEN)->chunk(100, function ($photos) {
+        Photo::where('license', ImageLicense::PARTIALLY_OPEN)->chunk(100, function ($photos) {
             $photos->each(function ($photo) {
                 if (! $this->option('all') && $photo->alreadyWatermarked()) {
                     return;

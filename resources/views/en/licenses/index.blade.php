@@ -8,7 +8,7 @@
             <div class="column">
                 <h2 class="is-size-3 mb-2">Data Licenses</h2>
 
-                @foreach (\App\License::allActive() as $license)
+                @foreach (\App\License::all() as $license)
                     <p>
                         <a href="{{ $license->link }}">{{ $license->name() }}</a>
                     </p>
@@ -18,7 +18,7 @@
             <div class="column">
                 <h2 class="is-size-3 mb-2">Image Licenses</h2>
 
-                @foreach (\App\License::allActive() as $license)
+                @foreach (\App\ImageLicense::all() as $license)
                     <p>
                         <a href="{{ $license->link }}">{{ $license->name() }}</a>
                     </p>

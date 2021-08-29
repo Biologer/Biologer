@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\License;
+use App\ImageLicense;
 use App\Photo;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +20,7 @@ class PhotoTest extends TestCase
 
         $photo = Photo::store($file, [
             'author' => 'John Doe',
-            'license' => License::firstId(),
+            'license' => ImageLicense::firstId(),
         ]);
 
         Storage::disk('public')->assertExists($photo->path);

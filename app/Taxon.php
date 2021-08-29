@@ -467,6 +467,12 @@ class Taxon extends Model
         return $this->memoize('mgrs', function () {
             $result = Observation::approved()
                 ->ofTaxa($this->selfAndDescendantsIds())
+                ->where(function ($query) {
+                    $query->where('details_type', '!=', (new FieldObservation)->getMorphClass())
+                        ->orWhereHasMorph('details', [FieldObservation::class], function ($query) {
+                            $query->public();
+                        });
+                })
                 ->getQuery()
                 ->groupBy('mgrs10k', 'details_type')
                 ->get([
@@ -500,7 +506,7 @@ class Taxon extends Model
                     // Exclude those that are found dead
                     $query->where('details_type', '!=', (new FieldObservation)->getMorphClass())
                         ->orWhereHasMorph('details', [FieldObservation::class], function ($query) {
-                            $query->where('found_dead', false);
+                            $query->where('found_dead', false)->public();
                         });
                 })
                 ->withCompleteDate()

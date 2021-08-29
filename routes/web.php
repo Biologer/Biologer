@@ -48,9 +48,12 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
     Route::view('pages/privacy-policy', 'pages.privacy-policy')->name('pages.privacy-policy');
 
     // Licenses
-    Route::view('licenses/partially-open-license', 'licenses.partially-open-license')->name('licenses.partially-open-license');
-    Route::view('licenses/closed-license', 'licenses.closed-license')->name('licenses.closed-license');
     Route::view('licenses', 'licenses.index')->name('licenses.index');
+    Route::view('licenses/partially-open-data-license', 'licenses.partially-open-data-license')->name('licenses.partially-open-data-license');
+    Route::view('licenses/temporarily-closed-data-license', 'licenses.temporarily-closed-data-license')->name('licenses.temporarily-closed-data-license');
+    Route::view('licenses/closed-data-license', 'licenses.closed-data-license')->name('licenses.closed-data-license');
+    Route::view('licenses/partially-open-image-license', 'licenses.partially-open-image-license')->name('licenses.partially-open-image-license');
+    Route::view('licenses/closed-image-license', 'licenses.closed-image-license')->name('licenses.closed-image-license');
 
     Route::get('announcements', 'AnnouncementsController@index')->name('announcements.index');
     Route::get('announcements/{announcement}', 'AnnouncementsController@show')->name('announcements.show');

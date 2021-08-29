@@ -7,10 +7,9 @@ use Illuminate\Contracts\Support\Arrayable;
 class License implements Arrayable
 {
     const CC_BY_SA = 10;
-    const OPEN = 11;
     const CC_BY_NC_SA = 20;
     const PARTIALLY_OPEN = 30;
-    const CLOSED_FOR_A_PERIOD = 35;
+    const TEMPORARILY_CLOSED = 35;
     const CLOSED = 40;
 
     /**
@@ -101,15 +100,6 @@ class License implements Arrayable
                 },
             ]),
             new static([
-                'id' => self::OPEN,
-                'name' => 'Open',
-                'link' => 'https://creativecommons.org/licenses/by-sa/4.0/',
-                'shouldHideRealCoordinates' => false,
-                'fieldObservationConstraint' => function ($query) {
-                    $query->where('license', static::OPEN);
-                },
-            ]),
-            new static([
                 'id' => self::CC_BY_NC_SA,
                 'name' => 'CC BY-NC-SA 4.0',
                 'link' => 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
@@ -121,26 +111,26 @@ class License implements Arrayable
             new static([
                 'id' => self::PARTIALLY_OPEN,
                 'name' => 'Partially open',
-                'link' => config('app.url').'/licenses/partially-open-license',
+                'link' => route('licenses.partially-open-data-license'),
                 'shouldHideRealCoordinates' => true,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::PARTIALLY_OPEN);
                 },
             ]),
             new static([
-                'id' => self::CLOSED_FOR_A_PERIOD,
+                'id' => self::TEMPORARILY_CLOSED,
                 'name' => 'Closed for a period',
                 'link' => '',
                 'shouldHideRealCoordinates' => true,
                 'fieldObservationConstraint' => function ($query) {
-                    $query->where('license', static::CLOSED_FOR_A_PERIOD)
+                    $query->where('license', static::TEMPORARILY_CLOSED)
                         ->where('field_observations.created_at', '<', now()->subYear(config('biologer.license_closed_period')));
                 },
             ]),
             new static([
                 'id' => self::CLOSED,
                 'name' => 'Closed',
-                'link' => config('app.url').'/licenses/closed-license',
+                'link' => route('licenses.closed-data-license'),
                 'shouldHideRealCoordinates' => true,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::CLOSED)->whereRaw('0=1');
@@ -150,29 +140,19 @@ class License implements Arrayable
     }
 
     /**
-     * Get all active licenses.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public static function allActive()
-    {
-        return self::all()->whereIn('id', config('biologer.active_licenses'))->values();
-    }
-
-    /**
      * List of available licenses.
      *
      * @return array
      */
     public static function getOptions()
     {
-        return self::allActive()->mapWithKeys(function ($license) {
+        return self::all()->mapWithKeys(function ($license) {
             return [$license->id => $license->name()];
         })->all();
     }
 
     /**
-     * Get license IDs.
+     * Get active license IDs.
      *
      * @return \Illuminate\Support\Collection
      */
@@ -182,23 +162,13 @@ class License implements Arrayable
     }
 
     /**
-     * Get active license IDs.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public static function activeIds()
-    {
-        return self::allActive()->pluck('id');
-    }
-
-    /**
      * Get ID of the first license.
      *
      * @return int
      */
     public static function firstId()
     {
-        return self::activeIds()->first();
+        return self::ids()->first();
     }
 
     /**
@@ -208,7 +178,7 @@ class License implements Arrayable
      */
     public static function first()
     {
-        return self::allActive()->first();
+        return self::all()->first();
     }
 
     /**
@@ -219,7 +189,7 @@ class License implements Arrayable
      */
     public static function findById($id)
     {
-        return self::allActive()->where('id', $id)->first();
+        return self::all()->where('id', $id)->first();
     }
 
     /**
@@ -230,7 +200,7 @@ class License implements Arrayable
      */
     public static function findByName($name)
     {
-        return self::allActive()->where('name', $name)->first();
+        return self::all()->where('name', $name)->first();
     }
 
     /**
@@ -240,7 +210,7 @@ class License implements Arrayable
      */
     public function name()
     {
-        return trans('licenses.'.$this->id);
+        return trans('licenses.data.'.$this->id);
     }
 
     /**
@@ -265,17 +235,6 @@ class License implements Arrayable
             'name' => $this->name(),
             'link' => $this->link,
         ];
-    }
-
-    /**
-     * Check if license is enabled.
-     *
-     * @param  int  $licenseId
-     * @return bool
-     */
-    public static function isEnabled($licenseId)
-    {
-        return self::activeIds()->contains($licenseId);
     }
 
     /**

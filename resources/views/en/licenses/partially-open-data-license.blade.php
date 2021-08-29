@@ -22,25 +22,28 @@
 
             <p class="mb-4">
                 The difference compared to a completely open data is only reflected
-                in the precision of the geographical location. Limited view data allows
-                view of sites in the form of a 10×10 km squares, without the possibility
-                of more accurately displaying the location to other users of the database.
+                in the precision of the geographical location and the date of observation.
+                Limited data view allows displaying of locations in the form of a 10×10 km squares,
+                without the possibility of showing places more accurately to other users
+                of the database and hiding data about the month and day of records.
                 Other information that came with the observations will be fully shown.
                 This applies both to the data view within Biologer and to the data that
-                are available for export from the database.
+                are available for export from the database or sharing within larges systems
+                for data aggregation.
             </p>
 
             <p class="mb-4">
                 By selecting this license authors retain all rights to use the precise
-                location of their observations. Biologer.org administrators and taxonomic
-                experts reserve the right to use data entered under this license in order
-                to produce the documents of national importance (Red Book, Red List, etc.),
-                as well as for statistical data processing (eg. protection and conservation
-                of the taxons and their habitats) but without publicly releasing the exact
-                location of the original data. In the case that the location of the original
-                data, which is recorded under this license, is needed for publishing,
-                administrators of Biologer.org and taxonomic experts must do so with the
-                consent of the authors.
+                location and date of their observations. Biologer.org administrators and
+                taxonomic experts reserve the right to use all data entered under this license
+                in order to produce the documents of national importance, for nature conservation
+                (Red Book, Red List, revision of legislature, defining the borders of protested areas, etc.),
+                as well as for statistical data processing (e.g. scientific publications,
+                protection and conservation of the species and their habitats) but without
+                publicly releasing the exact location of the original data. In the case that
+                the location of the original data, which is recorded under this license,
+                is needed for publishing, Аdministrators of Biologer.org and taxonomic experts
+                must do so with the consent of the authors.
             </p>
         </section>
     </div>
