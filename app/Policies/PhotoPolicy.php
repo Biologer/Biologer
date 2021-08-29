@@ -66,7 +66,18 @@ class PhotoPolicy
      */
     public function viewOriginal(User $user, Photo $photo)
     {
-        return $photo->observations()->createdBy($user)->exists()
-            || ($user->hasRole('curator') && $photo->observations()->taxonCuratedBy($user)->exists());
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+
+        if ($photo->observations()->createdBy($user)->exists()) {
+            return true;
+        }
+
+        if ($user->hasRole('curator') && $photo->observations()->taxonCuratedBy($user)->exists()) {
+            return true;
+        }
+
+        return false;
     }
 }
