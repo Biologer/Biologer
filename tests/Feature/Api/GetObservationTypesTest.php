@@ -16,7 +16,7 @@ class GetObservationTypesTest extends TestCase
     /** @test */
     public function get_observations_types()
     {
-        Passport::actingAs(factory(User::class)->create());
+        Passport::actingAs(User::factory()->create());
 
         ObservationType::create([
             'slug' => 'test',
@@ -41,7 +41,7 @@ class GetObservationTypesTest extends TestCase
     public function can_be_filtered_to_get_only_those_updated_after_given_timestamp()
     {
         $this->withoutExceptionHandling();
-        Passport::actingAs(factory(User::class)->create());
+        Passport::actingAs(User::factory()->create());
 
         Date::setTestNow(now()->subDay());
 

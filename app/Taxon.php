@@ -5,12 +5,14 @@ namespace App;
 use App\Filters\Filterable;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Activity;
 
 class Taxon extends Model
 {
-    use Concerns\CanBeCurated,
+    use HasFactory,
+        Concerns\CanBeCurated,
         Concerns\CanMemoize,
         Concerns\HasAncestry,
         Concerns\HasTranslatableAttributes,

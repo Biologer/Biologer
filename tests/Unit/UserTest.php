@@ -10,7 +10,7 @@ class UserTest extends TestCase
     /** @test */
     public function full_name_is_concatenation_of_first_and_last_names()
     {
-        $user = factory(User::class)->make([
+        $user = User::factory()->make([
             'first_name' => 'John',
             'last_name' => 'Doe',
         ]);

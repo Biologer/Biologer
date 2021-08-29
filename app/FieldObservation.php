@@ -6,6 +6,7 @@ use App\Concerns\CanMemoize;
 use App\Concerns\MappedSorting;
 use App\Contracts\FlatArrayable;
 use App\Filters\Filterable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -13,7 +14,7 @@ use Spatie\Activitylog\Models\Activity;
 
 class FieldObservation extends Model implements FlatArrayable
 {
-    use CanMemoize, Filterable, MappedSorting;
+    use HasFactory, CanMemoize, Filterable, MappedSorting;
 
     const STATUS_APPROVED = 'approved';
     const STATUS_PENDING = 'pending';

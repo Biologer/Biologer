@@ -23,7 +23,7 @@ class GetElevationTest extends TestCase
 
         app()->instance(Reader::class, $fakeReader);
 
-        Passport::actingAs(factory(User::class)->create());
+        Passport::actingAs(User::factory()->create());
 
         $response = $this->postJson('/api/elevation', [
             'latitude' => 44.668652872273185,

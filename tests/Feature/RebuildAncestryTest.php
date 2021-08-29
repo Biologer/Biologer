@@ -10,17 +10,17 @@ class RebuildAncestryTest extends TestCase
     /** @test */
     public function rebuilding_ancestry()
     {
-        $class = factory(Taxon::class)->create([
+        $class = Taxon::factory()->create([
             'parent_id' => null,
             'rank' => 'class',
         ]);
 
-        $family = factory(Taxon::class)->create([
+        $family = Taxon::factory()->create([
             'parent_id' => $class->id,
             'rank' => 'family',
         ]);
 
-        $genus = factory(Taxon::class)->create([
+        $genus = Taxon::factory()->create([
             'parent_id' => $family->id,
             'rank' => 'genus',
         ]);

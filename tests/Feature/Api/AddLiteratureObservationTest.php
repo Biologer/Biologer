@@ -26,15 +26,11 @@ class AddLiteratureObservationTest extends TestCase
             'collecting_start_month' => 3,
             'collecting_end_year' => 1990,
             'collecting_end_month' => 6,
-            'taxon_id' => function () {
-                return factory(Taxon::class)->create()->id;
-            },
+            'taxon_id' => Taxon::factory(),
             'year' => 1990,
             'month' => 5,
             'day' => 12,
-            'publication_id' => function () {
-                return factory(Publication::class)->create()->id;
-            },
+            'publication_id' => Publication::factory(),
             'is_original_data' => true,
             'cited_publication_id' => null,
             'latitude' => 21.123123,
@@ -60,7 +56,7 @@ class AddLiteratureObservationTest extends TestCase
     /** @test */
     public function regular_authenticated_users_cannot_submit_literature_observations()
     {
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs(User::factory()->create());
 
         $response = $this->postJson('/api/literature-observations', $this->validParams());
 
@@ -72,13 +68,13 @@ class AddLiteratureObservationTest extends TestCase
     {
         $this->seed('RolesTableSeeder');
         $count = LiteratureObservation::count();
-        $taxon = factory(Taxon::class)->create();
-        $user = factory(User::class)->create()->assignRoles('admin');
+        $taxon = Taxon::factory()->create();
+        $user = User::factory()->create()->assignRoles('admin');
 
         Passport::actingAs($user);
         $response = $this->postJson('/api/literature-observations', $this->validParams([
             'taxon_id' => $taxon->id,
-            'publication_id' => $publicationId = factory(Publication::class)->create()->id,
+            'publication_id' => $publicationId = Publication::factory()->create()->id,
         ]));
 
         $response->assertCreated();

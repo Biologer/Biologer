@@ -1,37 +1,32 @@
 <?php
 
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-$factory->define(App\Taxon::class, function (Faker $faker) {
-    return [
-        'name' => $faker->unique()->name,
-        'rank' => 'species',
-        'allochthonous' => false,
-        'invasive' => false,
-        'restricted' => false,
-    ];
-});
+use App\Taxon;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(App\ConservationLegislation::class, function (Faker $faker) {
-    return [
-        'slug' => $faker->unique()->city,
-    ];
-});
+class TaxonFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Taxon::class;
 
-$factory->define(App\ConservationDocument::class, function (Faker $faker) {
-    return [
-        'slug' => $faker->unique()->city,
-    ];
-});
-
-$factory->define(App\RedList::class, function (Faker $faker) {
-    return [
-        'slug' => $faker->unique()->country,
-    ];
-});
-
-$factory->define(App\Stage::class, function (Faker $faker) {
-    return [
-        'name' => $faker->unique()->word,
-    ];
-});
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->unique()->name(),
+            'rank' => 'species',
+            'allochthonous' => false,
+            'invasive' => false,
+            'restricted' => false,
+        ];
+    }
+}

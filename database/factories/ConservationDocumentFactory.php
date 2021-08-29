@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\ConservationLegislation;
+use App\ConservationDocument;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ConservationLegislationFactory extends Factory
+class ConservationDocumentFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = ConservationLegislation::class;
+    protected $model = ConservationDocument::class;
 
     /**
      * Define the model's default state.

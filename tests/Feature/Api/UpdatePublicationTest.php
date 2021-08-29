@@ -15,7 +15,7 @@ class UpdatePublicationTest extends TestCase
      */
     public function guest_cannot_update_publication()
     {
-        $publication = factory(Publication::class)->create();
+        $publication = Publication::factory()->create();
         $response = $this->putJson("/api/publications/{$publication->id}", $this->validPaper());
 
         $response->assertUnauthorized();
@@ -26,8 +26,8 @@ class UpdatePublicationTest extends TestCase
      */
     public function unauthorized_user_cannot_update_publication()
     {
-        $publication = factory(Publication::class)->create();
-        Passport::actingAs(factory(User::class)->create());
+        $publication = Publication::factory()->create();
+        Passport::actingAs(User::factory()->create());
         $response = $this->putJson("/api/publications/{$publication->id}", $this->validPaper());
 
         $response->assertForbidden();
@@ -38,9 +38,9 @@ class UpdatePublicationTest extends TestCase
      */
     public function authorized_user_can_update_publication()
     {
-        $publication = factory(Publication::class)->create();
+        $publication = Publication::factory()->create();
         $this->seed('RolesTableSeeder');
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
 
         $response = $this->putJson("/api/publications/{$publication->id}", $this->validPaper());
 
@@ -66,9 +66,9 @@ class UpdatePublicationTest extends TestCase
      */
     public function citation_can_be_determined_dinamically_based_on_available_data_if_left_empty()
     {
-        $publication = factory(Publication::class)->create();
+        $publication = Publication::factory()->create();
         $this->seed('RolesTableSeeder');
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
 
         $response = $this->putJson("/api/publications/{$publication->id}", $this->validPaper([
             'citation' => '',

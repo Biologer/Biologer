@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Jobs\ProcessUploadedPhoto;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -10,6 +11,8 @@ use League\Flysystem\Adapter\Local as LocalAdapter;
 
 class Photo extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that should be cast to native types.
      *

@@ -16,9 +16,9 @@ class SendingUnreadNotificationSummaryEmailTest extends TestCase
     public function users_with_unread_mail_notifications_are_sent_summary()
     {
         $this->seed('RolesTableSeeder');
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $user->settings()->set('notifications.field_observation_approved.mail', true);
-        $curator = factory(User::class)->create()->assignRoles('curator');
+        $curator = User::factory()->create()->assignRoles('curator');
 
         $user->notify(new FieldObservationApproved(
             ObservationFactory::createFieldObservation(),

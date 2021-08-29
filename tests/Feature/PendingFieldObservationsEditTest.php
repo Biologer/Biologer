@@ -19,7 +19,7 @@ class PendingFieldObservationsEditTest extends TestCase
     /** @test */
     public function guests_cannot_visit_curator_page_to_edit_pending_observation()
     {
-        $taxon = factory(Taxon::class)->create();
+        $taxon = Taxon::factory()->create();
         $observation = ObservationFactory::createUnapprovedFieldObservation([
             'taxon_id' => $taxon->id,
         ]);
@@ -32,8 +32,8 @@ class PendingFieldObservationsEditTest extends TestCase
     /** @test */
     public function curator_can_open_page_to_edit_pending_field_observation()
     {
-        $curator = factory(User::class)->create()->assignRoles('curator');
-        $taxon = factory(Taxon::class)->create()->addCurator($curator);
+        $curator = User::factory()->create()->assignRoles('curator');
+        $taxon = Taxon::factory()->create()->addCurator($curator);
         $observation = ObservationFactory::createUnapprovedFieldObservation([
             'taxon_id' => $taxon->id,
         ]);
@@ -50,8 +50,8 @@ class PendingFieldObservationsEditTest extends TestCase
     /** @test */
     public function curator_cannot_open_page_to_edit_pending_field_observation_for_taxon_they_dont_curate()
     {
-        $curator = factory(User::class)->create()->assignRoles('curator');
-        $taxon = factory(Taxon::class)->create();
+        $curator = User::factory()->create()->assignRoles('curator');
+        $taxon = Taxon::factory()->create();
         $observation = ObservationFactory::createUnapprovedFieldObservation([
             'taxon_id' => $taxon->id,
         ]);

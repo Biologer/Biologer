@@ -28,7 +28,7 @@ class AddPublicationTest extends TestCase
     public function unauthorized_user_cannot_add_publication()
     {
         $count = Publication::count();
-        Passport::actingAs(factory(User::class)->create());
+        Passport::actingAs(User::factory()->create());
         $response = $this->postJson('/api/publications', $this->validBookChapter());
 
         $response->assertForbidden();
@@ -41,7 +41,7 @@ class AddPublicationTest extends TestCase
     public function authorized_user_can_add_new_book()
     {
         $this->seed('RolesTableSeeder');
-        Passport::actingAs($user = factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs($user = User::factory()->create()->assignRoles('admin'));
 
         $response = $this->postJson('/api/publications', [
             'type' => PublicationType::BOOK,
@@ -86,7 +86,7 @@ class AddPublicationTest extends TestCase
     {
         $this->handleValidationExceptions();
         $this->seed('RolesTableSeeder');
-        Passport::actingAs($user = factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs($user = User::factory()->create()->assignRoles('admin'));
 
         $response = $this->postJson('/api/publications', $this->validBookChapter([
             'citation' => '',
@@ -104,7 +104,7 @@ class AddPublicationTest extends TestCase
     {
         $this->handleValidationExceptions();
         $this->seed('RolesTableSeeder');
-        Passport::actingAs($user = factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs($user = User::factory()->create()->assignRoles('admin'));
 
         $response = $this->postJson('/api/publications', $this->validBookChapter([
             'citation' => '',

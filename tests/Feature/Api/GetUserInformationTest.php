@@ -11,7 +11,7 @@ class GetUserInformationTest extends TestCase
     /** @test */
     public function users_cen_retreive_treir_information()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'first_name' => 'John',
             'last_name' => 'Doe',
             'email' => 'john@example.com',

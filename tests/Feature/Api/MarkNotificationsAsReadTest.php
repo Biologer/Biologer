@@ -13,7 +13,7 @@ class MarkNotificationsAsReadTest extends TestCase
     /** @test */
     public function guests_cannot_mark_notifications_as_read()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $fieldObservation = ObservationFactory::createFieldObservation();
 
         $user->notify(new FieldObservationApproved($fieldObservation, $user));
@@ -31,7 +31,7 @@ class MarkNotificationsAsReadTest extends TestCase
     /** @test */
     public function authenticated_user_can_mark_their_notifications_as_read()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $fieldObservation = ObservationFactory::createFieldObservation();
 
         $user->notify(new FieldObservationApproved($fieldObservation, $user));

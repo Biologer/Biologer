@@ -16,9 +16,9 @@ class CleaningUnusedPhotosTest extends TestCase
         Storage::fake('public');
 
         $fieldObservation = ObservationFactory::createFieldObservation();
-        $usedPhoto = $fieldObservation->photos()->save(factory(Photo::class)->make());
-        $unusedNewPhoto = factory(Photo::class)->create();
-        $unusedOldPhoto = factory(Photo::class)->create(['updated_at' => Carbon::yesterday()->subDay()]);
+        $usedPhoto = $fieldObservation->photos()->save(Photo::factory()->make());
+        $unusedNewPhoto = Photo::factory()->create();
+        $unusedOldPhoto = Photo::factory()->create(['updated_at' => Carbon::yesterday()->subDay()]);
 
         $this->assertTrue($usedPhoto->exists);
         $this->assertTrue($unusedNewPhoto->exists);

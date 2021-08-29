@@ -16,7 +16,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
     public function curator_can_export_unidentifiable_field_observations_they_curate()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/curator/unidentifiable-observations/export', [
             'columns' => ['id', 'taxon'],
@@ -38,7 +38,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
     public function type_is_required()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/curator/unidentifiable-observations/export');
 
@@ -50,7 +50,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
     public function type_must_be_valid()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/curator/unidentifiable-observations/export', [
             'type' => 'invalid',
@@ -64,7 +64,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
     public function columns_are_required_to_perform_the_export()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/curator/unidentifiable-observations/export', [
             'type' => 'custom',
@@ -78,7 +78,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
     public function columns_parameter_must_be_an_array()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/curator/unidentifiable-observations/export', [
             'columns' => 'string',
@@ -93,7 +93,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
     public function columns_parameter_contain_at_least_one_column()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/curator/unidentifiable-observations/export', [
             'columns' => [],
@@ -108,7 +108,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
     public function columns_are_supported()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/curator/unidentifiable-observations/export', [
             'columns' => ['invalid'],
@@ -123,7 +123,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
     public function curator_can_export_pending_observations_using_darwin_core_standard()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/curator/unidentifiable-observations/export', [
             'type' => 'darwin_core',

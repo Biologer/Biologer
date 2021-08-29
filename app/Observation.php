@@ -2,10 +2,13 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Collection;
 
 class Observation extends Model
 {
+    use HasFactory;
+
     const SEX_OPTIONS = [
         'male', 'female',
     ];

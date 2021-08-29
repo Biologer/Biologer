@@ -26,7 +26,7 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
     public function guest_cannot_mark_field_observation_as_unidentifiable()
     {
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
-            'taxon_id' => factory(Taxon::class),
+            'taxon_id' => Taxon::factory(),
         ]);
 
         $response = $this->postJson('/api/unidentifiable-field-observations/batch', [
@@ -40,9 +40,9 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
     /** @test */
     public function authenticated_user_that_curates_the_taxa_of_all_the_field_observation_can_mark_them_as_unapprovable()
     {
-        $user = factory(User::class)->create()->assignRoles('curator');
+        $user = User::factory()->create()->assignRoles('curator');
         Passport::actingAs($user);
-        $taxon = factory(Taxon::class)->create();
+        $taxon = Taxon::factory()->create();
         $taxon->curators()->attach($user);
         $fieldObservations = ObservationFactory::createManyUnnapprovedFieldObservations(3, [
             'taxon_id' => $taxon->id,
@@ -68,10 +68,10 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
     /** @test */
     public function creator_is_notified_when_the_observation_is_marked_as_unidentifiable()
     {
-        $user = factory(User::class)->create();
-        $curator = factory(User::class)->create()->assignRoles('curator');
+        $user = User::factory()->create();
+        $curator = User::factory()->create()->assignRoles('curator');
 
-        $taxon = factory(Taxon::class)->create();
+        $taxon = Taxon::factory()->create();
         $taxon->curators()->attach($curator);
         $fieldObservations = ObservationFactory::createManyUnnapprovedFieldObservations(3, [
             'taxon_id' => $taxon->id,

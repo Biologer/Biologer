@@ -26,8 +26,8 @@ class FieldObservationImportTest extends TestCase
     /** @test */
     public function it_can_store_processed_and_validated_import()
     {
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create();
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        $user = User::factory()->create();
         $fieldObservationsCount = FieldObservation::count();
 
         $import = $this->createImport(FieldObservationImport::class, $this->allColumns(), $this->defaultContents(), $user);
@@ -72,8 +72,8 @@ class FieldObservationImportTest extends TestCase
     public function it_can_store_processed_and_validated_import_including_given_observer_and_identifier_when_admin_is_importing()
     {
         $this->seed('RolesTableSeeder');
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create()->assignRoles('admin');
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        $user = User::factory()->create()->assignRoles('admin');
         $fieldObservationsCount = FieldObservation::count();
 
         $import = $this->createImport(FieldObservationImport::class, $this->allColumns(), $this->defaultContents(), $user);
@@ -118,8 +118,8 @@ class FieldObservationImportTest extends TestCase
     /** @test */
     public function if_original_identification_is_not_given_use_the_taxon_name()
     {
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create();
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        $user = User::factory()->create();
 
         $import = $this->createImport(FieldObservationImport::class, [
             'latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon',
@@ -136,8 +136,8 @@ class FieldObservationImportTest extends TestCase
     /** @test */
     public function if_elevation_is_missing_try_using_dem_reader_to_get_elevation()
     {
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create();
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        $user = User::factory()->create();
 
         $import = $this->createImport(FieldObservationImport::class, [
             'latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon',
@@ -162,8 +162,8 @@ class FieldObservationImportTest extends TestCase
     public function if_submitted_by_curator_observations_of_taxa_they_curate_can_be_approved()
     {
         $this->seed('RolesTableSeeder');
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create()->assignRoles('curator');
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        $user = User::factory()->create()->assignRoles('curator');
         $user->curatedTaxa()->attach($taxon);
         $fieldObservationsCount = FieldObservation::count();
 
@@ -185,8 +185,8 @@ class FieldObservationImportTest extends TestCase
     public function if_submitted_by_curator_observations_of_taxa_they_dont_curate_cannot_be_approved()
     {
         $this->seed('RolesTableSeeder');
-        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create()->assignRoles('curator');
+        Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        $user = User::factory()->create()->assignRoles('curator');
         $fieldObservationsCount = FieldObservation::count();
 
         $import = $this->createImport(FieldObservationImport::class, $this->allColumns(), $this->defaultContents(), $user);
@@ -205,8 +205,8 @@ class FieldObservationImportTest extends TestCase
     /** @test */
     public function cannot_be_approved_if_submitted_by_non_curators()
     {
-        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create();
+        Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        $user = User::factory()->create();
         $fieldObservationsCount = FieldObservation::count();
 
         $import = $this->createImport(FieldObservationImport::class, $this->allColumns(), $this->defaultContents(), $user);
