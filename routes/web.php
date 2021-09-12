@@ -1,5 +1,34 @@
 <?php
 
+use App\Http\Controllers\AboutPagesController;
+use App\Http\Controllers\Admin\AnnouncementsController as AdminAnnouncementsController;
+use App\Http\Controllers\Admin\FieldObservationsController as AdminFieldObservationsController;
+use App\Http\Controllers\Admin\LiteratureObservationsController;
+use App\Http\Controllers\Admin\LiteratureObservationsImportController;
+use App\Http\Controllers\Admin\PublicationsController;
+use App\Http\Controllers\Admin\TaxaController as AdminTaxaController;
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\ViewGroupsController;
+use App\Http\Controllers\AnnouncementsController;
+use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\Contributor\DashboardController;
+use App\Http\Controllers\Contributor\FieldObservationsController;
+use App\Http\Controllers\Contributor\FieldObservationsImportController;
+use App\Http\Controllers\Contributor\PublicFieldObservationsController;
+use App\Http\Controllers\Contributor\PublicLiteratureObservationsController;
+use App\Http\Controllers\Curator\ApprovedObservationsController;
+use App\Http\Controllers\Curator\PendingObservationsController;
+use App\Http\Controllers\Curator\UnidentifiableObservationsController;
+use App\Http\Controllers\ExportDownloadController;
+use App\Http\Controllers\GroupsController;
+use App\Http\Controllers\GroupSpeciesController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PhotosController;
+use App\Http\Controllers\Preferences\AccountPreferencesController;
+use App\Http\Controllers\Preferences\GeneralPreferencesController;
+use App\Http\Controllers\Preferences\LicensePreferencesController;
+use App\Http\Controllers\Preferences\NotificationsPreferencesController;
+use App\Http\Controllers\TaxaController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -14,35 +43,35 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 |
 */
 
-Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
+Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
 
-Route::get('exports/{export}/download', 'ExportDownloadController')
+Route::get('exports/{export}/download', ExportDownloadController::class)
     ->middleware(['auth', 'verified'])
     ->name('export-download');
 
-Route::get('photos/{photo}/file', 'PhotosController@file')->name('photos.file');
+Route::get('photos/{photo}/file', [PhotosController::class, 'file'])->name('photos.file');
 
 Route::prefix(LaravelLocalization::setLocale())->middleware([
     'localeCookieRedirect', 'localizationRedirect', 'localeViewPath', 'localizationPreferenceUpdate',
 ])->group(function () {
     Route::auth(['verify' => false, 'confirm' => false]);
-    Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
-    Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+    Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
+    Route::post('email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
 
-    Route::get('/', 'HomeController@index')->name('home');
-    Route::get('taxa/{taxon}', 'TaxaController@show')->name('taxa.show');
-    Route::get('groups', 'GroupsController@index')->name('groups.index');
-    Route::get('groups/{group}/species/{species}', 'GroupSpeciesController@show')->name('groups.species.show');
-    Route::get('groups/{group}/species', 'GroupSpeciesController@index')->name('groups.species.index');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('taxa/{taxon}', [TaxaController::class, 'show'])->name('taxa.show');
+    Route::get('groups', [GroupsController::class, 'index'])->name('groups.index');
+    Route::get('groups/{group}/species/{species}', [GroupSpeciesController::class, 'show'])->name('groups.species.show');
+    Route::get('groups/{group}/species', [GroupSpeciesController::class, 'index'])->name('groups.species.index');
 
     // About pages
     Route::view('pages/about/about-project', 'pages.about.about-project')->name('pages.about.about-project');
     Route::view('pages/about/project-team', 'pages.about.project-team')->name('pages.about.project-team');
     Route::view('pages/about/organisations', 'pages.about.organisations')->name('pages.about.organisations');
-    Route::get('pages/about/local-community', 'AboutPagesController@localCommunity')->name('pages.about.local-community');
+    Route::get('pages/about/local-community', [AboutPagesController::class, 'localCommunity'])->name('pages.about.local-community');
     Route::view('pages/about/biodiversity-data', 'pages.about.biodiversity-data')->name('pages.about.biodiversity-data');
     Route::view('pages/about/development-supporters', 'pages.about.development-supporters')->name('pages.about.development-supporters');
-    Route::get('pages/about/stats', 'AboutPagesController@stats')->name('pages.about.stats');
+    Route::get('pages/about/stats', [AboutPagesController::class, 'stats'])->name('pages.about.stats');
 
     // Legal
     Route::view('pages/privacy-policy', 'pages.privacy-policy')->name('pages.privacy-policy');
@@ -55,190 +84,190 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
     Route::view('licenses/partially-open-image-license', 'licenses.partially-open-image-license')->name('licenses.partially-open-image-license');
     Route::view('licenses/closed-image-license', 'licenses.closed-image-license')->name('licenses.closed-image-license');
 
-    Route::get('announcements', 'AnnouncementsController@index')->name('announcements.index');
-    Route::get('announcements/{announcement}', 'AnnouncementsController@show')->name('announcements.show');
+    Route::get('announcements', [AnnouncementsController::class, 'index'])->name('announcements.index');
+    Route::get('announcements/{announcement}', [AnnouncementsController::class, 'show'])->name('announcements.show');
 
     Route::middleware(['auth', 'verified'])->group(function () {
         Route::redirect('/preferences', '/preferences/general')->name('preferences.index');
 
-        Route::prefix('preferences')->namespace('Preferences')->name('preferences.')->group(function () {
-            Route::get('general', 'GeneralPreferencesController@index')->name('general');
-            Route::patch('general', 'GeneralPreferencesController@update');
+        Route::prefix('preferences')->name('preferences.')->group(function () {
+            Route::get('general', [GeneralPreferencesController::class, 'index'])->name('general');
+            Route::patch('general', [GeneralPreferencesController::class, 'update']);
 
-            Route::get('account', 'AccountPreferencesController@index')->name('account');
-            Route::patch('account/password', 'AccountPreferencesController@changePassword')->name('account.password');
-            Route::delete('account', 'AccountPreferencesController@destroy')->name('account.delete');
+            Route::get('account', [AccountPreferencesController::class, 'index'])->name('account');
+            Route::patch('account/password', [AccountPreferencesController::class, 'changePassword'])->name('account.password');
+            Route::delete('account', [AccountPreferencesController::class, 'destroy'])->name('account.delete');
 
-            Route::get('license', 'LicensePreferencesController@index')->name('license');
-            Route::patch('license', 'LicensePreferencesController@update');
+            Route::get('license', [LicensePreferencesController::class, 'index'])->name('license');
+            Route::patch('license', [LicensePreferencesController::class, 'update']);
 
-            Route::get('notifications', 'NotificationsPreferencesController@index')->name('notifications');
-            Route::patch('notifications', 'NotificationsPreferencesController@update');
+            Route::get('notifications', [NotificationsPreferencesController::class, 'index'])->name('notifications');
+            Route::patch('notifications', [NotificationsPreferencesController::class, 'update']);
         });
 
-        Route::prefix('contributor')->namespace('Contributor')->name('contributor.')->group(function () {
-            Route::get('/', 'DashboardController@index')
+        Route::prefix('contributor')->name('contributor.')->group(function () {
+            Route::get('/', [DashboardController::class, 'index'])
                 ->name('index');
 
-            Route::get('field-observations', 'FieldObservationsController@index')
+            Route::get('field-observations', [FieldObservationsController::class, 'index'])
                 ->name('field-observations.index');
 
-            Route::get('field-observations/new', 'FieldObservationsController@create')
+            Route::get('field-observations/new', [FieldObservationsController::class, 'create'])
                 ->name('field-observations.create');
 
-            Route::get('field-observations/import', 'FieldObservationsImportController@index')
+            Route::get('field-observations/import', [FieldObservationsImportController::class, 'index'])
                 ->name('field-observations-import.index');
 
             Route::view('field-observations/import/guide', 'contributor.field-observations-import.guide')
                 ->name('field-observations-import.guide');
 
-            Route::get('field-observations/{fieldObservation}', 'FieldObservationsController@show')
+            Route::get('field-observations/{fieldObservation}', [FieldObservationsController::class, 'show'])
                 ->middleware('can:view,fieldObservation')
                 ->name('field-observations.show');
 
-            Route::get('field-observations/{fieldObservation}/edit', 'FieldObservationsController@edit')
+            Route::get('field-observations/{fieldObservation}/edit', [FieldObservationsController::class, 'edit'])
                 ->middleware('can:update,fieldObservation')
                 ->name('field-observations.edit');
 
-            Route::get('public-field-observations', 'PublicFieldObservationsController@index')
+            Route::get('public-field-observations', [PublicFieldObservationsController::class, 'index'])
                 ->name('public-field-observations.index');
 
-            Route::get('public-field-observations/{fieldObservation}', 'PublicFieldObservationsController@show')
+            Route::get('public-field-observations/{fieldObservation}', [PublicFieldObservationsController::class, 'show'])
                 ->name('public-field-observations.show');
 
-            Route::get('public-literature-observations', 'PublicLiteratureObservationsController@index')
+            Route::get('public-literature-observations', [PublicLiteratureObservationsController::class, 'index'])
                 ->name('public-literature-observations.index');
 
-            Route::get('public-literature-observations/{literatureObservation}', 'PublicLiteratureObservationsController@show')
+            Route::get('public-literature-observations/{literatureObservation}', [PublicLiteratureObservationsController::class, 'show'])
                 ->name('public-literature-observations.show');
         });
 
-        Route::prefix('curator')->namespace('Curator')->name('curator.')->group(function () {
-            Route::get('pending-observations', 'PendingObservationsController@index')
+        Route::prefix('curator')->name('curator.')->group(function () {
+            Route::get('pending-observations', [PendingObservationsController::class, 'index'])
                 ->middleware('role:curator,admin')
                 ->middleware('can:list,App\FieldObservation')
                 ->name('pending-observations.index');
 
-            Route::get('pending-observations/{fieldObservation}/edit', 'PendingObservationsController@edit')
+            Route::get('pending-observations/{fieldObservation}/edit', [PendingObservationsController::class, 'edit'])
                 ->middleware('role:curator,admin')
                 ->name('pending-observations.edit');
 
-            Route::get('pending-observations/{fieldObservation}', 'PendingObservationsController@show')
+            Route::get('pending-observations/{fieldObservation}', [PendingObservationsController::class, 'show'])
                 ->middleware('role:curator,admin')
                 ->name('pending-observations.show');
 
-            Route::get('approved-observations', 'ApprovedObservationsController@index')
+            Route::get('approved-observations', [ApprovedObservationsController::class, 'index'])
                 ->middleware('role:curator,admin')
                 ->middleware('can:list,App\FieldObservation')
                 ->name('approved-observations.index');
 
-            Route::get('approved-observations/{approvedObservation}/edit', 'ApprovedObservationsController@edit')
+            Route::get('approved-observations/{approvedObservation}/edit', [ApprovedObservationsController::class, 'edit'])
                 ->middleware('role:curator,admin')
                 ->name('approved-observations.edit');
 
-            Route::get('approved-observations/{fieldObservation}', 'ApprovedObservationsController@show')
+            Route::get('approved-observations/{fieldObservation}', [ApprovedObservationsController::class, 'show'])
                 ->middleware('role:curator,admin')
                 ->name('approved-observations.show');
 
-            Route::get('unidentifiable-observations', 'UnidentifiableObservationsController@index')
+            Route::get('unidentifiable-observations', [UnidentifiableObservationsController::class, 'index'])
                 ->middleware('role:curator,admin')
                 ->middleware('can:list,App\FieldObservation')
                 ->name('unidentifiable-observations.index');
 
-            Route::get('unidentifiable-observations/{unidentifiableObservation}/edit', 'UnidentifiableObservationsController@edit')
+            Route::get('unidentifiable-observations/{unidentifiableObservation}/edit', [UnidentifiableObservationsController::class, 'edit'])
                 ->middleware('role:curator,admin')
                 ->name('unidentifiable-observations.edit');
 
-            Route::get('unidentifiable-observations/{fieldObservation}', 'UnidentifiableObservationsController@show')
+            Route::get('unidentifiable-observations/{fieldObservation}', [UnidentifiableObservationsController::class, 'show'])
                 ->middleware('role:curator,admin')
                 ->name('unidentifiable-observations.show');
         });
 
-        Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
-            Route::get('field-observations', 'FieldObservationsController@index')
+        Route::prefix('admin')->name('admin.')->group(function () {
+            Route::get('field-observations', [AdminFieldObservationsController::class, 'index'])
                 ->middleware('role:admin')
                 ->name('field-observations.index');
 
-            Route::get('field-observations/{fieldObservation}/edit', 'FieldObservationsController@edit')
+            Route::get('field-observations/{fieldObservation}/edit', [AdminFieldObservationsController::class, 'edit'])
                 ->middleware('role:admin')
                 ->name('field-observations.edit');
 
-            Route::get('field-observations/{fieldObservation}', 'FieldObservationsController@show')
+            Route::get('field-observations/{fieldObservation}', [AdminFieldObservationsController::class, 'show'])
                 ->middleware('role:admin')
                 ->name('field-observations.show');
 
-            Route::get('taxa', 'TaxaController@index')
+            Route::get('taxa', [AdminTaxaController::class, 'index'])
                 ->middleware('role:admin,curator')
                 ->name('taxa.index');
 
-            Route::get('taxa/{taxon}/edit', 'TaxaController@edit')
+            Route::get('taxa/{taxon}/edit', [AdminTaxaController::class, 'edit'])
                 ->middleware('can:update,taxon')
                 ->name('taxa.edit');
 
-            Route::get('taxa/new', 'TaxaController@create')
+            Route::get('taxa/new', [AdminTaxaController::class, 'create'])
                 ->middleware('role:admin,curator')
                 ->name('taxa.create');
 
-            Route::get('users', 'UsersController@index')
+            Route::get('users', [UsersController::class, 'index'])
                 ->middleware('can:list,App\User')
                 ->name('users.index');
 
-            Route::get('users/{user}/edit', 'UsersController@edit')
+            Route::get('users/{user}/edit', [UsersController::class, 'edit'])
                 ->middleware('can:update,user')
                 ->name('users.edit');
 
-            Route::put('users/{user}', 'UsersController@update')
+            Route::put('users/{user}', [UsersController::class, 'update'])
                 ->middleware('can:update,user')
                 ->name('users.update');
 
-            Route::get('view-groups', 'ViewGroupsController@index')
+            Route::get('view-groups', [ViewGroupsController::class, 'index'])
                 ->middleware('role:admin')
                 ->name('view-groups.index');
 
-            Route::get('view-groups/new', 'ViewGroupsController@create')
+            Route::get('view-groups/new', [ViewGroupsController::class, 'create'])
                 ->middleware('can:create,App\ViewGroup')
                 ->name('view-groups.create');
 
-            Route::get('view-groups/{group}/edit', 'ViewGroupsController@edit')
+            Route::get('view-groups/{group}/edit', [ViewGroupsController::class, 'edit'])
                 ->middleware('can:update,group')
                 ->name('view-groups.edit');
 
-            Route::get('announcements', 'AnnouncementsController@index')
+            Route::get('announcements', [AdminAnnouncementsController::class, 'index'])
                 ->middleware('can:list,App\Announcement')
                 ->name('announcements.index');
 
-            Route::get('announcements/new', 'AnnouncementsController@create')
+            Route::get('announcements/new', [AdminAnnouncementsController::class, 'create'])
                 ->middleware('can:create,App\Announcement')
                 ->name('announcements.create');
 
-            Route::get('announcements/{announcement}/edit', 'AnnouncementsController@edit')
+            Route::get('announcements/{announcement}/edit', [AdminAnnouncementsController::class, 'edit'])
                 ->middleware('can:update,announcement')
                 ->name('announcements.edit');
 
-            Route::get('literature-observations/import', 'LiteratureObservationsImportController@index')
+            Route::get('literature-observations/import', [LiteratureObservationsImportController::class, 'index'])
                 ->name('literature-observations-import.index');
 
-            Route::get('literature-observations', 'LiteratureObservationsController@index')
+            Route::get('literature-observations', [LiteratureObservationsController::class, 'index'])
                 ->name('literature-observations.index');
 
-            Route::get('literature-observations/new', 'LiteratureObservationsController@create')
+            Route::get('literature-observations/new', [LiteratureObservationsController::class, 'create'])
                 ->name('literature-observations.create');
 
-            Route::get('literature-observations/{literatureObservation}/edit', 'LiteratureObservationsController@edit')
+            Route::get('literature-observations/{literatureObservation}/edit', [LiteratureObservationsController::class, 'edit'])
                 ->name('literature-observations.edit');
 
-            Route::get('literature-observations/{literatureObservation}', 'LiteratureObservationsController@show')
+            Route::get('literature-observations/{literatureObservation}', [LiteratureObservationsController::class, 'show'])
                 ->name('literature-observations.show');
 
-            Route::get('publications', 'PublicationsController@index')
+            Route::get('publications', [PublicationsController::class, 'index'])
                 ->middleware('can:list,App\Publication')
                 ->name('publications.index');
 
-            Route::get('publications/new', 'PublicationsController@create')
+            Route::get('publications/new', [PublicationsController::class, 'create'])
                 ->middleware('can:create,App\Publication')
                 ->name('publications.create');
 
-            Route::get('publications/{publication}/edit', 'PublicationsController@edit')
+            Route::get('publications/{publication}/edit', [PublicationsController::class, 'edit'])
                 ->middleware('can:update,publication')
                 ->name('publications.edit');
         });
