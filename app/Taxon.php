@@ -490,7 +490,7 @@ class Taxon extends Model
                     'observations_count' => $fieldData->sum('observations_count'),
                     'present_in_literature' => $presentInLiterature->contains($field),
                 ];
-            });
+            })->sortKeys();
         });
     }
 
