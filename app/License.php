@@ -120,7 +120,7 @@ class License implements Arrayable
             new static([
                 'id' => self::TEMPORARILY_CLOSED,
                 'name' => 'Closed for a period',
-                'link' => '',
+                'link' => route('licenses.temporarily-closed-data-license'),
                 'shouldHideRealCoordinates' => true,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::TEMPORARILY_CLOSED)
