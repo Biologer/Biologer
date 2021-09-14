@@ -342,7 +342,7 @@ class FieldObservation extends Model implements FlatArrayable
      */
     public function getLicenseTranslationAttribute()
     {
-        return License::findById($this->license)->name();
+        return $this->license()->name();
     }
 
     /**
