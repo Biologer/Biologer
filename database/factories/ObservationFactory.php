@@ -44,7 +44,7 @@ class ObservationFactory extends Factory
 
     /**
      * @return static
-    */
+     */
     public function unapproved()
     {
         return $this->state([

@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\ImageLicense;
 use App\Photo;
-use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Str;
@@ -26,11 +25,11 @@ class PhotoFactory extends Factory
     public function definition()
     {
         return [
-            'path' => File::image(Str::random() . '.jpg')->store('photos', [
+            'path' => File::image(Str::random().'.jpg')->store('photos', [
                 'disk' => 'public',
             ]),
             'url' => function ($attributes) {
-                return 'storage/' . $attributes['path'];
+                return 'storage/'.$attributes['path'];
             },
             'author' => $this->faker->name(),
             'license' => ImageLicense::CC_BY_SA,
