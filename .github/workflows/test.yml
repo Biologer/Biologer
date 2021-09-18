@@ -57,7 +57,7 @@ jobs:
         run: php artisan migrate --seed -v
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-      -name: Install Laravel Passport
+      - name: Install Laravel Passport
         run: php artisan passport:install
       - name: Test with phpunit in parallel
         run: php artisan test --parallel
