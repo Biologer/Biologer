@@ -63,7 +63,7 @@ jobs:
         run: php artisan passport:install
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-      - name: Test with phpunit
-        run: php artisan test
+      - name: Test with phpunit in parallel
+        run: php artisan test --parallel
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
