@@ -51,7 +51,7 @@ class Mgrs
         $this->utm = $utm;
 
         $this->latitudeZoneLetter = $this->calculateLatitudeZone(
-            $utm->asGeographicPoint()->getLatitude()->getValue(),
+            $utm->asGeographicPoint()->getLatitude()->getValue()
         );
     }
 
@@ -265,7 +265,7 @@ class Mgrs
             new Metre($y),
             $this->utm->getZone(),
             $this->utm->getHemisphere(),
-            $this->utm->getBaseCRS(),
+            $this->utm->getBaseCRS()
         );
     }
 }
