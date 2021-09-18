@@ -59,12 +59,12 @@ class UpdateFieldObservationTest extends TestCase
     public function field_observation_can_be_updated_but_will_return_to_pending_status()
     {
         $this->handleValidationExceptions();
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create();
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        $user = User::factory()->create();
         Passport::actingAs($user);
         $fieldObservation = ObservationFactory::createFieldObservation([
             'created_by_id' => $user->id,
-            'taxon_id' => factory(Taxon::class),
+            'taxon_id' => Taxon::factory()->create()->id,
         ]);
 
         $response = $this->putJson(
@@ -101,10 +101,10 @@ class UpdateFieldObservationTest extends TestCase
     {
         Storage::fake('public');
         $this->artisan('db:seed', ['--class' => 'StagesTableSeeder']);
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx scopolii']);
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx scopolii']);
         $taxon->stages()->sync($stages = Stage::all());
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Passport::actingAs($user);
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'taxon_id' => $taxon->id,
@@ -118,7 +118,7 @@ class UpdateFieldObservationTest extends TestCase
             'found_dead_note' => 'Note on dead',
             'time' => '09:00',
         ]);
-        $fieldObservation->photos()->sync($photo = factory(Photo::class)->create());
+        $fieldObservation->photos()->sync($photo = Photo::factory()->create());
         $activityCount = $fieldObservation->activity()->count();
 
         $uploadedPhoto = File::image(Str::random().'.jpg')
@@ -180,7 +180,7 @@ class UpdateFieldObservationTest extends TestCase
     /** @test */
     public function time_is_not_logged_if_not_changed()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Passport::actingAs($user);
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'created_by_id' => $user->id,
@@ -213,7 +213,7 @@ class UpdateFieldObservationTest extends TestCase
     /** @test */
     public function time_is_logged_if_changed()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Passport::actingAs($user);
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'created_by_id' => $user->id,
@@ -242,9 +242,9 @@ class UpdateFieldObservationTest extends TestCase
     /** @test */
     public function field_observation_cannot_be_updated_by_other_regular_user()
     {
-        Passport::actingAs(factory(User::class)->create());
+        Passport::actingAs(User::factory()->create());
         $observation = ObservationFactory::createFieldObservation([
-            'created_by_id' => factory(User::class),
+            'created_by_id' => User::factory(),
         ]);
 
         $response = $this->putJson(
@@ -268,7 +268,7 @@ class UpdateFieldObservationTest extends TestCase
     /** @test */
     public function field_observation_can_be_updated_by_admin()
     {
-        $admin = factory(User::class)->create()->assignRoles('admin');
+        $admin = User::factory()->create()->assignRoles('admin');
         Passport::actingAs($admin);
         $fieldObservation = ObservationFactory::createFieldObservation();
 
@@ -311,7 +311,7 @@ class UpdateFieldObservationTest extends TestCase
     {
         Storage::fake('public');
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'created_by_id' => $user->id,
@@ -323,7 +323,7 @@ class UpdateFieldObservationTest extends TestCase
             'time' => '09:00',
         ]);
 
-        $existingPhoto = factory(Photo::class)->create();
+        $existingPhoto = Photo::factory()->create();
         $fieldObservation->photos()->sync($existingPhoto);
 
         File::image('new-test-image.jpg')->storeAs('uploads/'.$user->id, 'new-test-image.jpg', 'public');
@@ -353,7 +353,7 @@ class UpdateFieldObservationTest extends TestCase
     {
         Storage::fake('public');
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'created_by_id' => $user->id,
@@ -365,7 +365,7 @@ class UpdateFieldObservationTest extends TestCase
             'time' => '09:00',
         ]);
 
-        $existingPhoto = factory(Photo::class)->create(['license' => License::CC_BY_SA]);
+        $existingPhoto = Photo::factory()->create(['license' => License::CC_BY_SA]);
         $fieldObservation->photos()->sync($existingPhoto);
 
         Passport::actingAs($user);
@@ -391,7 +391,7 @@ class UpdateFieldObservationTest extends TestCase
     {
         Storage::fake('public');
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'created_by_id' => $user->id,
@@ -423,8 +423,8 @@ class UpdateFieldObservationTest extends TestCase
     public function admin_can_submit_observer_by_users_id()
     {
         $this->seed('RolesTableSeeder');
-        $user = factory(User::class)->create()->assignRoles('admin');
-        $anotherUser = factory(User::class)->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
+        $user = User::factory()->create()->assignRoles('admin');
+        $anotherUser = User::factory()->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
         Passport::actingAs($user);
 
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation();
@@ -448,8 +448,8 @@ class UpdateFieldObservationTest extends TestCase
     public function admin_can_submit_identifier_by_users_id()
     {
         $this->seed('RolesTableSeeder');
-        $user = factory(User::class)->create()->assignRoles('admin');
-        $anotherUser = factory(User::class)->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
+        $user = User::factory()->create()->assignRoles('admin');
+        $anotherUser = User::factory()->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
         Passport::actingAs($user);
 
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation();

@@ -13,7 +13,7 @@ class DeleteLiteratureObservationTest extends TestCase
     /** @test */
     public function guest_cannot_delete_observation()
     {
-        $literatureObservation = factory(LiteratureObservation::class)->create();
+        $literatureObservation = LiteratureObservation::factory()->create();
         $count = LiteratureObservation::count();
 
         $response = $this->deleteJson("/api/literature-observations/{$literatureObservation->id}");
@@ -25,10 +25,10 @@ class DeleteLiteratureObservationTest extends TestCase
     /** @test */
     public function unauthorized_user_cannot_delete_observation()
     {
-        $literatureObservation = factory(LiteratureObservation::class)->create();
+        $literatureObservation = LiteratureObservation::factory()->create();
         $count = LiteratureObservation::count();
 
-        Passport::actingAs(factory(User::class)->create());
+        Passport::actingAs(User::factory()->create());
         $response = $this->deleteJson("/api/literature-observations/{$literatureObservation->id}");
 
         $response->assertForbidden();
@@ -39,11 +39,11 @@ class DeleteLiteratureObservationTest extends TestCase
     public function admin_can_delete_literature_observations()
     {
         $this->seed('RolesTableSeeder');
-        $literatureObservation = factory(LiteratureObservation::class)->create();
-        $literatureObservation->observation()->save(factory(Observation::class)->make());
+        $literatureObservation = LiteratureObservation::factory()->create();
+        $literatureObservation->observation()->save(Observation::factory()->make());
         $count = LiteratureObservation::count();
 
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
         $response = $this->deleteJson("/api/literature-observations/{$literatureObservation->id}");
 
         $response->assertStatus(204);

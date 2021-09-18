@@ -18,10 +18,13 @@ class MgrsTest extends TestCase
     {
         $mgrs = Mgrs::makeFromLatLong(45.247177, 19.813558);
         $center = $mgrs->centerOf10kLatLng();
-        $centerMgrs = Mgrs::makeFromLatLong($center->getLat(), $center->getLng());
+        $centerMgrs = Mgrs::makeFromLatLong(
+            $center->getLatitude()->getValue(),
+            $center->getLongitude()->getValue()
+        );
 
         $this->assertSame($centerMgrs->to10k(), $mgrs->to10k());
-        $this->assertEquals(45.28208, $center->getLat());
-        $this->assertEquals(19.78869, $center->getLng());
+        $this->assertEqualsWithDelta(45.28208, $center->getLatitude()->getValue(), 0.00001);
+        $this->assertEqualsWithDelta(19.78869, $center->getLongitude()->getValue(), 0.00001);
     }
 }

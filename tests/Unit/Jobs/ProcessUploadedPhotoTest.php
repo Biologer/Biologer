@@ -25,7 +25,7 @@ class ProcessUploadedPhotoTest extends TestCase
         $path = File::image(Str::random().'.jpg', 1600, 1200)->store('photos', [
             'disk' => 'public',
         ]);
-        $photo = factory(Photo::class)->make(['path' => $path]);
+        $photo = Photo::factory()->make(['path' => $path]);
 
         (new ProcessUploadedPhoto($photo))->handle();
 
@@ -41,7 +41,7 @@ class ProcessUploadedPhotoTest extends TestCase
         $path = File::image('test-image.jpg', 1200, 1600)->store('photos', [
             'disk' => 'public',
         ]);
-        $photo = factory(Photo::class)->make(['path' => $path]);
+        $photo = Photo::factory()->make(['path' => $path]);
 
         (new ProcessUploadedPhoto($photo))->handle();
 
@@ -57,7 +57,7 @@ class ProcessUploadedPhotoTest extends TestCase
         $path = File::image('test-image.jpg', 500, 400)->store('photos', [
             'disk' => 'public',
         ]);
-        $photo = factory(Photo::class)->make(['path' => $path]);
+        $photo = Photo::factory()->make(['path' => $path]);
 
         (new ProcessUploadedPhoto($photo))->handle();
 
@@ -73,7 +73,7 @@ class ProcessUploadedPhotoTest extends TestCase
         $path = File::image('test-image.jpg', 500, 400)->store('photos', [
             'disk' => 'public',
         ]);
-        $photo = factory(Photo::class)->make(['path' => $path]);
+        $photo = Photo::factory()->make(['path' => $path]);
 
         (new ProcessUploadedPhoto($photo, [
             'width' => 100,

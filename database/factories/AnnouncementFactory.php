@@ -1,16 +1,35 @@
 <?php
 
-use App\Announcement;
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-$factory->define(Announcement::class, function (Faker $faker) {
-    return [
-        'creator_id' => factory(App\User::class),
-        'creator_name' => $faker->name,
-        'en' => [
-            'title' => $faker->sentence,
-            'message' => $faker->paragraph,
-        ],
-        'private' => $faker->boolean,
-    ];
-});
+use App\Announcement;
+use App\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class AnnouncementFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Announcement::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'creator_id' => User::factory(),
+            'creator_name' => $this->faker->name(),
+            'en' => [
+                'title' => $this->faker->sentence(),
+                'message' => $this->faker->paragraph(),
+            ],
+            'private' => $this->faker->boolean(),
+        ];
+    }
+}

@@ -9,7 +9,7 @@ $rules = [
     'array_syntax' => ['syntax' => 'short'],
     'binary_operator_spaces' => ['default' => 'single_space'],
     'blank_line_after_opening_tag' => true,
-    'blank_line_before_return' => true,
+    'blank_line_before_statement' => true,
     'cast_spaces' => ['space' => 'single'],
     'concat_space' => ['spacing' => 'none'],
     'include' => true,
@@ -18,19 +18,18 @@ $rules = [
     'no_blank_lines_after_phpdoc' => true,
     'no_empty_statement' => true,
     'no_multiline_whitespace_around_double_arrow' => true,
-    'no_multiline_whitespace_before_semicolons' => true,
+    'multiline_whitespace_before_semicolons' => true,
     'no_leading_import_slash' => true,
     'no_leading_namespace_whitespace' => true,
     'no_trailing_comma_in_list_call' => true,
     'no_trailing_comma_in_singleline_array' => true,
-    'no_short_echo_tag' => true,
+    'echo_tag_syntax' => ['format' => 'long'],
     'no_singleline_whitespace_before_semicolons' => true,
     'no_unused_imports' => true,
     'not_operator_with_successor_space' => true,
     'object_operator_without_whitespace' => true,
-    'ordered_imports' => ['sortAlgorithm' => 'alpha'],
+    'ordered_imports' => ['sort_algorithm' => 'alpha'],
     'phpdoc_indent' => true,
-    'phpdoc_inline_tag' => true,
     'phpdoc_no_access' => true,
     'phpdoc_no_package' => true,
     'phpdoc_scalar' => true,
@@ -40,11 +39,10 @@ $rules = [
     'phpdoc_var_without_name' => true,
     'simplified_null_return' => true,
     'single_blank_line_before_namespace'=> true,
-    'single_class_element_per_statement' => true,
     'single_quote' => true,
     'standardize_not_equals' => true,
     'ternary_operator_spaces' => true,
-    'trailing_comma_in_multiline_array' => true,
+    'trailing_comma_in_multiline' => ['elements' => ['arrays']],
     'trim_array_spaces' => true,
     'unary_operator_spaces' => true,
 ];
@@ -58,6 +56,6 @@ $finder = \PhpCsFixer\Finder::create()
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRules($rules)
     ->setFinder($finder);

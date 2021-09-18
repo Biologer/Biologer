@@ -1,7 +1,8 @@
 <?php
 
-use App\ObservationType;
+namespace Database\Seeders;
 
+use App\ObservationType;
 use Illuminate\Database\Seeder;
 
 class ObservationTypesTableSeeder extends Seeder

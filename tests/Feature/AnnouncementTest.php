@@ -32,7 +32,7 @@ class AnnouncementTest extends TestCase
     public function admin_can_publish_an_announcement()
     {
         $this->seed('RolesTableSeeder');
-        $user = factory(User::class)->create()->assignRoles('admin');
+        $user = User::factory()->create()->assignRoles('admin');
         Passport::actingAs($user);
 
         $response = $this->postJson('/api/announcements', $this->validParams());
@@ -48,7 +48,7 @@ class AnnouncementTest extends TestCase
     /** @test */
     public function guests_can_view_public_announcements()
     {
-        $announcement = factory(Announcement::class)->create(['private' => false]);
+        $announcement = Announcement::factory()->create(['private' => false]);
 
         $response = $this->get("/announcements/{$announcement->id}");
 
@@ -61,7 +61,7 @@ class AnnouncementTest extends TestCase
     /** @test */
     public function guests_cannot_view_private_announcements()
     {
-        $announcement = factory(Announcement::class)->create(['private' => true]);
+        $announcement = Announcement::factory()->create(['private' => true]);
 
         $this->get("/announcements/{$announcement->id}")->assertNotFound();
     }
@@ -70,8 +70,8 @@ class AnnouncementTest extends TestCase
     public function authenticated_users_can_mark_announcements_as_read()
     {
         $this->seed('RolesTableSeeder');
-        $announcement = factory(Announcement::class)->create(['private' => false]);
-        Passport::actingAs(factory(User::class)->create());
+        $announcement = Announcement::factory()->create(['private' => false]);
+        Passport::actingAs(User::factory()->create());
 
         $this->assertFalse($announcement->isRead());
 
@@ -86,8 +86,8 @@ class AnnouncementTest extends TestCase
     public function announcement_is_marked_as_read_when_authenticated_user_views_it()
     {
         $this->seed('RolesTableSeeder');
-        $announcement = factory(Announcement::class)->create(['private' => false]);
-        $this->actingAs(factory(User::class)->create());
+        $announcement = Announcement::factory()->create(['private' => false]);
+        $this->actingAs(User::factory()->create());
 
         $this->assertFalse($announcement->isRead());
 

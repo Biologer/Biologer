@@ -10,7 +10,7 @@ class LoginTest extends TestCase
     /** @test */
     public function user_can_login()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'email' => 'test@example.com',
             'password' => bcrypt('top-secret-password'),
         ]);
@@ -28,7 +28,7 @@ class LoginTest extends TestCase
     /** @test */
     public function user_that_has_not_verified_their_email_is_redirected_to_verification_notice_page()
     {
-        factory(User::class)->states('unverified')->create([
+        User::factory()->unverified()->create([
             'email' => 'test@example.com',
             'password' => bcrypt('top-secret-password'),
         ]);
@@ -45,7 +45,7 @@ class LoginTest extends TestCase
     /** @test */
     public function cannot_login_with_invalid_email()
     {
-        factory(User::class)->states('unverified')->create([
+        User::factory()->unverified()->create([
             'email' => 'test@example.com',
             'password' => bcrypt('top-secret-password'),
         ]);
@@ -64,7 +64,7 @@ class LoginTest extends TestCase
     /** @test */
     public function cannot_login_with_invalid_password()
     {
-        factory(User::class)->states('unverified')->create([
+        User::factory()->unverified()->create([
             'email' => 'test@example.com',
             'password' => bcrypt('top-secret-password'),
         ]);

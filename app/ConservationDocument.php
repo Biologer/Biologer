@@ -3,10 +3,11 @@
 namespace App;
 
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ConservationDocument extends Model
 {
-    use Translatable;
+    use HasFactory, Translatable;
 
     protected $translationForeignKey = 'doc_id';
 

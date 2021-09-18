@@ -14,7 +14,7 @@ class PhotoUploadTest extends TestCase
     public function authenticated_user_can_upload_photo()
     {
         Storage::fake('public');
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/uploads/photos', [
             'file' => File::image('test-image.jpg', 800, 600)->size(200),
@@ -36,7 +36,7 @@ class PhotoUploadTest extends TestCase
     /** @test */
     public function file_is_required()
     {
-        Passport::actingAs(factory(User::class)->make());
+        Passport::actingAs(User::factory()->make());
 
         $this->postJson('/api/uploads/photos', [])->assertJsonValidationErrors('file');
     }
@@ -44,7 +44,7 @@ class PhotoUploadTest extends TestCase
     /** @test */
     public function uploaded_file_must_be_image()
     {
-        Passport::actingAs(factory(User::class)->make());
+        Passport::actingAs(User::factory()->make());
 
         $this->postJson('/api/uploads/photos', [
             'file' => File::create('test-document.pdf', 200),
@@ -56,7 +56,7 @@ class PhotoUploadTest extends TestCase
     {
         config(['biologer.max_upload_size' => 2048]);
 
-        Passport::actingAs(factory(User::class)->make());
+        Passport::actingAs(User::factory()->make());
 
         $this->postJson('/api/uploads/photos', [
             'file' => File::image('test-image.jpg')->size(2 * 1024 + 1),
@@ -67,7 +67,7 @@ class PhotoUploadTest extends TestCase
     public function authenticated_user_can_remove_own_photos()
     {
         Storage::fake('public');
-        Passport::actingAs($user = factory(User::class)->make());
+        Passport::actingAs($user = User::factory()->make());
         Storage::disk('public')->putFileAs(
             'uploads/'.$user->id,
             File::image('test-image.jpg', 800, 600)->size(200),
@@ -85,8 +85,8 @@ class PhotoUploadTest extends TestCase
     public function user_cannot_remove_photos_uploaded_by_others()
     {
         Storage::fake('public');
-        Passport::actingAs(factory(User::class)->create());
-        $owner = factory(User::class)->create();
+        Passport::actingAs(User::factory()->create());
+        $owner = User::factory()->create();
         Storage::disk('public')->putFileAs(
             'uploads/'.$owner->id,
             File::image('test-image.jpg', 800, 600)->size(200),

@@ -4,11 +4,12 @@ namespace App;
 
 use App\Concerns\CanMemoize;
 use App\Filters\Filterable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 
 class Publication extends Model
 {
-    use CanMemoize, Filterable;
+    use HasFactory, CanMemoize, Filterable;
 
     /**
      * The attributes that should be cast to native types.

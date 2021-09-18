@@ -1,12 +1,28 @@
 <?php
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
+namespace Database\Factories;
 
 use App\RedList;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(RedList::class, function (Faker $faker) {
-    return [
-        'slug' => $faker->unique()->word,
-    ];
-});
+class RedListFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = RedList::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'slug' => $this->faker->unique()->country(),
+        ];
+    }
+}
