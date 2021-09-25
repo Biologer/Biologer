@@ -314,7 +314,7 @@ return [
         ],
 
         'data_entry' => [
-            'default_stage_adult' => 'Koristi "Odrasli" kao podrazumevani stadijum ukoliko je dostupan za takson.'
+            'default_stage_adult' => 'Koristi "Odrasli" kao podrazumevani stadijum ukoliko je dostupan za takson.',
         ],
     ],
 ];
