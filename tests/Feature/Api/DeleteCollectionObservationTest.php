@@ -13,7 +13,7 @@ class DeleteCollectionObservationTest extends TestCase
     /** @test */
     public function guest_cannot_delete_observation()
     {
-        $collectionObservation = factory(CollectionObservation::class)->create();
+        $collectionObservation = CollectionObservation::factory()->create();
         $count = CollectionObservation::count();
 
         $response = $this->deleteJson("/api/collection-observations/{$collectionObservation->id}");
@@ -25,10 +25,10 @@ class DeleteCollectionObservationTest extends TestCase
     /** @test */
     public function unauthorized_user_cannot_delete_observation()
     {
-        $collectionObservation = factory(CollectionObservation::class)->create();
+        $collectionObservation = CollectionObservation::factory()->create();
         $count = CollectionObservation::count();
 
-        Passport::actingAs(factory(User::class)->create());
+        Passport::actingAs(User::factory()->create());
         $response = $this->deleteJson("/api/collection-observations/{$collectionObservation->id}");
 
         $response->assertForbidden();
@@ -39,11 +39,11 @@ class DeleteCollectionObservationTest extends TestCase
     public function curator_or_admin_can_delete_collection_observations()
     {
         $this->seed('RolesTableSeeder');
-        $collectionObservation = factory(CollectionObservation::class)->create();
-        $collectionObservation->observation()->save(factory(Observation::class)->make());
+        $collectionObservation = CollectionObservation::factory()->create();
+        $collectionObservation->observation()->save(Observation::factory()->make());
         $count = CollectionObservation::count();
 
-        Passport::actingAs(factory(User::class)->create()->assignRoles('curator'));
+        Passport::actingAs(User::factory()->create()->assignRoles('curator'));
         $response = $this->deleteJson("/api/collection-observations/{$collectionObservation->id}");
 
         $response->assertStatus(204);

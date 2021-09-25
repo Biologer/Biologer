@@ -72,12 +72,12 @@ class AddFieldObservationTest extends TestCase
 
     private function createAuthenticatedUser($data = [])
     {
-        return $this->setTestClientMock(Passport::actingAs(factory(User::class)->create($data)));
+        return $this->setTestClientMock(Passport::actingAs(User::factory()->create($data)));
     }
 
     private function makeAuthenticatedUser($data = [])
     {
-        return $this->setTestClientMock(Passport::actingAs(factory(User::class)->make($data)));
+        return $this->setTestClientMock(Passport::actingAs(User::factory()->make($data)));
     }
 
     /** @test */
@@ -98,7 +98,7 @@ class AddFieldObservationTest extends TestCase
     public function authenticated_user_can_add_field_observation()
     {
         $this->handleValidationExceptions();
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = $this->createAuthenticatedUser();
 
         $fieldObservationsCount = FieldObservation::count();
@@ -400,7 +400,7 @@ class AddFieldObservationTest extends TestCase
     {
         $this->createAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
-        $taxon = factory(Taxon::class)->create();
+        $taxon = Taxon::factory()->create();
 
         $this->postJson('/api/field-observations', $this->validParams([
             'taxon_id' => $taxon->id,
@@ -615,7 +615,7 @@ class AddFieldObservationTest extends TestCase
     {
         $this->seed('RolesTableSeeder');
         $user = $this->createAuthenticatedUser()->assignRoles('admin');
-        $anotherUser = factory(User::class)->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
+        $anotherUser = User::factory()->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
 
         $response = $this->postJson('/api/field-observations', $this->validParams([
             'observed_by_id' => $anotherUser->id,
@@ -651,8 +651,8 @@ class AddFieldObservationTest extends TestCase
     {
         $this->seed('RolesTableSeeder');
         $user = $this->createAuthenticatedUser()->assignRoles('admin');
-        $anotherUser = factory(User::class)->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
-        $taxon = factory(Taxon::class)->create();
+        $anotherUser = User::factory()->create(['first_name' => 'Jane', 'last_name' => 'Doe']);
+        $taxon = Taxon::factory()->create();
 
         $response = $this->postJson('/api/field-observations', $this->validParams([
             'taxon_id' => $taxon->id,
@@ -672,7 +672,7 @@ class AddFieldObservationTest extends TestCase
     public function unless_identifier_is_provided_user_will_be_assigned_as_identifier_if_the_observation_has_some_identification()
     {
         $user = $this->createAuthenticatedUser();
-        $taxon = factory(Taxon::class)->create();
+        $taxon = Taxon::factory()->create();
 
         $response = $this->postJson('/api/field-observations', $this->validParams([
             'taxon_id' => $taxon->id,
@@ -692,11 +692,11 @@ class AddFieldObservationTest extends TestCase
     // {
     //     $this->seed('RolesTableSeeder');
     //
-    //     $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-    //     $curator = factory(User::class)->create()->assignRoles('curator');
+    //     $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+    //     $curator = User::factory()->create()->assignRoles('curator');
     //     $taxon->curators()->attach($curator);
     //
-    //     Passport::actingAs(factory(User::class)->create());
+    //     Passport::actingAs(User::factory()->create());
     //     $this->postJson('/api/field-observations', $this->validParams([
     //         'taxon_id' => $taxon->id,
     //     ]))->assertCreated();

@@ -12,7 +12,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-object-rest-spread": "^7.12.13",
     "@shopify/draggable": "^1.0.0-beta.12",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "blueimp-load-image": "^5.14.0",
     "buefy": "^0.9.4",
     "bulma": "^0.9.2",

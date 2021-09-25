@@ -13,9 +13,9 @@ class GetFieldObservationsTest extends TestCase
     /** @test */
     public function authenticated_user_can_get_their_field_observations()
     {
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
 
         $observation = ObservationFactory::createFieldObservation([
             'taxon_id' => $taxon->id,
@@ -35,10 +35,10 @@ class GetFieldObservationsTest extends TestCase
     /** @test */
     public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_name()
     {
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
-        $cerambyxCerdo = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
-        $cerambyxScopolii = factory(Taxon::class)->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
+        $cerambyxCerdo = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
+        $cerambyxScopolii = Taxon::factory()->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
 
         $cerambyxCerdoObservation = ObservationFactory::createFieldObservation([
             'taxon_id' => $cerambyxCerdo->id,
@@ -63,10 +63,10 @@ class GetFieldObservationsTest extends TestCase
     /** @test */
     public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_id()
     {
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
-        $cerambyxCerdo = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
-        $cerambyxScopolii = factory(Taxon::class)->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
+        $cerambyxCerdo = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
+        $cerambyxScopolii = Taxon::factory()->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
 
         $cerambyxCerdoObservation = ObservationFactory::createFieldObservation([
             'taxon_id' => $cerambyxCerdo->id,
@@ -91,18 +91,18 @@ class GetFieldObservationsTest extends TestCase
     /** @test */
     public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_id_including_descendants()
     {
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
-        $cerambyx = factory(Taxon::class)->create([
+        $cerambyx = Taxon::factory()->create([
             'name' => 'Cerambyx',
             'rank' => 'genus',
         ]);
-        $cerambyxCerdo = factory(Taxon::class)->create([
+        $cerambyxCerdo = Taxon::factory()->create([
             'name' => 'Cerambyx cerdo',
             'rank' => 'species',
             'parent_id' => $cerambyx->id,
         ]);
-        $cerambyxScopolii = factory(Taxon::class)->create([
+        $cerambyxScopolii = Taxon::factory()->create([
             'name' => 'Cerambyx scopolii',
             'rank' => 'species',
             'parent_id' => $cerambyx->id,
@@ -132,24 +132,24 @@ class GetFieldObservationsTest extends TestCase
     /** @test */
     public function authenticated_user_can_get_their_field_observations_sorted_by_taxon_name()
     {
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
-        $cerambyx = factory(Taxon::class)->create([
+        $cerambyx = Taxon::factory()->create([
             'name' => 'Cerambyx',
             'rank' => 'genus',
         ]);
-        $cerambyxCerdo = factory(Taxon::class)->create([
+        $cerambyxCerdo = Taxon::factory()->create([
             'name' => 'Cerambyx cerdo',
             'rank' => 'species',
             'parent_id' => $cerambyx->id,
         ]);
-        $cerambyxScopolii = factory(Taxon::class)->create([
+        $cerambyxScopolii = Taxon::factory()->create([
             'name' => 'Cerambyx scopolii',
             'rank' => 'species',
             'parent_id' => $cerambyx->id,
         ]);
 
-        $abiesAlba = factory(Taxon::class)->create([
+        $abiesAlba = Taxon::factory()->create([
             'name' => 'Abies alba',
             'rank' => 'species',
         ]);

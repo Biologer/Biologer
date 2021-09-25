@@ -3,10 +3,11 @@
 namespace App;
 
 use App\Filters\Filterable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SpecimenCollection extends Model
 {
-    use Filterable;
+    use HasFactory, Filterable;
 
     /**
      * Filters that can be used on queries.

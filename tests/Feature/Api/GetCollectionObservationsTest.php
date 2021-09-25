@@ -20,7 +20,7 @@ class GetCollectionObservationsTest extends TestCase
 
         $this->seed('RolesTableSeeder');
 
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
         $response = $this->getJson("/api/collection-observations/{$collectionObservation->id}");
 
         $response->assertSuccessful();
@@ -56,7 +56,7 @@ class GetCollectionObservationsTest extends TestCase
 
         $this->seed('RolesTableSeeder');
 
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
         $response = $this->getJson('/api/collection-observations');
 
         $response->assertSuccessful();
@@ -66,22 +66,22 @@ class GetCollectionObservationsTest extends TestCase
 
     protected function createCollectionObservation()
     {
-        $collectionObservation = factory(CollectionObservation::class)->create([
+        $collectionObservation = CollectionObservation::factory()->create([
             'original_date' => 'May 12 1990',
             'original_locality' => 'Gledić Mountains',
             'original_elevation' => '300-500m',
             'original_coordinates' => '20°22\'44",43°21\'35"',
             'original_identification_validity' => ObservationIdentificationValidity::VALID,
-            'collection_id' => factory(SpecimenCollection::class)->create()->id,
+            'collection_id' => SpecimenCollection::factory()->create()->id,
             'minimum_elevation' => 350,
             'maximum_elevation' => 400,
             'georeferenced_by' => 'Pera Detlić',
             'georeferenced_date' => now()->toDateString(),
         ]);
 
-        $collectionObservation->observation()->save(factory(Observation::class)->make([
+        $collectionObservation->observation()->save(Observation::factory()->make([
             'original_identification' => 'Testudo hermanii',
-            'taxon_id' => factory(Taxon::class)->create()->id,
+            'taxon_id' => Taxon::factory()->create()->id,
             'year' => 1990,
             'month' => 5,
             'day' => 12,
@@ -90,7 +90,7 @@ class GetCollectionObservationsTest extends TestCase
             'location' => 'Gledić Mountains',
             'accuracy' => 10,
             'elevation' => 370,
-            'created_by_id' => factory(User::class)->create()->id,
+            'created_by_id' => User::factory()->create()->id,
         ]));
 
         return $collectionObservation;

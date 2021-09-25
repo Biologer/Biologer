@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Stage;
 use Illuminate\Database\Seeder;
 

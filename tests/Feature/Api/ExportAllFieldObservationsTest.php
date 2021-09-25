@@ -16,7 +16,7 @@ class ExportAllFieldObservationsTest extends TestCase
     public function admin_can_export_all_observations()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/field-observation-exports', [
             'columns' => ['id', 'taxon'],
@@ -38,7 +38,7 @@ class ExportAllFieldObservationsTest extends TestCase
     public function admin_can_export_all_observations_in_darwin_core_format()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/field-observation-exports', [
             'type' => 'darwin_core',
@@ -58,7 +58,7 @@ class ExportAllFieldObservationsTest extends TestCase
     public function type_is_required()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/field-observation-exports');
 
@@ -70,7 +70,7 @@ class ExportAllFieldObservationsTest extends TestCase
     public function type_must_be_valid()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/field-observation-exports', [
             'type' => 'invalid',
@@ -84,7 +84,7 @@ class ExportAllFieldObservationsTest extends TestCase
     public function columns_are_required_to_perform_custom_export()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/field-observation-exports', [
             'type' => 'custom',
@@ -98,7 +98,7 @@ class ExportAllFieldObservationsTest extends TestCase
     public function columns_parameter_must_be_an_array()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/field-observation-exports', [
             'columns' => 'string',
@@ -113,7 +113,7 @@ class ExportAllFieldObservationsTest extends TestCase
     public function columns_parameter_contain_at_least_one_column()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/field-observation-exports', [
             'columns' => [],
@@ -128,7 +128,7 @@ class ExportAllFieldObservationsTest extends TestCase
     public function columns_are_supported()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/field-observation-exports', [
             'columns' => ['invalid'],

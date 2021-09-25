@@ -38,7 +38,7 @@ class AddSpecimenCollectionTest extends TestCase
     public function unauthorized_user_cannot_add_specimen_collections()
     {
         $count = SpecimenCollection::count();
-        Passport::actingAs(factory(User::class)->create());
+        Passport::actingAs(User::factory()->create());
 
         $response = $this->postJson('/api/specimen-collections', $this->validParams());
 
@@ -52,7 +52,7 @@ class AddSpecimenCollectionTest extends TestCase
     public function authorized_user_can_add_new_specimen_collection()
     {
         $this->seed('RolesTableSeeder');
-        Passport::actingAs(factory(User::class)->create()->assignRoles('curator'));
+        Passport::actingAs(User::factory()->create()->assignRoles('curator'));
 
         $response = $this->withoutExceptionHandling()->postJson('/api/specimen-collections', [
             'name' => 'Entomological Collection of Natural History Museum',

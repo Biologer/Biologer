@@ -48,7 +48,7 @@ class UpdateTaxonTest extends TestCase
     /** @test */
     public function guest_cannot_update_taxon()
     {
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
 
         $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
             'name' => 'Cerambyx scopolii',
@@ -62,8 +62,8 @@ class UpdateTaxonTest extends TestCase
     /** @test */
     public function unauthorized_user_cannot_update_taxon()
     {
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        Passport::actingAs(factory(User::class)->create());
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        Passport::actingAs(User::factory()->create());
 
         $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
             'name' => 'Cerambyx scopolii',
@@ -77,17 +77,17 @@ class UpdateTaxonTest extends TestCase
     /** @test */
     public function user_with_the_role_of_admin_can_update_taxon()
     {
-        $taxon = factory(Taxon::class)->create([
+        $taxon = Taxon::factory()->create([
             'name' => 'Cerambyx cerdo',
             'restricted' => false,
             'allochthonous' => false,
             'invasive' => false,
         ]);
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
-        $stages = factory(Stage::class, 2)->create();
-        $conservationLegislations = factory(ConservationLegislation::class, 2)->create();
-        $conservationDocuments = factory(ConservationDocument::class, 2)->create();
-        $redLists = factory(RedList::class, 2)->create();
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
+        $stages = Stage::factory(2)->create();
+        $conservationLegislations = ConservationLegislation::factory(2)->create();
+        $conservationDocuments = ConservationDocument::factory(2)->create();
+        $redLists = RedList::factory(2)->create();
 
         $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
             'name' => 'Cerambyx scopolii',
@@ -124,8 +124,8 @@ class UpdateTaxonTest extends TestCase
     /** @test */
     public function curator_can_update_taxon_that_they_curate()
     {
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create()->assignRoles('curator');
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        $user = User::factory()->create()->assignRoles('curator');
         $taxon->curators()->attach($user);
         Passport::actingAs($user);
 
@@ -141,8 +141,8 @@ class UpdateTaxonTest extends TestCase
     /** @test */
     public function curator_cannot_update_taxon_that_is_not_curated_by_them()
     {
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create()->assignRoles('curator');
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        $user = User::factory()->create()->assignRoles('curator');
         Passport::actingAs($user);
 
         $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
@@ -156,22 +156,22 @@ class UpdateTaxonTest extends TestCase
     public function activity_log_entry_is_added_when_field_observation_is_updated()
     {
         $this->artisan('db:seed', ['--class' => 'StagesTableSeeder']);
-        $taxon = factory(Taxon::class)->create([
-            'parent_id' => factory(Taxon::class)->create(['name' => 'Cerambyx'])->id,
+        $taxon = Taxon::factory()->create([
+            'parent_id' => Taxon::factory()->create(['name' => 'Cerambyx'])->id,
             'name' => 'Cerambyx scopolii',
         ]);
         $taxon->stages()->sync($stages = Stage::all());
 
         $activityCount = $taxon->activity()->count();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $taxon->curators()->attach($user);
         Passport::actingAs($user);
 
         $response = $this->putJson(
             "/api/taxa/{$taxon->id}",
             $this->validParams([
-                'parent_id' => factory(Taxon::class)->create()->id,
+                'parent_id' => Taxon::factory()->create()->id,
                 'name' => 'Cerambyx cerdo',
                 'restricted' => true,
                 'allochthonous' => true,
@@ -201,10 +201,10 @@ class UpdateTaxonTest extends TestCase
     /** @test */
     public function name_must_be_unique_among_roots()
     {
-        factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
-        $taxon = factory(Taxon::class)->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
+        Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        $taxon = Taxon::factory()->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
 
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
 
         $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
             'name' => 'Animalia',
@@ -216,10 +216,10 @@ class UpdateTaxonTest extends TestCase
 
     public function trimmed_version_of_value_is_check()
     {
-        factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
-        $taxon = factory(Taxon::class)->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
+        Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        $taxon = Taxon::factory()->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
 
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
 
         $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
             'name' => 'Animalia ',
@@ -232,10 +232,10 @@ class UpdateTaxonTest extends TestCase
     /** @test */
     public function checking_unique_name_is_case_insensitive()
     {
-        factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
-        $taxon = factory(Taxon::class)->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
+        Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        $taxon = Taxon::factory()->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
 
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
 
         $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
             'name' => 'AnimaliA',
@@ -248,11 +248,11 @@ class UpdateTaxonTest extends TestCase
     /** @test */
     public function name_must_be_unique_within_a_tree()
     {
-        $root = factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
-        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx scopolii', 'parent_id' => $root->id, 'rank' => 'species']);
+        $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx scopolii', 'parent_id' => $root->id, 'rank' => 'species']);
 
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
 
         $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
             'name' => 'Cerambyx cerdo',
@@ -266,13 +266,13 @@ class UpdateTaxonTest extends TestCase
     /** @test */
     public function same_name_can_be_used_in_different_trees()
     {
-        $root = factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
-        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
+        $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
 
-        $otherRoot = factory(Taxon::class)->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx scopilii', 'parent_id' => $otherRoot->id, 'rank' => 'species']);
+        $otherRoot = Taxon::factory()->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx scopilii', 'parent_id' => $otherRoot->id, 'rank' => 'species']);
 
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
 
         $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
             'name' => 'Cerambyx cerdo',
@@ -286,9 +286,9 @@ class UpdateTaxonTest extends TestCase
     /** @test */
     public function unique_name_validation_is_ignored_if_using_the_same_name()
     {
-        $taxon = factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        $taxon = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
 
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
 
         $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
             'name' => $taxon->name,
@@ -302,11 +302,11 @@ class UpdateTaxonTest extends TestCase
     /** @test */
     public function changing_parent_rebuilds_ancestry_for_descendants()
     {
-        $oldParent = factory(Taxon::class)->create(['rank' => 'order', 'name' => 'Wrong']);
-        $newParent = factory(Taxon::class)->create(['rank' => 'order', 'name' => 'Coleoptera']);
-        $taxon = factory(Taxon::class)->create(['rank' => 'family', 'parent_id' => $oldParent->id, 'name' => 'Cerambycidae']);
-        $child = factory(Taxon::class)->create(['rank' => 'genus', 'parent_id' => $taxon->id, 'name' => 'Cerambyx']);
-        $grandChild = factory(Taxon::class)->create(['rank' => 'species', 'parent_id' => $child->id, 'name' => 'Cerambyx cerdo']);
+        $oldParent = Taxon::factory()->create(['rank' => 'order', 'name' => 'Wrong']);
+        $newParent = Taxon::factory()->create(['rank' => 'order', 'name' => 'Coleoptera']);
+        $taxon = Taxon::factory()->create(['rank' => 'family', 'parent_id' => $oldParent->id, 'name' => 'Cerambycidae']);
+        $child = Taxon::factory()->create(['rank' => 'genus', 'parent_id' => $taxon->id, 'name' => 'Cerambyx']);
+        $grandChild = Taxon::factory()->create(['rank' => 'species', 'parent_id' => $child->id, 'name' => 'Cerambyx cerdo']);
 
         // Sanity check
         $child->ancestors->assertContains($oldParent);

@@ -21,8 +21,8 @@ class LiteratureObservationDiffTest extends TestCase
         foreach ($this->generalDataProvider() as $index => $data) {
             list($attribute, $oldValue, $newValue, $expected) = $data;
 
-            $literatureObservation = factory(LiteratureObservation::class)->create();
-            $literatureObservation->observation()->save(factory(Observation::class)->make([
+            $literatureObservation = LiteratureObservation::factory()->create();
+            $literatureObservation->observation()->save(Observation::factory()->make([
                 $attribute => $oldValue,
             ]));
 
@@ -46,10 +46,10 @@ class LiteratureObservationDiffTest extends TestCase
         foreach ($this->specificDataProvider() as $data) {
             list($attribute, $oldValue, $newValue, $expected) = $data;
 
-            $literatureObservation = factory(LiteratureObservation::class)->create([
+            $literatureObservation = LiteratureObservation::factory()->create([
                 $attribute => $oldValue,
             ]);
-            $literatureObservation->observation()->save(factory(Observation::class)->make());
+            $literatureObservation->observation()->save(Observation::factory()->make());
 
             $oldLiteratureObservation = $literatureObservation->load('observation')->replicate();
 
@@ -66,12 +66,12 @@ class LiteratureObservationDiffTest extends TestCase
     private function generalDataProvider()
     {
         yield 'Taxon using taxon_id' => (function () {
-            $taxonId = factory(Taxon::class)->create(['name' => 'Old taxon'])->id;
+            $taxonId = Taxon::factory()->create(['name' => 'Old taxon'])->id;
 
             return [
                 'taxon_id',
                 $taxonId,
-                factory(Taxon::class)->create(['name' => 'New taxon'])->id,
+                Taxon::factory()->create(['name' => 'New taxon'])->id,
                 ['taxon' => ['value' => $taxonId, 'label' => 'Old taxon']],
             ];
         })();
@@ -80,7 +80,7 @@ class LiteratureObservationDiffTest extends TestCase
             return [
                 'taxon_id',
                 null,
-                factory(Taxon::class)->create(['name' => 'New taxon'])->id,
+                Taxon::factory()->create(['name' => 'New taxon'])->id,
                 ['taxon' => ['value' => null, 'label' => null]],
             ];
         })();
@@ -289,12 +289,12 @@ class LiteratureObservationDiffTest extends TestCase
         ];
 
         yield 'Stage' => (function () {
-            $stageId = factory(Stage::class)->create(['name' => 'egg'])->id;
+            $stageId = Stage::factory()->create(['name' => 'egg'])->id;
 
             return [
                 'stage_id',
                 $stageId,
-                factory(Stage::class)->create()->id,
+                Stage::factory()->create()->id,
                 ['stage' => ['value' => $stageId, 'label' => 'stages.egg']],
             ];
         })();
@@ -303,7 +303,7 @@ class LiteratureObservationDiffTest extends TestCase
             return [
                 'stage_id',
                 null,
-                factory(Stage::class)->create()->id,
+                Stage::factory()->create()->id,
                 ['stage' => ['value' => null, 'label' => null]],
             ];
         })();
@@ -410,12 +410,12 @@ class LiteratureObservationDiffTest extends TestCase
         ];
 
         yield 'Publication' => (function () {
-            $publication = factory(Publication::class)->create();
+            $publication = Publication::factory()->create();
 
             return [
                 'publication_id',
                 $publication->id,
-                factory(Publication::class)->create()->id,
+                Publication::factory()->create()->id,
                 ['publication' => ['value' => $publication->id, 'label' => $publication->citation]],
             ];
         })();
@@ -428,12 +428,12 @@ class LiteratureObservationDiffTest extends TestCase
         ];
 
         yield 'Cited Publication' => (function () {
-            $publication = factory(Publication::class)->create();
+            $publication = Publication::factory()->create();
 
             return [
                 'cited_publication_id',
                 $publication->id,
-                factory(Publication::class)->create()->id,
+                Publication::factory()->create()->id,
                 ['cited_publication' => ['value' => $publication->id, 'label' => $publication->citation]],
             ];
         })();
@@ -442,7 +442,7 @@ class LiteratureObservationDiffTest extends TestCase
             return [
                 'cited_publication_id',
                 null,
-                factory(Publication::class)->create()->id,
+                Publication::factory()->create()->id,
                 ['cited_publication' => ['value' => null, 'label' => null]],
             ];
         })();

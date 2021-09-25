@@ -14,7 +14,7 @@ class UpdateSpecimenCollectionTest extends TestCase
      */
     public function guest_cannot_update_specimen_collection()
     {
-        $specimenCollection = factory(SpecimenCollection::class)->create();
+        $specimenCollection = SpecimenCollection::factory()->create();
 
         $response = $this->putJson("/api/specimen-collections/{$specimenCollection->id}", $this->validParams());
 
@@ -26,8 +26,8 @@ class UpdateSpecimenCollectionTest extends TestCase
      */
     public function unauthorized_user_cannot_update_specimen_collection()
     {
-        $specimenCollection = factory(SpecimenCollection::class)->create();
-        Passport::actingAs(factory(User::class)->create());
+        $specimenCollection = SpecimenCollection::factory()->create();
+        Passport::actingAs(User::factory()->create());
 
         $response = $this->putJson("/api/specimen-collections/{$specimenCollection->id}", $this->validParams());
 
@@ -39,9 +39,9 @@ class UpdateSpecimenCollectionTest extends TestCase
      */
     public function authorized_user_can_update_specimen_collection()
     {
-        $specimenCollection = factory(SpecimenCollection::class)->create();
+        $specimenCollection = SpecimenCollection::factory()->create();
         $this->seed('RolesTableSeeder');
-        Passport::actingAs(factory(User::class)->create()->assignRoles('curator'));
+        Passport::actingAs(User::factory()->create()->assignRoles('curator'));
 
         $response = $this->putJson("/api/specimen-collections/{$specimenCollection->id}", $this->validParams());
 

@@ -58,7 +58,7 @@ class AddTaxonTest extends TestCase
     /** @test */
     public function unauthorized_user_cannot_create_taxon()
     {
-        Passport::actingAs(factory(User::class)->create());
+        Passport::actingAs(User::factory()->create());
 
         $response = $this->postJson('/api/taxa', $this->validParams([
             'name' => 'Cerambyx cerdo',
@@ -72,12 +72,12 @@ class AddTaxonTest extends TestCase
     /** @test */
     public function user_with_the_role_of_admin_can_create_taxon()
     {
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
-        $parentTaxon = factory(Taxon::class)->create(['rank' => 'genus', 'name' => 'Cerambyx']);
-        $stages = factory(Stage::class, 2)->create();
-        $conservationLegislations = factory(ConservationLegislation::class, 2)->create();
-        $conservationDocuments = factory(ConservationDocument::class, 2)->create();
-        $redLists = factory(RedList::class, 2)->create();
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
+        $parentTaxon = Taxon::factory()->create(['rank' => 'genus', 'name' => 'Cerambyx']);
+        $stages = Stage::factory(2)->create();
+        $conservationLegislations = ConservationLegislation::factory(2)->create();
+        $conservationDocuments = ConservationDocument::factory(2)->create();
+        $redLists = RedList::factory(2)->create();
 
         $response = $this->postJson('/api/taxa', $this->validParams([
             'parent_id' => $parentTaxon->id,
@@ -117,8 +117,8 @@ class AddTaxonTest extends TestCase
     /** @test */
     public function curator_can_create_taxon_that_is_child_of_taxon_they_curate()
     {
-        $user = factory(User::class)->create()->assignRoles('curator');
-        $parentTaxon = factory(Taxon::class)->create();
+        $user = User::factory()->create()->assignRoles('curator');
+        $parentTaxon = Taxon::factory()->create();
         $parentTaxon->curators()->attach($user);
         Passport::actingAs($user);
 
@@ -133,8 +133,8 @@ class AddTaxonTest extends TestCase
     /** @test */
     public function curator_cannot_create_taxon_if_parent_taxon_is_not_curated_by_them()
     {
-        $user = factory(User::class)->create()->assignRoles('curator');
-        $parentTaxon = factory(Taxon::class)->create();
+        $user = User::factory()->create()->assignRoles('curator');
+        $parentTaxon = Taxon::factory()->create();
         Passport::actingAs($user);
 
         $response = $this->postJson('/api/taxa', $this->validParams([
@@ -148,8 +148,8 @@ class AddTaxonTest extends TestCase
     /** @test */
     public function name_must_be_unique_among_roots()
     {
-        factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
 
         $response = $this->postJson('/api/taxa', $this->validParams([
             'name' => 'Animalia',
@@ -162,9 +162,9 @@ class AddTaxonTest extends TestCase
     /** @test */
     public function trimmed_version_of_value_is_check()
     {
-        factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
 
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
 
         $response = $this->postJson('/api/taxa', $this->validParams([
             'name' => 'Animalia ',
@@ -177,9 +177,9 @@ class AddTaxonTest extends TestCase
     /** @test */
     public function checking_unique_name_is_case_insensitive()
     {
-        factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
 
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
 
         $response = $this->postJson('/api/taxa', $this->validParams([
             'name' => 'AnimaliA',
@@ -192,10 +192,10 @@ class AddTaxonTest extends TestCase
     /** @test */
     public function name_must_be_unique_within_a_tree()
     {
-        $root = factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
-        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
+        $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
 
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
 
         $response = $this->postJson('/api/taxa', $this->validParams([
             'name' => 'Cerambyx cerdo',
@@ -209,11 +209,11 @@ class AddTaxonTest extends TestCase
     /** @test */
     public function same_name_can_be_used_in_different_trees()
     {
-        $root = factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
-        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
+        $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
 
-        $otherRoot = factory(Taxon::class)->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
-        Passport::actingAs(factory(User::class)->create()->assignRoles('admin'));
+        $otherRoot = Taxon::factory()->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
+        Passport::actingAs(User::factory()->create()->assignRoles('admin'));
 
         $response = $this->postJson('/api/taxa', $this->validParams([
             'name' => 'Cerambyx cerdo',

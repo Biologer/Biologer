@@ -15,10 +15,10 @@ class ViewGroupTest extends TestCase
     /** @test */
     public function get_first_species_in_group()
     {
-        $rootGroup = factory(ViewGroup::class)->create();
-        $group = factory(ViewGroup::class)->create(['parent_id' => $rootGroup->id]);
-        $genus = factory(Taxon::class)->create(['rank' => 'genus']);
-        $species = factory(Taxon::class)->create(['rank' => 'species', 'parent_id' => $genus->id]);
+        $rootGroup = ViewGroup::factory()->create();
+        $group = ViewGroup::factory()->create(['parent_id' => $rootGroup->id]);
+        $genus = Taxon::factory()->create(['rank' => 'genus']);
+        $species = Taxon::factory()->create(['rank' => 'species', 'parent_id' => $genus->id]);
         $group->taxa()->attach($genus);
 
         $groupWithSpecies = ViewGroup::withFirstSpecies()->find($group->id);
@@ -29,13 +29,13 @@ class ViewGroupTest extends TestCase
     /** @test */
     public function get_first_species_in_group_that_shows_only_observed_species()
     {
-        $group = factory(ViewGroup::class)->create([
-            'parent_id' => factory(ViewGroup::class)->create()->id,
+        $group = ViewGroup::factory()->create([
+            'parent_id' => ViewGroup::factory()->create()->id,
             'only_observed_taxa' => true,
         ]);
-        $genus = factory(Taxon::class)->create(['rank' => 'genus']);
-        $species1 = factory(Taxon::class)->create(['rank' => 'species', 'parent_id' => $genus->id, 'name' => 'A']);
-        $species2 = factory(Taxon::class)->create(['rank' => 'species', 'parent_id' => $genus->id, 'name' => 'B']);
+        $genus = Taxon::factory()->create(['rank' => 'genus']);
+        $species1 = Taxon::factory()->create(['rank' => 'species', 'parent_id' => $genus->id, 'name' => 'A']);
+        $species2 = Taxon::factory()->create(['rank' => 'species', 'parent_id' => $genus->id, 'name' => 'B']);
         ObservationFactory::createFieldObservation(['taxon_id' => $species2->id]);
         $group->taxa()->attach($genus);
 

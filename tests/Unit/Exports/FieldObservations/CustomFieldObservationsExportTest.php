@@ -23,11 +23,11 @@ class CustomFieldObservationsExportTest extends TestCase
         Storage::fake('local');
         $this->seed('StagesTableSeeder');
 
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(User::factory()->create());
 
         $observation = ObservationFactory::createFieldObservation([
-            'created_by_id' => factory(User::class)->create(),
-            'taxon_id' => factory(Taxon::class)->create(['name' => 'Test taxon']),
+            'created_by_id' => User::factory()->create(),
+            'taxon_id' => Taxon::factory()->create(['name' => 'Test taxon']),
             'year' => 2001,
             'month' => 2,
             'day' => 23,
@@ -79,7 +79,7 @@ class CustomFieldObservationsExportTest extends TestCase
     public function all_columns_are_available_for_export_to_curators_and_admins()
     {
         $this->seed('RolesTableSeeder');
-        $user = factory(User::class)->create()->assignRoles('admin');
+        $user = User::factory()->create()->assignRoles('admin');
 
         $this->actingAs($user);
 

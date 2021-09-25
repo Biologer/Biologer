@@ -21,12 +21,12 @@ class GetTaxonPublicPhotosTest extends TestCase
     {
         Storage::fake(config('biologer.photos_disk'));
 
-        $taxon = factory(Taxon::class)->create();
+        $taxon = Taxon::factory()->create();
 
         $photos = ObservationFactory::createManyFieldObservations(3, [
             'taxon_id' => $taxon->id,
         ])->map(function ($fieldObservation) {
-            $photo = factory(Photo::class)->state('public')->create();
+            $photo = Photo::factory()->public()->create();
 
             $fieldObservation->observation->photos()->attach($photo);
 

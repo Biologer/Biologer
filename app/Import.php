@@ -4,10 +4,13 @@ namespace App;
 
 use App\Events\ImportStatusUpdated;
 use App\Importing\ImportStatus;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Storage;
 
 class Import extends Model
 {
+    use HasFactory;
+
     /**
      * The model's attributes.
      *

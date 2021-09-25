@@ -26,12 +26,12 @@ class DarwinCoreFieldObservationsExportTest extends TestCase
         $this->seed('StagesTableSeeder');
         $this->seed('ObservationTypesTableSeeder');
 
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(User::factory()->create());
 
         $taxon = $this->createTaxon()['subspecies'];
 
         $observation = ObservationFactory::createFieldObservation([
-            'created_by_id' => factory(User::class)->create()->id,
+            'created_by_id' => User::factory()->create()->id,
             'taxon_id' => $taxon->id,
             'year' => 2001,
             'month' => 2,
@@ -85,10 +85,10 @@ class DarwinCoreFieldObservationsExportTest extends TestCase
         $this->seed('StagesTableSeeder');
         $this->seed('ObservationTypesTableSeeder');
 
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(User::factory()->create());
 
         $observation = ObservationFactory::createFieldObservation([
-            'created_by_id' => factory(User::class)->create()->id,
+            'created_by_id' => User::factory()->create()->id,
             'taxon_id' => null,
             'year' => 2001,
             'month' => 2,
@@ -160,11 +160,11 @@ class DarwinCoreFieldObservationsExportTest extends TestCase
         $this->seed('StagesTableSeeder');
         $this->seed('ObservationTypesTableSeeder');
 
-        $this->actingAs($user = factory(User::class)->create());
+        $this->actingAs($user = User::factory()->create());
         $species = $this->createTaxon()['species'];
 
         $fieldObservation = ObservationFactory::createFieldObservation([
-            'created_by_id' => factory(User::class)->create()->id,
+            'created_by_id' => User::factory()->create()->id,
             'taxon_id' => null,
             'year' => 2001,
             'month' => 2,
@@ -243,49 +243,49 @@ class DarwinCoreFieldObservationsExportTest extends TestCase
 
     private function createTaxon()
     {
-        $kingdom = factory(Taxon::class)->create([
+        $kingdom = Taxon::factory()->create([
             'name' => 'Animalia',
             'rank' => 'kingdom',
         ]);
 
-        $phylum = factory(Taxon::class)->create([
+        $phylum = Taxon::factory()->create([
             'parent_id' => $kingdom->id,
             'name' => 'Arthropoda',
             'rank' => 'phylum',
         ]);
 
-        $class = factory(Taxon::class)->create([
+        $class = Taxon::factory()->create([
             'parent_id' => $phylum->id,
             'name' => 'Insecta',
             'rank' => 'class',
         ]);
 
-        $order = factory(Taxon::class)->create([
+        $order = Taxon::factory()->create([
             'parent_id' => $class->id,
             'name' => 'Coleoptera',
             'rank' => 'order',
         ]);
 
-        $family = factory(Taxon::class)->create([
+        $family = Taxon::factory()->create([
             'parent_id' => $order->id,
             'name' => 'Cerambycidae',
             'rank' => 'family',
         ]);
 
-        $genus = factory(Taxon::class)->create([
+        $genus = Taxon::factory()->create([
             'parent_id' => $family->id,
             'name' => 'Cerambyx',
             'rank' => 'genus',
         ]);
 
-        $species = factory(Taxon::class)->create([
+        $species = Taxon::factory()->create([
             'parent_id' => $genus->id,
             'name' => 'Cerambyx cerdo',
             'rank' => 'species',
             'author' => 'Linnaeus 1758',
         ]);
 
-        $subspecies = factory(Taxon::class)->create([
+        $subspecies = Taxon::factory()->create([
             'parent_id' => $species->id,
             'name' => 'Cerambyx cerdo cerdo',
             'author' => 'Linnaeus 1758',

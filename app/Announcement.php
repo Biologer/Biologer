@@ -4,10 +4,11 @@ namespace App;
 
 use App\Events\NewAnnouncement;
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Announcement extends Model
 {
-    use Concerns\HasTranslatableAttributes, Translatable;
+    use Concerns\HasTranslatableAttributes, HasFactory, Translatable;
 
     /**
      * The model's attributes.

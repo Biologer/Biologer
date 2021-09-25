@@ -23,12 +23,12 @@ class CuratorApprovedFieldObservationsCustomExportTest extends TestCase
         Storage::fake('local');
         $this->seed('StagesTableSeeder');
 
-        $this->actingAs($user = factory(User::class)->create());
-        $taxon = factory(Taxon::class)->create(['name' => 'Test taxon']);
+        $this->actingAs($user = User::factory()->create());
+        $taxon = Taxon::factory()->create(['name' => 'Test taxon']);
         $user->curatedTaxa()->attach($taxon);
 
         $observation = ObservationFactory::createFieldObservation([
-            'created_by_id' => factory(User::class)->create()->id,
+            'created_by_id' => User::factory()->create()->id,
             'taxon_id' => $taxon->id,
             'year' => 2001,
             'month' => 2,

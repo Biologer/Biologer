@@ -5,12 +5,13 @@ namespace App;
 use App\Concerns\CanMemoize;
 use App\Concerns\HasTranslatableAttributes;
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ViewGroup extends Model
 {
-    use CanMemoize, HasTranslatableAttributes, Translatable;
+    use HasFactory, CanMemoize, HasTranslatableAttributes, Translatable;
 
     const CACHE_GROUPS_WITH_FIRST_SPECIES = 'groups_with_first_species';
 

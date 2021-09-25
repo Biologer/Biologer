@@ -42,10 +42,10 @@ class AddObservationFromCollectionTest extends TestCase
             'collecting_end_year' => 1990,
             'collecting_end_month' => 6,
             'taxon_id' => function () {
-                return factory(Taxon::class)->create()->id;
+                return Taxon::factory()->create()->id;
             },
             'collection_id' => function () {
-                return factory(SpecimenCollection::class)->create()->id;
+                return SpecimenCollection::factory()->create()->id;
             },
             'year' => 1990,
             'month' => 5,
@@ -81,10 +81,10 @@ class AddObservationFromCollectionTest extends TestCase
     /** @test */
     public function curator_can_add_observations_from_collections()
     {
-        Passport::actingAs($user = factory(User::class)->create()->assignRoles('curator'));
+        Passport::actingAs($user = User::factory()->create()->assignRoles('curator'));
 
-        $taxon = factory(Taxon::class)->create();
-        $collection = factory(SpecimenCollection::class)->create();
+        $taxon = Taxon::factory()->create();
+        $collection = SpecimenCollection::factory()->create();
 
         $this->postJson('/api/collection-observations', $this->validParams([
             'taxon_id' => $taxon->id,
@@ -138,7 +138,7 @@ class AddObservationFromCollectionTest extends TestCase
      * */
     public function taxon_must_be_valid($value)
     {
-        Passport::actingAs(factory(User::class)->create()->assignRoles('curator'));
+        Passport::actingAs(User::factory()->create()->assignRoles('curator'));
 
         $response = $this->postJson('/api/collection-observations', $this->validParams([
             'taxon_id' => $value,
@@ -160,7 +160,7 @@ class AddObservationFromCollectionTest extends TestCase
      * */
     public function collection_must_be_valid($value)
     {
-        Passport::actingAs(factory(User::class)->create()->assignRoles('curator'));
+        Passport::actingAs(User::factory()->create()->assignRoles('curator'));
 
         $response = $this->postJson('/api/collection-observations', $this->validParams([
             'collection_id' => $value,
@@ -214,12 +214,12 @@ class AddObservationFromCollectionTest extends TestCase
 
     private function createAuthenticatedUser($data = [])
     {
-        return $this->setTestClientMock(Passport::actingAs(factory(User::class)->create($data)));
+        return $this->setTestClientMock(Passport::actingAs(User::factory()->create($data)));
     }
 
     private function makeAuthenticatedUser($data = [])
     {
-        return $this->setTestClientMock(Passport::actingAs(factory(User::class)->make($data)));
+        return $this->setTestClientMock(Passport::actingAs(User::factory()->make($data)));
     }
 
     private function setTestClientMock($user)

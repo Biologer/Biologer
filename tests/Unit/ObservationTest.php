@@ -15,7 +15,7 @@ class ObservationTest extends TestCase
     {
         list(
             $observation1, $observation2, $observation3, $observation4
-        ) = factory(Observation::class, 4)->make([
+        ) = Observation::factory(4)->make([
             'year' => '2017',
             'month' => '07',
             'day' => '15',
@@ -50,7 +50,7 @@ class ObservationTest extends TestCase
     {
         Storage::fake('public');
         $observation = ObservationFactory::createFieldObservation()->observation;
-        $photo = $observation->photos()->save(factory(Photo::class)->make([
+        $photo = $observation->photos()->save(Photo::factory()->make([
             'path' => 'fake-path/image.jpg',
             'author' => 'test author',
         ]));

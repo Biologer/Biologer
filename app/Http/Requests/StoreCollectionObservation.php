@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\License;
 use App\CollectionObservation;
+use App\ImageLicense;
 use App\ObservationIdentificationValidity;
 use App\Rules\Day;
 use App\Rules\Decimal;
@@ -63,7 +64,7 @@ class StoreCollectionObservation extends FormRequest
             'photos.*.crop.y' => ['required_with:photos.*.crop', 'integer'],
             'photos.*.crop.width' => ['required_with:photos.*.crop', 'integer'],
             'photos.*.crop.height' => ['required_with:photos.*.crop', 'integer'],
-            'photos.*.license' => ['nullable', Rule::in(License::activeIds())],
+            'photos.*.license' => ['nullable', Rule::in(ImageLicense::ids())],
             'time' => ['nullable', 'date_format:H:i'],
             'project' => ['nullable', 'string', 'max:191'],
             'found_on' => ['nullable', 'string', 'max:191'],
@@ -72,7 +73,7 @@ class StoreCollectionObservation extends FormRequest
             'observed_by_id' => ['nullable', Rule::exists('users', 'id')],
             'identified_by_id' => ['nullable', Rule::exists('users', 'id')],
             'dataset' => ['nullable', 'string', 'max:255'],
-            'data_license' => ['nullable', Rule::in(License::activeIds())],
+            'data_license' => ['nullable', Rule::in(License::ids())],
             'minimum_elevation' => [
                 'nullable', 'integer', 'max:10000', 'lte:maximum_elevation', 'lte:elevation',
             ],

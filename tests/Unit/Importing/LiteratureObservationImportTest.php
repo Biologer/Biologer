@@ -27,8 +27,8 @@ class LiteratureObservationImportTest extends TestCase
     /** @test */
     public function it_can_store_processed_and_validated_import()
     {
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create();
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        $user = User::factory()->create();
         $literatureObservationsCount = LiteratureObservation::count();
 
         $import = $this->createImport(LiteratureObservationImport::class, $this->allColumns(), $this->defaultContents(), $user);
@@ -83,8 +83,8 @@ class LiteratureObservationImportTest extends TestCase
     /** @test */
     public function if_elevation_is_missing_try_using_dem_reader_to_get_elevation()
     {
-        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create();
+        Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        $user = User::factory()->create();
 
         $import = $this->createImport(LiteratureObservationImport::class, [
             'latitude', 'longitude', 'elevation', 'year', 'taxon',
@@ -230,11 +230,11 @@ class LiteratureObservationImportTest extends TestCase
             'type' => $type,
             'columns' => $columns,
             'path' => $this->validFile($contents)->store('imports'),
-            'user_id' => $user ? $user->id : factory(User::class)->create()->id,
+            'user_id' => $user ? $user->id : User::factory()->create()->id,
             'for_user_id' => $owner ? $owner->id : null,
             'lang' => app()->getLocale(),
             'options' => [
-                'publication_id' => factory(Publication::class)->create()->id,
+                'publication_id' => Publication::factory()->create()->id,
                 'is_original_data' => true,
                 'cited_publication_id' => null,
             ],
@@ -244,8 +244,8 @@ class LiteratureObservationImportTest extends TestCase
     /** @test */
     public function georeferenced_date_is_normalized_before_storing_it()
     {
-        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create();
+        Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        $user = User::factory()->create();
 
         $import = $this->createImport(LiteratureObservationImport::class, [
             'latitude', 'longitude', 'elevation', 'year', 'taxon',
@@ -264,9 +264,9 @@ class LiteratureObservationImportTest extends TestCase
     /** @test */
     public function observations_owner_can_be_selected()
     {
-        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create();
-        $owner = factory(User::class)->create();
+        Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        $user = User::factory()->create();
+        $owner = User::factory()->create();
 
         $import = $this->createImport(
             LiteratureObservationImport::class,

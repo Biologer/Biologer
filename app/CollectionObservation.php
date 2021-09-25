@@ -6,13 +6,14 @@ use App\Concerns\CanMemoize;
 use App\Concerns\MappedSorting;
 use App\Contracts\FlatArrayable;
 use App\Filters\Filterable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\Activitylog\Models\Activity;
 
 class CollectionObservation extends Model implements FlatArrayable
 {
-    use CanMemoize, Filterable, MappedSorting;
+    use HasFactory, CanMemoize, Filterable, MappedSorting;
 
     /**
      * The attributes that should be cast to native types.

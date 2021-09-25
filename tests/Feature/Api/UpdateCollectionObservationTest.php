@@ -34,7 +34,7 @@ class UpdateCollectionObservationTest extends TestCase
     {
         $collectionObservation = $this->createCollectionObservation();
 
-        Passport::actingAs(factory(User::class)->create());
+        Passport::actingAs(User::factory()->create());
         $response = $this->putJson("/api/collection-observations/{$collectionObservation->id}", $this->validParams());
 
         $response->assertForbidden();
@@ -45,11 +45,11 @@ class UpdateCollectionObservationTest extends TestCase
     {
         $this->seed('RolesTableSeeder');
         $collectionObservation = $this->createCollectionObservation();
-        $taxon = factory(Taxon::class)->create();
-        $stage = factory(Stage::class)->create();
-        $specimenCollection = factory(SpecimenCollection::class)->create();
+        $taxon = Taxon::factory()->create();
+        $stage = Stage::factory()->create();
+        $specimenCollection = SpecimenCollection::factory()->create();
 
-        Passport::actingAs(factory(User::class)->create()->assignRoles('curator'));
+        Passport::actingAs(User::factory()->create()->assignRoles('curator'));
         $response = $this->withoutExceptionHandling()->putJson("/api/collection-observations/{$collectionObservation->id}", $this->validParams([
             'taxon_id' => $taxon->id,
             'stage_id' => $stage->id,
@@ -102,13 +102,13 @@ class UpdateCollectionObservationTest extends TestCase
             'collecting_end_year' => 1990,
             'collecting_end_month' => 6,
             'taxon_id' => function () {
-                return factory(Taxon::class)->create()->id;
+                return Taxon::factory()->create()->id;
             },
             'year' => 1991,
             'month' => 5,
             'day' => 13,
             'collection_id' => function () {
-                return factory(SpecimenCollection::class)->create()->id;
+                return SpecimenCollection::factory()->create()->id;
             },
             'latitude' => 22.123123,
             'longitude' => 44.123123,
@@ -122,30 +122,30 @@ class UpdateCollectionObservationTest extends TestCase
             'reason' => 'Test',
             'sex' => 'female',
             'stage_id' => function () {
-                return factory(Stage::class)->create()->id;
+                return Stage::factory()->create()->id;
             },
         ], $overrides));
     }
 
     protected function createCollectionObservation()
     {
-        $collectionObservation = factory(CollectionObservation::class)->create([
+        $collectionObservation = CollectionObservation::factory()->create([
             'original_date' => 'May 12 1990',
             'original_locality' => 'Gledić Mountains',
             'original_elevation' => '300-500m',
             'original_coordinates' => '20°22\'44",43°21\'35"',
             'original_identification_validity' => ObservationIdentificationValidity::VALID,
             'verbatim_tag' => 'Some information',
-            'collection_id' => factory(SpecimenCollection::class)->create()->id,
+            'collection_id' => SpecimenCollection::factory()->create()->id,
             'minimum_elevation' => 350,
             'maximum_elevation' => 400,
             'georeferenced_by' => 'Pera Detlić',
             'georeferenced_date' => now()->toDateString(),
         ]);
 
-        $collectionObservation->observation()->save(factory(Observation::class)->make([
+        $collectionObservation->observation()->save(Observation::factory()->make([
             'original_identification' => 'Testudo hermanii',
-            'taxon_id' => factory(Taxon::class)->create()->id,
+            'taxon_id' => Taxon::factory()->create()->id,
             'year' => 1990,
             'month' => 5,
             'day' => 12,
@@ -154,9 +154,9 @@ class UpdateCollectionObservationTest extends TestCase
             'location' => 'Gledić Mountains',
             'accuracy' => 10,
             'elevation' => 370,
-            'created_by_id' => factory(User::class)->create()->id,
+            'created_by_id' => User::factory()->create()->id,
             'sex' => 'male',
-            'stage_id' => factory(Stage::class)->create(['name' => 'Old stage'])->id,
+            'stage_id' => Stage::factory()->create(['name' => 'Old stage'])->id,
         ]));
 
         return $collectionObservation;
@@ -167,7 +167,7 @@ class UpdateCollectionObservationTest extends TestCase
     {
         Storage::fake('public');
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'created_by_id' => $user->id,
@@ -179,7 +179,7 @@ class UpdateCollectionObservationTest extends TestCase
             'time' => '09:00',
         ]);
 
-        $existingPhoto = factory(Photo::class)->create();
+        $existingPhoto = Photo::factory()->create();
         $fieldObservation->photos()->sync($existingPhoto);
 
         File::image('new-test-image.jpg')->storeAs('uploads/' . $user->id, 'new-test-image.jpg', 'public');
@@ -209,7 +209,7 @@ class UpdateCollectionObservationTest extends TestCase
     {
         Storage::fake('public');
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'created_by_id' => $user->id,
@@ -221,7 +221,7 @@ class UpdateCollectionObservationTest extends TestCase
             'time' => '09:00',
         ]);
 
-        $existingPhoto = factory(Photo::class)->create(['license' => License::CC_BY_SA]);
+        $existingPhoto = Photo::factory()->create(['license' => License::CC_BY_SA]);
         $fieldObservation->photos()->sync($existingPhoto);
 
         Passport::actingAs($user);
@@ -247,7 +247,7 @@ class UpdateCollectionObservationTest extends TestCase
     {
         Storage::fake('public');
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'created_by_id' => $user->id,

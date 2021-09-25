@@ -20,10 +20,10 @@ class FieldObservationDiffTest extends TestCase
         foreach ($this->generalDataProvider() as $index => $data) {
             list($attribute, $oldValue, $newValue, $expected) = $data;
 
-            $fieldObservation = factory(FieldObservation::class)->make([
+            $fieldObservation = FieldObservation::factory()->make([
                 'taxon_suggestion' => null,
             ]);
-            $fieldObservation->setRelation('observation', factory(Observation::class)->make([
+            $fieldObservation->setRelation('observation', Observation::factory()->make([
                 $attribute => $oldValue,
             ]));
 
@@ -50,10 +50,10 @@ class FieldObservationDiffTest extends TestCase
         foreach ($this->specificDataProvider() as $data) {
             list($attribute, $oldValue, $newValue, $expected) = $data;
 
-            $fieldObservation = factory(FieldObservation::class)->make([
+            $fieldObservation = FieldObservation::factory()->make([
                 $attribute => $oldValue,
             ]);
-            $fieldObservation->setRelation('observation', factory(Observation::class)->make([
+            $fieldObservation->setRelation('observation', Observation::factory()->make([
                 'taxon_id' => null,
             ]));
 
@@ -74,8 +74,8 @@ class FieldObservationDiffTest extends TestCase
 
     private function generalDataProvider()
     {
-        $taxonId = factory(Taxon::class)->create(['name' => 'Old taxon'])->id;
-        $newTaxonId = factory(Taxon::class)->create(['name' => 'New taxon'])->id;
+        $taxonId = Taxon::factory()->create(['name' => 'Old taxon'])->id;
+        $newTaxonId = Taxon::factory()->create(['name' => 'New taxon'])->id;
 
         yield 'Taxon using taxon_id' => [
             'taxon_id',
@@ -294,8 +294,8 @@ class FieldObservationDiffTest extends TestCase
             ['habitat' => null],
         ];
 
-        $stageId = factory(Stage::class)->create(['name' => 'egg'])->id;
-        $newStageId = factory(Stage::class)->create()->id;
+        $stageId = Stage::factory()->create(['name' => 'egg'])->id;
+        $newStageId = Stage::factory()->create()->id;
 
         yield 'Stage' => [
             'stage_id',

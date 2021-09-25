@@ -1,15 +1,31 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\SpecimenCollection;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(SpecimenCollection::class, function (Faker $faker) {
-    return [
-        'name' => $faker->word,
-        'code' => $faker->word,
-        'institution_name' => $faker->word,
-        'institution_code' => $faker->word,
-    ];
-});
+class SpecimenCollectionFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = SpecimenCollection::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->word(),
+            'code' => $this->faker->word(),
+            'institution_name' => $this->faker->word(),
+            'institution_code' => $this->faker->word(),
+        ];
+    }
+}

@@ -4,10 +4,11 @@ namespace App;
 
 use App\Concerns\HasTranslatableAttributes;
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ConservationLegislation extends Model
 {
-    use Translatable, HasTranslatableAttributes;
+    use HasFactory, Translatable, HasTranslatableAttributes;
 
     protected $translationForeignKey = 'leg_id';
 
