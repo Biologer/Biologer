@@ -311,5 +311,9 @@ return [
             'field_observation_marked_unidentifiable' => 'Налаз је означен као да није могућа идентификација',
             'field_observation_for_approval' => 'Нов налаз за преглед',
         ],
+
+        'data_entry' => [
+            'default_stage_adult' => 'Користи "Одрасли" као подразумевани стадијум уколико је доступан за таксон.'
+        ],
     ],
 ];

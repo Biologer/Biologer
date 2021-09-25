@@ -17,7 +17,7 @@
 
     <hr>
 
-    <form action="{{ route('preferences.general') }}" method="POST">
+    <form action="{{ route('preferences.general.update') }}" method="POST">
         {{ csrf_field() }}
         {{ method_field('PATCH') }}
 
@@ -84,6 +84,39 @@
         </div>
     </form>
 </div>
+
+<div class="box">
+    <h2 class="is-size-4">{{ __('navigation.preferences.data_entry_preferences') }}</h2>
+
+    <hr>
+
+    <form action="{{ route('preferences.data-entry.update') }}" method="POST">
+        {{ csrf_field() }}
+        {{ method_field('PATCH') }}
+
+        <div class="field">
+            <label class="b-checkbox checkbox">
+                <input
+                    type="checkbox"
+                    name="default_stage_adult"
+                    @if (old('default_stage_adult', $user->settings()->default_stage_adult))
+                    checked
+                    @endif
+                >
+                <span class="check mr-2"></span>
+                {{ __('labels.preferences.data_entry.default_stage_adult') }}
+            </label>
+
+            @error('default-stage-adult')
+                <p class="help is-danger">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div class="field mt-8">
+            <button type="submit" class="button is-primary">{{ __('buttons.save') }}</button>
+        </div>
+    </form>
+    <div>
 @endsection
 
 @section('breadcrumbs')
