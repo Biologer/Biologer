@@ -235,7 +235,7 @@ class License implements Arrayable
 
     /**
      * Check if exact date should be hidden.
-    */
+     */
     public function shouldntShowExactDate()
     {
         return $this->shouldntShowExactDate;
