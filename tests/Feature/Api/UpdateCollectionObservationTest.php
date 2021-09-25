@@ -4,8 +4,8 @@ namespace Tests\Feature\Api;
 
 use App\CollectionObservation;
 use App\License;
-use App\ObservationIdentificationValidity;
 use App\Observation;
+use App\ObservationIdentificationValidity;
 use App\Photo;
 use App\SpecimenCollection;
 use App\Stage;
@@ -182,7 +182,7 @@ class UpdateCollectionObservationTest extends TestCase
         $existingPhoto = Photo::factory()->create();
         $fieldObservation->photos()->sync($existingPhoto);
 
-        File::image('new-test-image.jpg')->storeAs('uploads/' . $user->id, 'new-test-image.jpg', 'public');
+        File::image('new-test-image.jpg')->storeAs('uploads/'.$user->id, 'new-test-image.jpg', 'public');
 
         Passport::actingAs($user);
 

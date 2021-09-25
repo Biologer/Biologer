@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\License;
 use App\CollectionObservation;
 use App\ImageLicense;
+use App\License;
 use App\ObservationIdentificationValidity;
 use App\Rules\Day;
 use App\Rules\Decimal;

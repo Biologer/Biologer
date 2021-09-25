@@ -4,8 +4,8 @@ namespace Tests\Unit\ActivityLog;
 
 use App\ActivityLog\LiteratureObservationDiff;
 use App\LiteratureObservation;
-use App\ObservationIdentificationValidity;
 use App\Observation;
+use App\ObservationIdentificationValidity;
 use App\Publication;
 use App\Stage;
 use App\Taxon;

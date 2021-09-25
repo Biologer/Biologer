@@ -9,12 +9,12 @@ use App\Photo;
 use App\SpecimenCollection;
 use App\Taxon;
 use App\User;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class AddObservationFromCollectionTest extends TestCase
 {

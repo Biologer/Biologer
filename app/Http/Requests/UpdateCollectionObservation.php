@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\ActivityLog\CollectionObservationDiff;
-use App\License;
 use App\CollectionObservation;
+use App\License;
 use App\ObservationIdentificationValidity;
 use App\Rules\Day;
 use App\Rules\Decimal;

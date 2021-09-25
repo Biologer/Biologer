@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\CollectionObservation;
-use App\LiteratureObservation;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CollectionObservationResource extends JsonResource

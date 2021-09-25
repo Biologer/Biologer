@@ -3,8 +3,8 @@
 namespace Tests\Feature\Api;
 
 use App\LiteratureObservation;
-use App\ObservationIdentificationValidity;
 use App\Observation;
+use App\ObservationIdentificationValidity;
 use App\Publication;
 use App\Taxon;
 use App\User;
