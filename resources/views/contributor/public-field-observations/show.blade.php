@@ -34,12 +34,12 @@
 
                 <tr>
                     <td><b>{{ __('labels.field_observations.latitude') }}</b></td>
-                    <td class="is-fullwidth">{{ $fieldObservation->shouldHideRealCoordinates() ? __('N/A') : $fieldObservation->observation->latitude }}</td>
+                    <td class="is-fullwidth">{{ $fieldObservation->shouldHideRealCoordinates() ? number_format($fieldObservation->observation->latitude, 1) : $fieldObservation->observation->latitude }}</td>
                 </tr>
 
                 <tr>
                     <td><b>{{ __('labels.field_observations.longitude') }}</b></td>
-                    <td class="is-fullwidth">{{ $fieldObservation->shouldHideRealCoordinates() ? __('N/A') : $fieldObservation->observation->longitude }}</td>
+                    <td class="is-fullwidth">{{ $fieldObservation->shouldHideRealCoordinates() ? number_format($fieldObservation->observation->longitude, 1) : $fieldObservation->observation->longitude }}</td>
                 </tr>
 
                 <tr>
@@ -49,7 +49,7 @@
 
                 <tr>
                     <td><b>{{ __('labels.field_observations.accuracy_m') }}</b></td>
-                    <td class="is-fullwidth">{{ $fieldObservation->observation->accuracy }}</td>
+                    <td class="is-fullwidth">{{ $fieldObservation->shouldHideRealCoordinates() ? 5000 : $fieldObservation->observation->accuracy }}</td>
                 </tr>
 
                 <tr>
