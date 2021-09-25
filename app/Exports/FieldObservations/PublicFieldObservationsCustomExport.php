@@ -33,6 +33,11 @@ class PublicFieldObservationsCustomExport extends CustomFieldObservationsExport
             $transformed['accuracy'] = 5000;
         }
 
+        if ($item->license()->shouldntShowExactDate()) {
+            $transformed['month'] = null;
+            $transformed['day'] = null;
+        }
+
         return $transformed;
     }
 }

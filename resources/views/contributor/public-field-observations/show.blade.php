@@ -16,7 +16,13 @@
 
                 <tr>
                     <td><b>{{ __('labels.field_observations.date') }}</b></td>
-                    <td class="is-fullwidth">{{ $fieldObservation->observation->year }} {{ $fieldObservation->observation->month }} {{ $fieldObservation->observation->day }}</td>
+                    <td class="is-fullwidth">
+                        {{ $fieldObservation->observation->year }}
+                        @unless ($fieldObservation->license()->shouldntShowExactDate())
+                            {{ $fieldObservation->observation->month }}
+                            {{ $fieldObservation->observation->day }}
+                        @endunless
+                    </td>
                 </tr>
 
                 <tr>

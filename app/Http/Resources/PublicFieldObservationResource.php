@@ -22,6 +22,11 @@ class PublicFieldObservationResource extends JsonResource
             $resource['accuracy'] = 5000;
         }
 
+        if ($this->license()->shouldntShowExactDate()) {
+            $resource['month'] = null;
+            $resource['day'] = null;
+        }
+
         $resource['photos'] = PublicPhotoResource::collection($this->photos->filter->public_url);
 
         return $resource;

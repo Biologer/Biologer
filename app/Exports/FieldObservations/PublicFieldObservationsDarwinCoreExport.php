@@ -33,6 +33,11 @@ class PublicFieldObservationsDarwinCoreExport extends DarwinCoreFieldObservation
             $transformed['coordinateUncertaintyInMeters'] = 5000;
         }
 
+        if ($item->license()->shouldntShowExactDate()) {
+            $transformed['month'] = null;
+            $transformed['day'] = null;
+        }
+
         return $transformed;
     }
 }
