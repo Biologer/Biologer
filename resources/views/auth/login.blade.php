@@ -37,34 +37,42 @@
                     </h1>
 
                     <div class="box border-t-4 border-primary">
+                        @if (session('verified'))
+                            <article class="message is-success">
+                                <div class="message-body">
+                                    {{ __('auth.verified') }}
+                                </div>
+                            </article>
+                        @endif
+
+                        @if (session()->has('success'))
+                            <article class="message is-success">
+                                <div class="message-body">
+                                    {{ session('success') }}
+                                </div>
+                            </article>
+                        @elseif (session()->has('info'))
+                            <article class="message is-info">
+                                <div class="message-body">
+                                    {{ session('info') }}
+                                </div>
+                            </article>
+                        @endif
+
+                        @if ($errors->isNotEmpty())
+                            <article class="message is-danger">
+                                <div class="message-body">
+                                    <ul>
+                                        @foreach ($errors->all() as $message)
+                                            <li>{{ $message }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </article>
+                        @endif
+
                         <form action="{{ route('login') }}" method="POST">
                             {{ csrf_field() }}
-
-                            @if (session()->has('success'))
-                                <article class="message is-success">
-                                    <div class="message-body">
-                                        {{ session('success') }}
-                                    </div>
-                                </article>
-                            @elseif (session()->has('info'))
-                                <article class="message is-info">
-                                    <div class="message-body">
-                                        {{ session('info') }}
-                                    </div>
-                                </article>
-                            @endif
-
-                            @if ($errors->isNotEmpty())
-                                <article class="message is-danger">
-                                    <div class="message-body">
-                                        <ul>
-                                            @foreach ($errors->all() as $message)
-                                                <li>{{ $message }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </article>
-                            @endif
 
                             <div class="field">
                                 <label class="label">{{ __('labels.login.email') }}</label>

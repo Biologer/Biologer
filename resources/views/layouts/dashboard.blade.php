@@ -144,6 +144,14 @@
                                 <nz-announcement :announcement="{{ $lastAnnouncement }}"></nz-announcement>
                             @endif
 
+                            @if (session('verified'))
+                                <article class="message is-success shadow">
+                                    <div class="message-body">
+                                        {{ __('auth.verified') }}
+                                    </div>
+                                </article>
+                            @endif
+
                             @yield('content')
                         </div>
                     </div>
