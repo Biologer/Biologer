@@ -68,7 +68,7 @@ class VerificationController extends Controller
         }
 
         $redirectPath = LaravelLocalization::getLocalizedURL(
-            optional($request->user())->preferredLocale(),
+            optional($request->user())->preferredLocale() ?: $request->cookie('locale'),
             $request->user()
                 ? $this->redirectPath()
                 : route('login')
