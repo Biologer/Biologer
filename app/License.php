@@ -40,11 +40,16 @@ class License implements Arrayable
     private $fieldObservationConstraint;
 
     /**
+     * @var \Closure|bool
+     */
+    private $shouldntShowExactDate;
+
+    /**
      * List of attributes of the License object that can be set.
      *
      * @var array
      */
-    protected $fillable = ['id', 'name', 'link', 'shouldHideRealCoordinates', 'fieldObservationConstraint'];
+    protected $fillable = ['id', 'name', 'link', 'shouldHideRealCoordinates', 'fieldObservationConstraint', 'shouldntShowExactDate'];
 
     /**
      * Constructor.
@@ -95,6 +100,7 @@ class License implements Arrayable
                 'name' => 'CC BY-SA 4.0',
                 'link' => 'https://creativecommons.org/licenses/by-sa/4.0/',
                 'shouldHideRealCoordinates' => false,
+                'shouldntShowExactDate' => false,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::CC_BY_SA);
                 },
@@ -104,6 +110,7 @@ class License implements Arrayable
                 'name' => 'CC BY-NC-SA 4.0',
                 'link' => 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
                 'shouldHideRealCoordinates' => false,
+                'shouldntShowExactDate' => false,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::CC_BY_NC_SA);
                 },
@@ -113,6 +120,7 @@ class License implements Arrayable
                 'name' => 'Partially open',
                 'link' => route('licenses.partially-open-data-license'),
                 'shouldHideRealCoordinates' => true,
+                'shouldntShowExactDate' => true,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::PARTIALLY_OPEN);
                 },
@@ -122,6 +130,7 @@ class License implements Arrayable
                 'name' => 'Closed for a period',
                 'link' => route('licenses.temporarily-closed-data-license'),
                 'shouldHideRealCoordinates' => true,
+                'shouldntShowExactDate' => true,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::TEMPORARILY_CLOSED)
                         ->where('field_observations.created_at', '<', now()->subYear(config('biologer.license_closed_period')));
@@ -132,6 +141,7 @@ class License implements Arrayable
                 'name' => 'Closed',
                 'link' => route('licenses.closed-data-license'),
                 'shouldHideRealCoordinates' => true,
+                'shouldntShowExactDate' => true,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::CLOSED)->whereRaw('0=1');
                 },
@@ -221,6 +231,14 @@ class License implements Arrayable
     public function shouldHideRealCoordinates()
     {
         return $this->shouldHideRealCoordinates;
+    }
+
+    /**
+     * Check if exact date should be hidden.
+     */
+    public function shouldntShowExactDate()
+    {
+        return $this->shouldntShowExactDate;
     }
 
     /**

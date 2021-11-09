@@ -27,11 +27,6 @@ class ImageLicense implements Arrayable
     public $link;
 
     /**
-     * @var \Closure|bool
-     */
-    private $shouldHideRealCoordinates;
-
-    /**
      * Constraint the query for field observations when this license is applied.
      *
      * @var \Closure
@@ -43,7 +38,7 @@ class ImageLicense implements Arrayable
      *
      * @var array
      */
-    protected $fillable = ['id', 'name', 'link', 'shouldHideRealCoordinates', 'fieldObservationConstraint'];
+    protected $fillable = ['id', 'name', 'link', 'fieldObservationConstraint'];
 
     /**
      * Constructor.
@@ -93,7 +88,6 @@ class ImageLicense implements Arrayable
                 'id' => self::CC_BY_SA,
                 'name' => 'CC BY-SA 4.0',
                 'link' => 'https://creativecommons.org/licenses/by-sa/4.0/',
-                'shouldHideRealCoordinates' => false,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::CC_BY_SA);
                 },
@@ -102,7 +96,6 @@ class ImageLicense implements Arrayable
                 'id' => self::CC_BY_NC_SA,
                 'name' => 'CC BY-NC-SA 4.0',
                 'link' => 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
-                'shouldHideRealCoordinates' => false,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::CC_BY_NC_SA);
                 },
@@ -111,7 +104,6 @@ class ImageLicense implements Arrayable
                 'id' => self::PARTIALLY_OPEN,
                 'name' => 'Copyrighted',
                 'link' => route('licenses.partially-open-image-license'),
-                'shouldHideRealCoordinates' => true,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::PARTIALLY_OPEN);
                 },
@@ -120,7 +112,6 @@ class ImageLicense implements Arrayable
                 'id' => self::CLOSED,
                 'name' => 'Closed',
                 'link' => route('licenses.closed-image-license'),
-                'shouldHideRealCoordinates' => true,
                 'fieldObservationConstraint' => function ($query) {
                     $query->where('license', static::CLOSED)->whereRaw('0=1');
                 },
@@ -200,16 +191,6 @@ class ImageLicense implements Arrayable
     public function name()
     {
         return trans('licenses.image.'.$this->id);
-    }
-
-    /**
-     * Check if real coordinates should be hidden based on license.
-     *
-     * @return bool
-     */
-    public function shouldHideRealCoordinates()
-    {
-        return $this->shouldHideRealCoordinates;
     }
 
     /**
