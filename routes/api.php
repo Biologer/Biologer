@@ -73,6 +73,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     // Taxa
     Route::get('taxa', [TaxaController::class, 'index'])
+        ->withoutMiddleware('verified')
         ->name('api.taxa.index');
 
     Route::post('taxa', [TaxaController::class, 'store'])
@@ -90,6 +91,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->name('api.taxa.destroy');
 
     Route::get('observation-types', [ObservationTypesController::class, 'index'])
+        ->withoutMiddleware('verified')
         ->name('api.observation-types.index');
 
     // Field observations
@@ -168,6 +170,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     // Taxa
     Route::get('view-groups', [ViewGroupsController::class, 'index'])
+        ->withoutMiddleware('verified')
         ->name('api.view-groups.index');
 
     Route::post('view-groups', [ViewGroupsController::class, 'store'])
@@ -194,9 +197,11 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     // Announcements
     Route::get('announcements', [AnnouncementsController::class, 'index'])
+        ->withoutMiddleware('verified')
         ->name('api.announcements.index');
 
     Route::get('announcements/{announcement}', [AnnouncementsController::class, 'show'])
+        ->withoutMiddleware('verified')
         ->name('api.announcements.show');
 
     Route::post('announcements', [AnnouncementsController::class, 'store'])
@@ -212,6 +217,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->name('api.announcements.destroy');
 
     Route::post('read-announcements', [ReadAnnouncementsController::class, 'store'])
+        ->withoutMiddleware('verified')
         ->name('api.read-announcements.store');
 
     // Publication
@@ -283,13 +289,15 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
             ->name('api.my.field-observation-exports.store');
 
         Route::get('profile', [ProfileController::class, 'show'])
-            ->name('api.my.profile.show')
-            ->withoutMiddleware('verified');
+            ->withoutMiddleware('verified')
+            ->name('api.my.profile.show');
 
         Route::post('read-notifications/batch', [ReadNotificationsBatchController::class, 'store'])
+            ->withoutMiddleware('verified')
             ->name('api.my.read-notifications-batch.store');
 
         Route::get('unread-notifications', [UnreadNotificationsController::class, 'index'])
+            ->withoutMiddleware('verified')
             ->name('api.my.unread-notifications.index');
     });
 
