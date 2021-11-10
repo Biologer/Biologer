@@ -80,6 +80,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->name('api.taxa.store');
 
     Route::get('taxa/{taxon}', [TaxaController::class, 'show'])
+        ->withoutMiddleware('verified')
         ->name('api.taxa.show');
 
     Route::put('taxa/{taxon}', [TaxaController::class, 'update'])
