@@ -178,6 +178,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->name('api.view-groups.store');
 
     Route::get('view-groups/{group}', [ViewGroupsController::class, 'show'])
+        ->withoutMiddleware('verified')
         ->name('api.view-groups.show');
 
     Route::put('view-groups/{group}', [ViewGroupsController::class, 'update'])
