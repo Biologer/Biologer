@@ -58,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
      *
      * @var array
      */
-    protected $appends = ['full_name'];
+    protected $appends = ['full_name', 'is_verified'];
 
     /**
      * The channels the user receives notification broadcasts on.
@@ -157,6 +157,16 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     public function getFullNameAttribute()
     {
         return $this->first_name.' '.$this->last_name;
+    }
+
+    /**
+     * Check if user has verified their email address.
+     *
+     * @return bool
+     */
+    public function getIsVerifiedAttribute()
+    {
+        return ! is_null($this->email_verified_at);
     }
 
     /**
