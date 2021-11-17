@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\ImageLicense;
 use App\License;
 use App\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Http\Kernel;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Laravel\Passport\Client;
 
 class RegisterController
@@ -31,8 +32,8 @@ class RegisterController
             'email' => ['required', 'string', 'email:rfc,filter', 'max:255', 'unique:users'],
             'institution' => ['nullable', 'string'],
             'password' => ['required', 'string', 'min:8'],
-            'data_license' => ['required', Rule::in(License::activeIds())],
-            'image_license' => ['required', Rule::in(License::activeIds())],
+            'data_license' => ['required', Rule::in(License::ids())],
+            'image_license' => ['required', Rule::in(ImageLicense::ids())],
         ])->after(function ($validator) use ($request) {
             if (isset($validator->failed()['client_id'])) {
                 return;

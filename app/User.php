@@ -8,6 +8,7 @@ use App\Filters\Filterable;
 use App\Jobs\DeleteUserData;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -15,7 +16,7 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
 {
-    use HasApiTokens, CanMemoize, HasRoles, Notifiable, Filterable, SoftDeletes;
+    use HasApiTokens, HasFactory, CanMemoize, HasRoles, Notifiable, Filterable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -57,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
      *
      * @var array
      */
-    protected $appends = ['full_name'];
+    protected $appends = ['full_name', 'is_verified'];
 
     /**
      * The channels the user receives notification broadcasts on.
@@ -156,6 +157,16 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     public function getFullNameAttribute()
     {
         return $this->first_name.' '.$this->last_name;
+    }
+
+    /**
+     * Check if user has verified their email address.
+     *
+     * @return bool
+     */
+    public function getIsVerifiedAttribute()
+    {
+        return ! is_null($this->email_verified_at);
     }
 
     /**

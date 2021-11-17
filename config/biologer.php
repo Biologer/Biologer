@@ -1,10 +1,7 @@
 <?php
 
 return [
-    'active_licenses' => explode(',', env('ACTIVE_LICENSES', \App\License::ids()->implode(','))),
-
-    'license_closed_period' => (int) env('LICENSE_CLOSED_PERIOD', 1),
-
+    'license_closed_period' => 3,
     'photos_per_observation' => 3,
 
     'photo_resize_dimension' => (int) env('PHOTO_RESIZE_DIMENSION', null),
@@ -38,7 +35,7 @@ return [
                 'longitude' => 17.8,
                 'zoom' => 7,
             ],
-        ]
+        ],
     ],
 
     'android_app_url' => env('ANDROID_APP_URL'),
@@ -53,4 +50,6 @@ return [
 
     'backup_enabled' => (bool) env('BACKUP_ENABLED', false),
     'backup_full' => (bool) env('BACKUP_FULL', false),
+
+    'photos_disk' => env('PHOTOS_DISK', 'public'),
 ];

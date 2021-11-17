@@ -141,7 +141,7 @@ class ImportTaxaTranslations extends Command
 
     private function updateTaxa($rows)
     {
-        foreach(collect($rows)->chunk(30) as $chunk) {
+        foreach (collect($rows)->chunk(30) as $chunk) {
             $chunk = collect($chunk);
 
             $taxa = Taxon::whereIn('name', $chunk->pluck('name'))->get();
@@ -149,7 +149,7 @@ class ImportTaxaTranslations extends Command
             foreach ($taxa as $taxon) {
                 $names = $chunk->where('name', $taxon->name)->first();
 
-                if (!$names) {
+                if (! $names) {
                     continue;
                 }
 

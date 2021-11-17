@@ -23,11 +23,11 @@ class ContributorFieldObservationsCustomExportTest extends TestCase
         Storage::fake('local');
         $this->seed('StagesTableSeeder');
 
-        $this->actingAs($user = factory(User::class)->create());
+        $this->actingAs($user = User::factory()->create());
 
         $observation = ObservationFactory::createFieldObservation([
             'created_by_id' => $user,
-            'taxon_id' => factory(Taxon::class)->create(['name' => 'Test taxon']),
+            'taxon_id' => Taxon::factory()->create(['name' => 'Test taxon']),
             'year' => 2001,
             'month' => 2,
             'day' => 23,

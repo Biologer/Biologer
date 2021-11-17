@@ -15,7 +15,7 @@ class ExportLiteratureObservationsTest extends TestCase
     public function admin_can_export_all_observations()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/literature-observation-exports', [
             'columns' => ['id', 'taxon'],
@@ -37,7 +37,7 @@ class ExportLiteratureObservationsTest extends TestCase
     public function type_is_required()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/literature-observation-exports');
 
@@ -49,7 +49,7 @@ class ExportLiteratureObservationsTest extends TestCase
     public function type_must_be_valid()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/literature-observation-exports', [
             'type' => 'invalid',
@@ -63,7 +63,7 @@ class ExportLiteratureObservationsTest extends TestCase
     public function columns_are_required_to_perform_custom_export()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/literature-observation-exports', [
             'type' => 'custom',
@@ -77,7 +77,7 @@ class ExportLiteratureObservationsTest extends TestCase
     public function columns_parameter_must_be_an_array()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/literature-observation-exports', [
             'columns' => 'string',
@@ -92,7 +92,7 @@ class ExportLiteratureObservationsTest extends TestCase
     public function columns_parameter_contain_at_least_one_column()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/literature-observation-exports', [
             'columns' => [],
@@ -107,7 +107,7 @@ class ExportLiteratureObservationsTest extends TestCase
     public function columns_are_supported()
     {
         Queue::fake();
-        Passport::actingAs($user = factory(User::class)->create());
+        Passport::actingAs($user = User::factory()->create());
 
         $response = $this->postJson('/api/literature-observation-exports', [
             'columns' => ['invalid'],

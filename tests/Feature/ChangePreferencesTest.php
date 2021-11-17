@@ -10,7 +10,7 @@ class ChangePreferencesTest extends TestCase
     /** @test */
     public function can_change_license_preferences()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'settings' => [
                 'data_license' => 10,
                 'image_license' => 10,
@@ -37,7 +37,8 @@ class ChangePreferencesTest extends TestCase
     /** @test */
     public function can_see_license_preferences_page()
     {
-        $user = factory(User::class)->create();
+        $this->withoutExceptionHandling();
+        $user = User::factory()->create();
 
         $response = $this->actingAs($user)->get('/preferences/license');
 

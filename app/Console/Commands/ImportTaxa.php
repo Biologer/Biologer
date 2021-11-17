@@ -63,7 +63,7 @@ class ImportTaxa extends Command
     private $redLists;
 
     /**
-     * Available stages
+     * Available stages.
      *
      * @var \Illuminate\Database\Eloquent\Collection
      */
@@ -340,7 +340,7 @@ class ImportTaxa extends Command
     {
         return implode(' ', array_filter([
             trim($taxon['genus']),
-            empty($taxon['subgenus']) ? null : '(' . $taxon['subgenus'] . ')',
+            empty($taxon['subgenus']) ? null : '('.$taxon['subgenus'].')',
             trim($taxon['species']),
             trim($taxon['subspecies']),
         ]));
@@ -370,7 +370,7 @@ class ImportTaxa extends Command
     {
         return implode(' ', array_filter([
             trim($taxon['genus']),
-            empty($taxon['subgenus']) ? null : '(' . $taxon['subgenus'] . ')',
+            empty($taxon['subgenus']) ? null : '('.$taxon['subgenus'].')',
             trim($taxon['species']),
         ]));
     }

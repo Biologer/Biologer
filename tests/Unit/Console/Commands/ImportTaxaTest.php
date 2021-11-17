@@ -15,8 +15,8 @@ class ImportTaxaTest extends TestCase
     /** @test */
     public function can_import_taxa_from_a_csv_file()
     {
-        $redList = factory(RedList::class)->create();
-        $conservationLegislation = factory(ConservationLegislation::class)->create();
+        $redList = RedList::factory()->create();
+        $conservationLegislation = ConservationLegislation::factory()->create();
 
         $path = $this->createTempFile(
             "kingdom,species,allochthonous,invasive,restricted,fe_id,fe_old_id,name_en,red_list_{$redList->slug},conservation_legislation_{$conservationLegislation->slug}\n".
@@ -53,8 +53,8 @@ class ImportTaxaTest extends TestCase
     /** @test */
     public function can_handle_duplicate_names_in_same_tree()
     {
-        $root = factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
-        factory(Taxon::class)->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
+        $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
 
         $path = $this->createTempFile(
             "kingdom,species,allochthonous,invasive,restricted,fe_id,fe_old_id,name_en\n".
@@ -81,8 +81,8 @@ class ImportTaxaTest extends TestCase
     /** @test */
     public function can_handle_duplicate_names_in_different_trees()
     {
-        $root = factory(Taxon::class)->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
-        $animalSpecies = factory(Taxon::class)->create([
+        $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
+        $animalSpecies = Taxon::factory()->create([
             'name' => 'Cerambyx cerdo',
             'parent_id' => $root->id,
             'rank' => 'species',
@@ -90,8 +90,8 @@ class ImportTaxaTest extends TestCase
             'invasive' => false,
             'restricted' => false,
         ]);
-        $otherRoot = factory(Taxon::class)->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
-        $plantSpecies = factory(Taxon::class)->create([
+        $otherRoot = Taxon::factory()->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
+        $plantSpecies = Taxon::factory()->create([
             'name' => 'Cerambyx cerdo',
             'parent_id' => $otherRoot->id,
             'rank' => 'species',
@@ -161,7 +161,7 @@ class ImportTaxaTest extends TestCase
     /** @test */
     public function user_can_be_attributed_as_creator_of_the_tree()
     {
-        $user = factory(User::class)->create(['first_name' => 'John', 'last_name' => 'Doe']);
+        $user = User::factory()->create(['first_name' => 'John', 'last_name' => 'Doe']);
         $path = $this->createTempFile("species\nCerambyx cerdo");
 
         $this->artisan('import:taxa', [

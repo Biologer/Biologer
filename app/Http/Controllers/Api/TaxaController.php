@@ -18,9 +18,25 @@ class TaxaController
      */
     public function index(Request $request)
     {
-        $taxa = Taxon::with([
+        $relations = [
             'parent', 'stages', 'activity.causer', 'curators', 'ancestors.curators',
-        ])->filter($request)->orderBy('id')->paginate($request->input('per_page', 15));
+        ];
+
+        if ($request->boolean('withGroupsIds')) {
+            $relations = array_merge($relations, [
+                'groups' => function ($q) {
+                    $q->select('id');
+                },
+                'ancestors.groups' => function ($q) {
+                    $q->select('id');
+                },
+            ]);
+        }
+
+        $taxa = Taxon::with($relations)
+            ->filter($request)
+            ->orderBy('id')
+            ->paginate($request->input('per_page', 15));
 
         return new TaxonCollectionResource($taxa);
     }

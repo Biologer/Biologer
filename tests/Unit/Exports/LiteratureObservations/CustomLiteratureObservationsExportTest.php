@@ -24,7 +24,7 @@ class CustomLiteratureObservationsExportTest extends TestCase
         Storage::fake('local');
         $this->seed('StagesTableSeeder');
 
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(User::factory()->create());
 
         $observation = $this->createLiteratureObservation();
 
@@ -63,13 +63,13 @@ class CustomLiteratureObservationsExportTest extends TestCase
 
     protected function createLiteratureObservation()
     {
-        $literatureObservation = factory(LiteratureObservation::class)->create([
+        $literatureObservation = LiteratureObservation::factory()->create([
             'original_date' => 'May 12 1990',
             'original_locality' => 'Gledić Mountains',
             'original_elevation' => '300-500m',
             'original_coordinates' => '20°22\'44",43°21\'35"',
             'original_identification_validity' => LiteratureObservationIdentificationValidity::VALID,
-            'publication_id' => factory(Publication::class)->create(['citation' => 'Test citation'])->id,
+            'publication_id' => Publication::factory()->create(['citation' => 'Test citation'])->id,
             'is_original_data' => true,
             'cited_publication_id' => null,
             'minimum_elevation' => 350,
@@ -78,9 +78,9 @@ class CustomLiteratureObservationsExportTest extends TestCase
             'georeferenced_date' => Carbon::parse('2019-05-20'),
         ]);
 
-        $literatureObservation->observation()->save(factory(Observation::class)->make([
+        $literatureObservation->observation()->save(Observation::factory()->make([
             'original_identification' => 'Testudo hermanii',
-            'taxon_id' => factory(Taxon::class)->create(['name' => 'Test taxon'])->id,
+            'taxon_id' => Taxon::factory()->create(['name' => 'Test taxon'])->id,
             'year' => 1990,
             'month' => 5,
             'day' => 12,
@@ -89,7 +89,7 @@ class CustomLiteratureObservationsExportTest extends TestCase
             'location' => 'Gledić Mountains',
             'accuracy' => 10,
             'elevation' => 370,
-            'created_by_id' => factory(User::class)->create()->id,
+            'created_by_id' => User::factory()->create()->id,
             'observer' => 'Test observer',
             'identifier' => 'Test identifier',
         ]));

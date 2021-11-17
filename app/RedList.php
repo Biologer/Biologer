@@ -3,10 +3,11 @@
 namespace App;
 
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RedList extends Model
 {
-    use Translatable;
+    use HasFactory, Translatable;
 
     /**
      * Red List categories.

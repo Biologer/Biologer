@@ -17,4 +17,5 @@ return [
 
     'verification_link_sent' => 'Poslali smo verifikacioni link na Vašu e-mail adresu.',
     'verify_email' => 'Molimo Vas da prvo potvrdite Vašu e-mail adresu.',
+    'verified' => 'Uspešno ste potvrdili Vašu e-mail adresu.',
 ];

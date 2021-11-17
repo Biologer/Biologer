@@ -1,6 +1,6 @@
 <?php
 
-define('PHP_VERSION_REQUIRED', '7.2.5');
+define('PHP_VERSION_REQUIRED', '7.4');
 
 $strOk   = '<span class="ok">&#10004;</span>';
 $strFail = '<span class="fail">X</span>';

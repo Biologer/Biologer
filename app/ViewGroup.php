@@ -5,12 +5,13 @@ namespace App;
 use App\Concerns\CanMemoize;
 use App\Concerns\HasTranslatableAttributes;
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ViewGroup extends Model
 {
-    use CanMemoize, HasTranslatableAttributes, Translatable;
+    use HasFactory, CanMemoize, HasTranslatableAttributes, Translatable;
 
     const CACHE_GROUPS_WITH_FIRST_SPECIES = 'groups_with_first_species';
 
@@ -32,7 +33,7 @@ class ViewGroup extends Model
      */
     protected $appends = ['name', 'description'];
 
-   /**
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array
@@ -331,7 +332,7 @@ class ViewGroup extends Model
         static::updated(function ($model) {
             if ($model->wasChanged('image_path') && $path = $model->getOriginal('image_path')) {
                 $model->deleteImage($path);
-            };
+            }
         });
 
         static::deleted(function ($model) {

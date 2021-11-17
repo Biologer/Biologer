@@ -46,7 +46,7 @@ class ImportingLiteratureObservationsTest extends TestCase
                 'original_identification', 'original_identification_validity',
             ],
             'file' => $this->validFile(),
-            'publication_id' => factory(Publication::class)->create()->id,
+            'publication_id' => Publication::factory()->create()->id,
         ])->assertUnauthorized();
     }
 
@@ -59,7 +59,7 @@ class ImportingLiteratureObservationsTest extends TestCase
                 'original_identification', 'original_identification_validity',
             ],
             'file' => $this->validFile(),
-            'publication_id' => factory(Publication::class)->create()->id,
+            'publication_id' => Publication::factory()->create()->id,
         ])->assertUnauthorized();
     }
 
@@ -67,7 +67,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     {
         $this->seed('RolesTableSeeder');
 
-        return Passport::actingAs(factory(User::class)->create()->assignRoles('curator'));
+        return Passport::actingAs(User::factory()->create()->assignRoles('curator'));
     }
 
     /** @test */
@@ -82,7 +82,7 @@ class ImportingLiteratureObservationsTest extends TestCase
                 'original_identification', 'original_identification_validity',
             ],
             'file' => $this->validFile(),
-            'publication_id' => factory(Publication::class)->create()->id,
+            'publication_id' => Publication::factory()->create()->id,
             'is_original_data' => true,
         ]);
 
@@ -102,7 +102,7 @@ class ImportingLiteratureObservationsTest extends TestCase
                 'original_identification', 'original_identification_validity',
             ],
             'file' => '',
-            'publication_id' => factory(Publication::class)->create()->id,
+            'publication_id' => Publication::factory()->create()->id,
             'is_original_data' => true,
         ]);
 
@@ -120,7 +120,7 @@ class ImportingLiteratureObservationsTest extends TestCase
                 'original_identification', 'original_identification_validity',
             ],
             'file' => 'string',
-            'publication_id' => factory(Publication::class)->create()->id,
+            'publication_id' => Publication::factory()->create()->id,
             'is_original_data' => true,
         ]);
 
@@ -138,7 +138,7 @@ class ImportingLiteratureObservationsTest extends TestCase
                 'original_identification', 'original_identification_validity',
             ],
             'file' => File::fake()->create('import.pdf'),
-            'publication_id' => factory(Publication::class)->create()->id,
+            'publication_id' => Publication::factory()->create()->id,
             'is_original_data' => true,
         ])->assertJsonValidationErrors(['file']);
     }
@@ -154,7 +154,7 @@ class ImportingLiteratureObservationsTest extends TestCase
                 'original_identification', 'original_identification_validity',
             ],
             'file' => File::fake()->create('import.csv'),
-            'publication_id' => factory(Publication::class)->create()->id,
+            'publication_id' => Publication::factory()->create()->id,
             'is_original_data' => true,
         ])->assertJsonValidationErrors(['file']);
     }
@@ -167,7 +167,7 @@ class ImportingLiteratureObservationsTest extends TestCase
         $this->postJson('/api/literature-observation-imports', [
             'columns' => [],
             'file' => File::fake()->create('import.csv'),
-            'publication_id' => factory(Publication::class)->create()->id,
+            'publication_id' => Publication::factory()->create()->id,
             'is_original_data' => true,
         ])->assertJsonValidationErrors(['columns']);
     }
@@ -180,7 +180,7 @@ class ImportingLiteratureObservationsTest extends TestCase
         $this->postJson('/api/literature-observation-imports', [
             'columns' => 'string',
             'file' => File::fake()->create('import.csv'),
-            'publication_id' => factory(Publication::class)->create()->id,
+            'publication_id' => Publication::factory()->create()->id,
             'is_original_data' => true,
         ])->assertJsonValidationErrors(['columns']);
     }
@@ -195,7 +195,7 @@ class ImportingLiteratureObservationsTest extends TestCase
                 'latitude', 'longitude', 'elevation', 'year', 'taxon',
             ],
             'file' => File::fake()->create('import.csv'),
-            'publication_id' => factory(Publication::class)->create()->id,
+            'publication_id' => Publication::factory()->create()->id,
             'is_original_data' => true,
         ])->assertJsonValidationErrors(['columns']);
     }
@@ -248,7 +248,7 @@ class ImportingLiteratureObservationsTest extends TestCase
                 'original_identification', 'original_identification_validity',
             ],
             'file' => $this->validFile(),
-            'publication_id' => factory(Publication::class)->create()->id,
+            'publication_id' => Publication::factory()->create()->id,
             'is_original_data' => true,
         ])->assertSuccessful();
 
@@ -264,9 +264,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     {
         $user = $this->actingAsCurator();
 
-        $import = factory(Import::class)->states([
-            'literatureObservation', 'processingQueued',
-        ])->create([
+        $import = Import::factory()->literatureObservation()->processingQueued()->create([
             'user_id' => $user->id,
             'path' => $this->validFile()->store('imports'),
         ]);
@@ -281,10 +279,8 @@ class ImportingLiteratureObservationsTest extends TestCase
     {
         $this->actingAsCurator();
 
-        $import = factory(Import::class)->states([
-            'literatureObservation', 'processingQueued',
-        ])->create([
-            'user_id' => factory(User::class),
+        $import = Import::factory()->literatureObservation()->processingQueued()->create([
+            'user_id' => User::factory(),
             'path' => $this->validFile()->store('imports'),
         ]);
 

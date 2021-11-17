@@ -302,7 +302,7 @@ abstract class BaseImport
             $writer = $this->makeValidationErrorWriter();
 
             $this->readParsed(function ($item) use ($writer, &$rowNumber, &$passed) {
-                if (!$this->validateItemAndWriteErrors($item, $writer, $rowNumber)) {
+                if (! $this->validateItemAndWriteErrors($item, $writer, $rowNumber)) {
                     $passed = false;
                 }
 

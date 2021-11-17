@@ -41,11 +41,11 @@ class ProcessImportTest extends TestCase
     /** @test */
     public function it_can_perform_processing_of_field_observation_import()
     {
-        $taxon = factory(Taxon::class)->create(['name' => 'Cerambyx cerdo']);
-        $user = factory(User::class)->create();
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        $user = User::factory()->create();
         $fieldObservationsCount = FieldObservation::count();
 
-        $import = factory(Import::class)->create([
+        $import = Import::factory()->create([
             'type' => FieldObservationImport::class,
             'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon'],
             'path' => $this->validFile('21.123123,42.123123,560,2018,5,22,Cerambyx cerdo')->store('imports'),

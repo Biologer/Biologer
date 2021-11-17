@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Preferences;
 
+use App\ImageLicense;
 use App\License;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -31,8 +32,8 @@ class LicensePreferencesController
     public function update(Request $request)
     {
         $request->user()->settings()->merge($request->validate([
-            'data_license' => ['required', Rule::in(License::activeIds())],
-            'image_license' => ['required', Rule::in(License::activeIds())],
+            'data_license' => ['required', Rule::in(License::ids())],
+            'image_license' => ['required', Rule::in(ImageLicense::ids())],
         ]));
 
         return back()->withSuccess(__('Successfully updated.'));

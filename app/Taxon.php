@@ -5,12 +5,14 @@ namespace App;
 use App\Filters\Filterable;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Activity;
 
 class Taxon extends Model
 {
-    use Concerns\CanBeCurated,
+    use HasFactory,
+        Concerns\CanBeCurated,
         Concerns\CanMemoize,
         Concerns\HasAncestry,
         Concerns\HasTranslatableAttributes,
@@ -150,6 +152,8 @@ class Taxon extends Model
             'limit' => \App\Filters\Limit::class,
             'taxonId' => \App\Filters\NullFilter::class,
             'includeChildTaxa' => \App\Filters\NullFilter::class,
+            'groups' => \App\Filters\Taxon\Groups::class,
+            'ungrouped' => \App\Filters\Taxon\Ungrouped::class,
         ];
     }
 
@@ -308,10 +312,9 @@ class Taxon extends Model
     public function scopeWithScientificOrNativeName($query, $name)
     {
         return $query->where(function ($query) use ($name) {
-            $query->where('name', 'like', '%' . $name . '%')
+            $query->where('name', 'like', '%'.$name.'%')
                 ->orWhereTranslationLike('native_name', '%'.$name.'%');
         });
-
     }
 
     /**
@@ -466,6 +469,12 @@ class Taxon extends Model
         return $this->memoize('mgrs', function () {
             $result = Observation::approved()
                 ->ofTaxa($this->selfAndDescendantsIds())
+                ->where(function ($query) {
+                    $query->where('details_type', '!=', (new FieldObservation)->getMorphClass())
+                        ->orWhereHasMorph('details', [FieldObservation::class], function ($query) {
+                            $query->public();
+                        });
+                })
                 ->getQuery()
                 ->groupBy('mgrs10k', 'details_type')
                 ->get([
@@ -481,7 +490,7 @@ class Taxon extends Model
                     'observations_count' => $fieldData->sum('observations_count'),
                     'present_in_literature' => $presentInLiterature->contains($field),
                 ];
-            });
+            })->sortKeys();
         });
     }
 
@@ -499,7 +508,7 @@ class Taxon extends Model
                     // Exclude those that are found dead
                     $query->where('details_type', '!=', (new FieldObservation)->getMorphClass())
                         ->orWhereHasMorph('details', [FieldObservation::class], function ($query) {
-                            $query->where('found_dead', false);
+                            $query->where('found_dead', false)->public();
                         });
                 })
                 ->withCompleteDate()
@@ -524,7 +533,7 @@ class Taxon extends Model
 
         return [
             'elevation' => (int) $observation->elevation,
-            'date' => $observation->year . '-' . $month . '-' . $day,
+            'date' => $observation->year.'-'.$month.'-'.$day,
             'stage' => $observation->stage_name ?? 'unknown',
         ];
     }

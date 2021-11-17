@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use App\ImageLicense;
 use App\License;
 use App\User;
 use Illuminate\Auth\Events\Registered;
@@ -38,7 +39,7 @@ class RegistrationTest extends TestCase
             'first_name' => 'Tester',
             'last_name' => 'Testerson',
             'data_license' => License::CC_BY_NC_SA,
-            'image_license' => License::CC_BY_NC_SA,
+            'image_license' => ImageLicense::CC_BY_NC_SA,
             'email' => 'test@example.com',
             'password' => 'supersecret',
         ])->assertOk();
@@ -68,7 +69,7 @@ class RegistrationTest extends TestCase
             'first_name' => 'Tester',
             'last_name' => 'Testerson',
             'data_license' => License::CC_BY_NC_SA,
-            'image_license' => License::CC_BY_NC_SA,
+            'image_license' => ImageLicense::CC_BY_NC_SA,
             'email' => 'test@example.com',
             'password' => 'supersecret',
         ])->assertJsonValidationErrors('client_secret');
@@ -85,7 +86,7 @@ class RegistrationTest extends TestCase
             'first_name' => 'Tester',
             'last_name' => 'Testerson',
             'data_license' => License::CC_BY_NC_SA,
-            'image_license' => License::CC_BY_NC_SA,
+            'image_license' => ImageLicense::CC_BY_NC_SA,
             'email' => 'test@example.com',
             'password' => 'supersecret',
         ])->assertJsonValidationErrors('client_id')->assertJsonMissingValidationErrors('client_secret');
@@ -108,7 +109,7 @@ class RegistrationTest extends TestCase
             'first_name' => 'Tester',
             'last_name' => 'Testerson',
             'data_license' => License::CC_BY_NC_SA,
-            'image_license' => License::CC_BY_NC_SA,
+            'image_license' => ImageLicense::CC_BY_NC_SA,
             'email' => 'test@example.com',
             'password' => 'supersecret',
         ])->assertJsonValidationErrors('client_id');

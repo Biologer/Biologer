@@ -6,13 +6,15 @@ use App\Concerns\CanMemoize;
 use App\Concerns\MappedSorting;
 use App\Contracts\FlatArrayable;
 use App\Filters\Filterable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Spatie\Activitylog\Models\Activity;
 
 class FieldObservation extends Model implements FlatArrayable
 {
-    use CanMemoize, Filterable, MappedSorting;
+    use HasFactory, CanMemoize, Filterable, MappedSorting;
 
     const STATUS_APPROVED = 'approved';
     const STATUS_PENDING = 'pending';
@@ -341,18 +343,20 @@ class FieldObservation extends Model implements FlatArrayable
      */
     public function getLicenseTranslationAttribute()
     {
-        return trans('licenses.'.$this->license);
+        return $this->license()->name();
     }
 
     /**
      * Add photos to the observation, using photos' paths.
      *
-     * @param  array  $photos Paths
+     * @param  \Illuminate\Support\Collection|array  $photos Paths
      * @param  int  $defaultLicense
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function addPhotos($photos, $defaultLicense)
     {
+        $photos = Collection::wrap($photos);
+
         return $this->photos()->saveMany(
             collect($photos)->filter(function ($photo) {
                 return UploadedPhoto::exists($photo['path']);
@@ -368,12 +372,14 @@ class FieldObservation extends Model implements FlatArrayable
     /**
      * Remove unused photos and and add new ones.
      *
-     * @param  array  $photos
+     * @param  \Illuminate\Support\Collection|array  $photos
      * @param  int  $defaultLicense
      * @return void
      */
     public function syncPhotos($photos, $defaultLicense)
     {
+        $photos = Collection::wrap($photos);
+
         $result = [
             'cropped' => [],
             'added' => [],
@@ -381,7 +387,6 @@ class FieldObservation extends Model implements FlatArrayable
         ];
 
         $current = $this->photos()->get();
-
 
         // Removing
         $current->whereNotIn('id', $photos->pluck('id'))->each(function ($photo) use (&$result) {
@@ -402,8 +407,8 @@ class FieldObservation extends Model implements FlatArrayable
             $crop = Arr::get($updatedPhoto, 'crop');
 
             if ($crop) {
-                $photo->crop($crop['width'], $crop['height'], $crop['x'], $crop['y']);
                 $result['cropped'][] = $photo;
+                $photo->queueProcessing($crop);
             }
         });
 

@@ -56,4 +56,28 @@ class PhotoPolicy
     {
         //
     }
+
+    /**
+     * Owner or curator in charge of taxon in the photo.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Photo  $photo
+     * @return bool
+     */
+    public function viewOriginal(User $user, Photo $photo)
+    {
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+
+        if ($photo->observations()->createdBy($user)->exists()) {
+            return true;
+        }
+
+        if ($user->hasRole('curator') && $photo->observations()->taxonCuratedBy($user)->exists()) {
+            return true;
+        }
+
+        return false;
+    }
 }

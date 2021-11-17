@@ -60,7 +60,7 @@ class Settings
     {
         return [
             'data_license' => License::firstId(),
-            'image_license' => License::firstId(),
+            'image_license' => ImageLicense::firstId(),
             'language' => app()->getLocale(),
             'notifications' => [
                 'field_observation_approved' => [
