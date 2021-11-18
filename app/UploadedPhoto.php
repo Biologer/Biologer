@@ -17,9 +17,8 @@ class UploadedPhoto
      */
     public static function store(UploadedFile $file)
     {
-        return basename($file->storeAs(
+        return basename($file->store(
             static::relativePath(),
-            Str::random().'-'.$file->getClientOriginalName(),
             'public'
         ));
     }
