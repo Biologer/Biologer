@@ -16,7 +16,7 @@ class FieldObservationResource extends JsonResource
     {
         $fieldObservation = parent::toArray($request);
 
-        $fieldObservation['photos'] = PhotoResource::collection($this->photos);
+        $fieldObservation['photos'] = PhotoResource::collection($this->observation->photos);
         $fieldObservation['observed_by'] = ObscuredUserResource::make($this->observedBy);
         $fieldObservation['identified_by'] = ObscuredUserResource::make($this->identifiedBy);
         $fieldObservation['activity'] = ActivityResource::collection($this->activity);
