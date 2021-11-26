@@ -43,12 +43,12 @@ class UsersAutocompleteTest extends TestCase
             [
                 'id' => $userJane->id,
                 'full_name' => 'Jane Doe',
-                'email' => 'jane@example.com',
+                'email' => 'j***@e******.c**',
             ],
             [
                 'id' => $userJohn->id,
                 'full_name' => 'John Doe',
-                'email' => 'john@example.com',
+                'email' => 'j***@e******.c**',
             ],
         ], $response->json('data'));
     }

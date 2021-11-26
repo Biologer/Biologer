@@ -225,4 +225,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
         $this->delete();
     }
+
+    /**
+     * Get obscured email address that is safe for sharing.
+     *
+     * @return string
+     */
+    public function getObscuredEmail()
+    {
+        return preg_replace('/\B[^@.]/', '*', $this->email);
+    }
 }
