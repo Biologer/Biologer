@@ -54,7 +54,11 @@ class TaxonPolicy
      */
     protected function canCreateWithParent(User $user, $parentId)
     {
-        return ($taxon = Taxon::find($parentId)) ? $taxon->isCuratedBy($user) : false;
+        if (!$taxon = Taxon::find($parentId)) {
+            return false;
+        }
+
+        return $taxon->isCuratedBy($user);
     }
 
     /**
