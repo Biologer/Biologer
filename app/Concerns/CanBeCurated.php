@@ -29,6 +29,8 @@ trait CanBeCurated
                 $q->where('id', $user->id);
             })->orWhereHas('ancestors.curators', function ($q) use ($user) {
                 $q->where('id', $user->id);
+            })->orWhereHas('descendants.curators', function ($q) use ($user) {
+                $q->where('id', $user->id);
             });
         });
     }

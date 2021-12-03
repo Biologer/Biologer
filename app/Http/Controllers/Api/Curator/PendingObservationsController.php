@@ -19,7 +19,9 @@ class PendingObservationsController
         $result = FieldObservation::with([
             'observation.taxon', 'observation.photos', 'activity.causer',
             'observation.types.translations', 'observedBy', 'identifiedBy',
-        ])->pending()->curatedBy($request->user())->filter($request)->paginate($request->get('per_page', 15));
+        ])->whereHas('observation', function ($query) use ($request) {
+            return $query->pending()->taxonCuratedBy($request->user());
+        })->filter($request)->paginate($request->get('per_page', 15));
 
         return FieldObservationResource::collection($result);
     }
