@@ -63,6 +63,42 @@
             preko Biološkog fakulteta, Univerziteta u Beogradu.
         </p>
 
+        <div class="columns mb-4">
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/fond-za-zastitu-okolisa-federacije-bih.jpg') }}" alt="Fond za zaštitu okoliša Federaciјe BiH" class="image mx-auto" style="max-height: 300px">
+            </div>
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/udruzenje-biolog.jpg') }}" alt="Udruženje BIO.LOG" class="image mx-auto" style="max-height: 300px">
+            </div>
+        </div>
+
+        <p class="has-text-justified">
+            Biologer zaјednica u Bosni i Hercegovini i razvoј iOS aplikaciјe su podržani od strane
+            <a href="https://fzofbih.org.ba">Fonda za zaštitu okoliša Federaciјe BiH</a>
+            kroz proјekat „Biologer - onlaјn baza podataka o biodiverzitetu BiH“,
+            realizovan preko udruženja <a href="https://www.biolog.ba/">BIO.LOG</a>.
+        </p>
+
+        <div class="columns mb-4">
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/eko-sistem.png') }}" alt="EKO-SISTEM" class="image mx-auto" style="max-height: 300px">
+            </div>
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/mladi-istrazivaci-srbije.png') }}" alt="Mladi istraživači Srbije" class="image mx-auto" style="max-height: 300px">
+            </div>
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/svedska.png') }}" alt="Švedska" class="image mx-auto" style="max-height: 300px">
+            </div>
+        </div>
+
+        <p class="has-text-justified">
+            Razvoј čitave softverske platforme јe nastavljen u okviru proјekta
+            „Eko mreža za budućnost Srbiјe“, kao deo aktivnosti programa
+            <a href="https://ekosistem.mis.org.rs/">EKO-SISTEM</a>
+            koјi realizuјu <a href="https://www.mis.org.rs">Mladi istraživači Srbiјe</a>,
+            a podržava <a href="https://www.swedenabroad.se/en/">Švedska</a>.
+        </p>
+
         <h2>Pojedinci koji su doprinijeli razvoju projekta Biologer</h2>
 
         <p>
@@ -73,7 +109,9 @@
             Branko Jovanović – Razvoj Android aplikacije.<br>
             Vanja Lazić – Dizajn ikonica za životinjske grupe.<br>
             Jožef Dožai - Dopuna ikonica za biljke i gljive.<br>
-            Boris Bradarić - Poboljšanje rada Android aplikacije na starijim uređajima.
+            Boris Bradarić - Poboljšanje rada Android aplikacije na starijim uređajima.<br>
+            Nikola Popović – Razvoj iOS aplikacije.<br>
+            Nikola Vasić – Razboj taksonomske baze i BirdLoger-a.
         </p>
     </div>
 </section>
