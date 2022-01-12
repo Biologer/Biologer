@@ -105,7 +105,7 @@ class CustomTaxaExport extends BaseExport
 
     /**
      * Extract needed data from item.
-     * All separators must be semicolon with space afterwards ('; ')
+     * All separators must be semicolon with space afterwards ('; ').
      *
      * @param  \App\Taxon  $item
      * @return array
