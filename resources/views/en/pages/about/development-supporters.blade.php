@@ -54,6 +54,7 @@
             Ministry of Education, Science and Technological Development of
             Republic of Serbia, project No.
             <a href="http://www.ibiss.bg.ac.rs/index.php/sr-yu/projekti/item/305-173025-evolucija-u-heterogenim-sredinama-mehanizmi-adaptacija-biomonitoring-i-konzervacija-biodiverziteta">173025</a>,
+            451-03-68/2020-14/200124 and 451-03-9/2021-14/200124,
             through the Department of Biology and Ecology, Faculty of Sciences, University of Niš.
         </p>
 
@@ -63,6 +64,42 @@
             Republic of Serbia, project No.
             <a href="http://www.ibiss.bg.ac.rs/index.php/sr-yu/projekti/item/308-173043-diverzitet-vodozamaca-i-gmizavaca-balkana-evolucioni-aspekti-i-konzervacija">173043</a>,
             through the Faculty of Biology, University of Belgrade.
+        </p>
+
+        <div class="columns mb-4">
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/fond-za-zastitu-okolisa-federacije-bih.jpg') }}" alt="Fond za zaštitu okoliša Federaciјe BiH" class="image mx-auto" style="max-height: 300px">
+            </div>
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/udruzenje-biolog.jpg') }}" alt="Udruga BIO.LOG" class="image mx-auto" style="max-height: 300px">
+            </div>
+        </div>
+
+        <p class="has-text-justified">
+            Biologer community in Bosnia and Herzegovina and development of iOS application was supported by the
+            <a href="https://fzofbih.org.ba">Environmental Protection Fund of the Federation of Bosnia and Herzegovina</a>
+            through the project "Biologer – Online database about biodiversity of BiH“, realised by
+            <a href="https://www.biolog.ba/">BIO.LOG</a> society.
+        </p>
+
+        <div class="columns mb-4">
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/eko-sistem-en.png') }}" alt="EKO-SYSTEM" class="image mx-auto" style="max-height: 300px">
+            </div>
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/mladi-istrazivaci-srbije-en.png') }}" alt="Young Researchers of Serbia" class="image mx-auto" style="max-height: 300px">
+            </div>
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/svedska.png') }}" alt="Sweden" class="image mx-auto" style="max-height: 300px">
+            </div>
+        </div>
+
+        <p class="has-text-justified">
+            Development of entire software platform was continued in the course
+            of the project "Eco network for the future of Serbia", as part of
+            <a href="https://ekosistem.mis.org.rs/en">ECO-SYSTEM</a> program realised
+            by <a href="https://www.mis.org.rs/en">Young Researchers of Serbia</a>,
+            and supported by <a href="https://www.swedenabroad.se/en/">Sweden</a>.
         </p>
 
         <h2>Individuals that contributed to the development of Biologer project</h2>
@@ -75,7 +112,9 @@
             Branko Jovanović – Development of Android application.<br>
             Vanja Lazić – Design of icons for animal groups.<br>
             Jožef Dožai - Added icons for plants and fungi.<br>
-            Boris Bradarić - Improvements to Android application support for older devices.
+            Boris Bradarić - Improvements to Android application support for older devices.<br>
+            Nikola Popović – Development of iOS application.<br>
+            Nikola Vasić – Developement of taxonomic database and BirdLoger.
         </p>
     </div>
 </section>

@@ -53,6 +53,7 @@
             Рад Милоша Поповића подржан је средствима Министарства просвете,
             науке и технолошког развоја Републике Србије, пројекат бр.
             <a href="http://www.ibiss.bg.ac.rs/index.php/sr-yu/projekti/item/305-173025-evolucija-u-heterogenim-sredinama-mehanizmi-adaptacija-biomonitoring-i-konzervacija-biodiverziteta">173025</a>,
+            451-03-68/2020-14/200124 и 451-03-9/2021-14/200124,
             преко Департмана за биологију и екологиjу, Природно-математичког факултета, Универзитета у Нишу.
         </p>
 
@@ -61,6 +62,42 @@
             науке и технолошког развоја Републике Србије, пројекат бр.
             <a href="http://www.ibiss.bg.ac.rs/index.php/sr-yu/projekti/item/308-173043-diverzitet-vodozamaca-i-gmizavaca-balkana-evolucioni-aspekti-i-konzervacija">173043</a>,
             преко Биолошког факултета, Универзитета у Београду.
+        </p>
+
+        <div class="columns mb-4">
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/fond-za-zastitu-okolisa-federacije-bih.jpg') }}" alt="Фонд за заштиту околиша Федерације БиХ" class="image mx-auto" style="max-height: 300px">
+            </div>
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/udruzenje-biolog.jpg') }}" alt="Удружење БИО.ЛОГ" class="image mx-auto" style="max-height: 300px">
+            </div>
+        </div>
+
+        <p class="has-text-justified">
+            Биологер заједница у Босни и Херцеговини и развој иОС апликације су подржани од стране
+            <a href="https://fzofbih.org.ba">Фонда за заштиту околиша Федерације БиХ</a>
+            кроз пројекат „Биологер - онлајн база података о биодиверзитету БиХ“,
+            реализован преко удружења <a href="https://www.biolog.ba/">БИО.ЛОГ</a>.
+        </p>
+
+        <div class="columns mb-4">
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/eko-sistem.png') }}" alt="ЕКО-СИСТЕМ" class="image mx-auto" style="max-height: 300px">
+            </div>
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/mladi-istrazivaci-srbije-cyrl.png') }}" alt="Млади истраживачи Србије" class="image mx-auto" style="max-height: 300px">
+            </div>
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/svedska-cyrl.png') }}" alt="Шведска" class="image mx-auto" style="max-height: 300px">
+            </div>
+        </div>
+
+        <p class="has-text-justified">
+            Развој читаве софтверске платформе је настављен у оквиру пројекта
+            „Еко мрежа за будућност Србије“, као део активности програма
+            <a href="https://ekosistem.mis.org.rs/">ЕКО-СИСТЕМ</a>
+            који реализују <a href="https://www.mis.org.rs">Млади истраживачи Србије</a>,
+            а подржава <a href="https://www.swedenabroad.se/en/">Шведска</a>.
         </p>
 
         <h2>Појединци који су допринели развоју пројекта Биологер</h2>
@@ -73,7 +110,9 @@
             Бранко Јовановић – Развој Андроид апликације.<br>
             Вања Лазић – Дизајн иконица за животињске групе.<br>
             Јожеф Дожаи - Допуна иконица за биљке и гљиве.<br>
-            Борис Брадарић - Побољшање рада Андроид апликације на старијим уређајима.
+            Борис Брадарић - Побољшање рада Андроид апликације на старијим уређајима.<br>
+            Никола Поповић – Развој иОС апликације.<br>
+            Никола Васић – Развој таксономске базе и БирдЛогер-а.
         </p>
     </div>
 </section>
