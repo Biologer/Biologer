@@ -102,6 +102,7 @@
                     @if (old('default_stage_adult', $user->settings()->default_stage_adult))
                     checked
                     @endif
+                    value="1"
                 >
                 <span class="check mr-2"></span>
                 {{ __('labels.preferences.data_entry.default_stage_adult') }}
@@ -116,7 +117,7 @@
             <button type="submit" class="button is-primary">{{ __('buttons.save') }}</button>
         </div>
     </form>
-    <div>
+</div>
 @endsection
 
 @section('breadcrumbs')
