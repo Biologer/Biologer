@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Contributor;
 
 use App\Exports\FieldObservations\ContributorFieldObservationsCustomExport;
 use App\FieldObservation;
+use App\Stage;
 use Illuminate\Http\Request;
 
 class FieldObservationsController
@@ -43,9 +44,15 @@ class FieldObservationsController
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('contributor.field-observations.create');
+        $defaultStage = $request->user()->settings()->default_stage_adult
+            ? optional(Stage::findByName('adult'))->id
+            : null;
+
+        return view('contributor.field-observations.create', [
+            'defaultStage' => $defaultStage,
+        ]);
     }
 
     /**
