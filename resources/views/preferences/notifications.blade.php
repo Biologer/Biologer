@@ -25,7 +25,7 @@
 
     <hr>
 
-    <form action="{{ route('preferences.notifications') }}" method="POST">
+    <form action="{{ route('preferences.notifications.update') }}" method="POST">
         {{ csrf_field() }}
         {{ method_field('PATCH') }}
 

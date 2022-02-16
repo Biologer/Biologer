@@ -84,6 +84,7 @@ class Settings
                     'mail' => false,
                 ],
             ],
+            'default_stage_adult' => false,
         ];
     }
 

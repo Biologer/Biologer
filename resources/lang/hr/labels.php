@@ -312,5 +312,9 @@ return [
             'field_observation_marked_unidentifiable' => 'Nalaz je označen kao da nije moguća identifikacija',
             'field_observation_for_approval' => 'Nov nalaz za pregled',
         ],
+
+        'data_entry' => [
+            'default_stage_adult' => 'Koristi "Odrasla jedinka" kao podrazumjevani stadij ako je dostupan za takson.',
+        ],
     ],
 ];
