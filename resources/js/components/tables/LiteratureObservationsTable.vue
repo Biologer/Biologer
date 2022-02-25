@@ -265,9 +265,9 @@
     </b-modal>
 
     <b-modal :active="showExportModal" @close="showExportModal = false" has-modal-card :can-cancel="[]">
-      <!-- :filter="filter" -->
       <nz-export-modal
         :checked="checkedIds"
+        :filter="filter"
         :columns="exportColumns"
         :url="exportUrl"
         @cancel="showExportModal = false"
