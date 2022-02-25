@@ -27,7 +27,7 @@ class LiteratureObservation extends Model implements FlatArrayable
         'original_identification_validity' => 'integer',
     ];
 
-    protected function filters()
+    public function filters()
     {
         return [
             'id' => \App\Filters\Ids::class,

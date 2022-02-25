@@ -75,7 +75,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
      *
      * @return array
      */
-    protected function filters()
+    public function filters()
     {
         return [
             'name' => \App\Filters\User\NameLike::class,

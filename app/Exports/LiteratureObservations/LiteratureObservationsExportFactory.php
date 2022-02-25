@@ -60,6 +60,6 @@ class LiteratureObservationsExportFactory
      */
     private function getFiltersFromRequest(Request $request)
     {
-        return $request->only(array_keys(LiteratureObservation::filters()));
+        return $request->only(array_keys((new LiteratureObservation())->filters()));
     }
 }
