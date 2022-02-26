@@ -42,4 +42,16 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    /**
+     * @return static
+     */
+    public function curator($taxa = null)
+    {
+        return $this->afterCreating(function ($user) use ($taxa) {
+            $user->assignRoles('curator');
+
+            $taxa && $user->curatedTaxa()->attach($taxa);
+        });
+    }
 }
