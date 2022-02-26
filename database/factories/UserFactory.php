@@ -44,6 +44,7 @@ class UserFactory extends Factory
     }
 
     /**
+     * @param  \App\Taxon|\Illuminate\Database\Eloquent\Collection|null
      * @return static
      */
     public function curator($taxa = null)
