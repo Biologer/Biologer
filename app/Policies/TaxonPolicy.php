@@ -54,7 +54,7 @@ class TaxonPolicy
      */
     protected function canCreateWithParent(User $user, $parentId)
     {
-        if (!$taxon = Taxon::find($parentId)) {
+        if (! $taxon = Taxon::find($parentId)) {
             return false;
         }
 
