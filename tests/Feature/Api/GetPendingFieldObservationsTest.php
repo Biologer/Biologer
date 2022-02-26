@@ -72,7 +72,7 @@ class GetPendingFieldObservationsTest extends TestCase
         $lepidoptera = Taxon::factory()->parent($animalia)->create(['name' => 'Lepidoptera', 'rank' => 'order']);
 
         $observation = ObservationFactory::createUnapprovedFieldObservation([
-            'taxon_id' => $animalia->id,
+            'taxon_id' => $lepidoptera->id,
             'created_by_id' => User::factory()->create()->id,
         ]);
 
