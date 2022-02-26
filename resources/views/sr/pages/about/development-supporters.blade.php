@@ -7,7 +7,7 @@
 
         <h2>Организације и фондације које су финансијски подржале развој пројекта Биологер</h2>
 
-        <img src="https://www.rufford.org/sites/all/themes/rufford/img/rufford.jpg" alt="Rufford" class="image mx-auto mb-4">
+        <img src="{{ asset('img/organisations/rufford.png') }}" alt="Rufford" class="image mx-auto mb-4" style="max-height: 150px; max-width: 200px">
 
         <p class="has-text-justified">
             Развој апликације је покренут средствима фондације
@@ -18,13 +18,13 @@
 
         <div class="columns mb-4">
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/mava-foundation.jpg') }}" alt="Mava фондација" class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/mava-foundation.jpg') }}" alt="Mava фондација" class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/udruga-hyla.jpg') }}" alt="Удружење Hyla" class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/udruga-hyla.jpg') }}" alt="Удружење Hyla" class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/biolosko-drustvo-sava-petrovic.png') }}" alt='Биолошко друштво "Др Сава Петровић"' class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/biolosko-drustvo-sava-petrovic.png') }}" alt='Биолошко друштво "Др Сава Петровић"' class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
         </div>
 
@@ -39,13 +39,13 @@
 
         <div class="columns mb-4">
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/ministarstvo-prosvete-nauke-i-tehnoloskog-razvoja-srbija.png') }}" alt="Министарство просвете, науке и технолошког развоја Републике Србије" class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/ministarstvo-prosvete-nauke-i-tehnoloskog-razvoja-srbija.png') }}" alt="Министарство просвете, науке и технолошког развоја Републике Србије" class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/pmf-nis.jpg') }}" alt="Природно-математички факултет, Универзитет у Нишу" class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/pmf-nis.jpg') }}" alt="Природно-математички факултет, Универзитет у Нишу" class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/bioloski-fakultet-beograd.png') }}" alt="Биолошки факултет, Универзитет у Београду" class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/bioloski-fakultet-beograd.png') }}" alt="Биолошки факултет, Универзитет у Београду" class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
         </div>
 
@@ -66,10 +66,10 @@
 
         <div class="columns mb-4">
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/fond-za-zastitu-okolisa-federacije-bih.jpg') }}" alt="Фонд за заштиту околиша Федерације БиХ" class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/fond-za-zastitu-okolisa-federacije-bih.jpg') }}" alt="Фонд за заштиту околиша Федерације БиХ" class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/udruzenje-biolog.jpg') }}" alt="Удружење БИО.ЛОГ" class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/udruzenje-biolog.jpg') }}" alt="Удружење БИО.ЛОГ" class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
         </div>
 
@@ -82,13 +82,13 @@
 
         <div class="columns mb-4">
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/eko-sistem.png') }}" alt="ЕКО-СИСТЕМ" class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/eko-sistem.png') }}" alt="ЕКО-СИСТЕМ" class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/mladi-istrazivaci-srbije-cyrl.png') }}" alt="Млади истраживачи Србије" class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/mladi-istrazivaci-srbije-cyrl.png') }}" alt="Млади истраживачи Србије" class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/svedska-cyrl.png') }}" alt="Шведска" class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/svedska-cyrl.png') }}" alt="Шведска" class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
         </div>
 
