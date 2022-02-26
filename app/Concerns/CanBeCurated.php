@@ -67,7 +67,7 @@ trait CanBeCurated
      */
     public function isDirectlyCuratedBy(User $user)
     {
-        return $this->curators->contains->is($user);
+        return $this->curatorConnections()->where('user_id', $user->id)->exists();
     }
 
     /**
@@ -78,7 +78,9 @@ trait CanBeCurated
      */
     public function ancestorIsCuratedBy(User $user)
     {
-        return $this->ancestors->loadMissing('curators')->contains->isDirectlyCuratedBy($user);
+        return $this->ancestors()->whereHas('curatorConnections', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->exists();
     }
 
     /**
@@ -89,7 +91,9 @@ trait CanBeCurated
      */
     public function descendantIsCuratedBy(User $user)
     {
-        return $this->descendants->loadMissing('curators')->contains->isDirectlyCuratedBy($user);
+        return $this->descendants()->whereHas('curatorConnections', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->exists();
     }
 
     /**
