@@ -25,6 +25,7 @@ use App\Http\Controllers\GroupSpeciesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PhotosController;
 use App\Http\Controllers\Preferences\AccountPreferencesController;
+use App\Http\Controllers\Preferences\DataEntryPreferencesController;
 use App\Http\Controllers\Preferences\GeneralPreferencesController;
 use App\Http\Controllers\Preferences\LicensePreferencesController;
 use App\Http\Controllers\Preferences\NotificationsPreferencesController;
@@ -92,17 +93,19 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
         Route::prefix('preferences')->name('preferences.')->group(function () {
             Route::get('general', [GeneralPreferencesController::class, 'index'])->name('general');
-            Route::patch('general', [GeneralPreferencesController::class, 'update']);
+            Route::patch('general', [GeneralPreferencesController::class, 'update'])->name('general.update');
 
             Route::get('account', [AccountPreferencesController::class, 'index'])->name('account');
             Route::patch('account/password', [AccountPreferencesController::class, 'changePassword'])->name('account.password');
             Route::delete('account', [AccountPreferencesController::class, 'destroy'])->name('account.delete');
 
             Route::get('license', [LicensePreferencesController::class, 'index'])->name('license');
-            Route::patch('license', [LicensePreferencesController::class, 'update']);
+            Route::patch('license', [LicensePreferencesController::class, 'update'])->name('license.update');
 
             Route::get('notifications', [NotificationsPreferencesController::class, 'index'])->name('notifications');
-            Route::patch('notifications', [NotificationsPreferencesController::class, 'update']);
+            Route::patch('notifications', [NotificationsPreferencesController::class, 'update'])->name('notifications.update');
+
+            Route::patch('data-entry', [DataEntryPreferencesController::class, 'update'])->name('data-entry.update');
         });
 
         Route::prefix('contributor')->name('contributor.')->group(function () {

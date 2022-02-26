@@ -11,7 +11,7 @@ trait Filterable
      *
      * @return array
      */
-    protected function filters()
+    public function filters()
     {
         return [];
     }

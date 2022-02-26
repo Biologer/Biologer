@@ -140,7 +140,7 @@ class Taxon extends Model
      *
      * @var array
      */
-    protected function filters()
+    public function filters()
     {
         return [
             'id' => \App\Filters\Ids::class,

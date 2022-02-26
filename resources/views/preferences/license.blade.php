@@ -17,7 +17,7 @@
 
     <hr>
 
-    <form action="{{ route('preferences.license') }}" method="POST">
+    <form action="{{ route('preferences.license.update') }}" method="POST">
         {{ csrf_field() }}
         {{ method_field('PATCH') }}
 

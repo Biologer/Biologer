@@ -440,6 +440,12 @@ export default {
     showObserverIdentifier: Boolean,
 
     atlasCodes: Array,
+
+    defaultStage: {
+      type: Number,
+      required: false,
+      default: null,
+    }
   },
 
   data() {
@@ -450,7 +456,7 @@ export default {
       observationTypeSearch: '',
       shouldClearType: false,
       exifExtracted: false,
-      lastStageId: this.observation.stage_id,
+      lastStageId: this.observation.stage_id || this.defaultStage,
     }
   },
 

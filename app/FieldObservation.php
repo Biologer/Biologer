@@ -49,7 +49,7 @@ class FieldObservation extends Model implements FlatArrayable
         'atlas_code' => 'integer',
     ];
 
-    protected function filters()
+    public function filters()
     {
         return [
             'id' => \App\Filters\Ids::class,
