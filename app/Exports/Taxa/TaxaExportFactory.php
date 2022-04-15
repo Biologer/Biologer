@@ -42,6 +42,6 @@ class TaxaExportFactory
      */
     private function getFiltersFromRequest(Request $request)
     {
-        return $request->only(array_keys(Taxon::filters()));
+        return $request->only(array_keys((new Taxon())->filters()));
     }
 }
