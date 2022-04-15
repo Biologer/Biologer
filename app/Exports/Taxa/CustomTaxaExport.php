@@ -126,7 +126,7 @@ class CustomTaxaExport extends BaseExport
             'conservation_documents' => $item->conservationDocuments->map->name->implode('; '),
             'red_lists' => $item->redLists->map(function ($redList) {
                 return "{$redList->name} [{$redList->pivot->category}]";
-            })->implode(', '),
+            })->implode('; '),
             'uses_atlas_codes' => $item->uses_atlas_codes ? __('Yes') : __('No'),
         ];
 
