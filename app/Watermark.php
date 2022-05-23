@@ -38,7 +38,13 @@ class Watermark
 
             $image->insert($watermark, 'top-center', null, $this->verticalOffset($image, $watermark));
 
-            return $photo->putWatermarkedContent($image->encode()->getEncoded());
+            $watermarkedImageContent = $image->encode()->getEncoded();
+
+            // Clean up.
+            $image->destroy();
+            $watermark->destroy();
+
+            return $photo->putWatermarkedContent($watermarkedImageContent);
         } catch (FileNotFoundException $e) {
             return false;
         }
