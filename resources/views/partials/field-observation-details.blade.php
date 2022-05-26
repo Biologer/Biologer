@@ -10,6 +10,7 @@
             <td class="is-fullwidth">
                 @if ($fieldObservation->observation->taxon)
                     {{ $fieldObservation->observation->taxon->name }}
+                    {{ $fieldObservation->observation->taxon->author }}
                 @else
                     {{ $fieldObservation->taxon_suggestion }}
                     <b-icon icon="question" size="is-small"></b-icon>

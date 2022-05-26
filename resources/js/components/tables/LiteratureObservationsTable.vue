@@ -175,7 +175,10 @@
 
       <b-table-column field="taxon_name" :label="trans('labels.literature_observations.taxon')" sortable>
         <template #default="{ row }">
-          {{ row.taxon ? row.taxon.name : '' }}
+          <span v-if="row.taxon">
+            {{ row.taxon.name }}
+            {{ row.taxon.author }}
+          </span>
         </template>
         <template #header="{ column }">
           <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />

@@ -217,9 +217,15 @@
 
       <b-table-column field="taxon_name" :label="trans('labels.field_observations.taxon')" sortable>
         <template #default="{ row }">
-          <div :class="{'has-text-grey': !row.taxon}">
-            <span>{{ row.taxon ? row.taxon.name : row.taxon_suggestion }}</span>
-            <b-icon v-if="!row.taxon" icon="question" size="is-small"></b-icon>
+          <div v-if="row.taxon">
+            {{ row.taxon.name }}
+            {{ row.taxon.author }}
+          </div>
+          <div v-else>
+            <span>
+              {{ row.taxon_suggestion }}
+            </span>
+            <b-icon v-if="!row.taxon" icon="question" size="is-small" />
           </div>
         </template>
         <template #header="{ column }">
