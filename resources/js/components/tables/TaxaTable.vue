@@ -138,6 +138,15 @@
         </template>
       </b-table-column>
 
+      <b-table-column field="author" :label="trans('labels.taxa.author')" sortable>
+        <template #default="{ row }">
+          {{ row.author }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
       <b-table-column width="150" numeric v-slot="{ row }">
         <a @click="openActivityLogModal(row)" v-if="showActivityLog && row.activity && row.activity.length > 0" :title="trans('Activity Log')"><b-icon icon="history" /></a>
 
