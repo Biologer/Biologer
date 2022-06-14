@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 class ProcessUploadedPhoto implements ShouldQueue
@@ -25,16 +26,22 @@ class ProcessUploadedPhoto implements ShouldQueue
     public $crop;
 
     /**
+     * @var string|null
+     */
+    public $localPublicPath = null;
+
+    /**
      * Create a new job instance.
      *
      * @param  \App\Photo  $photo
      * @param  array  $crop
      * @return void
      */
-    public function __construct(Photo $photo, $crop = [])
+    public function __construct(Photo $photo, $crop = [], $localPublicPath = null)
     {
         $this->photo = $photo;
         $this->crop = $crop;
+        $this->localPublicPath = $localPublicPath;
     }
 
     /**
@@ -44,9 +51,7 @@ class ProcessUploadedPhoto implements ShouldQueue
      */
     public function handle()
     {
-        // We need to open image from path in order to have access to EXIF
-        // so we copy it to a temporary file in the local filesystem.
-        $image = Image::make($tempPath = $this->copyToTemporaryPath());
+        $image = Image::make($path = $this->workingPath());
 
         $shouldResize = $this->shouldResize($image);
         $shouldOrientate = $image->exif('Orientation') > 1;
@@ -70,14 +75,29 @@ class ProcessUploadedPhoto implements ShouldQueue
             $this->photo->putContent($image->encode()->getEncoded());
         }
 
+        if ($this->photo->needsToBeWatermarked()) {
+            $this->photo->watermark($image);
+        }
+
         // Cleanup. We don't need leftover files.
         $image->destroy();
         unset($image);
-        @unlink($tempPath);
+        @unlink($path);
+    }
 
-        if ($this->photo->needsToBeWatermarked()) {
-            $this->photo->watermark();
-        }
+    /**
+     * Get path to the image to work with.
+     *
+     * @return string
+     */
+    protected function workingPath()
+    {
+        // We need to open image from path in order to have access to EXIF
+        // so if we haven't passed a path to the file we already have locally
+        // we copy it to a temporary file in the local filesystem.
+        return $this->localPublicPath
+            ? Storage::disk('public')->path($this->localPublicPath)
+            : $this->copyToTemporaryPath();
     }
 
     /**

@@ -185,7 +185,7 @@ class Photo extends Model
     {
         $data['path'] = $path;
 
-        return static::create($data)->moveToFinalPath()->queueProcessing($crop);
+        return static::create($data)->moveToFinalPath(true)->queueProcessing($crop, $path);
     }
 
     /**
@@ -211,11 +211,12 @@ class Photo extends Model
     /**
      * Watermark the photo.
      *
+     * @param  \Intervention\Image\Image|null  $image
      * @return bool
      */
-    public function watermark()
+    public function watermark($image = null)
     {
-        return app(Watermark::class)->applyTo($this);
+        return app(Watermark::class)->applyTo($this, $image);
     }
 
     /**
@@ -275,14 +276,16 @@ class Photo extends Model
      *
      * @return $this
      */
-    public function moveToFinalPath()
+    public function moveToFinalPath($keepUpload = false)
     {
         $this->filesystem()->put(
             $path = $this->finalPath(),
             Storage::disk('public')->readStream($this->path)
         );
 
-        Storage::disk('public')->delete($this->path);
+        if (! $keepUpload) {
+            Storage::disk('public')->delete($this->path);
+        }
 
         return tap($this)->update([
             'path' => $path,
@@ -316,9 +319,9 @@ class Photo extends Model
      * @param  array  $crop
      * @return $this
      */
-    public function queueProcessing($crop)
+    public function queueProcessing($crop, $localPublicPath = null)
     {
-        ProcessUploadedPhoto::dispatch($this, $crop);
+        ProcessUploadedPhoto::dispatch($this, $crop, $localPublicPath);
 
         return $this;
     }
