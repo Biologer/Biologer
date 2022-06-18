@@ -23,7 +23,10 @@
                             <a href="{{ route('groups.species.show', [
                                 'group' => $group->id,
                                 'species' => $sp->id,
-                            ]) }}">{{ $sp->name }}</a>
+                            ]) }}">
+                                {{ $sp->name }}
+                                {{ $sp->author }}
+                            </a>
                         </div>
                     @endforeach
                 </div>

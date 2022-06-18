@@ -2,7 +2,12 @@
     <tbody>
         <tr>
             <td><b>{{ __('labels.literature_observations.taxon') }}</b></td>
-            <td class="is-fullwidth">{{ optional($literatureObservation->observation->taxon)->name }}</td>
+            <td class="is-fullwidth">
+                @if ($literatureObservation->observation->taxon)
+                    {{ $literatureObservation->observation->taxon->name }}
+                    {{ $literatureObservation->observation->taxon->author }}
+                @endif
+            </td>
         </tr>
 
         <tr>
