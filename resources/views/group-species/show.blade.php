@@ -3,12 +3,19 @@
 @section('content')
     <div class="container pb-8 px-4 desktop:px-0">
         <nav class="pagination is-species mb-8 mt-4" role="navigation" aria-label="pagination">
-            <h1 class="is-size-3 pagination-title">
-                <i>{{ $species->name }}</i>&nbsp;
+            <div>
+                <h1 class="is-size-3 pagination-title">
+                    <i>{{ $species->name }}</i>&nbsp;
+                    {{ $species->author }}
+                </h1>
+
                 @if($species->native_name)
-                    <small class="is-size-6">{{ $species->native_name }}</small>
+                    <div>
+                        <small class="is-size-6">{{ $species->native_name }}</small>
+                    </div>
                 @endif
-            </h1>
+
+            </div>
 
             <div class="pagination-search">
                 <a href="{{ route('groups.index') }}" class="button has-text-hidden-tablet-only m-1" title="{{ __('navigation.groups') }}">
