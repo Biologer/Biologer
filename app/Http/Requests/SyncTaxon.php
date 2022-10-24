@@ -78,7 +78,9 @@ class SyncTaxon extends FormRequest
     {
         $stage_ids = [];
         foreach ($data['stages'] as $stage) {
-            $stage_ids[] = $stage['id'];
+            if (\App\Stage::where('id', $stage['id'])->exists()) {
+                $stage_ids[] = $stage['id'];
+            }
         }
 
         return $stage_ids;
@@ -88,7 +90,9 @@ class SyncTaxon extends FormRequest
     {
         $conservation_legislation_ids = [];
         foreach ($data['conservation_legislations'] as $conservation_legislation) {
-            $conservation_legislation_ids[] = $legs[$conservation_legislation['id']];
+            if (\App\ConservationLegislation::where('id', $conservation_legislation['id'])->exists()) {
+                $conservation_legislation_ids[] = $legs[$conservation_legislation['id']];
+            }
         }
 
         return $conservation_legislation_ids;
@@ -98,7 +102,9 @@ class SyncTaxon extends FormRequest
     {
         $conservation_document_ids = [];
         foreach ($data['conservation_documents'] as $conservation_document) {
-            $conservation_document_ids[] = $docs[$conservation_document['id']];
+            if (\App\ConservationDocument::where('id', $conservation_document['id'])->exists()) {
+                $conservation_document_ids[] = $docs[$conservation_document['id']];
+            }
         }
 
         return $conservation_document_ids;
@@ -108,7 +114,9 @@ class SyncTaxon extends FormRequest
     {
         $red_list_map = [];
         foreach ($data['red_lists'] as $red_list) {
-            $red_list_map[$redLists[$red_list['id']]] = ['category' => $red_list['pivot']['category']];
+            if (\App\RedList::where('id', $red_list['id'])->exists()) {
+                $red_list_map[$redLists[$red_list['id']]] = ['category' => $red_list['pivot']['category']];
+            }
         }
 
         return $red_list_map;

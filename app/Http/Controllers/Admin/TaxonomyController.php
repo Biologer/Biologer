@@ -9,6 +9,7 @@ use App\RedList;
 use App\Support\Taxonomy;
 use App\Taxon;
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 class TaxonomyController
@@ -40,11 +41,12 @@ class TaxonomyController
         } catch (Exception $e) {
             return 'Failed to connect! No connection to server.';
         }
-        if ($response->status() == 200) {
-            return "Check for $link was identified as {$response->body()}";
-        }
 
-        return 'Failed to connect! Unidentified error.';
+        if ($response->status() == 200) {
+            return "Check for $link is identified as {$response->body()}";
+        } else {
+            return 'Unauthorized';
+        }
     }
 
     /**
@@ -123,6 +125,12 @@ class TaxonomyController
             foreach ($taxa as $taxon) {
                 $data['taxa'][$taxon->id]['name'] = $taxon->name;
                 $data['taxa'][$taxon->id]['rank'] = $taxon->rank;
+                if ($taxon->ancestors_names == '') {
+                    $data['taxa'][$taxon->id]['ancestor_name'] = '';
+
+                    continue;
+                }
+                $data['taxa'][$taxon->id]['ancestor_name'] = Arr::first(explode(',', $taxon->ancestors_names)).'%';
             }
 
             try {
@@ -132,13 +140,11 @@ class TaxonomyController
             }
 
             if ($response->status() != 200) {
-                return 'Error! Data not retrieved.';
+                return 'Error! Data not retrieved.\n\n'.$response->status().' '.$response->body().'!!!';
             }
 
             $returned_taxa = $response['taxa'];
             $country_ref = $response['country_ref'];
-
-
             foreach ($returned_taxa as $id => $data) {
                 if ($data['response'] == '') {
                     continue;
