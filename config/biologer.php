@@ -39,6 +39,7 @@ return [
     ],
 
     'android_app_url' => env('ANDROID_APP_URL'),
+    'ios_app_url' => env('IOS_APP_URL'),
 
     'community' => [
         'name' => env('COMMUNITY_NAME'),
