@@ -3,9 +3,10 @@
 namespace App;
 
 use Exception;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 
-class Settings
+class Settings implements Arrayable
 {
     /**
      * The User instance.
@@ -202,5 +203,37 @@ class Settings
     public function __isset($key)
     {
         return $this->has($key);
+    }
+
+    public function toArray()
+    {
+        return [
+            'data_license' => (int) $this->data_license,
+            'image_license' => (int) $this->image_license,
+            'language' => $this->language,
+            'notifications' => [
+                'field_observation_approved' => [
+                    'database' => (bool) $this->notifications['field_observation_approved']['database'],
+                    'mail' => (bool) $this->notifications['field_observation_approved']['mail'],
+                ],
+                'field_observation_edited' => [
+                    'database' => (bool) $this->notifications['field_observation_edited']['database'],
+                    'mail' => (bool) $this->notifications['field_observation_edited']['mail'],
+                ],
+                'field_observation_moved_to_pending' => [
+                    'database' => (bool) $this->notifications['field_observation_moved_to_pending']['database'],
+                    'mail' => (bool) $this->notifications['field_observation_moved_to_pending']['mail'],
+                ],
+                'field_observation_marked_unidentifiable' => [
+                    'database' => (bool) $this->notifications['field_observation_marked_unidentifiable']['database'],
+                    'mail' => (bool) $this->notifications['field_observation_marked_unidentifiable']['mail'],
+                ],
+                'field_observation_for_approval' => [
+                    'database' => (bool) $this->notifications['field_observation_for_approval']['database'],
+                    'mail' => (bool) $this->notifications['field_observation_for_approval']['mail'],
+                ],
+            ],
+            'default_stage_adult' => (bool) $this->default_stage_adult,
+        ];
     }
 }
