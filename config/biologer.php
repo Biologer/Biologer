@@ -38,8 +38,8 @@ return [
         ],
     ],
 
-    'android_app_url' => env('ANDROID_APP_URL'),
-    'ios_app_url' => env('IOS_APP_URL'),
+    'android_app_url' => env('ANDROID_APP_URL', 'https://play.google.com/store/apps/details?id=org.biologer.biologer'),
+    'ios_app_url' => env('IOS_APP_URL', 'https://apps.apple.com/gb/app/biologer/id1608092538'),
 
     'community' => [
         'name' => env('COMMUNITY_NAME'),
