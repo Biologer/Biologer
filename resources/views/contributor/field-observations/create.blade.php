@@ -12,6 +12,7 @@
             :sexes="{{ \App\Sex::options() }}"
             :observation-types="{{ \App\ObservationType::all() }}"
             :atlas-codes="{{ \App\AtlasCode::all() }}"
+            :default-stage="{{ json_encode($defaultStage) }}"
             submit-more
             should-confirm-cancel
             @role(['admin', 'curator'])

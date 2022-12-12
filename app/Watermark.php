@@ -23,22 +23,29 @@ class Watermark
      * Apply watermark to the photo.
      *
      * @param  \App\Photo  $photo
+     * @param  \Intervention\Image\Image|null  $image
      * @return bool
      */
-    public function applyTo(Photo $photo)
+    public function applyTo(Photo $photo, $image = null)
     {
         if (! file_exists($this->watermark)) {
             return false;
         }
 
         try {
-            $image = Image::make($photo->getContent());
+            $image = $image ?: Image::make($photo->getContent());
 
             $watermark = $this->getWatermarkFor($image);
 
             $image->insert($watermark, 'top-center', null, $this->verticalOffset($image, $watermark));
 
-            return $photo->putWatermarkedContent($image->encode()->getEncoded());
+            $watermarkedImageContent = $image->encode()->getEncoded();
+
+            // Clean up.
+            $image->destroy();
+            $watermark->destroy();
+
+            return $photo->putWatermarkedContent($watermarkedImageContent);
         } catch (FileNotFoundException $e) {
             return false;
         }

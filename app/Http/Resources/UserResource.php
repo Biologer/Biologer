@@ -4,6 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin \App\User
+ */
 class UserResource extends JsonResource
 {
     /**
@@ -14,6 +17,8 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return array_merge(parent::toArray($request), [
+            'settings' => $this->settings()->toArray(),
+        ]);
     }
 }

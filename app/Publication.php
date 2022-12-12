@@ -30,7 +30,7 @@ class Publication extends Model
      *
      * @return array
      */
-    protected function filters()
+    public function filters()
     {
         return [
             'sort_by' => \App\Filters\SortBy::class,

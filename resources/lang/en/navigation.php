@@ -20,6 +20,8 @@ return [
         'change_password' => 'Change Password',
         'notifications' => 'Notifications',
         'notifications_preferences' => 'Notifications Preferences',
+        'data_entry' => 'Data Entry',
+        'data_entry_preferences' => 'Data Entry Preferences',
     ],
     'dashboard' => 'Dashboard',
     'notifications' => 'Notifications',

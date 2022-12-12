@@ -314,8 +314,8 @@ export default {
      * @param {Object} position
      */
     setMarker(position) {
-      let lat = position.latLng.lat()
-      let lng = position.latLng.lng()
+      const lat = position.latLng.lat().toFixed(6)
+      const lng = position.latLng.lng().toFixed(6)
 
       this.updateLatitude(lat)
       this.updateLongitude(lng)

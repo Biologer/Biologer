@@ -18,4 +18,5 @@ return [
 
     'verification_link_sent' => 'Verification link has been sent to your email. Please check your inbox.',
     'verify_email' => 'Please verify your email first.',
+    'verified' => 'Email address has been verified successfully.',
 ];

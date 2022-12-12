@@ -5,7 +5,6 @@ namespace App;
 use App\Support\Exif;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class UploadedPhoto
 {
@@ -17,9 +16,8 @@ class UploadedPhoto
      */
     public static function store(UploadedFile $file)
     {
-        return basename($file->storeAs(
+        return basename($file->store(
             static::relativePath(),
-            Str::random().'-'.$file->getClientOriginalName(),
             'public'
         ));
     }

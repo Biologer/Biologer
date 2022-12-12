@@ -10,6 +10,7 @@
             <td class="is-fullwidth">
                 @if ($fieldObservation->observation->taxon)
                     {{ $fieldObservation->observation->taxon->name }}
+                    {{ $fieldObservation->observation->taxon->author }}
                 @else
                     {{ $fieldObservation->taxon_suggestion }}
                     <b-icon icon="question" size="is-small"></b-icon>
@@ -153,7 +154,11 @@
 
         <tr>
             <td><b>{{ __('labels.field_observations.data_license') }}</b></td>
-            <td class="is-fullwidth">{{ $fieldObservation->license_translation }}</td>
+            <td class="is-fullwidth">
+                <a href="{{ $fieldObservation->license()->link }}" target="_blank">
+                    {{ $fieldObservation->license_translation }}
+                </a>
+            </td>
         </tr>
 
         <tr>

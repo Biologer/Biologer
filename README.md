@@ -25,6 +25,7 @@ Following requirements must be installed on the server for the application to wo
 - Ctype PHP Extension
 - JSON PHP Extension
 - GD PHP Extension
+- Sodium PHP Extension
 - Imagick library and PHP Extension
 
 You can check if requirements are installed on your server by opening `requirements.php` file in you browser (located in `public` directory).

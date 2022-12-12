@@ -140,7 +140,7 @@ class Taxon extends Model
      *
      * @var array
      */
-    protected function filters()
+    public function filters()
     {
         return [
             'id' => \App\Filters\Ids::class,
@@ -165,7 +165,7 @@ class Taxon extends Model
     public static function sortableFields()
     {
         return [
-            'id', 'name', 'rank_level',
+            'id', 'name', 'rank_level', 'author',
         ];
     }
 

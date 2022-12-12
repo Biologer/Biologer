@@ -3,18 +3,22 @@
 @section('content')
     <div class="container pb-8 px-4 desktop:px-0">
         <nav class="pagination is-species mb-8 mt-4" role="navigation" aria-label="pagination">
-            <h1 class="is-size-3 pagination-title">
-                @if($taxon->isGenusOrLower())
-                    <i>{{ $taxon->name }}</i>
-                @else
-                    {{ $taxon->name }}
-                @endif
-                &nbsp;
+            <div>
+                <h1 class="is-size-3 pagination-title">
+                    @if($taxon->isGenusOrLower())
+                        <i>{{ $taxon->name }}</i>
+                    @else
+                        {{ $taxon->name }}
+                    @endif
+                    &nbsp;
 
-                @if($taxon->native_name)
+                    {{ $taxon->author }}
+                </h1>
+
+                 @if($taxon->native_name)
                     <small class="is-size-6">{{ $taxon->native_name }}</small>
                 @endif
-            </h1>
+            </div>
 
             <div class="pagination-search">
                 <a href="{{ route('groups.index') }}" class="button has-text-hidden-tablet-only m-1" title="{{ __('navigation.groups') }}">

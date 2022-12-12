@@ -60,6 +60,6 @@ class FieldObservationsExportFactory
      */
     private function getFiltersFromRequest(Request $request)
     {
-        return $request->only(array_keys(FieldObservation::filters()));
+        return $request->only(array_keys((new FieldObservation())->filters()));
     }
 }

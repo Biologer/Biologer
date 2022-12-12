@@ -385,14 +385,11 @@ return [
     ],
 
     'preferences' => [
-        'general' => [
-            'locale' => 'Preferred locale',
-        ],
-
         'account' => [
             'delete_account' => 'Delete Account',
             'delete_observations' => 'Delete observations as well',
         ],
+
         'notifications' => [
             'notification' => 'Notification',
             'inapp' => 'In App',
@@ -403,6 +400,10 @@ return [
             'field_observation_moved_to_pending' => 'Observation has been moved to pending',
             'field_observation_marked_unidentifiable' => 'Observation has been marked as unidentifiable',
             'field_observation_for_approval' => 'New observation for approval',
+        ],
+
+        'data_entry' => [
+            'default_stage_adult' => 'Use "adult" as default stage if available for the taxon.',
         ],
     ],
 ];

@@ -28,8 +28,14 @@ class PublicFieldObservationsDarwinCoreExport extends DarwinCoreFieldObservation
         $transformed = parent::transformItem($item);
 
         if ($item->shouldHideRealCoordinates()) {
-            $transformed['latitude'] = __('N/A');
-            $transformed['longitude'] = __('N/A');
+            $transformed['latitude'] = number_format($item->observation->latitude, 1);
+            $transformed['longitude'] = number_format($item->observation->longitude, 1);
+            $transformed['coordinateUncertaintyInMeters'] = 5000;
+        }
+
+        if ($item->license()->shouldntShowExactDate()) {
+            $transformed['month'] = null;
+            $transformed['day'] = null;
         }
 
         return $transformed;

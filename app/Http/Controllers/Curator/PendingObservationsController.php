@@ -50,8 +50,7 @@ class PendingObservationsController
         abort_unless($fieldObservation->isPending(), 404);
 
         $fieldObservation->load([
-            'observation.taxon.curators', 'observation.taxon.stages',
-            'observedBy', 'identifiedBy',
+            'observation.taxon.stages', 'observedBy', 'identifiedBy',
         ]);
 
         $this->authorize('update', $fieldObservation);

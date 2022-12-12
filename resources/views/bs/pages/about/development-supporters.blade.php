@@ -7,7 +7,7 @@
 
         <h2>Organizacije i fondacije koje su finansijski podržale razvoj projekta Biologer</h2>
 
-        <img src="https://www.rufford.org/sites/all/themes/rufford/img/rufford.jpg" alt="Rufford" class="image mx-auto mb-4">
+        <img src="{{ asset('img/organisations/rufford.png') }}" alt="Rufford" class="image mx-auto mb-4" style="max-height: 150px; max-width: 200px">
 
         <p class="has-text-justified">
             Razvoj aplikacije je pokrenut sredstvima fondacije
@@ -18,13 +18,13 @@
 
         <div class="columns mb-4">
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/mava-foundation.jpg') }}" alt="MAVA Fondacija" class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/mava-foundation.jpg') }}" alt="MAVA Fondacija" class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/udruga-hyla.jpg') }}" alt="Udruženje Hyla" class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/udruga-hyla.jpg') }}" alt="Udruženje Hyla" class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/biolosko-drustvo-sava-petrovic.png') }}" alt='Biološko društvo "Dr Sava Petrović"' class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/biolosko-drustvo-sava-petrovic.png') }}" alt='Biološko društvo "Dr Sava Petrović"' class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
         </div>
 
@@ -39,13 +39,13 @@
 
         <div class="columns mb-4">
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/ministarstvo-prosvete-nauke-i-tehnoloskog-razvoja-srbija.png') }}" alt="Ministarstvo prosvete, nauke i tehnološkog razvoja Republike Srbije" class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/ministarstvo-prosvete-nauke-i-tehnoloskog-razvoja-srbija.png') }}" alt="Ministarstvo prosvete, nauke i tehnološkog razvoja Republike Srbije" class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/pmf-nis.jpg') }}" alt="Prirodno-matematički fakultet, Univerzitet u Nišu" class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/pmf-nis.jpg') }}" alt="Prirodno-matematički fakultet, Univerzitet u Nišu" class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
             <div class="column flex is-flex-center">
-                <img src="{{ asset('img/organisations/bioloski-fakultet-beograd.png') }}" alt="Biološki fakultet, Univerzitet u Beogradu" class="image mx-auto" style="max-height: 300px">
+                <img src="{{ asset('img/organisations/bioloski-fakultet-beograd.png') }}" alt="Biološki fakultet, Univerzitet u Beogradu" class="image mx-auto" style="max-height: 150px; max-width: 200px">
             </div>
         </div>
 
@@ -63,6 +63,42 @@
             preko Biološkog fakulteta, Univerziteta u Beogradu.
         </p>
 
+        <div class="columns mb-4">
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/fond-za-zastitu-okolisa-federacije-bih.jpg') }}" alt="Fond za zaštitu okoliša Federaciјe BiH" class="image mx-auto" style="max-height: 150px; max-width: 200px">
+            </div>
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/udruzenje-biolog.jpg') }}" alt="Udruženje BIO.LOG" class="image mx-auto" style="max-height: 150px; max-width: 200px">
+            </div>
+        </div>
+
+        <p class="has-text-justified">
+            Biologer zaјednica u Bosni i Hercegovini i razvoј iOS aplikaciјe su podržani od strane
+            <a href="https://fzofbih.org.ba">Fonda za zaštitu okoliša Federaciјe BiH</a>
+            kroz proјekat „Biologer - onlaјn baza podataka o biodiverzitetu BiH“,
+            realizovan preko udruženja <a href="https://www.biolog.ba/">BIO.LOG</a>.
+        </p>
+
+        <div class="columns mb-4">
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/eko-sistem.png') }}" alt="EKO-SISTEM" class="image mx-auto" style="max-height: 150px; max-width: 200px">
+            </div>
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/mladi-istrazivaci-srbije.png') }}" alt="Mladi istraživači Srbije" class="image mx-auto" style="max-height: 150px; max-width: 200px">
+            </div>
+            <div class="column flex is-flex-center">
+                <img src="{{ asset('img/organisations/svedska.png') }}" alt="Švedska" class="image mx-auto" style="max-height: 150px; max-width: 200px">
+            </div>
+        </div>
+
+        <p class="has-text-justified">
+            Razvoј čitave softverske platforme јe nastavljen u okviru proјekta
+            „Eko mreža za budućnost Srbiјe“, kao deo aktivnosti programa
+            <a href="https://ekosistem.mis.org.rs/">EKO-SISTEM</a>
+            koјi realizuјu <a href="https://www.mis.org.rs">Mladi istraživači Srbiјe</a>,
+            a podržava <a href="https://www.swedenabroad.se/en/">Švedska</a>.
+        </p>
+
         <h2>Pojedinci koji su doprinijeli razvoju projekta Biologer</h2>
 
         <p>
@@ -73,7 +109,9 @@
             Branko Jovanović – Razvoj Android aplikacije.<br>
             Vanja Lazić – Dizajn ikonica za životinjske grupe.<br>
             Jožef Dožai - Dopuna ikonica za biljke i gljive.<br>
-            Boris Bradarić - Poboljšanje rada Android aplikacije na starijim uređajima.
+            Boris Bradarić - Poboljšanje rada Android aplikacije na starijim uređajima.<br>
+            Nikola Popović – Razvoj iOS aplikacije.<br>
+            Nikola Vasić – Razboj taksonomske baze i BirdLoger-a.
         </p>
     </div>
 </section>

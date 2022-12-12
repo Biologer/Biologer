@@ -77,17 +77,6 @@
                 </b-tooltip>
 
                 <b-tooltip
-                    label="Izborom ove opcije slažete se da dijelite sve fotografije koje
-                        pošaljete u bazu. Tako poslate slike se mogu koristiti i dijeliti
-                        uz navođenje imena autora fotografije."
-                    multilined>
-                    <label class="radio">
-                        <input type="radio" name="image_license" value="{{ \App\ImageLicense::OPEN }}"{{ $imageLicense == \App\ImageLicense::OPEN ? ' checked' : '' }}>
-                        Javne fotografije (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Krijejtiv komons licenca, autorstvo-dijeliti pod istim uslovima</a> licence)
-                    </label>
-                </b-tooltip>
-
-                <b-tooltip
                     label="Slično gore navedenoj licenci, ali onemogućava komercijalnu
                         upotrebu fotografija bez vaše saglasnosti."
                     multilined>

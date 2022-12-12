@@ -42,7 +42,7 @@ class ObservationType extends Model
      *
      * @return array
      */
-    protected function filters()
+    public function filters()
     {
         return [
             'updated_after' => \App\Filters\UpdatedAfter::class,

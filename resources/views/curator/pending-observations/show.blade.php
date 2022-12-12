@@ -29,7 +29,7 @@
                     @endif
 
                     redirect-url="{{ route('curator.pending-observations.index') }}"
-                />
+                ></nz-field-observation-approval>
             </div>
         @endif
 

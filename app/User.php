@@ -58,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
      *
      * @var array
      */
-    protected $appends = ['full_name'];
+    protected $appends = ['full_name', 'is_verified'];
 
     /**
      * The channels the user receives notification broadcasts on.
@@ -75,7 +75,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
      *
      * @return array
      */
-    protected function filters()
+    public function filters()
     {
         return [
             'name' => \App\Filters\User\NameLike::class,
@@ -160,6 +160,16 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     }
 
     /**
+     * Check if user has verified their email address.
+     *
+     * @return bool
+     */
+    public function getIsVerifiedAttribute()
+    {
+        return ! is_null($this->email_verified_at);
+    }
+
+    /**
      * Sort the users by their name.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -214,5 +224,15 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         DeleteUserData::dispatch($this, $deleteObservations);
 
         $this->delete();
+    }
+
+    /**
+     * Get obscured email address that is safe for sharing.
+     *
+     * @return string
+     */
+    public function getObscuredEmail()
+    {
+        return preg_replace('/\B[^@.]/', '*', $this->email);
     }
 }

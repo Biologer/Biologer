@@ -27,7 +27,7 @@ class ProcessUploadedPhotoTest extends TestCase
         ]);
         $photo = Photo::factory()->make(['path' => $path]);
 
-        (new ProcessUploadedPhoto($photo))->handle();
+        $this->app->call([new ProcessUploadedPhoto($photo), 'handle']);
 
         list($width, $height) = getimagesize($photo->absolutePath());
         $this->assertEquals(800, $width);
@@ -43,7 +43,7 @@ class ProcessUploadedPhotoTest extends TestCase
         ]);
         $photo = Photo::factory()->make(['path' => $path]);
 
-        (new ProcessUploadedPhoto($photo))->handle();
+        $this->app->call([new ProcessUploadedPhoto($photo), 'handle']);
 
         list($width, $height) = getimagesize($photo->absolutePath());
         $this->assertEquals(600, $width);
@@ -59,7 +59,7 @@ class ProcessUploadedPhotoTest extends TestCase
         ]);
         $photo = Photo::factory()->make(['path' => $path]);
 
-        (new ProcessUploadedPhoto($photo))->handle();
+        $this->app->call([new ProcessUploadedPhoto($photo), 'handle']);
 
         list($width, $height) = getimagesize($photo->absolutePath());
         $this->assertEquals(500, $width);
@@ -75,12 +75,12 @@ class ProcessUploadedPhotoTest extends TestCase
         ]);
         $photo = Photo::factory()->make(['path' => $path]);
 
-        (new ProcessUploadedPhoto($photo, [
+        $this->app->call([new ProcessUploadedPhoto($photo, [
             'width' => 100,
             'height' => 100,
             'x' => 100,
             'y' => 100,
-        ]))->handle();
+        ]), 'handle']);
 
         list($width, $height) = getimagesize($photo->absolutePath());
         $this->assertEquals(100, $width);

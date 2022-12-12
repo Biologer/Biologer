@@ -20,6 +20,8 @@ return [
         'change_password' => 'Promena lozinke',
         'notifications' => 'Notifikacije',
         'notifications_preferences' => 'Postavke notifikacija',
+        'data_entry' => 'Unos podataka',
+        'data_entry_preferences' => 'Postavke unosa podataka',
     ],
     'dashboard' => 'Kontrolna ploča',
     'notifications' => 'Obavijesti',

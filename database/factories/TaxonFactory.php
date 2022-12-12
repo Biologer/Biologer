@@ -29,4 +29,11 @@ class TaxonFactory extends Factory
             'restricted' => false,
         ];
     }
+
+    public function parent(Taxon $parent)
+    {
+        return $this->state([
+            'parent_id' => $parent->id,
+        ]);
+    }
 }

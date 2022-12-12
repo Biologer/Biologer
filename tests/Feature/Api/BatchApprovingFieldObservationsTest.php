@@ -25,7 +25,6 @@ class BatchApprovingFieldObservationsTest extends TestCase
     /** @test */
     public function authenticated_user_that_curates_the_taxa_of_all_the_unapproved_field_observation_can_approve_them()
     {
-        $this->withoutExceptionHandling();
         $user = User::factory()->create()->assignRoles('curator');
         Passport::actingAs($user);
         $taxon = Taxon::factory()->create();
