@@ -406,7 +406,7 @@ export default {
       } else {
         this.$buefy.toast.open({
           duration: 0,
-          message: `Something's not good, also I'm on bottom`,
+          message: 'Whoops, looks like something went wrong.',
           type: 'is-danger'
         })
       }

@@ -5,8 +5,8 @@ namespace App\Importing;
 use App\DEM\Reader as DEMReader;
 use App\Import;
 use App\LiteratureObservation;
-use App\LiteratureObservationIdentificationValidity;
 use App\Observation;
+use App\ObservationIdentificationValidity;
 use App\Rules\Day;
 use App\Rules\Decimal;
 use App\Rules\Month;
@@ -321,7 +321,7 @@ class LiteratureObservationImport extends BaseImport
             'original_elevation' => ['nullable', 'string', 'max:255'],
             'original_coordinates' => ['nullable', 'string', 'max:255'],
             'original_identification' => ['required', 'string', 'max:255'],
-            'original_identification_validity' => ['required', Rule::in(LiteratureObservationIdentificationValidity::options()->values())],
+            'original_identification_validity' => ['required', Rule::in(ObservationIdentificationValidity::options()->values())],
             'other_original_data' => ['nullable', 'string'],
             'collecting_start_year' => ['nullable', 'integer'],
             'collecting_start_month' => ['nullable', 'integer', 'min:1', 'max:12'],
@@ -334,7 +334,7 @@ class LiteratureObservationImport extends BaseImport
             'year.date_format' => __('validation.year'),
             'original_identification_validity.in' => __('validation.in_extended', [
                 'attribute' => __('labels.literature_observations.original_identification_validity'),
-                'options' => LiteratureObservationIdentificationValidity::options()->implode(', '),
+                'options' => ObservationIdentificationValidity::options()->implode(', '),
             ]),
             'sex.in' => __('validation.in_extended', [
                 'attribute' => __('labels.literature_observations.sex'),
@@ -578,7 +578,7 @@ class LiteratureObservationImport extends BaseImport
      */
     protected function getOriginalIdentificationValidityValue(array $data)
     {
-        return LiteratureObservationIdentificationValidity::options()
+        return ObservationIdentificationValidity::options()
             ->flip()
             ->get(Arr::get($data, 'original_identification_validity'));
     }

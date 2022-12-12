@@ -3,8 +3,8 @@
 namespace Tests\Feature\Api;
 
 use App\LiteratureObservation;
-use App\LiteratureObservationIdentificationValidity;
 use App\Observation;
+use App\ObservationIdentificationValidity;
 use App\Publication;
 use App\Taxon;
 use App\User;
@@ -31,7 +31,7 @@ class GetLiteratureObservationsTest extends TestCase
             'original_elevation' => '300-500m',
             'original_coordinates' => '20°22\'44",43°21\'35"',
             'original_identification' => 'Testudo hermanii',
-            'original_identification_validity' => LiteratureObservationIdentificationValidity::VALID,
+            'original_identification_validity' => ObservationIdentificationValidity::VALID,
             'taxon_id' => $literatureObservation->observation->taxon_id,
             'year' => 1990,
             'month' => 5,
@@ -73,7 +73,7 @@ class GetLiteratureObservationsTest extends TestCase
             'original_locality' => 'Gledić Mountains',
             'original_elevation' => '300-500m',
             'original_coordinates' => '20°22\'44",43°21\'35"',
-            'original_identification_validity' => LiteratureObservationIdentificationValidity::VALID,
+            'original_identification_validity' => ObservationIdentificationValidity::VALID,
             'publication_id' => Publication::factory()->create()->id,
             'is_original_data' => true,
             'cited_publication_id' => null,

@@ -3,8 +3,8 @@
 namespace Tests\Feature\Api;
 
 use App\LiteratureObservation;
-use App\LiteratureObservationIdentificationValidity;
 use App\Observation;
+use App\ObservationIdentificationValidity;
 use App\Publication;
 use App\Stage;
 use App\Taxon;
@@ -60,7 +60,7 @@ class UpdateLiteratureObservationTest extends TestCase
         $this->assertEquals('32-50m', $literatureObservation->original_elevation);
         $this->assertEquals('21°22\'44",41°21\'35"', $literatureObservation->original_coordinates);
         $this->assertEquals('Testuduo hermanii', $literatureObservation->observation->original_identification);
-        $this->assertEquals(LiteratureObservationIdentificationValidity::INVALID, $literatureObservation->original_identification_validity);
+        $this->assertEquals(ObservationIdentificationValidity::INVALID, $literatureObservation->original_identification_validity);
         $this->assertTrue($literatureObservation->observation->taxon->is($taxon));
         $this->assertEquals(1991, $literatureObservation->observation->year);
         $this->assertEquals(5, $literatureObservation->observation->month);
@@ -94,7 +94,7 @@ class UpdateLiteratureObservationTest extends TestCase
             'original_elevation' => '32-50m',
             'original_coordinates' => '21°22\'44",41°21\'35"',
             'original_identification' => 'Testuduo hermanii',
-            'original_identification_validity' => LiteratureObservationIdentificationValidity::INVALID,
+            'original_identification_validity' => ObservationIdentificationValidity::INVALID,
             'other_original_data' => 'Some other information',
             'collecting_start_year' => 1990,
             'collecting_start_month' => 3,
@@ -137,7 +137,7 @@ class UpdateLiteratureObservationTest extends TestCase
             'original_locality' => 'Gledić Mountains',
             'original_elevation' => '300-500m',
             'original_coordinates' => '20°22\'44",43°21\'35"',
-            'original_identification_validity' => LiteratureObservationIdentificationValidity::VALID,
+            'original_identification_validity' => ObservationIdentificationValidity::VALID,
             'other_original_data' => 'Some information',
             'publication_id' => Publication::factory()->create()->id,
             'is_original_data' => true,

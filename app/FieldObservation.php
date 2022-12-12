@@ -376,7 +376,7 @@ class FieldObservation extends Model implements FlatArrayable
      * @param  int  $defaultLicense
      * @return void
      */
-    public function syncPhotos($photos, $defaultLicense)
+    public function syncPhotos(Collection $photos, $defaultLicense)
     {
         $photos = Collection::wrap($photos);
 
