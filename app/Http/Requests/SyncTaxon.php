@@ -32,13 +32,30 @@ class SyncTaxon extends FormRequest
         ];
     }
 
-    public function update($new_data, Taxon $taxon, $country_ref)
+    /**
+     * @param $new_data
+     * @param Taxon $taxon
+     * @param $country_ref
+     * @return mixed
+     */
+    public function update_api($new_data, Taxon $taxon, $country_ref)
     {
         return DB::transaction(function () use ($taxon, $new_data, $country_ref) {
             $oldData = $taxon->load([
                 'parent', 'stages', 'conservationLegislations', 'redLists',
                 'conservationDocuments',
             ])->toArray();
+
+            if ($new_data['parent']) {
+                if (! $oldData['parent'] or $oldData['parent']['name'] != $new_data['parent']['name']) {
+                    $parent = Taxon::findByRankNameAndAncestor($new_data['parent']['name'], $new_data['parent']['rank']);
+                    $taxon->update(['parent_id' => $parent->id]);
+                }
+            } else {
+                if ($oldData['parent']) {
+                    $taxon->update(['parent_id' => null]);
+                }
+            }
 
             $taxon->update(array_merge(
                 array_map('trim', Arr::only($new_data, ['name', 'rank'])),
@@ -51,7 +68,78 @@ class SyncTaxon extends FormRequest
 
             $this->syncRelations($new_data, $taxon, $country_ref);
 
-            $this->logUpdatedActivity($taxon, $oldData, $new_data['reason']);
+            // We are currently not logging any changes in local database.
+            # $this->logUpdatedActivity($taxon, $oldData, $new_data['reason']);
+
+            return $taxon;
+        });
+    }
+
+    /**
+     * @param $new_data
+     * @param Taxon $taxon
+     * @param $country_ref
+     * @return mixed
+     */
+    public function update_admin($new_data, Taxon $taxon, $country_ref)
+    {
+        return DB::transaction(function () use ($taxon, $new_data, $country_ref) {
+            $oldData = $taxon->load([
+                'parent', 'stages', 'conservationLegislations', 'redLists',
+                'conservationDocuments',
+            ])->toArray();
+
+            if ($new_data['parent']) {
+                if (! $oldData['parent'] or $oldData['parent']['name'] != $new_data['parent']['name']) {
+                    $parent = Taxon::findByRankNameAndAncestor($new_data['parent']['name'], $new_data['parent']['rank']);
+                    $taxon->update(['parent_id' => $parent->id]);
+                }
+            } else {
+                if ($oldData['parent']) {
+                    $taxon->update(['parent_id' => null]);
+                }
+            }
+
+            $taxon->update(array_merge(
+                array_map('trim', Arr::only($new_data, ['name', 'rank'])),
+                Arr::only($new_data, ['fe_old_id', 'fe_id', 'author', 'restricted',
+                    'allochthonous', 'invasive', 'uses_atlas_codes',]),
+                ['taxonomy_id' => $new_data['id']]
+            ));
+
+            $this->syncNamesAndDescriptions($new_data, $taxon);
+
+            $this->syncRelations($new_data, $taxon, $country_ref);
+
+            // We are currently not logging any changes in local database.
+            # $this->logUpdatedActivity($taxon, $oldData, $new_data['reason']);
+
+            return $taxon;
+        });
+    }
+
+    public function create_taxon($new_data, $country_ref)
+    {
+        return DB::transaction(function () use ($new_data, $country_ref) {
+            $parent = null;
+            if ($new_data['parent']) {
+                $parent = Taxon::findByRankNameAndAncestor($new_data['parent']['name'], $new_data['parent']['rank']);
+                $parent = $parent->id;
+            }
+
+            $taxon = Taxon::create(array_merge(
+                array_map('trim', Arr::only($new_data, (['name', 'rank']))),
+                Arr::only($new_data, ([
+                'fe_id', 'author', 'fe_old_id', 'restricted', 'allochthonous', 'invasive', 'uses_atlas_codes',
+            ])),
+                ['taxonomy_id' => $new_data['id'], 'parent_id' => $parent],
+
+                Localization::transformTranslations(Arr::only($new_data, ([
+                'description', 'native_name',
+            ])))
+            ));
+
+            $this->syncRelations($new_data, $taxon, $country_ref);
 
             return $taxon;
         });
@@ -68,7 +156,7 @@ class SyncTaxon extends FormRequest
     protected function logUpdatedActivity(Taxon $taxon, $oldData, $reason)
     {
         activity()->performedOn($taxon)
-            ->causedBy($this->user() || 1)
+            ->causedBy($this->user())
             ->withProperty('old', $this->getChangedData($taxon, $oldData))
             ->withProperty('reason', $reason)
             ->log('updated');

@@ -63,8 +63,10 @@ Route::get('taxa/{taxon}/public-photos', [TaxonPublicPhotosController::class, 'i
     ->name('api.taxa.public-photos.index');
 
 //TODO: Recheck this route..
-Route::post('taxa/sync', [TaxonomyController::class, 'sync'])
-    ->name('api.taxa.sync');
+Route::post('taxonomy/sync', [TaxonomyController::class, 'sync'])
+    ->name('api.taxonomy.sync');
+Route::post('taxonomy/new', [TaxonomyController::class, 'new'])
+    ->name('api.taxonomy.new');
 
 Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('elevation', ElevationController::class);

@@ -153,7 +153,7 @@ class TaxonomyController
                 $taxon = Taxon::find($id);
 
                 # Update current taxon with Taxonomy data
-                (new SyncTaxon)->update($data['response'], $taxon, $country_ref);
+                (new SyncTaxon)->update_admin($data['response'], $taxon, $country_ref);
             }
         }
 
