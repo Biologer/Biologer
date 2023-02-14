@@ -133,7 +133,6 @@ class SyncTaxon extends FormRequest
                 'fe_id', 'author', 'fe_old_id', 'restricted', 'allochthonous', 'invasive', 'uses_atlas_codes',
             ])),
                 ['taxonomy_id' => $new_data['id'], 'parent_id' => $parent],
-
                 Localization::transformTranslations(Arr::only($new_data, ([
                 'description', 'native_name',
             ])))
