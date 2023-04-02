@@ -14,13 +14,19 @@
         </p>
 
         <div class="columns">
-            <div class="column is-full-mobile is-one-third is-offset-2">
+            <div class="column is-full-mobile is-one-third is-offset-4">
                 <a href="{{ route('groups.index') }}" class="button is-primary is-outlined is-fullwidth"><b>{{ __('pages.home.browse') }}</b></a>
             </div>
-
-            <div class="column is-full-mobile is-one-third">
+        </div>
+        <div class="columns">
+            <div class="column is-full-mobile is-one-third is-offset-2">
                 <a href="{{ config('biologer.android_app_url') }}" class="button is-outlined is-fullwidth" target="_blank" title="{{ __('pages.home.android_title') }}">
                     <i class="fa fa-android mr-2"></i> {{ __('pages.home.android_link') }}
+                </a>
+            </div>
+            <div class="column is-full-mobile is-one-third">
+                <a href="{{ config('biologer.ios_app_url') }}" class="button is-outlined is-fullwidth" target="_blank" title="{{ __('pages.home.ios_title') }}">
+                    <i class="fa fa-apple mr-2"></i> {{ __('pages.home.ios_link') }}
                 </a>
             </div>
         </div>

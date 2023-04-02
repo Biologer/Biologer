@@ -39,7 +39,7 @@ class ExifTest extends TestCase
 
         $this->assertEquals([
             'latitude' => 46.9005,
-            'longitude' => 7.1466666666667,
+            'longitude' => 7.1466666666666665,
             'elevation' => 634,
             'accuracy' => 3,
         ], $exif->format());
@@ -59,7 +59,7 @@ class ExifTest extends TestCase
 
         $this->assertEquals([
             'latitude' => 46,
-            'longitude' => 7.1466666666667,
+            'longitude' => 7.1466666666666665,
             'elevation' => 634,
             'accuracy' => 3,
         ], $exif->format());
