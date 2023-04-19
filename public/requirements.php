@@ -34,6 +34,9 @@ $requirements['ctype'] = extension_loaded('ctype');
 // GD PHP Extension
 $requirements['gd'] = extension_loaded('gd');
 
+// Lib Sodium
+$requirements['sodium'] = extension_loaded('sodium');
+
 // ImageMagick PHP Extension
 $requirements['imagick'] = class_exists("Imagick");
 
@@ -106,6 +109,8 @@ if (function_exists('apache_get_modules')) {
         <p>JSON PHP Extension <?php echo $requirements['json_enabled'] ? $strOk : $strFail; ?></p>
 
         <p>GD PHP Extension <?php echo $requirements['gd'] ? $strOk : $strFail; ?></p>
+
+        <p>Sodium PHP Extension <?php echo $requirements['sodium'] ? $strOk : $strFail; ?></p>
 
         <p>ImageMagick PHP Extension <?php echo $requirements['imagick'] ? $strOk : $strFail; ?></p>
     </div>

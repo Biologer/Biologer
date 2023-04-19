@@ -136,7 +136,7 @@ class Exif
             return;
         }
 
-        return round($this->calculateNumber($this->exif['GPSAltitude']));
+        return (int) round($this->calculateNumber($this->exif['GPSAltitude']));
     }
 
     /**
@@ -150,7 +150,7 @@ class Exif
             return;
         }
 
-        return round($this->calculateNumber($this->exif['GPSDOP']));
+        return (int) round($this->calculateNumber($this->exif['GPSDOP']));
     }
 
     /**

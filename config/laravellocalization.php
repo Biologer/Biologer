@@ -14,6 +14,7 @@ $supportedLocales = [
     'hr' => ['name' => 'Croatian', 'script' => 'Latn', 'native' => 'Hrvatski', 'regional' => 'hr_HR'],
     'sr' => ['name' => 'Serbian (Cyrillic)', 'script' => 'Cyrl', 'native' => 'Српски', 'regional' => 'sr_RS'],
     'sr-Latn' => ['name' => 'Serbian (Latin)', 'script' => 'Latn', 'native' => 'Srpski', 'regional' => 'sr_RS'],
+    'sr-Latn-ME' => ['name' => 'Montenegrin', 'script' => 'Latn', 'native' => 'Crnogorski', 'regional' => 'sr_Latn_ME'],
     //'ace'         => ['name' => 'Achinese',               'script' => 'Latn', 'native' => 'Aceh', 'regional' => ''],
     //'af'          => ['name' => 'Afrikaans',              'script' => 'Latn', 'native' => 'Afrikaans', 'regional' => 'af_ZA'],
     //'agq'         => ['name' => 'Aghem',                  'script' => 'Latn', 'native' => 'Aghem', 'regional' => ''],
