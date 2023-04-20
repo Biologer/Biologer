@@ -20,7 +20,7 @@ class RedListsTableSeeder extends Seeder
             'hr' => ['name' => 'Globalna'],
             'sr' => ['name' => 'Глобална'],
             'sr-Latn' => ['name' => 'Globalna'],
-            'sr-Latn-ME' => ['name' => 'Globalna'],
+            'me' => ['name' => 'Globalna'],
         ]);
 
         RedList::firstOrCreate(['slug' => 'europe'])->update([
@@ -29,7 +29,7 @@ class RedListsTableSeeder extends Seeder
             'hr' => ['name' => 'Europa'],
             'sr' => ['name' => 'Европа'],
             'sr-Latn' => ['name' => 'Evropa'],
-            'sr-Latn-ME' => ['name' => 'Evropa'],
+            'me' => ['name' => 'Evropa'],
         ]);
     }
 }
