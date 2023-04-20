@@ -20,6 +20,7 @@ class ConservationDocumentsTableSeeder extends Seeder
             'hr' => ['name' => 'PBA', 'description' => 'Odabrana područja za dnevne leptire'],
             'sr' => ['name' => 'ПБА', 'description' => 'Одабрана подручја за дневне лептире'],
             'sr-Latn' => ['name' => 'PBA', 'description' => 'Odabrana područja za dnevne leptire'],
+            'sr-Latn-ME' => ['name' => 'PBA', 'description' => 'Odabrana područja za dnevne leptire'],
         ]);
     }
 }

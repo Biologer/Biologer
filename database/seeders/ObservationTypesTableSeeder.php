@@ -20,6 +20,7 @@ class ObservationTypesTableSeeder extends Seeder
             'hr' => ['name' => 'Opaženo'],
             'sr' => ['name' => 'Посматрано'],
             'sr-Latn' => ['name' => 'Posmatrano'],
+            'sr-Latn-ME' => ['name' => 'Posmatrano'],
         ]);
 
         ObservationType::firstOrCreate(['slug' => 'photographed'])->update([
@@ -28,6 +29,7 @@ class ObservationTypesTableSeeder extends Seeder
             'hr' => ['name' => 'Fotografirano'],
             'sr' => ['name' => 'Фотографисано'],
             'sr-Latn' => ['name' => 'Fotografisano'],
+            'sr-Latn-ME' => ['name' => 'Fotografisano'],
         ]);
 
         ObservationType::firstOrCreate(['slug' => 'call'])->update([
@@ -36,6 +38,7 @@ class ObservationTypesTableSeeder extends Seeder
             'hr' => ['name' => 'Glasanje'],
             'sr' => ['name' => 'Оглашавање'],
             'sr-Latn' => ['name' => 'Oglašavanje'],
+            'sr-Latn-ME' => ['name' => 'Oglašavanje'],
         ]);
 
         ObservationType::firstOrCreate(['slug' => 'exuviae'])->update([
@@ -44,6 +47,7 @@ class ObservationTypesTableSeeder extends Seeder
             'hr' => ['name' => 'Svlak'],
             'sr' => ['name' => 'Егзувија'],
             'sr-Latn' => ['name' => 'Egzuvija'],
+            'sr-Latn-ME' => ['name' => 'Egzuvija'],
         ]);
     }
 }
