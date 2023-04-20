@@ -16,6 +16,7 @@ return [
         'hr',
         'sr',
         'sr-Latn',
+        'sr-Latn-ME',
     ],
 
     /*
