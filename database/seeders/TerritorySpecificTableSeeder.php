@@ -31,6 +31,7 @@ class TerritorySpecificTableSeeder extends Seeder
             'hr' => ['name' => 'Strogo zaštićena (RS)', 'description' => 'Prilog 1 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gliva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
             'sr' => ['name' => 'Строго заштићена (РС)', 'description' => 'Прилог 1 Правилника о проглашењу и заштити строго заштићених и заштићених дивљих врста биљака, животиња и глива ("Службени гласник РС", бр 5/2010 и 47/2011)'],
             'sr-Latn' => ['name' => 'Strogo zaštićena (RS)', 'description' => 'Prilog 1 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gliva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
+            'me' => ['name' => 'Strogo zaštićena (RS)', 'description' => 'Prilog 1 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gliva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
         ]);
 
         ConservationLegislation::firstOrCreate(['slug' => 'serbia-2'])->update([
@@ -39,6 +40,7 @@ class TerritorySpecificTableSeeder extends Seeder
             'hr' => ['name' => 'Zaštićena (RS)', 'description' => 'Prilog 2 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gliva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
             'sr' => ['name' => 'Заштићена (РС)', 'description' => 'Прилог 2 Правилника о проглашењу и заштити строго заштићених и заштићених дивљих врста биљака, животиња и глива ("Службени гласник РС", бр 5/2010 и 47/2011)'],
             'sr-Latn' => ['name' => 'Zaštićena (RS)', 'description' => 'Prilog 2 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gliva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
+            'me' => ['name' => 'Zaštićena (RS)', 'description' => 'Prilog 2 Pravilnika o proglašenju i zaštiti strogo zaštićenih i zaštićenih divljih vrsta biljaka, životinja i gliva ("Službeni glasnik RS", br 5/2010 i 47/2011)'],
         ]);
 
         RedList::firstOrCreate(['slug' => 'balkans'])->update([
@@ -47,6 +49,7 @@ class TerritorySpecificTableSeeder extends Seeder
             'hr' => ['name' => 'Balkan'],
             'sr' => ['name' => 'Балкан'],
             'sr-Latn' => ['name' => 'Balkan'],
+            'me' => ['name' => 'Balkan'],
         ]);
 
         RedList::firstOrCreate(['slug' => 'serbia'])->update([
@@ -55,6 +58,7 @@ class TerritorySpecificTableSeeder extends Seeder
             'hr' => ['name' => 'Srbija'],
             'sr' => ['name' => 'Србија'],
             'sr-Latn' => ['name' => 'Srbija'],
+            'me' => ['name' => 'Srbija'],
         ]);
     }
 
@@ -66,6 +70,7 @@ class TerritorySpecificTableSeeder extends Seeder
             'hr' => ['name' => 'Strogo zaštićena (HR)', 'description' => 'Prilog 1 Pravilnika o strogo zaštićenim vrstama ("Narodne novine", br. 144/13 i 73/16)'],
             'sr' => ['name' => 'Строго заштићена (Хрватска)', 'description' => 'Прилог 1 Правилника о строго заштићеним врстама ("Народне новине", бр. 144/13 i 73/16)'],
             'sr-Latn' => ['name' => 'Strogo zaštićena (HR)', 'description' => 'Prilog 1 Pravilnika strogo zaštićenim vrstama ("Narodne novine", br. 144/13 i 73/16)'],
+            'me' => ['name' => 'Strogo zaštićena (HR)', 'description' => 'Prilog 1 Pravilnika strogo zaštićenim vrstama ("Narodne novine", br. 144/13 i 73/16)'],
         ]);
 
         RedList::firstOrCreate(['slug' => 'EU'])->update([
@@ -74,6 +79,7 @@ class TerritorySpecificTableSeeder extends Seeder
             'hr' => ['name' => 'Europska unija'],
             'sr' => ['name' => 'Европска унија'],
             'sr-Latn' => ['name' => 'Evropska unija'],
+            'me' => ['name' => 'Evropska unija'],
         ]);
 
         RedList::firstOrCreate(['slug' => 'croatia'])->update([
@@ -82,6 +88,7 @@ class TerritorySpecificTableSeeder extends Seeder
             'hr' => ['name' => 'Hrvatska'],
             'sr' => ['name' => 'Хрватска'],
             'sr-Latn' => ['name' => 'Hrvatska'],
+            'me' => ['name' => 'Hrvatska'],
         ]);
     }
 
@@ -93,6 +100,7 @@ class TerritorySpecificTableSeeder extends Seeder
             'hr' => ['name' => 'BiH'],
             'sr' => ['name' => 'БиХ'],
             'sr-Latn' => ['name' => 'BiH'],
+            'me' => ['name' => 'BiH'],
         ]);
     }
 }

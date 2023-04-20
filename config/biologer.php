@@ -36,6 +36,14 @@ return [
                 'zoom' => 7,
             ],
         ],
+
+        'Montenegro' => [
+            'center' => [
+                'latitude' => 42.752307,
+                'longitude' => 19.170491,
+                'zoom' => 8,
+            ],
+        ],
     ],
 
     'android_app_url' => env('ANDROID_APP_URL', 'https://play.google.com/store/apps/details?id=org.biologer.biologer'),
