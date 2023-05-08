@@ -12,6 +12,7 @@ $supportedLocales = [
     'bs' => ['name' => 'Bosnian', 'script' => 'Latn', 'native' => 'Bosanski', 'regional' => 'bs_BA'],
     'en' => ['name' => 'English', 'script' => 'Latn', 'native' => 'English', 'regional' => 'en_GB'],
     'hr' => ['name' => 'Croatian', 'script' => 'Latn', 'native' => 'Hrvatski', 'regional' => 'hr_HR'],
+    'me' => ['name' => 'Montenegrin', 'script' => 'Latn', 'native' => 'Crnogorski', 'regional' => 'sr_ME'],
     'sr' => ['name' => 'Serbian (Cyrillic)', 'script' => 'Cyrl', 'native' => 'Српски', 'regional' => 'sr_RS'],
     'sr-Latn' => ['name' => 'Serbian (Latin)', 'script' => 'Latn', 'native' => 'Srpski', 'regional' => 'sr_RS'],
     //'ace'         => ['name' => 'Achinese',               'script' => 'Latn', 'native' => 'Aceh', 'regional' => ''],
