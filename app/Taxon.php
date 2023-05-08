@@ -154,6 +154,7 @@ class Taxon extends Model
             'includeChildTaxa' => \App\Filters\NullFilter::class,
             'groups' => \App\Filters\Taxon\Groups::class,
             'ungrouped' => \App\Filters\Taxon\Ungrouped::class,
+            'synonyms' => \App\Filters\NullFilter::class,
         ];
     }
 
@@ -165,7 +166,7 @@ class Taxon extends Model
     public static function sortableFields()
     {
         return [
-            'id', 'name', 'rank_level', 'author',
+            'id', 'name', 'rank_level', 'author', 'synonyms'
         ];
     }
 
@@ -323,7 +324,10 @@ class Taxon extends Model
     {
         return $query->where(function ($query) use ($name) {
             $query->where('name', 'like', '%'.$name.'%')
-                ->orWhereTranslationLike('native_name', '%'.$name.'%');
+                ->orWhereTranslationLike('native_name', '%'.$name.'%')
+                ->orWhereHas('synonyms', function ($query) use ($name) {
+                    $query->where('name', 'like', '%'.$name.'%');
+                });
         });
     }
 

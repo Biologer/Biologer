@@ -138,6 +138,15 @@
         </template>
       </b-table-column>
 
+      <b-table-column field="synonyms" :label="trans('labels.taxa.synonyms')" sortable>
+        <template #default="{ row }">
+          <span v-for="(synonym, index) in row.synonyms">{{ synonym.name }}<span v-if="index !== (row.synonyms.length - 1)">, </span></span>
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
       <b-table-column field="author" :label="trans('labels.taxa.author')" sortable>
         <template #default="{ row }">
           {{ row.author }}

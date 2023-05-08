@@ -34,7 +34,6 @@ class Synonym extends Model
     {
         return [
             'id' => $this->id,
-            'taxon' => $this->taxon,
             'taxon_id' => $this->taxon_id,
             'name' => $this->name,
         ];
@@ -50,7 +49,6 @@ class Synonym extends Model
     {
         return [
             'id' => $this->id,
-            'taxon' => $this->taxon,
             'taxon_id' => $this->taxon_id,
             'name' => $this->name,
         ];
