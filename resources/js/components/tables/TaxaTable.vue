@@ -140,7 +140,14 @@
 
       <b-table-column field="synonyms" :label="trans('labels.taxa.synonyms')" sortable>
         <template #default="{ row }">
-          <span v-for="(synonym, index) in row.synonyms">{{ synonym.name }}<span v-if="index !== (row.synonyms.length - 1)">, </span></span>
+          <span v-if="row.synonyms.length > 0">
+            <b-tooltip :label="getSynonyms(row.synonyms)" multilined dashed>
+                {{ trans('labels.taxa.yes') }}
+            </b-tooltip>
+          </span>
+          <span v-else>
+            {{ trans('labels.taxa.no') }}
+          </span>
         </template>
         <template #header="{ column }">
           <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
@@ -322,6 +329,10 @@ export default {
       })
     },
 
+    getSynonyms(synonyms) {
+      return synonyms.map((synonym) => synonym.name).join(", ");
+    },
+
     /*
      * Handle page-change event
      */
@@ -439,6 +450,8 @@ export default {
       this.sortField = this.sortField || 'id'
       this.sortOrder = this.sortOrder || 'desc'
     }
-  }
+  },
+
+
 }
 </script>

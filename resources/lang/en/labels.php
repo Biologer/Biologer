@@ -82,6 +82,10 @@ return [
 
         'atlas_codes' => 'Atlas Codes',
         'uses_atlas_codes' => 'Uses Atlas Codes',
+
+        'synonyms' => 'Synonyms',
+        'add_synonym' => 'Add synonym',
+        'insert_synonym' => 'Insert synonyms name',
     ],
 
     'field_observations' => [

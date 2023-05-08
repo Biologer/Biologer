@@ -75,12 +75,17 @@ return [
         'red_lists' => 'Црвене листе',
         'add_red_list' => 'Додај црвену листу',
         'search_for_taxon' => 'Тражи таксон...',
+        'yes' => 'Да',
+        'no' => 'Не',
 
         'include_lower_taxa' => 'Укључујући ниже таксоне',
 
-
         'atlas_codes' => 'Атлас кодови',
         'uses_atlas_codes' => 'Користи Атлас кодове',
+
+        'synonyms' => 'Синоними',
+        'add_synonym' => 'Додај синоним',
+        'insert_synonym' => 'Унеси назив синонима',
     ],
 
     'field_observations' => [
