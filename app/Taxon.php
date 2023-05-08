@@ -281,6 +281,16 @@ class Taxon extends Model
     }
 
     /**
+     * Synonyms for the taxon.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function synonyms()
+    {
+        return $this->hasMany(Synonym::class);
+    }
+
+    /**
      * Scope the query to get only species or taxa of lower ranks.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -630,6 +640,7 @@ class Taxon extends Model
 
         static::deleting(function ($model) {
             $model->activity()->delete();
+            $model->synonyms()->delete();
         });
     }
 }
