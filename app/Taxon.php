@@ -154,6 +154,7 @@ class Taxon extends Model
             'includeChildTaxa' => \App\Filters\NullFilter::class,
             'groups' => \App\Filters\Taxon\Groups::class,
             'ungrouped' => \App\Filters\Taxon\Ungrouped::class,
+            'synonyms' => \App\Filters\NullFilter::class,
         ];
     }
 
@@ -165,7 +166,7 @@ class Taxon extends Model
     public static function sortableFields()
     {
         return [
-            'id', 'name', 'rank_level', 'author',
+            'id', 'name', 'rank_level', 'author', 'synonyms'
         ];
     }
 
@@ -300,6 +301,16 @@ class Taxon extends Model
     }
 
     /**
+     * Synonyms for the taxon.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function synonyms()
+    {
+        return $this->hasMany(Synonym::class);
+    }
+
+    /**
      * Scope the query to get only species or taxa of lower ranks.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -332,7 +343,10 @@ class Taxon extends Model
     {
         return $query->where(function ($query) use ($name) {
             $query->where('name', 'like', '%'.$name.'%')
-                ->orWhereTranslationLike('native_name', '%'.$name.'%');
+                ->orWhereTranslationLike('native_name', '%'.$name.'%')
+                ->orWhereHas('synonyms', function ($query) use ($name) {
+                    $query->where('name', 'like', '%'.$name.'%');
+                });
         });
     }
 
@@ -649,6 +663,7 @@ class Taxon extends Model
 
         static::deleting(function ($model) {
             $model->activity()->delete();
+            $model->synonyms()->delete();
         });
     }
 }
