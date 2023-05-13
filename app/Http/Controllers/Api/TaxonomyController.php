@@ -23,7 +23,7 @@ class TaxonomyController
             return response("Doesn't exists", 402);
         });
 
-        return response((new SyncTaxon)->update_api($request['taxon'], $taxon, $request['country_ref']), 200);
+        return response((new SyncTaxon)->update($request['taxon'], $taxon, $request['country_ref']), 200);
     }
 
     public function new(Request $request)
@@ -36,6 +36,6 @@ class TaxonomyController
             return response('Unauthorized!', 401);
         }
 
-        return response((new SyncTaxon)->create_taxon($request['taxon'], $request['country_ref']), 200);
+        return response((new SyncTaxon)->createTaxon($request['taxon'], $request['country_ref']), 200);
     }
 }

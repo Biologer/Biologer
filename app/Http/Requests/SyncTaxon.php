@@ -38,17 +38,20 @@ class SyncTaxon extends FormRequest
      * @param $country_ref
      * @return mixed
      */
-    public function update_api($new_data, Taxon $taxon, $country_ref)
+    public function update($new_data, Taxon $taxon, $country_ref)
     {
         return DB::transaction(function () use ($taxon, $new_data, $country_ref) {
             $oldData = $taxon->load([
                 'parent', 'stages', 'conservationLegislations', 'redLists',
                 'conservationDocuments',
             ])->toArray();
-
+            //dd($new_data);
             if ($new_data['parent']) {
                 if (! $oldData['parent'] or $oldData['parent']['name'] != $new_data['parent']['name']) {
                     $parent = Taxon::findByRankNameAndAncestor($new_data['parent']['name'], $new_data['parent']['rank']);
+                    if (!$parent) {
+                        $parent = $this->getAndCreateParent($new_data['parent'], $country_ref);
+                    }
                     $taxon->update(['parent_id' => $parent->id]);
                 }
             } else {
@@ -77,48 +80,10 @@ class SyncTaxon extends FormRequest
 
     /**
      * @param $new_data
-     * @param Taxon $taxon
      * @param $country_ref
      * @return mixed
      */
-    public function update_admin($new_data, Taxon $taxon, $country_ref)
-    {
-        return DB::transaction(function () use ($taxon, $new_data, $country_ref) {
-            $oldData = $taxon->load([
-                'parent', 'stages', 'conservationLegislations', 'redLists',
-                'conservationDocuments',
-            ])->toArray();
-
-            if ($new_data['parent']) {
-                if (! $oldData['parent'] or $oldData['parent']['name'] != $new_data['parent']['name']) {
-                    $parent = Taxon::findByRankNameAndAncestor($new_data['parent']['name'], $new_data['parent']['rank']);
-                    $taxon->update(['parent_id' => $parent->id]);
-                }
-            } else {
-                if ($oldData['parent']) {
-                    $taxon->update(['parent_id' => null]);
-                }
-            }
-
-            $taxon->update(array_merge(
-                array_map('trim', Arr::only($new_data, ['name', 'rank'])),
-                Arr::only($new_data, ['fe_old_id', 'fe_id', 'author', 'restricted',
-                    'allochthonous', 'invasive', 'uses_atlas_codes',]),
-                ['taxonomy_id' => $new_data['id']]
-            ));
-
-            $this->syncNamesAndDescriptions($new_data, $taxon);
-
-            $this->syncRelations($new_data, $taxon, $country_ref);
-
-            // We are currently not logging any changes in local database.
-            # $this->logUpdatedActivity($taxon, $oldData, $new_data['reason']);
-
-            return $taxon;
-        });
-    }
-
-    public function create_taxon($new_data, $country_ref)
+    public function createTaxon($new_data, $country_ref)
     {
         return DB::transaction(function () use ($new_data, $country_ref) {
             $parent = null;
@@ -144,6 +109,34 @@ class SyncTaxon extends FormRequest
         });
     }
 
+    /**
+     * @param $new_data
+     * @param $country_ref
+     * @return Taxon
+     */
+    private function getAndCreateParent($new_data, $country_ref)
+    {
+        return DB::transaction(function () use ($new_data, $country_ref) {
+            $taxon = Taxon::create(array_merge(
+                array_map('trim', Arr::only($new_data, (['name', 'rank']))),
+                Arr::only($new_data, ([
+                    'fe_id', 'author', 'fe_old_id', 'restricted', 'allochthonous', 'invasive', 'uses_atlas_codes',
+                ])),
+                Localization::transformTranslations(Arr::only($new_data, ([
+                    'description', 'native_name',
+                ])))
+            ));
+
+            return $taxon;
+        });
+    }
+
+    /**
+     * @param $data
+     * @param Taxon $taxon
+     * @param $country_ref
+     * @return void
+     */
     protected function syncRelations($data, Taxon $taxon, $country_ref)
     {
         $taxon->stages()->sync($this->getStageIds(Arr::only($data, ['stages'])));
@@ -152,6 +145,12 @@ class SyncTaxon extends FormRequest
         $taxon->redLists()->sync($this->getRedListIds(Arr::only($data, ['red_lists']), $country_ref['redLists']));
     }
 
+    /**
+     * @param Taxon $taxon
+     * @param $oldData
+     * @param $reason
+     * @return void
+     */
     protected function logUpdatedActivity(Taxon $taxon, $oldData, $reason)
     {
         activity()->performedOn($taxon)
@@ -161,6 +160,10 @@ class SyncTaxon extends FormRequest
             ->log('updated');
     }
 
+    /**
+     * @param array $data
+     * @return array
+     */
     protected function getStageIds(array $data)
     {
         $stage_ids = [];
@@ -173,6 +176,11 @@ class SyncTaxon extends FormRequest
         return $stage_ids;
     }
 
+    /**
+     * @param array $data
+     * @param $legs
+     * @return array
+     */
     protected function getConservationLegislationIds(array $data, $legs)
     {
         $conservation_legislation_ids = [];
@@ -185,6 +193,11 @@ class SyncTaxon extends FormRequest
         return $conservation_legislation_ids;
     }
 
+    /**
+     * @param array $data
+     * @param $docs
+     * @return array
+     */
     protected function getConservationDocumentIds(array $data, $docs)
     {
         $conservation_document_ids = [];
@@ -197,6 +210,11 @@ class SyncTaxon extends FormRequest
         return $conservation_document_ids;
     }
 
+    /**
+     * @param array $data
+     * @param $redLists
+     * @return array
+     */
     protected function getRedListIds(array $data, $redLists)
     {
         $red_list_map = [];
@@ -209,6 +227,11 @@ class SyncTaxon extends FormRequest
         return $red_list_map;
     }
 
+    /**
+     * @param Taxon $taxon
+     * @param $oldData
+     * @return array
+     */
     protected function getChangedData(Taxon $taxon, $oldData)
     {
         $changed = array_keys($taxon->getChanges());
@@ -249,6 +272,11 @@ class SyncTaxon extends FormRequest
         return $data;
     }
 
+    /**
+     * @param $taxon
+     * @param $oldValue
+     * @return bool
+     */
     protected function stagesAreChanged($taxon, $oldValue)
     {
         $taxon->load('stages');
@@ -258,6 +286,12 @@ class SyncTaxon extends FormRequest
                 && $oldValue->pluck('id')->diff($taxon->stages->pluck('id'))->isNotEmpty());
     }
 
+    /**
+     * @param $translatedAttribute
+     * @param $oldValue
+     * @param $value
+     * @return bool
+     */
     protected function translationIsChanged($translatedAttribute, $oldValue, $value)
     {
         $old = $oldValue->mapWithKeys(function ($translation) use ($translatedAttribute) {
@@ -272,6 +306,11 @@ class SyncTaxon extends FormRequest
         return ! $old->diffAssoc($new)->isEmpty() || ! $new->diffAssoc($old)->isEmpty();
     }
 
+    /**
+     * @param $taxon
+     * @param $oldValue
+     * @return bool
+     */
     protected function conservationLegislationsAreChanged($taxon, $oldValue)
     {
         $taxon->load('conservationLegislations');
@@ -281,6 +320,11 @@ class SyncTaxon extends FormRequest
                 && $oldValue->pluck('id')->diff($taxon->conservationLegislations->pluck('id'))->isNotEmpty());
     }
 
+    /**
+     * @param $taxon
+     * @param $oldValue
+     * @return bool
+     */
     protected function conservationDocumentsAreChanged($taxon, $oldValue)
     {
         $taxon->load('conservationDocuments');
@@ -290,6 +334,11 @@ class SyncTaxon extends FormRequest
                 && $oldValue->pluck('id')->diff($taxon->conservationDocuments->pluck('id'))->isNotEmpty());
     }
 
+    /**
+     * @param $taxon
+     * @param $oldValue
+     * @return bool
+     */
     protected function redListsAreChanged($taxon, $oldValue)
     {
         $taxon->load('redLists');
@@ -305,6 +354,11 @@ class SyncTaxon extends FormRequest
                 })->count() !== $oldValue->count());
     }
 
+    /**
+     * @param $new_data
+     * @param Taxon $taxon
+     * @return void
+     */
     private function syncNamesAndDescriptions($new_data, Taxon $taxon)
     {
         $data = [
