@@ -8,6 +8,8 @@
             check-route="admin.taxonomy.check"
             connect-route="admin.taxonomy.connect"
             disconnect-route="admin.taxonomy.disconnect"
+            synced="{{ $synced }}"
+            not_synced="{{ $not_synced }}"
             empty="{{ __('No data...') }}">
         </nz-taxonomy-table>
     </div>

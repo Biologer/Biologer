@@ -21,7 +21,10 @@ class TaxonomyController
      */
     public function index()
     {
-        return view('admin.taxonomy.index');
+        return view('admin.taxonomy.index', [
+            'not_synced' => Taxon::where('taxonomy_id', null)->count(),
+            'synced' => Taxon::whereNotNull('taxonomy_id')->count()
+        ]);
     }
 
     /**
@@ -140,7 +143,7 @@ class TaxonomyController
             }
 
             if ($response->status() != 200) {
-                return 'Error! Data not retrieved.\n\n'.$response->status().' '.$response->body().'!!!';
+                return "<p>Error! Data not retrieved.</p><p>".$response->status().'</p><p>'.$response->body().'</p>';
             }
 
             $returned_taxa = $response['taxa'];
@@ -153,8 +156,9 @@ class TaxonomyController
                 $taxon = Taxon::find($id);
 
                 # Update current taxon with Taxonomy data
-                (new SyncTaxon)->update_admin($data['response'], $taxon, $country_ref);
+                (new SyncTaxon)->update($data['response'], $taxon, $country_ref);
             }
+
         }
 
         $not_synced = Taxon::where('taxonomy_id', null)->count();

@@ -25,6 +25,8 @@
     Search for all taxa that are not already updated with Taxonomy base.<br>
     <b>Response:</b> {{ sync }}
     <hr>
+    Synced: {{ synced }}
+    Not synced: {{ not_synced }}
   </div>
 </template>
 
@@ -46,6 +48,9 @@ export default {
     connectRoute: String,
     disconnectRoute: String,
     syncRoute: String,
+
+    synced: Number,
+    not_synced: Number,
   },
 
   methods: {
@@ -73,6 +78,7 @@ export default {
     },
 
     syncTaxonomy () {
+      this.sync = "Syncing... This will take a while... Hang on for a ride.. We dont have progress just yet. Wait for this text to change.."
       return axios
         .get(route(this.syncRoute))
         .then(response => (this.sync = response.data))
