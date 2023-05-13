@@ -258,6 +258,7 @@ class UpdateTaxon extends FormRequest
             }
             $s = Synonym::create([
                 'name' => $synonym['name'],
+                'author' => $synonym['author'],
                 'taxon_id' => $taxon->id,
             ]);
             $s->save();

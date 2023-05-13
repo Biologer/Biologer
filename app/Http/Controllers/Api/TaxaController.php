@@ -19,7 +19,7 @@ class TaxaController
     public function index(Request $request)
     {
         $relations = [
-            'parent', 'stages', 'activity.causer', 'curators', 'ancestors.curators', 'synonyms'
+            'parent', 'stages', 'activity.causer', 'curators', 'ancestors.curators', 'synonyms',
         ];
 
         if ($request->boolean('withGroupsIds')) {
@@ -86,7 +86,6 @@ class TaxaController
     public function destroy(Taxon $taxon)
     {
         $taxon->delete();
-
         return response()->json(null, 204);
     }
 }

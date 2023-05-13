@@ -13,7 +13,7 @@ class Synonym extends Model
         'created_at', 'updated_at',
     ];
 
-    protected $fillable = ['name', 'taxon_id'];
+    protected $fillable = ['name', 'author', 'taxon_id'];
 
     /**
      * One synonym for one taxon.
@@ -36,6 +36,7 @@ class Synonym extends Model
             'id' => $this->id,
             'taxon_id' => $this->taxon_id,
             'name' => $this->name,
+            'author' => $this->author,
         ];
     }
 
@@ -51,6 +52,7 @@ class Synonym extends Model
             'id' => $this->id,
             'taxon_id' => $this->taxon_id,
             'name' => $this->name,
+            'author' => $this->author,
         ];
     }
 }

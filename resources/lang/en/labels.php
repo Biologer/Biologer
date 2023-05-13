@@ -85,7 +85,8 @@ return [
 
         'synonyms' => 'Synonyms',
         'add_synonym' => 'Add synonym',
-        'insert_synonym' => 'Insert synonyms name',
+        'synonym_name' => 'Insert synonyms name',
+        'synonym_author' => 'Insert synonyms author',
     ],
 
     'field_observations' => [

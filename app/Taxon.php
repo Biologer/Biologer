@@ -166,7 +166,7 @@ class Taxon extends Model
     public static function sortableFields()
     {
         return [
-            'id', 'name', 'rank_level', 'author', 'synonyms'
+            'id', 'name', 'rank_level', 'author', 'synonyms',
         ];
     }
 
