@@ -86,6 +86,7 @@ class TaxaController
     public function destroy(Taxon $taxon)
     {
         $taxon->delete();
+
         return response()->json(null, 204);
     }
 }
