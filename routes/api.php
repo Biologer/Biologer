@@ -62,9 +62,9 @@ Route::get('groups/{group}/taxa', [GroupTaxaController::class, 'index'])
 Route::get('taxa/{taxon}/public-photos', [TaxonPublicPhotosController::class, 'index'])
     ->name('api.taxa.public-photos.index');
 
-//TODO: Recheck this route..
 Route::post('taxonomy/sync', [TaxonomyController::class, 'sync'])
     ->name('api.taxonomy.sync');
+
 Route::post('taxonomy/new', [TaxonomyController::class, 'new'])
     ->name('api.taxonomy.new');
 

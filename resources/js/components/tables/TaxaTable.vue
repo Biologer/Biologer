@@ -74,6 +74,13 @@
       </form>
     </b-collapse>
 
+    <div v-if="!taxonomy">
+      <hr>
+      <h2 style="text-align: center">
+        This taxonomic database is connected to taxa.biologer.org
+      </h2>
+    </div>
+
     <hr>
 
     <b-table
@@ -163,7 +170,7 @@
         </template>
       </b-table-column>
 
-      <b-table-column width="150" numeric v-slot="{ row }">
+      <b-table-column width="150" numeric v-slot="{ row }" v-if="taxonomy">
         <a @click="openActivityLogModal(row)" v-if="showActivityLog && row.activity && row.activity.length > 0" :title="trans('Activity Log')"><b-icon icon="history" /></a>
 
         <a :href="editLink(row)" v-if="row.can_edit"><b-icon icon="edit"></b-icon></a>
@@ -244,7 +251,8 @@ export default {
     ranks: Array,
     showActivityLog: Boolean,
     exportColumns: Array,
-    exportUrl: String
+    exportUrl: String,
+    taxonomy: Boolean
   },
 
   data() {

@@ -19,8 +19,8 @@ class TaxonomyController
             return response('Unauthorized!', 401);
         }
 
-        $taxon = Taxon::where('taxonomy_id', $request['taxon']['id'])->firstOr(function () {
-            return response("Doesn't exists", 402);
+        $taxon = Taxon::where('taxonomy_id', $request['taxon']['id'])->firstOr(function () use ($request) {
+            return response((new SyncTaxon)->createTaxon($request['taxon'], $request['country_ref']), 200);
         });
 
         return response((new SyncTaxon)->update($request['taxon'], $taxon, $request['country_ref']), 200);

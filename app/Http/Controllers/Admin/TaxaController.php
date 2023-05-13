@@ -7,6 +7,7 @@ use App\ConservationLegislation;
 use App\Exports\Taxa\CustomTaxaExport;
 use App\RedList;
 use App\Stage;
+use App\Support\Taxonomy;
 use App\Taxon;
 
 class TaxaController
@@ -21,6 +22,7 @@ class TaxaController
         return view('admin.taxa.index', [
             'exportColumns' => CustomTaxaExport::availableColumnData(),
             'ranks' => Taxon::getRankOptions(),
+            'taxonomy' => Taxonomy::isUsingTaxonomy(),
         ]);
     }
 

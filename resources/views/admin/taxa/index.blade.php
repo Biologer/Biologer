@@ -9,9 +9,11 @@
             export-url="{{ route('api.taxon-exports.store') }}"
             :export-columns="{{ $exportColumns }}"
             :ranks="{{ $ranks }}"
+            :taxonomy="{{ $taxonomy }}"
             empty="{{ __('No data...') }}"
-            show-activity-log
-        />
+            show-activity-log>
+
+        </nz-taxa-table>
     </div>
 @endsection
 

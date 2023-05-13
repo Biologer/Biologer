@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Support\Localization;
+use App\Synonym;
 use App\Taxon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
@@ -43,9 +44,9 @@ class SyncTaxon extends FormRequest
         return DB::transaction(function () use ($taxon, $new_data, $country_ref) {
             $oldData = $taxon->load([
                 'parent', 'stages', 'conservationLegislations', 'redLists',
-                'conservationDocuments',
+                'conservationDocuments', 'synonyms',
             ])->toArray();
-            //dd($new_data);
+
             if ($new_data['parent']) {
                 if (! $oldData['parent'] or $oldData['parent']['name'] != $new_data['parent']['name']) {
                     $parent = Taxon::findByRankNameAndAncestor($new_data['parent']['name'], $new_data['parent']['rank']);
@@ -70,6 +71,8 @@ class SyncTaxon extends FormRequest
             $this->syncNamesAndDescriptions($new_data, $taxon);
 
             $this->syncRelations($new_data, $taxon, $country_ref);
+
+            $this->syncSynonym($new_data, $taxon, true);
 
             // We are currently not logging any changes in local database.
             # $this->logUpdatedActivity($taxon, $oldData, $new_data['reason']);
@@ -104,6 +107,8 @@ class SyncTaxon extends FormRequest
             ));
 
             $this->syncRelations($new_data, $taxon, $country_ref);
+
+            $this->syncSynonym($new_data, $taxon);
 
             return $taxon;
         });
@@ -376,5 +381,25 @@ class SyncTaxon extends FormRequest
             $data,
             ['description', 'native_name']
         )));
+    }
+
+    private function syncSynonym($new_data, Taxon $taxon, $update = false)
+    {
+        $old_data = $taxon->toArray();
+
+        if ($update) {
+            foreach ($old_data['synonyms'] as $synonym) {
+                Synonym::find($synonym['id'])->delete();
+            }
+        }
+
+        foreach ($new_data['synonyms'] as $synonym) {
+            $s = Synonym::create([
+                'name' => $synonym['name'],
+                'author' => $synonym['author'],
+                'taxon_id' => $taxon->id,
+            ]);
+            $s->save();
+        }
     }
 }
