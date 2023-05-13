@@ -75,4 +75,5 @@ return [
     'biodiversity_data' => 'Podaci o biodiverzitetu',
     'development_supporters' => 'Razvoj podržali',
     'stats' => 'Statistika',
+    'taxonomy' => 'Taksonomska baza',
 ];
