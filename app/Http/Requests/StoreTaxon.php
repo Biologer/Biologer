@@ -158,6 +158,7 @@ class StoreTaxon extends FormRequest
         foreach ($this->input('synonyms') as $synonym) {
             $s = Synonym::create([
                 'name' => $synonym['name'],
+                'author' => $synonym['author'],
                 'taxon_id' => $taxon->id,
             ]);
             $s->save();

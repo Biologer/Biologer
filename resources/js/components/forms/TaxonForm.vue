@@ -228,6 +228,13 @@
             expanded
           />
 
+          <b-input
+            :name="`synonyms[${i}][author]`"
+            v-model="form.synonyms[i].author"
+            :placeholder="trans('labels.taxa.synonym_author')"
+            expanded
+          />
+
           <p class="control">
             <button type="button" class="button is-danger is-outlined" @click="removeSynonym(i)">
               <b-icon icon="times" size="is-small"/>
@@ -243,7 +250,12 @@
       >
 
         <b-input id="synonym_name" maxlength="50" v-model="synonym_name"
-                 :placeholder="trans('labels.taxa.insert_synonym')"
+                 :placeholder="trans('labels.taxa.synonym_name')"
+                 expanded
+                 v-on:keydown.native.enter.prevent="addSynonym"
+        />
+        <b-input id="synonym_author" maxlength="50" v-model="synonym_author"
+                 :placeholder="trans('labels.taxa.synonym_author')"
                  expanded
                  v-on:keydown.native.enter.prevent="addSynonym"
         />
@@ -359,6 +371,7 @@ export default {
       selectedParent: null,
       chosenRedList: null,
       synonym_name: null,
+      synonym_author: null,
       synonym_error: null,
       synonyms: this.taxon.synonyms,
     }
@@ -493,8 +506,9 @@ export default {
         });
 
         if (pass) {
-          this.form.synonyms.push({name: this.synonym_name});
+          this.form.synonyms.push({name: this.synonym_name, author: this.synonym_author});
           this.synonym_name = null;
+          this.synonym_author = null;
           this.synonym_error = null;
         }
       } else {

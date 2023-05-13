@@ -16,6 +16,7 @@ class CreateSynonymsTable extends Migration
         Schema::create('synonyms', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 50);
+            $table->string('author', 50)->nullable();
             $table->unsignedInteger('taxon_id')->nullable();
             $table->foreign('taxon_id')
                 ->references('id')
