@@ -49,7 +49,7 @@ class SyncTaxon extends FormRequest
             if ($new_data['parent']) {
                 if (! $oldData['parent'] or $oldData['parent']['name'] != $new_data['parent']['name']) {
                     $parent = Taxon::findByRankNameAndAncestor($new_data['parent']['name'], $new_data['parent']['rank']);
-                    if (!$parent) {
+                    if (! $parent) {
                         $parent = $this->getAndCreateParent($new_data['parent'], $country_ref);
                     }
                     $taxon->update(['parent_id' => $parent->id]);
@@ -95,12 +95,12 @@ class SyncTaxon extends FormRequest
             $taxon = Taxon::create(array_merge(
                 array_map('trim', Arr::only($new_data, (['name', 'rank']))),
                 Arr::only($new_data, ([
-                'fe_id', 'author', 'fe_old_id', 'restricted', 'allochthonous', 'invasive', 'uses_atlas_codes',
-            ])),
+                    'fe_id', 'author', 'fe_old_id', 'restricted', 'allochthonous', 'invasive', 'uses_atlas_codes',
+                ])),
                 ['taxonomy_id' => $new_data['id'], 'parent_id' => $parent],
                 Localization::transformTranslations(Arr::only($new_data, ([
-                'description', 'native_name',
-            ])))
+                    'description', 'native_name',
+                ])))
             ));
 
             $this->syncRelations($new_data, $taxon, $country_ref);

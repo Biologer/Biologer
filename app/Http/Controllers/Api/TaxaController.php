@@ -44,7 +44,7 @@ class TaxaController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Taxon  $taxon
+     * @param \App\Taxon $taxon
      * @return \App\Http\Resources\TaxonResource
      */
     public function show(Taxon $taxon)
@@ -57,7 +57,7 @@ class TaxaController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreTaxon  $form
+     * @param \App\Http\Requests\StoreTaxon $form
      * @return \App\Http\Resources\TaxonResource
      */
     public function store(StoreTaxon $form)
@@ -68,8 +68,8 @@ class TaxaController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Taxon  $taxon
-     * @param  \App\Http\Requests\UpdateTaxon  $form
+     * @param \App\Taxon $taxon
+     * @param \App\Http\Requests\UpdateTaxon $form
      * @return \App\Http\Resources\TaxonResource
      */
     public function update(Taxon $taxon, UpdateTaxon $form)
@@ -80,12 +80,13 @@ class TaxaController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Taxon  $taxon
+     * @param \App\Taxon $taxon
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Taxon $taxon)
     {
         $taxon->delete();
+
         return response()->json(null, 204);
     }
 }

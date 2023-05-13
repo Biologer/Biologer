@@ -23,7 +23,7 @@ class TaxonomyController
     {
         return view('admin.taxonomy.index', [
             'not_synced' => Taxon::where('taxonomy_id', null)->count(),
-            'synced' => Taxon::whereNotNull('taxonomy_id')->count()
+            'synced' => Taxon::whereNotNull('taxonomy_id')->count(),
         ]);
     }
 
@@ -143,7 +143,7 @@ class TaxonomyController
             }
 
             if ($response->status() != 200) {
-                return "<p>Error! Data not retrieved.</p><p>".$response->status().'</p><p>'.$response->body().'</p>';
+                return '<p>Error! Data not retrieved.</p><p>'.$response->status().'</p><p>'.$response->body().'</p>';
             }
 
             $returned_taxa = $response['taxa'];
@@ -158,7 +158,6 @@ class TaxonomyController
                 # Update current taxon with Taxonomy data
                 (new SyncTaxon)->update($data['response'], $taxon, $country_ref);
             }
-
         }
 
         $not_synced = Taxon::where('taxonomy_id', null)->count();
