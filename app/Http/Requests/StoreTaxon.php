@@ -155,10 +155,9 @@ class StoreTaxon extends FormRequest
 
     protected function createSynonyms(Taxon $taxon)
     {
-        if (! array_key_exists('synonyms', $this->input)) {
+        if (! $this->input('synonyms')) {
             return;
         }
-
         foreach ($this->input('synonyms') as $synonym) {
             $s = Synonym::create([
                 'name' => $synonym['name'],
