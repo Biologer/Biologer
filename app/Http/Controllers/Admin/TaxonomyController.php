@@ -133,7 +133,7 @@ class TaxonomyController
 
                     continue;
                 }
-                $data['taxa'][$taxon->id]['ancestor_name'] = Arr::first(explode(',', $taxon->ancestors_names)).'%';
+                $data['taxa'][$taxon->id]['ancestor_name'] = Arr::first(explode(',', $taxon->ancestors_names));
             }
 
             try {
