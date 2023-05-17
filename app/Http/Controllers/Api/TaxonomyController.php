@@ -38,4 +38,20 @@ class TaxonomyController
 
         return response((new SyncTaxon)->createTaxon($request['taxon'], $request['country_ref']), 200);
     }
+
+    public function remove(Request $request)
+    {
+        if (! Taxonomy::checkOrFailUsingTaxonomy()) {
+            return response('Error! Local site is not using connection to Taxonomy database.', 400);
+        }
+
+        if ($request['key'] != config('biologer.taxonomy_api_key')) {
+            return response('Unauthorized!', 401);
+        }
+
+        Taxon::where(['taxonomy_id' => $request['taxon']['id']])->delete();
+
+        return response()->json(null, 204);
+    }
+
 }

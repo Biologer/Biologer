@@ -68,6 +68,9 @@ Route::post('taxonomy/sync', [TaxonomyController::class, 'sync'])
 Route::post('taxonomy/new', [TaxonomyController::class, 'new'])
     ->name('api.taxonomy.new');
 
+Route::post('taxonomy/remove', [TaxonomyController::class, 'remove'])
+    ->name('api.taxonomy.remove');
+
 Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('elevation', ElevationController::class);
 
