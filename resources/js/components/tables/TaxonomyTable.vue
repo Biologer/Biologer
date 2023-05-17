@@ -49,8 +49,8 @@ export default {
     disconnectRoute: String,
     syncRoute: String,
 
-    synced: Number,
-    not_synced: Number,
+    synced: String,
+    not_synced: String,
   },
 
   methods: {
@@ -78,7 +78,7 @@ export default {
     },
 
     syncTaxonomy () {
-      this.sync = "Syncing... This will take a while... Hang on for a ride.. We dont have progress just yet. Wait for this text to change.."
+      this.sync = "Syncing... This will take a while... No progress bar yet."
       return axios
         .get(route(this.syncRoute))
         .then(response => (this.sync = response.data))
