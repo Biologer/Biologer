@@ -410,7 +410,7 @@ export default {
         taxonId: null,
         includeChildTaxa: null,
         selectedTaxon: null,
-        id: null
+        id: null,
       }
     },
 

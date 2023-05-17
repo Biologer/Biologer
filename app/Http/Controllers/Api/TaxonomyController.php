@@ -53,5 +53,4 @@ class TaxonomyController
 
         return response()->json(null, 204);
     }
-
 }

@@ -12,7 +12,6 @@
             :taxonomy="{{ $taxonomy }}"
             empty="{{ __('No data...') }}"
             show-activity-log>
-
         </nz-taxa-table>
     </div>
 @endsection
