@@ -65,11 +65,11 @@ Route::get('taxa/{taxon}/public-photos', [TaxonPublicPhotosController::class, 'i
 Route::post('taxonomy/sync', [TaxonomyController::class, 'sync'])
     ->name('api.taxonomy.sync');
 
-Route::post('taxonomy/new', [TaxonomyController::class, 'new'])
-    ->name('api.taxonomy.new');
-
 Route::post('taxonomy/remove', [TaxonomyController::class, 'remove'])
     ->name('api.taxonomy.remove');
+
+Route::post('taxonomy/deselect', [TaxonomyController::class, 'deselect'])
+    ->name('api.taxonomy.deselect');
 
 Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('elevation', ElevationController::class);
