@@ -181,8 +181,6 @@ class UpdateTaxonTest extends TestCase
                 'allochthonous' => true,
                 'invasive' => true,
                 'stages_ids' => [],
-                'synonyms' => [],
-                'removed_synonyms' => [],
                 'reason' => 'Just testin\' :)',
             ])
         );
