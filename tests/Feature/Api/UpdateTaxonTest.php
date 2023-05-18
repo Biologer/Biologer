@@ -42,6 +42,8 @@ class UpdateTaxonTest extends TestCase
                 app()->getLocale() => 'test description',
             ],
             'reason' => 'Testing',
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ], $overrides);
     }
 
@@ -100,6 +102,8 @@ class UpdateTaxonTest extends TestCase
             'red_lists_data' => $redLists->map(function ($redList) {
                 return ['red_list_id' => $redList->id, 'category' => 'EN'];
             })->all(),
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertSuccessful();
@@ -177,6 +181,8 @@ class UpdateTaxonTest extends TestCase
                 'allochthonous' => true,
                 'invasive' => true,
                 'stages_ids' => [],
+                'synonyms' => [],
+                'removed_synonyms' => [],
                 'reason' => 'Just testin\' :)',
             ])
         );
@@ -193,6 +199,8 @@ class UpdateTaxonTest extends TestCase
                 'parent' => 'Cerambyx',
                 'name' => 'Cerambyx scopolii',
                 'stages' => null,
+                'synonyms' => [],
+                'removed_synonyms' => [],
             ], $activity->changes()->get('old'));
             $this->assertEquals('Just testin\' :)', $activity->getExtraProperty('reason'));
         });
@@ -209,6 +217,8 @@ class UpdateTaxonTest extends TestCase
         $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
             'name' => 'Animalia',
             'parent_id' => $taxon->parent_id,
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertJsonValidationErrors('name');
@@ -224,6 +234,8 @@ class UpdateTaxonTest extends TestCase
         $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
             'name' => 'Animalia ',
             'parent_id' => $taxon->parent_id,
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertJsonValidationErrors('name');
@@ -240,6 +252,8 @@ class UpdateTaxonTest extends TestCase
         $response = $this->putJson("/api/taxa/{$taxon->id}", $this->validParams([
             'name' => 'AnimaliA',
             'parent_id' => $taxon->parent_id,
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertJsonValidationErrors('name');
@@ -258,6 +272,8 @@ class UpdateTaxonTest extends TestCase
             'name' => 'Cerambyx cerdo',
             'parent_id' => $taxon->parent_id,
             'rank' => $taxon->rank,
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertJsonValidationErrors('name');
@@ -278,6 +294,8 @@ class UpdateTaxonTest extends TestCase
             'name' => 'Cerambyx cerdo',
             'parent_id' => $taxon->parent_id,
             'rank' => $taxon->rank,
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertSuccessful();
@@ -294,6 +312,8 @@ class UpdateTaxonTest extends TestCase
             'name' => $taxon->name,
             'parent_id' => $taxon->parent_id,
             'rank' => $taxon->rank,
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertSuccessful();

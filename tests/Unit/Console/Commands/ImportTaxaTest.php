@@ -34,6 +34,8 @@ class ImportTaxaTest extends TestCase
             'fe_id' => 'feId',
             'fe_old_id' => '123',
             'rank' => 'species',
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]);
         $this->assertDatabaseHas('taxon_translations', [
             'locale' => 'en',
@@ -89,6 +91,8 @@ class ImportTaxaTest extends TestCase
             'allochthonous' => false,
             'invasive' => false,
             'restricted' => false,
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]);
         $otherRoot = Taxon::factory()->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
         $plantSpecies = Taxon::factory()->create([
@@ -98,6 +102,8 @@ class ImportTaxaTest extends TestCase
             'allochthonous' => false,
             'invasive' => false,
             'restricted' => false,
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]);
 
         $path = $this->createTempFile(
