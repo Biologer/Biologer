@@ -197,8 +197,6 @@ class UpdateTaxonTest extends TestCase
                 'parent' => 'Cerambyx',
                 'name' => 'Cerambyx scopolii',
                 'stages' => null,
-                'synonyms' => [],
-                'removed_synonyms' => [],
             ], $activity->changes()->get('old'));
             $this->assertEquals('Just testin\' :)', $activity->getExtraProperty('reason'));
         });
