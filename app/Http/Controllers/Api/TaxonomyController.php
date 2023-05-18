@@ -26,7 +26,6 @@ class TaxonomyController
         }
 
         return response((new SyncTaxon)->createTaxon($request['taxon'], $request['country_ref']), 200);
-
     }
 
     public function remove(Request $request)
