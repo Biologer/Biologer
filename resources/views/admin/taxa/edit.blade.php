@@ -16,6 +16,7 @@
             :taxon="{{ $taxon }}"
             :native-names="{{ $taxon->getAttributeTranslations('native_name') }}"
             :descriptions="{{ $taxon->getAttributeTranslations('description') }}"
+            :taxonomy="{{ $taxonomy }}"
             should-confirm-submit
             confirm-submit-message="{{ __('Reason for changing data. Please try to be precise in order to keep the track of changes and ensure data verification.') }}"
             should-ask-reason

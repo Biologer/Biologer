@@ -148,8 +148,9 @@
       <b-table-column field="synonyms" :label="trans('labels.taxa.synonyms')" sortable>
         <template #default="{ row }">
           <span v-if="row.synonyms.length > 0">
+            {{ trans('labels.taxa.yes') }}
             <b-tooltip :label="getSynonyms(row.synonyms)" multilined dashed>
-                {{ trans('labels.taxa.yes') }}
+                <b-icon icon="comment"></b-icon>
             </b-tooltip>
           </span>
           <span v-else>
@@ -170,12 +171,16 @@
         </template>
       </b-table-column>
 
-      <b-table-column width="150" numeric v-slot="{ row }" v-if="taxonomy">
+      <b-table-column width="150" numeric v-slot="{ row }" v-if="! taxonomy">
         <a @click="openActivityLogModal(row)" v-if="showActivityLog && row.activity && row.activity.length > 0" :title="trans('Activity Log')"><b-icon icon="history" /></a>
 
         <a :href="editLink(row)" v-if="row.can_edit"><b-icon icon="edit"></b-icon></a>
 
         <a @click="confirmRemove(row)" v-if="row.can_delete"><b-icon icon="trash"></b-icon></a>
+      </b-table-column>
+
+      <b-table-column width="150" numeric v-slot="{ row }" v-if="taxonomy">
+        <a :href="editLink(row)" v-if="row.can_edit"><b-icon icon="eye"></b-icon></a>
       </b-table-column>
 
       <template #empty>
@@ -252,7 +257,7 @@ export default {
     showActivityLog: Boolean,
     exportColumns: Array,
     exportUrl: String,
-    taxonomy: Boolean
+    taxonomy: Boolean,
   },
 
   data() {

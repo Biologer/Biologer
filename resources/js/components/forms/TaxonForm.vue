@@ -182,7 +182,7 @@
         </b-select>
 
         <div class="control">
-          <button type="button" class="button has-text-danger" @click="removeRedList(index)">&times;</button>
+          <button type="button" class="button has-text-danger" @click="removeRedList(index)" v-bind:disabled="taxonomy">&times;</button>
         </div>
       </b-field>
 
@@ -193,7 +193,7 @@
         </b-select>
 
         <div class="control">
-          <button type="button" class="button" @click="addRedList">{{ trans('labels.taxa.add_red_list') }}</button>
+          <button type="button" class="button" @click="addRedList" v-bind:disabled="taxonomy">{{ trans('labels.taxa.add_red_list') }}</button>
         </div>
       </b-field>
     </div>
@@ -236,7 +236,7 @@
           />
 
           <p class="control">
-            <button type="button" class="button is-danger is-outlined" @click="removeSynonym(i)">
+            <button type="button" class="button is-danger is-outlined" @click="removeSynonym(i)" v-bind:disabled="taxonomy">
               <b-icon icon="times" size="is-small"/>
             </button>
           </p>
@@ -261,7 +261,7 @@
         />
 
         <p class="control">
-          <button type="button" class="button is-secondary is-outlined" @click="addSynonym">
+          <button type="button" class="button is-secondary is-outlined" @click="addSynonym" v-bind:disabled="taxonomy">
             {{ trans('labels.taxa.add_synonym') }}
           </button>
         </p>
@@ -277,6 +277,7 @@
           'is-loading': form.processing
       }"
       @click="submitWithRedirect"
+      v-bind:disabled="taxonomy"
     >
       {{ trans('buttons.save') }}
     </button>
@@ -362,6 +363,7 @@ export default {
         return [];
       }
     },
+    taxonomy: Boolean,
   },
 
   data() {
