@@ -74,7 +74,7 @@
       </form>
     </b-collapse>
 
-    <div v-if="!taxonomy">
+    <div v-if="taxonomy">
       <hr>
       <h2 style="text-align: center">
         This taxonomic database is connected to taxa.biologer.org
