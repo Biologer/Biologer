@@ -181,6 +181,8 @@
 
       <b-table-column width="150" numeric v-slot="{ row }" v-if="taxonomy">
         <a :href="editLink(row)" v-if="row.can_edit"><b-icon icon="eye"></b-icon></a>
+
+        <a @click="confirmRemove(row)" v-if="row.can_delete && ! row.taxonomy_id"><b-icon icon="trash"></b-icon></a>
       </b-table-column>
 
       <template #empty>
