@@ -76,9 +76,9 @@
 
     <div v-if="taxonomy">
       <hr>
-      <h2 style="text-align: center">
+      <b-message type="is-success" class="has-text-centered">
         This taxonomic database is connected to taxa.biologer.org
-      </h2>
+      </b-message>
     </div>
 
     <hr>
