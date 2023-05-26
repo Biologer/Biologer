@@ -26,8 +26,10 @@
 @endsection
 
 @section('navigationActions')
+    @if ($taxonomy != 'true')
     <a href="{{ route('admin.taxa.create') }}" class="button is-secondary is-outlined">
         @include('components.icon', ['icon' => 'plus'])
         <span>{{ __('navigation.add') }}</span>
     </a>
+    @endif
 @endsection

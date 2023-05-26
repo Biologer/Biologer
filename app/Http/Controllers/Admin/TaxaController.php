@@ -40,6 +40,7 @@ class TaxaController
             'redLists' => RedList::all(),
             'redListCategories' => collect(RedList::CATEGORIES),
             'stages' => Stage::all(),
+            'taxonomy' => Taxonomy::isUsingTaxonomy(),
         ]);
     }
 
