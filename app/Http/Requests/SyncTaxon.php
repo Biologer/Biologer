@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Controllers\Admin\TaxonomyController;
 use App\Support\Localization;
 use App\Synonym;
 use App\Taxon;
@@ -152,6 +153,8 @@ class SyncTaxon extends FormRequest
                     'description', 'native_name',
                 ])))
             ));
+
+            (new TaxonomyController())->syncParent($taxon);
 
             return $taxon;
         });

@@ -165,4 +165,41 @@ class TaxonomyController
 
         return 'Sync done for '.$synced.' taxa. Not synced '.$not_synced.'. All times synced '.$synced_total;
     }
+
+    public function syncParent(Taxon $parent){
+        $link = Taxonomy::checkOrFailUsingTaxonomy();
+        if (! $link) {
+            return 'Error! Local site is not using connection to Taxonomy database.';
+        }
+
+        $data['taxa'] = [];
+        $data['key'] = config('biologer.taxonomy_api_key');
+
+        $data['taxa'][$parent->id]['name'] = $parent->name;
+        $data['taxa'][$parent->id]['rank'] = $parent->rank;
+        if ($parent->ancestors_names == '') {
+            $data['taxa'][$parent->id]['ancestor_name'] = '';
+        } else {
+            $data['taxa'][$parent->id]['ancestor_name'] = Arr::first(explode(',', $parent->ancestors_names)).'%';
+        }
+
+        try {
+        $response = Http::post($link.'/api/taxonomy/sync', $data);
+        } catch (Exception $e) {
+            return 'Failed to connect! No connection to server.';
+        }
+
+        $returned_taxa = $response['taxa'];
+        $country_ref = $response['country_ref'];
+
+        foreach ($returned_taxa as $id => $data) {
+            if ($data['response'] == '') {
+                continue;
+            }
+            $taxon = Taxon::find($id);
+
+            # Update current taxon with Taxonomy data
+            (new SyncTaxon)->update($data['response'], $taxon, $country_ref);
+        }
+    }
 }
