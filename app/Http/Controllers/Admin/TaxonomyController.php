@@ -184,7 +184,7 @@ class TaxonomyController
         }
 
         try {
-        $response = Http::post($link.'/api/taxonomy/sync', $data);
+            $response = Http::post($link.'/api/taxonomy/sync', $data);
         } catch (Exception $e) {
             return 'Failed to connect! No connection to server.';
         }
