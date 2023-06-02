@@ -121,7 +121,7 @@ class TaxonomyController
         $synced = 0;
         $all_taxa = Taxon::where('taxonomy_id', null)->get();
 
-        foreach ($all_taxa->chunk(5000) as $taxa) {
+        foreach ($all_taxa->chunk(1000) as $taxa) {
             $data['taxa'] = [];
             $data['key'] = config('biologer.taxonomy_api_key');
 
