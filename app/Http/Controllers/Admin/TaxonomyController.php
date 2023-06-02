@@ -166,7 +166,8 @@ class TaxonomyController
         return 'Sync done for '.$synced.' taxa. Not synced '.$not_synced.'. All times synced '.$synced_total;
     }
 
-    public function syncParent(Taxon $parent){
+    public function syncParent(Taxon $parent)
+    {
         $link = Taxonomy::checkOrFailUsingTaxonomy();
         if (! $link) {
             return 'Error! Local site is not using connection to Taxonomy database.';
