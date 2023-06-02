@@ -77,7 +77,7 @@
     <div v-if="taxonomy">
       <hr>
       <b-message type="is-success" class="has-text-centered">
-        This taxonomic database is connected to taxa.biologer.org
+        This taxonomic database is connected to <a href="https://taxa.biologer.org" target="_blank">https://taxa.biologer.org</a>
       </b-message>
     </div>
 

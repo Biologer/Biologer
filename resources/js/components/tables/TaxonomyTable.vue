@@ -78,7 +78,7 @@ export default {
     },
 
     syncTaxonomy () {
-      this.sync = "Syncing... This will take a while... No progress bar yet."
+      this.sync = "Syncing... This will take a while, and will *fail* a lot, almost every ~3000 taxa... No progress bar yet."
       return axios
         .get(route(this.syncRoute))
         .then(response => (this.sync = response.data))
