@@ -144,7 +144,7 @@ class SyncTaxon extends FormRequest
     private function getAndCreateParent($new_data, $country_ref)
     {
         return DB::transaction(function () use ($new_data, $country_ref) {
-            $taxon = Taxon::create(array_merge(
+            $parent = Taxon::create(array_merge(
                 array_map('trim', Arr::only($new_data, (['name', 'rank']))),
                 Arr::only($new_data, ([
                     'fe_id', 'author', 'fe_old_id', 'restricted', 'allochthonous', 'invasive', 'uses_atlas_codes',
@@ -154,9 +154,9 @@ class SyncTaxon extends FormRequest
                 ])))
             ));
 
-            (new TaxonomyController())->syncParent($taxon);
+            (new TaxonomyController())->syncParent($parent);
 
-            return $taxon;
+            return $parent;
         });
     }
 
