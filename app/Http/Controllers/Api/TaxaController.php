@@ -19,7 +19,7 @@ class TaxaController
     public function index(Request $request)
     {
         $relations = [
-            'parent', 'stages', 'activity.causer', 'curators', 'ancestors.curators',
+            'parent', 'stages', 'activity.causer', 'curators', 'ancestors.curators', 'synonyms',
         ];
 
         if ($request->boolean('withGroupsIds')) {
