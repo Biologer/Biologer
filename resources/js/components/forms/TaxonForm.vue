@@ -22,7 +22,7 @@
           :type="form.errors.has('name') ? 'is-danger' : ''"
           :message="form.errors.has('name') ? form.errors.first('name') : ''"
         >
-          <b-input v-model="form.name" />
+          <b-input v-model.trim="sanitizedName"/>
         </b-field>
       </div>
 
@@ -396,6 +396,15 @@ export default {
 
     supportedLocales() {
       return window.App.supportedLocales
+    },
+
+    sanitizedName: {
+      get() {
+        return this.form.name;
+      },
+      set(value) {
+        this.form.name = value.replace(/\s+/g, ' ').trim();
+      }
     }
   },
 
@@ -404,6 +413,13 @@ export default {
       if (this.shouldResetRank(value)) {
         this.form.rank = null
       }
+    },
+
+    'form.name': {
+      handler(value) {
+        this.sanitizedName = value;
+      },
+      immediate: true
     }
   },
 
@@ -526,7 +542,19 @@ export default {
     removeSynonym(index) {
       this.removedSynonyms.push(this.synonyms[index]);
       this.$delete(this.synonyms, index);
+    },
+
+    /**
+     * Disable multiple space between words
+     */
+    preventMultipleSpace(e) {
+      e.preventDefault();
+      const left    = e.target.value.substring(0, e.target.selectionStart);
+      const right   = e.target.value.substring(e.target.selectionEnd, e.target.value.length);
+      const pasted  = (e.dataTransfer || e.clipboardData).getData('text').replace(/ /g, '');
+      e.target.value = left + pasted + right;
     }
+
   },
   loadSynonyms: function() {
     if (!this.taxon.synonyms) return [];
