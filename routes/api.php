@@ -36,6 +36,7 @@ use App\Http\Controllers\Api\ReadAnnouncementsController;
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\TaxaController;
 use App\Http\Controllers\Api\TaxonExportsController;
+use App\Http\Controllers\Api\TaxonomyController;
 use App\Http\Controllers\Api\TaxonPublicPhotosController;
 use App\Http\Controllers\Api\UnidentifiableFieldObservationsBatchController;
 use App\Http\Controllers\Api\UsersController;
@@ -60,6 +61,15 @@ Route::get('groups/{group}/taxa', [GroupTaxaController::class, 'index'])
 
 Route::get('taxa/{taxon}/public-photos', [TaxonPublicPhotosController::class, 'index'])
     ->name('api.taxa.public-photos.index');
+
+Route::post('taxonomy/sync', [TaxonomyController::class, 'sync'])
+    ->name('api.taxonomy.sync');
+
+Route::post('taxonomy/remove', [TaxonomyController::class, 'remove'])
+    ->name('api.taxonomy.remove');
+
+Route::post('taxonomy/deselect', [TaxonomyController::class, 'deselect'])
+    ->name('api.taxonomy.deselect');
 
 Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('elevation', ElevationController::class);

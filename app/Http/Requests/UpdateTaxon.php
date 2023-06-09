@@ -249,10 +249,6 @@ class UpdateTaxon extends FormRequest
 
     private function createSynonyms(Taxon $taxon)
     {
-        if ($this->input('synonyms') == null or $this->input('removed_synonyms') != []) {
-            return;
-        }
-
         foreach ($this->input('removed_synonyms') as $removed) {
             Synonym::find($removed['id'])->delete();
         }

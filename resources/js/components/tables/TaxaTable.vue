@@ -74,6 +74,13 @@
       </form>
     </b-collapse>
 
+    <div v-if="taxonomy">
+      <hr>
+      <b-message type="is-success" class="has-text-centered">
+        This taxonomic database is connected to <a href="https://taxa.biologer.org" target="_blank">https://taxa.biologer.org</a>
+      </b-message>
+    </div>
+
     <hr>
 
     <b-table
@@ -141,8 +148,9 @@
       <b-table-column field="synonyms" :label="trans('labels.taxa.synonyms')" sortable>
         <template #default="{ row }">
           <span v-if="row.synonyms.length > 0">
+            {{ trans('labels.taxa.yes') }}
             <b-tooltip :label="getSynonyms(row.synonyms)" multilined dashed>
-                {{ trans('labels.taxa.yes') }}
+                <b-icon icon="comment"></b-icon>
             </b-tooltip>
           </span>
           <span v-else>
@@ -163,12 +171,18 @@
         </template>
       </b-table-column>
 
-      <b-table-column width="150" numeric v-slot="{ row }">
+      <b-table-column width="150" numeric v-slot="{ row }" v-if="! taxonomy">
         <a @click="openActivityLogModal(row)" v-if="showActivityLog && row.activity && row.activity.length > 0" :title="trans('Activity Log')"><b-icon icon="history" /></a>
 
         <a :href="editLink(row)" v-if="row.can_edit"><b-icon icon="edit"></b-icon></a>
 
         <a @click="confirmRemove(row)" v-if="row.can_delete"><b-icon icon="trash"></b-icon></a>
+      </b-table-column>
+
+      <b-table-column width="150" numeric v-slot="{ row }" v-if="taxonomy">
+        <a :href="editLink(row)" v-if="row.can_edit"><b-icon icon="eye"></b-icon></a>
+
+        <a @click="confirmRemove(row)" v-if="row.can_delete && ! row.taxonomy_id"><b-icon icon="trash"></b-icon></a>
       </b-table-column>
 
       <template #empty>
@@ -244,7 +258,8 @@ export default {
     ranks: Array,
     showActivityLog: Boolean,
     exportColumns: Array,
-    exportUrl: String
+    exportUrl: String,
+    taxonomy: Boolean,
   },
 
   data() {
@@ -402,7 +417,7 @@ export default {
         taxonId: null,
         includeChildTaxa: null,
         selectedTaxon: null,
-        id: null
+        id: null,
       }
     },
 

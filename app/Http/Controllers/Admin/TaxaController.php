@@ -7,6 +7,7 @@ use App\ConservationLegislation;
 use App\Exports\Taxa\CustomTaxaExport;
 use App\RedList;
 use App\Stage;
+use App\Support\Taxonomy;
 use App\Taxon;
 
 class TaxaController
@@ -21,6 +22,7 @@ class TaxaController
         return view('admin.taxa.index', [
             'exportColumns' => CustomTaxaExport::availableColumnData(),
             'ranks' => Taxon::getRankOptions(),
+            'taxonomy' => Taxonomy::isUsingTaxonomy(),
         ]);
     }
 
@@ -38,6 +40,7 @@ class TaxaController
             'redLists' => RedList::all(),
             'redListCategories' => collect(RedList::CATEGORIES),
             'stages' => Stage::all(),
+            'taxonomy' => Taxonomy::isUsingTaxonomy(),
         ]);
     }
 
@@ -58,6 +61,7 @@ class TaxaController
             'redListCategories' => collect(RedList::CATEGORIES),
             'stages' => Stage::all(),
             'synonyms' => $taxon->load(['synonyms']),
+            'taxonomy' => Taxonomy::isUsingTaxonomy(),
         ]);
     }
 }
