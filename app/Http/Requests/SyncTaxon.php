@@ -214,7 +214,10 @@ class SyncTaxon extends FormRequest
     {
         $conservation_legislation_ids = [];
         foreach ($data['conservation_legislations'] as $conservation_legislation) {
-            if (\App\ConservationLegislation::where('id', $conservation_legislation['id'])->exists()) {
+            if (! Arr::exists($legs, $conservation_legislation['id'])) {
+                continue;
+            }
+            if (\App\ConservationLegislation::where('id', $legs[$conservation_legislation['id']])->exists()) {
                 $conservation_legislation_ids[] = $legs[$conservation_legislation['id']];
             }
         }
@@ -231,7 +234,10 @@ class SyncTaxon extends FormRequest
     {
         $conservation_document_ids = [];
         foreach ($data['conservation_documents'] as $conservation_document) {
-            if (\App\ConservationDocument::where('id', $conservation_document['id'])->exists()) {
+            if (! Arr::exists($docs, $conservation_document['id'])) {
+                continue;
+            }
+            if (\App\ConservationDocument::where('id', $docs[$conservation_document['id']])->exists()) {
                 $conservation_document_ids[] = $docs[$conservation_document['id']];
             }
         }
@@ -248,7 +254,10 @@ class SyncTaxon extends FormRequest
     {
         $red_list_map = [];
         foreach ($data['red_lists'] as $red_list) {
-            if (\App\RedList::where('id', $red_list['id'])->exists()) {
+            if (! Arr::exists($redLists, $red_list['id'])) {
+                continue;
+            }
+            if (\App\RedList::where('id', $redLists[$red_list['id']])->exists()) {
                 $red_list_map[$redLists[$red_list['id']]] = ['category' => $red_list['pivot']['category']];
             }
         }
