@@ -542,17 +542,6 @@ export default {
     removeSynonym(index) {
       this.removedSynonyms.push(this.synonyms[index]);
       this.$delete(this.synonyms, index);
-    },
-
-    /**
-     * Disable multiple space between words
-     */
-    preventMultipleSpace(e) {
-      e.preventDefault();
-      const left    = e.target.value.substring(0, e.target.selectionStart);
-      const right   = e.target.value.substring(e.target.selectionEnd, e.target.value.length);
-      const pasted  = (e.dataTransfer || e.clipboardData).getData('text').replace(/ /g, '');
-      e.target.value = left + pasted + right;
     }
 
   },
