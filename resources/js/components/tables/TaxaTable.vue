@@ -138,7 +138,7 @@
 
       <b-table-column field="name" :label="trans('labels.taxa.name')" sortable>
         <template #default="{ row }">
-          {{ row.name + (row.native_name ? ` (${row.native_name})` : '') }}
+          <span v-html="changeSpaceIntoDot(row.name) + (row.native_name ? ` (${changeSpaceIntoDot(row.native_name)})` : '')"></span>
         </template>
         <template #header="{ column }">
           <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
@@ -156,9 +156,6 @@
           <span v-else>
             {{ trans('labels.taxa.no') }}
           </span>
-        </template>
-        <template #header="{ column }">
-          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
         </template>
       </b-table-column>
 
@@ -220,6 +217,12 @@
     </b-modal>
   </div>
 </template>
+
+<style>
+.dotchar {
+  color: #d6d6d6;
+}
+</style>
 
 <script>
 import FilterableTableMixin from '@/mixins/FilterableTableMixin'
@@ -306,7 +309,7 @@ export default {
           from,
           to
       }) : '';
-    }
+    },
   },
 
   created() {
@@ -464,9 +467,11 @@ export default {
       this.perPage = this.perPage || this.perPageOptions[0]
       this.sortField = this.sortField || 'id'
       this.sortOrder = this.sortOrder || 'desc'
+    },
+
+    changeSpaceIntoDot(text) {
+      return text.replace(/\s/g, '<span class="dotchar">⸱</span>');
     }
   },
-
-
 }
 </script>
