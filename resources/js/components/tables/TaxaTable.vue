@@ -139,23 +139,12 @@
       <b-table-column field="name" :label="trans('labels.taxa.name')" sortable>
         <template #default="{ row }">
           <span v-html="changeSpaceIntoDot(row.name) + (row.native_name ? ` (${changeSpaceIntoDot(row.native_name)})` : '')"></span>
+          <b-tooltip :label="getSynonyms(row.synonyms)" multilined dashed v-if="row.synonyms.length > 0">
+            <b-icon icon="comment"></b-icon>
+          </b-tooltip>
         </template>
         <template #header="{ column }">
           <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
-        </template>
-      </b-table-column>
-
-      <b-table-column field="synonyms" :label="trans('labels.taxa.synonyms')" sortable>
-        <template #default="{ row }">
-          <span v-if="row.synonyms.length > 0">
-            {{ trans('labels.taxa.yes') }}
-            <b-tooltip :label="getSynonyms(row.synonyms)" multilined dashed>
-                <b-icon icon="comment"></b-icon>
-            </b-tooltip>
-          </span>
-          <span v-else>
-            {{ trans('labels.taxa.no') }}
-          </span>
         </template>
       </b-table-column>
 
@@ -219,7 +208,7 @@
 </template>
 
 <style>
-.dotchar {
+.middot {
   color: #d6d6d6;
 }
 </style>
@@ -470,7 +459,7 @@ export default {
     },
 
     changeSpaceIntoDot(text) {
-      return text.replace(/\s/g, '<span class="dotchar">⸱</span>');
+      return text.replace(/\s/g, '<span class="middot">&middot;</span>');
     }
   },
 }
