@@ -12,6 +12,7 @@
           :except="taxon.id"
           :placeholder="trans('labels.taxa.search_for_taxon')"
           autofocus
+          :disabled="taxonomy"
         />
       </div>
 
@@ -22,7 +23,7 @@
           :type="form.errors.has('name') ? 'is-danger' : ''"
           :message="form.errors.has('name') ? form.errors.first('name') : ''"
         >
-          <b-input v-model.trim="sanitizedName"/>
+          <b-input v-model.trim="sanitizedName" v-bind:disabled="taxonomy"/>
         </b-field>
       </div>
 
@@ -33,7 +34,7 @@
           :type="form.errors.has('rank') ? 'is-danger' : ''"
           :message="form.errors.has('rank') ? form.errors.first('rank') : ''"
         >
-          <b-select v-model="form.rank" expanded>
+          <b-select v-model="form.rank" expanded v-bind:disabled="taxonomy">
             <option
               v-for="(rank, index) in rankOptions"
               :value="rank.value"
@@ -50,7 +51,7 @@
       :type="form.errors.has('author') ? 'is-danger' : ''"
       :message="form.errors.has('author') ? form.errors.first('author') : ''"
     >
-      <b-input v-model="form.author" />
+      <b-input v-model="form.author" v-bind:disabled="taxonomy"/>
     </b-field>
 
     <hr>
@@ -58,7 +59,7 @@
     <b-field :label="trans('labels.taxa.native_name')">
       <b-tabs size="is-small" class="block" @change="(index) => focusOnTranslation(index, 'native_name')">
         <b-tab-item :label="trans('languages.' + data.name)" v-for="(data, locale) in supportedLocales" :key="locale">
-          <b-input v-model="form.native_name[locale]" :ref="`native_name-${locale}`" />
+          <b-input v-model="form.native_name[locale]" :ref="`native_name-${locale}`" v-bind:disabled="taxonomy"/>
         </b-tab-item>
       </b-tabs>
     </b-field>
@@ -66,7 +67,7 @@
     <b-field :label="trans('labels.taxa.description')">
       <b-tabs size="is-small" class="block" @change="(index) => focusOnTranslation(index, 'description')">
         <b-tab-item :label="trans('languages.' + data.name)" v-for="(data, locale) in supportedLocales" :key="locale">
-          <nz-wysiwyg v-model="form.description[locale]" :ref="`description-${locale}`" />
+          <nz-wysiwyg v-model="form.description[locale]" :ref="`description-${locale}`"/>
         </b-tab-item>
       </b-tabs>
     </b-field>
@@ -80,7 +81,7 @@
           :type="form.errors.has('fe_old_id') ? 'is-danger' : ''"
           :message="form.errors.has('fe_old_id') ? form.errors.first('fe_old_id') : ''"
         >
-          <b-input v-model="form.fe_old_id" />
+          <b-input v-model="form.fe_old_id" v-bind:disabled="taxonomy"/>
         </b-field>
       </div>
 
@@ -90,7 +91,7 @@
           :type="form.errors.has('fe_id') ? 'is-danger' : ''"
           :message="form.errors.has('fe_id') ? form.errors.first('fe_id') : ''"
         >
-          <b-input v-model="form.fe_id" />
+          <b-input v-model="form.fe_id" v-bind:disabled="taxonomy"/>
         </b-field>
       </div>
     </div>
@@ -99,7 +100,7 @@
       <div class="column">
         <b-field :label="trans('labels.taxa.restricted')">
           <div class="field">
-            <b-switch v-model="form.restricted">
+            <b-switch v-model="form.restricted" v-bind:disabled="taxonomy">
               {{ form.restricted ? trans('Yes') : trans('No') }}
             </b-switch>
           </div>
@@ -107,14 +108,14 @@
       </div>
       <div class="column">
         <b-field :label="trans('labels.taxa.allochthonous')">
-          <b-switch v-model="form.allochthonous">
+          <b-switch v-model="form.allochthonous" v-bind:disabled="taxonomy">
             {{ form.allochthonous ? trans('Yes') : trans('No') }}
           </b-switch>
         </b-field>
       </div>
       <div class="column">
         <b-field :label="trans('labels.taxa.invasive')">
-          <b-switch v-model="form.invasive">
+          <b-switch v-model="form.invasive" v-bind:disabled="taxonomy">
             {{ form.invasive ? trans('Yes') : trans('No') }}
           </b-switch>
         </b-field>
@@ -128,6 +129,7 @@
           :key="stage.id"
           v-model="form.stages_ids"
           :native-value="stage.id"
+          v-bind:disabled="taxonomy"
         >
           {{ trans('stages.' + stage.name) }}
         </b-checkbox>
@@ -142,6 +144,7 @@
               <b-checkbox
                 v-model="form.conservation_legislations_ids"
                 :native-value="conservationLegislation.id"
+                v-bind:disabled="taxonomy"
               >
                 {{ conservationLegislation.name }}
               </b-checkbox>
@@ -159,6 +162,7 @@
               <b-checkbox
                 v-model="form.conservation_documents_ids"
                 :native-value="conservationDocument.id"
+                v-bind:disabled="taxonomy"
               >
                 {{ conservationDocument.name }}
               </b-checkbox>
@@ -187,7 +191,7 @@
       </b-field>
 
       <b-field grouped v-if="availableRedLists.length">
-        <b-select v-model="chosenRedList" expanded>
+        <b-select v-model="chosenRedList" expanded v-bind:disabled="taxonomy">
           <option v-for="option in availableRedLists" :value="option" :key="option.id" v-text="option.name">
           </option>
         </b-select>
@@ -199,7 +203,7 @@
     </div>
 
     <b-field :label="trans('labels.taxa.atlas_codes')">
-      <b-checkbox v-model="form.uses_atlas_codes">
+      <b-checkbox v-model="form.uses_atlas_codes" v-bind:disabled="taxonomy">
         {{ trans('labels.taxa.uses_atlas_codes') }}
       </b-checkbox>
     </b-field>
@@ -226,6 +230,7 @@
             v-model="form.synonyms[i].name"
             :placeholder="trans('labels.taxa.synonym_name')"
             expanded
+            v-bind:disabled="taxonomy"
           />
 
           <b-input
@@ -233,6 +238,7 @@
             v-model="form.synonyms[i].author"
             :placeholder="trans('labels.taxa.synonym_author')"
             expanded
+            v-bind:disabled="taxonomy"
           />
 
           <p class="control">
@@ -253,11 +259,13 @@
                  :placeholder="trans('labels.taxa.synonym_name')"
                  expanded
                  v-on:keydown.native.enter.prevent="addSynonym"
+                 v-bind:disabled="taxonomy"
         />
         <b-input id="synonym_author" maxlength="50" v-model="synonym_author"
                  :placeholder="trans('labels.taxa.synonym_author')"
                  expanded
                  v-on:keydown.native.enter.prevent="addSynonym"
+                 v-bind:disabled="taxonomy"
         />
 
         <p class="control">
