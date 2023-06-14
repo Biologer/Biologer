@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Intervention\Image\Facades\Image;
 
 class Watermark
@@ -32,23 +31,24 @@ class Watermark
             return false;
         }
 
-        try {
-            $image = $image ?: Image::make($photo->getContent());
+        $image = $image ?: Image::make($photo->getContent());
 
-            $watermark = $this->getWatermarkFor($image);
+        $watermark = $this->getWatermarkFor($image);
 
-            $image->insert($watermark, 'top-center', null, $this->verticalOffset($image, $watermark));
-
-            $watermarkedImageContent = $image->encode()->getEncoded();
-
-            // Clean up.
-            $image->destroy();
-            $watermark->destroy();
-
-            return $photo->putWatermarkedContent($watermarkedImageContent);
-        } catch (FileNotFoundException $e) {
+        if ($image == null or $watermark == null) {
             return false;
         }
+
+        $image->insert($watermark, 'top-center', null, $this->verticalOffset($image, $watermark));
+
+        $watermarkedImageContent = $image->encode()->getEncoded();
+
+        // Clean up.
+        $image->destroy();
+        $watermark->destroy();
+
+        return $photo->putWatermarkedContent($watermarkedImageContent);
+
     }
 
     /**

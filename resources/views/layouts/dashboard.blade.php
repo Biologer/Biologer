@@ -162,7 +162,7 @@
 
         </div>
 
-        @include('cookieConsent::index')
+        @include('cookie-consent::index')
 
         @stack('beforeScripts')
         <script src="{{ mix('js/app.js') }}"></script>
