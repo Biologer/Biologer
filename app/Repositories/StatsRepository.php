@@ -7,7 +7,6 @@ use App\Observation;
 use App\User;
 use App\ViewGroup;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
@@ -26,7 +25,7 @@ class StatsRepository
     }
 
     /**
-     * Retrieve data required for PrivacyPolicy page.
+     * Retrieve data required for privacy policy page.
      *
      * @return array
      */
@@ -38,7 +37,7 @@ class StatsRepository
     }
 
     /**
-     * Retrieve data required for local community page from DB.
+     * Retrieve data required for privacy policy page from DB.
      *
      * @return array
      */
@@ -62,7 +61,7 @@ class StatsRepository
     }
 
     /**
-     * Retrieve data required for local community page from DB.
+     * Retrieve data required for privacy policy page from DB.
      *
      * @return array
      */
@@ -73,9 +72,9 @@ class StatsRepository
 
         foreach ($admins as $admin) {
             $obfuscated_data[] = [
-                'full_name' => $admin['first_name'] . ' ' . $admin['last_name'],
+                'full_name' => $admin['first_name'].' '.$admin['last_name'],
                 'institution' => $admin['institution'],
-                'email' => Str::replace('@', ' [at] ', $admin['email'])
+                'email' => Str::replace('@', ' [at] ', $admin['email']),
             ];
         }
 
@@ -85,7 +84,7 @@ class StatsRepository
     }
 
     /**
-     * We cache stats data so we don't hit database more than needed.
+     * We cache stats data, so we don't hit database more than needed.
      *
      * @return array
      */
