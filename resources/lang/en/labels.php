@@ -50,6 +50,7 @@ return [
     'users' => [
         'first_name' => 'First Name',
         'last_name' => 'Last Name',
+        'full_name' => 'Full name',
         'institution' => 'Institution',
         'roles' => 'Roles',
         'curated_taxa' => 'Curated Taxa',

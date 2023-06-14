@@ -8,6 +8,7 @@ use App\User;
 use App\ViewGroup;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class StatsRepository
 {
@@ -24,7 +25,19 @@ class StatsRepository
     }
 
     /**
-     * Retrieve data required for local community page from DB.
+     * Retrieve data required for privacy policy page.
+     *
+     * @return array
+     */
+    public function getAdminData()
+    {
+        return Cache::remember('localCommunityPageData', now()->addMinutes(5), function () {
+            return $this->getAdminDataFromDb();
+        });
+    }
+
+    /**
+     * Retrieve data required for privacy policy page from DB.
      *
      * @return array
      */
@@ -48,7 +61,30 @@ class StatsRepository
     }
 
     /**
-     * We cache stats data so we don't hit database more than needed.
+     * Retrieve data required for privacy policy page from DB.
+     *
+     * @return array
+     */
+    private function getAdminDataFromDb()
+    {
+        $admins = User::admins()->sortByName()->get();
+        $obfuscated_data = [];
+
+        foreach ($admins as $admin) {
+            $obfuscated_data[] = [
+                'full_name' => $admin['first_name'].' '.$admin['last_name'],
+                'institution' => $admin['institution'],
+                'email' => Str::replace('@', ' [at] ', $admin['email']),
+            ];
+        }
+
+        return [
+            'admins' => $obfuscated_data,
+        ];
+    }
+
+    /**
+     * We cache stats data, so we don't hit database more than needed.
      *
      * @return array
      */

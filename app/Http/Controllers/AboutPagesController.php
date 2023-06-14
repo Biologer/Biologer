@@ -31,6 +31,16 @@ class AboutPagesController
     }
 
     /**
+     * Display page for the privacy policy in Biologer community.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function privacyPolicy()
+    {
+        return view('pages.privacy-policy', $this->stats->getAdminData());
+    }
+
+    /**
      * Show page with basic stats.
      *
      * @return \Illuminate\View\View
