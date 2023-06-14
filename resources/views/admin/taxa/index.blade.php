@@ -9,9 +9,10 @@
             export-url="{{ route('api.taxon-exports.store') }}"
             :export-columns="{{ $exportColumns }}"
             :ranks="{{ $ranks }}"
+            :taxonomy="{{ $taxonomy }}"
             empty="{{ __('No data...') }}"
-            show-activity-log
-        />
+            show-activity-log>
+        </nz-taxa-table>
     </div>
 @endsection
 
@@ -25,8 +26,10 @@
 @endsection
 
 @section('navigationActions')
+    @if ($taxonomy != 'true')
     <a href="{{ route('admin.taxa.create') }}" class="button is-secondary is-outlined">
         @include('components.icon', ['icon' => 'plus'])
         <span>{{ __('navigation.add') }}</span>
     </a>
+    @endif
 @endsection

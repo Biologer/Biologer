@@ -45,6 +45,7 @@ Vue.component('NzViewGroupsTable', () => import('./components/tables/ViewGroupsT
 Vue.component('NzFieldObservationsTable', () => import('./components/tables/FieldObservationsTable'))
 Vue.component('NzLiteratureObservationsTable', () => import('./components/tables/LiteratureObservationsTable'))
 Vue.component('NzPublicationsTable', () => import('./components/tables/PublicationsTable'))
+Vue.component('NzTaxonomyTable', () => import('./components/tables/TaxonomyTable'))
 
 Vue.component('NzRegistrationForm', () => import('./components/forms/RegistrationForm'))
 Vue.component('NzUserForm', () => import('./components/forms/UserForm'))

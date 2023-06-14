@@ -8,6 +8,7 @@ use App\RedList;
 use App\Rules\UniqueTaxonName;
 use App\Stage;
 use App\Support\Localization;
+use App\Synonym;
 use App\Taxon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
@@ -66,6 +67,8 @@ class UpdateTaxon extends FormRequest
             'native_name' => ['required', 'array'],
             'description' => ['required', 'array'],
             'uses_atlas_codes' => ['boolean'],
+            'synonyms' => ['array'],
+            'removed_synonyms' => ['array'],
         ];
     }
 
@@ -102,6 +105,7 @@ class UpdateTaxon extends FormRequest
             ]))));
 
             $this->syncRelations($taxon);
+            $this->createSynonyms($taxon);
 
             $this->logUpdatedActivity($taxon, $oldData);
 
@@ -241,5 +245,24 @@ class UpdateTaxon extends FormRequest
         });
 
         return ! $old->diffAssoc($new)->isEmpty() || ! $new->diffAssoc($old)->isEmpty();
+    }
+
+    private function createSynonyms(Taxon $taxon)
+    {
+        foreach ($this->input('removed_synonyms') as $removed) {
+            Synonym::find($removed['id'])->delete();
+        }
+
+        foreach ($this->input('synonyms') as $synonym) {
+            if (isset($synonym['id'])) {
+                continue;
+            }
+            $s = Synonym::create([
+                'name' => $synonym['name'],
+                'author' => $synonym['author'],
+                'taxon_id' => $taxon->id,
+            ]);
+            $s->save();
+        }
     }
 }

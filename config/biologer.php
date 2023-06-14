@@ -36,6 +36,14 @@ return [
                 'zoom' => 7,
             ],
         ],
+
+        'Montenegro' => [
+            'center' => [
+                'latitude' => 42.752307,
+                'longitude' => 19.170491,
+                'zoom' => 8,
+            ],
+        ],
     ],
 
     'android_app_url' => env('ANDROID_APP_URL', 'https://play.google.com/store/apps/details?id=org.biologer.biologer'),
@@ -53,4 +61,8 @@ return [
     'backup_full' => (bool) env('BACKUP_FULL', false),
 
     'photos_disk' => env('PHOTOS_DISK', 'public'),
+
+    'taxonomy_status' => env('TAXONOMY_STATUS', false),
+    'taxonomy_link' => env('TAXONOMY_LINK', ''),
+    'taxonomy_api_key' => env('TAXONOMY_API_KEY', ''),
 ];

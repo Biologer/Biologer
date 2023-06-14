@@ -40,6 +40,8 @@ class AddTaxonTest extends TestCase
             'description' => [
                 app()->getLocale() => 'test description',
             ],
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ], $overrides);
     }
 
@@ -91,6 +93,8 @@ class AddTaxonTest extends TestCase
             'red_lists_data' => $redLists->map(function ($redList) {
                 return ['red_list_id' => $redList->id, 'category' => 'EN'];
             })->all(),
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertCreated();
@@ -125,6 +129,8 @@ class AddTaxonTest extends TestCase
         $response = $this->postJson('/api/taxa', $this->validParams([
             'parent_id' => $parentTaxon->id,
             'name' => 'Cerambyx cerdo',
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertCreated();
@@ -140,6 +146,8 @@ class AddTaxonTest extends TestCase
         $response = $this->postJson('/api/taxa', $this->validParams([
             'parent_id' => $parentTaxon->id,
             'name' => 'Cerambyx cerdo',
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertForbidden();
@@ -154,6 +162,8 @@ class AddTaxonTest extends TestCase
         $response = $this->postJson('/api/taxa', $this->validParams([
             'name' => 'Animalia',
             'parent_id' => null,
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertJsonValidationErrors('name');
@@ -169,6 +179,8 @@ class AddTaxonTest extends TestCase
         $response = $this->postJson('/api/taxa', $this->validParams([
             'name' => 'Animalia ',
             'parent_id' => null,
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertJsonValidationErrors('name');
@@ -184,6 +196,8 @@ class AddTaxonTest extends TestCase
         $response = $this->postJson('/api/taxa', $this->validParams([
             'name' => 'AnimaliA',
             'parent_id' => null,
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertJsonValidationErrors('name');
@@ -201,6 +215,8 @@ class AddTaxonTest extends TestCase
             'name' => 'Cerambyx cerdo',
             'parent_id' => $root->id,
             'rank' => 'species',
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertJsonValidationErrors('name');
@@ -219,6 +235,8 @@ class AddTaxonTest extends TestCase
             'name' => 'Cerambyx cerdo',
             'parent_id' => $otherRoot->id,
             'rank' => 'species',
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertCreated();

@@ -12,6 +12,7 @@
           :except="taxon.id"
           :placeholder="trans('labels.taxa.search_for_taxon')"
           autofocus
+          :disabled="taxonomy"
         />
       </div>
 
@@ -22,7 +23,7 @@
           :type="form.errors.has('name') ? 'is-danger' : ''"
           :message="form.errors.has('name') ? form.errors.first('name') : ''"
         >
-          <b-input v-model="form.name" />
+          <b-input v-model.trim="sanitizedName" v-bind:disabled="taxonomy"/>
         </b-field>
       </div>
 
@@ -33,7 +34,7 @@
           :type="form.errors.has('rank') ? 'is-danger' : ''"
           :message="form.errors.has('rank') ? form.errors.first('rank') : ''"
         >
-          <b-select v-model="form.rank" expanded>
+          <b-select v-model="form.rank" expanded v-bind:disabled="taxonomy">
             <option
               v-for="(rank, index) in rankOptions"
               :value="rank.value"
@@ -50,7 +51,7 @@
       :type="form.errors.has('author') ? 'is-danger' : ''"
       :message="form.errors.has('author') ? form.errors.first('author') : ''"
     >
-      <b-input v-model="form.author" />
+      <b-input v-model="form.author" v-bind:disabled="taxonomy"/>
     </b-field>
 
     <hr>
@@ -58,7 +59,7 @@
     <b-field :label="trans('labels.taxa.native_name')">
       <b-tabs size="is-small" class="block" @change="(index) => focusOnTranslation(index, 'native_name')">
         <b-tab-item :label="trans('languages.' + data.name)" v-for="(data, locale) in supportedLocales" :key="locale">
-          <b-input v-model="form.native_name[locale]" :ref="`native_name-${locale}`" />
+          <b-input v-model="form.native_name[locale]" :ref="`native_name-${locale}`" v-bind:disabled="taxonomy"/>
         </b-tab-item>
       </b-tabs>
     </b-field>
@@ -66,7 +67,7 @@
     <b-field :label="trans('labels.taxa.description')">
       <b-tabs size="is-small" class="block" @change="(index) => focusOnTranslation(index, 'description')">
         <b-tab-item :label="trans('languages.' + data.name)" v-for="(data, locale) in supportedLocales" :key="locale">
-          <nz-wysiwyg v-model="form.description[locale]" :ref="`description-${locale}`" />
+          <nz-wysiwyg v-model="form.description[locale]" :ref="`description-${locale}`"/>
         </b-tab-item>
       </b-tabs>
     </b-field>
@@ -80,7 +81,7 @@
           :type="form.errors.has('fe_old_id') ? 'is-danger' : ''"
           :message="form.errors.has('fe_old_id') ? form.errors.first('fe_old_id') : ''"
         >
-          <b-input v-model="form.fe_old_id" />
+          <b-input v-model="form.fe_old_id" v-bind:disabled="taxonomy"/>
         </b-field>
       </div>
 
@@ -90,7 +91,7 @@
           :type="form.errors.has('fe_id') ? 'is-danger' : ''"
           :message="form.errors.has('fe_id') ? form.errors.first('fe_id') : ''"
         >
-          <b-input v-model="form.fe_id" />
+          <b-input v-model="form.fe_id" v-bind:disabled="taxonomy"/>
         </b-field>
       </div>
     </div>
@@ -99,7 +100,7 @@
       <div class="column">
         <b-field :label="trans('labels.taxa.restricted')">
           <div class="field">
-            <b-switch v-model="form.restricted">
+            <b-switch v-model="form.restricted" v-bind:disabled="taxonomy">
               {{ form.restricted ? trans('Yes') : trans('No') }}
             </b-switch>
           </div>
@@ -107,14 +108,14 @@
       </div>
       <div class="column">
         <b-field :label="trans('labels.taxa.allochthonous')">
-          <b-switch v-model="form.allochthonous">
+          <b-switch v-model="form.allochthonous" v-bind:disabled="taxonomy">
             {{ form.allochthonous ? trans('Yes') : trans('No') }}
           </b-switch>
         </b-field>
       </div>
       <div class="column">
         <b-field :label="trans('labels.taxa.invasive')">
-          <b-switch v-model="form.invasive">
+          <b-switch v-model="form.invasive" v-bind:disabled="taxonomy">
             {{ form.invasive ? trans('Yes') : trans('No') }}
           </b-switch>
         </b-field>
@@ -128,6 +129,7 @@
           :key="stage.id"
           v-model="form.stages_ids"
           :native-value="stage.id"
+          v-bind:disabled="taxonomy"
         >
           {{ trans('stages.' + stage.name) }}
         </b-checkbox>
@@ -142,6 +144,7 @@
               <b-checkbox
                 v-model="form.conservation_legislations_ids"
                 :native-value="conservationLegislation.id"
+                v-bind:disabled="taxonomy"
               >
                 {{ conservationLegislation.name }}
               </b-checkbox>
@@ -159,6 +162,7 @@
               <b-checkbox
                 v-model="form.conservation_documents_ids"
                 :native-value="conservationDocument.id"
+                v-bind:disabled="taxonomy"
               >
                 {{ conservationDocument.name }}
               </b-checkbox>
@@ -182,26 +186,94 @@
         </b-select>
 
         <div class="control">
-          <button type="button" class="button has-text-danger" @click="removeRedList(index)">&times;</button>
+          <button type="button" class="button has-text-danger" @click="removeRedList(index)" v-bind:disabled="taxonomy">&times;</button>
         </div>
       </b-field>
 
       <b-field grouped v-if="availableRedLists.length">
-        <b-select v-model="chosenRedList" expanded>
+        <b-select v-model="chosenRedList" expanded v-bind:disabled="taxonomy">
           <option v-for="option in availableRedLists" :value="option" :key="option.id" v-text="option.name">
           </option>
         </b-select>
 
         <div class="control">
-          <button type="button" class="button" @click="addRedList">{{ trans('labels.taxa.add_red_list') }}</button>
+          <button type="button" class="button" @click="addRedList" v-bind:disabled="taxonomy">{{ trans('labels.taxa.add_red_list') }}</button>
         </div>
       </b-field>
     </div>
 
     <b-field :label="trans('labels.taxa.atlas_codes')">
-      <b-checkbox v-model="form.uses_atlas_codes">
+      <b-checkbox v-model="form.uses_atlas_codes" v-bind:disabled="taxonomy">
         {{ trans('labels.taxa.uses_atlas_codes') }}
       </b-checkbox>
+    </b-field>
+
+    <hr>
+
+    <b-field
+      :label="trans('labels.taxa.synonyms')"
+      :type="form.errors.has('synonyms') ? 'is-danger' : null"
+      :message="form.errors.has('synonyms') ? form.errors.first('synonyms') : null"
+      :addons="false"
+    >
+      <b-field
+        v-for="(_,i) in synonyms"
+        :key="i"
+        expanded
+        :addons="false"
+      >
+        <b-field
+          expanded
+        >
+          <b-input
+            :name="`synonyms[${i}][name]`"
+            v-model="form.synonyms[i].name"
+            :placeholder="trans('labels.taxa.synonym_name')"
+            expanded
+            v-bind:disabled="taxonomy"
+          />
+
+          <b-input
+            :name="`synonyms[${i}][author]`"
+            v-model="form.synonyms[i].author"
+            :placeholder="trans('labels.taxa.synonym_author')"
+            expanded
+            v-bind:disabled="taxonomy"
+          />
+
+          <p class="control">
+            <button type="button" class="button is-danger is-outlined" @click="removeSynonym(i)" v-bind:disabled="taxonomy">
+              <b-icon icon="times" size="is-small"/>
+            </button>
+          </p>
+
+        </b-field>
+      </b-field>
+
+      <b-field
+        :type="synonym_error ? 'is-danger' : null"
+        :message="synonym_error ? trans(synonym_error) : null"
+      >
+
+        <b-input id="synonym_name" maxlength="50" v-model="synonym_name"
+                 :placeholder="trans('labels.taxa.synonym_name')"
+                 expanded
+                 v-on:keydown.native.enter.prevent="addSynonym"
+                 v-bind:disabled="taxonomy"
+        />
+        <b-input id="synonym_author" maxlength="50" v-model="synonym_author"
+                 :placeholder="trans('labels.taxa.synonym_author')"
+                 expanded
+                 v-on:keydown.native.enter.prevent="addSynonym"
+                 v-bind:disabled="taxonomy"
+        />
+
+        <p class="control">
+          <button type="button" class="button is-secondary is-outlined" @click="addSynonym" v-bind:disabled="taxonomy">
+            {{ trans('labels.taxa.add_synonym') }}
+          </button>
+        </p>
+      </b-field>
     </b-field>
 
     <hr>
@@ -213,6 +285,7 @@
           'is-loading': form.processing
       }"
       @click="submitWithRedirect"
+      v-bind:disabled="taxonomy"
     >
       {{ trans('buttons.save') }}
     </button>
@@ -270,8 +343,8 @@ export default {
           restricted: false,
           allochthonous: false,
           invasive: false,
-          restricted: false,
-          uses_atlas_codes: false
+          uses_atlas_codes: false,
+          synonyms: [],
         }
       }
     },
@@ -291,7 +364,14 @@ export default {
     descriptions: {
       type: Object,
       default: () => defaultTranslations()
-    }
+    },
+    removedSynonyms: {
+      type: Array,
+      default() {
+        return [];
+      }
+    },
+    taxonomy: Boolean,
   },
 
   data() {
@@ -299,7 +379,11 @@ export default {
       form: this.newForm(),
       parentName: _get(this.taxon, 'parent.name'),
       selectedParent: null,
-      chosenRedList: null
+      chosenRedList: null,
+      synonym_name: null,
+      synonym_author: null,
+      synonym_error: null,
+      synonyms: this.taxon.synonyms,
     }
   },
 
@@ -320,6 +404,15 @@ export default {
 
     supportedLocales() {
       return window.App.supportedLocales
+    },
+
+    sanitizedName: {
+      get() {
+        return this.form.name;
+      },
+      set(value) {
+        this.form.name = value.replace(/\s+/g, ' ').trim();
+      }
     }
   },
 
@@ -328,6 +421,13 @@ export default {
       if (this.shouldResetRank(value)) {
         this.form.rank = null
       }
+    },
+
+    'form.name': {
+      handler(value) {
+        this.sanitizedName = value;
+      },
+      immediate: true
     }
   },
 
@@ -345,6 +445,8 @@ export default {
         description: this.descriptions,
         reason: null,
         uses_atlas_codes: this.taxon.uses_atlas_codes,
+        synonyms: this.taxon.synonyms,
+        removed_synonyms: this.removedSynonyms,
       }, {
         resetOnSuccess: false
       })
@@ -412,7 +514,50 @@ export default {
       setTimeout(() => {
         _first(this.$refs[selector]).focus()
       }, 500)
+    },
+
+    /**
+     * Add synonym for taxon
+     *
+     */
+    addSynonym() {
+      let pass = true;
+      if (this.synonym_name) {
+        this.form.synonyms.forEach((item, index) => {
+          if (this.synonym_name === item.name) {
+            pass = false;
+            this.synonym_error = "labels.observations.duplicate_value";
+            this.$forceUpdate();
+          }
+        });
+
+        if (pass) {
+          this.form.synonyms.push({name: this.synonym_name, author: this.synonym_author});
+          this.synonym_name = null;
+          this.synonym_author = null;
+          this.synonym_error = null;
+        }
+      } else {
+        this.synonym_error = "labels.observations.field_is_required";
+        this.$forceUpdate();
+      }
+    },
+
+    /**
+     * Remove synonym for taxon
+     * @param index
+     */
+    removeSynonym(index) {
+      this.removedSynonyms.push(this.synonyms[index]);
+      this.$delete(this.synonyms, index);
     }
+
+  },
+  loadSynonyms: function() {
+    if (!this.taxon.synonyms) return [];
+    let names = [];
+    this.taxon.synonyms.forEach(item => names.push(item.name));
+    return names;
   }
 }
 </script>

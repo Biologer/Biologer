@@ -74,6 +74,13 @@
       </form>
     </b-collapse>
 
+    <div v-if="taxonomy">
+      <hr>
+      <b-message type="is-success" class="has-text-centered">
+        This taxonomic database is connected to <a href="https://taxa.biologer.org" target="_blank">https://taxa.biologer.org</a>
+      </b-message>
+    </div>
+
     <hr>
 
     <b-table
@@ -131,7 +138,10 @@
 
       <b-table-column field="name" :label="trans('labels.taxa.name')" sortable>
         <template #default="{ row }">
-          {{ row.name + (row.native_name ? ` (${row.native_name})` : '') }}
+          <span v-html="changeSpaceIntoDot(row.name) + (row.native_name ? ` (${changeSpaceIntoDot(row.native_name)})` : '')"></span>
+          <b-tooltip :label="getSynonyms(row.synonyms)" multilined dashed v-if="row.synonyms.length > 0">
+            <b-icon icon="comment"></b-icon>
+          </b-tooltip>
         </template>
         <template #header="{ column }">
           <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
@@ -147,12 +157,18 @@
         </template>
       </b-table-column>
 
-      <b-table-column width="150" numeric v-slot="{ row }">
+      <b-table-column width="150" numeric v-slot="{ row }" v-if="! taxonomy">
         <a @click="openActivityLogModal(row)" v-if="showActivityLog && row.activity && row.activity.length > 0" :title="trans('Activity Log')"><b-icon icon="history" /></a>
 
         <a :href="editLink(row)" v-if="row.can_edit"><b-icon icon="edit"></b-icon></a>
 
         <a @click="confirmRemove(row)" v-if="row.can_delete"><b-icon icon="trash"></b-icon></a>
+      </b-table-column>
+
+      <b-table-column width="150" numeric v-slot="{ row }" v-if="taxonomy">
+        <a :href="editLink(row)" v-if="row.can_edit"><b-icon icon="eye"></b-icon></a>
+
+        <a @click="confirmRemove(row)" v-if="row.can_delete && ! row.taxonomy_id"><b-icon icon="trash"></b-icon></a>
       </b-table-column>
 
       <template #empty>
@@ -191,6 +207,12 @@
   </div>
 </template>
 
+<style>
+.middot {
+  color: #d6d6d6;
+}
+</style>
+
 <script>
 import FilterableTableMixin from '@/mixins/FilterableTableMixin'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
@@ -228,7 +250,8 @@ export default {
     ranks: Array,
     showActivityLog: Boolean,
     exportColumns: Array,
-    exportUrl: String
+    exportUrl: String,
+    taxonomy: Boolean,
   },
 
   data() {
@@ -275,7 +298,7 @@ export default {
           from,
           to
       }) : '';
-    }
+    },
   },
 
   created() {
@@ -311,6 +334,10 @@ export default {
         this.total = 0
         this.loading = false
       })
+    },
+
+    getSynonyms(synonyms) {
+      return synonyms.map((synonym) => synonym.name).join(", ");
     },
 
     /*
@@ -382,7 +409,7 @@ export default {
         taxonId: null,
         includeChildTaxa: null,
         selectedTaxon: null,
-        id: null
+        id: null,
       }
     },
 
@@ -429,7 +456,11 @@ export default {
       this.perPage = this.perPage || this.perPageOptions[0]
       this.sortField = this.sortField || 'id'
       this.sortOrder = this.sortOrder || 'desc'
+    },
+
+    changeSpaceIntoDot(text) {
+      return text.replace(/\s/g, '<span class="middot">&middot;</span>');
     }
-  }
+  },
 }
 </script>

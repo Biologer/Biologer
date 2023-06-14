@@ -154,6 +154,7 @@ class Taxon extends Model
             'includeChildTaxa' => \App\Filters\NullFilter::class,
             'groups' => \App\Filters\Taxon\Groups::class,
             'ungrouped' => \App\Filters\Taxon\Ungrouped::class,
+            'synonyms' => \App\Filters\NullFilter::class,
         ];
     }
 
@@ -165,7 +166,7 @@ class Taxon extends Model
     public static function sortableFields()
     {
         return [
-            'id', 'name', 'rank_level', 'author',
+            'id', 'name', 'rank_level', 'author', 'synonyms',
         ];
     }
 
@@ -178,6 +179,25 @@ class Taxon extends Model
     public static function findByName($name)
     {
         return static::where('name', $name)->first();
+    }
+
+    /**
+     * Find taxon by rank, name and ancestors.
+     *
+     * @param string $name
+     * @param string $rank,
+     * @param string|null $ancestor
+     * @return \App\Taxon
+     */
+    public static function findByRankNameAndAncestor(string $name, string $rank, ?string $ancestor = null)
+    {
+        $build = static::where(['name' => $name, 'rank' => $rank]);
+
+        if ($build->count() > 1) {
+            return $build->where('ancestors_names', 'like', $ancestor)->first();
+        }
+
+        return $build->first();
     }
 
     /**
@@ -281,6 +301,16 @@ class Taxon extends Model
     }
 
     /**
+     * Synonyms for the taxon.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function synonyms()
+    {
+        return $this->hasMany(Synonym::class);
+    }
+
+    /**
      * Scope the query to get only species or taxa of lower ranks.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -313,7 +343,10 @@ class Taxon extends Model
     {
         return $query->where(function ($query) use ($name) {
             $query->where('name', 'like', '%'.$name.'%')
-                ->orWhereTranslationLike('native_name', '%'.$name.'%');
+                ->orWhereTranslationLike('native_name', '%'.$name.'%')
+                ->orWhereHas('synonyms', function ($query) use ($name) {
+                    $query->where('name', 'like', '%'.$name.'%');
+                });
         });
     }
 
@@ -630,6 +663,7 @@ class Taxon extends Model
 
         static::deleting(function ($model) {
             $model->activity()->delete();
+            $model->synonyms()->delete();
         });
     }
 }
