@@ -7,7 +7,9 @@ use App\Observation;
 use App\User;
 use App\ViewGroup;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class StatsRepository
 {
@@ -20,6 +22,18 @@ class StatsRepository
     {
         return Cache::remember('localCommunityPageData', now()->addMinutes(5), function () {
             return $this->getLocalCommunityDataFromDb();
+        });
+    }
+
+    /**
+     * Retrieve data required for PrivacyPolicy page.
+     *
+     * @return array
+     */
+    public function getAdminData()
+    {
+        return Cache::remember('localCommunityPageData', now()->addMinutes(5), function () {
+            return $this->getAdminDataFromDb();
         });
     }
 
@@ -44,6 +58,29 @@ class StatsRepository
             'curators' => $curators,
             'observationsCount' => FieldObservation::approved()->count(),
             'taxonomicGroupsCount' => $taxonomicGroupsCount,
+        ];
+    }
+
+    /**
+     * Retrieve data required for local community page from DB.
+     *
+     * @return array
+     */
+    private function getAdminDataFromDb()
+    {
+        $admins = User::admins()->sortByName()->get();
+        $obfuscated_data = [];
+
+        foreach ($admins as $admin) {
+            $obfuscated_data[] = [
+                'full_name' => $admin['first_name'] . ' ' . $admin['last_name'],
+                'institution' => $admin['institution'],
+                'email' => Str::replace('@', ' [at] ', $admin['email'])
+            ];
+        }
+
+        return [
+            'admins' => $obfuscated_data,
         ];
     }
 

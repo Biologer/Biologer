@@ -50,6 +50,7 @@ return [
     'users' => [
         'first_name' => 'Ime',
         'last_name' => 'Prezime',
+        'full_name' => 'Ime i prezime',
         'institution' => 'Institucija',
         'roles' => 'Uloge',
         'curated_taxa' => 'Svojte koje uređuje',

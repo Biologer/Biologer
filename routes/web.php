@@ -76,7 +76,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
     Route::get('pages/about/stats', [AboutPagesController::class, 'stats'])->name('pages.about.stats');
 
     // Legal
-    Route::view('pages/privacy-policy', 'pages.privacy-policy')->name('pages.privacy-policy');
+    Route::get('pages/privacy-policy', [AboutPagesController::class, 'privacyPolicy'])->name('pages.privacy-policy');
 
     // Licenses
     Route::view('licenses', 'licenses.index')->name('licenses.index');
