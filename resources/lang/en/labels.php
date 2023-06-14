@@ -68,7 +68,7 @@ return [
         'fe_old_id' => '(old) FaunaEuropea ID',
         'fe_id' => 'FaunaEuropea ID',
         'restricted' => 'Taxon data is restricted',
-        'allochthonous' => 'Taxin is allochthonous',
+        'allochthonous' => 'Taxon is allochthonous',
         'invasive' => 'Taxon is invasive',
         'stages' => 'Stages',
         'conservation_legislations' => 'Conservation Legislations',
