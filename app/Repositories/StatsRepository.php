@@ -31,7 +31,7 @@ class StatsRepository
      */
     public function getAdminData()
     {
-        return Cache::remember('localCommunityPageData', now()->addMinutes(5), function () {
+        return Cache::remember('privacyPolicyPageData', now()->addMinutes(5), function () {
             return $this->getAdminDataFromDb();
         });
     }
@@ -72,7 +72,7 @@ class StatsRepository
 
         foreach ($admins as $admin) {
             $obfuscated_data[] = [
-                'full_name' => $admin['first_name'].' '.$admin['last_name'],
+                'full_name' => $admin['full_name'],
                 'institution' => $admin['institution'],
                 'email' => Str::replace('@', ' [at] ', $admin['email']),
             ];
