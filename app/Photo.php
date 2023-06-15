@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
-use League\Flysystem\Adapter\Local as LocalAdapter;
+use League\Flysystem\Local\LocalFilesystemAdapter as LocalAdapter;
 
 class Photo extends Model
 {
@@ -130,7 +130,7 @@ class Photo extends Model
      */
     protected function makeUrl($path)
     {
-        if ($this->filesystem()->getDriver()->getAdapter() instanceof LocalAdapter) {
+        if ($this->filesystem()->getAdapter() instanceof LocalAdapter) {
             return $this->filesystem()->url($path);
         }
 

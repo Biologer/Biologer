@@ -6,7 +6,7 @@ use App\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
-use Nikazooz\LaravelCaptcha\Facades\Captcha;
+use nvasic88\LaravelCaptcha\Facades\Captcha;
 use Tests\TestCase;
 
 class UserRegistrationTest extends TestCase
