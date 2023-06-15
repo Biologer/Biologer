@@ -124,7 +124,7 @@ abstract class BaseExport
         $path = 'exports/'.Str::random();
 
         // Make sure the file exists
-        Storage::put($path, "");
+        Storage::put($path, '');
 
         return Storage::path($path);
     }
