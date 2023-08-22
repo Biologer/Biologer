@@ -16,14 +16,15 @@ class ProcessUploadedPhotoTest extends TestCase
         parent::setUp();
 
         config()->set('biologer.photo_resize_dimension', 800);
+
+        Storage::fake(config('biologer.photos_disk'));
     }
 
     /** @test */
     public function it_resizes_landscape_image_by_width_while_keeping_aspect_ratio()
     {
-        Storage::fake('public');
         $path = File::image(Str::random().'.jpg', 1600, 1200)->store('photos', [
-            'disk' => 'public',
+            'disk' => config('biologer.photos_disk'),
         ]);
         $photo = Photo::factory()->make(['path' => $path]);
 
@@ -37,9 +38,8 @@ class ProcessUploadedPhotoTest extends TestCase
     /** @test */
     public function it_resizes_portrait_image_by_height_while_keeping_aspect_ratio()
     {
-        Storage::fake('public');
         $path = File::image('test-image.jpg', 1200, 1600)->store('photos', [
-            'disk' => 'public',
+            'disk' => config('biologer.photos_disk'),
         ]);
         $photo = Photo::factory()->make(['path' => $path]);
 
@@ -53,9 +53,8 @@ class ProcessUploadedPhotoTest extends TestCase
     /** @test */
     public function it_does_not_resize_the_image_if_there_is_no_need_to_do_so()
     {
-        Storage::fake('public');
         $path = File::image('test-image.jpg', 500, 400)->store('photos', [
-            'disk' => 'public',
+            'disk' => config('biologer.photos_disk'),
         ]);
         $photo = Photo::factory()->make(['path' => $path]);
 
@@ -69,9 +68,8 @@ class ProcessUploadedPhotoTest extends TestCase
     /** @test */
     public function it_crops_image_if_cropping_information_is_provided()
     {
-        Storage::fake('public');
         $path = File::image('test-image.jpg', 500, 400)->store('photos', [
-            'disk' => 'public',
+            'disk' => config('biologer.photos_disk'),
         ]);
         $photo = Photo::factory()->make(['path' => $path]);
 

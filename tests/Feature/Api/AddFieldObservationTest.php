@@ -486,7 +486,7 @@ class AddFieldObservationTest extends TestCase
         $photo = Photo::latest()->first();
         $this->assertEquals("photos/{$photo->id}/test-image.jpg", $photo->path);
         $this->assertNotEmpty($photo->url);
-        $this->assertTrue(Storage::disk('public')->exists($photo->path));
+        $this->assertTrue(Storage::disk(config('biologer.photos_disk'))->exists($photo->path));
         $this->assertEquals('John Doe', $photo->author);
     }
 

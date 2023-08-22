@@ -13,6 +13,9 @@ class PhotoTest extends TestCase
     /** @test */
     public function files_are_removed_when_photo_is_deleted()
     {
+        $photosDisk = config('biologer.photos_disk');
+        Storage::fake($photosDisk);
+
         Storage::fake('public');
         $file = File::image('example.jpg')->storeAs('uploads', 'example.jpg', [
             'disk' => 'public',
@@ -23,10 +26,10 @@ class PhotoTest extends TestCase
             'license' => ImageLicense::firstId(),
         ]);
 
-        Storage::disk('public')->assertExists($photo->path);
+        Storage::disk($photosDisk)->assertExists($photo->path);
 
         $photo->delete();
 
-        Storage::disk('public')->assertMissing($photo->path);
+        Storage::disk($photosDisk)->assertMissing($photo->path);
     }
 }
