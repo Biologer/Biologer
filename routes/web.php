@@ -52,6 +52,9 @@ Route::get('exports/{export}/download', ExportDownloadController::class)
     ->name('export-download');
 
 Route::get('photos/{photo}/file', [PhotosController::class, 'file'])->name('photos.file');
+Route::get('photos/{photo}/public', [PhotosController::class, 'public'])
+    ->middleware('signed')
+    ->name('photos.public');
 
 Route::prefix(LaravelLocalization::setLocale())->middleware([
     'localeCookieRedirect', 'localizationRedirect', 'localeViewPath', 'localizationPreferenceUpdate',
