@@ -26,11 +26,8 @@ class PhotoFactory extends Factory
     {
         return [
             'path' => File::image(Str::random().'.jpg')->store('photos', [
-                'disk' => 'public',
+                'disk' => config('biologer.photos_disk'),
             ]),
-            'url' => function ($attributes) {
-                return 'storage/'.$attributes['path'];
-            },
             'author' => $this->faker->name(),
             'license' => ImageLicense::CC_BY_SA,
         ];
