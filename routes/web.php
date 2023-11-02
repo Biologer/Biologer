@@ -51,7 +51,9 @@ Route::get('exports/{export}/download', ExportDownloadController::class)
     ->middleware(['auth', 'verified'])
     ->name('export-download');
 
-Route::get('photos/{photo}/file', [PhotosController::class, 'file'])->name('photos.file');
+Route::get('photos/{photo}/file', [PhotosController::class, 'file'])
+    ->middleware('auth:web,api')
+    ->name('photos.file');
 Route::get('photos/{photo}/public', [PhotosController::class, 'public'])
     ->middleware('signed')
     ->name('photos.public');
