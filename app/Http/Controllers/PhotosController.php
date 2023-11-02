@@ -4,15 +4,12 @@ namespace App\Http\Controllers;
 
 use App\ImageLicense;
 use App\Photo;
-use Illuminate\Support\Facades\Auth;
 
 class PhotosController extends Controller
 {
     public function file(Photo $photo)
     {
-        $user = Auth::guard('web')->user() ?? Auth::guard('api')->user();
-
-        $this->authorizeForUser($user, 'viewOriginal', $photo);
+        $this->authorize('viewOriginal', $photo);
 
         return Photo::filesystem()->response($photo->finalPath());
     }
