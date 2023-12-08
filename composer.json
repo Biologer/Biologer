@@ -46,7 +46,7 @@
         "fakerphp/faker": "^1.15",
         "friendsofphp/php-cs-fixer": "^3.1",
         "itsgoingd/clockwork": "^5.1",
-        "laravel/sail": "^1.23",
+        "laravel/sail": "^1.19",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.9",
         "phpunit/phpunit": "^9.5",
