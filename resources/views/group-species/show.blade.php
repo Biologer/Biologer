@@ -76,17 +76,14 @@
             <div class="columns">
                 <div class="column flex-center">
                     <div class="mb-8">
-                        <div>
-                            <small class="is-size-7 is-italic has-text-grey">
-                                @foreach($species->synonyms as $synonym)
-                                    {{ $synonym->name }} ({{$synonym->author}})
-                                    @if(!$loop->last)
-                                        {{";"}}
-                                    @endif
-                                @endforeach
-                            </small>
-                            <hr>
-                        </div>
+                        <h3 class="subtitle is-size-7 is-italic has-text-grey">
+                            @foreach($species->synonyms as $synonym)
+                                {{ $synonym->name }} ({{$synonym->author}})
+                                @if(!$loop->last)
+                                    {{";"}}
+                                @endif
+                            @endforeach
+                        </h3>
 
                         @foreach($species->ancestors as $ancestor)
                             {{ __('taxonomy.'.$ancestor->rank) }}: <b>
