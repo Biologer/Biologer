@@ -78,7 +78,7 @@
                     <div class="mb-8">
                         <h3 class="subtitle is-size-7 is-italic has-text-grey">
                             @foreach($species->synonyms as $synonym)
-                                {{ $synonym->name }} ({{$synonym->author}})
+                                {{ $synonym->name }}, {{$synonym->author}}
                                 @if(!$loop->last)
                                     {{";"}}
                                 @endif
