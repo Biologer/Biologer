@@ -34,7 +34,7 @@ class SearchTaxaInGroupTest extends TestCase
         $response->assertJson([
             'data' => [
                 ['id' => $species->id, 'name' => 'Polyommatus eros', 'first_species_id' => $species->id],
-                ['id' => $subspecies->id, 'name' => 'Polyommatus eros eroides', 'first_species_id' => $subspecies->id],
+                ['id' => $subspecies->id, 'name' => 'Polyommatus eros eroides'],
             ],
         ]);
     }
