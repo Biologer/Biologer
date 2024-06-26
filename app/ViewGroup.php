@@ -218,6 +218,29 @@ class ViewGroup extends Model
     }
 
     /**
+     * Get all taxa that are species or lower and have given name.
+     *
+     * @param  string|null  $name
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function allTaxaLowerOrEqualSpeciesRank($name = null)
+    {
+        return $this->allTaxa()
+            ->when($this->only_observed_taxa, function ($query) {
+                $query->observed();
+            })
+            ->speciesOrLower()
+            ->orderByAncestry()
+            ->with(['descendants' => function ($query) {
+                $query->when($this->only_observed_taxa, function ($query) {
+                    $query->observed();
+                })->orderByAncestry();
+            }])->when($name, function ($query, $name) {
+                $query->withScientificOrNativeName($name);
+            });
+    }
+
+    /**
      * Get paginated list of species inside the group.
      *
      * @param  int  $perPage
