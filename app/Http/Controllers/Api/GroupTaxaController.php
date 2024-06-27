@@ -20,7 +20,7 @@ class GroupTaxaController
         abort_if($group->isRoot(), 404);
 
         return GroupTaxonResource::collection(
-            $group->allTaxaLowerOrEqualSpeciesRank($request->name)->paginate()
+            $group->allTaxaHigherOrEqualSubspeciesRank($request->name)->paginate()
         );
     }
 }
