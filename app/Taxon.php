@@ -484,7 +484,17 @@ class Taxon extends Model
     }
 
     /**
-     * Check if taxon is a species.
+     * Check if taxon is a subspecies.
+     *
+     * @return bool
+     */
+    public function isSubspecies()
+    {
+        return $this->rank === 'subspecies';
+    }
+
+    /**
+     * Check if taxon is like a species.
      *
      * @return bool
      */
