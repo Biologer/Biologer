@@ -173,6 +173,10 @@ return [
             'custom' => 'Prolagođeno',
             'darwin_core' => 'Darwin Core',
         ],
+        'group_name' => 'Naziv grupe',
+        'group_ids' => 'ID Grupa',
+        'stage_names' => 'Životni stadij',
+        'stage_ids' => 'ID Životni stadij',
     ],
 
     'imports' => [

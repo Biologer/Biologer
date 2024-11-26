@@ -173,6 +173,10 @@ return [
             'custom' => 'Custom',
             'darwin_core' => 'Darwin Core',
         ],
+        'group_name' => 'Group name',
+        'group_ids' => 'Group IDs',
+        'stage_names' => 'Stage names',
+        'stage_ids' => 'Stage IDs',
     ],
 
     'imports' => [

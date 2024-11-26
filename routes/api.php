@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AdminTaxonExportsController;
 use App\Http\Controllers\Api\AnnouncementsController;
 use App\Http\Controllers\Api\ApprovedFieldObservationsBatchController;
 use App\Http\Controllers\Api\Autocomplete\PublicationsController as AutocompletePublicationsController;
@@ -203,6 +204,9 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     // Taxa export
     Route::post('taxon-exports', [TaxonExportsController::class, 'store'])
         ->name('api.taxon-exports.store');
+
+    Route::post('admin-taxon-exports', [AdminTaxonExportsController::class, 'store'])
+        ->name('api.admin-taxon-exports.store');
 
     Route::get('exports/{export}', [ExportsController::class, 'show'])
         ->name('api.exports.show');
