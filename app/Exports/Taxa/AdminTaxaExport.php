@@ -165,8 +165,8 @@ class AdminTaxaExport extends BaseExport
             $transformed['native_name_'.Str::snake($localeCode)] = $translation->native_name;
             $transformed['description_'.Str::snake($localeCode)] = $translation->description;
 
-            $transformed['group_' . Str::snake($localeCode)] = $item->groups
-                ->map(fn($g) => $g->translateOrNew($localeCode)->name)
+            $transformed['group_'.Str::snake($localeCode)] = $item->groups
+                ->map(fn ($g) => $g->translateOrNew($localeCode)->name)
                 ->implode('; ');
         }
 
