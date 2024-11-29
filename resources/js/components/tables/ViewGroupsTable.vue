@@ -1,5 +1,36 @@
 <template>
   <div class="view-groups-table">
+    <div class="level">
+      <div class="level-right" v-if="hasActions">
+        <div class="level-item">
+          <b-dropdown position="is-bottom-left">
+            <button
+              class="button is-touch-full"
+              slot="trigger"
+            >
+              <span>{{ trans('labels.actions') }}</span>
+
+              <span class="icon has-text-grey">
+                <i class="fa fa-angle-down"></i>
+              </span>
+            </button>
+
+            <b-dropdown-item
+              @click="openExportModal"
+              v-if="exportable"
+            >
+              <b-icon icon="download" class="has-text-grey" />
+
+              <span>{{ trans('buttons.export') }}</span>
+            </b-dropdown-item>
+
+          </b-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
     <b-table
       :data="data"
       :loading="loading"
@@ -61,22 +92,40 @@
         </section>
       </template>
     </b-table>
+
+    <b-modal :active="showExportModal" @close="showExportModal = false" has-modal-card :can-cancel="[]">
+      <nz-export-modal
+        :checked="checkedIds"
+        :filter="filter"
+        :columns="exportColumns"
+        :url="exportUrl"
+        :types="['custom']"
+        :sort="sortBy"
+        @cancel="showExportModal = false"
+        @done="onExportDone"
+      />
+    </b-modal>
+
   </div>
 </template>
 
 <script>
+import FilterableTableMixin from '@/mixins/FilterableTableMixin'
 import PersistentTableMixin from '@/mixins/PersistentTableMixin'
 import NzPerPageSelect from '@/components/table/PerPageSelect'
 import NzSortableColumnHeader from '@/components/table/SortableColumnHeader'
+import ExportDownloadModal from '@/components/exports/ExportDownloadModal'
+import NzExportModal from '@/components/exports/ExportModal'
 
 export default {
   name: 'nzViewGroupsTable',
 
-  mixins: [PersistentTableMixin],
+  mixins: [FilterableTableMixin, PersistentTableMixin],
 
   components: {
     NzPerPageSelect,
-    NzSortableColumnHeader
+    NzSortableColumnHeader,
+    NzExportModal
   },
 
   props: {
@@ -91,7 +140,9 @@ export default {
     empty: {
       type: String,
       default: 'Nothing here.'
-    }
+    },
+    exportColumns: Array,
+    exportUrl: String,
   },
 
   data() {
@@ -103,11 +154,28 @@ export default {
       sortOrder: 'desc',
       page: 1,
       perPage: this.perPageOptions[0],
-      checkedRows: []
+      checkedRows: [],
+      showExportModal: false,
     }
   },
 
   computed: {
+    hasActions() {
+      return this.exportable
+    },
+
+    exportable() {
+      return !!(this.exportUrl && this.exportColumns.length)
+    },
+
+    checkedIds() {
+      return this.checkedRows.map(row => row.id)
+    },
+
+    sortBy() {
+      return `${this.sortField}.${this.sortOrder}`
+    },
+
     showing() {
       const to = this.page * this.perPage <= this.total
         ? this.page * this.perPage
@@ -126,6 +194,11 @@ export default {
   created() {
     this.restoreState()
     this.loadAsyncData()
+    this.$on('filter', () => {
+      this.page = 1
+      this.saveState()
+      this.loadAsyncData()
+    })
   },
 
   methods: {
@@ -201,7 +274,34 @@ export default {
 
     editLink (row) {
       return route(this.editRoute, row.id)
-    }
+    },
+
+    openExportModal() {
+      this.showExportModal = true
+    },
+
+    onExportDone(finishedExport) {
+      this.showExportModal = false
+
+      if (finishedExport.url) {
+        this.$buefy.modal.open({
+          parent: this,
+          component: ExportDownloadModal,
+          canCancel: [],
+          hasModalCard: true,
+          props: {
+            url: finishedExport.url,
+          }
+        })
+      } else {
+        this.$buefy.toast.open({
+          duration: 0,
+          message: `Something's not good, also I'm on bottom`,
+          type: 'is-danger'
+        })
+      }
+    },
+
   }
 }
 </script>

@@ -41,8 +41,26 @@ use App\Http\Controllers\Api\TaxonomyController;
 use App\Http\Controllers\Api\TaxonPublicPhotosController;
 use App\Http\Controllers\Api\UnidentifiableFieldObservationsBatchController;
 use App\Http\Controllers\Api\UsersController;
+use App\Http\Controllers\Api\ViewGroupExportsController;
 use App\Http\Controllers\Api\ViewGroupsController;
 use Illuminate\Support\Facades\Route;
+
+
+use Illuminate\Support\Facades\Artisan;
+
+Route::get('/clear-cache', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('optimize:clear');
+
+    Artisan::call('view:cache');
+    Artisan::call('config:cache');
+    Artisan::call('route:cache');
+    Artisan::call('route:trans:cache  ');
+
+    Artisan::call('optimize');
+
+    return 'optimized';
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -180,7 +198,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->middleware('can:delete,user')
         ->name('api.users.destroy');
 
-    // Taxa
+    // View groups
     Route::get('view-groups', [ViewGroupsController::class, 'index'])
         ->withoutMiddleware('verified')
         ->name('api.view-groups.index');
@@ -200,6 +218,10 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::delete('view-groups/{group}', [ViewGroupsController::class, 'destroy'])
         ->middleware('can:delete,group')
         ->name('api.view-groups.destroy');
+
+    // View groups export
+    Route::post('group-exports', [ViewGroupExportsController::class, 'store'])
+        ->name('api.group-exports.store');
 
     // Taxa export
     Route::post('taxon-exports', [TaxonExportsController::class, 'store'])
