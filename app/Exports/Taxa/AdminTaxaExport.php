@@ -114,7 +114,7 @@ class AdminTaxaExport extends BaseExport
             [
                 'label' => trans('labels.taxa.synonyms'),
                 'value' => 'synonyms',
-            ]
+            ],
         ]);
     }
 
