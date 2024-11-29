@@ -45,23 +45,6 @@ use App\Http\Controllers\Api\ViewGroupExportsController;
 use App\Http\Controllers\Api\ViewGroupsController;
 use Illuminate\Support\Facades\Route;
 
-
-use Illuminate\Support\Facades\Artisan;
-
-Route::get('/clear-cache', function () {
-    Artisan::call('cache:clear');
-    Artisan::call('optimize:clear');
-
-    Artisan::call('view:cache');
-    Artisan::call('config:cache');
-    Artisan::call('route:cache');
-    Artisan::call('route:trans:cache  ');
-
-    Artisan::call('optimize');
-
-    return 'optimized';
-});
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
