@@ -111,6 +111,10 @@ class AdminTaxaExport extends BaseExport
                 'label' => trans('labels.exports.group_ids'),
                 'value' => 'group_ids',
             ],
+            [
+                'label' => trans('labels.taxa.synonyms'),
+                'value' => 'synonyms',
+            ]
         ]);
     }
 
@@ -153,6 +157,7 @@ class AdminTaxaExport extends BaseExport
             'group_ids' => $item->groups->map->id->implode('; '),
             'stage_names' => $item->stages->map->name->implode('; '),
             'stage_ids' => $item->stages->map->id->implode('; '),
+            'synonyms' => $item->synonyms->map->name->implode('; '),
         ];
 
         foreach ($item->ancestors as $ancestor) {
