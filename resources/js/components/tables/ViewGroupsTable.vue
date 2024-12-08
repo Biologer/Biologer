@@ -1,7 +1,7 @@
 <template>
   <div class="view-groups-table">
     <div class="level">
-      <div class="level-right" v-if="hasActions">
+      <div class="level-right is-flex-grow-1" v-if="hasActions">
         <div class="level-item">
           <b-dropdown position="is-bottom-left">
             <button
