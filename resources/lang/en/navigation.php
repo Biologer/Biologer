@@ -18,6 +18,7 @@ return [
         'delete_account' => 'Delete Account',
         'account_preferences' => 'Account Preferences',
         'change_password' => 'Change Password',
+        'change_email' => 'Change Email',
         'notifications' => 'Notifications',
         'notifications_preferences' => 'Notifications Preferences',
         'data_entry' => 'Data Entry',

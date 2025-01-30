@@ -39,6 +39,30 @@ class AccountPreferencesController
     }
 
     /**
+     * Change users password.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function changeEmail(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'string', 'email:rfc,dns', 'confirmed'],
+        ], [], [
+            'email' => __('labels.register.email'),
+        ]);
+
+        $request->user()->update(['email' => $request->input('email')]);
+
+        $request->user()->email_verified_at = null;
+        $request->user()->save();
+
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->withSuccess(__('Email changed successfully. Please verify your email.'));
+    }
+
+    /**
      * Delete user account.
      *
      * @param  \Illuminate\Http\Request  $request

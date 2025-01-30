@@ -31,6 +31,7 @@ return [
         'last_name' => 'Last Name',
         'institution' => 'Institution',
         'email' => 'Email',
+        'email_confirmation' => 'Repeat Email',
         'password' => 'Password',
         'password_confirmation' => 'Repeat Password',
         'verification_code' => 'Verification Code',

@@ -31,6 +31,7 @@ return [
         'last_name' => 'Prezime',
         'institution' => 'Institucija',
         'email' => 'E-pošta',
+        'email_confirmation' => 'Ponovite e-poštu',
         'password' => 'Lozinka',
         'password_confirmation' => 'Ponovite lozinku',
         'verification_code' => 'Verifikacijski kod',
