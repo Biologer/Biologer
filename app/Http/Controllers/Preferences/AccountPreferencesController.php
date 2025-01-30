@@ -47,7 +47,7 @@ class AccountPreferencesController
     public function changeEmail(Request $request)
     {
         $request->validate([
-            'email' => ['required', 'string', 'email:rfc,dns', 'confirmed'],
+            'email' => ['required', 'string', 'max:191', 'email:rfc,dns', 'confirmed', 'unique:users,email'],
         ], [], [
             'email' => __('labels.register.email'),
         ]);
