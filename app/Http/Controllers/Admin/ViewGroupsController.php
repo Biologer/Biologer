@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ViewGroups\ViewGroupsExport;
 use App\ViewGroup;
 
 class ViewGroupsController
@@ -13,7 +14,9 @@ class ViewGroupsController
      */
     public function index()
     {
-        return view('admin.view-groups.index');
+        return view('admin.view-groups.index', [
+            'exportColumns' => ViewGroupsExport::availableColumnData(),
+        ]);
     }
 
     /**

@@ -36,6 +36,15 @@
 
               <span>{{ trans('buttons.export') }}</span>
             </b-dropdown-item>
+
+            <b-dropdown-item
+              @click="openAdminExportModal"
+              v-if="adminExportable"
+            >
+              <b-icon icon="download" class="has-text-grey" />
+
+              <span>{{ trans('buttons.admin_export') }}</span>
+            </b-dropdown-item>
           </b-dropdown>
         </div>
       </div>
@@ -204,6 +213,19 @@
         @done="onExportDone"
       />
     </b-modal>
+
+    <b-modal :active="showAdminExportModal" @close="showAdminExportModal = false" has-modal-card :can-cancel="[]">
+      <nz-export-modal
+        :checked="checkedIds"
+        :filter="filter"
+        :columns="adminExportColumns"
+        :url="adminExportUrl"
+        :types="['custom']"
+        :sort="sortBy"
+        @cancel="showAdminExportModal = false"
+        @done="onAdminExportDone"
+      />
+    </b-modal>
   </div>
 </template>
 
@@ -250,7 +272,9 @@ export default {
     ranks: Array,
     showActivityLog: Boolean,
     exportColumns: Array,
+    adminExportColumns: Array,
     exportUrl: String,
+    adminExportUrl: String,
     taxonomy: Boolean,
     taxonomyLink: String,
   },
@@ -266,7 +290,8 @@ export default {
       perPage: this.perPageOptions[0],
       checkedRows: [],
       activityLog: [],
-      showExportModal: false
+      showExportModal: false,
+      showAdminExportModal: false
     }
   },
 
@@ -277,6 +302,10 @@ export default {
 
     exportable() {
       return !!(this.exportUrl && this.exportColumns.length)
+    },
+
+    adminExportable() {
+      return !!(this.adminExportUrl && this.adminExportColumns.length)
     },
 
     checkedIds() {
@@ -418,8 +447,34 @@ export default {
       this.showExportModal = true
     },
 
+    openAdminExportModal() {
+      this.showAdminExportModal = true
+    },
+
     onExportDone(finishedExport) {
       this.showExportModal = false
+
+      if (finishedExport.url) {
+        this.$buefy.modal.open({
+          parent: this,
+          component: ExportDownloadModal,
+          canCancel: [],
+          hasModalCard: true,
+          props: {
+            url: finishedExport.url,
+          }
+        })
+      } else {
+        this.$buefy.toast.open({
+          duration: 0,
+          message: `Something's not good, also I'm on bottom`,
+          type: 'is-danger'
+        })
+      }
+    },
+
+    onAdminExportDone(finishedExport) {
+      this.showAdminExportModal = false
 
       if (finishedExport.url) {
         this.$buefy.modal.open({
