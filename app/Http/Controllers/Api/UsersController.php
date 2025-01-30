@@ -6,6 +6,7 @@ use App\Http\Resources\UserResource;
 use App\Role;
 use App\Taxon;
 use App\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class UsersController
@@ -66,6 +67,8 @@ class UsersController
                 'array',
                 Rule::in(Taxon::pluck('id')->all()),
             ],
+            'email' => ['required', 'string', 'email:rfc,dns', 'max:191', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8'],
         ]);
 
         $user->update(request(['first_name', 'last_name', 'institution']));
@@ -80,6 +83,19 @@ class UsersController
             $user->curatedTaxa()->sync(
                 $user->hasRole('curator') ? request('curated_taxa_ids', []) : []
             );
+        }
+
+        if (request()->has('email')) {
+            $user->update(['email' => request('email')]);
+
+            $user->email_verified_at = null;
+            $user->save();
+
+            $user->sendEmailVerificationNotification();
+        }
+
+        if (request()->has('password')) {
+            $user->update(['password' => Hash::make(request('password'))]);
         }
 
         return new UserResource($user);
