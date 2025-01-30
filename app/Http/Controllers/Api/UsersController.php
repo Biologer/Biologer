@@ -6,6 +6,7 @@ use App\Http\Resources\UserResource;
 use App\Role;
 use App\Taxon;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class UsersController
@@ -91,10 +92,14 @@ class UsersController
      * @param  \App\User  $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(User $user)
+    public function destroy(Request $request)
     {
-        $user->delete();
+        $request->user()->deleteAccount($request->delete_observations);
 
-        return response()->json(null, 204);
+        $message = $request->delete_observations
+            ? 'You account has been deleted. Your observations will be deleted shortly.'
+            : 'You account has been deleted.';
+
+        return response()->json($message, 204);
     }
 }
