@@ -77,7 +77,7 @@
     <div v-if="taxonomy">
       <hr>
       <b-message type="is-success" class="has-text-centered">
-        This taxonomic database is connected to <a href="https://taxa.biologer.org" target="_blank">https://taxa.biologer.org</a>
+        This taxonomic database is connected to <a v-bind:href="taxonomyLink" target="_blank">{{ taxonomyLink }}</a>
       </b-message>
     </div>
 
@@ -252,6 +252,7 @@ export default {
     exportColumns: Array,
     exportUrl: String,
     taxonomy: Boolean,
+    taxonomyLink: String,
   },
 
   data() {

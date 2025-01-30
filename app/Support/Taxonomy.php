@@ -29,4 +29,9 @@ class Taxonomy
 
         return 'true';
     }
+
+    public static function getLink()
+    {
+        return config('biologer.taxonomy_link', '');
+    }
 }

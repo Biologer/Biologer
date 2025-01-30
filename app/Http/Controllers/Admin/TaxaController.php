@@ -23,6 +23,7 @@ class TaxaController
             'exportColumns' => CustomTaxaExport::availableColumnData(),
             'ranks' => Taxon::getRankOptions(),
             'taxonomy' => Taxonomy::isUsingTaxonomy(),
+            'taxonomyLink' => Taxonomy::getLink(),
         ]);
     }
 

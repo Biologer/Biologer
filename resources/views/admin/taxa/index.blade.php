@@ -10,6 +10,7 @@
             :export-columns="{{ $exportColumns }}"
             :ranks="{{ $ranks }}"
             :taxonomy="{{ $taxonomy }}"
+            :taxonomy-link="'{{ $taxonomyLink }}'"
             empty="{{ __('No data...') }}"
             show-activity-log>
         </nz-taxa-table>
