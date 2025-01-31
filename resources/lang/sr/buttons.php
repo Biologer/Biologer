@@ -25,5 +25,6 @@ return [
     'leave_page' => 'Напусти страницу',
     'confirm' => 'Потврди',
     'export' => 'Извези',
+    'admin_export' => 'Извоз за апликацију',
     'download' => 'Преузми',
 ];

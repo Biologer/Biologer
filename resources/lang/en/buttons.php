@@ -25,5 +25,6 @@ return [
     'leave_page' => 'Leave page',
     'confirm' => 'Confirm',
     'export' => 'Export',
+    'admin_export' => 'Export for app',
     'download' => 'Download',
 ];
