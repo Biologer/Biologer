@@ -11,8 +11,6 @@ use Illuminate\Validation\Rule;
 
 class UsersController
 {
-    use AuthorizesRequests;
-
     /**
      * Display a listing of the resource.
      *
