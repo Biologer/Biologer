@@ -11,6 +11,8 @@ use Illuminate\Validation\Rule;
 
 class UsersController
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      *
@@ -109,8 +111,18 @@ class UsersController
      */
     public function destroy(User $user)
     {
-        $user->delete();
+        request()->validate([
+            'delete_observations' => ['boolean'],
+        ]);
 
-        return response()->json(null, 204);
+        $delete_observations = request()->boolean('delete_observations');
+
+        $user->deleteAccount($delete_observations);
+
+        $message = $delete_observations
+            ? 'You account has been deleted. Your observations will be deleted shortly.'
+            : 'You account has been deleted.';
+
+        return response()->json($message, 204);
     }
 }

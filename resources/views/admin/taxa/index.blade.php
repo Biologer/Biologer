@@ -7,9 +7,12 @@
             edit-route="admin.taxa.edit"
             delete-route="api.taxa.destroy"
             export-url="{{ route('api.taxon-exports.store') }}"
+            admin-export-url="{{ route('api.admin-taxon-exports.store') }}"
             :export-columns="{{ $exportColumns }}"
+            :admin-export-columns="{{ $adminExportColumns }}"
             :ranks="{{ $ranks }}"
             :taxonomy="{{ $taxonomy }}"
+            :taxonomy-link="'{{ $taxonomyLink }}'"
             empty="{{ __('No data...') }}"
             show-activity-log>
         </nz-taxa-table>

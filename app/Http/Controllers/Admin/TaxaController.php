@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\ConservationDocument;
 use App\ConservationLegislation;
+use App\Exports\Taxa\AdminTaxaExport;
 use App\Exports\Taxa\CustomTaxaExport;
 use App\RedList;
 use App\Stage;
@@ -21,8 +22,10 @@ class TaxaController
     {
         return view('admin.taxa.index', [
             'exportColumns' => CustomTaxaExport::availableColumnData(),
+            'adminExportColumns' => AdminTaxaExport::availableColumnData(),
             'ranks' => Taxon::getRankOptions(),
             'taxonomy' => Taxonomy::isUsingTaxonomy(),
+            'taxonomyLink' => Taxonomy::getLink(),
         ]);
     }
 

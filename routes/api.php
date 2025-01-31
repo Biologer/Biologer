@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AdminTaxonExportsController;
 use App\Http\Controllers\Api\AnnouncementsController;
 use App\Http\Controllers\Api\ApprovedFieldObservationsBatchController;
 use App\Http\Controllers\Api\Autocomplete\PublicationsController as AutocompletePublicationsController;
@@ -40,6 +41,7 @@ use App\Http\Controllers\Api\TaxonomyController;
 use App\Http\Controllers\Api\TaxonPublicPhotosController;
 use App\Http\Controllers\Api\UnidentifiableFieldObservationsBatchController;
 use App\Http\Controllers\Api\UsersController;
+use App\Http\Controllers\Api\ViewGroupExportsController;
 use App\Http\Controllers\Api\ViewGroupsController;
 use Illuminate\Support\Facades\Route;
 
@@ -179,7 +181,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->middleware('can:delete,user')
         ->name('api.users.destroy');
 
-    // Taxa
+    // View groups
     Route::get('view-groups', [ViewGroupsController::class, 'index'])
         ->withoutMiddleware('verified')
         ->name('api.view-groups.index');
@@ -200,9 +202,16 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->middleware('can:delete,group')
         ->name('api.view-groups.destroy');
 
+    // View groups export
+    Route::post('group-exports', [ViewGroupExportsController::class, 'store'])
+        ->name('api.group-exports.store');
+
     // Taxa export
     Route::post('taxon-exports', [TaxonExportsController::class, 'store'])
         ->name('api.taxon-exports.store');
+
+    Route::post('admin-taxon-exports', [AdminTaxonExportsController::class, 'store'])
+        ->name('api.admin-taxon-exports.store');
 
     Route::get('exports/{export}', [ExportsController::class, 'show'])
         ->name('api.exports.show');

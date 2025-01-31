@@ -174,6 +174,10 @@ return [
             'custom' => 'Prilagođeno',
             'darwin_core' => 'Darwin Core',
         ],
+        'group_name' => 'Naziv grupe',
+        'group_ids' => 'ID Grupa',
+        'stage_names' => 'Stadijumi',
+        'stage_ids' => 'ID Stadijuma',
     ],
 
     'imports' => [
