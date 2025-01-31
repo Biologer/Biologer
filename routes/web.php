@@ -103,7 +103,9 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
             Route::get('account', [AccountPreferencesController::class, 'index'])->name('account');
             Route::patch('account/password', [AccountPreferencesController::class, 'changePassword'])->name('account.password');
-            Route::delete('account', [AccountPreferencesController::class, 'destroy'])->name('account.delete');
+            Route::patch('account/email', [AccountPreferencesController::class, 'changeEmail'])->name('account.email');
+            Route::delete('account', [AccountPreferencesController::class, 'destroy'])
+                ->name('account.delete');
 
             Route::get('license', [LicensePreferencesController::class, 'index'])->name('license');
             Route::patch('license', [LicensePreferencesController::class, 'update'])->name('license.update');

@@ -18,6 +18,7 @@ return [
         'delete_account' => 'Брисање налога',
         'account_preferences' => 'Подешавање налога',
         'change_password' => 'Промена лозинке',
+        'change_email' => 'Промена e-поште',
         'notifications' => 'Нотификације',
         'notifications_preferences' => 'Подешавање нотификација',
         'data_entry' => 'Унос података',
