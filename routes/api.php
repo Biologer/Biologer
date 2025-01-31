@@ -177,7 +177,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->middleware('can:update,user')
         ->name('api.users.update');
 
-    Route::delete('users/{user}', [UsersController::class, 'destroy'])
+    Route::delete('users', [UsersController::class, 'destroy'])
         ->middleware('can:delete,user')
         ->name('api.users.destroy');
 

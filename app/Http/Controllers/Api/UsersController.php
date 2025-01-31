@@ -96,17 +96,11 @@ class UsersController
      * @param  \App\User  $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(User $user)
+    public function destroy(Request $request)
     {
-        request()->validate([
-            'delete_observations' => ['boolean'],
-        ]);
+        $request->user()->deleteAccount($request->delete_observations);
 
-        $delete_observations = request()->boolean('delete_observations');
-
-        $user->deleteAccount($delete_observations);
-
-        $message = $delete_observations
+        $message = $request->delete_observations
             ? 'You account has been deleted. Your observations will be deleted shortly.'
             : 'You account has been deleted.';
 
