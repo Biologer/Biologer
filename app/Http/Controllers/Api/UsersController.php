@@ -7,8 +7,6 @@ use App\Role;
 use App\Taxon;
 use App\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class UsersController
@@ -96,11 +94,17 @@ class UsersController
      * @param  \App\User  $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Request $request)
+    public function destroy(User $user)
     {
-        $request->user()->deleteAccount($request->delete_observations);
+        request()->validate([
+            'delete_observations' => ['boolean'],
+        ]);
 
-        $message = $request->delete_observations
+        $delete_observations = request()->boolean('delete_observations');
+
+        $user->deleteAccount($delete_observations);
+
+        $message = $delete_observations
             ? 'You account has been deleted. Your observations will be deleted shortly.'
             : 'You account has been deleted.';
 
