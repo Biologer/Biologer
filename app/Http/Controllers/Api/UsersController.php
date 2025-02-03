@@ -58,26 +58,46 @@ class UsersController
     public function update(User $user)
     {
         request()->validate([
-            'first_name' => ['required', 'string', 'max:191'],
-            'last_name' => ['required', 'string', 'max:191'],
+            'first_name' => ['nullable', 'string', 'max:191'],
+            'last_name' => ['nullable', 'string', 'max:191'],
             'institution' => ['nullable', 'string', 'max:191'],
             'roles_ids' => ['array'],
-            'roles_ids.*' => [Rule::in(Role::pluck('id')->all())],
-            'curated_taxa_ids' => [
-                'array',
-                Rule::in(Taxon::pluck('id')->all()),
-            ],
-            'email' => ['required', 'string', 'email:rfc,dns', 'max:191', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8'],
+            'roles_ids.*' => ['exists:roles,id'],
+            'curated_taxa_ids' => ['array'],
+            'curated_taxa_ids.*' => ['exists:taxa,id'],
+            'email' => ['nullable', 'string', 'email:rfc,dns', 'max:191', 'unique:users,email,' . $user->id],
+            'password' => ['nullable', 'string', 'min:8'],
         ]);
 
-        $user->update(request(['first_name', 'last_name', 'institution']));
+        $updateData = [];
+
+        if (request()->filled('first_name')) {
+            $updateData['first_name'] = request('first_name');
+        }
+
+        if (request()->filled('last_name')) {
+            $updateData['last_name'] = request('last_name');
+        }
+
+        if (request()->has('institution')) {
+            $updateData['institution'] = request('institution');
+        }
+
+        if (request()->filled('email')) {
+            $updateData['email'] = request('email');
+        }
+
+        if (request()->filled('password')) {
+            $updateData['password'] = Hash::make(request('password'));
+        }
+
+        if (!empty($updateData)) {
+            $user->update($updateData);
+        }
 
         if (request()->has('roles_ids')) {
             $user->roles()->sync(request('roles_ids', []));
         }
-
-        $user->load('roles');
 
         if (request()->has('curated_taxa_ids')) {
             $user->curatedTaxa()->sync(
@@ -85,18 +105,14 @@ class UsersController
             );
         }
 
-        if (request()->has('email')) {
-            $user->update(['email' => request('email')]);
-
+        if (isset($updateData['email'])) {
             $user->email_verified_at = null;
             $user->save();
 
             $user->sendEmailVerificationNotification();
         }
 
-        if (request()->has('password')) {
-            $user->update(['password' => Hash::make(request('password'))]);
-        }
+        $user->load('roles');
 
         return new UserResource($user);
     }
