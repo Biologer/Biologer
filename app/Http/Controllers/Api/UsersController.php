@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\UserResource;
-use App\Role;
-use App\Taxon;
 use App\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
 
 class UsersController
 {
@@ -65,7 +62,7 @@ class UsersController
             'roles_ids.*' => ['exists:roles,id'],
             'curated_taxa_ids' => ['array'],
             'curated_taxa_ids.*' => ['exists:taxa,id'],
-            'email' => ['nullable', 'string', 'email:rfc,dns', 'max:191', 'unique:users,email,' . $user->id],
+            'email' => ['nullable', 'string', 'email:rfc,dns', 'max:191', 'unique:users,email,'.$user->id],
             'password' => ['nullable', 'string', 'min:8'],
         ]);
 
@@ -91,7 +88,7 @@ class UsersController
             $updateData['password'] = Hash::make(request('password'));
         }
 
-        if (!empty($updateData)) {
+        if (! empty($updateData)) {
             $user->update($updateData);
         }
 
