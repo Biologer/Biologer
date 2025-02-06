@@ -16,14 +16,14 @@
                     </div>
                 </div>
 
-                <div class="navbar-menu" :class="{ 'is-active': active }">
+                <div id="navbar-menu" class="navbar-menu is-hidden-touch" :class="{ 'is-active': active }">
                     <div class="navbar-end">
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link is-hidden-touch">
+                        <div class="navbar-item has-dropdown is-hoverable" @click="toggleDropdown('about')">
+                            <a class="navbar-link is-flex-touch">
                                 <span>{{ __('navigation.about') }}</span>
                             </a>
 
-                            <div class="navbar-dropdown is-boxed is-right">
+                            <div class="navbar-dropdown is-boxed is-right" id="about-dropdown-menu" :class="{ 'is-active': activeDropdown === 'about' }">
                                 <a class="navbar-item" href="{{ route('pages.about.about-project') }}">
                                     {{ __('navigation.about_project') }}
                                 </a>
@@ -63,13 +63,13 @@
                                 </a>
                             </div>
 
-                            <div class="navbar-item has-dropdown is-hoverable">
-                                <a class="navbar-link is-hidden-touch">
+                            <div class="navbar-item has-dropdown is-hoverable" @click="toggleDropdown('user')">
+                                <a class="navbar-link is-flex-touch">
                                     @include('components.icon', ['icon' => 'user'])
                                 </a>
 
-                                <div class="navbar-dropdown is-boxed is-right">
-                                    <div class="navbar-item is-hidden-touch">
+                                <div class="navbar-dropdown is-boxed is-right" id="user-dropdown-menu" :class="{ 'is-active': activeDropdown === 'user' }">
+                                    <div class="navbar-item is-flex-touch">
                                         <b class="is-size-6">{{ auth()->user()->full_name }}</b>
                                     </div>
                                     <hr class="navbar-divider">

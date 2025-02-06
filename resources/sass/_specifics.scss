@@ -174,3 +174,40 @@ ul.is-not-done li:before {
         color: $success !important;
     }
 }
+
+.navbar-menu {
+    display: none !important;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar-menu.is-active {
+    display: block !important;
+    visibility: visible;
+    height: auto;
+}
+
+@media screen and (min-width: 1024px) {
+    .navbar-menu {
+        display: flex !important;
+        visibility: visible;
+        height: auto;
+        overflow: visible;
+    }
+}
+
+.navbar-dropdown {
+    display: none;
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.navbar-dropdown.is-active {
+    display: block;
+    opacity: 1;
+    transform: scaleY(1);
+}

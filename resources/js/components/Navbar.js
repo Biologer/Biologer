@@ -3,13 +3,18 @@ export default {
 
   data() {
     return {
-      active: false
+      active: false,
+      activeDropdown: null
     }
   },
 
   methods: {
     toggle() {
       this.active = !this.active;
+    },
+
+    toggleDropdown(menu) {
+      this.activeDropdown = this.activeDropdown === menu ? null : menu;
     }
   }
 }
