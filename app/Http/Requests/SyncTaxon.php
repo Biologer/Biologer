@@ -35,91 +35,118 @@ class SyncTaxon extends FormRequest
     }
 
     /**
-     * @param  $new_data
+     * @param  $new_taxon
      * @param  Taxon $taxon
      * @param  $country_ref
      * @return mixed
      */
-    public function update($new_data, Taxon $taxon, $country_ref)
+    public function updateTaxon($new_taxon, Taxon $taxon, $country_ref)
     {
-        return DB::transaction(function () use ($taxon, $new_data, $country_ref) {
+        return DB::transaction(function () use ($taxon, $new_taxon, $country_ref) {
             $oldData = $taxon->load([
                 'parent', 'stages', 'conservationLegislations', 'redLists',
                 'conservationDocuments', 'synonyms',
             ])->toArray();
 
-            if ($new_data['parent']) {
-                if (! $oldData['parent'] or $oldData['parent']['name'] != $new_data['parent']['name']) {
-                    $parent = Taxon::findByRankNameAndAncestor($new_data['parent']['name'], $new_data['parent']['rank']);
-                    if (! $parent) {
-                        $parent = $this->createAndGetParent($new_data['parent'], $country_ref);
+            if (! empty($new_taxon['parent'])) {
+                if (! isset($oldData['parent']) || ! isset($oldData['parent']['name']) || $oldData['parent']['name'] !== $new_taxon['parent']['name']) {
+                    $ancestors_names = $new_taxon['parent']['ancestors_names'] ?? null;
+                    $ancestor = null;
+
+                    if (! empty($ancestors_names)) {
+                        $names = explode(',', $ancestors_names);
+                        $ancestor = ! empty($names[0]) ? $names[0].'%' : null;
                     }
+
+                    $parent = Taxon::findByRankNameAndAncestor(
+                        $new_taxon['parent']['name'],
+                        $new_taxon['parent']['rank'],
+                        $ancestor
+                    );
+
+                    if (! $parent) {
+                        $parent = $this->createAndGetParent($new_taxon['parent'], $country_ref);
+                    }
+
                     $taxon->update(['parent_id' => $parent->id]);
                 }
             } else {
-                if ($oldData['parent']) {
+                if (isset($oldData['parent'])) {
                     $taxon->update(['parent_id' => null]);
                 }
             }
 
             $taxon->update(array_merge(
-                array_map('trim', Arr::only($new_data, ['name', 'rank'])),
-                Arr::only($new_data, ['fe_old_id', 'fe_id', 'author', 'restricted',
+                array_map('trim', Arr::only($new_taxon, ['name', 'rank'])),
+                Arr::only($new_taxon, ['fe_old_id', 'fe_id', 'author', 'restricted',
                     'allochthonous', 'invasive', 'uses_atlas_codes',]),
-                ['taxonomy_id' => $new_data['id']]
+                ['taxonomy_id' => Arr::get($new_taxon, 'id')]
             ));
 
-            $this->syncNamesAndDescriptions($new_data, $taxon);
+            $this->syncNamesAndDescriptions($new_taxon, $taxon);
 
-            $this->syncRelations($new_data, $taxon, $country_ref);
+            $this->syncRelations($new_taxon, $taxon, $country_ref);
 
-            $this->syncSynonym($new_data, $taxon);
+            $this->syncSynonym($new_taxon, $taxon);
 
             // We are currently not logging any changes in local database.
-            # $this->logUpdatedActivity($taxon, $oldData, $new_data['reason']);
+            // $this->logUpdatedActivity($taxon, $oldData, $new_data['reason']);
 
             return $taxon;
         });
     }
 
     /**
-     * @param  $new_data
+     * @param  $new_taxon
      * @param  $country_ref
      * @return mixed
      */
-    public function createTaxon($new_data, $country_ref)
+    public function createTaxon($new_taxon, $country_ref)
     {
-        return DB::transaction(function () use ($new_data, $country_ref) {
-            $parent = null;
-            if ($new_data['parent']) {
-                $parent = Taxon::findByRankNameAndAncestor($new_data['parent']['name'], $new_data['parent']['rank']);
+        return DB::transaction(function () use ($new_taxon, $country_ref) {
+            $parentId = null;
 
-                if (! $parent) {
-                    $parent = $this->createAndGetParent($new_data['parent'], $country_ref);
+            if (! empty($new_taxon['parent'])) {
+                $ancestors_names = $new_taxon['parent']['ancestors_names'] ?? null;
+                $ancestor = null;
+
+                if (! empty($ancestors_names)) {
+                    $names = explode(',', $ancestors_names);
+                    $ancestor = ! empty($names[0]) ? $names[0].'%' : null;
                 }
 
-                $parent = $parent->id;
+                $parent = Taxon::findByRankNameAndAncestor(
+                    $new_taxon['parent']['name'],
+                    $new_taxon['parent']['rank'],
+                    $ancestor
+                );
+
+                if (! $parent) {
+                    $parent = $this->createAndGetParent($new_taxon['parent'], $country_ref);
+                }
+
+                $parentId = $parent->id;
             }
 
-            $taxon = Taxon::findByRankNameAndAncestor($new_data['name'], $new_data['rank']);
+            $taxon = Taxon::findByRankNameAndAncestor($new_taxon['name'], $new_taxon['rank']);
 
             if (! $taxon) {
                 $taxon = Taxon::create(array_merge(
-                    array_map('trim', Arr::only($new_data, (['name', 'rank']))),
-                    Arr::only($new_data, ([
+                    array_map('trim', Arr::only($new_taxon, (['name', 'rank']))),
+                    Arr::only($new_taxon, ([
                         'fe_id', 'author', 'fe_old_id', 'restricted', 'allochthonous', 'invasive', 'uses_atlas_codes',
                     ])),
-                    ['taxonomy_id' => $new_data['id'], 'parent_id' => $parent],
-                    Localization::transformTranslations(Arr::only($new_data, ([
+                    ['taxonomy_id' => $new_taxon['id'], 'parent_id' => $parentId],
+                    Localization::transformTranslations(Arr::only($new_taxon, ([
                         'description', 'native_name',
                     ])))
                 ));
             } else {
                 $taxon->update(array_merge(
-                    array_map('trim', Arr::only($new_data, ['name', 'rank'])),
-                    Arr::only($new_data, ['fe_old_id', 'fe_id', 'author', 'restricted',
+                    array_map('trim', Arr::only($new_taxon, ['name', 'rank'])),
+                    Arr::only($new_taxon, ['fe_old_id', 'fe_id', 'author', 'restricted',
                         'allochthonous', 'invasive', 'uses_atlas_codes',]),
-                    ['taxonomy_id' => $new_data['id']]
+                    ['taxonomy_id' => Arr::get($new_taxon, 'id')]
                 ));
             }
 
@@ -128,9 +155,9 @@ class SyncTaxon extends FormRequest
                 'conservationDocuments', 'synonyms',
             ]);
 
-            $this->syncRelations($new_data, $taxon, $country_ref);
+            $this->syncRelations($new_taxon, $taxon, $country_ref);
 
-            $this->syncSynonym($new_data, $taxon);
+            $this->syncSynonym($new_taxon, $taxon);
 
             return $taxon;
         });

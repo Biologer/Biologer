@@ -22,7 +22,7 @@ class TaxonomyController
         $taxon = Taxon::where('taxonomy_id', $request['taxon']['id'])->first();
 
         if ($taxon) {
-            return response((new SyncTaxon)->update($request['taxon'], $taxon, $request['country_ref']), 200);
+            return response((new SyncTaxon)->updateTaxon($request['taxon'], $taxon, $request['country_ref']), 200);
         }
 
         return response((new SyncTaxon)->createTaxon($request['taxon'], $request['country_ref']), 200);

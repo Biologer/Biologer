@@ -111,7 +111,7 @@ class TaxonomyController
      * Find taxonomy ID for all taxa that are not connected and update taxa from Taxonomy database.
      * Once Taxonomy database get request from specific taxon, it will send updates when occurred.
      */
-    public function sync()
+    public function syncTaxon(): string
     {
         $link = Taxonomy::checkOrFailUsingTaxonomy();
         if (! $link) {
@@ -156,7 +156,7 @@ class TaxonomyController
                 $taxon = Taxon::find($id);
 
                 # Update current taxon with Taxonomy data
-                (new SyncTaxon)->update($data['response'], $taxon, $country_ref);
+                (new SyncTaxon)->updateTaxon($data['response'], $taxon, $country_ref);
             }
         }
 
@@ -178,6 +178,7 @@ class TaxonomyController
 
         $data['taxa'][$parent->id]['name'] = $parent->name;
         $data['taxa'][$parent->id]['rank'] = $parent->rank;
+
         if ($parent->ancestors_names == '') {
             $data['taxa'][$parent->id]['ancestor_name'] = '';
         } else {
@@ -200,7 +201,7 @@ class TaxonomyController
             $taxon = Taxon::find($id);
 
             # Update current taxon with Taxonomy data
-            (new SyncTaxon)->update($data['response'], $taxon, $country_ref);
+            (new SyncTaxon)->updateTaxon($data['response'], $taxon, $country_ref);
         }
     }
 }
