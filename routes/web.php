@@ -294,7 +294,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::get('taxonomy/disconnect', [TaxonomyController::class, 'disconnect'])
                 ->name('taxonomy.disconnect');
 
-            Route::get('taxonomy/sync', [TaxonomyController::class, 'sync'])
+            Route::get('taxonomy/sync', [TaxonomyController::class, 'syncTaxon'])
                 ->name('taxonomy.sync');
         });
     });
