@@ -89,6 +89,8 @@ class SyncTaxon extends FormRequest
             $this->syncRelations($updated_data, $taxon, $country_ref);
             $this->syncSynonym($updated_data, $taxon);
 
+            $taxon->rebuildAncestryOnDescendants();
+
             // We are currently not logging any changes in local database.
             // $this->logUpdatedActivity($taxon, $oldData, $new_data['reason']);
 
@@ -159,6 +161,8 @@ class SyncTaxon extends FormRequest
 
             $this->syncSynonym($new_taxon, $taxon);
 
+            $taxon->rebuildAncestryOnDescendants();
+
             return $taxon;
         });
     }
@@ -182,6 +186,8 @@ class SyncTaxon extends FormRequest
             ));
 
             (new TaxonomyController())->syncParent($parent);
+
+            $parent->rebuildAncestryOnDescendants();
 
             return $parent;
         });

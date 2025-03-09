@@ -109,6 +109,8 @@ class UpdateTaxon extends FormRequest
 
             $this->logUpdatedActivity($taxon, $oldData);
 
+            $taxon->rebuildAncestryOnDescendants();
+
             return $taxon;
         });
     }
