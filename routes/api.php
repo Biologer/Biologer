@@ -65,6 +65,7 @@ Route::get('taxa/{taxon}/public-photos', [TaxonPublicPhotosController::class, 'i
     ->name('api.taxa.public-photos.index');
 
 Route::post('taxonomy/sync', [TaxonomyController::class, 'sync'])
+    ->middleware('throttle:10000,1')
     ->name('api.taxonomy.sync');
 
 Route::post('taxonomy/remove', [TaxonomyController::class, 'remove'])
