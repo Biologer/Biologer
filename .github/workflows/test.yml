@@ -1,5 +1,7 @@
 name: Test
+
 on: [push, pull_request]
+
 jobs:
   test:
     name: Biologer (PHP ${{ matrix.php-versions }})
@@ -34,36 +36,34 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql
-      - name: Start mysql service
-        run: sudo /etc/init.d/mysql start
       - name: Get composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
       - name: Cache composer dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
+          path: ${{ env.cache-dir }}
+          key: composer-${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
       - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
       - name: Check code style
         run: vendor/bin/php-cs-fixer fix --dry-run
       - name: Prepare the application
         run: |
-          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          cp .env.example .env || true
           php artisan key:generate
       - name: Clear Config
         run: php artisan config:clear
       - name: Run Migration
         run: php artisan migrate --seed -v
         env:
-          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DB_PORT: 3306
       - name: Install Laravel Passport
         run: php artisan passport:install
         env:
-          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DB_PORT: 3306
       - name: Test with phpunit in parallel
         run: php artisan test --parallel
         env:
-          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DB_PORT: 3306
