@@ -32,6 +32,7 @@
 import axios from 'axios'
 import _debounce from 'lodash/debounce'
 import _get from 'lodash/get'
+import route from "ziggy";
 
 export default {
   name: 'nzUserAutocomplete',

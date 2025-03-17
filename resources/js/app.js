@@ -8,6 +8,7 @@ import { setTooltipOptions } from './tooltip'
 import VueLazyload from 'vue-lazyload'
 import _eachRight from 'lodash/eachRight'
 import _replace from 'lodash/replace'
+import route from 'ziggy-js';
 
 window.Vue = Vue
 
@@ -27,10 +28,6 @@ if (window.App && window.App.gmaps && window.App.gmaps.load) {
     }
 }
 Vue.use(VueGoogleMaps, gmapsConfig)
-
-if (window.route) {
-    Vue.prototype.$ziggy = window.route
-}
 
 Vue.component('NzNavbar', () => import(/* webpackChunkName: "public" */ './components/Navbar'))
 Vue.component('NzDashboardNavbar', () => import(/* webpackChunkName: "dashboard" */ './components/DashboardNavbar'))

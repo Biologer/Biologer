@@ -35,5 +35,9 @@
     "vue-loader": "^15.9.5",
     "vue-template-compiler": "^2.6.12",
     "vue2-google-maps": "^0.10.7"
+  },
+  "dependencies": {
+    "ziggy": "^2.4.0",
+    "ziggy-js": "^2.5.2"
   }
 }

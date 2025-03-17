@@ -320,7 +320,7 @@ export default {
 
       const { selectedTaxon, ...filter } = this.filter
 
-      return axios.get(route(this.listRoute).withQuery({
+      return axios.get(route(this.listRoute) + '?' + new URLSearchParams({
         ...filter,
         sort_by: this.sortBy,
         page: this.page,

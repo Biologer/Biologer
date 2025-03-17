@@ -369,6 +369,7 @@ import NzUserAutocomplete from '@/components/inputs/UserAutocomplete'
 import NzPerPageSelect from '@/components/table/PerPageSelect'
 import NzSortableColumnHeader from '@/components/table/SortableColumnHeader'
 import NzExportModal from '@/components/exports/ExportModal'
+import route from "ziggy";
 
 export default {
   name: 'nzFieldObservationsTable',
@@ -502,7 +503,7 @@ export default {
 
       const { selectedTaxon, ...filter } = this.filter
 
-      return axios.get(route(this.listRoute).withQuery({
+      return axios.get(route(this.listRoute) + '?' + new URLSearchParams({
         ...filter,
         sort_by: this.sortBy,
         page: this.page,

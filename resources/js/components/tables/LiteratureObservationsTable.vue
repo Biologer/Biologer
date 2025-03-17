@@ -409,7 +409,7 @@ export default {
 
       const { selected_taxon, selected_publication, publication_citation, ...filter } = this.filter
 
-      return axios.get(route(this.listRoute).withQuery({
+      return axios.get(route(this.listRoute) + '?' + new URLSearchParams({
         ...filter,
         sort_by: `${this.sortField}.${this.sortOrder}`,
         page: this.page,

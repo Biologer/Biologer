@@ -164,6 +164,8 @@ return [
          * Package Service Providers...
          */
 
+        // Tighten\Ziggy\ZiggyServiceProvider::class,
+
 
         /*
          * Application Service Providers...

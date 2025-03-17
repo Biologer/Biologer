@@ -188,7 +188,7 @@ export default {
     loadAsyncData() {
       this.loading = true
 
-      return axios.get(route(this.listRoute).withQuery({
+      return axios.get(route(this.listRoute) + '?' + new URLSearchParams({
         sort_by: `${this.sortField}.${this.sortOrder}`,
         page: this.page,
         per_page: this.perPage,
