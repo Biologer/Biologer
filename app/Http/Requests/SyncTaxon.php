@@ -51,13 +51,13 @@ class SyncTaxon extends FormRequest
 
             $parentId = $taxon->parent_id;
 
-            if (!empty($updated_data['parent'])) {
+            if (! empty($updated_data['parent'])) {
                 $ancestors_names = $updated_data['parent']['ancestors_names'] ?? null;
                 $ancestor = null;
 
-                if (!empty($ancestors_names)) {
+                if (! empty($ancestors_names)) {
                     $names = explode(',', $ancestors_names);
-                    $ancestor = !empty($names[0]) ? $names[0] . '%' : null;
+                    $ancestor = ! empty($names[0]) ? $names[0].'%' : null;
                 }
                 $parent = Taxon::findByRankNameAndAncestor(
                     $updated_data['parent']['name'],
@@ -65,7 +65,7 @@ class SyncTaxon extends FormRequest
                     $ancestor
                 );
 
-                if (!$parent) {
+                if (! $parent) {
                     $parent = $this->createAndGetParent($updated_data['parent'], $country_ref);
                 }
 
@@ -108,13 +108,13 @@ class SyncTaxon extends FormRequest
         return DB::transaction(function () use ($new_taxon, $country_ref) {
             $parentId = null;
 
-            if (!empty($new_taxon['parent'])) {
+            if (! empty($new_taxon['parent'])) {
                 $ancestors_names = $new_taxon['parent']['ancestors_names'] ?? null;
                 $ancestor = null;
 
-                if (!empty($ancestors_names)) {
+                if (! empty($ancestors_names)) {
                     $names = explode(',', $ancestors_names);
-                    $ancestor = !empty($names[0]) ? $names[0] . '%' : null;
+                    $ancestor = ! empty($names[0]) ? $names[0].'%' : null;
                 }
 
                 $parent = Taxon::findByRankNameAndAncestor(
@@ -123,7 +123,7 @@ class SyncTaxon extends FormRequest
                     $ancestor
                 );
 
-                if (!$parent) {
+                if (! $parent) {
                     $parent = $this->createAndGetParent($new_taxon['parent'], $country_ref);
                 }
 
@@ -132,7 +132,7 @@ class SyncTaxon extends FormRequest
 
             $taxon = Taxon::findByRankNameAndAncestor($new_taxon['name'], $new_taxon['rank']);
 
-            if (!$taxon) {
+            if (! $taxon) {
                 $taxon = Taxon::create(array_merge(
                     array_map('trim', Arr::only($new_taxon, (['name', 'rank']))),
                     Arr::only($new_taxon, ([
@@ -247,7 +247,7 @@ class SyncTaxon extends FormRequest
     {
         $conservation_legislation_ids = [];
         foreach ($data['conservation_legislations'] as $conservation_legislation) {
-            if (!Arr::exists($legs, $conservation_legislation['id'])) {
+            if (! Arr::exists($legs, $conservation_legislation['id'])) {
                 continue;
             }
             if (\App\ConservationLegislation::where('id', $legs[$conservation_legislation['id']])->exists()) {
@@ -267,7 +267,7 @@ class SyncTaxon extends FormRequest
     {
         $conservation_document_ids = [];
         foreach ($data['conservation_documents'] as $conservation_document) {
-            if (!Arr::exists($docs, $conservation_document['id'])) {
+            if (! Arr::exists($docs, $conservation_document['id'])) {
                 continue;
             }
             if (\App\ConservationDocument::where('id', $docs[$conservation_document['id']])->exists()) {
@@ -287,7 +287,7 @@ class SyncTaxon extends FormRequest
     {
         $red_list_map = [];
         foreach ($data['red_lists'] as $red_list) {
-            if (!Arr::exists($redLists, $red_list['id'])) {
+            if (! Arr::exists($redLists, $red_list['id'])) {
                 continue;
             }
             if (\App\RedList::where('id', $redLists[$red_list['id']])->exists()) {
@@ -329,7 +329,7 @@ class SyncTaxon extends FormRequest
                 if ('parent_id' === $key) {
                     $data['parent'] = $oldData['parent'] ? $oldData['parent']['name'] : $value;
                 } elseif ('rank' === $key) {
-                    $data[$key] = ['value' => $value, 'label' => 'taxonomy.' . $value];
+                    $data[$key] = ['value' => $value, 'label' => 'taxonomy.'.$value];
                 } elseif (in_array($key, ['description', 'native_name'])) {
                     $data[$key] = null;
                 } elseif (in_array($key, ['restricted', 'allochthonous', 'invasive', 'uses_atlas_codes'])) {
@@ -374,7 +374,7 @@ class SyncTaxon extends FormRequest
             return [$translation->locale => $translation->{$translatedAttribute}];
         });
 
-        return !$old->diffAssoc($new)->isEmpty() || !$new->diffAssoc($old)->isEmpty();
+        return ! $old->diffAssoc($new)->isEmpty() || ! $new->diffAssoc($old)->isEmpty();
     }
 
     /**
@@ -401,7 +401,7 @@ class SyncTaxon extends FormRequest
         $taxon->load('conservationDocuments');
 
         return $oldValue->count() !== $taxon->conservationDocuments->count()
-            || ($oldValue->isNotEmpty() && !$taxon->conservationDocuments->isNotEmpty()
+            || ($oldValue->isNotEmpty() && ! $taxon->conservationDocuments->isNotEmpty()
                 && $oldValue->pluck('id')->diff($taxon->conservationDocuments->pluck('id'))->isNotEmpty());
     }
 
@@ -415,7 +415,7 @@ class SyncTaxon extends FormRequest
         $taxon->load('redLists');
 
         return $oldValue->count() !== $taxon->redLists->count()
-            || (!$oldValue->isEmpty() && !$taxon->redLists->isEmpty()
+            || (! $oldValue->isEmpty() && ! $taxon->redLists->isEmpty()
                 && $oldValue->pluck('id')->diff($taxon->redLists->pluck('id'))->isNotEmpty()
                 || $oldValue->filter(function ($oldRedList) use ($taxon) {
                     return $taxon->redLists->contains(function ($redList) use ($oldRedList) {
@@ -450,7 +450,7 @@ class SyncTaxon extends FormRequest
 
         $transformedData = Localization::transformTranslations(Arr::only($data, ['description', 'native_name']));
 
-        if (!empty($transformedData)) {
+        if (! empty($transformedData)) {
             $taxon->update($transformedData);
         }
     }
@@ -466,11 +466,11 @@ class SyncTaxon extends FormRequest
             $synonymsToInsert[] = [
                 'name' => $synonym['name'],
                 'author' => $synonym['author'],
-                'taxon_id' => $taxon->id
+                'taxon_id' => $taxon->id,
             ];
         }
 
-        if (!empty($synonymsToInsert)) {
+        if (! empty($synonymsToInsert)) {
             Synonym::insert($synonymsToInsert);
         }
     }
