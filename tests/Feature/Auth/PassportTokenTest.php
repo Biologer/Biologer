@@ -31,7 +31,7 @@ class PassportTokenTest extends TestCase
         $user = User::factory()->create(['email_verified_at' => null]);
         Passport::actingAs($user);
 
-        $this->postJson(route('preferences.token.generate'), ['name' => 'Test Token'])->assertForbidden();
+        $this->postJson(route('preferences.token.generate'), ['name' => 'New test access token'])->assertForbidden();
         $this->postJson(route('preferences.token.revoke'), ['token_id' => 'randomTokenId'])->assertForbidden();
     }
 
@@ -41,7 +41,7 @@ class PassportTokenTest extends TestCase
         $user = User::factory()->create(['email_verified_at' => now()]);
         Passport::actingAs($user);
 
-        $response = $this->postJson(route('preferences.token.generate'), ['name' => 'Test Token']);
+        $response = $this->postJson(route('preferences.token.generate'), ['name' => 'New test access token']);
 
         $response->assertStatus(200)
             ->assertJsonStructure(['token', 'id']);
@@ -60,7 +60,7 @@ class PassportTokenTest extends TestCase
 
         $user->createToken('Existing Token');
 
-        $response = $this->postJson(route('preferences.token.generate'), ['name' => 'New Token']);
+        $response = $this->postJson(route('preferences.token.generate'), ['name' => 'New test access token']);
 
         $response->assertStatus(400)
             ->assertJson(['message' => 'You already have a valid token.']);
