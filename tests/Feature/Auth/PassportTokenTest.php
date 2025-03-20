@@ -47,7 +47,7 @@ class PassportTokenTest extends TestCase
 
         $this->assertDatabaseHas('oauth_access_tokens', [
             'user_id' => $user->id,
-            'revoked' => false
+            'revoked' => false,
         ]);
     }
 
@@ -61,7 +61,7 @@ class PassportTokenTest extends TestCase
 
         $this->assertDatabaseHas('oauth_access_tokens', [
             'user_id' => $user->id,
-            'revoked' => false
+            'revoked' => false,
         ]);
 
         $response = $this->getJson(route('preferences.token.revoke'));
@@ -71,7 +71,7 @@ class PassportTokenTest extends TestCase
 
         $this->assertDatabaseMissing('oauth_access_tokens', [
             'user_id' => $user->id,
-            'revoked' => false
+            'revoked' => false,
         ]);
     }
 }
