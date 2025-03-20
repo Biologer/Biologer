@@ -133,6 +133,7 @@ class ViewServiceProvider extends ServiceProvider
                         ->route('preferences.license', trans('navigation.preferences.license'))
                         ->route('preferences.notifications', trans('navigation.preferences.notifications'))
                         ->route('preferences.account', trans('navigation.preferences.account'))
+                        ->route('preferences.token', trans('navigation.preferences.tokens'))
                         ->setActiveClass('is-active')
                         ->setActiveClassOnLink()
                         ->setActiveFromRequest()

@@ -71,6 +71,8 @@ Vue.component('NzCaptcha', () => import(/* webpackChunkName: "public" */ './comp
 
 Vue.component('NzDeleteAccountButton', () => import(/* webpackChunkName: "dashboard" */ './components/DeleteAccountButton'))
 
+Vue.component('NzTokenPreference', () => import(/* webpackChunkName: "dashboard" */ './components/preferences/TokenPreference'))
+
 Vue.prototype.trans = window.trans = (string, args = {}, defaultString = '') => {
     let value = window.App.i18n[string] || defaultString || string
 
