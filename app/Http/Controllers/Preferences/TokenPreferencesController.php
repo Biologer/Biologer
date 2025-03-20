@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Preferences;
 
 use Illuminate\Http\Request;
-use Laravel\Passport\Token;
 
 class TokenPreferencesController
 {
@@ -65,7 +64,7 @@ class TokenPreferencesController
 
         $token = $user->tokens()->where('id', $request->input('token_id'))->first();
 
-        if ($token && !$token->revoked) {
+        if ($token && ! $token->revoked) {
             $token->revoke();
 
             return response()->json(['message' => 'Token revoked successfully']);
