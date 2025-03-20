@@ -3,6 +3,7 @@
 namespace Auth;
 
 use App\User;
+use App\Models\Token;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -17,6 +18,7 @@ class PassportTokenTest extends TestCase
         $this->artisan('passport:install');
     }
 
+    /** @test */
     public function guest_cannot_access_token_routes()
     {
         $this->getJson(route('preferences.token'))->assertStatus(401);
@@ -30,14 +32,14 @@ class PassportTokenTest extends TestCase
         $user = User::factory()->create(['email_verified_at' => null]);
         Passport::actingAs($user);
 
-        $this->postJson(route('preferences.token.generate'))->assertForbidden();
-        $this->postJson(route('preferences.token.revoke'))->assertForbidden();
+        $this->postJson(route('preferences.token.generate'), ['name' => 'Test Token'])->assertForbidden();
+        $this->postJson(route('preferences.token.revoke'), ['token_id' => 'randomTokenId'])->assertForbidden();
     }
 
     /** @test */
     public function verified_user_can_generate_access_token()
     {
-        $user = User::factory()->create(['email_verified_at' => now()])->fresh();
+        $user = User::factory()->create(['email_verified_at' => now()]);
         Passport::actingAs($user);
 
         $response = $this->postJson(route('preferences.token.generate'), ['name' => 'Test Token']);
@@ -52,27 +54,62 @@ class PassportTokenTest extends TestCase
     }
 
     /** @test */
-    public function verified_user_can_revoke_tokens()
+    public function verified_user_cannot_generate_token_if_already_exists()
     {
-        $user = User::factory()->create(['email_verified_at' => now()])->fresh();
+        $user = User::factory()->create(['email_verified_at' => now()]);
         Passport::actingAs($user);
 
-        // Generate a token to revoke
-        $token = $user->createToken('Test Token');
+        $user->createToken('Existing Token');
 
-        $this->assertDatabaseHas('oauth_access_tokens', [
-            'user_id' => $user->id,
-            'revoked' => false,
-        ]);
+        $response = $this->postJson(route('preferences.token.generate'), ['name' => 'New Token']);
+
+        $response->assertStatus(400)
+            ->assertJson(['message' => 'You already have a valid token.']);
+    }
+
+    /** @test */
+    public function verified_user_can_revoke_tokens()
+    {
+        $user = User::factory()->create(['email_verified_at' => now()]);
+        Passport::actingAs($user);
+
+        $token = $user->createToken('Test Token');
 
         $response = $this->postJson(route('preferences.token.revoke'), ['token_id' => $token->accessToken]);
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Token revoked successfully']);
 
-        $this->assertDatabaseMissing('oauth_access_tokens', [
-            'user_id' => $user->id,
-            'revoked' => false,
+        $this->assertDatabaseHas('oauth_access_tokens', [
+            'id' => $token->accessTokenId,
+            'revoked' => true,
         ]);
+    }
+
+    /** @test */
+    public function verified_user_cannot_revoke_non_existent_token()
+    {
+        $user = User::factory()->create(['email_verified_at' => now()]);
+        Passport::actingAs($user);
+
+        $response = $this->postJson(route('preferences.token.revoke'), ['token_id' => 'nonexistentTokenId']);
+
+        $response->assertStatus(404)
+            ->assertJson(['message' => 'Token not found or already revoked']);
+    }
+
+    /** @test */
+    public function verified_user_cannot_revoke_already_revoked_token()
+    {
+        $user = User::factory()->create(['email_verified_at' => now()]);
+        Passport::actingAs($user);
+
+        $token = $user->createToken('Test Token');
+        $token->revoke();
+
+        $response = $this->postJson(route('preferences.token.revoke'), ['token_id' => $token->accessToken]);
+
+        $response->assertStatus(404)
+            ->assertJson(['message' => 'Token not found or already revoked']);
     }
 }
