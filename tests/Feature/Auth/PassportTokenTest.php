@@ -75,7 +75,7 @@ class PassportTokenTest extends TestCase
 
         $token = $user->createToken('Existing test access token');
 
-        $response = $this->postJson(route('preferences.token.revoke'), ['token_id' => $token->accessToken]);
+        $response = $this->postJson(route('preferences.token.revoke'), ['token_id' => $token->token->id]);
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Token revoked successfully']);
