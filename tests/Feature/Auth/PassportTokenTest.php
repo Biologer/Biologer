@@ -20,8 +20,8 @@ class PassportTokenTest extends TestCase
     public function guest_cannot_access_token_routes()
     {
         $this->getJson(route('preferences.token'))->assertStatus(401);
-        $this->getJson(route('preferences.token.generate'))->assertStatus(401);
-        $this->getJson(route('preferences.token.revoke'))->assertStatus(401);
+        $this->postJson(route('preferences.token.generate'))->assertStatus(401);
+        $this->postJson(route('preferences.token.revoke'))->assertStatus(401);
     }
 
     /** @test */
@@ -30,8 +30,8 @@ class PassportTokenTest extends TestCase
         $user = User::factory()->create(['email_verified_at' => null]);
         Passport::actingAs($user);
 
-        $this->getJson(route('preferences.token.generate'))->assertForbidden();
-        $this->getJson(route('preferences.token.revoke'))->assertForbidden();
+        $this->postJson(route('preferences.token.generate'))->assertForbidden();
+        $this->postJson(route('preferences.token.revoke'))->assertForbidden();
     }
 
     /** @test */
@@ -40,10 +40,10 @@ class PassportTokenTest extends TestCase
         $user = User::factory()->create(['email_verified_at' => now()])->fresh();
         Passport::actingAs($user);
 
-        $response = $this->getJson(route('preferences.token.generate'));
+        $response = $this->postJson(route('preferences.token.generate'), ['name' => 'Test Token']);
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['token']);
+            ->assertJsonStructure(['token', 'id']);
 
         $this->assertDatabaseHas('oauth_access_tokens', [
             'user_id' => $user->id,
@@ -57,17 +57,18 @@ class PassportTokenTest extends TestCase
         $user = User::factory()->create(['email_verified_at' => now()])->fresh();
         Passport::actingAs($user);
 
-        $user->createToken('Test Token');
+        // Generate a token to revoke
+        $token = $user->createToken('Test Token');
 
         $this->assertDatabaseHas('oauth_access_tokens', [
             'user_id' => $user->id,
             'revoked' => false,
         ]);
 
-        $response = $this->getJson(route('preferences.token.revoke'));
+        $response = $this->postJson(route('preferences.token.revoke'), ['token_id' => $token->accessToken]);
 
         $response->assertStatus(200)
-            ->assertJson(['message' => 'Tokens revoked']);
+            ->assertJson(['message' => 'Token revoked successfully']);
 
         $this->assertDatabaseMissing('oauth_access_tokens', [
             'user_id' => $user->id,

@@ -23,7 +23,7 @@ return [
         'notifications_preferences' => 'Notifications Preferences',
         'data_entry' => 'Data Entry',
         'data_entry_preferences' => 'Data Entry Preferences',
-        'tokens' => 'API Tokens',
+        'token' => 'API Tokens',
     ],
     'dashboard' => 'Dashboard',
     'notifications' => 'Notifications',
