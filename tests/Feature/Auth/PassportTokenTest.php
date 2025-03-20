@@ -81,7 +81,7 @@ class PassportTokenTest extends TestCase
             ->assertJson(['message' => 'Token revoked successfully']);
 
         $this->assertDatabaseHas('oauth_access_tokens', [
-            'id' => $token->accessTokenId,
+            'id' => $token->token->id,
             'revoked' => true,
         ]);
     }
