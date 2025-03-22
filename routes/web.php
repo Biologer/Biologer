@@ -117,8 +117,8 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::patch('data-entry', [DataEntryPreferencesController::class, 'update'])->name('data-entry.update');
 
             Route::get('token', [TokenPreferencesController::class, 'index'])->name('token');
-            Route::post('token/generate', [TokenPreferencesController::class, 'generateToken'])->name('token.generate');
-            Route::post('token/revoke', [TokenPreferencesController::class, 'revokeToken'])->name('token.revoke');
+            Route::post('token/generate', [TokenPreferencesController::class, 'generate'])->name('token.generate');
+            Route::post('token/revoke', [TokenPreferencesController::class, 'revoke'])->name('token.revoke');
         });
 
         Route::prefix('contributor')->name('contributor.')->group(function () {

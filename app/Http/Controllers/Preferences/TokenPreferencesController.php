@@ -16,7 +16,7 @@ class TokenPreferencesController
     {
 
         return view('preferences.token', [
-            'tokens' => $request->user()->tokens,
+            'tokens' => $request->user()->tokens()->whereNotNull('name')->get(),
         ]);
     }
 
@@ -27,7 +27,7 @@ class TokenPreferencesController
      * @param  \App\User  $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function generateToken(Request $request)
+    public function generate(Request $request)
     {
         $user = $request->user();
 
@@ -35,7 +35,7 @@ class TokenPreferencesController
             'name' => 'required|string|min:10|max:255',
         ]);
 
-        $existingToken = $user->tokens()->where('revoked', false)->first();
+        $existingToken = $user->tokens()->where('revoked', false)->whereNotNull('name')->first();
 
         if ($existingToken) {
             return response()->json(['message' => 'You already have a valid token.'], 400);
@@ -54,7 +54,7 @@ class TokenPreferencesController
      * @param  \App\User  $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function revokeToken(Request $request)
+    public function revoke(Request $request)
     {
         $user = $request->user();
 
