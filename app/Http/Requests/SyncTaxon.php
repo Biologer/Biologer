@@ -76,13 +76,20 @@ class SyncTaxon extends FormRequest
                 }
             }
 
+            $attributes = [];
+            foreach (['restricted', 'allochthonous', 'invasive'] as $attribute) {
+                $attributes[$attribute] = Arr::has($country_ref, $attribute)
+                    ? $country_ref[$attribute]
+                    : $updated_data[$attribute];
+            }
+
             $taxon->update(array_merge(
                 array_map('trim', Arr::only($updated_data, ['name', 'rank'])),
                 Arr::only($updated_data, [
-                        'fe_old_id', 'fe_id', 'author', 'restricted',
-                        'allochthonous', 'invasive', 'uses_atlas_codes',
+                        'fe_old_id', 'fe_id', 'author', 'uses_atlas_codes',
                 ]),
                 ['taxonomy_id' => Arr::get($updated_data, 'id'), 'parent_id' => $parentId],
+                $attributes
             ));
 
             $this->syncNamesAndDescriptions($updated_data, $taxon);
@@ -132,23 +139,31 @@ class SyncTaxon extends FormRequest
 
             $taxon = Taxon::findByRankNameAndAncestor($new_taxon['name'], $new_taxon['rank']);
 
+            $attributes = [];
+            foreach (['restricted', 'allochthonous', 'invasive'] as $attribute) {
+                $attributes[$attribute] = Arr::has($country_ref, $attribute)
+                    ? $country_ref[$attribute]
+                    : $new_taxon[$attribute];
+            }
+
             if (! $taxon) {
                 $taxon = Taxon::create(array_merge(
                     array_map('trim', Arr::only($new_taxon, (['name', 'rank']))),
                     Arr::only($new_taxon, ([
-                        'fe_id', 'author', 'fe_old_id', 'restricted', 'allochthonous', 'invasive', 'uses_atlas_codes',
+                        'fe_id', 'author', 'fe_old_id', 'uses_atlas_codes',
                     ])),
                     ['taxonomy_id' => $new_taxon['id'], 'parent_id' => $parentId],
                     Localization::transformTranslations(Arr::only($new_taxon, ([
                         'description', 'native_name',
-                    ])))
+                    ]))),
+                    $attributes
                 ));
             } else {
                 $taxon->update(array_merge(
                     array_map('trim', Arr::only($new_taxon, ['name', 'rank'])),
-                    Arr::only($new_taxon, ['fe_old_id', 'fe_id', 'author', 'restricted',
-                        'allochthonous', 'invasive', 'uses_atlas_codes',]),
-                    ['taxonomy_id' => Arr::get($new_taxon, 'id')]
+                    Arr::only($new_taxon, ['fe_old_id', 'fe_id', 'author', 'uses_atlas_codes',]),
+                    ['taxonomy_id' => Arr::get($new_taxon, 'id')],
+                    $attributes
                 ));
             }
 
@@ -158,7 +173,6 @@ class SyncTaxon extends FormRequest
             ]);
 
             $this->syncRelations($new_taxon, $taxon, $country_ref);
-
             $this->syncSynonym($new_taxon, $taxon);
 
             $taxon->rebuildAncestryOnDescendants();
