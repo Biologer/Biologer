@@ -68,6 +68,7 @@ return [
         'description' => 'Опис',
         'fe_old_id' => '(стара) FaunaEuropea ID',
         'fe_id' => 'FaunaEuropea ID',
+        'ancestors_names' => 'Називи предака',
         'restricted' => 'Tаксон са органиченим подацима',
         'allochthonous' => 'Таксон је алохтон',
         'invasive' => 'Таксон је инвазиван',
