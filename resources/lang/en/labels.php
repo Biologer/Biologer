@@ -68,6 +68,7 @@ return [
         'description' => 'Description',
         'fe_old_id' => '(old) FaunaEuropea ID',
         'fe_id' => 'FaunaEuropea ID',
+        'ancestors_names' => 'Ancestors Names',
         'restricted' => 'Taxon data is restricted',
         'allochthonous' => 'Taxon is allochthonous',
         'invasive' => 'Taxon is invasive',

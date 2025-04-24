@@ -68,6 +68,7 @@ return [
         'description' => 'Opis',
         'fe_old_id' => '(stara) FaunaEuropea ID',
         'fe_id' => 'FaunaEuropea ID',
+        'ancestors_names' => 'Nazivi predaka',
         'restricted' => 'Takson sa ograničenim podacima',
         'allochthonous' => 'Takson je alohton',
         'invasive' => 'Takson je invazivan',
