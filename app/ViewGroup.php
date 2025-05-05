@@ -215,13 +215,13 @@ class ViewGroup extends Model
      * @param  string|null  $name
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function allTaxaHigherOrEqualSpeciesRank($name = null)
+    public function allTaxaHigherOrEqualSubspeciesRank($name = null)
     {
         return $this->allTaxa()
             ->when($this->only_observed_taxa, function ($query) {
                 $query->observed();
             })
-            ->speciesOrHigher()
+            ->subspeciesOrHigher()
             ->orderByAncestry()
             ->with(['descendants' => function ($query) {
                 $query->when($this->only_observed_taxa, function ($query) {
