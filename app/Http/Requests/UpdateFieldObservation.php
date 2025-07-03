@@ -256,7 +256,7 @@ class UpdateFieldObservation extends FormRequest
             return;
         }
 
-        $fieldObservation->observation->creator->notify(
+        optional($fieldObservation->observation->creator)->notify(
             new FieldObservationEdited($fieldObservation, $this->user())
         );
     }
