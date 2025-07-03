@@ -76,7 +76,7 @@ class UnidentifiableFieldObservationsBatchController
         $user = auth()->user();
 
         if (! $user->is($fieldObservation->observation->creator)) {
-            $fieldObservation->observation->creator->notify(
+            optional($fieldObservation->observation->creator)->notify(
                 new FieldObservationMarkedUnidentifiable($fieldObservation, $user)
             );
         }
