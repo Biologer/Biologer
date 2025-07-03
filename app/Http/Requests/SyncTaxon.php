@@ -78,7 +78,7 @@ class SyncTaxon extends FormRequest
 
             $attributes = [];
             foreach (['restricted', 'allochthonous', 'invasive'] as $attribute) {
-                $attributes[$attribute] = Arr::has($country_ref, $attribute)
+                $attributes[$attribute] = ! is_null($country_ref[$attribute] ?? null)
                     ? $country_ref[$attribute]
                     : $updated_data[$attribute];
             }
@@ -142,8 +142,9 @@ class SyncTaxon extends FormRequest
             $taxon = Taxon::findByRankNameAndAncestor($new_taxon['name'], $new_taxon['rank']);
 
             $attributes = [];
+
             foreach (['restricted', 'allochthonous', 'invasive'] as $attribute) {
-                $attributes[$attribute] = Arr::has($country_ref, $attribute)
+                $attributes[$attribute] = ! is_null($country_ref[$attribute] ?? null)
                     ? $country_ref[$attribute]
                     : $new_taxon[$attribute];
             }
