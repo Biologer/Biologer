@@ -19,7 +19,8 @@ class UnidentifiableObservationsController
         $result = FieldObservation::with([
             'observation.taxon', 'observation.photos', 'activity.causer',
             'observation.types.translations', 'observedBy', 'identifiedBy',
-        ])->unidentifiable()->curatedBy($request->user())->filter($request)->paginate($request->get('per_page', 15));
+        ])->unidentifiable()->curatedBy($request->user())->isFieldObservation()
+            ->filter($request)->paginate($request->get('per_page', 15));
 
         return FieldObservationResource::collection($result);
     }

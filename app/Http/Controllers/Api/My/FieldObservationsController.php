@@ -16,7 +16,7 @@ class FieldObservationsController
      */
     public function index(Request $request)
     {
-        $result = FieldObservation::createdBy($request->user())->with([
+        $result = FieldObservation::createdBy($request->user())->isFieldObservation()->with([
             'observation.taxon', 'observation.photos', 'activity.causer',
             'observation.types.translations', 'observedBy', 'identifiedBy',
         ])->filter($request)->orderBy('id')->paginate($request->get('per_page', 15));
