@@ -47,6 +47,7 @@ class FieldObservation extends Model implements FlatArrayable
         'unidentifiable' => 'boolean',
         'approved_at' => 'datetime',
         'atlas_code' => 'integer',
+        'timed_count_id' => 'integer',
     ];
 
     public function filters()
@@ -643,6 +644,7 @@ class FieldObservation extends Model implements FlatArrayable
             'identified_by' => $this->identifiedBy,
             'dataset' => $this->observation->dataset,
             'atlas_code' => $this->atlas_code,
+            'timed_count_id' => $this->timed_count_id,
         ];
     }
 
