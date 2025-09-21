@@ -200,19 +200,6 @@ class FieldObservation extends Model implements FlatArrayable
     }
 
     /**
-     * Get approved observations.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeApproved($query)
-    {
-        return $query->whereHas('observation', function ($q) {
-            return $q->isFieldObservation()->approved();
-        });
-    }
-
-    /**
      * Check if observation is a field observation (not part of timed count).
      */
     public function scopeIsFieldObservation($query)
@@ -221,11 +208,18 @@ class FieldObservation extends Model implements FlatArrayable
     }
 
     /**
-     * Check if observation is part of a timed count.
+     * Get approved observations.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeIsTimedCountObservation($query)
+    public function scopeApproved($query)
     {
-        return $query->whereNotNull('timed_count_id');
+        return $query
+            ->isFieldObservation()
+            ->whereHas('observation', function ($q) {
+                return $q->approved();
+            });
     }
 
     /**
@@ -261,7 +255,7 @@ class FieldObservation extends Model implements FlatArrayable
     public function scopeApprovable($query)
     {
         return $query->whereHas('observation', function ($query) {
-            return $query->unapproved()->isFieldObservation()->whereHas('taxon', function ($query) {
+            return $query->unapproved()->ifFieldObservation()->whereHas('taxon', function ($query) {
                 return $query->speciesOrLower();
             });
         });

@@ -265,7 +265,7 @@ class License implements Arrayable
     {
         return $query->where(function ($query) {
             foreach (static::all() as $license) {
-                $query->orWhere($license->fieldObservationConstraint);
+                $query->isFieldObservation()->orWhere($license->fieldObservationConstraint);
             }
         });
     }
