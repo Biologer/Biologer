@@ -46,6 +46,8 @@ Vue.component('NzFieldObservationsTable', () => import('./components/tables/Fiel
 Vue.component('NzLiteratureObservationsTable', () => import('./components/tables/LiteratureObservationsTable'))
 Vue.component('NzPublicationsTable', () => import('./components/tables/PublicationsTable'))
 Vue.component('NzTaxonomyTable', () => import('./components/tables/TaxonomyTable'))
+Vue.component('NzTimedCountObservationsTable', () => import(/* webpackChunkName: "dashboard" */ './components/tables/TimedCountObservationsTable.vue'))
+Vue.component('NzTimedCountFieldObservationsTable', () => import(/* webpackChunkName: "dashboard" */ './components/tables/TimedCountFieldObservationsTable.vue'))
 
 Vue.component('NzRegistrationForm', () => import('./components/forms/RegistrationForm'))
 Vue.component('NzUserForm', () => import('./components/forms/UserForm'))
@@ -70,6 +72,7 @@ Vue.component('NzOccurrenceChart', () => import(/* webpackChunkName: "public" */
 Vue.component('NzCaptcha', () => import(/* webpackChunkName: "public" */ './components/Captcha'))
 
 Vue.component('NzDeleteAccountButton', () => import(/* webpackChunkName: "dashboard" */ './components/DeleteAccountButton'))
+
 
 Vue.prototype.trans = window.trans = (string, args = {}, defaultString = '') => {
     let value = window.App.i18n[string] || defaultString || string

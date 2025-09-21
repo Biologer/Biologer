@@ -23,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Taxon' => 'App\Policies\TaxonPolicy',
         'App\User' => 'App\Policies\UserPolicy',
         'App\ViewGroup' => 'App\Policies\ViewGroupPolicy',
+        'App\TimedCountObservation' => 'App\Policies\TimedCountObservationPolicy',
     ];
 
     /**

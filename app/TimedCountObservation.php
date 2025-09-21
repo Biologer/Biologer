@@ -2,12 +2,19 @@
 
 namespace App;
 
+use App\Concerns\CanMemoize;
+use App\Concerns\MappedSorting;
 use App\Contracts\FlatArrayable;
+use App\Filters\Filterable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Activitylog\Models\Activity;
 
 class TimedCountObservation extends Model implements FlatArrayable
 {
+    use HasFactory, CanMemoize, Filterable, MappedSorting;
+
     /**
      * Field observations that belong to the timed count.
      *
@@ -16,6 +23,11 @@ class TimedCountObservation extends Model implements FlatArrayable
     public function fieldObservations()
     {
         return $this->hasMany(FieldObservation::class, 'timed_count_id');
+    }
+
+    public function viewGroup()
+    {
+        return $this->belongsTo(ViewGroup::class, 'view_groups_id');
     }
 
     /**
@@ -29,17 +41,18 @@ class TimedCountObservation extends Model implements FlatArrayable
     }
 
     /**
-     * User that has identified field observation taxon.
+     * Activity recorded on the model.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function identifiedBy()
+    public function activity()
     {
-        return $this->belongsTo(User::class);
+        return $this->morphMany(Activity::class, 'subject')->latest()->latest('id');
     }
 
+
     /**
-     * Get observations created by given user.
+     * Get timed count observations created by given user.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  \App\User  $user
@@ -47,71 +60,23 @@ class TimedCountObservation extends Model implements FlatArrayable
      */
     public function scopeCreatedBy($query, User $user)
     {
-        return $query->whereHas('observation', function ($q) use ($user) {
+        return $query->whereHas('created_by_id', function ($q) use ($user) {
             return $q->createdBy($user);
         });
     }
 
-    /**
-     * Get only observations of taxa curated by given user.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \App\User  $user
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeCuratedBy($query, User $user)
-    {
-        return $query->whereHas('observation', function ($observation) use ($user) {
-            return $observation->taxonCuratedBy($user);
-        });
-    }
 
     /**
-     * Check if observation is created by given user.
+     * Check if timed count observation is created by given user.
      *
      * @param  \App\User  $user
      * @return bool
      */
     public function isCreatedBy(User $user)
     {
-        return $this->observation->isCreatedBy($user);
+        return $this->creator->is($user);
     }
 
-    /**
-     * Check if given user should curate this observation.
-     *
-     * @param  \App\User  $user
-     * @param  bool  $evenWithoutTaxa
-     * @return bool
-     */
-    public function shouldBeCuratedBy(User $user, $evenWithoutTaxa = true)
-    {
-        return $this->observation->shouldBeCuratedBy($user, $evenWithoutTaxa);
-    }
-
-    /**
-     * Get curators for the observation.
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function curators()
-    {
-        $taxon = $this->observation->taxon;
-
-        if (empty($taxon)) {
-            return User::whereHas('roles', function ($query) {
-                $query->whereName('curator');
-            });
-        }
-
-        $curators = $taxon->load('ancestors.curators')
-            ->ancestors
-            ->pluck('curators')
-            ->push($taxon->curators)
-            ->flatten();
-
-        return \Illuminate\Database\Eloquent\Collection::make($curators)->unique();
-    }
 
     /**
      * User that has submitted this timed count observation.
@@ -124,16 +89,46 @@ class TimedCountObservation extends Model implements FlatArrayable
     }
 
     /**
-     * Convert the model instance to a flat array.
+     * List of fields that field observations can be sorted by.
      *
      * @return array
      */
-    public function toFlatArray()
+    public static function sortableFields()
+    {
+        return [
+            'id', 'year', 'month', 'day',
+        ];
+    }
+
+    /**
+     * Filter definitions.
+     *
+     * @return array
+     */
+    public function filters()
+    {
+        return [
+            'sort_by' => \App\Filters\SortBy::class,
+            'year' => \App\Filters\FieldObservation\ObservationAttribute::class,
+            'month' => \App\Filters\FieldObservation\ObservationAttribute::class,
+            'day' => \App\Filters\FieldObservation\ObservationAttribute::class,
+        ];
+    }
+
+    /**
+     * Convert the model instance to an array.
+     *
+     * @return array
+     */
+    public function toArray()
     {
         return [
             'id' => $this->id,
-            'start_time' => $this->start_time ? $this->start_time->toIso8601String() : null,
-            'end_time' => $this->end_time ? $this->end_time->toIso8601String() : null,
+            'year' => $this->year,
+            'month' => $this->month,
+            'day' => $this->day,
+            'start_time' => $this->start_time,
+            'end_time' => $this->end_time,
             'count_duration' => $this->count_duration,
             'cloud_cover' => $this->cloud_cover,
             'atmospheric_pressure' => $this->atmospheric_pressure,
@@ -142,9 +137,56 @@ class TimedCountObservation extends Model implements FlatArrayable
             'wind_direction' => $this->wind_direction,
             'wind_speed' => $this->wind_speed,
             'habitat' => $this->habitat,
+            'comments' => $this->comments,
             'area' => $this->area,
             'route_length' => $this->route_length,
             'view_groups_id' => $this->view_groups_id,
+            'activity' => $this->activity,
         ];
+    }
+
+    /**
+     * Convert the model instance to a flat array.
+     *
+     * @return array
+     */
+    public function toFlatArray()
+    {
+        return [
+            'id' => $this->id,
+            'year' => $this->year,
+            'month' => $this->month,
+            'day' => $this->day,
+            'start_time' => $this->start_time,
+            'end_time' => $this->end_time,
+            'count_duration' => $this->count_duration,
+            'cloud_cover' => $this->cloud_cover,
+            'atmospheric_pressure' => $this->atmospheric_pressure,
+            'humidity' => $this->humidity,
+            'temperature' => $this->temperature,
+            'wind_direction' => $this->wind_direction,
+            'wind_speed' => $this->wind_speed,
+            'habitat' => $this->habitat,
+            'comments' => $this->comments,
+            'area' => $this->area,
+            'route_length' => $this->route_length,
+            'view_groups_id' => $this->view_groups_id,
+            'activity' => $this->activity,
+        ];
+    }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($model) {
+            $model->fieldObservations()->delete();
+            $model->activity()->delete();
+        });
     }
 }

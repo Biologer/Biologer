@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\TaxonomyController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ViewGroupsController;
 use App\Http\Controllers\AnnouncementsController;
+use App\Http\Controllers\Api\TimedCountObservationsController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Contributor\DashboardController;
 use App\Http\Controllers\Contributor\FieldObservationsController;
@@ -151,6 +152,9 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
             Route::get('public-literature-observations/{literatureObservation}', [PublicLiteratureObservationsController::class, 'show'])
                 ->name('public-literature-observations.show');
+
+            Route::get('timed-count-observations', [TimedCountObservationsController::class, 'index'])
+                ->name('timed-count-observations.index');
         });
 
         Route::prefix('curator')->name('curator.')->group(function () {

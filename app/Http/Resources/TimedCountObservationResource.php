@@ -14,6 +14,21 @@ class TimedCountObservationResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $locale = app()->getLocale();
+
+        $translation = $this->viewGroup->translations
+            ->firstWhere('locale', $locale);
+
+        $timedCountObservation = parent::toArray($request);
+
+        // $timedCountObservation['field_observations'] = FieldObservationResource::collection($this->whenLoaded('fieldObservations'));
+        $timedCountObservation['view_group'] = [
+        'id' => $this->viewGroup->id,
+            'name' => $translation && $translation->name
+                ? $translation->name
+                : $this->viewGroup->name,
+        ];
+
+        return $timedCountObservation;
     }
 }

@@ -16,6 +16,10 @@ class CreateTimedCountObservationsTable extends Migration
         Schema::create('timed_count_observations', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned();
 
+            $table->smallInteger('year')->nullable();
+            $table->unsignedTinyInteger('month')->nullable();
+            $table->unsignedTinyInteger('day')->nullable();
+
             $table->time('start_time')->nullable();
             $table->time('end_time')->nullable();
             $table->unsignedInteger('count_duration')->nullable();
@@ -26,6 +30,7 @@ class CreateTimedCountObservationsTable extends Migration
             $table->enum('wind_direction', ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'])->nullable();
             $table->unsignedSmallInteger('wind_speed')->nullable();
             $table->text('habitat')->nullable();
+            $table->text('comments')->nullable();
             $table->unsignedInteger('area')->nullable();
             $table->unsignedInteger('route_length')->nullable();
             $table->string('observer')->nullable();

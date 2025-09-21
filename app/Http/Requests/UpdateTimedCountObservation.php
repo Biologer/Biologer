@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use App\ActivityLog\TimedCountObservationDiff;
 use App\Notifications\TimedCountObservationEdited;
+use App\Rules\Day;
+use App\Rules\Month;
 use App\TimedCountObservation;
 use App\User;
 use Illuminate\Foundation\Http\FormRequest;
@@ -20,6 +22,19 @@ class UpdateTimedCountObservation extends FormRequest
     public function rules()
     {
         return [
+            'year' => ['bail', 'required', 'date_format:Y', 'before_or_equal:now'],
+            'month' => [
+                'bail',
+                'nullable',
+                'numeric',
+                new Month($this->input('year')),
+            ],
+            'day' => [
+                'bail',
+                'nullable',
+                'numeric',
+                new Day($this->input('year'), $this->input('month')),
+            ],
             'start_time' => ['nullable', 'date_format:H:i:s'],
             'end_time' => ['nullable', 'date_format:H:i:s', 'after:start_time'],
             'count_duration' => ['nullable', 'integer', 'min:1'],
@@ -69,6 +84,9 @@ class UpdateTimedCountObservation extends FormRequest
     protected function getTimedCountObservationData()
     {
         $data = [
+            'year' => $this->input('year'),
+            'month' => $this->input('month') ? (int) $this->input('month') : null,
+            'day' => $this->input('day') ? (int) $this->input('day') : null,
             'start_time' => $this->input('start_time'),
             'end_time' => $this->input('end_time'),
             'count_duration' => $this->input('count_duration'),
@@ -79,6 +97,7 @@ class UpdateTimedCountObservation extends FormRequest
             'wind_direction' => $this->input('wind_direction'),
             'wind_speed' => $this->input('wind_speed'),
             'habitat' => $this->input('habitat'),
+            'comments' => $this->input('comments'),
             'area' => $this->input('area'),
             'route_length' => $this->input('route_length'),
             'observer' => $this->getObserver(),

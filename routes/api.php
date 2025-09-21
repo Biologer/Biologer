@@ -40,11 +40,11 @@ use App\Http\Controllers\Api\TaxaController;
 use App\Http\Controllers\Api\TaxonExportsController;
 use App\Http\Controllers\Api\TaxonomyController;
 use App\Http\Controllers\Api\TaxonPublicPhotosController;
-use App\Http\Controllers\Api\TimedCountObservationsController;
 use App\Http\Controllers\Api\UnidentifiableFieldObservationsBatchController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\ViewGroupExportsController;
 use App\Http\Controllers\Api\ViewGroupsController;
+use App\Http\Controllers\Contributor\TimedCountObservationsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -169,7 +169,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     // Timed count observations
     Route::get('timed-count-observations', [TimedCountObservationsController::class, 'index'])
-        ->middleware('can:list,App\TimedCountObservation')
+        //->middleware('can:list,App\TimedCountObservation')
         ->name('api.timed-count-observations.index');
 
     Route::post('timed-count-observations', [TimedCountObservationsController::class, 'store'])
