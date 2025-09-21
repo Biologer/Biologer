@@ -16,6 +16,30 @@ class TimedCountObservation extends Model implements FlatArrayable
     use HasFactory, CanMemoize, Filterable, MappedSorting;
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'year' => 'integer',
+        'month' => 'integer',
+        'day' => 'integer',
+        'start_time' => 'time',
+        'end_time' => 'time',
+        'count_duration' => 'integer',
+        'cloud_cover' => 'integer',
+        'atmospheric_pressure' => 'float',
+        'humidity' => 'integer',
+        'temperature' => 'float',
+        'wind_direction' => 'string',
+        'wind_speed' => 'float',
+        'habitat' => 'string',
+        'comments' => 'string',
+        'area' => 'float',
+        'route_length' => 'float',
+    ];
+
+    /**
      * Field observations that belong to the timed count.
      *
      * @return HasMany
@@ -25,6 +49,11 @@ class TimedCountObservation extends Model implements FlatArrayable
         return $this->hasMany(FieldObservation::class, 'timed_count_id');
     }
 
+    /**
+     * View group that has access to the timed count observation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function viewGroup()
     {
         return $this->belongsTo(ViewGroup::class, 'view_groups_id');
@@ -50,7 +79,6 @@ class TimedCountObservation extends Model implements FlatArrayable
         return $this->morphMany(Activity::class, 'subject')->latest()->latest('id');
     }
 
-
     /**
      * Get timed count observations created by given user.
      *
@@ -60,11 +88,8 @@ class TimedCountObservation extends Model implements FlatArrayable
      */
     public function scopeCreatedBy($query, User $user)
     {
-        return $query->whereHas('created_by_id', function ($q) use ($user) {
-            return $q->createdBy($user);
-        });
+        return $query->where('created_by_id', $user->id);
     }
-
 
     /**
      * Check if timed count observation is created by given user.
@@ -76,7 +101,6 @@ class TimedCountObservation extends Model implements FlatArrayable
     {
         return $this->creator->is($user);
     }
-
 
     /**
      * User that has submitted this timed count observation.
