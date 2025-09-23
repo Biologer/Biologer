@@ -256,7 +256,7 @@ class FieldObservation extends Model implements FlatArrayable
     public function scopeApprovable($query)
     {
         return $query->whereHas('observation', function ($query) {
-            return $query->unapproved()->ifFieldObservation()->whereHas('taxon', function ($query) {
+            return $query->unapproved()->isFieldObservation()->whereHas('taxon', function ($query) {
                 return $query->speciesOrLower();
             });
         });

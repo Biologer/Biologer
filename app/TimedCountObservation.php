@@ -16,6 +16,34 @@ class TimedCountObservation extends Model implements FlatArrayable
     use HasFactory, CanMemoize, Filterable, MappedSorting;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'year',
+        'month',
+        'day',
+        'start_time',
+        'end_time',
+        'count_duration',
+        'cloud_cover',
+        'atmospheric_pressure',
+        'humidity',
+        'temperature',
+        'wind_direction',
+        'wind_speed',
+        'habitat',
+        'comments',
+        'area',
+        'route_length',
+        'observer',
+        'observed_by_id',
+        'created_by_id',
+        'view_groups_id',
+    ];
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
