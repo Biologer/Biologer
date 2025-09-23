@@ -108,8 +108,24 @@
       </b-table-column>
 
       <b-table-column width="150" numeric v-slot="{ row }">
+        <a @click="openActivityLogModal(row)" v-if="showActivityLog" :title="trans('Activity Log')"><b-icon icon="history" /></a>
+
+        <a :href="viewLink(row)" v-if="viewRoute" :title="trans('buttons.view')"><b-icon icon="eye" /></a>
+
         <a @click="confirmRemove(row)"><b-icon icon="trash"></b-icon></a>
       </b-table-column>
+
+      <b-modal :active="activityLog.length > 0" @close="activityLog = []" has-modal-card>
+        <div class="modal-card">
+          <div class="modal-card-head">
+            <b-icon icon="history" />
+            <p class="modal-card-title">{{ trans('Activity Log') }}</p>
+          </div>
+          <div class="modal-card-body">
+            <nz-timed-count-observation-activity-log :activities="activityLog" />
+          </div>
+        </div>
+      </b-modal>
 
       <template #empty>
         <section class="section">
@@ -145,8 +161,10 @@ export default {
       validator: value => value.length
     },
     listRoute: String,
-    //editRoute: String,
+    viewRoute: String,
+    editRoute: String,
     deleteRoute: String,
+    showActivityLog: Boolean,
     empty: {
       type: String,
       default: 'Nothing here.'
@@ -163,6 +181,7 @@ export default {
       page: 1,
       perPage: this.perPageOptions[0],
       checkedRows: [],
+      activityLog: [],
       search: ''
     }
   },
@@ -239,6 +258,10 @@ export default {
       this.loadAsyncData()
     },
 
+    openActivityLogModal(row) {
+      this.activityLog = row.activity
+    },
+
     confirmRemove(row) {
       this.$buefy.dialog.confirm({
         message: this.trans('Are you sure you want to delete this record?'),
@@ -262,6 +285,10 @@ export default {
 
     editLink(row) {
       return route(this.editRoute, row.id)
+    },
+
+    viewLink(row) {
+      return this.viewRoute ? route(this.viewRoute, row.id) : null
     },
 
     performSearch: _debounce(function (value) {

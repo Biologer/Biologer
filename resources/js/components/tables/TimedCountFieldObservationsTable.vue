@@ -371,7 +371,7 @@ import NzSortableColumnHeader from '@/components/table/SortableColumnHeader'
 import NzExportModal from '@/components/exports/ExportModal'
 
 export default {
-  name: 'nzFieldObservationsTable',
+  name: 'nzTimedCountFieldObservationsTable',
 
   mixins: [FilterableTableMixin, PersistentTableMixin],
 
@@ -397,6 +397,10 @@ export default {
       editRoute: String,
       deleteRoute: String,
       approveRoute: String,
+      timedCountObservationId: {
+        type: Number,
+        required: true,
+      },
       markAsUnidentifiableRoute: String,
       moveToPendingRoute: String,
       empty: {
@@ -495,6 +499,8 @@ export default {
     })
   },
 
+
+
   methods: {
     loadAsyncData() {
       this.loading = true
@@ -502,7 +508,7 @@ export default {
 
       const { selectedTaxon, ...filter } = this.filter
 
-      return axios.get(route(this.listRoute).withQuery({
+      return axios.get(route(this.listRoute, this.timedCountObservationId).withQuery({
         ...filter,
         sort_by: this.sortBy,
         page: this.page,

@@ -3,7 +3,7 @@
 @section('content')
     <div class="box">
         <nz-timed-count-field-observations-table
-            list-route="api.timed-count-field-observations.index"
+            list-route="api.timed-counts.field-observations"
             view-route="contributor.field-observations.show"
             edit-route="contributor.field-observations.edit"
             delete-route="api.field-observations.destroy"
@@ -14,7 +14,7 @@
             show-observer
             @endrole
             export-url="{{ route('api.my.field-observation-exports.store') }}"
-            :export-columns="{{ $exportColumns }}"
+            :timed-count-observation-id="{{ $timedCountObservation->id }}"
         />
     </div>
 @endsection

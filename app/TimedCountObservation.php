@@ -52,8 +52,6 @@ class TimedCountObservation extends Model implements FlatArrayable
         'year' => 'integer',
         'month' => 'integer',
         'day' => 'integer',
-        'start_time' => 'time',
-        'end_time' => 'time',
         'count_duration' => 'integer',
         'cloud_cover' => 'integer',
         'atmospheric_pressure' => 'float',
@@ -192,7 +190,6 @@ class TimedCountObservation extends Model implements FlatArrayable
             'comments' => $this->comments,
             'area' => $this->area,
             'route_length' => $this->route_length,
-            'view_groups_id' => $this->view_groups_id,
             'activity' => $this->activity,
         ];
     }
@@ -222,7 +219,6 @@ class TimedCountObservation extends Model implements FlatArrayable
             'comments' => $this->comments,
             'area' => $this->area,
             'route_length' => $this->route_length,
-            'view_groups_id' => $this->view_groups_id,
             'activity' => $this->activity,
         ];
     }

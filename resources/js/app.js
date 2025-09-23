@@ -47,6 +47,7 @@ Vue.component('NzLiteratureObservationsTable', () => import('./components/tables
 Vue.component('NzPublicationsTable', () => import('./components/tables/PublicationsTable'))
 Vue.component('NzTaxonomyTable', () => import('./components/tables/TaxonomyTable'))
 Vue.component('NzTimedCountObservationsTable', () => import('./components/tables/TimedCountObservationsTable'))
+Vue.component('NzTimedCountFieldObservationsTable', () => import('./components/tables/TimedCountFieldObservationsTable'))
 
 Vue.component('NzRegistrationForm', () => import('./components/forms/RegistrationForm'))
 Vue.component('NzUserForm', () => import('./components/forms/UserForm'))
@@ -60,6 +61,7 @@ Vue.component('NzPublicationForm', () => import('./components/forms/PublicationF
 Vue.component('NzFieldObservationActivityLog', () => import('./components/activity/FieldObservationActivityLog'))
 Vue.component('NzLiteratureObservationActivityLog', () => import('./components/activity/LiteratureObservationActivityLog'))
 Vue.component('NzTaxonActivityLog', () => import('./components/activity/TaxonActivityLog'))
+Vue.component('NzTimedCountObservationActivityLog', () => import('./components/activity/TimedCountObservationActivityLog'))
 
 Vue.component('NzFieldObservationsImport', () => import('./components/imports/FieldObservationsImport'))
 Vue.component('NzLiteratureObservationsImport', () => import('./components/imports/LiteratureObservationsImport'))

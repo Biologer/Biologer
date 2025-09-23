@@ -21,13 +21,15 @@ class TimedCountObservationResource extends JsonResource
 
         $timedCountObservation = parent::toArray($request);
 
-        // $timedCountObservation['field_observations'] = FieldObservationResource::collection($this->whenLoaded('fieldObservations'));
+
         $timedCountObservation['view_group'] = [
         'id' => $this->viewGroup->id,
             'name' => $translation && $translation->name
                 ? $translation->name
                 : $this->viewGroup->name,
         ];
+
+        $timedCountObservation['field_observations'] = FieldObservationResource::collection($this->whenLoaded('fieldObservations'));
 
         return $timedCountObservation;
     }

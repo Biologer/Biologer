@@ -2,78 +2,54 @@
 
 namespace App\Http\Controllers\Contributor;
 
-use App\Http\Requests\StoreTimedCountObservation;
-use App\Http\Requests\UpdateTimedCountObservation;
-use App\Http\Resources\TimedCountObservationResource;
 use App\TimedCountObservation;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TimedCountObservationsController
 {
     /**
-     * Get timed count observations.
+     * Display a list of observations.
      *
-     * @param Request $request
-     * @return AnonymousResourceCollection
+     * @return \Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index()
     {
-        $result = TimedCountObservation::with([
-             'fieldObservations', 'viewGroup',
-        ])->filter($request)->orderBy('id')->paginate($request->get('per_page', 15));
-
-        return TimedCountObservationResource::collection($result);
+        return view('contributor.timed-count-observations.index');
     }
 
     /**
-     * Add new timed count observation.
+     * Show field observation details.
      *
-     * @param StoreTimedCountObservation $form
-     * @return TimedCountObservationResource
-     */
-    public function store(StoreTimedCountObservation $form)
-    {
-        return new TimedCountObservationResource($form->store());
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param TimedCountObservation $timedCountObservation
-     * @param Request $request
-     * @return TimedCountObservationResource
+     * @param \App\TimedCountObservation $timedCountObservation
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View
      */
     public function show(TimedCountObservation $timedCountObservation, Request $request)
     {
         abort_unless($timedCountObservation->isCreatedBy($request->user()), 403);
 
-        return new TimedCountObservationResource($timedCountObservation);
+        return view('contributor.timed-count-observations.show', [
+            'timedCountObservation' => $timedCountObservation->load([
+                'fieldObservations', 'activity.causer',
+            ]),
+        ]);
     }
 
     /**
-     * Update timed count observation.
+     * Show form to edit timed count observation.
      *
-     * @param TimedCountObservation $timedCountObservation
-     * @param UpdateTimedCountObservation $form
-     * @return TimedCountObservationResource
+     * @param \App\TimedCountObservation $timedCountObservation
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View
      */
-    public function update(TimedCountObservation $timedCountObservation, UpdateTimedCountObservation $form)
+    public function edit(TimedCountObservation $timedCountObservation, Request $request)
     {
-        return new TimedCountObservationResource($form->save($timedCountObservation));
-    }
+        abort_unless($timedCountObservation->isCreatedBy($request->user()), 403);
 
-    /**
-     * Delete timed count observation.
-     *
-     * @param TimedCountObservation $timedCountObservation
-     * @return JsonResponse
-     */
-    public function destroy(TimedCountObservation $timedCountObservation)
-    {
-        $timedCountObservation->delete();
-
-        return response()->json(null, 204);
+        return view('contributor.field-observations.edit', [
+            'timedCountObservation' => $timedCountObservation->load([
+               'observedBy',
+            ]),
+        ]);
     }
 }

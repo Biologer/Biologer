@@ -4,6 +4,7 @@
     <div class="box">
         <nz-timed-count-observations-table
             list-route="api.timed-count-observations.index"
+            view-route="contributor.timed-count-observations.show"
             delete-route="api.timed-count-observations.destroy"
             empty="{{ __('No data...') }}"
             show-activity-log

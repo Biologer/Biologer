@@ -276,6 +276,11 @@ class FieldObservation extends Model implements FlatArrayable
         });
     }
 
+    public function scopeIsTimedCount($query, TimedCountObservation $timedCountObservation)
+    {
+        return $query->where('timed_count_id', $timedCountObservation->id);
+    }
+
     /**
      * Get only observations of taxa curated by given user.
      *
