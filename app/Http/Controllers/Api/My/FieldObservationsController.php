@@ -19,7 +19,7 @@ class FieldObservationsController
         $result = FieldObservation::createdBy($request->user())->isFieldObservation()->with([
             'observation.taxon', 'observation.photos', 'activity.causer',
             'observation.types.translations', 'observedBy', 'identifiedBy',
-        ])->filter($request)->orderBy('id')->paginate($request->get('per_page', 15));
+        ])->filter($request)->isFieldObservation()->orderBy('id')->paginate($request->get('per_page', 15));
 
         return FieldObservationResource::collection($result);
     }

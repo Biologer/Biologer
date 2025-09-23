@@ -21,9 +21,8 @@ class TimedCountObservationResource extends JsonResource
 
         $timedCountObservation = parent::toArray($request);
 
-
         $timedCountObservation['view_group'] = [
-        'id' => $this->viewGroup->id,
+            'id' => $this->viewGroup->id,
             'name' => $translation && $translation->name
                 ? $translation->name
                 : $this->viewGroup->name,

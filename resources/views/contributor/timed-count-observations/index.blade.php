@@ -1,9 +1,9 @@
-@extends('layouts.dashboard', ['title' => __('navigation.all_field_observations')])
+@extends('layouts.dashboard', ['title' => __('navigation.my_timed_count_observations')])
 
 @section('content')
     <div class="box">
         <nz-timed-count-observations-table
-            list-route="api.timed-count-observations.index"
+            list-route="api.my.timed-count-observations.index"
             view-route="contributor.timed-count-observations.show"
             delete-route="api.timed-count-observations.destroy"
             empty="{{ __('No data...') }}"

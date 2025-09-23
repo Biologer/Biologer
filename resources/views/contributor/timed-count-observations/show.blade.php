@@ -1,4 +1,4 @@
-@extends('layouts.dashboard', ['title' => __('navigation.all_field_observations')])
+@extends('layouts.dashboard', ['title' => __('navigation.my_timed_count_observations')])
 
 @section('content')
     <div class="box">
