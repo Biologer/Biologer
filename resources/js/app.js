@@ -38,6 +38,8 @@ Vue.component('NzAnnouncement', () => import(/* webpackChunkName: "dashboard" */
 Vue.component('NzSlider', () => import(/* webpackChunkName: "public" */ './components/Slider'))
 Vue.component('NzGroupTaxaSearchButton', () => import(/* webpackChunkName: "public" */ './components/GroupTaxaSearchButton'))
 
+Vue.component('NzTokenPreference', () => import('./components/preferences/TokenPreference.vue'))
+
 Vue.component('NzTaxaTable', () => import('./components/tables/TaxaTable'))
 Vue.component('NzUsersTable', () => import('./components/tables/UsersTable'))
 Vue.component('NzAnnouncementsTable', () => import('./components/tables/AnnouncementsTable'))

@@ -31,6 +31,7 @@ use App\Http\Controllers\Preferences\DataEntryPreferencesController;
 use App\Http\Controllers\Preferences\GeneralPreferencesController;
 use App\Http\Controllers\Preferences\LicensePreferencesController;
 use App\Http\Controllers\Preferences\NotificationsPreferencesController;
+use App\Http\Controllers\Preferences\TokenPreferencesController;
 use App\Http\Controllers\TaxaController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -115,6 +116,10 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::patch('notifications', [NotificationsPreferencesController::class, 'update'])->name('notifications.update');
 
             Route::patch('data-entry', [DataEntryPreferencesController::class, 'update'])->name('data-entry.update');
+
+            Route::get('token', [TokenPreferencesController::class, 'index'])->name('token');
+            Route::post('token/generate', [TokenPreferencesController::class, 'generate'])->name('token.generate');
+            Route::post('token/revoke', [TokenPreferencesController::class, 'revoke'])->name('token.revoke');
         });
 
         Route::prefix('contributor')->name('contributor.')->group(function () {

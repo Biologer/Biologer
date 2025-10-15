@@ -136,4 +136,30 @@ class UsersController
 
         return response()->json($message, 204);
     }
+
+    /**
+     * Generate user access token.
+     *
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function generateToken(User $user)
+    {
+        $token = $user->createToken('User Access Token')->accessToken;
+
+        return response()->json(['token' => $token], 200);
+    }
+
+    /**
+     * Remove all user access tokens.
+     *
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function revokeToken(User $user)
+    {
+        $user->tokens()->delete();
+
+        return response()->json(['message' => 'Tokens revoked'], 200);
+    }
 }

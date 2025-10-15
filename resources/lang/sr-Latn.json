@@ -63,5 +63,22 @@
     "You account has been deleted.": "Vaš korisnički nalog je obrisan.",
     "This action is irreversible, once an account is deleted it cannot be restored.": "Ova akcija je nepovratna, jednom kada je korisnički nalog obrisan ne može se više vratiti.",
     "Are you sure you want to delete your account?": "Da li ste sigurni da želite da obrišete Vaš korisnički nalog?",
-    "Loading...": "Učitava se..."
+    "Loading...": "Učitava se...",
+    "User API Tokens allow you to authenticate API requests. You can generate a token to use with your applications or scripts.": "Korisnički API token Vam dozvoljava da autentifikujete API zahteve. Možete generisati token da biste ga koristili sa svojom aplikacijom ili skriptom.",
+    "You have already generated access token. If you don't have it saved, you can revoke it and generate a new one.": "Već ste generisali pristupni token. Ukoliko ga niste sačuvali, možete ga opozvati i generisati novi.",
+    "You should copy your token and keep it safe. If you lose your token you can revoke it and generate another one. This token will be displayed <strong>only this time</strong>.": "Kopirajte Vaš token i čuvajte ga na sigurnom mestu. Ukoliko izgubite Vaš token, možete ga opozvati i generisati novi. Ovaj token će biti prikazan <strong>samo ovaj put</strong>.",
+    "You can use it as: \"Authorization: Bearer YOUR_ACCESS_TOKEN\"": "Možete ga koristiti kao: \"Authorization: Bearer YOUR_ACCESS_TOKEN\"",
+    "Your Token:": "Vaš token:",
+    "Generate Access Token": "Generiši pristupni token",
+    "API token generated!": "API token je generisan!",
+    "Error generating token:": "Greška prilikom generisanja tokena:",
+    "API Token revoked!": "API token je opozvan!",
+    "Error revoking token:": "Greška prilikom opozivanja tokena:",
+    "What is your purpose of using API tokens?": "Koja je Vaša svrha korišćenja API tokena?",
+    "Describe your usage..": "Opširnije o Vašoj upotrebi...",
+    "Are you sure you want to <b>revoke</b> your token? This action cannot be undone.": "Da li ste sigurni da želite da <b>opozovete</b> Vaš token? Ova akcija je nepovratna.",
+    "Revoking API token": "Opozivanje API tokena",
+    "Revoke API Token": "Opozovi API token",
+    "Token copied to clipboard!": "Token je kopiran u klipbord!",
+    "Failed to copy token": "Kopiranje tokena nije uspelo"
 }

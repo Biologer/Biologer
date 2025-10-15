@@ -23,6 +23,7 @@ return [
         'notifications_preferences' => 'Podešavanje obavijesti',
         'data_entry' => 'Unos podataka',
         'data_entry_preferences' => 'Podešavanje unosa podataka',
+        'token' => 'Podešavanje API tokena',
     ],
     'dashboard' => 'Kontrolna tabla',
     'notifications' => 'Obavještenja',

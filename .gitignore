@@ -14,3 +14,4 @@ yarn-error.log
 .php-cs-fixer.cache
 .phpunit.result.cache
 queue.pid
+clearcache.sh

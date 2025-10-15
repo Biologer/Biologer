@@ -21,6 +21,7 @@ return [
         'change_email' => 'Promena e-pošte',
         'notifications' => 'Notifikacije',
         'notifications_preferences' => 'Podešavanje notifikacija',
+        'token' => 'Podešavanje API tokena',
     ],
     'dashboard' => 'Kontrolna tabla',
     'notifications' => 'Obavještenja',
