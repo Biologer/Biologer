@@ -44,6 +44,7 @@ return [
     'all_field_observations' => 'All Field Observations',
     'public_field_observations' => 'Public Field Observations',
     'field_observations_import' => 'Field Observations Import',
+    'timed_count_observations' => 'Timed Count Observations',
     'import' => 'Import',
     'my' => 'My',
     'public' => 'Public',

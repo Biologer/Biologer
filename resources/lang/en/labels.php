@@ -154,6 +154,12 @@ return [
         'submitted_using' => 'Submitted Using',
     ],
 
+    'timed_count_observations' => [
+        'start_time' => 'Start Time',
+        'end_time' => 'End Time',
+        'duration' => 'Duration (hours)',
+    ],
+
     'view_groups' => [
         'name' => 'Name',
         'parent' => 'Parent',

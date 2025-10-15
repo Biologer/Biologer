@@ -80,6 +80,7 @@ class UpdateFieldObservation extends FormRequest
             'identified_by_id' => ['nullable', Rule::exists('users', 'id')],
             'dataset' => ['nullable', 'string', 'max:255'],
             'atlas_code' => ['nullable', 'integer', Rule::in(AtlasCode::CODES)],
+            'timed_count_id' => ['nullable', 'integer', 'exists:timed_count_observations,id'],
         ];
     }
 
@@ -138,6 +139,7 @@ class UpdateFieldObservation extends FormRequest
                 : $this->input('taxon_suggestion'),
             'time' => $this->input('time'),
             'atlas_code' => $this->input('atlas_code'),
+            'timed_count_id' => $this->input('timed_count_id'),
         ];
 
         if ($this->user()->hasAnyRole(['admin', 'curator'])) {
@@ -256,7 +258,7 @@ class UpdateFieldObservation extends FormRequest
             return;
         }
 
-        $fieldObservation->observation->creator->notify(
+        optional($fieldObservation->observation->creator)->notify(
             new FieldObservationEdited($fieldObservation, $this->user())
         );
     }

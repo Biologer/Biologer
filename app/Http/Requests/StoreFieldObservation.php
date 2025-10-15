@@ -80,6 +80,7 @@ class StoreFieldObservation extends FormRequest
             'identified_by_id' => ['nullable', Rule::exists('users', 'id')],
             'dataset' => ['nullable', 'string', 'max:255'],
             'atlas_code' => ['nullable', 'integer', Rule::in(AtlasCode::CODES)],
+            'timed_count_id' => ['nullable', 'integer', 'exists:timed_count_observations,id'],
         ];
     }
 
@@ -136,6 +137,7 @@ class StoreFieldObservation extends FormRequest
             'observed_by_id' => $this->getObservedBy(),
             'identified_by_id' => $this->getIdentifedBy(),
             'atlas_code' => $this->input('atlas_code'),
+            'timed_count_id' => $this->input('timed_count_id'),
         ];
     }
 

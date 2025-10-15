@@ -17,6 +17,7 @@ use App\Http\Controllers\Contributor\FieldObservationsController;
 use App\Http\Controllers\Contributor\FieldObservationsImportController;
 use App\Http\Controllers\Contributor\PublicFieldObservationsController;
 use App\Http\Controllers\Contributor\PublicLiteratureObservationsController;
+use App\Http\Controllers\Contributor\TimedCountObservationsController;
 use App\Http\Controllers\Curator\ApprovedObservationsController;
 use App\Http\Controllers\Curator\PendingObservationsController;
 use App\Http\Controllers\Curator\UnidentifiableObservationsController;
@@ -156,6 +157,12 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
             Route::get('public-literature-observations/{literatureObservation}', [PublicLiteratureObservationsController::class, 'show'])
                 ->name('public-literature-observations.show');
+
+            Route::get('timed-count-observations', [TimedCountObservationsController::class, 'index'])
+                ->name('timed-count-observations.index');
+
+            Route::get('timed-count-observations/{timedCountObservation}', [TimedCountObservationsController::class, 'show'])
+                ->name('timed-count-observations.show');
         });
 
         Route::prefix('curator')->name('curator.')->group(function () {
