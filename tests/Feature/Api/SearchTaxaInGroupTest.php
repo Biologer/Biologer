@@ -17,23 +17,25 @@ class SearchTaxaInGroupTest extends TestCase
             'parent_id' => ViewGroup::factory(),
         ]);
 
-        $order = Taxon::factory()->create(['name' => 'Coleoptera', 'rank' => 'order']);
-        $family = Taxon::factory()->create(['parent_id' => $order->id, 'name' => 'Cerambycidae', 'rank' => 'family']);
-        $genus = Taxon::factory()->create(['parent_id' => $family->id, 'name' => 'Cerambyx', 'rank' => 'genus']);
-        $species = Taxon::factory()->create(['parent_id' => $genus->id, 'name' => 'Cerambyx cerdo', 'rank' => 'species']);
+        $order = Taxon::factory()->create(['name' => ' Lepidoptera', 'rank' => 'order']);
+        $family = Taxon::factory()->create(['parent_id' => $order->id, 'name' => 'Lycaenidae', 'rank' => 'family']);
+        $genus = Taxon::factory()->create(['parent_id' => $family->id, 'name' => 'Polyommatus', 'rank' => 'genus']);
+        $species = Taxon::factory()->create(['parent_id' => $genus->id, 'name' => 'Polyommatus eros', 'rank' => 'species']);
+        $subspecies = Taxon::factory()->create(['parent_id' => $species->id, 'name' => 'Polyommatus eros eroides', 'rank' => 'subspecies']);
 
         $group->taxa()->attach($order);
 
         Passport::actingAs(User::factory()->make());
         $response = $this->get("/api/groups/{$group->id}/taxa?".http_build_query([
-            'name' => 'Cerambyx',
+            'name' => 'Polyommatus',
         ]));
 
         $response->assertStatus(200);
         $response->assertJson([
             'data' => [
-                ['id' => $genus->id, 'name' => 'Cerambyx', 'first_species_id' => $species->id],
-                ['id' => $species->id, 'name' => 'Cerambyx cerdo', 'first_species_id' => $species->id],
+                ['id' => $genus->id, 'name' => 'Polyommatus', 'first_species_id' => $species->id],
+                ['id' => $species->id, 'name' => 'Polyommatus eros', 'first_species_id' => $species->id],
+                ['id' => $subspecies->id, 'name' => 'Polyommatus eros eroides', 'first_species_id' => $species->id],
             ],
         ]);
     }
