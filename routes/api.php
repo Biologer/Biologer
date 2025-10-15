@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\My\FieldObservationExportsController as MyFieldObse
 use App\Http\Controllers\Api\My\FieldObservationsController as MyFieldObservationsController;
 use App\Http\Controllers\Api\My\ProfileController;
 use App\Http\Controllers\Api\My\ReadNotificationsBatchController;
+use App\Http\Controllers\Api\My\TimedCountObservationsController as MyTimedCountObservationsController;
 use App\Http\Controllers\Api\My\UnreadNotificationsController;
 use App\Http\Controllers\Api\ObservationTypesController;
 use App\Http\Controllers\Api\PendingFieldObservationsBatchController;
@@ -39,6 +40,7 @@ use App\Http\Controllers\Api\TaxaController;
 use App\Http\Controllers\Api\TaxonExportsController;
 use App\Http\Controllers\Api\TaxonomyController;
 use App\Http\Controllers\Api\TaxonPublicPhotosController;
+use App\Http\Controllers\Api\TimedCountObservationsController;
 use App\Http\Controllers\Api\UnidentifiableFieldObservationsBatchController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\ViewGroupExportsController;
@@ -164,6 +166,30 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     // Unidentifiable field observations
     Route::post('pending-field-observations/batch', [PendingFieldObservationsBatchController::class, 'store'])
         ->name('api.pending-field-observations-batch.store');
+
+    // Timed count observations
+    Route::get('timed-count-observations', [TimedCountObservationsController::class, 'index'])
+        ->middleware('can:list,App\TimedCountObservation')
+        ->name('api.timed-count-observations.index');
+
+    Route::post('timed-count-observations', [TimedCountObservationsController::class, 'store'])
+        ->name('api.timed-count-observations.store');
+
+    Route::get('timed-count-observations/{timedCountObservation}', [TimedCountObservationsController::class, 'show'])
+        ->middleware('can:view,timedCountObservation')
+        ->name('api.timed-count-observations.show');
+
+    Route::put('timed-count-observations/{timedCountObservation}', [TimedCountObservationsController::class, 'update'])
+        ->middleware('can:update,timedCountObservation')
+        ->name('api.timed-count-observations.update');
+
+    Route::delete('timed-count-observations/{timedCountObservation}', [TimedCountObservationsController::class, 'destroy'])
+        ->middleware('can:delete,timedCountObservation')
+        ->name('api.timed-count-observations.destroy');
+
+    Route::get('timed-counts/{timedCountObservation}/field-observations', [TimedCountObservationsController::class, 'fieldObservations'])
+        ->middleware('can:list,timedCountObservation,field-observations')
+        ->name('api.timed-counts.field-observations');
 
     // Users
     Route::get('users', [UsersController::class, 'index'])
@@ -309,6 +335,9 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
         Route::post('field-observations/export', [MyFieldObservationExportsController::class, 'store'])
             ->name('api.my.field-observation-exports.store');
+
+        Route::get('timed-count-observations', [MyTimedCountObservationsController::class, 'index'])
+            ->name('api.my.timed-count-observations.index');
 
         Route::get('profile', [ProfileController::class, 'show'])
             ->withoutMiddleware('verified')

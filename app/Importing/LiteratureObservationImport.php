@@ -294,6 +294,10 @@ class LiteratureObservationImport extends BaseImport
      */
     protected function makeValidator(array $data)
     {
+        $data['year'] = trim(Arr::get($data, 'year', ''));
+        $data['month'] = trim(Arr::get($data, 'month', ''));
+        $data['day'] = trim(Arr::get($data, 'day', ''));
+
         return Validator::make($data, [
             'taxon' => ['required', Rule::exists('taxa', 'name')],
             'year' => ['bail', 'nullable', 'date_format:Y', 'before_or_equal:now'],

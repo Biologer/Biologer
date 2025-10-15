@@ -46,6 +46,8 @@ Vue.component('NzFieldObservationsTable', () => import('./components/tables/Fiel
 Vue.component('NzLiteratureObservationsTable', () => import('./components/tables/LiteratureObservationsTable'))
 Vue.component('NzPublicationsTable', () => import('./components/tables/PublicationsTable'))
 Vue.component('NzTaxonomyTable', () => import('./components/tables/TaxonomyTable'))
+Vue.component('NzTimedCountObservationsTable', () => import('./components/tables/TimedCountObservationsTable'))
+Vue.component('NzTimedCountFieldObservationsTable', () => import('./components/tables/TimedCountFieldObservationsTable'))
 
 Vue.component('NzRegistrationForm', () => import('./components/forms/RegistrationForm'))
 Vue.component('NzUserForm', () => import('./components/forms/UserForm'))
@@ -59,6 +61,7 @@ Vue.component('NzPublicationForm', () => import('./components/forms/PublicationF
 Vue.component('NzFieldObservationActivityLog', () => import('./components/activity/FieldObservationActivityLog'))
 Vue.component('NzLiteratureObservationActivityLog', () => import('./components/activity/LiteratureObservationActivityLog'))
 Vue.component('NzTaxonActivityLog', () => import('./components/activity/TaxonActivityLog'))
+Vue.component('NzTimedCountObservationActivityLog', () => import('./components/activity/TimedCountObservationActivityLog'))
 
 Vue.component('NzFieldObservationsImport', () => import('./components/imports/FieldObservationsImport'))
 Vue.component('NzLiteratureObservationsImport', () => import('./components/imports/LiteratureObservationsImport'))
@@ -70,6 +73,7 @@ Vue.component('NzOccurrenceChart', () => import(/* webpackChunkName: "public" */
 Vue.component('NzCaptcha', () => import(/* webpackChunkName: "public" */ './components/Captcha'))
 
 Vue.component('NzDeleteAccountButton', () => import(/* webpackChunkName: "dashboard" */ './components/DeleteAccountButton'))
+
 
 Vue.prototype.trans = window.trans = (string, args = {}, defaultString = '') => {
     let value = window.App.i18n[string] || defaultString || string

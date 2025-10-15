@@ -47,6 +47,7 @@ class FieldObservation extends Model implements FlatArrayable
         'unidentifiable' => 'boolean',
         'approved_at' => 'datetime',
         'atlas_code' => 'integer',
+        'timed_count_id' => 'integer',
     ];
 
     public function filters()
@@ -154,6 +155,16 @@ class FieldObservation extends Model implements FlatArrayable
     }
 
     /**
+     * Timed count this observation belongs to (if any).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function timedCountObservation()
+    {
+        return $this->belongsTo(TimedCountObservation::class);
+    }
+
+    /**
      * Scope the query to get identifiable observations.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -190,6 +201,14 @@ class FieldObservation extends Model implements FlatArrayable
     }
 
     /**
+     * Check if observation is a field observation (not part of timed count).
+     */
+    public function scopeIsFieldObservation($query)
+    {
+        return $query->whereNull('timed_count_id');
+    }
+
+    /**
      * Get approved observations.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -197,9 +216,11 @@ class FieldObservation extends Model implements FlatArrayable
      */
     public function scopeApproved($query)
     {
-        return $query->whereHas('observation', function ($q) {
-            return $q->approved();
-        });
+        return $query
+            ->isFieldObservation()
+            ->whereHas('observation', function ($q) {
+                return $q->approved();
+            });
     }
 
     /**
@@ -235,7 +256,7 @@ class FieldObservation extends Model implements FlatArrayable
     public function scopeApprovable($query)
     {
         return $query->whereHas('observation', function ($query) {
-            return $query->unapproved()->whereHas('taxon', function ($query) {
+            return $query->unapproved()->isFieldObservation()->whereHas('taxon', function ($query) {
                 return $query->speciesOrLower();
             });
         });
@@ -253,6 +274,11 @@ class FieldObservation extends Model implements FlatArrayable
         return $query->whereHas('observation', function ($observation) use ($user) {
             return $observation->taxonCuratedBy($user);
         });
+    }
+
+    public function scopeIsTimedCount($query, TimedCountObservation $timedCountObservation)
+    {
+        return $query->where('timed_count_id', $timedCountObservation->id);
     }
 
     /**
@@ -370,7 +396,7 @@ class FieldObservation extends Model implements FlatArrayable
     }
 
     /**
-     * Remove unused photos and and add new ones.
+     * Remove unused photos and add new ones.
      *
      * @param  \Illuminate\Support\Collection|array  $photos
      * @param  int  $defaultLicense
@@ -623,6 +649,7 @@ class FieldObservation extends Model implements FlatArrayable
             'identified_by' => $this->identifiedBy,
             'dataset' => $this->observation->dataset,
             'atlas_code' => $this->atlas_code,
+            'timed_count_id' => $this->timed_count_id,
         ];
     }
 
@@ -671,6 +698,7 @@ class FieldObservation extends Model implements FlatArrayable
             'identified_by' => $this->identifiedBy,
             'dataset' => $this->observation->dataset,
             'atlas_code' => $this->atlas_code,
+            'timed_count_id' => $this->timed_count_id,
         ];
     }
 
