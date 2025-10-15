@@ -1,24 +1,26 @@
 <template>
   <div class="token-preference">
+    {{ trans("User API Tokens allow you to authenticate API requests. You can generate a token to use with your applications or scripts.") }}
     <hr>
 
+
+
     <div v-if="isRevoked" class="block">
-      <h2><strong>Generate Access Token</strong></h2>
+      <h2><strong>{{trans("Generate Access Token")}}</strong></h2>
     </div>
 
     <div v-if="!isRevoked && existingToken">
-      <h2><strong>Your Token:</strong></h2>
+      <h2><strong>{{trans("Your Token:")}}</strong></h2>
 
       <b-input type="textarea" v-model="token" readonly></b-input>
 
       <br>
-
-      <p>You should copy your token and keep it safe. If you lose your token you can revoke it and generate another one. This token will be displayed <strong>only this time</strong>.</p>
-      <p>You can use it as: "Authorization: Bearer YOUR_ACCESS_TOKEN"</p>
+      <p v-html="trans('You should copy your token and keep it safe. If you lose your token you can revoke it and generate another one. This token will be displayed <strong>only this time</strong>.')"></p>
+      <p>{{ trans('You can use it as: "Authorization: Bearer YOUR_ACCESS_TOKEN"') }}</p>
     </div>
 
     <div v-else-if="!isRevoked && !existingToken" class="block">
-        <p>You already have generated your access token. If you dont have it saved you can revoke your token and generate a new one.</p>
+        <p>{{ trans("You have already generated access token. If you don't have it saved, you can revoke it and generate a new one.") }}</p>
     </div>
 
     <hr>
@@ -37,6 +39,8 @@
 import axios from 'axios';
 
 export default {
+  name: 'nzTokenPreference',
+
   props: {
     generateRoute: String,
     revokeRoute: String,
@@ -86,10 +90,10 @@ export default {
           this.token = response.data.token;
           this.token_id = response.data.id;
           this.$emit('last-valid-token', [...this.tokens, response.data.token]);
-          this.$buefy.toast.open(`API token generated!`);
+          this.$buefy.toast.open(this.trans(`API token generated!`));
         }
       } catch (error) {
-        console.error("Error generating token:", error);
+        console.error(this.trans("Error generating token:", error));
       }
     },
 
@@ -99,9 +103,9 @@ export default {
         this.$emit('last-valid-token', this.tokens.filter(t => t.id !== this.token_id));
         this.token = '';
         this.token_id = '';
-        this.$buefy.toast.open(`API Token revoked!`);
+        this.$buefy.toast.open(this.trans(`API Token revoked!`));
       } catch (error) {
-        console.error("Error revoking token:", error);
+        console.error(this.trans("Error revoking token:"), error);
       }
     },
 
@@ -110,11 +114,12 @@ export default {
         message: this.trans('What is your purpose of using API tokens?'),
         inputAttrs: {
           type: "text",
-          placeholder: "Describe your usage..",
+          placeholder: this.trans("Describe your usage.."),
           minlength: 10,
           maxlength: 255
         },
         confirmText: this.trans('buttons.generate_token'),
+        cancelText: this.trans('buttons.cancel'),
         trapFocus: true,
         closeOnConfirm: false,
         onConfirm: (value, { close }) => {
@@ -126,9 +131,10 @@ export default {
 
     revokeConfirm() {
       this.$buefy.dialog.confirm({
-        title: 'Revoking API token',
-        message: 'Are you sure you want to <b>revoke</b> your token? This action cannot be undone.',
-        confirmText: 'Revoke API Token',
+        title: this.trans('Revoking API token'),
+        message: this.trans('Are you sure you want to <b>revoke</b> your token? This action cannot be undone.'),
+        confirmText: this.trans('Revoke API Token'),
+        cancelText: this.trans('buttons.cancel'),
         type: 'is-danger',
         hasIcon: true,
         onConfirm: () => {
@@ -143,8 +149,8 @@ export default {
 
     copyToken() {
       navigator.clipboard.writeText(this.token)
-        .then(() => this.$buefy.toast.open(`Token copied to clipboard!`))
-        .catch(err => console.error('Failed to copy token', err));
+        .then(() => this.$buefy.toast.open(this.trans(`Token copied to clipboard!`)))
+        .catch(err => console.error(this.trans('Failed to copy token'), err));
     },
 
 
