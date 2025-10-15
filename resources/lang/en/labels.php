@@ -157,7 +157,7 @@ return [
     'timed_count_observations' => [
         'start_time' => 'Start Time',
         'end_time' => 'End Time',
-        'duration' => 'Duration (hours)',
+        'duration' => 'Duration',
     ],
 
     'view_groups' => [

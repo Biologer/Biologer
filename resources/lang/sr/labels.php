@@ -154,6 +154,12 @@ return [
         'submitted_using' => 'Послато преко',
     ],
 
+    'timed_count_observations' => [
+        'start_time' => 'Почетно време',
+        'end_time' => 'Завршно време',
+        'duration' => 'Трајање',
+    ],
+
     'view_groups' => [
         'name' => 'Назив',
         'parent' => 'Виша група',
