@@ -10,12 +10,12 @@ class FcmChannel
     public function send($notifiable, Notification $notification)
     {
         // let the notification build a small payload for FCM
-        if (!method_exists($notification, 'toFcm')) {
+        if (! method_exists($notification, 'toFcm')) {
             return;
         }
 
         $token = $notifiable->routeNotificationFor('fcm');
-        if (!$token) {
+        if (! $token) {
             return; // user has no device token
         }
 
@@ -23,8 +23,8 @@ class FcmChannel
         FirebaseV1::sendToToken(
             $token,
             $message['title'] ?? 'Notification',
-            $message['body']  ?? '',
-            $message['data']  ?? []
+            $message['body'] ?? '',
+            $message['data'] ?? []
         );
     }
 }

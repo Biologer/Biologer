@@ -238,10 +238,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     /**
      * Define route navigation for notifications
-     * i.e. which FCM token to use for this user
-     *
+     * i.e. which FCM token to use for this user.
      */
-    public function routeNotificationForFcm() {
+    public function routeNotificationForFcm()
+    {
         return $this->fcm_token ?: null;
     }
 

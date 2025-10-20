@@ -3,8 +3,8 @@
 namespace App\Notifications;
 
 use App\FieldObservation;
-use App\User;
 use App\Notifications\Channels\FcmChannel;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -124,14 +124,14 @@ class FieldObservationMarkedUnidentifiable extends Notification implements Shoul
 
         return [
             'title' => trans('notifications.field_observations.marked_as_unidentifiable_subject'),
-            'body'  => $taxon
+            'body' => $taxon
                 ? trans('notifications.field_observations.marked_as_unidentifiable_message_with_taxon', ['taxonName' => $taxon])
                 : trans('notifications.field_observations.marked_as_unidentifiable_message'),
-            'data'  => [
-                'type'                 => 'field_observation_marked_unidentifiable',
+            'data' => [
+                'type' => 'field_observation_marked_unidentifiable',
                 'field_observation_id' => (string) $this->fieldObservation->id,
-                'curator_name'         => $this->curator->full_name,
-                'taxon_name'           => (string) $taxon,
+                'curator_name' => $this->curator->full_name,
+                'taxon_name' => (string) $taxon,
             ],
         ];
     }

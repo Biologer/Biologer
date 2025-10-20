@@ -3,8 +3,8 @@
 namespace App\Notifications;
 
 use App\FieldObservation;
-use App\User;
 use App\Notifications\Channels\FcmChannel;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -125,14 +125,14 @@ class FieldObservationApproved extends Notification implements ShouldQueue
     {
         $taxon = optional($this->fieldObservation->observation->taxon)->name;
         $title = trans('notifications.field_observations.approved_subject');
-        $body  = $taxon
+        $body = $taxon
             ? trans('notifications.field_observations.approved_message_with_taxon', ['taxonName' => $taxon])
             : trans('notifications.field_observations.approved_message');
 
         return [
             'title' => $title,
-            'body'  => $body,
-            'data'  => [
+            'body' => $body,
+            'data' => [
                 'type' => 'field_observation_approved',
                 'field_observation_id' => (string) $this->fieldObservation->id,
                 'curator_name' => $this->curator->full_name,

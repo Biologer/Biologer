@@ -3,8 +3,8 @@
 namespace App\Notifications;
 
 use App\FieldObservation;
-use App\User;
 use App\Notifications\Channels\FcmChannel;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -116,7 +116,7 @@ class FieldObservationEdited extends Notification implements ShouldQueue
     }
 
     /**
-     * FCM push payload for mobile app
+     * FCM push payload for mobile app.
      */
     public function toFcm($notifiable)
     {
@@ -124,14 +124,14 @@ class FieldObservationEdited extends Notification implements ShouldQueue
 
         return [
             'title' => trans('notifications.field_observations.edited_subject'),
-            'body'  => $taxon
+            'body' => $taxon
                 ? trans('notifications.field_observations.edited_message_with_taxon', ['taxonName' => $taxon])
                 : trans('notifications.field_observations.edited_message'),
-            'data'  => [
-                'type'                  => 'field_observation_edited',
-                'field_observation_id'  => (string) $this->fieldObservation->id,
-                'causer_name'           => $this->causer->full_name,
-                'taxon_name'            => (string) $taxon,
+            'data' => [
+                'type' => 'field_observation_edited',
+                'field_observation_id' => (string) $this->fieldObservation->id,
+                'causer_name' => $this->causer->full_name,
+                'taxon_name' => (string) $taxon,
             ],
         ];
     }

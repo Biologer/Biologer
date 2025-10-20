@@ -3,8 +3,8 @@
 namespace App\Notifications;
 
 use App\FieldObservation;
-use App\User;
 use App\Notifications\Channels\FcmChannel;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -126,15 +126,15 @@ class FieldObservationMovedToPending extends Notification implements ShouldQueue
 
         return [
             'title' => trans('notifications.field_observations.moved_to_pending_subject'),
-            'body'  => $taxon
+            'body' => $taxon
                 ? trans('notifications.field_observations.moved_to_pending_message_with_taxon', ['taxonName' => $taxon])
                 : trans('notifications.field_observations.moved_to_pending_message'),
-            'data'  => [
-                'type'                 => 'field_observation_moved_to_pending',
+            'data' => [
+                'type' => 'field_observation_moved_to_pending',
                 'field_observation_id' => (string) $this->fieldObservation->id,
-                'curator_id'           => (string) $this->curator->id,
-                'curator_name'         => $this->curator->full_name,
-                'taxon_name'           => (string) $taxon,
+                'curator_id' => (string) $this->curator->id,
+                'curator_name' => $this->curator->full_name,
+                'taxon_name' => (string) $taxon,
             ],
         ];
     }

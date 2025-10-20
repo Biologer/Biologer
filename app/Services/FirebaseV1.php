@@ -11,14 +11,16 @@ class FirebaseV1
     private static function accessToken(): ?string
     {
         $credsPath = config('services.firebase.credentials');
-        if (!is_readable($credsPath)) {
+        if (! is_readable($credsPath)) {
             Log::error('FCM: credentials file not readable: '.$credsPath);
+
             return null;
         }
 
         $scopes = ['https://www.googleapis.com/auth/firebase.messaging'];
         $creds = new ServiceAccountCredentials($scopes, $credsPath);
         $token = $creds->fetchAuthToken();
+
         return $token['access_token'] ?? null;
     }
 
@@ -26,8 +28,9 @@ class FirebaseV1
     {
         $projectId = config('services.firebase.project_id');
         $accessToken = self::accessToken();
-        if (!$projectId || !$accessToken) {
+        if (! $projectId || ! $accessToken) {
             Log::error('FCM: missing project_id or access token');
+
             return false;
         }
 
@@ -38,7 +41,7 @@ class FirebaseV1
                 'token' => $deviceToken,
                 'notification' => [
                     'title' => $title,
-                    'body'  => $body,
+                    'body' => $body,
                 ],
                 // optional key/value payload for your app logic:
                 'data' => array_map('strval', $data),
@@ -54,6 +57,7 @@ class FirebaseV1
         }
 
         Log::error('FCM v1 error', ['status' => $res->status(), 'body' => $res->body()]);
+
         return false;
     }
 }

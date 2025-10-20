@@ -72,14 +72,14 @@ class FieldObservationForApproval extends Notification implements ShouldQueue
 
         return [
             'title' => trans('notifications.field_observations.for_approval_subject', [], $notifiable->preferredLocale()),
-            'body'  => $taxon
+            'body' => $taxon
                 ? trans('notifications.field_observations.for_approval_message_with_taxon', ['taxonName' => $taxon], $notifiable->preferredLocale())
                 : trans('notifications.field_observations.for_approval_message', [], $notifiable->preferredLocale()),
-            'data'  => [
-                'type'                 => 'field_observation_for_approval',
+            'data' => [
+                'type' => 'field_observation_for_approval',
                 'field_observation_id' => (string) $this->fieldObservation->id,
-                'contributor_name'     => $this->fieldObservation->creatorName(),
-                'taxon_name'           => (string) $taxon,
+                'contributor_name' => $this->fieldObservation->creatorName(),
+                'taxon_name' => (string) $taxon,
             ],
         ];
     }
