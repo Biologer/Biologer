@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'Bosnian' => 'Босански',
-    'English' => 'Енглески',
-    'Montenegrin' => 'Црногорски',
-    'Serbian (Latin)' => 'Српски (латиница)',
-    'Serbian (Cyrillic)' => 'Српски (ћирилица)',
-    'Croatian' => 'Хрватски',
+    'Bosnian' => 'босански',
+    'English' => 'енглески',
+    'Montenegrin' => 'црногорски',
+    'Serbian (Latin)' => 'српски (латиница)',
+    'Serbian (Cyrillic)' => 'српски (ћирилица)',
+    'Croatian' => 'хрватски',
 ];

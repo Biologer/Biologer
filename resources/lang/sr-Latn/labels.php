@@ -320,7 +320,7 @@ return [
         ],
 
         'notifications' => [
-            'notification' => 'Notifikacija',
+            'notification' => 'Obaveštenje',
             'inapp' => 'Na sajtu',
             'mail' => 'E-poštom',
 
