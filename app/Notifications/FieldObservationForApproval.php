@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\FieldObservation;
+use App\Notifications\Channels\FcmChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
@@ -41,6 +42,10 @@ class FieldObservationForApproval extends Notification implements ShouldQueue
             $channels = array_merge($channels, ['broadcast', 'database']);
         }
 
+        if ($notifiable->routeNotificationFor('fcm')) {
+            $channels[] = FcmChannel::class;
+        }
+
         return $channels;
     }
 
@@ -55,6 +60,27 @@ class FieldObservationForApproval extends Notification implements ShouldQueue
         return [
             'field_observation_id' => $this->fieldObservation->id,
             'contributor_name' => $this->fieldObservation->creatorName(),
+        ];
+    }
+
+    /**
+     * Build FCM payload for mobile push.
+     */
+    public function toFcm($notifiable)
+    {
+        $taxon = optional($this->fieldObservation->observation->taxon)->name;
+
+        return [
+            'title' => trans('notifications.field_observations.for_approval_subject', [], $notifiable->preferredLocale()),
+            'body'  => $taxon
+                ? trans('notifications.field_observations.for_approval_message_with_taxon', ['taxonName' => $taxon], $notifiable->preferredLocale())
+                : trans('notifications.field_observations.for_approval_message', [], $notifiable->preferredLocale()),
+            'data'  => [
+                'type'                 => 'field_observation_for_approval',
+                'field_observation_id' => (string) $this->fieldObservation->id,
+                'contributor_name'     => $this->fieldObservation->creatorName(),
+                'taxon_name'           => (string) $taxon,
+            ],
         ];
     }
 }

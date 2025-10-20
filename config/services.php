@@ -34,4 +34,9 @@ return [
         'key' => env('GMAPS_API_KEY'),
     ],
 
+    'firebase' => [
+        'project_id' => env('FCM_PROJECT_ID'),
+        'credentials' => env('GOOGLE_APPLICATION_CREDENTIALS'),
+    ],
+
 ];

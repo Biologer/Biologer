@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use App\FieldObservation;
 use App\User;
+use App\Notifications\Channels\FcmChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -52,6 +53,10 @@ class FieldObservationMovedToPending extends Notification implements ShouldQueue
 
         if ($notifiable->settings()->get('notifications.field_observation_moved_to_pending.mail')) {
             $channels = array_merge($channels, [Channels\UnreadSummaryMailChannel::class]);
+        }
+
+        if ($notifiable->routeNotificationFor('fcm')) {
+            $channels[] = FcmChannel::class;
         }
 
         return $channels;
@@ -109,6 +114,28 @@ class FieldObservationMovedToPending extends Notification implements ShouldQueue
             'message' => trans('notifications.field_observations.moved_to_pending_message'),
             'actionText' => trans('notifications.field_observations.action'),
             'actionUrl' => route('contributor.field-observations.show', $this->fieldObservation),
+        ];
+    }
+
+    /**
+     * Add FCM payload for mobile notifications.
+     */
+    public function toFcm($notifiable)
+    {
+        $taxon = optional($this->fieldObservation->observation->taxon)->name;
+
+        return [
+            'title' => trans('notifications.field_observations.moved_to_pending_subject'),
+            'body'  => $taxon
+                ? trans('notifications.field_observations.moved_to_pending_message_with_taxon', ['taxonName' => $taxon])
+                : trans('notifications.field_observations.moved_to_pending_message'),
+            'data'  => [
+                'type'                 => 'field_observation_moved_to_pending',
+                'field_observation_id' => (string) $this->fieldObservation->id,
+                'curator_id'           => (string) $this->curator->id,
+                'curator_name'         => $this->curator->full_name,
+                'taxon_name'           => (string) $taxon,
+            ],
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use App\FieldObservation;
 use App\User;
+use App\Notifications\Channels\FcmChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -52,6 +53,10 @@ class FieldObservationEdited extends Notification implements ShouldQueue
 
         if ($notifiable->settings()->get('notifications.field_observation_edited.mail')) {
             $channels = array_merge($channels, [Channels\UnreadSummaryMailChannel::class]);
+        }
+
+        if ($notifiable->routeNotificationFor('fcm')) {
+            $channels[] = FcmChannel::class;
         }
 
         return $channels;
@@ -107,6 +112,27 @@ class FieldObservationEdited extends Notification implements ShouldQueue
                 : trans('notifications.field_observations.edited_message'),
             'actionText' => trans('notifications.field_observations.action'),
             'actionUrl' => route('contributor.field-observations.show', $this->fieldObservation),
+        ];
+    }
+
+    /**
+     * FCM push payload for mobile app
+     */
+    public function toFcm($notifiable)
+    {
+        $taxon = optional($this->fieldObservation->observation->taxon)->name;
+
+        return [
+            'title' => trans('notifications.field_observations.edited_subject'),
+            'body'  => $taxon
+                ? trans('notifications.field_observations.edited_message_with_taxon', ['taxonName' => $taxon])
+                : trans('notifications.field_observations.edited_message'),
+            'data'  => [
+                'type'                  => 'field_observation_edited',
+                'field_observation_id'  => (string) $this->fieldObservation->id,
+                'causer_name'           => $this->causer->full_name,
+                'taxon_name'            => (string) $taxon,
+            ],
         ];
     }
 }
