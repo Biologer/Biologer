@@ -199,4 +199,30 @@ class Announcement extends Model
     {
         return $this->creator ? $this->creator->full_name : $this->creator_name;
     }
+
+    protected static function booted()
+    {
+        static::created(function (Announcement $announcement) {
+            if ($announcement->isTranslated() && ! $announcement->private) {
+                $translations = [];
+                foreach ($announcement->translations as $t) {
+                    $translations[$t->locale] = [
+                        'title'   => $t->title,
+                        'message' => $t->message,
+                    ];
+                }
+
+                \App\Services\FirebaseV1::sendToAnnouncement(
+                    'announcements',                         // base topic
+                    $announcement->title,                    // default title
+                    strip_tags($announcement->message),      // default body
+                    [
+                        'announcement_id' => (string) $announcement->id,
+                        'translations'    => $translations,
+                    ]
+                );
+            }
+        });
+    }
+
 }
