@@ -38,7 +38,9 @@
         "spatie/laravel-cookie-consent": "^2.12.13",
         "spatie/laravel-menu": "^3.7.1",
         "stevebauman/purify": "^4.0",
-        "tightenco/ziggy": "^0.9"
+        "tightenco/ziggy": "^0.9",
+        "google/auth": "^1.0",
+        "kreait/firebase-php": "^5.0"
     },
     "require-dev": {
         "brianium/paratest": "^6.3",

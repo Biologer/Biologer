@@ -208,6 +208,9 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->middleware('can:delete,user')
         ->name('api.users.destroy');
 
+    Route::post('user/fcm-token', [UsersController::class, 'updateFcmToken'])
+        ->name('api.user.fcmtoken');
+
     // View groups
     Route::get('view-groups', [ViewGroupsController::class, 'index'])
         ->withoutMiddleware('verified')

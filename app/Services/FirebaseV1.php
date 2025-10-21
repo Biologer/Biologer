@@ -36,6 +36,8 @@ class FirebaseV1
 
         $url = "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
 
+        Log::info('FirebaseV1 response', ['status' => $response->status(), 'body' => $response->body()]);
+
         $payload = [
             'message' => [
                 'token' => $deviceToken,

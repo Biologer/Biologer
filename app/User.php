@@ -24,7 +24,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'settings', 'institution',
+        'first_name', 'last_name', 'email', 'password', 'settings', 'institution', 'fcm_token',
     ];
 
     /**
