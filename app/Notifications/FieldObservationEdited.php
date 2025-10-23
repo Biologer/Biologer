@@ -5,6 +5,7 @@ namespace App\Notifications;
 use App\FieldObservation;
 use App\Notifications\Channels\FcmChannel;
 use App\User;
+use App\Support\Localization;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -116,22 +117,37 @@ class FieldObservationEdited extends Notification implements ShouldQueue
     }
 
     /**
-     * FCM push payload for mobile app.
+     * Build the localized FCM payload.
+     *
      */
     public function toFcm($notifiable)
     {
         $taxon = optional($this->fieldObservation->observation->taxon)->name;
+
+        // Build translations for all supported locales
+        $translations = [];
+        foreach (app(\Mcamara\LaravelLocalization\LaravelLocalization::class)->getSupportedLanguagesKeys() as $locale) {
+            $translations[$locale] = [
+                'title' => trans('notifications.field_observations.edited_subject', [], $locale),
+                'message' => $taxon
+                    ? trans('notifications.field_observations.edited_message_with_taxon', ['taxonName' => $taxon], $locale)
+                    : trans('notifications.field_observations.edited_message', [], $locale),
+            ];
+        }
 
         return [
             'title' => trans('notifications.field_observations.edited_subject'),
             'body' => $taxon
                 ? trans('notifications.field_observations.edited_message_with_taxon', ['taxonName' => $taxon])
                 : trans('notifications.field_observations.edited_message'),
+
             'data' => [
-                'type' => 'field_observation_edited',
+                'type' => 'notification_created',
+                'notification_subtype' => 'field_observation_edited',
                 'field_observation_id' => (string) $this->fieldObservation->id,
                 'causer_name' => $this->causer->full_name,
                 'taxon_name' => (string) $taxon,
+                'translations' => $translations,
             ],
         ];
     }

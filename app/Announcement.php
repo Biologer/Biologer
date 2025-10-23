@@ -204,18 +204,22 @@ class Announcement extends Model
     {
         static::created(function (Announcement $announcement) {
             if ($announcement->isTranslated() && ! $announcement->private) {
+                // Build translations map: { locale => {title, message}, ... }
                 $translations = [];
                 foreach ($announcement->translations as $t) {
-                    $translations[$t->locale] = [
-                        'title'   => $t->title,
-                        'message' => $t->message,
-                    ];
+                    // Skip empty translations
+                    if (! empty($t->title) && ! empty($t->message)) {
+                        $translations[$t->locale] = [
+                            'title'   => $t->title,
+                            'message' => $t->message,
+                        ];
+                    }
                 }
 
                 \App\Services\FirebaseV1::sendToAnnouncement(
-                    'announcements',                         // base topic
-                    $announcement->title,                    // default title
-                    strip_tags($announcement->message),      // default body
+                    'announcements', // topic
+                    $announcement->title, // default title
+                    strip_tags($announcement->message), // default body
                     [
                         'announcement_id' => (string) $announcement->id,
                         'translations'    => $translations,
@@ -224,5 +228,4 @@ class Announcement extends Model
             }
         });
     }
-
 }

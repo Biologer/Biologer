@@ -99,6 +99,36 @@ class Localization
     }
 
     /**
+     * Build multi-locale translations for one or more translation keys.
+     *
+     * Example:
+     * Localization::getTranslationsForKeys([
+     *     'title' => 'notifications.field_observations.approved_subject',
+     *     'message' => 'notifications.field_observations.approved_message'
+     * ], ['taxonName' => 'Maniola jurtina']);
+     *
+     * @param  array  $keys  associative array of label => translation key
+     * @param  array  $replace  replacements for placeholders (e.g. ['taxonName' => '...'])
+     * @return array  e.g. ['en' => ['title' => '...', 'message' => '...'], 'sr' => [...]]
+     */
+    public static function getTranslationsForKeys(array $keys, array $replace = [])
+    {
+        $translations = [];
+
+        foreach (\Mcamara\LaravelLocalization\Facades\LaravelLocalization::getSupportedLanguagesKeys() as $locale) {
+            $set = [];
+
+            foreach ($keys as $label => $key) {
+                $set[$label] = __($key, $replace, $locale);
+            }
+
+            $translations[$locale] = $set;
+        }
+
+        return $translations;
+    }
+
+    /**
      * Clear localization strings cache.
      *
      * @return void

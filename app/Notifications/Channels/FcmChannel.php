@@ -10,28 +10,29 @@ class FcmChannel
 {
     public function send($notifiable, Notification $notification)
     {
+        // Expect notifications to implement a toFcm() method
         if (! method_exists($notification, 'toFcm')) {
             Log::info('FcmChannel: Notification has no toFcm() method.');
             return;
         }
 
-        $token = $notifiable->routeNotificationFor('fcm');
-        if (! $token) {
-            Log::info('FcmChannel: No FCM token for user '.$notifiable->id);
+        $message = $notification->toFcm($notifiable);
+
+        // Prefer per-user topic over device tokens
+        $userId = $notifiable->id ?? null;
+        if (! $userId) {
+            Log::warning('FcmChannel: Cannot determine user ID for topic sending.');
             return;
         }
 
-        $message = $notification->toFcm($notifiable);
-
-        Log::info('FcmChannel sending to token', [
-            'token' => $token,
+        Log::info('FcmChannel sending to user topic', [
+            'user_id' => $userId,
             'payload' => $message,
         ]);
 
-        FirebaseV1::sendToToken(
-            $token,
-            $message['title'] ?? 'Notification',
-            $message['body'] ?? '',
+        FirebaseV1::sendToUser(
+            $userId,
+            $message['type'] ?? 'generic',
             $message['data'] ?? []
         );
     }

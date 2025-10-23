@@ -5,6 +5,7 @@ namespace App\Notifications;
 use App\FieldObservation;
 use App\Notifications\Channels\FcmChannel;
 use App\User;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -118,23 +119,39 @@ class FieldObservationMovedToPending extends Notification implements ShouldQueue
     }
 
     /**
-     * Add FCM payload for mobile notifications.
+     * Build the FCM payload for mobile notifications with full localization.
      */
     public function toFcm($notifiable)
     {
         $taxon = optional($this->fieldObservation->observation->taxon)->name;
 
+        // Build localized versions for all supported languages
+        $translations = [];
+        foreach (LaravelLocalization::getSupportedLanguagesKeys() as $locale) {
+            $translations[$locale] = [
+                'title' => trans('notifications.field_observations.moved_to_pending_subject', [], $locale),
+                'message' => $taxon
+                    ? trans('notifications.field_observations.moved_to_pending_message_with_taxon', ['taxonName' => $taxon], $locale)
+                    : trans('notifications.field_observations.moved_to_pending_message', [], $locale),
+            ];
+        }
+
         return [
+            // Default server-locale text
             'title' => trans('notifications.field_observations.moved_to_pending_subject'),
             'body' => $taxon
                 ? trans('notifications.field_observations.moved_to_pending_message_with_taxon', ['taxonName' => $taxon])
                 : trans('notifications.field_observations.moved_to_pending_message'),
+
+            // Unified data payload for FCM
             'data' => [
-                'type' => 'field_observation_moved_to_pending',
+                'type' => 'notification_created', // unified type for Android sync
+                'notification_subtype' => 'field_observation_moved_to_pending',
                 'field_observation_id' => (string) $this->fieldObservation->id,
                 'curator_id' => (string) $this->curator->id,
                 'curator_name' => $this->curator->full_name,
                 'taxon_name' => (string) $taxon,
+                'translations' => $translations,
             ],
         ];
     }

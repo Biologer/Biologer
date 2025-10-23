@@ -5,6 +5,7 @@ namespace App\Notifications;
 use App\FieldObservation;
 use App\Notifications\Channels\FcmChannel;
 use App\User;
+use App\Support\Localization;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -124,21 +125,26 @@ class FieldObservationApproved extends Notification implements ShouldQueue
     public function toFcm($notifiable)
     {
         $taxon = optional($this->fieldObservation->observation->taxon)->name;
-        $title = trans('notifications.field_observations.approved_subject');
-        $body = $taxon
-            ? trans('notifications.field_observations.approved_message_with_taxon', ['taxonName' => $taxon])
-            : trans('notifications.field_observations.approved_message');
+
+        $messageKey = $taxon
+            ? 'notifications.field_observations.approved_message_with_taxon'
+            : 'notifications.field_observations.approved_message';
+
+        $translations = Localization::getTranslationsForKeys([
+            'title' => 'notifications.field_observations.approved_subject',
+            'message' => $messageKey,
+        ], ['taxonName' => $taxon]);
 
         return [
-            'title' => $title,
-            'body' => $body,
-            'data' => [
-                'type' => 'field_observation_approved',
+            'title' => $translations['en']['title'] ?? 'Approved Field Observation',
+            'body'  => $translations['en']['message'] ?? 'Your field observation has been approved.',
+            'data'  => [
+                'type' => 'notification_created',
                 'field_observation_id' => (string) $this->fieldObservation->id,
                 'curator_name' => $this->curator->full_name,
                 'taxon_name' => (string) $taxon,
+                'translations' => $translations,
             ],
         ];
     }
-
 }

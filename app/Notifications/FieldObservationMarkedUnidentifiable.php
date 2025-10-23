@@ -5,6 +5,7 @@ namespace App\Notifications;
 use App\FieldObservation;
 use App\Notifications\Channels\FcmChannel;
 use App\User;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -116,22 +117,37 @@ class FieldObservationMarkedUnidentifiable extends Notification implements Shoul
     }
 
     /**
-     * FCM push payload for mobile app.
+     * Build localized FCM payload with all translations.
      */
     public function toFcm($notifiable)
     {
         $taxon = optional($this->fieldObservation->observation->taxon)->name;
 
+        // Build translations for all supported locales
+        $translations = [];
+        foreach (LaravelLocalization::getSupportedLanguagesKeys() as $locale) {
+            $translations[$locale] = [
+                'title' => trans('notifications.field_observations.marked_as_unidentifiable_subject', [], $locale),
+                'message' => $taxon
+                    ? trans('notifications.field_observations.marked_as_unidentifiable_message_with_taxon', ['taxonName' => $taxon], $locale)
+                    : trans('notifications.field_observations.marked_as_unidentifiable_message', [], $locale),
+            ];
+        }
+
         return [
+            // Default (server) locale display
             'title' => trans('notifications.field_observations.marked_as_unidentifiable_subject'),
             'body' => $taxon
                 ? trans('notifications.field_observations.marked_as_unidentifiable_message_with_taxon', ['taxonName' => $taxon])
                 : trans('notifications.field_observations.marked_as_unidentifiable_message'),
+
             'data' => [
-                'type' => 'field_observation_marked_unidentifiable',
+                'type' => 'notification_created',
+                'notification_subtype' => 'field_observation_marked_unidentifiable',
                 'field_observation_id' => (string) $this->fieldObservation->id,
                 'curator_name' => $this->curator->full_name,
                 'taxon_name' => (string) $taxon,
+                'translations' => $translations,
             ],
         ];
     }
