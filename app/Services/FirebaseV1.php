@@ -64,8 +64,8 @@ class FirebaseV1
         $payload = [
             'message' => [
                 'topic' => $topic,
-                // DATA-ONLY message (no "notification" block) → silent/background
                 'data'  => array_merge([
+                    'timestamp' => (string) now('UTC')->timestamp,
                     'type' => $eventType,
                 ], $stringData),
             ],
