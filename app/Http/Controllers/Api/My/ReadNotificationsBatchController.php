@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\My;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use App\Services\FirebaseV1;
 
 class ReadNotificationsBatchController
 {
@@ -14,17 +16,54 @@ class ReadNotificationsBatchController
      */
     public function store(Request $request)
     {
-        $query = $request->user()->unreadNotifications();
+        $user = $request->user();
+        $query = $user->unreadNotifications();
 
-        if (! $request->input('all')) {
-            $query->whereIn('id', $request->input('notifications_ids', []));
+        $all = $request->boolean('all', false);
+        $ids = (array) $request->input('notifications_ids', []);
+
+        if (! $all && empty($ids)) {
+            return response()->json(['message' => 'No notifications selected to be marked as read.'], 400);
         }
 
-        $query->update(['read_at' => now()]);
+        if (! $all) {
+            $query->whereIn('id', $ids);
+        }
+
+        // Mark notifications as read
+        $count = $query->update(['read_at' => now()]);
+
+        Log::info('Notifications marked as read', [
+            'user_id' => $user->id,
+            'count' => $count,
+            'ids' => $ids,
+            'all' => $all,
+        ]);
+
+        // Send FCM notification(s)
+        if ($count > 0) {
+            if ($all) {
+                // If all were marked as read, broadcast a generic "all read" event
+                FirebaseV1::sendToUser(
+                    $user->id,
+                    'notification_read',
+                    ['notification_id' => 'all']
+                );
+            } else {
+                // Otherwise, broadcast each individually
+                foreach ($ids as $notificationId) {
+                    FirebaseV1::sendToUser(
+                        $user->id,
+                        'notification_read',
+                        ['notification_id' => (string) $notificationId]
+                    );
+                }
+            }
+        }
 
         return [
             'meta' => [
-                'has_unread' => $request->user()->unreadNotifications()->exists(),
+                'has_unread' => $user->unreadNotifications()->exists(),
             ],
         ];
     }

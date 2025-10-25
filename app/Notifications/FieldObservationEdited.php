@@ -144,6 +144,7 @@ class FieldObservationEdited extends Notification implements ShouldQueue
             'data' => [
                 'type' => 'notification_created',
                 'notification_subtype' => 'field_observation_edited',
+                'notification_id' => (string) $this->id,
                 'field_observation_id' => (string) $this->fieldObservation->id,
                 'causer_name' => $this->causer->full_name,
                 'taxon_name' => (string) $taxon,

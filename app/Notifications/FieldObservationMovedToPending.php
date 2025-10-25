@@ -147,6 +147,7 @@ class FieldObservationMovedToPending extends Notification implements ShouldQueue
             'data' => [
                 'type' => 'notification_created', // unified type for Android sync
                 'notification_subtype' => 'field_observation_moved_to_pending',
+                'notification_id' => (string) $this->id,
                 'field_observation_id' => (string) $this->fieldObservation->id,
                 'curator_id' => (string) $this->curator->id,
                 'curator_name' => $this->curator->full_name,

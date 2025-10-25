@@ -144,6 +144,7 @@ class FieldObservationMarkedUnidentifiable extends Notification implements Shoul
             'data' => [
                 'type' => 'notification_created',
                 'notification_subtype' => 'field_observation_marked_unidentifiable',
+                'notification_id' => (string) $this->id,
                 'field_observation_id' => (string) $this->fieldObservation->id,
                 'curator_name' => $this->curator->full_name,
                 'taxon_name' => (string) $taxon,

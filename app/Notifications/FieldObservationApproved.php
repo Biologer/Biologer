@@ -140,6 +140,7 @@ class FieldObservationApproved extends Notification implements ShouldQueue
             'body'  => $translations['en']['message'] ?? 'Your field observation has been approved.',
             'data'  => [
                 'type' => 'notification_created',
+                'notification_id' => (string) $this->id,
                 'field_observation_id' => (string) $this->fieldObservation->id,
                 'curator_name' => $this->curator->full_name,
                 'taxon_name' => (string) $taxon,

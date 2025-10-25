@@ -92,6 +92,7 @@ class FieldObservationForApproval extends Notification implements ShouldQueue
             'data' => [
                 'type' => 'notification_created',
                 'notification_subtype' => 'field_observation_for_approval',
+                'notification_id' => (string) $this->id,
                 'field_observation_id' => (string) $this->fieldObservation->id,
                 'contributor_name' => $this->fieldObservation->creatorName(),
                 'taxon_name' => (string) $taxon,
