@@ -4,7 +4,6 @@ namespace App\Services;
 
 use Google\Auth\Credentials\ServiceAccountCredentials;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class FirebaseV1
 {
@@ -12,8 +11,6 @@ class FirebaseV1
     {
         $credsPath = config('services.firebase.credentials');
         if (! is_readable($credsPath)) {
-            Log::error('FCM: credentials file not readable: '.$credsPath);
-
             return null;
         }
 
@@ -40,8 +37,6 @@ class FirebaseV1
         $projectId = config('services.firebase.project_id');
         $accessToken = self::accessToken();
         if (! $projectId || ! $accessToken) {
-            Log::error('FCM: missing project_id or access token');
-
             return false;
         }
 
@@ -57,7 +52,7 @@ class FirebaseV1
                 $stringData[$k] = (string) $v;
             } else {
                 // Encode non-scalars as JSON strings
-                $stringData[$k] = json_encode($v);
+                $stringData[$k] = collect($v)->toJson();
             }
         }
 
@@ -75,21 +70,7 @@ class FirebaseV1
             ->acceptJson()
             ->post($url, $payload);
 
-        Log::info('FirebaseV1 sendToUser', [
-            'topic' => $topic,
-            'type' => $eventType,
-            'status' => $res->status(),
-            'body' => $res->body(),
-        ]);
-
         if ($res->failed()) {
-            Log::error('FCM v1 sendToUser error', [
-                'topic' => $topic,
-                'type' => $eventType,
-                'status' => $res->status(),
-                'body' => $res->body(),
-            ]);
-
             return false;
         }
 
@@ -116,8 +97,6 @@ class FirebaseV1
         $projectId = config('services.firebase.project_id');
         $accessToken = self::accessToken();
         if (! $projectId || ! $accessToken) {
-            Log::error('FCM: missing project_id or access token');
-
             return false;
         }
 
@@ -131,7 +110,7 @@ class FirebaseV1
             } elseif (is_scalar($v)) {
                 $stringData[$k] = (string) $v;
             } else {
-                $stringData[$k] = json_encode($v);
+                $stringData[$k] = collect($v)->toJson();
             }
         }
 
@@ -145,17 +124,8 @@ class FirebaseV1
         try {
             $res = Http::withToken($accessToken)->acceptJson()->post($url, $payload);
         } catch (\Throwable $e) {
-            Log::error('FCM network error', ['error' => $e->getMessage()]);
-
             return false;
         }
-
-        Log::info('FirebaseV1 sendToUserTopic', [
-            'topic' => $topic,
-            'type' => $eventType,
-            'status' => $res->status(),
-            'body' => $res->body(),
-        ]);
 
         return $res->successful();
     }
@@ -177,8 +147,6 @@ class FirebaseV1
         $projectId = config('services.firebase.project_id');
         $accessToken = self::accessToken();
         if (! $projectId || ! $accessToken) {
-            Log::error('FCM: missing project_id or access token');
-
             return false;
         }
 
@@ -201,7 +169,7 @@ class FirebaseV1
                 'data' => array_merge([
                     'type' => 'announcement',
                     'announcement_id' => (string) ($data['announcement_id'] ?? ''),
-                    'translations' => json_encode($translations, JSON_UNESCAPED_UNICODE),
+                    'translations' => collect($translations)->toJson(),
                 ], array_map('strval', $data)),
             ],
         ];
@@ -211,23 +179,10 @@ class FirebaseV1
                 ->acceptJson()
                 ->post($url, $payload);
         } catch (\Throwable $e) {
-            Log::error('FCM v1 sendToAnnouncement network error', ['error' => $e->getMessage()]);
-
             return false;
         }
 
-        Log::info('FirebaseV1 sendToAnnouncement', [
-            'topic' => $baseTopic,
-            'status' => $res->status(),
-            'body' => $res->body(),
-        ]);
-
         if ($res->failed()) {
-            Log::error('FCM v1 sendToAnnouncement error', [
-                'status' => $res->status(),
-                'body' => $res->body(),
-            ]);
-
             return false;
         }
 

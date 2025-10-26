@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\My;
 
 use App\Services\FirebaseV1;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ReadNotificationsBatchController
 {
@@ -32,13 +31,6 @@ class ReadNotificationsBatchController
 
         // Mark notifications as read
         $count = $query->update(['read_at' => now()]);
-
-        Log::info('Notifications marked as read', [
-            'user_id' => $user->id,
-            'count' => $count,
-            'ids' => $ids,
-            'all' => $all,
-        ]);
 
         // Send FCM notification(s)
         if ($count > 0) {
