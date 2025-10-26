@@ -24,7 +24,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'settings', 'institution',
+        'first_name', 'last_name', 'email', 'password', 'settings', 'institution', 'fcm_token',
     ];
 
     /**
@@ -235,4 +235,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     {
         return preg_replace('/\B[^@.]/', '*', $this->email);
     }
+
+    /**
+     * Define route navigation for notifications
+     * i.e. which FCM token to use for this user.
+     */
+    public function routeNotificationForFcm()
+    {
+        return $this->fcm_token ?: null;
+    }
+
 }

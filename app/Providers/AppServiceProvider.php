@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Notifications\Channels\FcmChannel;
 use App\Watermark;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\ChannelManager;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -15,6 +17,20 @@ use Illuminate\Translation\MessageSelector;
 class AppServiceProvider extends ServiceProvider
 {
     /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        require_once app_path('Notifications/Channels/FcmChannel.php');
+
+        $this->app->singleton(Watermark::class, function () {
+            return new Watermark($this->app['config']->get('biologer.watermark'));
+        });
+    }
+
+    /**
      * Bootstrap any application services.
      *
      * @return void
@@ -23,6 +39,9 @@ class AppServiceProvider extends ServiceProvider
     {
         // Fixes issue with MySQL indexed string column size.
         Schema::defaultStringLength(191);
+
+        // Manually load FcmChannel since composer dump-autoload cannot run
+        require_once base_path('app/Notifications/Channels/FcmChannel.php');
 
         Collection::macro('latest', function () {
             return $this->sortByDesc('created_at');
@@ -36,6 +55,13 @@ class AppServiceProvider extends ServiceProvider
         Paginator::defaultSimpleView('pagination::bulma');
 
         $this->setCustomTranslationMessageSelector();
+
+        // Register FCM notification channel
+        $this->app->afterResolving(ChannelManager::class, function ($manager) {
+            $manager->extend('fcm', function () {
+                return new FcmChannel();
+            });
+        });
     }
 
     /**
@@ -66,15 +92,4 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->app->singleton(Watermark::class, function () {
-            return new Watermark($this->app['config']->get('biologer.watermark'));
-        });
-    }
 }

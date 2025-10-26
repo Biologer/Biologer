@@ -3,11 +3,13 @@
 namespace App\Notifications;
 
 use App\FieldObservation;
+use App\Notifications\Channels\FcmChannel;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class FieldObservationMovedToPending extends Notification implements ShouldQueue
 {
@@ -52,6 +54,10 @@ class FieldObservationMovedToPending extends Notification implements ShouldQueue
 
         if ($notifiable->settings()->get('notifications.field_observation_moved_to_pending.mail')) {
             $channels = array_merge($channels, [Channels\UnreadSummaryMailChannel::class]);
+        }
+
+        if ($notifiable->routeNotificationFor('fcm')) {
+            $channels[] = FcmChannel::class;
         }
 
         return $channels;
@@ -109,6 +115,45 @@ class FieldObservationMovedToPending extends Notification implements ShouldQueue
             'message' => trans('notifications.field_observations.moved_to_pending_message'),
             'actionText' => trans('notifications.field_observations.action'),
             'actionUrl' => route('contributor.field-observations.show', $this->fieldObservation),
+        ];
+    }
+
+    /**
+     * Build the FCM payload for mobile notifications with full localization.
+     */
+    public function toFcm($notifiable)
+    {
+        $taxon = optional($this->fieldObservation->observation->taxon)->name;
+
+        // Build localized versions for all supported languages
+        $translations = [];
+        foreach (LaravelLocalization::getSupportedLanguagesKeys() as $locale) {
+            $translations[$locale] = [
+                'title' => trans('notifications.field_observations.moved_to_pending_subject', [], $locale),
+                'message' => $taxon
+                    ? trans('notifications.field_observations.moved_to_pending_message_with_taxon', ['taxonName' => $taxon], $locale)
+                    : trans('notifications.field_observations.moved_to_pending_message', [], $locale),
+            ];
+        }
+
+        return [
+            // Default server-locale text
+            'title' => trans('notifications.field_observations.moved_to_pending_subject'),
+            'body' => $taxon
+                ? trans('notifications.field_observations.moved_to_pending_message_with_taxon', ['taxonName' => $taxon])
+                : trans('notifications.field_observations.moved_to_pending_message'),
+
+            // Unified data payload for FCM
+            'data' => [
+                'type' => 'notification_created', // unified type for Android sync
+                'notification_subtype' => 'field_observation_moved_to_pending',
+                'notification_id' => (string) $this->id,
+                'field_observation_id' => (string) $this->fieldObservation->id,
+                'curator_id' => (string) $this->curator->id,
+                'curator_name' => $this->curator->full_name,
+                'taxon_name' => (string) $taxon,
+                'translations' => $translations,
+            ],
         ];
     }
 }

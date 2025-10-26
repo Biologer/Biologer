@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\UserResource;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UsersController
@@ -161,5 +162,21 @@ class UsersController
         $user->tokens()->delete();
 
         return response()->json(['message' => 'Tokens revoked'], 200);
+    }
+
+    /**
+     * Update or register the FCM token for the authenticated user.
+     */
+    public function updateFcmToken(Request $request)
+    {
+        $request->validate([
+            'fcm_token' => 'required|string',
+        ]);
+
+        $user = $request->user();
+        $user->fcm_token = $request->fcm_token;
+        $user->save();
+
+        return response()->json(['message' => 'FCM token saved'], 200);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\FieldObservation;
+use App\Notifications\Channels\FcmChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
@@ -41,6 +42,10 @@ class FieldObservationForApproval extends Notification implements ShouldQueue
             $channels = array_merge($channels, ['broadcast', 'database']);
         }
 
+        if ($notifiable->routeNotificationFor('fcm')) {
+            $channels[] = FcmChannel::class;
+        }
+
         return $channels;
     }
 
@@ -55,6 +60,43 @@ class FieldObservationForApproval extends Notification implements ShouldQueue
         return [
             'field_observation_id' => $this->fieldObservation->id,
             'contributor_name' => $this->fieldObservation->creatorName(),
+        ];
+    }
+
+    /**
+     * Build the FCM payload including all locales.
+     */
+    public function toFcm($notifiable)
+    {
+        $taxon = optional($this->fieldObservation->observation->taxon)->name;
+
+        // Build translations for all supported locales using your Localization class
+        $translations = [];
+        foreach (\Mcamara\LaravelLocalization\Facades\LaravelLocalization::getSupportedLanguagesKeys() as $locale) {
+            $translations[$locale] = [
+                'title' => trans('notifications.field_observations.for_approval_subject', [], $locale),
+                'message' => $taxon
+                    ? trans('notifications.field_observations.for_approval_message_with_taxon', ['taxonName' => $taxon], $locale)
+                    : trans('notifications.field_observations.for_approval_message', [], $locale),
+            ];
+        }
+
+        return [
+            // Default display locale (server app locale)
+            'title' => trans('notifications.field_observations.for_approval_subject'),
+            'body' => $taxon
+                ? trans('notifications.field_observations.for_approval_message_with_taxon', ['taxonName' => $taxon])
+                : trans('notifications.field_observations.for_approval_message'),
+
+            'data' => [
+                'type' => 'notification_created',
+                'notification_subtype' => 'field_observation_for_approval',
+                'notification_id' => (string) $this->id,
+                'field_observation_id' => (string) $this->fieldObservation->id,
+                'contributor_name' => $this->fieldObservation->creatorName(),
+                'taxon_name' => (string) $taxon,
+                'translations' => $translations,
+            ],
         ];
     }
 }

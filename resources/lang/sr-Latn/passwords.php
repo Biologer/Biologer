@@ -12,9 +12,9 @@ return [
     |
     */
 
-    'reset' => 'Lozinka je resetovana!',
-    'sent' => 'Poslali smo reset link za vašu lozinku!',
-    'token' => 'Ukucana oznaka za resetovanje lozinke nije važeća.',
-    'user' => 'Nismo uspeli pronaći korisnika sa email adresom.',
-    'throttled' => 'Molimo sačekajte pre ponovnog pokušaja.',
+    'reset' => 'Lozinka je ponovo postavljena!',
+    'sent' => 'Poslali smo vam vezu preko koje možete ponovo da podesite lozinku!',
+    'token' => 'Uneta oznaka za resetovanje lozinke nije važeća.',
+    'user' => 'Ne mogu da pronađem korisnika sa ovom adresom e-pošte.',
+    'throttled' => 'Sačekajte pre ponovnog pokušaja.',
 ];

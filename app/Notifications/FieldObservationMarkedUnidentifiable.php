@@ -3,11 +3,13 @@
 namespace App\Notifications;
 
 use App\FieldObservation;
+use App\Notifications\Channels\FcmChannel;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class FieldObservationMarkedUnidentifiable extends Notification implements ShouldQueue
 {
@@ -52,6 +54,10 @@ class FieldObservationMarkedUnidentifiable extends Notification implements Shoul
 
         if ($notifiable->settings()->get('notifications.field_observation_marked_unidentifiable.mail')) {
             $channels = array_merge($channels, [Channels\UnreadSummaryMailChannel::class]);
+        }
+
+        if ($notifiable->routeNotificationFor('fcm')) {
+            $channels[] = FcmChannel::class;
         }
 
         return $channels;
@@ -107,6 +113,43 @@ class FieldObservationMarkedUnidentifiable extends Notification implements Shoul
                 : trans('notifications.field_observations.marked_as_unidentifiable_message'),
             'actionText' => trans('notifications.field_observations.action'),
             'actionUrl' => route('contributor.field-observations.show', $this->fieldObservation),
+        ];
+    }
+
+    /**
+     * Build localized FCM payload with all translations.
+     */
+    public function toFcm($notifiable)
+    {
+        $taxon = optional($this->fieldObservation->observation->taxon)->name;
+
+        // Build translations for all supported locales
+        $translations = [];
+        foreach (LaravelLocalization::getSupportedLanguagesKeys() as $locale) {
+            $translations[$locale] = [
+                'title' => trans('notifications.field_observations.marked_as_unidentifiable_subject', [], $locale),
+                'message' => $taxon
+                    ? trans('notifications.field_observations.marked_as_unidentifiable_message_with_taxon', ['taxonName' => $taxon], $locale)
+                    : trans('notifications.field_observations.marked_as_unidentifiable_message', [], $locale),
+            ];
+        }
+
+        return [
+            // Default (server) locale display
+            'title' => trans('notifications.field_observations.marked_as_unidentifiable_subject'),
+            'body' => $taxon
+                ? trans('notifications.field_observations.marked_as_unidentifiable_message_with_taxon', ['taxonName' => $taxon])
+                : trans('notifications.field_observations.marked_as_unidentifiable_message'),
+
+            'data' => [
+                'type' => 'notification_created',
+                'notification_subtype' => 'field_observation_marked_unidentifiable',
+                'notification_id' => (string) $this->id,
+                'field_observation_id' => (string) $this->fieldObservation->id,
+                'curator_name' => $this->curator->full_name,
+                'taxon_name' => (string) $taxon,
+                'translations' => $translations,
+            ],
         ];
     }
 }
