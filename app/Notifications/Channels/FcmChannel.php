@@ -4,6 +4,7 @@ namespace App\Notifications\Channels;
 
 use App\Services\FirebaseV1;
 use Illuminate\Notifications\Notification;
+
 class FcmChannel
 {
     public function send(FirebaseV1 $notifiable, Notification $notification)
