@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Watermark;
 use App\Notifications\Channels\FcmChannel;
-use Illuminate\Notifications\ChannelManager;
+use App\Watermark;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\ChannelManager;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -17,25 +17,18 @@ use Illuminate\Translation\MessageSelector;
 class AppServiceProvider extends ServiceProvider
 {
     /**
-    * Register any application services.
-    *
-    * @return void
-    */
+     * Register any application services.
+     *
+     * @return void
+     */
     public function register()
     {
-        $path = app_path('Notifications/Channels/FcmChannel.php');
-        if (file_exists($path)) {
-            require_once $path;
-            \Log::info('Included FcmChannel from register(): '.$path);
-        } else {
-            \Log::error('FcmChannel.php not found at: '.$path);
-        }
-    
+        require_once app_path('Notifications/Channels/FcmChannel.php');
+
         $this->app->singleton(Watermark::class, function () {
             return new Watermark($this->app['config']->get('biologer.watermark'));
         });
     }
-
 
     /**
      * Bootstrap any application services.
@@ -66,7 +59,7 @@ class AppServiceProvider extends ServiceProvider
         // Register FCM notification channel
         $this->app->afterResolving(ChannelManager::class, function ($manager) {
             $manager->extend('fcm', function () {
-                return new \App\Notifications\Channels\FcmChannel();
+                return new FcmChannel();
             });
         });
     }

@@ -5,7 +5,6 @@ namespace App\Notifications;
 use App\FieldObservation;
 use App\Notifications\Channels\FcmChannel;
 use App\User;
-use App\Support\Localization;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -118,7 +117,6 @@ class FieldObservationEdited extends Notification implements ShouldQueue
 
     /**
      * Build the localized FCM payload.
-     *
      */
     public function toFcm($notifiable)
     {

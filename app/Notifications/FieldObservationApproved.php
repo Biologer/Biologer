@@ -4,8 +4,8 @@ namespace App\Notifications;
 
 use App\FieldObservation;
 use App\Notifications\Channels\FcmChannel;
-use App\User;
 use App\Support\Localization;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -137,8 +137,8 @@ class FieldObservationApproved extends Notification implements ShouldQueue
 
         return [
             'title' => $translations['en']['title'] ?? 'Approved Field Observation',
-            'body'  => $translations['en']['message'] ?? 'Your field observation has been approved.',
-            'data'  => [
+            'body' => $translations['en']['message'] ?? 'Your field observation has been approved.',
+            'data' => [
                 'type' => 'notification_created',
                 'notification_id' => (string) $this->id,
                 'field_observation_id' => (string) $this->fieldObservation->id,

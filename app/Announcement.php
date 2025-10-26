@@ -210,7 +210,7 @@ class Announcement extends Model
                     // Skip empty translations
                     if (! empty($t->title) && ! empty($t->message)) {
                         $translations[$t->locale] = [
-                            'title'   => $t->title,
+                            'title' => $t->title,
                             'message' => $t->message,
                         ];
                     }
@@ -222,7 +222,7 @@ class Announcement extends Model
                     strip_tags($announcement->message), // default body
                     [
                         'announcement_id' => (string) $announcement->id,
-                        'translations'    => $translations,
+                        'translations' => $translations,
                     ]
                 );
             }

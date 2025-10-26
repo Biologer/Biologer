@@ -5,7 +5,6 @@ namespace App\Services;
 use Google\Auth\Credentials\ServiceAccountCredentials;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class FirebaseV1
 {
@@ -13,7 +12,7 @@ class FirebaseV1
     {
         $credsPath = config('services.firebase.credentials');
         if (! is_readable($credsPath)) {
-            Log::error('FCM: credentials file not readable: ' . $credsPath);
+            Log::error('FCM: credentials file not readable: '.$credsPath);
 
             return null;
         }
@@ -38,15 +37,16 @@ class FirebaseV1
      */
     public static function sendToUser($userId, string $eventType, array $data = []): bool
     {
-        $projectId   = config('services.firebase.project_id');
+        $projectId = config('services.firebase.project_id');
         $accessToken = self::accessToken();
         if (! $projectId || ! $accessToken) {
             Log::error('FCM: missing project_id or access token');
+
             return false;
         }
 
-        $url   = "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
-        $topic = 'user_' . $userId;
+        $url = "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
+        $topic = 'user_'.$userId;
 
         // Ensure scalar values are strings to satisfy FCM "data" contract
         $stringData = [];
@@ -64,7 +64,7 @@ class FirebaseV1
         $payload = [
             'message' => [
                 'topic' => $topic,
-                'data'  => array_merge([
+                'data' => array_merge([
                     'timestamp' => (string) now('UTC')->timestamp,
                     'type' => $eventType,
                 ], $stringData),
@@ -76,19 +76,20 @@ class FirebaseV1
             ->post($url, $payload);
 
         Log::info('FirebaseV1 sendToUser', [
-            'topic'  => $topic,
-            'type'   => $eventType,
+            'topic' => $topic,
+            'type' => $eventType,
             'status' => $res->status(),
-            'body'   => $res->body(),
+            'body' => $res->body(),
         ]);
 
         if ($res->failed()) {
             Log::error('FCM v1 sendToUser error', [
-                'topic'  => $topic,
-                'type'   => $eventType,
+                'topic' => $topic,
+                'type' => $eventType,
                 'status' => $res->status(),
-                'body'   => $res->body(),
+                'body' => $res->body(),
             ]);
+
             return false;
         }
 
@@ -112,10 +113,11 @@ class FirebaseV1
      */
     public static function sendToUserTopic(string $topic, string $eventType, array $data = []): bool
     {
-        $projectId   = config('services.firebase.project_id');
+        $projectId = config('services.firebase.project_id');
         $accessToken = self::accessToken();
         if (! $projectId || ! $accessToken) {
             Log::error('FCM: missing project_id or access token');
+
             return false;
         }
 
@@ -124,9 +126,13 @@ class FirebaseV1
         // Ensure all values are strings
         $stringData = [];
         foreach ($data as $k => $v) {
-            if (is_null($v)) $stringData[$k] = '';
-            elseif (is_scalar($v)) $stringData[$k] = (string)$v;
-            else $stringData[$k] = json_encode($v);
+            if (is_null($v)) {
+                $stringData[$k] = '';
+            } elseif (is_scalar($v)) {
+                $stringData[$k] = (string) $v;
+            } else {
+                $stringData[$k] = json_encode($v);
+            }
         }
 
         $payload = [
@@ -140,14 +146,15 @@ class FirebaseV1
             $res = Http::withToken($accessToken)->acceptJson()->post($url, $payload);
         } catch (\Throwable $e) {
             Log::error('FCM network error', ['error' => $e->getMessage()]);
+
             return false;
         }
 
         Log::info('FirebaseV1 sendToUserTopic', [
-            'topic'  => $topic,
-            'type'   => $eventType,
+            'topic' => $topic,
+            'type' => $eventType,
             'status' => $res->status(),
-            'body'   => $res->body(),
+            'body' => $res->body(),
         ]);
 
         return $res->successful();
@@ -160,17 +167,18 @@ class FirebaseV1
     {
         return self::sendToUser($userId, 'notification_read', [
             'notification_id' => $notificationId,
-            'read_at'   => (string) ($readAtIso ?? ''),
+            'read_at' => (string) ($readAtIso ?? ''),
             'updated_at' => (string) ($updatedAtIso ?? ''),
         ]);
     }
 
     public static function sendToAnnouncement(string $baseTopic, string $title, string $body, array $data = []): bool
     {
-        $projectId   = config('services.firebase.project_id');
+        $projectId = config('services.firebase.project_id');
         $accessToken = self::accessToken();
         if (! $projectId || ! $accessToken) {
             Log::error('FCM: missing project_id or access token');
+
             return false;
         }
 
@@ -190,10 +198,10 @@ class FirebaseV1
         $payload = [
             'message' => [
                 'topic' => $baseTopic,
-                'data'  => array_merge([
-                    'type'            => 'announcement',
-                    'announcement_id' => (string)($data['announcement_id'] ?? ''),
-                    'translations'    => json_encode($translations, JSON_UNESCAPED_UNICODE),
+                'data' => array_merge([
+                    'type' => 'announcement',
+                    'announcement_id' => (string) ($data['announcement_id'] ?? ''),
+                    'translations' => json_encode($translations, JSON_UNESCAPED_UNICODE),
                 ], array_map('strval', $data)),
             ],
         ];
@@ -204,20 +212,22 @@ class FirebaseV1
                 ->post($url, $payload);
         } catch (\Throwable $e) {
             Log::error('FCM v1 sendToAnnouncement network error', ['error' => $e->getMessage()]);
+
             return false;
         }
 
         Log::info('FirebaseV1 sendToAnnouncement', [
-            'topic'  => $baseTopic,
+            'topic' => $baseTopic,
             'status' => $res->status(),
-            'body'   => $res->body(),
+            'body' => $res->body(),
         ]);
 
         if ($res->failed()) {
             Log::error('FCM v1 sendToAnnouncement error', [
                 'status' => $res->status(),
-                'body'   => $res->body(),
+                'body' => $res->body(),
             ]);
+
             return false;
         }
 

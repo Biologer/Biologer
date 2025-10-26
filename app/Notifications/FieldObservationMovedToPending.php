@@ -5,11 +5,11 @@ namespace App\Notifications;
 use App\FieldObservation;
 use App\Notifications\Channels\FcmChannel;
 use App\User;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class FieldObservationMovedToPending extends Notification implements ShouldQueue
 {

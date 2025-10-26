@@ -4,7 +4,6 @@ namespace App\Notifications;
 
 use App\FieldObservation;
 use App\Notifications\Channels\FcmChannel;
-use App\Support\Localization;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;

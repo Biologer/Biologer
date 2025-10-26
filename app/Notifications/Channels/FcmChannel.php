@@ -8,11 +8,12 @@ use Illuminate\Support\Facades\Log;
 
 class FcmChannel
 {
-    public function send($notifiable, Notification $notification)
+    public function send(FirebaseV1 $notifiable, Notification $notification)
     {
         // Expect notifications to implement a toFcm() method
         if (! method_exists($notification, 'toFcm')) {
             Log::info('FcmChannel: Notification has no toFcm() method.');
+
             return;
         }
 
@@ -22,6 +23,7 @@ class FcmChannel
         $userId = $notifiable->id ?? null;
         if (! $userId) {
             Log::warning('FcmChannel: Cannot determine user ID for topic sending.');
+
             return;
         }
 

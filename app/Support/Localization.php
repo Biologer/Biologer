@@ -115,12 +115,11 @@ class Localization
     {
         $translations = [];
 
-        foreach (\Mcamara\LaravelLocalization\Facades\LaravelLocalization::getSupportedLanguagesKeys() as $locale) {
-            $set = [];
+        foreach (LaravelLocalization::getSupportedLanguagesKeys() as $locale) {
 
-            foreach ($keys as $label => $key) {
-                $set[$label] = __($key, $replace, $locale);
-            }
+            $set = array_map(function ($key) use ($replace, $locale) {
+                return __($key, $replace, $locale);
+            }, $keys);
 
             $translations[$locale] = $set;
         }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\My;
 
+use App\Services\FirebaseV1;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Services\FirebaseV1;
 
 class ReadNotificationsBatchController
 {
@@ -12,7 +12,7 @@ class ReadNotificationsBatchController
      * Mark notifications with given IDs as read.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
