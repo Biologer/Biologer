@@ -3,11 +3,12 @@
 namespace App\Notifications\Channels;
 
 use App\Services\FirebaseV1;
+use App\User;
 use Illuminate\Notifications\Notification;
 
 class FcmChannel
 {
-    public function send(FirebaseV1 $notifiable, Notification $notification)
+    public function send(User $notifiable, Notification $notification)
     {
         // Expect notifications to implement a toFcm() method
         if (! method_exists($notification, 'toFcm')) {
