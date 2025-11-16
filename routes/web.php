@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutPagesController;
+use App\Http\Controllers\CitationController;
 use App\Http\Controllers\Admin\AnnouncementsController as AdminAnnouncementsController;
 use App\Http\Controllers\Admin\FieldObservationsController as AdminFieldObservationsController;
 use App\Http\Controllers\Admin\LiteratureObservationsController;
@@ -80,6 +81,9 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
     Route::view('pages/about/about-project', 'pages.about.about-project')->name('pages.about.about-project');
     Route::get('pages/about/local-community', [AboutPagesController::class, 'localCommunity'])->name('pages.about.local-community');
     Route::get('pages/about/stats', [AboutPagesController::class, 'stats'])->name('pages.about.stats');
+    Route::get('pages/about/citation', [AboutPagesController::class, 'citation'])->name('pages.about.citation');
+    Route::post('api/citation/curators', [CitationController::class, 'getCuratorCitationData'])->name('api.citation.curators');
+    Route::get('/citation/curator-data', [CitationController::class, 'getCuratorCitationData'])->name('citation.curator');
 
     // Legal
     Route::get('pages/privacy-policy', [AboutPagesController::class, 'privacyPolicy'])->name('pages.privacy-policy');

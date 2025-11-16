@@ -33,6 +33,9 @@
                             <a class="navbar-item" href="{{ route('pages.about.stats') }}">
                                 {{ __('navigation.stats') }}
                             </a>
+                            <a class="navbar-item" href="{{ route('pages.about.citation') }}">
+                                {{ __('navigation.citation') }}
+                            </a>
                         </div>
                     </div>
 

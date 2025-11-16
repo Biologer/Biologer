@@ -82,5 +82,6 @@ return [
     'biodiversity_data' => 'Biodiversity Data',
     'development_supporters' => 'Development Supporters',
     'stats' => 'Stats',
+    'citation' => 'Citation',
     'taxonomy' => 'Taxonomy Base',
 ];
