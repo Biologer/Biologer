@@ -29,4 +29,32 @@ class TaxaController
             'descendants' => $taxon->isGenusOrLower() ? $taxon->lowerRankDescendants() : collect(),
         ]);
     }
+
+    /**
+     * Return descendants curators.
+     *
+     * @param Taxon $taxon
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function descendantsCurators(Taxon $taxon)
+    {
+        $descendants = $taxon->descendants()->with('curators')->get();
+
+        $taxa = $descendants->map(function ($t) {
+            return [
+                'id' => $t->id,
+                'name' => $t->name,
+                'curators' => $t->curators->map(function ($u) {
+                    return [
+                        'id' => $u->id,
+                        'name' => $u->full_name,
+                    ];
+                }),
+            ];
+        });
+
+        return response()->json([
+            'taxa' => $taxa,
+        ]);
+    }
 }

@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AboutPagesController;
-use App\Http\Controllers\CitationController;
 use App\Http\Controllers\Admin\AnnouncementsController as AdminAnnouncementsController;
 use App\Http\Controllers\Admin\FieldObservationsController as AdminFieldObservationsController;
 use App\Http\Controllers\Admin\LiteratureObservationsController;
@@ -13,6 +12,7 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ViewGroupsController;
 use App\Http\Controllers\AnnouncementsController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\CitationController;
 use App\Http\Controllers\Contributor\DashboardController;
 use App\Http\Controllers\Contributor\FieldObservationsController;
 use App\Http\Controllers\Contributor\FieldObservationsImportController;
@@ -81,9 +81,12 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
     Route::view('pages/about/about-project', 'pages.about.about-project')->name('pages.about.about-project');
     Route::get('pages/about/local-community', [AboutPagesController::class, 'localCommunity'])->name('pages.about.local-community');
     Route::get('pages/about/stats', [AboutPagesController::class, 'stats'])->name('pages.about.stats');
-    Route::get('pages/about/citation', [AboutPagesController::class, 'citation'])->name('pages.about.citation');
-    Route::post('api/citation/curators', [CitationController::class, 'getCuratorCitationData'])->name('api.citation.curators');
-    Route::get('/citation/curator-data', [CitationController::class, 'getCuratorCitationData'])->name('citation.curator');
+
+    // Citations
+    Route::get('pages/about/citation', [CitationController::class, 'index'])->name('pages.about.citation');
+
+    // Taxa for citations
+    Route::get('taxa/{taxon}/descendants-curators', [TaxaController::class, 'descendantsCurators'])->name('taxa.descendants.curators');
 
     // Legal
     Route::get('pages/privacy-policy', [AboutPagesController::class, 'privacyPolicy'])->name('pages.privacy-policy');

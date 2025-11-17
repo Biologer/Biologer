@@ -311,6 +311,16 @@ class Taxon extends Model
     }
 
     /**
+     * Curators for taxon.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function curators()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    /**
      * Scope the query to get only species or taxa of lower ranks.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
