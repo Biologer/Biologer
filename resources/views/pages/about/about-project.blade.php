@@ -33,7 +33,8 @@
             {{-- COLUMN 1: Project Description --}}
             <div class="column is-two-thirds">
                 <div class="box has-background-light" style="height: 100%; display: flex; align-items: center;">
-                    <p class="has-text-justified">
+                    <img src="{{ asset('img/ic_map.png') }}" alt="Biologer Map Icon" style="margin-right: 25px; max-height: 105px;">
+                    <p class="has-text-justified" style="margin-right: 15px;">
                         {{ __('about.project_description') }}
                     </p>
                 </div>
@@ -50,6 +51,9 @@
                         class="button is-info is-responsive is-fullwidth"
                         target="_blank"
                         rel="noopener noreferrer">
+                        <span class="icon">
+                            <i class="fa fa-globe"></i>
+                        </span>
                         <span>{{ __('about.button_text') }}</span>
                     </a>
                 </div>

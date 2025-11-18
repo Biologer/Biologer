@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Taxon;
+use Illuminate\Support\Str;
 
 class TaxaController
 {
@@ -52,13 +53,12 @@ class TaxaController
                 'name' => $t->name,
                 'curators' => $t->curators->map(function ($u) {
                     $surname = $u->last_name;
-                    $firstNameInitial = strtoupper(substr($u->first_name ?? '', 0, 1));
+                    $firstNameInitial = strtoupper(Str::substr($u->first_name, 0, 1));
                     $formattedName = trim($surname . ' ' . $firstNameInitial . '.');
-                    $safeFormattedName = mb_convert_encoding($formattedName, 'UTF-8', 'UTF-8');
 
                     return [
                         'id' => $u->id,
-                        'name' => $safeFormattedName,
+                        'name' => $formattedName,
                     ];
                 }),
             ];

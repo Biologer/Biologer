@@ -16,7 +16,7 @@ return [
     'community_unknown' => 'unknown',
     'community_desc' => 'Biologer: open biodiversity data platform',
     'community_url' => 'URL',
-    'community_assessed' => 'Assessed on',
+    'community_assessed' => 'Accessed on',
     'editors' => 'Taxonomic group editors',
     'community_group_only' => 'Taxonomic group name',
     'community_group' => 'Group :SCIENTIFIC_NAME',
