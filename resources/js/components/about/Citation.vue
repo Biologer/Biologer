@@ -1,72 +1,95 @@
 <template>
   <div class="citation">
+
+    <!-- GENERAL CITATION OF THE SCIENTIFIC PUBLICATION -->
+
     <div class="container">
       <h1 class="title">{{ trans('about.citation_title') }}</h1>
 
-      <p>{{ trans('about.citation_intro_text') }}</p>
+      <p class="mb-3">{{ trans('about.citation_intro_text') }}</p>
 
       <div class="box has-background-white-bis" style="padding: 20px;">
         <p style="font-family: monospace; font-size: 0.95em;">
-          Popović M, Vasić N, Koren T, Burić I, Živanović N, Kulijer D, Golubović A (2020)
+          Popović M., Vasić N., Koren T., Burić I., Živanović N., Kulijer D., Golubović A. (2020)
           Biologer: an open platform for collecting biodiversity data.
           <i>Biodiversity Data Journal</i> 8: e53014. DOI:
           <a href="https://doi.org/10.3897/BDJ.8.e53014">10.3897/BDJ.8.e53014</a>.
         </p>
       </div>
 
-      <hr>
+      <!-- CITATION OF THE BIOLOGER COMMUNITY -->
 
-      <h2 class="title is-4">{{ trans('about.citation_intro_text_2') }}</h2>
+      <h2 class="title is-4">{{ trans('about.citation_subtitle1') }}</h2>
+
+      <p class="mb-3">{{ trans('about.citation_intro_text_2') }}</p>
 
       <div class="box has-background-white-bis" style="padding: 20px;">
         <p style="font-family: monospace; font-size: 0.95em;">
           {{ communityName }} ({{ platformYear }})
           {{ trans('about.community_desc') }}.
-          {{ trans('about.community_url') }}: <a v-bind:href="platformUrl" target="_blank">{{ platformUrl }}</a>
+          {{ trans('about.community_url') }}: <a v-bind:href="platformUrl" target="_blank">{{ platformUrl }}</a>.
           {{ trans('about.community_assessed') }}:
           {{ getCurrentDate() }}
         </p>
       </div>
 
-      <h2 class="title is-4">{{ trans('about.citation_intro_text_3') }}</h2>
+      <!-- GENERAL CITATION OF THE TAXONOMIC GROUP -->
 
-      <!-- Taxon search -->
-      <nz-taxon-autocomplete
+      <h2 class="title is-4">{{ trans('about.citation_subtitle2') }}</h2>
+
+       <!-- Allow search if the user is logged in -->
+      <div v-if="isLoggedIn">
+
+        <p class="mb-3">{{ trans('about.citation_intro_text_3') }}</p>
+        
+        <nz-taxon-autocomplete
         v-model="form.taxon_suggestion"
         @select="onTaxonSelect"
         :taxon="form.taxon"
         autofocus
         ref="taxonAutocomplete"
-        :label="trans('labels.field_observations.taxon')"
+        :label="''"
         :placeholder="trans('labels.field_observations.search_for_taxon')"
-      />
+        />
 
-      <div v-if="curators.length" class="box is-shadowless has-background-light p-5">
+        <div v-if="form.taxon && curators.length" class="box has-background-white-bis" style="padding: 20px;">
+          <p style="font-family: monospace; font-size: 0.95em;">
+            {{ curatorsList }}
+            ({{ platformYear }})
+            {{ trans('about.community_desc') }}
+            ({{ trans('about.community_group', { SCIENTIFIC_NAME: form.taxon.name }) }}).
+            {{ trans('about.community_url') }}: <a v-bind:href="platformUrl" target="_blank">{{ platformUrl }}</a>.
+            {{ trans('about.community_assessed') }}:
+            {{ getCurrentDate() }}
+          </p>
+        </div>
 
-        <div id="citation-results-container">
-          <!-- Kartica za prikaz citata (inicijalno skrivena) -->
-          <div class="card mt-4" id="citation-card">
-            <div class="card-content">
-              <!-- Lista kuratora -->
-              <div class="mb-4">
-                <h4>Curators for all lower taxa:</h4>
-                <div v-if="curators.length">
-                  <ul>
-                    <li v-for=" c in curators" :key="c.id">
-                      {{ c.name }}
-                    </li>
-                  </ul>
-                </div>
-              </div>
+        <div v-else-if="form.taxon && !curators.length" class="box has-background-white-bis" style="padding: 20px;">
+          <p style="font-family: monospace; font-size: 0.95em;">
+              {{ communityName }}
+              ({{ platformYear }})
+              {{ trans('about.community_desc') }}
+              ({{ trans('about.community_group', { SCIENTIFIC_NAME: form.taxon.name }) }}).
+              {{ trans('about.community_url') }}: <a v-bind:href="platformUrl" target="_blank">{{ platformUrl }}</a>.
+              {{ trans('about.community_assessed') }}:
+              {{ getCurrentDate() }}
+            </p>
+        </div>
+      </div>
 
-              <p id="curator-list" class="mb-3 has-text-weight-semibold"></p>
-
-              <!-- Generisani citat -->
-              <div class="box has-background-white-bis p-3">
-                <p style="font-family: monospace; font-size: 0.95em;" id="generated-citation"></p>
-              </div>
-            </div>
-          </div>
+      <!-- General message if the user is logged out -->
+      <div v-else>
+        <p class="mb-3"> {{ trans('about.login_required') }} </p>
+        <div class="box has-background-white-bis" style="padding: 20px;">
+          <p style="font-family: monospace; font-size: 0.95em;">
+            {{ trans('about.editors') }}
+            ({{ platformYear }})
+            {{ trans('about.community_desc') }}
+            ({{ trans('about.community_group_only') }}).
+            {{ trans('about.community_url') }}: <a v-bind:href="platformUrl" target="_blank">{{ platformUrl }}</a>.
+            {{ trans('about.community_assessed') }}:
+            {{ getCurrentDate() }}
+          </p>
         </div>
       </div>
 
@@ -90,6 +113,10 @@ export default {
     communityName: String,
     platformYear: String,
     platformUrl: String,
+    isLoggedIn: {
+        type: Boolean,
+        required: true,
+    }
   },
 
   data() {
@@ -106,6 +133,13 @@ export default {
       descendantTaxa: []
     }
 
+  },
+
+  computed: {
+    curatorsList() {
+      const names = this.curators.map(c => c.name); 
+      return names.join(', ');
+    }
   },
 
   methods: {
@@ -125,12 +159,15 @@ export default {
      * @param {Object} taxon
      */
     onTaxonSelect(taxon) {
-      this.taxon = taxon || null
-      this.taxon_id = taxon ? taxon.id : null
-      this.taxon_suggestion = taxon ? taxon.name : null
+      this.form.taxon = taxon || null
+      this.form.taxon_id = taxon ? taxon.id : null
+      this.form.taxon_suggestion = taxon ? taxon.name : null
 
-      if (this.taxon) {
-        this.fetchLowerTaxaAndCurators(this.taxon.id)
+      if (this.form.taxon) {
+        this.fetchLowerTaxaAndCurators(this.form.taxon.id)
+      } else {
+        // clear results
+        this.curators = []
       }
     },
 

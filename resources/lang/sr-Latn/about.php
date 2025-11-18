@@ -1,13 +1,13 @@
 <?php
 
 return [
-    'project_title' => 'Biologer projekat',
-    'project_description' => 'Projekat Biologer je nastao kao interaktivna platforma slobodnog sadržaja namenjena prikupljanju i digitalizaciji znanja o biološkoj raznovrsnosti na području Istočne Evrope. Platforma se zasniva na razvoju i korišćenju otvorenog softvera Biologer i dobrovoljnom radu Biologer zajednice.',
-    'box_description' => 'Za više podataka posetite našu zvaničnu Biologer veb stranicu. Tamo možete naći opis projekta, njegovu misiju, viziju, kao i način organizacije našeg projekta i tima.',
+    'project_title' => 'Projekat Biologer',
+    'project_description' => 'Projekat Biologer je nastao kao interaktivna platforma otvorenog sadržaja namenjena prikupljanju i digitalizaciji znanja o biološkoj raznovrsnosti na području Istočne Evrope. Platforma se zasniva na razvoju i korišćenju otvorenog Biologer softvera i dobrovoljnom radu Biologer zajednice.',
+    'box_description' => 'Za više podataka, posetite naš zvanični Biologer sajt. Tamo možete naći opis projekta, njegovu misiju, viziju, kao i način organizacije našeg projekta i tima.',
     'button_text' => 'Idi na Biologer.org stranicu projekta',
     'citation' => 'Citiranje',
-    'citation_title' => 'Kako da navodite ovaj skup podataka?',
-    'citation_intro_text' => 'Hvala što koristite Biologer i pomažete dalji razvoj ove otvorene platforme za podatke. Ukoliko želite da uključite podatke iz Biologera u vašu publikaciju, navedite nam kao izvor podataka. Preporučujemo da citirate ovu publikaciju koja objašnjava kako platforma funkcioniše:',
+    'citation_title' => 'Kako da citirate ovaj skup podataka?',
+    'citation_intro_text' => 'Hvala što koristite Biologer i podržavate dalji razvoj ove otvorene platforme za podatke. Ukoliko želite da uključite podatke iz Biologera u vašu publikaciju, navedite nas kao izvor podataka. Preporučujemo da citirate ovu publikaciju koja objašnjava kako platforma funkcioniše:',
     'community_default' => 'Biologer Zajednica',
     'community_rs' => 'Biologer Zajednica u Srbiji',
     'community_hr' => 'Biologer Zajednica u Hrvatskoj',
@@ -17,4 +17,13 @@ return [
     'community_desc' => 'Biologer: platforma za otvorene podatke o biodiverzitetu',
     'community_url' => 'Adresa',
     'community_assessed' => 'Pristupljeno',
+    'editors' => 'Urednici taksonomske grupe',
+    'community_group_only' => 'naziv taksonomske grupe',
+    'community_group' => 'grupa :SCIENTIFIC_NAME', 
+    'citation_subtitle1' => 'Citirajte celu veb stranicu',
+    'citation_intro_text_2' => 'Možete citirati i veb stranicu lokalne Biologer zajednice. Time ćete dodatno naglasiti odakle tačno potiču podaci:',
+    'citation_subtitle2' => 'Citirajte stranicu na osnovu taksonomske grupe',
+    'citation_intro_text_3' => 'Da biste citirali određeni deo podataka, potražite relevantni takson ispod. Izbor taksona sa spiska automatski će napraviti odgovarajući citat.', 
+    'citation_selected_taxon_text' => 'Ovde možete pronaći neophodne podatke za citiranje podataka taksonomske grupe „:SCIENTIFIC_NAME“.',
+    'login_required' => 'Morate da se prijavite kako bi koristili mogućnost automatskog pravljenja citata. Tada ćete moći da pretražite taksone i napravite ispravan citat baze podataka, uključujući sve naše urednike. Generisani stil citiranja treba da bude u ovom obliku:' 
 ];

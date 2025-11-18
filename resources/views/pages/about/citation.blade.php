@@ -7,11 +7,11 @@
 @endsection
 
 @section('content')
-    <div class="box">
-        <nz-citation>
-            :community-name="{{ $communityName }}"
-            :platform-year="{{ $platformYear }}"
-            :platform-url="{{ $platformUrl }}"
-        </nz-citation>
-    </div>
+<div class="box">
+    <nz-citation
+        community-name="{{ $communityName }}"
+        platform-year="{{ $platformYear }}"
+        platform-url="{{ $platformUrl }}"
+        :is-logged-in="{{ Auth::check() ? 'true' : 'false' }}" />
+</div>
 @endsection

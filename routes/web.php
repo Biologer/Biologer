@@ -81,8 +81,6 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
     Route::view('pages/about/about-project', 'pages.about.about-project')->name('pages.about.about-project');
     Route::get('pages/about/local-community', [AboutPagesController::class, 'localCommunity'])->name('pages.about.local-community');
     Route::get('pages/about/stats', [AboutPagesController::class, 'stats'])->name('pages.about.stats');
-
-    // Citations
     Route::get('pages/about/citation', [CitationController::class, 'index'])->name('pages.about.citation');
 
     // Taxa for citations
