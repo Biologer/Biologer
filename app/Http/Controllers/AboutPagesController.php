@@ -49,4 +49,5 @@ class AboutPagesController
     {
         return view('pages.about.stats', $this->stats->getStatsData());
     }
+
 }

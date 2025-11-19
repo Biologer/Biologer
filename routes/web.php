@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ViewGroupsController;
 use App\Http\Controllers\AnnouncementsController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\CitationController;
 use App\Http\Controllers\Contributor\DashboardController;
 use App\Http\Controllers\Contributor\FieldObservationsController;
 use App\Http\Controllers\Contributor\FieldObservationsImportController;
@@ -61,7 +62,10 @@ Route::get('photos/{photo}/public', [PhotosController::class, 'public'])
     ->name('photos.public');
 
 Route::prefix(LaravelLocalization::setLocale())->middleware([
-    'localeCookieRedirect', 'localizationRedirect', 'localeViewPath', 'localizationPreferenceUpdate',
+    'localeCookieRedirect',
+    'localizationRedirect',
+    'localeViewPath',
+    'localizationPreferenceUpdate',
 ])->group(function () {
     Route::auth(['verify' => false, 'confirm' => false]);
     Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
@@ -75,12 +79,12 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
     // About pages
     Route::view('pages/about/about-project', 'pages.about.about-project')->name('pages.about.about-project');
-    Route::view('pages/about/project-team', 'pages.about.project-team')->name('pages.about.project-team');
-    Route::view('pages/about/organisations', 'pages.about.organisations')->name('pages.about.organisations');
     Route::get('pages/about/local-community', [AboutPagesController::class, 'localCommunity'])->name('pages.about.local-community');
-    Route::view('pages/about/biodiversity-data', 'pages.about.biodiversity-data')->name('pages.about.biodiversity-data');
-    Route::view('pages/about/development-supporters', 'pages.about.development-supporters')->name('pages.about.development-supporters');
     Route::get('pages/about/stats', [AboutPagesController::class, 'stats'])->name('pages.about.stats');
+    Route::get('pages/about/citation', [CitationController::class, 'index'])->name('pages.about.citation');
+
+    // Taxa for citations
+    Route::get('taxa/{taxon}/descendants-curators', [TaxaController::class, 'descendantsCurators'])->name('taxa.descendants.curators');
 
     // Legal
     Route::get('pages/privacy-policy', [AboutPagesController::class, 'privacyPolicy'])->name('pages.privacy-policy');

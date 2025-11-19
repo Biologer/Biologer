@@ -26,5 +26,5 @@ mix
   .sourceMaps();
 
 if (mix.inProduction()) {
-    mix.version();
+  mix.version();
 }

@@ -82,5 +82,6 @@ return [
     'biodiversity_data' => 'Подаци о биодиверзитету',
     'development_supporters' => 'Развој подржали',
     'stats' => 'Статистика',
+    'citation' => 'Цитирање',
     'taxonomy' => 'Таксономска база',
 ];
