@@ -53,8 +53,8 @@ class TaxaController
                 'name' => $t->name,
                 'curators' => $t->curators->map(function ($u) {
                     $surname = $u->last_name;
-                    $firstNameInitial = strtoupper(Str::substr($u->first_name, 0, 1));
-                    $formattedName = trim($surname . ' ' . $firstNameInitial . '.');
+                    $firstNameInitial = Str::upper((Str::substr($u->first_name, 0, 1)));
+                    $formattedName = trim($surname.' '.$firstNameInitial.'.');
 
                     return [
                         'id' => $u->id,
