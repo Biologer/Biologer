@@ -25,5 +25,5 @@ return [
     'citation_subtitle2' => 'Cite web page by taxon',
     'citation_intro_text_3' => 'To cite a specific portion of the dataset, search for the relevant taxon below. Selecting a taxon will automatically generate the appropriate citation.',
     'citation_selected_taxon_text' => 'Below you can find the necessary information to create a citation for observations related to the taxonomic group :SCIENTIFIC_NAME.',
-    'login_required' => 'Please log in to automatically generate a custom citation. This will allow you to search for taxa and display the correct database citation acknowledging all our editors. In general the generated citation style should be in this form:'
+    'login_required' => 'Please log in to automatically generate a custom citation. This will allow you to search for taxa and display the correct database citation acknowledging all our editors. In general the generated citation style should be in this form:',
 ];

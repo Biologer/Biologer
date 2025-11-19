@@ -19,11 +19,11 @@ return [
     'community_assessed' => 'Pristupljeno',
     'editors' => 'Urednici taksonomske grupe',
     'community_group_only' => 'naziv taksonomske grupe',
-    'community_group' => 'grupa :SCIENTIFIC_NAME', 
+    'community_group' => 'grupa :SCIENTIFIC_NAME',
     'citation_subtitle1' => 'Citirajte cijelu veb stranicu',
     'citation_intro_text_2' => 'Možete citirati i veb stranicu lokalne Biologer zajednice. Time ćete dodatno naglasiti odakle tačno potiču podaci:',
     'citation_subtitle2' => 'Citirajte stranicu na osnovu taksonomske grupe',
     'citation_intro_text_3' => 'Da biste citirali određeni dio podataka, potražite relevantni takson ispod. Izbor taksona sa spiska automatski će napraviti odgovarajući citat.',
     'citation_selected_taxon_text' => 'Ovđe možete pronaći neophodne podatke za citiranje podataka taksonomske grupe „:SCIENTIFIC_NAME“.',
-    'login_required' => 'Morate da se prijavite kako bi koristili mogućnost automatskog pravljenja citata. Tada ćete moći da pretražite taksone i napravite ispravan citat baze podataka, uključujući sve naše urednike. Generisani stil citiranja treba da bude u ovom obliku:' 
+    'login_required' => 'Morate da se prijavite kako bi koristili mogućnost automatskog pravljenja citata. Tada ćete moći da pretražite taksone i napravite ispravan citat baze podataka, uključujući sve naše urednike. Generisani stil citiranja treba da bude u ovom obliku:',
 ];

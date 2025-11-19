@@ -24,6 +24,6 @@ return [
     'citation_intro_text_2' => 'Možete citirati i web stranicu lokalne Biologer zajednice. Time ćete dodatno naglasiti odakle točno potječu podaci:',
     'citation_subtitle2' => 'Citirajte stranicu na temelju taksonomske skupine',
     'citation_intro_text_3' => 'Kako biste citirali određeni dio podataka, potražite relevantni takson niže. Odabir taksona s popisa automatski će izraditi odgovarajući citat.',
-    'citation_selected_taxon_text' => 'Ovdje možete pronaći neophodne podatke za citiranje podataka taksonomske skupine „:SCIENTIFIC_NAME“.', 
-    'login_required' => 'Morate se prijaviti kako biste koristili mogućnost automatskog kreiranja citata. Tada ćete moći pretraživati taksone i izraditi ispravan citat baze podataka, uključujući sve naše urednike. Generirani stil citiranja trebao bi biti u ovom obliku:'
+    'citation_selected_taxon_text' => 'Ovdje možete pronaći neophodne podatke za citiranje podataka taksonomske skupine „:SCIENTIFIC_NAME“.',
+    'login_required' => 'Morate se prijaviti kako biste koristili mogućnost automatskog kreiranja citata. Tada ćete moći pretraživati taksone i izraditi ispravan citat baze podataka, uključujući sve naše urednike. Generirani stil citiranja trebao bi biti u ovom obliku:',
 ];
