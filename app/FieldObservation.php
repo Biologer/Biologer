@@ -65,6 +65,7 @@ class FieldObservation extends Model implements FlatArrayable
             'observer' => \App\Filters\FieldObservation\ObservationAttributeLike::class,
             'sort_by' => \App\Filters\SortBy::class,
             'project' => \App\Filters\FieldObservation\ObservationAttributeLike::class,
+            'updated_after' => \App\Filters\UpdatedAfter::class,
         ];
     }
 
