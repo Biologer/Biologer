@@ -8,24 +8,28 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AnnouncementFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
     protected $model = Announcement::class;
 
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
     public function definition()
     {
         return [
             'creator_id' => User::factory(),
             'creator_name' => $this->faker->name(),
+            'en' => [
+                'title' => $this->faker->sentence(),
+                'message' => $this->faker->paragraph(),
+            ],
             'private' => $this->faker->boolean(),
         ];
-    }
-
-    public function configure()
-    {
-        return $this->afterMaking(function (Announcement $announcement) {
-            $announcement->translateOrNew('en')->title = $this->faker->sentence();
-            $announcement->translateOrNew('en')->message = $this->faker->paragraph();
-        })->afterCreating(function (Announcement $announcement) {
-            $announcement->save();
-        });
     }
 }
