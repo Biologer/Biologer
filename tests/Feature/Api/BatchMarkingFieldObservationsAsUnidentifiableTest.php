@@ -74,6 +74,7 @@ final class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
 
         $taxon = Taxon::factory()->create();
         $taxon->curators()->attach($curator);
+
         $fieldObservations = ObservationFactory::createManyUnnapprovedFieldObservations(3, [
             'taxon_id' => $taxon->id,
             'created_by_id' => $user->id,
@@ -88,7 +89,7 @@ final class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
         #Notification::assertTimesSent(3, FieldObservationMarkedUnidentifiable::class);
         $this->assertCount(
             3,
-            Notification::sent(null, FieldObservationMarkedUnidentifiable::class)
+            Notification::sent($user, FieldObservationMarkedUnidentifiable::class)
         );
 
         $fieldObservations->each(function ($observation) use ($user, $curator) {
