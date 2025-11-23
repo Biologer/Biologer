@@ -7,9 +7,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-CREATE DATABASE IF NOT EXISTS `biologer-master` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-USE `biologer-master`;
-
 CREATE TABLE IF NOT EXISTS `activity_log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `log_name` varchar(191) DEFAULT NULL,
