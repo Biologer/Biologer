@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "astrotomic/laravel-translatable": "^v11.16.1",
         "box/spout": "^2.7.3",
         "google/auth": "^v1.49.0",
@@ -40,7 +40,7 @@
         "tightenco/ziggy": "^0.9.4"
     },
     "require-dev": {
-        "brianium/paratest": "^v7.8.4",
+        "brianium/paratest": "^v7.14.2",
         "spatie/laravel-ignition": "^2.9.1",
         "fakerphp/faker": "^1.24.1",
         "friendsofphp/php-cs-fixer": "^v3.90.0",
@@ -48,7 +48,7 @@
         "laravel/sail": "^v1.48.1",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^v8.8.3",
-        "phpunit/phpunit": "^11.5.44",
+        "phpunit/phpunit": "^12.4.4",
         "wnx/laravel-stats": "^v2.17.0"
     },
     "config": {
@@ -56,7 +56,7 @@
         "sort-packages": true,
         "optimize-autoloader": true,
         "platform": {
-            "php": "8.2"
+            "php": "8.3"
         }
     },
     "extra": {

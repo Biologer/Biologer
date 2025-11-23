@@ -14,7 +14,9 @@ jobs:
       CACHE_DRIVER: file
       QUEUE_CONNECTION: database
       SESSION_DRIVER: file
-      MAIL_FROM_ADDRESS: no-reply@biologer.org
+      MAIL_MAILER: log
+      MAIL_FROM_ADDRESS: test@example.com
+      MAIL_FROM_NAME: "Biologer Test"
     services:
       mysql:
         image: mysql:5.7
@@ -28,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.2', '8.3']
+        php-versions: ['8.3', '8.4']
     steps:
       - name: Checkout
         uses: actions/checkout@v2
