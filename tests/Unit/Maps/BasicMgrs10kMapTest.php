@@ -3,11 +3,12 @@
 namespace Tests\Unit\Maps;
 
 use App\Maps\BasicMgrs10kMap;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class BasicMgrs10kMapTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_render_map_of_serbia_as_svg_using_provided_data_to_mark_mgrs_fields()
     {
         $map = BasicMgrs10kMap::fromPath($this->serbianMapPath());
@@ -30,7 +31,7 @@ class BasicMgrs10kMapTest extends TestCase
         $this->assertEquals($expected, $map->render($mgrs10kCollection));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_render_map_of_serbia_as_svg_dataurl_using_provided_data_to_mark_mgrs_fields()
     {
         $map = BasicMgrs10kMap::fromPath($this->serbianMapPath());

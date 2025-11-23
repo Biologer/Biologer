@@ -5,12 +5,13 @@ namespace Tests\Feature;
 use App\Photo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
 class CleaningUnusedPhotosTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function photos_that_are_not_attached_to_any_observation_are_removed()
     {
         $photosDisk = config('biologer.photos_disk');

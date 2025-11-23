@@ -4,11 +4,12 @@ namespace Tests\Feature\Api;
 
 use App\User;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class GetUserInformationTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function users_cen_retreive_treir_information()
     {
         $user = User::factory()->create([

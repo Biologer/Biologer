@@ -7,13 +7,14 @@ use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Date;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class GetObservationTypesTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function get_observations_types()
     {
         Passport::actingAs(User::factory()->create());
@@ -37,7 +38,7 @@ class GetObservationTypesTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function can_be_filtered_to_get_only_those_updated_after_given_timestamp()
     {
         $this->withoutExceptionHandling();

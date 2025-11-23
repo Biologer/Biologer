@@ -4,6 +4,7 @@ namespace Tests\Feature\Api;
 
 use App\User;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class UsersAutocompleteTest extends TestCase
@@ -15,7 +16,7 @@ class UsersAutocompleteTest extends TestCase
         $this->seed('RolesTableSeeder');
     }
 
-    /** @test */
+    #[Test]
     public function can_fetch_basic_users_list_for_autocomplete()
     {
         $user = User::factory()->create([
@@ -53,7 +54,7 @@ class UsersAutocompleteTest extends TestCase
         ], $response->json('data'));
     }
 
-    /** @test */
+    #[Test]
     public function user_list_is_paginated()
     {
         $user = User::factory()->create();
@@ -68,7 +69,7 @@ class UsersAutocompleteTest extends TestCase
         $this->assertCount(10, $response->json('data'));
     }
 
-    /** @test */
+    #[Test]
     public function filtering_users_by_name()
     {
         $user = User::factory()->create([

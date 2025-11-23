@@ -10,6 +10,7 @@ use App\Taxon;
 use App\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ProcessImportTest extends TestCase
@@ -38,7 +39,7 @@ class ProcessImportTest extends TestCase
         return $file;
     }
 
-    /** @test */
+    #[Test]
     public function it_can_perform_processing_of_field_observation_import()
     {
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);

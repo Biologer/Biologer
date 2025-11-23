@@ -12,6 +12,7 @@ use App\Taxon;
 use App\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class LiteratureObservationImportTest extends TestCase
@@ -24,7 +25,7 @@ class LiteratureObservationImportTest extends TestCase
         $this->seed('StagesTableSeeder');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_store_processed_and_validated_import()
     {
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
@@ -80,7 +81,7 @@ class LiteratureObservationImportTest extends TestCase
     }
 
 
-    /** @test */
+    #[Test]
     public function if_elevation_is_missing_try_using_dem_reader_to_get_elevation()
     {
         Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
@@ -241,7 +242,7 @@ class LiteratureObservationImportTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function georeferenced_date_is_normalized_before_storing_it()
     {
         Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
@@ -261,7 +262,7 @@ class LiteratureObservationImportTest extends TestCase
         $this->assertEquals('2010-06-12', $literatureObservation->georeferenced_date->toDateString());
     }
 
-    /** @test */
+    #[Test]
     public function observations_owner_can_be_selected()
     {
         Taxon::factory()->create(['name' => 'Cerambyx cerdo']);

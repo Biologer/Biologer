@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Laravel\Passport\Token;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class PassportTokenTest extends TestCase
@@ -18,7 +19,7 @@ class PassportTokenTest extends TestCase
         $this->artisan('passport:install');
     }
 
-    /** @test */
+    #[Test]
     public function guest_cannot_access_token_routes()
     {
         $this->getJson(route('preferences.token'))->assertStatus(401);
@@ -26,7 +27,7 @@ class PassportTokenTest extends TestCase
         $this->postJson(route('preferences.token.revoke'), ['token_id' => 'randomTokenId'])->assertStatus(401);
     }
 
-    /** @test */
+    #[Test]
     public function unverified_user_cannot_generate_or_revoke_token()
     {
         $user = User::factory()->create(['email_verified_at' => null]);
@@ -36,7 +37,7 @@ class PassportTokenTest extends TestCase
         $this->postJson(route('preferences.token.revoke'), ['token_id' => 'randomTokenId'])->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function verified_user_can_generate_access_token()
     {
         $user = User::factory()->create(['email_verified_at' => now()]);
@@ -53,7 +54,7 @@ class PassportTokenTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function verified_user_cannot_generate_token_if_already_exists()
     {
         $user = User::factory()->create(['email_verified_at' => now()]);
@@ -67,7 +68,7 @@ class PassportTokenTest extends TestCase
             ->assertJson(['message' => 'You already have a valid token.']);
     }
 
-    /** @test */
+    #[Test]
     public function verified_user_can_revoke_tokens()
     {
         $user = User::factory()->create(['email_verified_at' => now()]);
@@ -86,7 +87,7 @@ class PassportTokenTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function verified_user_cannot_revoke_non_existent_token()
     {
         $user = User::factory()->create(['email_verified_at' => now()]);
@@ -98,8 +99,8 @@ class PassportTokenTest extends TestCase
             ->assertJson(['message' => 'Token not found or already revoked']);
     }
 
-    /** @test */
-    /** @test */
+    #[Test]
+    #[Test]
     public function verified_user_cannot_revoke_already_revoked_token()
     {
         $user = User::factory()->create(['email_verified_at' => now()]);

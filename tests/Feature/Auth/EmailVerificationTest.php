@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class EmailVerificationTest extends TestCase
@@ -17,7 +18,7 @@ class EmailVerificationTest extends TestCase
         parent::setUp();
     }
 
-    /** @test */
+    #[Test]
     public function show_page_to_request_email_verification_link()
     {
         $this->actingAs(
@@ -25,7 +26,7 @@ class EmailVerificationTest extends TestCase
         )->get('/email/verify')->assertSee(__('Verify Your Email Address'));
     }
 
-    /** @test */
+    #[Test]
     public function can_resend_verification_email()
     {
         Notification::fake();
@@ -42,7 +43,7 @@ class EmailVerificationTest extends TestCase
         Notification::assertSentToTimes($user, VerifyEmail::class, 1);
     }
 
-    /** @test */
+    #[Test]
     public function verify_email_of_user_that_is_logged_in()
     {
         $user = User::factory()->unverified()->create();
@@ -55,7 +56,7 @@ class EmailVerificationTest extends TestCase
             ->assertSessionHas('verified', true);
     }
 
-    /** @test */
+    #[Test]
     public function verify_email_of_user_that_is_not_logged_in()
     {
         $user = User::factory()->unverified()->create();
@@ -67,7 +68,7 @@ class EmailVerificationTest extends TestCase
             ->assertSessionHas('verified', true);
     }
 
-    /** @test */
+    #[Test]
     public function cannot_verify_email_using_some_elses_link_when_logged_in()
     {
         $user = User::factory()->unverified()->create();

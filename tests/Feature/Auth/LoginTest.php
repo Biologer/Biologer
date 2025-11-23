@@ -3,11 +3,12 @@
 namespace Tests\Feature\Auth;
 
 use App\User;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function user_can_login()
     {
         $user = User::factory()->create([
@@ -25,7 +26,7 @@ class LoginTest extends TestCase
         $this->assertTrue(auth()->user()->is($user));
     }
 
-    /** @test */
+    #[Test]
     public function user_that_has_not_verified_their_email_is_redirected_to_verification_notice_page()
     {
         User::factory()->unverified()->create([
@@ -42,7 +43,7 @@ class LoginTest extends TestCase
         $response->assertViewIs('auth.verify');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_login_with_invalid_email()
     {
         User::factory()->unverified()->create([
@@ -61,7 +62,7 @@ class LoginTest extends TestCase
         $this->assertTrue(auth()->guest());
     }
 
-    /** @test */
+    #[Test]
     public function cannot_login_with_invalid_password()
     {
         User::factory()->unverified()->create([

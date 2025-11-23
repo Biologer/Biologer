@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Announcement;
 use App\User;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class AnnouncementTest extends TestCase
@@ -22,13 +23,13 @@ class AnnouncementTest extends TestCase
         ], $overrides);
     }
 
-    /** @test */
+    #[Test]
     public function guest_cannot_publish_announcements()
     {
         $this->postJson('/api/announcements', $this->validParams())->assertUnauthorized();
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_publish_an_announcement()
     {
         $this->seed('RolesTableSeeder');
@@ -45,7 +46,7 @@ class AnnouncementTest extends TestCase
         $this->assertFalse($announcement->private);
     }
 
-    /** @test */
+    #[Test]
     public function guests_can_view_public_announcements()
     {
         $this->withoutExceptionHandling();
@@ -59,7 +60,7 @@ class AnnouncementTest extends TestCase
         $response->assertSee($announcement->title);
     }
 
-    /** @test */
+    #[Test]
     public function guests_cannot_view_private_announcements()
     {
         $announcement = Announcement::factory()->create(['private' => true]);
@@ -67,7 +68,7 @@ class AnnouncementTest extends TestCase
         $this->get("/announcements/{$announcement->id}")->assertNotFound();
     }
 
-    /** @test */
+    #[Test]
     public function authenticated_users_can_mark_announcements_as_read()
     {
         $this->seed('RolesTableSeeder');
@@ -83,7 +84,7 @@ class AnnouncementTest extends TestCase
         $this->assertTrue($announcement->fresh()->isRead());
     }
 
-    /** @test */
+    #[Test]
     public function announcement_is_marked_as_read_when_authenticated_user_views_it()
     {
         $this->seed('RolesTableSeeder');

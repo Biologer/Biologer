@@ -7,12 +7,13 @@ use App\Taxon;
 use App\User;
 use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
 class ExportDownloadTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function authenticated_user_can_download_their_export()
     {
         $this->actingAs($user = User::factory()->create());
@@ -30,7 +31,7 @@ class ExportDownloadTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function guest_gets_unauthorized_response()
     {
         $this->actingAs($user = User::factory()->create());
@@ -42,7 +43,7 @@ class ExportDownloadTest extends TestCase
         $response->assertRedirect('/login');
     }
 
-    /** @test */
+    #[Test]
     public function authenticated_user_cannot_download_other_users_export()
     {
         $this->actingAs($user = User::factory()->create());

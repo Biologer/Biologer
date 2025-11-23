@@ -9,13 +9,12 @@ use App\Observation;
 use App\Publication;
 use App\Stage;
 use App\Taxon;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class LiteratureObservationDiffTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function logs_changes_to_general_data()
     {
         foreach ($this->generalDataProvider() as $index => $data) {
@@ -38,9 +37,7 @@ class LiteratureObservationDiffTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function logs_changes_to_specific_data()
     {
         foreach ($this->specificDataProvider() as $data) {

@@ -6,11 +6,12 @@ use App\ImageLicense;
 use App\Photo;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class PhotoTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function files_are_removed_when_photo_is_deleted()
     {
         $photosDisk = config('biologer.photos_disk');

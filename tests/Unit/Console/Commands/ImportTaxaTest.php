@@ -8,11 +8,12 @@ use App\Taxon;
 use App\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ImportTaxaTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function can_import_taxa_from_a_csv_file()
     {
         $redList = RedList::factory()->create();
@@ -50,7 +51,7 @@ class ImportTaxaTest extends TestCase
         $this->assertTrue($taxonConservationLegislations->contains($conservationLegislation));
     }
 
-    /** @test */
+    #[Test]
     public function can_handle_duplicate_names_in_same_tree()
     {
         $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
@@ -78,7 +79,7 @@ class ImportTaxaTest extends TestCase
         $this->assertEquals('Cerambyx cerdo', $taxon->name);
     }
 
-    /** @test */
+    #[Test]
     public function can_handle_duplicate_names_in_different_trees()
     {
         $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
@@ -125,7 +126,7 @@ class ImportTaxaTest extends TestCase
         $this->assertNull($plantSpecies->translateOrNew('en')->native_name);
     }
 
-    /** @test */
+    #[Test]
     public function can_compose_name_from_fragments()
     {
         $path = $this->createTempFile("genus,species,subspecies\nCerambyx,cerdo,cerdo");
@@ -140,7 +141,7 @@ class ImportTaxaTest extends TestCase
         $this->assertDatabaseHas('taxa', ['name' => 'Cerambyx cerdo cerdo', 'rank' => 'subspecies']);
     }
 
-    /** @test */
+    #[Test]
     public function can_chunk_reading_lines_from_csv_file()
     {
         $path = $this->createTempFile("genus,species,subspecies\nCerambyx,cerdo,cerdo\nCerambyx,scopolii,");
@@ -158,7 +159,7 @@ class ImportTaxaTest extends TestCase
         $this->assertDatabaseHas('taxa', ['name' => 'Cerambyx scopolii', 'rank' => 'species']);
     }
 
-    /** @test */
+    #[Test]
     public function user_can_be_attributed_as_creator_of_the_tree()
     {
         $user = User::factory()->create(['first_name' => 'John', 'last_name' => 'Doe']);

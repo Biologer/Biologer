@@ -11,6 +11,7 @@ use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ImportingLiteratureObservationsTest extends TestCase
@@ -37,7 +38,7 @@ class ImportingLiteratureObservationsTest extends TestCase
         return $file;
     }
 
-    /** @test */
+    #[Test]
     public function guests_are_not_allowed_to_import_literature_observations()
     {
         $this->postJson('/api/literature-observation-imports', [
@@ -50,7 +51,7 @@ class ImportingLiteratureObservationsTest extends TestCase
         ])->assertUnauthorized();
     }
 
-    /** @test */
+    #[Test]
     public function regular_users_are_not_allowed_to_import_literature_observations()
     {
         $this->postJson('/api/literature-observation-imports', [
@@ -70,7 +71,7 @@ class ImportingLiteratureObservationsTest extends TestCase
         return Passport::actingAs(User::factory()->create()->assignRoles('curator'));
     }
 
-    /** @test */
+    #[Test]
     public function curator_can_submit_csv_file_to_import_literature_observations()
     {
         Queue::fake();
@@ -91,7 +92,7 @@ class ImportingLiteratureObservationsTest extends TestCase
         $this->assertArrayHasKey('id', $response->json());
     }
 
-    /** @test */
+    #[Test]
     public function file_is_required_when_submitting()
     {
         $this->actingAsCurator();
@@ -109,7 +110,7 @@ class ImportingLiteratureObservationsTest extends TestCase
         $response->assertJsonValidationErrors(['file']);
     }
 
-    /** @test */
+    #[Test]
     public function file_must_be_an_actual_file()
     {
         $this->actingAsCurator();
@@ -127,7 +128,7 @@ class ImportingLiteratureObservationsTest extends TestCase
         $response->assertJsonValidationErrors(['file']);
     }
 
-    /** @test */
+    #[Test]
     public function submitted_file_must_be_csv()
     {
         $this->actingAsCurator();
@@ -143,7 +144,7 @@ class ImportingLiteratureObservationsTest extends TestCase
         ])->assertJsonValidationErrors(['file']);
     }
 
-    /** @test */
+    #[Test]
     public function submitted_file_must_have_at_least_one_row_of_data()
     {
         $this->actingAsCurator();
@@ -159,7 +160,7 @@ class ImportingLiteratureObservationsTest extends TestCase
         ])->assertJsonValidationErrors(['file']);
     }
 
-    /** @test */
+    #[Test]
     public function declaring_columns_of_appropriate_order_is_required()
     {
         $this->actingAsCurator();
@@ -172,7 +173,7 @@ class ImportingLiteratureObservationsTest extends TestCase
         ])->assertJsonValidationErrors(['columns']);
     }
 
-    /** @test */
+    #[Test]
     public function columns_field_must_be_array_of_columns()
     {
         $this->actingAsCurator();
@@ -185,7 +186,7 @@ class ImportingLiteratureObservationsTest extends TestCase
         ])->assertJsonValidationErrors(['columns']);
     }
 
-    /** @test */
+    #[Test]
     public function required_columns_must_be_declared_as_provided_in_the_file()
     {
         $this->actingAsCurator();
@@ -200,7 +201,7 @@ class ImportingLiteratureObservationsTest extends TestCase
         ])->assertJsonValidationErrors(['columns']);
     }
 
-    /** @test */
+    #[Test]
     public function publication_is_required_when_submitting_import()
     {
         $this->actingAsCurator();
@@ -218,7 +219,7 @@ class ImportingLiteratureObservationsTest extends TestCase
         $response->assertJsonValidationErrors(['publication_id']);
     }
 
-    /** @test */
+    #[Test]
     public function publication_is_must_exist_when_submitting_import()
     {
         $this->actingAsCurator();
@@ -236,7 +237,7 @@ class ImportingLiteratureObservationsTest extends TestCase
         $response->assertJsonValidationErrors(['publication_id']);
     }
 
-    /** @test */
+    #[Test]
     public function processing_is_queued_upon_successful_submission()
     {
         Queue::fake();
@@ -259,7 +260,7 @@ class ImportingLiteratureObservationsTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function user_can_check_the_status_to_see_if_processing_started()
     {
         $user = $this->actingAsCurator();
@@ -274,7 +275,7 @@ class ImportingLiteratureObservationsTest extends TestCase
             ->assertJson(['status' => ImportStatus::PROCESSING_QUEUED]);
     }
 
-    /** @test */
+    #[Test]
     public function user_cannot_access_someone_elses_import()
     {
         $this->actingAsCurator();
