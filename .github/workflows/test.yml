@@ -17,6 +17,7 @@ jobs:
       MAIL_MAILER: log
       MAIL_FROM_ADDRESS: test@example.com
       MAIL_FROM_NAME: "Biologer Test"
+      BACKUP_NOTIFICATION_EMAIL: test@example.com
     services:
       mysql:
         image: mysql:5.7
