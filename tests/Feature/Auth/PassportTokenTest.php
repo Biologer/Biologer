@@ -2,11 +2,11 @@
 
 namespace Auth;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Laravel\Passport\Token;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 final class PassportTokenTest extends TestCase
@@ -99,7 +99,6 @@ final class PassportTokenTest extends TestCase
             ->assertJson(['message' => 'Token not found or already revoked']);
     }
 
-    #[Test]
     #[Test]
     public function verified_user_cannot_revoke_already_revoked_token(): void
     {

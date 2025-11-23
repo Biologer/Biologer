@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Api;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\ImageLicense;
 use App\License;
 use App\User;
@@ -10,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Laravel\Passport\ClientRepository;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 final class RegistrationTest extends TestCase

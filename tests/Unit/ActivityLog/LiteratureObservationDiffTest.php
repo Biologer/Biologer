@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\ActivityLog;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\ActivityLog\LiteratureObservationDiff;
 use App\LiteratureObservation;
 use App\LiteratureObservationIdentificationValidity;
@@ -10,6 +9,7 @@ use App\Observation;
 use App\Publication;
 use App\Stage;
 use App\Taxon;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 final class LiteratureObservationDiffTest extends TestCase

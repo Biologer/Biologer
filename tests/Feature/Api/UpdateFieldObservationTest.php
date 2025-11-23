@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Api;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\License;
 use App\Notifications\FieldObservationEdited;
 use App\Photo;
@@ -14,6 +13,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 

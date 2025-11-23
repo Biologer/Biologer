@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Maps;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Maps\BasicMgrs10kMap;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 final class BasicMgrs10kMapTest extends TestCase

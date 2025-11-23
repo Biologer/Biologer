@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\User;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 final class ChangePreferencesTest extends TestCase

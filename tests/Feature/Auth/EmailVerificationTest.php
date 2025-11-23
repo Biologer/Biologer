@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Auth;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 final class EmailVerificationTest extends TestCase

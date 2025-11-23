@@ -2,13 +2,13 @@
 
 namespace Tests\Unit\Console\Commands;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\ConservationLegislation;
 use App\RedList;
 use App\Taxon;
 use App\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 final class ImportTaxaTest extends TestCase

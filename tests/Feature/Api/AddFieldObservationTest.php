@@ -2,8 +2,6 @@
 
 namespace Tests\Feature\Api;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 use App\AtlasCode;
 use App\FieldObservation;
 use App\Jobs\ProcessUploadedPhoto;
@@ -18,6 +16,8 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 final class AddFieldObservationTest extends TestCase

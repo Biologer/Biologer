@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Exports\FieldObservations;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\ActivityLog\FieldObservationDiff;
 use App\Exports\FieldObservations\DarwinCoreFieldObservationsExport;
 use App\Jobs\PerformExport;
@@ -14,6 +13,7 @@ use App\User;
 use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 

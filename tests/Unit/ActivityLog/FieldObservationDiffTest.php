@@ -2,13 +2,13 @@
 
 namespace Tests\Unit\ActivityLog;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\ActivityLog\FieldObservationDiff;
 use App\FieldObservation;
 use App\License;
 use App\Observation;
 use App\Stage;
 use App\Taxon;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 final class FieldObservationDiffTest extends TestCase

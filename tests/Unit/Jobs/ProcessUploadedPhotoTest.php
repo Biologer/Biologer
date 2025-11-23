@@ -2,12 +2,12 @@
 
 namespace Tests\Unit\Jobs;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Jobs\ProcessUploadedPhoto;
 use App\Photo;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 final class ProcessUploadedPhotoTest extends TestCase

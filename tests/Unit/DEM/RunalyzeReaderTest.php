@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\DEM;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\DEM\RunalyzeReader;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Runalyze\DEM\Interpolation\InterpolationInterface;
 use Runalyze\DEM\Provider\ProviderInterface;

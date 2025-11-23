@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Exports\FieldObservations;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Exports\FieldObservations\CuratorPendingFieldObservationsCustomExport;
 use App\Jobs\PerformExport;
 use App\License;
@@ -12,6 +11,7 @@ use App\User;
 use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 

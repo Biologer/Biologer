@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Auth;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Nikazooz\LaravelCaptcha\Facades\Captcha;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 final class UserRegistrationTest extends TestCase

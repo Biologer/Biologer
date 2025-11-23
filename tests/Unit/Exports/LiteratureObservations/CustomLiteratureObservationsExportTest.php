@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Exports\LiteratureObservations;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Exports\LiteratureObservations\CustomLiteratureObservationsExport;
 use App\Jobs\PerformExport;
 use App\LiteratureObservation;
@@ -14,6 +13,7 @@ use App\User;
 use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 final class CustomLiteratureObservationsExportTest extends TestCase

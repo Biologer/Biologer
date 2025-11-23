@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Support;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Support\Mgrs;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class MgrsTest extends TestCase

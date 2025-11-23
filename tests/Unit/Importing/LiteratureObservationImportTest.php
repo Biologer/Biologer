@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Importing;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\DEM\Reader as DEMReader;
 use App\Import;
 use App\Importing\LiteratureObservationImport;
@@ -13,6 +12,7 @@ use App\Taxon;
 use App\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 final class LiteratureObservationImportTest extends TestCase

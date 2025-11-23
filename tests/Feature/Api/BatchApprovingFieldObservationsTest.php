@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Api;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\FieldObservation;
 use App\Notifications\FieldObservationApproved;
 use App\Taxon;
 use App\User;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
