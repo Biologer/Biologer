@@ -43,7 +43,7 @@
         "brianium/paratest": "^v7.0.0",
         "spatie/laravel-ignition": "^2.9.1",
         "fakerphp/faker": "^1.24.1",
-        "friendsofphp/php-cs-fixer": "^",
+        "friendsofphp/php-cs-fixer": "^v3.90.0",
         "itsgoingd/clockwork": "^5.3.5",
         "laravel/sail": "^v1.48.1",
         "mockery/mockery": "^1.6.12",
