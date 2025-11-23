@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Exports\FieldObservations;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Exports\FieldObservations\CuratorPendingFieldObservationsDarwinCoreExport;
 use App\Jobs\PerformExport;
 use App\License;
@@ -17,7 +18,7 @@ use Tests\TestCase;
 
 class CuratorPendingFieldObservationsDarwinCoreExportTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function curated_pending_field_observations_are_exported_in_darwin_core_to_a_csv_file()
     {
         Carbon::setTestNow(Carbon::now());

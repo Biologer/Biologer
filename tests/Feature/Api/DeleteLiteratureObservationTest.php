@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\LiteratureObservation;
 use App\Observation;
 use App\User;
@@ -10,7 +11,7 @@ use Tests\TestCase;
 
 class DeleteLiteratureObservationTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function guest_cannot_delete_observation()
     {
         $literatureObservation = LiteratureObservation::factory()->create();
@@ -22,7 +23,7 @@ class DeleteLiteratureObservationTest extends TestCase
         LiteratureObservation::assertCount($count);
     }
 
-    /** @test */
+    #[Test]
     public function unauthorized_user_cannot_delete_observation()
     {
         $literatureObservation = LiteratureObservation::factory()->create();
@@ -35,7 +36,7 @@ class DeleteLiteratureObservationTest extends TestCase
         LiteratureObservation::assertCount($count);
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_delete_literature_observations()
     {
         $this->seed('RolesTableSeeder');

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Taxon;
 use App\User;
 use Laravel\Passport\Passport;
@@ -10,7 +11,7 @@ use Tests\TestCase;
 
 class GetFieldObservationsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function authenticated_user_can_get_their_field_observations()
     {
         Passport::actingAs($user = User::factory()->create());
@@ -32,7 +33,7 @@ class GetFieldObservationsTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_name()
     {
         Passport::actingAs($user = User::factory()->create());
@@ -60,7 +61,7 @@ class GetFieldObservationsTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_id()
     {
         Passport::actingAs($user = User::factory()->create());
@@ -88,7 +89,7 @@ class GetFieldObservationsTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_id_including_descendants()
     {
         Passport::actingAs($user = User::factory()->create());
@@ -129,7 +130,7 @@ class GetFieldObservationsTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function authenticated_user_can_get_their_field_observations_sorted_by_taxon_name()
     {
         Passport::actingAs($user = User::factory()->create());

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Publication;
 use App\PublicationType;
 use App\User;
@@ -10,9 +11,7 @@ use Tests\TestCase;
 
 class UpdatePublicationTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_cannot_update_publication()
     {
         $publication = Publication::factory()->create();
@@ -21,9 +20,7 @@ class UpdatePublicationTest extends TestCase
         $response->assertUnauthorized();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unauthorized_user_cannot_update_publication()
     {
         $publication = Publication::factory()->create();
@@ -33,9 +30,7 @@ class UpdatePublicationTest extends TestCase
         $response->assertForbidden();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function authorized_user_can_update_publication()
     {
         $publication = Publication::factory()->create();
@@ -61,9 +56,7 @@ class UpdatePublicationTest extends TestCase
         $this->assertEquals('Custom Citation', $publication->citation);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function citation_can_be_determined_dinamically_based_on_available_data_if_left_empty()
     {
         $publication = Publication::factory()->create();

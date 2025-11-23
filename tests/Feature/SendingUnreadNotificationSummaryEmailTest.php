@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Notifications\FieldObservationApproved;
 use App\Notifications\UnreadNotificationsSummary;
 use App\PendingNotification;
@@ -12,7 +13,7 @@ use Tests\TestCase;
 
 class SendingUnreadNotificationSummaryEmailTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function users_with_unread_mail_notifications_are_sent_summary()
     {
         $this->seed('RolesTableSeeder');

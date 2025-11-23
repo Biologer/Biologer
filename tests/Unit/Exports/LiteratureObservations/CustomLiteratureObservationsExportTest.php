@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Exports\LiteratureObservations;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Exports\LiteratureObservations\CustomLiteratureObservationsExport;
 use App\Jobs\PerformExport;
 use App\LiteratureObservation;
@@ -17,7 +18,7 @@ use Tests\TestCase;
 
 class CustomLiteratureObservationsExportTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function all_literature_observations_are_exported_to_a_csv_file()
     {
         Carbon::setTestNow(Carbon::now());

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Exports\FieldObservations\CuratorUnidentifiableFieldObservationsCustomExport;
 use App\Exports\FieldObservations\CuratorUnidentifiableFieldObservationsDarwinCoreExport;
 use App\Jobs\PerformExport;
@@ -12,7 +13,7 @@ use Tests\TestCase;
 
 class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function curator_can_export_unidentifiable_field_observations_they_curate()
     {
         Queue::fake();
@@ -34,7 +35,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function type_is_required()
     {
         Queue::fake();
@@ -46,7 +47,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    /** @test */
+    #[Test]
     public function type_must_be_valid()
     {
         Queue::fake();
@@ -60,7 +61,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    /** @test */
+    #[Test]
     public function columns_are_required_to_perform_the_export()
     {
         Queue::fake();
@@ -74,7 +75,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    /** @test */
+    #[Test]
     public function columns_parameter_must_be_an_array()
     {
         Queue::fake();
@@ -89,7 +90,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    /** @test */
+    #[Test]
     public function columns_parameter_contain_at_least_one_column()
     {
         Queue::fake();
@@ -104,7 +105,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    /** @test */
+    #[Test]
     public function columns_are_supported()
     {
         Queue::fake();
@@ -119,7 +120,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    /** @test */
+    #[Test]
     public function curator_can_export_pending_observations_using_darwin_core_standard()
     {
         Queue::fake();

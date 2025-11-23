@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Taxon;
 use App\User;
 use App\ViewGroup;
@@ -11,7 +12,7 @@ use Tests\TestCase;
 
 class TaxaTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function can_fetch_list_of_taxa()
     {
         $taxa = Taxon::factory(5)->create();
@@ -31,7 +32,7 @@ class TaxaTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function can_fetch_paginated_list_of_taxa()
     {
         Taxon::factory(5)->create();
@@ -47,7 +48,7 @@ class TaxaTest extends TestCase
         $this->assertCount(2, $response->json('data'));
     }
 
-    /** @test */
+    #[Test]
     public function can_exclude_taxa_with_provided_ids()
     {
         $taxa = Taxon::factory(5)->create();
@@ -62,7 +63,7 @@ class TaxaTest extends TestCase
         $this->assertCount(Taxon::count() - 2, $response->json('data'));
     }
 
-    /** @test */
+    #[Test]
     public function can_get_only_taxa_updated_after_given_timestamp()
     {
         Carbon::setTestNow($yesterday = Carbon::yesterday());
@@ -86,7 +87,7 @@ class TaxaTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function filtering_by_rank()
     {
         $genus = Taxon::factory()->create(['name' => 'Cerambyx', 'rank' => 'genus']);
@@ -108,7 +109,7 @@ class TaxaTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function filtering_by_name_and_id()
     {
         $cerdo = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
@@ -135,7 +136,7 @@ class TaxaTest extends TestCase
         $response->assertJsonMissing(['id' => $scopolii->id]);
     }
 
-    /** @test */
+    #[Test]
     public function filtering_by_groups()
     {
         $cerdo = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
@@ -162,7 +163,7 @@ class TaxaTest extends TestCase
         $response->assertJsonMissing(['id' => $scopolii->id]);
     }
 
-    /** @test */
+    #[Test]
     public function filtering_by_not_being_in_any_group()
     {
         $cerdo = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
@@ -187,7 +188,7 @@ class TaxaTest extends TestCase
         $response->assertJsonMissing(['id' => $cerdo->id]);
     }
 
-    /** @test */
+    #[Test]
     public function filtering_both_in_group_and_ungrouped()
     {
         $cerdo = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
@@ -213,7 +214,7 @@ class TaxaTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function include_groups_ids()
     {
         $cerambyx = Taxon::factory()->create(['name' => 'Cerambyx', 'rank' => 'genus']);

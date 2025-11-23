@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Taxon;
 use App\User;
 use Database\Seeders\RolesTableSeeder;
@@ -11,7 +12,7 @@ use Tests\TestCase;
 
 class GetPendingFieldObservationsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function curator_can_get_pending_field_observations_of_taxa_they_curate()
     {
         $this->seed(RolesTableSeeder::class);
@@ -37,7 +38,7 @@ class GetPendingFieldObservationsTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function curator_can_get_pending_field_observations_of_ancestors_of_taxa_they_curate()
     {
         $this->seed(RolesTableSeeder::class);
@@ -63,7 +64,7 @@ class GetPendingFieldObservationsTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function curator_can_get_pending_field_observations_of_taxa_they_dont_curate()
     {
         $this->seed(RolesTableSeeder::class);

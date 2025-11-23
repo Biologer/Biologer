@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\ImageLicense;
 use App\License;
 use App\User;
@@ -28,7 +29,7 @@ class RegistrationTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function can_register_user_through_api()
     {
         Event::fake();
@@ -60,7 +61,7 @@ class RegistrationTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function needs_valid_client_secret()
     {
         $this->postJson('/api/register', [
@@ -77,7 +78,7 @@ class RegistrationTest extends TestCase
         $this->assertFalse(User::where('email', 'test@example.com')->exists());
     }
 
-    /** @test */
+    #[Test]
     public function signature_is_not_checked_if_client_is_not_valid()
     {
         $this->postJson('/api/register', [
@@ -94,7 +95,7 @@ class RegistrationTest extends TestCase
         $this->assertFalse(User::where('email', 'test@example.com')->exists());
     }
 
-    /** @test */
+    #[Test]
     public function cannot_use_client_that_is_not_password_client()
     {
         $client = app(ClientRepository::class)->create(

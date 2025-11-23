@@ -2,12 +2,13 @@
 
 namespace Tests\Feature;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Taxon;
 use Tests\TestCase;
 
 class RebuildAncestryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function rebuilding_ancestry()
     {
         $class = Taxon::factory()->create([

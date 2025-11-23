@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Photo;
 use App\Taxon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,9 +15,7 @@ class GetTaxonPublicPhotosTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_get_public_photos_for_taxon()
     {
         Storage::fake(config('biologer.photos_disk'));

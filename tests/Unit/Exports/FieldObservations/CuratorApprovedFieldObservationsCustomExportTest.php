@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Exports\FieldObservations;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Exports\FieldObservations\CuratorApprovedFieldObservationsCustomExport;
 use App\Jobs\PerformExport;
 use App\License;
@@ -16,7 +17,7 @@ use Tests\TestCase;
 
 class CuratorApprovedFieldObservationsCustomExportTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function curated_approved_field_observations_are_exported_to_a_csv_file()
     {
         Carbon::setTestNow(Carbon::now());

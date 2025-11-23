@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Taxon;
 use App\User;
 use App\ViewGroup;
@@ -10,7 +11,7 @@ use Tests\TestCase;
 
 class SearchTaxaInGroupTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function can_find_taxa_in_group_by_name_with_id_of_first_species()
     {
         $group = ViewGroup::factory()->create([

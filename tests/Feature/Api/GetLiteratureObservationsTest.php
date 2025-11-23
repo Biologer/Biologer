@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\LiteratureObservation;
 use App\LiteratureObservationIdentificationValidity;
 use App\Observation;
@@ -13,7 +14,7 @@ use Tests\TestCase;
 
 class GetLiteratureObservationsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function can_view_literature_observation_details()
     {
         $literatureObservation = $this->createLiteratureObservation();
@@ -51,7 +52,7 @@ class GetLiteratureObservationsTest extends TestCase
         ], $response->json('data'));
     }
 
-    /** @test */
+    #[Test]
     public function can_list_literature_observations()
     {
         $literatureObservation = $this->createLiteratureObservation();

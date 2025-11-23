@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\FieldObservation;
 use App\Notifications\FieldObservationMarkedUnidentifiable;
 use App\Taxon;
@@ -22,7 +23,7 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
         Notification::fake();
     }
 
-    /** @test */
+    #[Test]
     public function guest_cannot_mark_field_observation_as_unidentifiable()
     {
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
@@ -37,7 +38,7 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
         $this->assertFalse($fieldObservation->fresh()->isApproved());
     }
 
-    /** @test */
+    #[Test]
     public function authenticated_user_that_curates_the_taxa_of_all_the_field_observation_can_mark_them_as_unapprovable()
     {
         $user = User::factory()->create()->assignRoles('curator');
@@ -65,7 +66,7 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function creator_is_notified_when_the_observation_is_marked_as_unidentifiable()
     {
         $user = User::factory()->create();

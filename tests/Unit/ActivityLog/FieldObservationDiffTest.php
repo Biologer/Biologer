@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\ActivityLog;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\ActivityLog\FieldObservationDiff;
 use App\FieldObservation;
 use App\License;
@@ -12,9 +13,7 @@ use Tests\TestCase;
 
 class FieldObservationDiffTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function logs_changes_to_general_data()
     {
         foreach ($this->generalDataProvider() as $index => $data) {
@@ -42,9 +41,7 @@ class FieldObservationDiffTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function logs_changes_to_specific_data()
     {
         foreach ($this->specificDataProvider() as $data) {

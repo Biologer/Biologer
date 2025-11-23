@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\LiteratureObservation;
 use App\LiteratureObservationIdentificationValidity;
 use App\Observation;
@@ -14,7 +15,7 @@ use Tests\TestCase;
 
 class UpdateLiteratureObservationTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function guest_cannot_update_observation()
     {
         $literatureObservation = $this->createLiteratureObservation();
@@ -24,7 +25,7 @@ class UpdateLiteratureObservationTest extends TestCase
         $response->assertUnauthorized();
     }
 
-    /** @test */
+    #[Test]
     public function unauthorized_user_cannot_update_observation()
     {
         $literatureObservation = $this->createLiteratureObservation();
@@ -35,7 +36,7 @@ class UpdateLiteratureObservationTest extends TestCase
         $response->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_update_literature_observations()
     {
         $this->seed('RolesTableSeeder');
