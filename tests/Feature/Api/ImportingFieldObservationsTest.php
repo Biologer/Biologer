@@ -218,7 +218,7 @@ class ImportingFieldObservationsTest extends TestCase
         });
     }
 
-    public function roles()
+    public static function roles()
     {
         return [
             ['admin'],

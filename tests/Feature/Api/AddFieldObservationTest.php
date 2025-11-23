@@ -194,7 +194,7 @@ class AddFieldObservationTest extends TestCase
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
-    public function invalidYearData()
+    public static function invalidYearData()
     {
         return [
             'Cannot be null' => [null],
@@ -219,7 +219,7 @@ class AddFieldObservationTest extends TestCase
         ]))->assertJsonValidationErrors('month');
     }
 
-    public function invalidMonthData()
+    public static function invalidMonthData()
     {
         return [
             'Cannot be in the future' => [date('m') + 1],
@@ -248,7 +248,7 @@ class AddFieldObservationTest extends TestCase
         ]))->assertJsonValidationErrors('day');
     }
 
-    public function invalidDayData()
+    public static function invalidDayData()
     {
         return [
             'Cannot be in the future longer than a day' => [now()->day + 2],
@@ -275,7 +275,7 @@ class AddFieldObservationTest extends TestCase
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
-    public function invalidLatitudeData()
+    public static function invalidLatitudeData()
     {
         return [
             'Cannot be null' => [null],
@@ -303,7 +303,7 @@ class AddFieldObservationTest extends TestCase
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
-    public function invalidLongitudeData()
+    public static function invalidLongitudeData()
     {
         return [
             'Cannot be empty' => [null],
@@ -330,7 +330,7 @@ class AddFieldObservationTest extends TestCase
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
-    public function invalidElevationData()
+    public static function invalidElevationData()
     {
         return [
             'Cannot be null' => [null],
