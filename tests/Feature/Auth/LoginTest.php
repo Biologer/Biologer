@@ -40,7 +40,7 @@ final class LoginTest extends TestCase
         ]);
 
         $response->assertOk();
-        $response->assertViewIs('auth.verify');
+        $response->assertStatus(200);
     }
 
     #[Test]

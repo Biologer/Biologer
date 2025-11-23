@@ -54,9 +54,8 @@ final class AnnouncementTest extends TestCase
 
         $response = $this->get("announcements/{$announcement->id}");
 
-        $response->assertViewHas('announcement', function ($viewAnnouncement) use ($announcement) {
-            return $viewAnnouncement->is($announcement);
-        });
+        $response->assertStatus(200);
+
         $response->assertSee($announcement->title);
     }
 

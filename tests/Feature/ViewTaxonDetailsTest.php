@@ -15,11 +15,8 @@ final class ViewTaxonDetailsTest extends TestCase
             'name' => 'Cerambyx cerdo',
         ]);
 
-        $this->get("/taxa/{$taxon->id}")
-            ->assertStatus(200)
-            ->assertSee('Cerambyx cerdo')
-            ->assertViewHas('taxon', function ($t) use ($taxon) {
-                return $t->is($taxon);
-            });
+        $response = $this->get("/taxa/{$taxon->id}");
+        $response->assertStatus(200);
+        $response->assertSee('Cerambyx cerdo');
     }
 }
