@@ -99,7 +99,7 @@ final class PassportTokenTest extends TestCase
             ->assertJson(['message' => 'Token not found or already revoked']);
     }
 
-    /** @test */
+    #[Test]
     #[Test]
     public function verified_user_cannot_revoke_already_revoked_token(): void
     {
