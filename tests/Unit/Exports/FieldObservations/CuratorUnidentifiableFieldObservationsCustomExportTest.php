@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class CuratorUnidentifiableFieldObservationsCustomExportTest extends TestCase
+final class CuratorUnidentifiableFieldObservationsCustomExportTest extends TestCase
 {
     #[Test]
     public function curated_unidentifiable_field_observations_are_exported_to_a_csv_file(): void

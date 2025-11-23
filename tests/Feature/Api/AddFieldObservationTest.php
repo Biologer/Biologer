@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class AddFieldObservationTest extends TestCase
+final class AddFieldObservationTest extends TestCase
 {
     protected function setUp(): void
     {

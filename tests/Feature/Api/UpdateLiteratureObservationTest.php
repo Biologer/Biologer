@@ -13,7 +13,7 @@ use App\User;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class UpdateLiteratureObservationTest extends TestCase
+final class UpdateLiteratureObservationTest extends TestCase
 {
     #[Test]
     public function guest_cannot_update_observation(): void

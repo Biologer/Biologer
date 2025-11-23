@@ -16,7 +16,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class CustomLiteratureObservationsExportTest extends TestCase
+final class CustomLiteratureObservationsExportTest extends TestCase
 {
     #[Test]
     public function all_literature_observations_are_exported_to_a_csv_file(): void

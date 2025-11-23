@@ -9,7 +9,7 @@ use Laravel\Passport\Passport;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class MarkNotificationsAsReadTest extends TestCase
+final class MarkNotificationsAsReadTest extends TestCase
 {
     #[Test]
     public function guests_cannot_mark_notifications_as_read(): void

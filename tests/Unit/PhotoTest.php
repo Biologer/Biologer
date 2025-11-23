@@ -9,7 +9,7 @@ use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class PhotoTest extends TestCase
+final class PhotoTest extends TestCase
 {
     #[Test]
     public function files_are_removed_when_photo_is_deleted(): void

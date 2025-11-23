@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Queue;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class ExportContributorFieldObservationsTest extends TestCase
+final class ExportContributorFieldObservationsTest extends TestCase
 {
     #[Test]
     public function contributors_can_export_their_observations(): void

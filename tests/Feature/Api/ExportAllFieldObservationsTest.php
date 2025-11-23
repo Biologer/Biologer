@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Queue;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class ExportAllFieldObservationsTest extends TestCase
+final class ExportAllFieldObservationsTest extends TestCase
 {
     #[Test]
     public function admin_can_export_all_observations(): void

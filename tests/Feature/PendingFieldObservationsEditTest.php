@@ -8,7 +8,7 @@ use App\User;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class PendingFieldObservationsEditTest extends TestCase
+final class PendingFieldObservationsEditTest extends TestCase
 {
     protected function setUp(): void
     {

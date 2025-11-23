@@ -14,7 +14,7 @@ use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class FieldObservationImportTest extends TestCase
+final class FieldObservationImportTest extends TestCase
 {
     protected function setUp(): void
     {

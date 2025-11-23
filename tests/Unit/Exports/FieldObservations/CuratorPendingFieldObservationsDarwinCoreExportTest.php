@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class CuratorPendingFieldObservationsDarwinCoreExportTest extends TestCase
+final class CuratorPendingFieldObservationsDarwinCoreExportTest extends TestCase
 {
     #[Test]
     public function curated_pending_field_observations_are_exported_in_darwin_core_to_a_csv_file(): void

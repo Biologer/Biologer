@@ -12,7 +12,7 @@ use Laravel\Passport\Passport;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class MoveFieldObservationsToPendingTest extends TestCase
+final class MoveFieldObservationsToPendingTest extends TestCase
 {
     protected function setUp(): void
     {

@@ -8,7 +8,7 @@ use App\Taxon;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class TaxonTest extends TestCase
+final class TaxonTest extends TestCase
 {
     #[Test]
     public function it_can_have_many_observations(): void

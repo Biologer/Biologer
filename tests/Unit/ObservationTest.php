@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class ObservationTest extends TestCase
+final class ObservationTest extends TestCase
 {
     #[Test]
     public function can_check_if_full_date_is_present(): void

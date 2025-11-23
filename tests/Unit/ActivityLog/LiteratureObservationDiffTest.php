@@ -12,7 +12,7 @@ use App\Stage;
 use App\Taxon;
 use Tests\TestCase;
 
-class LiteratureObservationDiffTest extends TestCase
+final class LiteratureObservationDiffTest extends TestCase
 {
     #[Test]
     public function logs_changes_to_general_data(): void

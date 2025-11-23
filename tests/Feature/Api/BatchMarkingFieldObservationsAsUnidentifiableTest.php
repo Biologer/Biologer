@@ -12,7 +12,7 @@ use Laravel\Passport\Passport;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
+final class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
 {
     protected function setUp(): void
     {

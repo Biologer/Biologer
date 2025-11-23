@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 use App\User;
 use Tests\TestCase;
 
-class ChangePreferencesTest extends TestCase
+final class ChangePreferencesTest extends TestCase
 {
     #[Test]
     public function can_change_license_preferences(): void

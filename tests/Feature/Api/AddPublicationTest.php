@@ -9,7 +9,7 @@ use App\User;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class AddPublicationTest extends TestCase
+final class AddPublicationTest extends TestCase
 {
     #[Test]
     public function guest_cannot_add_publication(): void

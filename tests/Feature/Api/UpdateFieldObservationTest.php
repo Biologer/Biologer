@@ -17,7 +17,7 @@ use Laravel\Passport\Passport;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class UpdateFieldObservationTest extends TestCase
+final class UpdateFieldObservationTest extends TestCase
 {
     protected function setUp(): void
     {

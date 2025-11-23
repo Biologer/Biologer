@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class CustomFieldObservationsExportTest extends TestCase
+final class CustomFieldObservationsExportTest extends TestCase
 {
     #[Test]
     public function all_field_observations_are_exported_to_a_csv_file(): void

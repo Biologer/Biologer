@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Date;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class GetObservationTypesTest extends TestCase
+final class GetObservationTypesTest extends TestCase
 {
     use RefreshDatabase;
 

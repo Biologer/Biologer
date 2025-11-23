@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class ViewGroupTest extends TestCase
+final class ViewGroupTest extends TestCase
 {
     use RefreshDatabase;
 

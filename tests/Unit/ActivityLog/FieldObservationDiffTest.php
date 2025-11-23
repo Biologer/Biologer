@@ -11,7 +11,7 @@ use App\Stage;
 use App\Taxon;
 use Tests\TestCase;
 
-class FieldObservationDiffTest extends TestCase
+final class FieldObservationDiffTest extends TestCase
 {
     #[Test]
     public function logs_changes_to_general_data(): void

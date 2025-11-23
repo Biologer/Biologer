@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Queue;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class ExportCuratorApprovedFieldObservationsTest extends TestCase
+final class ExportCuratorApprovedFieldObservationsTest extends TestCase
 {
     #[Test]
     public function curator_can_export_approved_field_observations_they_curate(): void

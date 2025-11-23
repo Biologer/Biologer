@@ -7,7 +7,7 @@ use App\Support\Exif;
 use PHPUnit\Framework\TestCase;
 use Tests\CustomAssertArraySubset;
 
-class ExifTest extends TestCase
+final class ExifTest extends TestCase
 {
     use CustomAssertArraySubset;
 

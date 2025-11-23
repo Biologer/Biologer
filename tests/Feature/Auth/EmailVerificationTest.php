@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
-class EmailVerificationTest extends TestCase
+final class EmailVerificationTest extends TestCase
 {
     protected function setUp(): void
     {

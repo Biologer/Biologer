@@ -11,7 +11,7 @@ use App\User;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class AddLiteratureObservationTest extends TestCase
+final class AddLiteratureObservationTest extends TestCase
 {
     private function validParams($overrides = [])
     {

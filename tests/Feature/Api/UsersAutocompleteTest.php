@@ -7,7 +7,7 @@ use App\User;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class UsersAutocompleteTest extends TestCase
+final class UsersAutocompleteTest extends TestCase
 {
     protected function setUp(): void
     {

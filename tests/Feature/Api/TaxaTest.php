@@ -10,7 +10,7 @@ use Illuminate\Support\Carbon;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class TaxaTest extends TestCase
+final class TaxaTest extends TestCase
 {
     #[Test]
     public function can_fetch_list_of_taxa(): void

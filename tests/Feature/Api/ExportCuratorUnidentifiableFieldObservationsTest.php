@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Queue;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
+final class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
 {
     #[Test]
     public function curator_can_export_unidentifiable_field_observations_they_curate(): void

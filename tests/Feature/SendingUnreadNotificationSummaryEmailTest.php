@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Notification;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class SendingUnreadNotificationSummaryEmailTest extends TestCase
+final class SendingUnreadNotificationSummaryEmailTest extends TestCase
 {
     #[Test]
     public function users_with_unread_mail_notifications_are_sent_summary(): void

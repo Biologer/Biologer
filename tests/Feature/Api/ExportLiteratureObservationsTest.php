@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Queue;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class ExportLiteratureObservationsTest extends TestCase
+final class ExportLiteratureObservationsTest extends TestCase
 {
     #[Test]
     public function admin_can_export_all_observations(): void

@@ -13,7 +13,7 @@ use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class ProcessImportTest extends TestCase
+final class ProcessImportTest extends TestCase
 {
     protected function setUp(): void
     {

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class ImportingLiteratureObservationsTest extends TestCase
+final class ImportingLiteratureObservationsTest extends TestCase
 {
     protected function setUp(): void
     {

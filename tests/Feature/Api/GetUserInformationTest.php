@@ -7,7 +7,7 @@ use App\User;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class GetUserInformationTest extends TestCase
+final class GetUserInformationTest extends TestCase
 {
     #[Test]
     public function users_cen_retreive_treir_information(): void

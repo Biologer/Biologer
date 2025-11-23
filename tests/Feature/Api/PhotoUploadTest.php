@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class PhotoUploadTest extends TestCase
+final class PhotoUploadTest extends TestCase
 {
     #[Test]
     public function authenticated_user_can_upload_photo(): void

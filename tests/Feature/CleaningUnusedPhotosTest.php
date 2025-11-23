@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class CleaningUnusedPhotosTest extends TestCase
+final class CleaningUnusedPhotosTest extends TestCase
 {
     #[Test]
     public function photos_that_are_not_attached_to_any_observation_are_removed(): void

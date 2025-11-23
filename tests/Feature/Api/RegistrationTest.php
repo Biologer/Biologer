@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Passport\ClientRepository;
 use Tests\TestCase;
 
-class RegistrationTest extends TestCase
+final class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 

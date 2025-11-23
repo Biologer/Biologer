@@ -8,7 +8,7 @@ use App\User;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class AnnouncementTest extends TestCase
+final class AnnouncementTest extends TestCase
 {
     private function validParams($overrides = [])
     {

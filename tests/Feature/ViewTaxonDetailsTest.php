@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 use App\Taxon;
 use Tests\TestCase;
 
-class ViewTaxonDetailsTest extends TestCase
+final class ViewTaxonDetailsTest extends TestCase
 {
     #[Test]
     public function can_see_basic_taxon_information(): void

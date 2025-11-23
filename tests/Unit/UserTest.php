@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 use App\User;
 use Tests\TestCase;
 
-class UserTest extends TestCase
+final class UserTest extends TestCase
 {
     #[Test]
     public function full_name_is_concatenation_of_first_and_last_names(): void
