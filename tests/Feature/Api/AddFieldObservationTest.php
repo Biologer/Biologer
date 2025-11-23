@@ -83,7 +83,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function guests_cannot_add_new_field_observations()
+    public function guests_cannot_add_new_field_observations(): void
     {
         $fieldObservationsCount = FieldObservation::count();
         $observationsCount = Observation::count();
@@ -97,7 +97,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function authenticated_user_can_add_field_observation()
+    public function authenticated_user_can_add_field_observation(): void
     {
         $this->handleValidationExceptions();
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
@@ -143,7 +143,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function activity_log_entry_is_added_when_field_observation_is_added()
+    public function activity_log_entry_is_added_when_field_observation_is_added(): void
     {
         $user = $this->createAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
@@ -163,7 +163,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function users_full_name_as_source_when_source_is_not_provided()
+    public function users_full_name_as_source_when_source_is_not_provided(): void
     {
         $this->createAuthenticatedUser([
             'first_name' => 'Jane',
@@ -179,7 +179,7 @@ class AddFieldObservationTest extends TestCase
 
     #[Test]
     #[DataProvider('invalidYearData')]
-    public function year_is_validated($year)
+    public function year_is_validated($year): void
     {
         $this->makeAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
@@ -191,7 +191,7 @@ class AddFieldObservationTest extends TestCase
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
-    public function invalidYearData()
+    public function invalidYearData(): array
     {
         return [
             'Cannot be null' => [null],
@@ -203,7 +203,7 @@ class AddFieldObservationTest extends TestCase
 
     #[Test]
     #[DataProvider('invalidMonthData')]
-    public function month_is_validated($month)
+    public function month_is_validated($month): void
     {
         $this->makeAuthenticatedUser();
 
@@ -213,7 +213,7 @@ class AddFieldObservationTest extends TestCase
         ]))->assertJsonValidationErrors('month');
     }
 
-    public function invalidMonthData()
+    public function invalidMonthData(): array
     {
         return [
             'Cannot be in the future' => [date('m') + 1],
@@ -226,7 +226,7 @@ class AddFieldObservationTest extends TestCase
 
     #[Test]
     #[DataProvider('invalidDayData')]
-    public function day_is_validated($day)
+    public function day_is_validated($day): void
     {
         $this->makeAuthenticatedUser();
 
@@ -239,7 +239,7 @@ class AddFieldObservationTest extends TestCase
         ]))->assertJsonValidationErrors('day');
     }
 
-    public function invalidDayData()
+    public function invalidDayData(): array
     {
         return [
             'Cannot be in the future longer than a day' => [now()->day + 2],
@@ -251,7 +251,7 @@ class AddFieldObservationTest extends TestCase
 
     #[Test]
     #[DataProvider('invalidLatitudeData')]
-    public function latitude_is_validated($latitude)
+    public function latitude_is_validated($latitude): void
     {
         $this->makeAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
@@ -263,7 +263,7 @@ class AddFieldObservationTest extends TestCase
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
-    public function invalidLatitudeData()
+    public function invalidLatitudeData(): array
     {
         return [
             'Cannot be null' => [null],
@@ -276,7 +276,7 @@ class AddFieldObservationTest extends TestCase
 
     #[Test]
     #[DataProvider('invalidLongitudeData')]
-    public function longitude_is_validated($longitude)
+    public function longitude_is_validated($longitude): void
     {
         $this->makeAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
@@ -288,7 +288,7 @@ class AddFieldObservationTest extends TestCase
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
-    public function invalidLongitudeData()
+    public function invalidLongitudeData(): array
     {
         return [
             'Cannot be empty' => [null],
@@ -300,7 +300,7 @@ class AddFieldObservationTest extends TestCase
 
     #[Test]
     #[DataProvider('invalidElevationData')]
-    public function elevation_is_validated($elevation)
+    public function elevation_is_validated($elevation): void
     {
         $this->makeAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
@@ -312,7 +312,7 @@ class AddFieldObservationTest extends TestCase
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
-    public function invalidElevationData()
+    public function invalidElevationData(): array
     {
         return [
             'Cannot be null' => [null],
@@ -322,7 +322,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function accuracy_is_optional_when_adding_field_observation()
+    public function accuracy_is_optional_when_adding_field_observation(): void
     {
         $this->createAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
@@ -335,7 +335,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function accuracy_must_be_number()
+    public function accuracy_must_be_number(): void
     {
         $this->makeAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
@@ -348,7 +348,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function taxon_is_optional()
+    public function taxon_is_optional(): void
     {
         $this->createAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
@@ -361,7 +361,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function fails_if_taxon_does_not_exist()
+    public function fails_if_taxon_does_not_exist(): void
     {
         $this->makeAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
@@ -374,7 +374,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function observation_is_stored_with_correct_taxon()
+    public function observation_is_stored_with_correct_taxon(): void
     {
         $this->createAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
@@ -389,7 +389,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function taxon_suggestion_is_stored()
+    public function taxon_suggestion_is_stored(): void
     {
         $this->createAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
@@ -403,7 +403,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function mgrs_field_is_calculated_automaticaly()
+    public function mgrs_field_is_calculated_automaticaly(): void
     {
         $this->createAuthenticatedUser();
 
@@ -418,7 +418,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function mgrs_field_cannot_be_calculated_in_polar_region()
+    public function mgrs_field_cannot_be_calculated_in_polar_region(): void
     {
         $this->createAuthenticatedUser();
 
@@ -433,7 +433,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function photo_can_be_saved_with_observation()
+    public function photo_can_be_saved_with_observation(): void
     {
         config(['biologer.photos_per_observation' => 3]);
         config(['biologer.photo_resize_dimension' => null]);
@@ -469,7 +469,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function photos_are_queued_to_be_processed_if_needed()
+    public function photos_are_queued_to_be_processed_if_needed(): void
     {
         config(['biologer.photo_resize_dimension' => 800]);
 
@@ -500,7 +500,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function maximum_number_of_photos_that_can_be_saved_with_observation_can_be_set()
+    public function maximum_number_of_photos_that_can_be_saved_with_observation_can_be_set(): void
     {
         config(['biologer.photos_per_observation' => 3]);
 
@@ -533,7 +533,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function photos_can_be_null()
+    public function photos_can_be_null(): void
     {
         $this->createAuthenticatedUser();
 
@@ -543,7 +543,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function sex_is_optional()
+    public function sex_is_optional(): void
     {
         $this->createAuthenticatedUser();
 
@@ -553,7 +553,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function sex_can_only_be_one_of_available_values()
+    public function sex_can_only_be_one_of_available_values(): void
     {
         $this->makeAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
@@ -566,7 +566,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function time_is_optional()
+    public function time_is_optional(): void
     {
         $this->createAuthenticatedUser();
 
@@ -576,7 +576,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function time_must_be_in_correct_format()
+    public function time_must_be_in_correct_format(): void
     {
         $this->makeAuthenticatedUser();
         $fieldObservationsCount = FieldObservation::count();
@@ -589,7 +589,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_submit_observer_by_users_id()
+    public function admin_can_submit_observer_by_users_id(): void
     {
         $this->seed('RolesTableSeeder');
         $user = $this->createAuthenticatedUser()->assignRoles('admin');
@@ -607,7 +607,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_submit_observer_without_existing_user()
+    public function admin_can_submit_observer_without_existing_user(): void
     {
         $this->seed('RolesTableSeeder');
         $user = $this->createAuthenticatedUser()->assignRoles('admin');
@@ -625,7 +625,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_submit_identifier_by_users_id_if_there_is_identification()
+    public function admin_can_submit_identifier_by_users_id_if_there_is_identification(): void
     {
         $this->seed('RolesTableSeeder');
         $user = $this->createAuthenticatedUser()->assignRoles('admin');
@@ -647,7 +647,7 @@ class AddFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function unless_identifier_is_provided_user_will_be_assigned_as_identifier_if_the_observation_has_some_identification()
+    public function unless_identifier_is_provided_user_will_be_assigned_as_identifier_if_the_observation_has_some_identification(): void
     {
         $user = $this->createAuthenticatedUser();
         $taxon = Taxon::factory()->create();

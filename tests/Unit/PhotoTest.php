@@ -12,7 +12,7 @@ use Tests\TestCase;
 class PhotoTest extends TestCase
 {
     #[Test]
-    public function files_are_removed_when_photo_is_deleted()
+    public function files_are_removed_when_photo_is_deleted(): void
     {
         $photosDisk = config('biologer.photos_disk');
         Storage::fake($photosDisk);

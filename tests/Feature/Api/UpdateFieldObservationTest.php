@@ -57,7 +57,7 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function field_observation_can_be_updated_but_will_return_to_pending_status()
+    public function field_observation_can_be_updated_but_will_return_to_pending_status(): void
     {
         $this->handleValidationExceptions();
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
@@ -98,7 +98,7 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function activity_log_entry_is_added_when_field_observation_is_updated()
+    public function activity_log_entry_is_added_when_field_observation_is_updated(): void
     {
         Storage::fake('public');
         $this->artisan('db:seed', ['--class' => 'StagesTableSeeder']);
@@ -179,7 +179,7 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function time_is_not_logged_if_not_changed()
+    public function time_is_not_logged_if_not_changed(): void
     {
         $user = User::factory()->create();
         Passport::actingAs($user);
@@ -212,7 +212,7 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function time_is_logged_if_changed()
+    public function time_is_logged_if_changed(): void
     {
         $user = User::factory()->create();
         Passport::actingAs($user);
@@ -241,7 +241,7 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function field_observation_cannot_be_updated_by_other_regular_user()
+    public function field_observation_cannot_be_updated_by_other_regular_user(): void
     {
         Passport::actingAs(User::factory()->create());
         $observation = ObservationFactory::createFieldObservation([
@@ -267,7 +267,7 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function field_observation_can_be_updated_by_admin()
+    public function field_observation_can_be_updated_by_admin(): void
     {
         $admin = User::factory()->create()->assignRoles('admin');
         Passport::actingAs($admin);
@@ -308,7 +308,7 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function updating_photos()
+    public function updating_photos(): void
     {
         Storage::fake('public');
 
@@ -350,7 +350,7 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function updating_photo_license()
+    public function updating_photo_license(): void
     {
         Storage::fake('public');
 
@@ -388,7 +388,7 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function either_id_or_path_must_be_given_when_updating_photos()
+    public function either_id_or_path_must_be_given_when_updating_photos(): void
     {
         Storage::fake('public');
 
@@ -421,7 +421,7 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_submit_observer_by_users_id()
+    public function admin_can_submit_observer_by_users_id(): void
     {
         $this->seed('RolesTableSeeder');
         $user = User::factory()->create()->assignRoles('admin');
@@ -446,7 +446,7 @@ class UpdateFieldObservationTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_submit_identifier_by_users_id()
+    public function admin_can_submit_identifier_by_users_id(): void
     {
         $this->seed('RolesTableSeeder');
         $user = User::factory()->create()->assignRoles('admin');

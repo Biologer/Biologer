@@ -9,7 +9,7 @@ use Tests\TestCase;
 class RebuildAncestryTest extends TestCase
 {
     #[Test]
-    public function rebuilding_ancestry()
+    public function rebuilding_ancestry(): void
     {
         $class = Taxon::factory()->create([
             'parent_id' => null,

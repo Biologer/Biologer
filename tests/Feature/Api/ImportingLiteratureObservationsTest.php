@@ -39,7 +39,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     }
 
     #[Test]
-    public function guests_are_not_allowed_to_import_literature_observations()
+    public function guests_are_not_allowed_to_import_literature_observations(): void
     {
         $this->postJson('/api/literature-observation-imports', [
             'columns' => [
@@ -52,7 +52,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     }
 
     #[Test]
-    public function regular_users_are_not_allowed_to_import_literature_observations()
+    public function regular_users_are_not_allowed_to_import_literature_observations(): void
     {
         $this->postJson('/api/literature-observation-imports', [
             'columns' => [
@@ -72,7 +72,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     }
 
     #[Test]
-    public function curator_can_submit_csv_file_to_import_literature_observations()
+    public function curator_can_submit_csv_file_to_import_literature_observations(): void
     {
         Queue::fake();
         $this->actingAsCurator();
@@ -93,7 +93,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     }
 
     #[Test]
-    public function file_is_required_when_submitting()
+    public function file_is_required_when_submitting(): void
     {
         $this->actingAsCurator();
 
@@ -111,7 +111,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     }
 
     #[Test]
-    public function file_must_be_an_actual_file()
+    public function file_must_be_an_actual_file(): void
     {
         $this->actingAsCurator();
 
@@ -129,7 +129,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     }
 
     #[Test]
-    public function submitted_file_must_be_csv()
+    public function submitted_file_must_be_csv(): void
     {
         $this->actingAsCurator();
 
@@ -145,7 +145,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     }
 
     #[Test]
-    public function submitted_file_must_have_at_least_one_row_of_data()
+    public function submitted_file_must_have_at_least_one_row_of_data(): void
     {
         $this->actingAsCurator();
 
@@ -161,7 +161,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     }
 
     #[Test]
-    public function declaring_columns_of_appropriate_order_is_required()
+    public function declaring_columns_of_appropriate_order_is_required(): void
     {
         $this->actingAsCurator();
 
@@ -174,7 +174,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     }
 
     #[Test]
-    public function columns_field_must_be_array_of_columns()
+    public function columns_field_must_be_array_of_columns(): void
     {
         $this->actingAsCurator();
 
@@ -187,7 +187,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     }
 
     #[Test]
-    public function required_columns_must_be_declared_as_provided_in_the_file()
+    public function required_columns_must_be_declared_as_provided_in_the_file(): void
     {
         $this->actingAsCurator();
 
@@ -202,7 +202,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     }
 
     #[Test]
-    public function publication_is_required_when_submitting_import()
+    public function publication_is_required_when_submitting_import(): void
     {
         $this->actingAsCurator();
 
@@ -220,7 +220,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     }
 
     #[Test]
-    public function publication_is_must_exist_when_submitting_import()
+    public function publication_is_must_exist_when_submitting_import(): void
     {
         $this->actingAsCurator();
 
@@ -238,7 +238,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     }
 
     #[Test]
-    public function processing_is_queued_upon_successful_submission()
+    public function processing_is_queued_upon_successful_submission(): void
     {
         Queue::fake();
         $this->actingAsCurator();
@@ -261,7 +261,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     }
 
     #[Test]
-    public function user_can_check_the_status_to_see_if_processing_started()
+    public function user_can_check_the_status_to_see_if_processing_started(): void
     {
         $user = $this->actingAsCurator();
 
@@ -276,7 +276,7 @@ class ImportingLiteratureObservationsTest extends TestCase
     }
 
     #[Test]
-    public function user_cannot_access_someone_elses_import()
+    public function user_cannot_access_someone_elses_import(): void
     {
         $this->actingAsCurator();
 

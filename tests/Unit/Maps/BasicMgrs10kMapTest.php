@@ -9,7 +9,7 @@ use Tests\TestCase;
 class BasicMgrs10kMapTest extends TestCase
 {
     #[Test]
-    public function it_can_render_map_of_serbia_as_svg_using_provided_data_to_mark_mgrs_fields()
+    public function it_can_render_map_of_serbia_as_svg_using_provided_data_to_mark_mgrs_fields(): void
     {
         $map = BasicMgrs10kMap::fromPath($this->serbianMapPath());
 
@@ -32,7 +32,7 @@ class BasicMgrs10kMapTest extends TestCase
     }
 
     #[Test]
-    public function it_can_render_map_of_serbia_as_svg_dataurl_using_provided_data_to_mark_mgrs_fields()
+    public function it_can_render_map_of_serbia_as_svg_dataurl_using_provided_data_to_mark_mgrs_fields(): void
     {
         $map = BasicMgrs10kMap::fromPath($this->serbianMapPath());
 

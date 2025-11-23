@@ -12,7 +12,7 @@ use Tests\TestCase;
 class DeleteLiteratureObservationTest extends TestCase
 {
     #[Test]
-    public function guest_cannot_delete_observation()
+    public function guest_cannot_delete_observation(): void
     {
         $literatureObservation = LiteratureObservation::factory()->create();
         $count = LiteratureObservation::count();
@@ -24,7 +24,7 @@ class DeleteLiteratureObservationTest extends TestCase
     }
 
     #[Test]
-    public function unauthorized_user_cannot_delete_observation()
+    public function unauthorized_user_cannot_delete_observation(): void
     {
         $literatureObservation = LiteratureObservation::factory()->create();
         $count = LiteratureObservation::count();
@@ -37,7 +37,7 @@ class DeleteLiteratureObservationTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_delete_literature_observations()
+    public function admin_can_delete_literature_observations(): void
     {
         $this->seed('RolesTableSeeder');
         $literatureObservation = LiteratureObservation::factory()->create();

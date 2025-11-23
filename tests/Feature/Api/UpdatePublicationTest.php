@@ -12,7 +12,7 @@ use Tests\TestCase;
 class UpdatePublicationTest extends TestCase
 {
     #[Test]
-    public function guest_cannot_update_publication()
+    public function guest_cannot_update_publication(): void
     {
         $publication = Publication::factory()->create();
         $response = $this->putJson("/api/publications/{$publication->id}", $this->validPaper());
@@ -21,7 +21,7 @@ class UpdatePublicationTest extends TestCase
     }
 
     #[Test]
-    public function unauthorized_user_cannot_update_publication()
+    public function unauthorized_user_cannot_update_publication(): void
     {
         $publication = Publication::factory()->create();
         Passport::actingAs(User::factory()->create());
@@ -31,7 +31,7 @@ class UpdatePublicationTest extends TestCase
     }
 
     #[Test]
-    public function authorized_user_can_update_publication()
+    public function authorized_user_can_update_publication(): void
     {
         $publication = Publication::factory()->create();
         $this->seed('RolesTableSeeder');
@@ -57,7 +57,7 @@ class UpdatePublicationTest extends TestCase
     }
 
     #[Test]
-    public function citation_can_be_determined_dinamically_based_on_available_data_if_left_empty()
+    public function citation_can_be_determined_dinamically_based_on_available_data_if_left_empty(): void
     {
         $publication = Publication::factory()->create();
         $this->seed('RolesTableSeeder');

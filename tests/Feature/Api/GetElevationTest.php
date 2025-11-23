@@ -11,7 +11,7 @@ use Tests\TestCase;
 class GetElevationTest extends TestCase
 {
     #[Test]
-    public function can_calculate_elevations_based_on_latitude_and_longitude()
+    public function can_calculate_elevations_based_on_latitude_and_longitude(): void
     {
         $fakeReader = new class implements Reader {
             public function getElevation($latitude, $longitude)

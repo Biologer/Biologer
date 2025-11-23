@@ -16,7 +16,7 @@ use Tests\TestCase;
 class UpdateLiteratureObservationTest extends TestCase
 {
     #[Test]
-    public function guest_cannot_update_observation()
+    public function guest_cannot_update_observation(): void
     {
         $literatureObservation = $this->createLiteratureObservation();
 
@@ -26,7 +26,7 @@ class UpdateLiteratureObservationTest extends TestCase
     }
 
     #[Test]
-    public function unauthorized_user_cannot_update_observation()
+    public function unauthorized_user_cannot_update_observation(): void
     {
         $literatureObservation = $this->createLiteratureObservation();
 
@@ -37,7 +37,7 @@ class UpdateLiteratureObservationTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_update_literature_observations()
+    public function admin_can_update_literature_observations(): void
     {
         $this->seed('RolesTableSeeder');
         $literatureObservation = $this->createLiteratureObservation();

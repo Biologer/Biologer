@@ -14,7 +14,7 @@ use Tests\TestCase;
 class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
 {
     #[Test]
-    public function curator_can_export_unidentifiable_field_observations_they_curate()
+    public function curator_can_export_unidentifiable_field_observations_they_curate(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -36,7 +36,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function type_is_required()
+    public function type_is_required(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -48,7 +48,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function type_must_be_valid()
+    public function type_must_be_valid(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -62,7 +62,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function columns_are_required_to_perform_the_export()
+    public function columns_are_required_to_perform_the_export(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -76,7 +76,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function columns_parameter_must_be_an_array()
+    public function columns_parameter_must_be_an_array(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -91,7 +91,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function columns_parameter_contain_at_least_one_column()
+    public function columns_parameter_contain_at_least_one_column(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -106,7 +106,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function columns_are_supported()
+    public function columns_are_supported(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -121,7 +121,7 @@ class ExportCuratorUnidentifiableFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function curator_can_export_pending_observations_using_darwin_core_standard()
+    public function curator_can_export_pending_observations_using_darwin_core_standard(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());

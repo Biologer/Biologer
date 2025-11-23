@@ -12,7 +12,7 @@ use Tests\TestCase;
 class ObservationTest extends TestCase
 {
     #[Test]
-    public function can_check_if_full_date_is_present()
+    public function can_check_if_full_date_is_present(): void
     {
         list(
             $observation1, $observation2, $observation3, $observation4
@@ -35,7 +35,7 @@ class ObservationTest extends TestCase
     }
 
     #[Test]
-    public function can_be_unnaproved()
+    public function can_be_unnaproved(): void
     {
         $observation = ObservationFactory::createFieldObservation()->observation;
 
@@ -47,7 +47,7 @@ class ObservationTest extends TestCase
     }
 
     #[Test]
-    public function updating_observer_updates_author_of_related_photos()
+    public function updating_observer_updates_author_of_related_photos(): void
     {
         Storage::fake('public');
         $observation = ObservationFactory::createFieldObservation()->observation;

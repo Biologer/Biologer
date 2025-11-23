@@ -18,7 +18,7 @@ use Tests\TestCase;
 class CuratorApprovedFieldObservationsCustomExportTest extends TestCase
 {
     #[Test]
-    public function curated_approved_field_observations_are_exported_to_a_csv_file()
+    public function curated_approved_field_observations_are_exported_to_a_csv_file(): void
     {
         Carbon::setTestNow(Carbon::now());
         Storage::fake('local');

@@ -19,7 +19,7 @@ class EmailVerificationTest extends TestCase
     }
 
     #[Test]
-    public function show_page_to_request_email_verification_link()
+    public function show_page_to_request_email_verification_link(): void
     {
         $this->actingAs(
             User::factory()->unverified()->create()
@@ -27,7 +27,7 @@ class EmailVerificationTest extends TestCase
     }
 
     #[Test]
-    public function can_resend_verification_email()
+    public function can_resend_verification_email(): void
     {
         Notification::fake();
 
@@ -44,7 +44,7 @@ class EmailVerificationTest extends TestCase
     }
 
     #[Test]
-    public function verify_email_of_user_that_is_logged_in()
+    public function verify_email_of_user_that_is_logged_in(): void
     {
         $user = User::factory()->unverified()->create();
 
@@ -57,7 +57,7 @@ class EmailVerificationTest extends TestCase
     }
 
     #[Test]
-    public function verify_email_of_user_that_is_not_logged_in()
+    public function verify_email_of_user_that_is_not_logged_in(): void
     {
         $user = User::factory()->unverified()->create();
 
@@ -69,7 +69,7 @@ class EmailVerificationTest extends TestCase
     }
 
     #[Test]
-    public function cannot_verify_email_using_some_elses_link_when_logged_in()
+    public function cannot_verify_email_using_some_elses_link_when_logged_in(): void
     {
         $user = User::factory()->unverified()->create();
 

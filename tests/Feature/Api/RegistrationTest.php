@@ -30,7 +30,7 @@ class RegistrationTest extends TestCase
     }
 
     #[Test]
-    public function can_register_user_through_api()
+    public function can_register_user_through_api(): void
     {
         Event::fake();
 
@@ -62,7 +62,7 @@ class RegistrationTest extends TestCase
     }
 
     #[Test]
-    public function needs_valid_client_secret()
+    public function needs_valid_client_secret(): void
     {
         $this->postJson('/api/register', [
             'client_id' => $this->passwordClient->id,
@@ -79,7 +79,7 @@ class RegistrationTest extends TestCase
     }
 
     #[Test]
-    public function signature_is_not_checked_if_client_is_not_valid()
+    public function signature_is_not_checked_if_client_is_not_valid(): void
     {
         $this->postJson('/api/register', [
             'client_id' => 'invalid',
@@ -96,7 +96,7 @@ class RegistrationTest extends TestCase
     }
 
     #[Test]
-    public function cannot_use_client_that_is_not_password_client()
+    public function cannot_use_client_that_is_not_password_client(): void
     {
         $client = app(ClientRepository::class)->create(
             null,

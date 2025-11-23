@@ -11,7 +11,7 @@ use Runalyze\DEM\Provider\ProviderInterface;
 class RunalyzeReaderTest extends TestCase
 {
     #[Test]
-    public function it_uses_provider_to_get_elevation_for_latitude_and_longitude()
+    public function it_uses_provider_to_get_elevation_for_latitude_and_longitude(): void
     {
         $expectedElevation = 200;
 
@@ -21,7 +21,7 @@ class RunalyzeReaderTest extends TestCase
     }
 
     #[Test]
-    public function it_returns_null_if_no_provider_can_get_elevation_for_give_location()
+    public function it_returns_null_if_no_provider_can_get_elevation_for_give_location(): void
     {
         $reader = new RunalyzeReader($this->fakeProvider(200, false));
 

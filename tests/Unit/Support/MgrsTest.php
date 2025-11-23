@@ -9,13 +9,13 @@ use PHPUnit\Framework\TestCase;
 class MgrsTest extends TestCase
 {
     #[Test]
-    public function it_can_calculate_mgrs_10k_square_identifier()
+    public function it_can_calculate_mgrs_10k_square_identifier(): void
     {
         $this->assertSame('34TDR01', Mgrs::makeFromLatLong(45.247177, 19.813558)->to10k());
     }
 
     #[Test]
-    public function it_can_calculate_point_with_coordinates_of_mgrs_10k_square_center()
+    public function it_can_calculate_point_with_coordinates_of_mgrs_10k_square_center(): void
     {
         $mgrs = Mgrs::makeFromLatLong(45.247177, 19.813558);
         $center = $mgrs->centerOf10kLatLng();

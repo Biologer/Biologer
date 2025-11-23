@@ -18,7 +18,7 @@ class PendingFieldObservationsEditTest extends TestCase
     }
 
     #[Test]
-    public function guests_cannot_visit_curator_page_to_edit_pending_observation()
+    public function guests_cannot_visit_curator_page_to_edit_pending_observation(): void
     {
         $taxon = Taxon::factory()->create();
         $observation = ObservationFactory::createUnapprovedFieldObservation([
@@ -31,7 +31,7 @@ class PendingFieldObservationsEditTest extends TestCase
     }
 
     #[Test]
-    public function curator_can_open_page_to_edit_pending_field_observation()
+    public function curator_can_open_page_to_edit_pending_field_observation(): void
     {
         $curator = User::factory()->create()->assignRoles('curator');
         $taxon = Taxon::factory()->create()->addCurator($curator);
@@ -49,7 +49,7 @@ class PendingFieldObservationsEditTest extends TestCase
     }
 
     #[Test]
-    public function curator_cannot_open_page_to_edit_pending_field_observation_for_taxon_they_dont_curate()
+    public function curator_cannot_open_page_to_edit_pending_field_observation_for_taxon_they_dont_curate(): void
     {
         $curator = User::factory()->create()->assignRoles('curator');
         $taxon = Taxon::factory()->create();

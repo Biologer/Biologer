@@ -15,7 +15,7 @@ use Tests\TestCase;
 class GetLiteratureObservationsTest extends TestCase
 {
     #[Test]
-    public function can_view_literature_observation_details()
+    public function can_view_literature_observation_details(): void
     {
         $literatureObservation = $this->createLiteratureObservation();
 
@@ -53,7 +53,7 @@ class GetLiteratureObservationsTest extends TestCase
     }
 
     #[Test]
-    public function can_list_literature_observations()
+    public function can_list_literature_observations(): void
     {
         $literatureObservation = $this->createLiteratureObservation();
 

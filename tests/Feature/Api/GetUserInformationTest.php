@@ -10,7 +10,7 @@ use Tests\TestCase;
 class GetUserInformationTest extends TestCase
 {
     #[Test]
-    public function users_cen_retreive_treir_information()
+    public function users_cen_retreive_treir_information(): void
     {
         $user = User::factory()->create([
             'first_name' => 'John',

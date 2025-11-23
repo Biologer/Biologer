@@ -47,7 +47,7 @@ class AddLiteratureObservationTest extends TestCase
     }
 
     #[Test]
-    public function quest_cannot_submit_literature_observations()
+    public function quest_cannot_submit_literature_observations(): void
     {
         $response = $this->postJson('/api/literature-observations', $this->validParams());
 
@@ -55,7 +55,7 @@ class AddLiteratureObservationTest extends TestCase
     }
 
     #[Test]
-    public function regular_authenticated_users_cannot_submit_literature_observations()
+    public function regular_authenticated_users_cannot_submit_literature_observations(): void
     {
         Passport::actingAs(User::factory()->create());
 
@@ -65,7 +65,7 @@ class AddLiteratureObservationTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_submit_literature_observations()
+    public function admin_can_submit_literature_observations(): void
     {
         $this->seed('RolesTableSeeder');
         $count = LiteratureObservation::count();

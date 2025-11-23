@@ -9,7 +9,7 @@ use Tests\TestCase;
 class ChangePreferencesTest extends TestCase
 {
     #[Test]
-    public function can_change_license_preferences()
+    public function can_change_license_preferences(): void
     {
         $user = User::factory()->create([
             'settings' => [
@@ -36,7 +36,7 @@ class ChangePreferencesTest extends TestCase
     }
 
     #[Test]
-    public function can_see_license_preferences_page()
+    public function can_see_license_preferences_page(): void
     {
         $this->withoutExceptionHandling();
         $user = User::factory()->create();

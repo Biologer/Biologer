@@ -16,7 +16,7 @@ class GetTaxonPublicPhotosTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
-    public function can_get_public_photos_for_taxon()
+    public function can_get_public_photos_for_taxon(): void
     {
         Storage::fake(config('biologer.photos_disk'));
 

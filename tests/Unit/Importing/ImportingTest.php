@@ -47,7 +47,7 @@ class ImportingTest extends TestCase
     }
 
     #[Test]
-    public function it_can_parse_csv_file_and_map_the_columns()
+    public function it_can_parse_csv_file_and_map_the_columns(): void
     {
         $import = $this->createImport(FakeImporter::class, ['a', 'b', 'c']);
 
@@ -72,7 +72,7 @@ class ImportingTest extends TestCase
     }
 
     #[Test]
-    public function it_can_validate_processed_import_and_pass_if_there_are_not_errors()
+    public function it_can_validate_processed_import_and_pass_if_there_are_not_errors(): void
     {
         $import = $this->createImport(FakeImporter::class, ['a', 'b', 'c']);
 
@@ -82,7 +82,7 @@ class ImportingTest extends TestCase
     }
 
     #[Test]
-    public function it_can_validate_processed_import_and_fail_if_there_are_errors()
+    public function it_can_validate_processed_import_and_fail_if_there_are_errors(): void
     {
         $content = "1,Cerambix cerdo,Note\n2,,Other note\n1,,LastNote";
         $import = $this->createImport(FakeImporter::class, ['a', 'b', 'c'], $content);

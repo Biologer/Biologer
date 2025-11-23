@@ -37,7 +37,7 @@ class JsonCollectionStreamWriterTest extends TestCase
     }
 
     #[Test]
-    public function it_can_write_json_collections_to_given_path()
+    public function it_can_write_json_collections_to_given_path(): void
     {
         $writer = new JsonCollectionStreamWriter($this->path);
 
@@ -58,7 +58,7 @@ class JsonCollectionStreamWriterTest extends TestCase
     }
 
     #[Test]
-    public function it_closes_unclosed_collection_when_destructing()
+    public function it_closes_unclosed_collection_when_destructing(): void
     {
         $writer = new JsonCollectionStreamWriter($this->path);
 

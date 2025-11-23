@@ -12,7 +12,7 @@ use Tests\TestCase;
 class GetFieldObservationsTest extends TestCase
 {
     #[Test]
-    public function authenticated_user_can_get_their_field_observations()
+    public function authenticated_user_can_get_their_field_observations(): void
     {
         Passport::actingAs($user = User::factory()->create());
 
@@ -34,7 +34,7 @@ class GetFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_name()
+    public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_name(): void
     {
         Passport::actingAs($user = User::factory()->create());
 
@@ -62,7 +62,7 @@ class GetFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_id()
+    public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_id(): void
     {
         Passport::actingAs($user = User::factory()->create());
 
@@ -90,7 +90,7 @@ class GetFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_id_including_descendants()
+    public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_id_including_descendants(): void
     {
         Passport::actingAs($user = User::factory()->create());
 
@@ -131,7 +131,7 @@ class GetFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function authenticated_user_can_get_their_field_observations_sorted_by_taxon_name()
+    public function authenticated_user_can_get_their_field_observations_sorted_by_taxon_name(): void
     {
         Passport::actingAs($user = User::factory()->create());
 

@@ -12,7 +12,7 @@ use Tests\TestCase;
 class SearchTaxaInGroupTest extends TestCase
 {
     #[Test]
-    public function can_find_taxa_in_group_by_name_with_id_of_first_species()
+    public function can_find_taxa_in_group_by_name_with_id_of_first_species(): void
     {
         $group = ViewGroup::factory()->create([
             'parent_id' => ViewGroup::factory(),
