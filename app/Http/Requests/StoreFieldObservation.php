@@ -329,6 +329,10 @@ class StoreFieldObservation extends FormRequest
             return sprintf('%s Website', config('app.name'));
         }
 
+        if (! $token->client) {
+            return sprintf('%s API', config('app.name'));
+        }
+
         return $token->client->name;
     }
 }

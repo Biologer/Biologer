@@ -210,7 +210,10 @@ final class BatchApprovingFieldObservationsTest extends TestCase
             'field_observation_ids' => $fieldObservations->pluck('id')->all(),
         ])->assertSuccessful();
 
-        Notification::assertTimesSent(3, FieldObservationApproved::class);
+        $this->assertCount(
+            3,
+            Notification::sent($user, FieldObservationApproved::class)
+        );
 
         $fieldObservations->each(function ($observation) use ($user, $curator) {
             Notification::assertSentTo(

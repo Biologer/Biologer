@@ -86,7 +86,6 @@ final class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
             'reason' => 'Testing',
         ])->assertSuccessful();
 
-        #Notification::assertTimesSent(3, FieldObservationMarkedUnidentifiable::class);
         $this->assertCount(
             3,
             Notification::sent($user, FieldObservationMarkedUnidentifiable::class)

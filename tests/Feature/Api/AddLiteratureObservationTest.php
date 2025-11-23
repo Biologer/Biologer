@@ -102,7 +102,6 @@ final class AddLiteratureObservationTest extends TestCase
         $this->assertEquals(370, $literatureObservation->observation->elevation);
         $this->assertEquals(350, $literatureObservation->minimum_elevation);
         $this->assertEquals(400, $literatureObservation->maximum_elevation);
-        $this->assertEquals(400, $literatureObservation->maximum_elevation);
         $this->assertEquals('Pera Detlić', $literatureObservation->georeferenced_by);
         $this->assertEquals(now()->toDateString(), $literatureObservation->georeferenced_date->toDateString());
         $this->assertEquals('Some more information', $literatureObservation->other_original_data);

@@ -67,7 +67,8 @@ final class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['first_name']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+
+        Notification::assertNothingSent();
     }
 
     #[Test]
@@ -84,7 +85,7 @@ final class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['last_name']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
     #[Test]
@@ -101,7 +102,7 @@ final class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['password']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
     #[Test]
@@ -118,7 +119,7 @@ final class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['password']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
     #[Test]
@@ -136,7 +137,7 @@ final class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['password']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
     #[Test]
@@ -154,7 +155,7 @@ final class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['password']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
     #[Test]
@@ -171,7 +172,7 @@ final class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['captcha_verification_code']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
     #[Test]
@@ -188,7 +189,7 @@ final class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['captcha_verification_code']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
     #[Test]
@@ -205,7 +206,7 @@ final class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['data_license']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
     #[Test]
@@ -222,7 +223,7 @@ final class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['data_license']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
     #[Test]
@@ -239,7 +240,7 @@ final class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['image_license']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
     #[Test]
@@ -256,7 +257,7 @@ final class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['image_license']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
     #[Test]
@@ -273,6 +274,6 @@ final class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['accept']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 }

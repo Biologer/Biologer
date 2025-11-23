@@ -40,15 +40,15 @@
         "tightenco/ziggy": "^0.9.4"
     },
     "require-dev": {
-        "brianium/paratest": "^v7.14.2",
+        "brianium/paratest": "^v7.0.0",
         "spatie/laravel-ignition": "^2.9.1",
         "fakerphp/faker": "^1.24.1",
-        "friendsofphp/php-cs-fixer": "^v3.90.0",
+        "friendsofphp/php-cs-fixer": "^",
         "itsgoingd/clockwork": "^5.3.5",
         "laravel/sail": "^v1.48.1",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^v8.8.3",
-        "phpunit/phpunit": "^12.4.4",
+        "phpunit/phpunit": "^11.5.44",
         "wnx/laravel-stats": "^v2.17.0"
     },
     "config": {

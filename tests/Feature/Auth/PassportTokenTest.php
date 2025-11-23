@@ -4,6 +4,7 @@ namespace Auth;
 
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 use Laravel\Passport\Passport;
 use Laravel\Passport\Token;
 use PHPUnit\Framework\Attributes\Test;
@@ -16,7 +17,7 @@ final class PassportTokenTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->artisan('passport:install');
+        Artisan::call('passport:install', ['--no-interaction' => true]);
     }
 
     #[Test]

@@ -6,6 +6,7 @@ use App\Console\Kernel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -18,13 +19,24 @@ abstract class TestCase extends BaseTestCase
      *
      * @return void
      */
-    protected function refreshTestDatabase()
+    protected function refreshDatabase()
     {
         if (in_array(DB::connection()->getDriverName(), ['mysql', 'mariadb'])) {
             return $this->refreshMySQLTestDatabase();
         }
 
-        return parent::refreshTestDatabase();
+        return $this->refreshTestDatabaseUsingDefault();
+    }
+
+    protected function refreshTestDatabaseUsingDefault()
+    {
+        if (! RefreshDatabaseState::$migrated) {
+            $this->artisan('migrate');
+            $this->app[Kernel::class]->setArtisan(null);
+            RefreshDatabaseState::$migrated = true;
+        }
+
+        $this->beginDatabaseTransaction();
     }
 
     private function refreshMySQLTestDatabase()
@@ -33,11 +45,11 @@ abstract class TestCase extends BaseTestCase
             // If there is users table that means we have probably ran the migrations
             // before and can proceed with running the rest instead of importing snapshot.
             if (! Schema::hasTable('users')) {
-                DB::unprepared(file_get_contents(database_path('migrations_2019_08_03.sql')));
+                DB::unprepared(file_get_contents(database_path('migrations_2025_11_23.sql')));
             }
 
             $this->artisan('migrate');
-
+            Artisan::call('passport:install', ['--no-interaction' => true]);
             $this->app[Kernel::class]->setArtisan(null);
 
             RefreshDatabaseState::$migrated = true;

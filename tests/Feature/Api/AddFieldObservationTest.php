@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Passport\Client;
 use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -62,12 +63,11 @@ final class AddFieldObservationTest extends TestCase
 
     private function setTestClientMock($user)
     {
-        $user->token()
-             ->shouldReceive('getAttribute')
-             ->with('client')
-             ->andReturn(new class {
-                 public $name = 'Test Client App';
-             });
+        $user->token()->client = Client::factory()->create([
+            'name' => 'Test Client App',
+            'secret' => 'test-secret',
+            'redirect' => 'http://localhost',
+        ]);
 
         return $user;
     }
@@ -683,22 +683,22 @@ final class AddFieldObservationTest extends TestCase
         $this->assertEquals($fieldObservation->identifier, $user->full_name);
     }
 
-    // /** @test */
-    // public function curators_are_notified_of_new_field_observation()
-    // {
-    //     $this->seed('RolesTableSeeder');
-    //
-    //     $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
-    //     $curator = User::factory()->create()->assignRoles('curator');
-    //     $taxon->curators()->attach($curator);
-    //
-    //     Passport::actingAs(User::factory()->create());
-    //     $this->postJson('/api/field-observations', $this->validParams([
-    //         'taxon_id' => $taxon->id,
-    //     ]))->assertCreated();
-    //
-    //     Notification::assertSentTo($curator, FieldObservationForApproval::class, function ($notification) {
-    //         return $notification->fieldObservation->is(FieldObservation::latest()->first());
-    //     });
-    // }
+    #[Test]
+    public function curators_are_notified_of_new_field_observation()
+    {
+        $this->seed('RolesTableSeeder');
+
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+        $curator = User::factory()->create()->assignRoles('curator');
+        $taxon->curators()->attach($curator);
+
+        Passport::actingAs(User::factory()->create());
+        $this->postJson('/api/field-observations', $this->validParams([
+             'taxon_id' => $taxon->id,
+         ]))->assertCreated();
+
+        Notification::assertSentTo($curator, FieldObservationForApproval::class, function ($notification) {
+            return $notification->fieldObservation->is(FieldObservation::latest()->first());
+        });
+    }
 }

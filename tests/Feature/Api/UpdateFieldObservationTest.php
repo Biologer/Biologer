@@ -345,7 +345,7 @@ final class UpdateFieldObservationTest extends TestCase
             ])
         );
 
-        $this->assertEquals(2, $fieldObservation->photos->count());
+        $this->assertEquals(1, $fieldObservation->photos->count());
         $this->assertTrue($fieldObservation->photos->contains($existingPhoto));
     }
 

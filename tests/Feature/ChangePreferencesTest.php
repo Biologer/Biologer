@@ -43,6 +43,7 @@ final class ChangePreferencesTest extends TestCase
 
         $response = $this->actingAs($user)->get('/preferences/license');
 
+        $response->assertStatus(200);
         $response->assertViewIs('preferences.license');
         $response->assertViewHas('dataLicense', function ($dataLicense) use ($user) {
             return $dataLicense === $user->settings()->data_license;

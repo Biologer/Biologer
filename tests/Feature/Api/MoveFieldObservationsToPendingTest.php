@@ -85,7 +85,10 @@ final class MoveFieldObservationsToPendingTest extends TestCase
             'reason' => 'Testing',
         ])->assertSuccessful();
 
-        Notification::assertTimesSent(3, FieldObservationMovedToPending::class);
+        $this->assertCount(
+            3,
+            Notification::sent($user, FieldObservationMovedToPending::class)
+        );
 
         $fieldObservations->each(function ($observation) use ($user, $curator) {
             Notification::assertSentTo(
