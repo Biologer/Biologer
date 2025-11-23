@@ -14,7 +14,7 @@ use Tests\TestCase;
 class ImportTaxaTest extends TestCase
 {
     #[Test]
-    public function can_import_taxa_from_a_csv_file()
+    public function can_import_taxa_from_a_csv_file(): void
     {
         $redList = RedList::factory()->create();
         $conservationLegislation = ConservationLegislation::factory()->create();
@@ -52,7 +52,7 @@ class ImportTaxaTest extends TestCase
     }
 
     #[Test]
-    public function can_handle_duplicate_names_in_same_tree()
+    public function can_handle_duplicate_names_in_same_tree(): void
     {
         $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
         Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
@@ -80,7 +80,7 @@ class ImportTaxaTest extends TestCase
     }
 
     #[Test]
-    public function can_handle_duplicate_names_in_different_trees()
+    public function can_handle_duplicate_names_in_different_trees(): void
     {
         $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
         $animalSpecies = Taxon::factory()->create([
@@ -127,7 +127,7 @@ class ImportTaxaTest extends TestCase
     }
 
     #[Test]
-    public function can_compose_name_from_fragments()
+    public function can_compose_name_from_fragments(): void
     {
         $path = $this->createTempFile("genus,species,subspecies\nCerambyx,cerdo,cerdo");
 
@@ -142,7 +142,7 @@ class ImportTaxaTest extends TestCase
     }
 
     #[Test]
-    public function can_chunk_reading_lines_from_csv_file()
+    public function can_chunk_reading_lines_from_csv_file(): void
     {
         $path = $this->createTempFile("genus,species,subspecies\nCerambyx,cerdo,cerdo\nCerambyx,scopolii,");
 
@@ -160,7 +160,7 @@ class ImportTaxaTest extends TestCase
     }
 
     #[Test]
-    public function user_can_be_attributed_as_creator_of_the_tree()
+    public function user_can_be_attributed_as_creator_of_the_tree(): void
     {
         $user = User::factory()->create(['first_name' => 'John', 'last_name' => 'Doe']);
         $path = $this->createTempFile("species\nCerambyx cerdo");

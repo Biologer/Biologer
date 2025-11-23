@@ -22,7 +22,7 @@ class ProcessUploadedPhotoTest extends TestCase
     }
 
     #[Test]
-    public function it_resizes_landscape_image_by_width_while_keeping_aspect_ratio()
+    public function it_resizes_landscape_image_by_width_while_keeping_aspect_ratio(): void
     {
         $path = File::image(Str::random().'.jpg', 1600, 1200)->store('photos', [
             'disk' => config('biologer.photos_disk'),
@@ -37,7 +37,7 @@ class ProcessUploadedPhotoTest extends TestCase
     }
 
     #[Test]
-    public function it_resizes_portrait_image_by_height_while_keeping_aspect_ratio()
+    public function it_resizes_portrait_image_by_height_while_keeping_aspect_ratio(): void
     {
         $path = File::image('test-image.jpg', 1200, 1600)->store('photos', [
             'disk' => config('biologer.photos_disk'),
@@ -52,7 +52,7 @@ class ProcessUploadedPhotoTest extends TestCase
     }
 
     #[Test]
-    public function it_does_not_resize_the_image_if_there_is_no_need_to_do_so()
+    public function it_does_not_resize_the_image_if_there_is_no_need_to_do_so(): void
     {
         $path = File::image('test-image.jpg', 500, 400)->store('photos', [
             'disk' => config('biologer.photos_disk'),
@@ -67,7 +67,7 @@ class ProcessUploadedPhotoTest extends TestCase
     }
 
     #[Test]
-    public function it_crops_image_if_cropping_information_is_provided()
+    public function it_crops_image_if_cropping_information_is_provided(): void
     {
         $path = File::image('test-image.jpg', 500, 400)->store('photos', [
             'disk' => config('biologer.photos_disk'),

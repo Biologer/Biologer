@@ -24,7 +24,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function authenticated_user_that_curates_the_taxa_of_all_the_unapproved_field_observation_can_approve_them()
+    public function authenticated_user_that_curates_the_taxa_of_all_the_unapproved_field_observation_can_approve_them(): void
     {
         $user = User::factory()->create()->assignRoles('curator');
         Passport::actingAs($user);
@@ -51,7 +51,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function if_one_field_observation_is_approvable_it_will_be_approved()
+    public function if_one_field_observation_is_approvable_it_will_be_approved(): void
     {
         $user = User::factory()->create()->assignRoles('curator');
         Passport::actingAs($user);
@@ -81,7 +81,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function even_one_invalid_field_observation_returns_validation_error()
+    public function even_one_invalid_field_observation_returns_validation_error(): void
     {
         $user = User::factory()->create()->assignRoles('curator');
         Passport::actingAs($user);
@@ -100,7 +100,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function even_one_field_observation_that_user_is_not_authorized_to_approve_results_in_forbidden_error()
+    public function even_one_field_observation_that_user_is_not_authorized_to_approve_results_in_forbidden_error(): void
     {
         $user = User::factory()->create();
         Passport::actingAs($user);
@@ -118,7 +118,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function guest_cannot_approve_field_observation()
+    public function guest_cannot_approve_field_observation(): void
     {
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'taxon_id' => Taxon::factory(),
@@ -133,7 +133,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function cannot_approve_unapproved_field_observation_that_does_not_have_taxon_selected()
+    public function cannot_approve_unapproved_field_observation_that_does_not_have_taxon_selected(): void
     {
         $user = User::factory()->create();
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
@@ -152,7 +152,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function cannot_approve_unapproved_field_observation_if_taxon_is_not_species_or_lower()
+    public function cannot_approve_unapproved_field_observation_if_taxon_is_not_species_or_lower(): void
     {
         $user = User::factory()->create();
         $taxon = Taxon::factory()->create(['rank_level' => 20]);
@@ -173,7 +173,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function cannot_approve_already_approved_field_observation()
+    public function cannot_approve_already_approved_field_observation(): void
     {
         $user = User::factory()->create();
         $taxon = Taxon::factory()->create();
@@ -193,7 +193,7 @@ class BatchApprovingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function creator_is_notified_when_the_observation_is_approved()
+    public function creator_is_notified_when_the_observation_is_approved(): void
     {
         $user = User::factory()->create();
         $curator = User::factory()->create()->assignRoles('curator');

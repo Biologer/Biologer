@@ -14,7 +14,7 @@ use Tests\TestCase;
 class SendingUnreadNotificationSummaryEmailTest extends TestCase
 {
     #[Test]
-    public function users_with_unread_mail_notifications_are_sent_summary()
+    public function users_with_unread_mail_notifications_are_sent_summary(): void
     {
         $this->seed('RolesTableSeeder');
         $user = User::factory()->create();

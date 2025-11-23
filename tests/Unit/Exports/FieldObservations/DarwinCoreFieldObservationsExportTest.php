@@ -20,7 +20,7 @@ use Tests\TestCase;
 class DarwinCoreFieldObservationsExportTest extends TestCase
 {
     #[Test]
-    public function all_field_observations_are_exported_in_darwin_core_to_a_csv_file()
+    public function all_field_observations_are_exported_in_darwin_core_to_a_csv_file(): void
     {
         Carbon::setTestNow(Carbon::now());
         Storage::fake('local');
@@ -79,7 +79,7 @@ class DarwinCoreFieldObservationsExportTest extends TestCase
     }
 
     #[Test]
-    public function field_observations_can_be_without_identification()
+    public function field_observations_can_be_without_identification(): void
     {
         Carbon::setTestNow(Carbon::now());
         Storage::fake('local');
@@ -154,7 +154,7 @@ class DarwinCoreFieldObservationsExportTest extends TestCase
     }
 
     #[Test]
-    public function species_identified_with_identification_history()
+    public function species_identified_with_identification_history(): void
     {
         Carbon::setTestNow(Carbon::now());
         Storage::fake('local');

@@ -12,7 +12,7 @@ use Tests\TestCase;
 class MarkNotificationsAsReadTest extends TestCase
 {
     #[Test]
-    public function guests_cannot_mark_notifications_as_read()
+    public function guests_cannot_mark_notifications_as_read(): void
     {
         $user = User::factory()->create();
         $fieldObservation = ObservationFactory::createFieldObservation();
@@ -30,7 +30,7 @@ class MarkNotificationsAsReadTest extends TestCase
     }
 
     #[Test]
-    public function authenticated_user_can_mark_their_notifications_as_read()
+    public function authenticated_user_can_mark_their_notifications_as_read(): void
     {
         $user = User::factory()->create();
         $fieldObservation = ObservationFactory::createFieldObservation();

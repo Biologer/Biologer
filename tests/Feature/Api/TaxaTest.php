@@ -13,7 +13,7 @@ use Tests\TestCase;
 class TaxaTest extends TestCase
 {
     #[Test]
-    public function can_fetch_list_of_taxa()
+    public function can_fetch_list_of_taxa(): void
     {
         $taxa = Taxon::factory(5)->create();
         Passport::actingAs(User::factory()->make());
@@ -33,7 +33,7 @@ class TaxaTest extends TestCase
     }
 
     #[Test]
-    public function can_fetch_paginated_list_of_taxa()
+    public function can_fetch_paginated_list_of_taxa(): void
     {
         Taxon::factory(5)->create();
         Passport::actingAs(User::factory()->make());
@@ -49,7 +49,7 @@ class TaxaTest extends TestCase
     }
 
     #[Test]
-    public function can_exclude_taxa_with_provided_ids()
+    public function can_exclude_taxa_with_provided_ids(): void
     {
         $taxa = Taxon::factory(5)->create();
         Passport::actingAs(User::factory()->make());
@@ -64,7 +64,7 @@ class TaxaTest extends TestCase
     }
 
     #[Test]
-    public function can_get_only_taxa_updated_after_given_timestamp()
+    public function can_get_only_taxa_updated_after_given_timestamp(): void
     {
         Carbon::setTestNow($yesterday = Carbon::yesterday());
         $taxa = Taxon::factory(5)->create();
@@ -88,7 +88,7 @@ class TaxaTest extends TestCase
     }
 
     #[Test]
-    public function filtering_by_rank()
+    public function filtering_by_rank(): void
     {
         $genus = Taxon::factory()->create(['name' => 'Cerambyx', 'rank' => 'genus']);
         $species = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species', 'parent_id' => $genus->id]);
@@ -110,7 +110,7 @@ class TaxaTest extends TestCase
     }
 
     #[Test]
-    public function filtering_by_name_and_id()
+    public function filtering_by_name_and_id(): void
     {
         $cerdo = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
         $scopolii = Taxon::factory()->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
@@ -137,7 +137,7 @@ class TaxaTest extends TestCase
     }
 
     #[Test]
-    public function filtering_by_groups()
+    public function filtering_by_groups(): void
     {
         $cerdo = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
         $scopolii = Taxon::factory()->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
@@ -164,7 +164,7 @@ class TaxaTest extends TestCase
     }
 
     #[Test]
-    public function filtering_by_not_being_in_any_group()
+    public function filtering_by_not_being_in_any_group(): void
     {
         $cerdo = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
         $scopolii = Taxon::factory()->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
@@ -189,7 +189,7 @@ class TaxaTest extends TestCase
     }
 
     #[Test]
-    public function filtering_both_in_group_and_ungrouped()
+    public function filtering_both_in_group_and_ungrouped(): void
     {
         $cerdo = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
         $scopolii = Taxon::factory()->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
@@ -215,7 +215,7 @@ class TaxaTest extends TestCase
     }
 
     #[Test]
-    public function include_groups_ids()
+    public function include_groups_ids(): void
     {
         $cerambyx = Taxon::factory()->create(['name' => 'Cerambyx', 'rank' => 'genus']);
         $cerambyxScopolii = Taxon::factory()->create(['name' => 'Cerambyx scopolii', 'rank' => 'species', 'parent_id' => $cerambyx->id]);

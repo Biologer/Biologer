@@ -9,7 +9,7 @@ use Tests\TestCase;
 class LoginTest extends TestCase
 {
     #[Test]
-    public function user_can_login()
+    public function user_can_login(): void
     {
         $user = User::factory()->create([
             'email' => 'test@example.com',
@@ -27,7 +27,7 @@ class LoginTest extends TestCase
     }
 
     #[Test]
-    public function user_that_has_not_verified_their_email_is_redirected_to_verification_notice_page()
+    public function user_that_has_not_verified_their_email_is_redirected_to_verification_notice_page(): void
     {
         User::factory()->unverified()->create([
             'email' => 'test@example.com',
@@ -44,7 +44,7 @@ class LoginTest extends TestCase
     }
 
     #[Test]
-    public function cannot_login_with_invalid_email()
+    public function cannot_login_with_invalid_email(): void
     {
         User::factory()->unverified()->create([
             'email' => 'test@example.com',
@@ -63,7 +63,7 @@ class LoginTest extends TestCase
     }
 
     #[Test]
-    public function cannot_login_with_invalid_password()
+    public function cannot_login_with_invalid_password(): void
     {
         User::factory()->unverified()->create([
             'email' => 'test@example.com',

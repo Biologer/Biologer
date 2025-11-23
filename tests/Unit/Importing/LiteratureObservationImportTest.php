@@ -26,7 +26,7 @@ class LiteratureObservationImportTest extends TestCase
     }
 
     #[Test]
-    public function it_can_store_processed_and_validated_import()
+    public function it_can_store_processed_and_validated_import(): void
     {
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = User::factory()->create();
@@ -82,7 +82,7 @@ class LiteratureObservationImportTest extends TestCase
 
 
     #[Test]
-    public function if_elevation_is_missing_try_using_dem_reader_to_get_elevation()
+    public function if_elevation_is_missing_try_using_dem_reader_to_get_elevation(): void
     {
         Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = User::factory()->create();
@@ -243,7 +243,7 @@ class LiteratureObservationImportTest extends TestCase
     }
 
     #[Test]
-    public function georeferenced_date_is_normalized_before_storing_it()
+    public function georeferenced_date_is_normalized_before_storing_it(): void
     {
         Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = User::factory()->create();
@@ -263,7 +263,7 @@ class LiteratureObservationImportTest extends TestCase
     }
 
     #[Test]
-    public function observations_owner_can_be_selected()
+    public function observations_owner_can_be_selected(): void
     {
         Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = User::factory()->create();

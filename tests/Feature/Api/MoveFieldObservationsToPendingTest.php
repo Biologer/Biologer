@@ -24,7 +24,7 @@ class MoveFieldObservationsToPendingTest extends TestCase
     }
 
     #[Test]
-    public function guest_cannot_mark_field_observation_as_unidentifiable()
+    public function guest_cannot_mark_field_observation_as_unidentifiable(): void
     {
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'taxon_id' => Taxon::factory(),
@@ -39,7 +39,7 @@ class MoveFieldObservationsToPendingTest extends TestCase
     }
 
     #[Test]
-    public function authenticated_user_that_curates_the_taxa_of_all_the_field_observation_can_mark_them_as_unapprovable()
+    public function authenticated_user_that_curates_the_taxa_of_all_the_field_observation_can_mark_them_as_unapprovable(): void
     {
         $user = User::factory()->create()->assignRoles('curator');
         Passport::actingAs($user);
@@ -67,7 +67,7 @@ class MoveFieldObservationsToPendingTest extends TestCase
     }
 
     #[Test]
-    public function creator_is_notified_when_the_observation_is_moved_to_pending()
+    public function creator_is_notified_when_the_observation_is_moved_to_pending(): void
     {
         $user = User::factory()->create();
         $curator = User::factory()->create()->assignRoles('curator');

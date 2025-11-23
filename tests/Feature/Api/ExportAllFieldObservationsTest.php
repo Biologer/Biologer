@@ -14,7 +14,7 @@ use Tests\TestCase;
 class ExportAllFieldObservationsTest extends TestCase
 {
     #[Test]
-    public function admin_can_export_all_observations()
+    public function admin_can_export_all_observations(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -36,7 +36,7 @@ class ExportAllFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_export_all_observations_in_darwin_core_format()
+    public function admin_can_export_all_observations_in_darwin_core_format(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -56,7 +56,7 @@ class ExportAllFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function type_is_required()
+    public function type_is_required(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -68,7 +68,7 @@ class ExportAllFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function type_must_be_valid()
+    public function type_must_be_valid(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -82,7 +82,7 @@ class ExportAllFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function columns_are_required_to_perform_custom_export()
+    public function columns_are_required_to_perform_custom_export(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -96,7 +96,7 @@ class ExportAllFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function columns_parameter_must_be_an_array()
+    public function columns_parameter_must_be_an_array(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -111,7 +111,7 @@ class ExportAllFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function columns_parameter_contain_at_least_one_column()
+    public function columns_parameter_contain_at_least_one_column(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -126,7 +126,7 @@ class ExportAllFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function columns_are_supported()
+    public function columns_are_supported(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());

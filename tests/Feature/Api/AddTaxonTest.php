@@ -47,7 +47,7 @@ class AddTaxonTest extends TestCase
     }
 
     #[Test]
-    public function guest_cannot_create_taxon()
+    public function guest_cannot_create_taxon(): void
     {
         $response = $this->postJson('/api/taxa', $this->validParams([
             'name' => 'Cerambyx cerdo',
@@ -59,7 +59,7 @@ class AddTaxonTest extends TestCase
     }
 
     #[Test]
-    public function unauthorized_user_cannot_create_taxon()
+    public function unauthorized_user_cannot_create_taxon(): void
     {
         Passport::actingAs(User::factory()->create());
 
@@ -73,7 +73,7 @@ class AddTaxonTest extends TestCase
     }
 
     #[Test]
-    public function user_with_the_role_of_admin_can_create_taxon()
+    public function user_with_the_role_of_admin_can_create_taxon(): void
     {
         Passport::actingAs(User::factory()->create()->assignRoles('admin'));
         $parentTaxon = Taxon::factory()->create(['rank' => 'genus', 'name' => 'Cerambyx']);
@@ -120,7 +120,7 @@ class AddTaxonTest extends TestCase
     }
 
     #[Test]
-    public function curator_can_create_taxon_that_is_child_of_taxon_they_curate()
+    public function curator_can_create_taxon_that_is_child_of_taxon_they_curate(): void
     {
         $user = User::factory()->create()->assignRoles('curator');
         $parentTaxon = Taxon::factory()->create();
@@ -138,7 +138,7 @@ class AddTaxonTest extends TestCase
     }
 
     #[Test]
-    public function curator_cannot_create_taxon_if_parent_taxon_is_not_curated_by_them()
+    public function curator_cannot_create_taxon_if_parent_taxon_is_not_curated_by_them(): void
     {
         $user = User::factory()->create()->assignRoles('curator');
         $parentTaxon = Taxon::factory()->create();
@@ -155,7 +155,7 @@ class AddTaxonTest extends TestCase
     }
 
     #[Test]
-    public function name_must_be_unique_among_roots()
+    public function name_must_be_unique_among_roots(): void
     {
         Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
         Passport::actingAs(User::factory()->create()->assignRoles('admin'));
@@ -171,7 +171,7 @@ class AddTaxonTest extends TestCase
     }
 
     #[Test]
-    public function trimmed_version_of_value_is_check()
+    public function trimmed_version_of_value_is_check(): void
     {
         Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
 
@@ -188,7 +188,7 @@ class AddTaxonTest extends TestCase
     }
 
     #[Test]
-    public function checking_unique_name_is_case_insensitive()
+    public function checking_unique_name_is_case_insensitive(): void
     {
         Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
 
@@ -205,7 +205,7 @@ class AddTaxonTest extends TestCase
     }
 
     #[Test]
-    public function name_must_be_unique_within_a_tree()
+    public function name_must_be_unique_within_a_tree(): void
     {
         $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
         Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
@@ -224,7 +224,7 @@ class AddTaxonTest extends TestCase
     }
 
     #[Test]
-    public function same_name_can_be_used_in_different_trees()
+    public function same_name_can_be_used_in_different_trees(): void
     {
         $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
         Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);

@@ -13,7 +13,7 @@ use Tests\TestCase;
 class GetPendingFieldObservationsTest extends TestCase
 {
     #[Test]
-    public function curator_can_get_pending_field_observations_of_taxa_they_curate()
+    public function curator_can_get_pending_field_observations_of_taxa_they_curate(): void
     {
         $this->seed(RolesTableSeeder::class);
         $animalia = Taxon::factory()->create(['name' => 'Animalia', 'rank' => 'kingdom']);
@@ -39,7 +39,7 @@ class GetPendingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function curator_can_get_pending_field_observations_of_ancestors_of_taxa_they_curate()
+    public function curator_can_get_pending_field_observations_of_ancestors_of_taxa_they_curate(): void
     {
         $this->seed(RolesTableSeeder::class);
         $animalia = Taxon::factory()->create(['name' => 'Animalia', 'rank' => 'kingdom']);
@@ -65,7 +65,7 @@ class GetPendingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function curator_can_get_pending_field_observations_of_taxa_they_dont_curate()
+    public function curator_can_get_pending_field_observations_of_taxa_they_dont_curate(): void
     {
         $this->seed(RolesTableSeeder::class);
         $animalia = Taxon::factory()->create(['name' => 'Animalia', 'rank' => 'kingdom']);

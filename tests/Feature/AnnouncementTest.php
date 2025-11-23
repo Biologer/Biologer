@@ -24,13 +24,13 @@ class AnnouncementTest extends TestCase
     }
 
     #[Test]
-    public function guest_cannot_publish_announcements()
+    public function guest_cannot_publish_announcements(): void
     {
         $this->postJson('/api/announcements', $this->validParams())->assertUnauthorized();
     }
 
     #[Test]
-    public function admin_can_publish_an_announcement()
+    public function admin_can_publish_an_announcement(): void
     {
         $this->seed('RolesTableSeeder');
         $user = User::factory()->create()->assignRoles('admin');
@@ -47,7 +47,7 @@ class AnnouncementTest extends TestCase
     }
 
     #[Test]
-    public function guests_can_view_public_announcements()
+    public function guests_can_view_public_announcements(): void
     {
         $this->withoutExceptionHandling();
         $announcement = Announcement::factory()->create(['private' => false]);
@@ -61,7 +61,7 @@ class AnnouncementTest extends TestCase
     }
 
     #[Test]
-    public function guests_cannot_view_private_announcements()
+    public function guests_cannot_view_private_announcements(): void
     {
         $announcement = Announcement::factory()->create(['private' => true]);
 
@@ -69,7 +69,7 @@ class AnnouncementTest extends TestCase
     }
 
     #[Test]
-    public function authenticated_users_can_mark_announcements_as_read()
+    public function authenticated_users_can_mark_announcements_as_read(): void
     {
         $this->seed('RolesTableSeeder');
         $announcement = Announcement::factory()->create(['private' => false]);
@@ -85,7 +85,7 @@ class AnnouncementTest extends TestCase
     }
 
     #[Test]
-    public function announcement_is_marked_as_read_when_authenticated_user_views_it()
+    public function announcement_is_marked_as_read_when_authenticated_user_views_it(): void
     {
         $this->seed('RolesTableSeeder');
         $announcement = Announcement::factory()->create(['private' => false]);

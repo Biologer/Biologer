@@ -19,7 +19,7 @@ use Tests\TestCase;
 class CuratorPendingFieldObservationsDarwinCoreExportTest extends TestCase
 {
     #[Test]
-    public function curated_pending_field_observations_are_exported_in_darwin_core_to_a_csv_file()
+    public function curated_pending_field_observations_are_exported_in_darwin_core_to_a_csv_file(): void
     {
         Carbon::setTestNow(Carbon::now());
         Storage::fake('local');

@@ -11,7 +11,7 @@ use Tests\TestCase;
 class TaxonTest extends TestCase
 {
     #[Test]
-    public function it_can_have_many_observations()
+    public function it_can_have_many_observations(): void
     {
         $taxon = Taxon::factory()->create();
         $this->assertCount(0, $taxon->observations);
@@ -26,7 +26,7 @@ class TaxonTest extends TestCase
     }
 
     #[Test]
-    public function it_can_have_many_approved_observations()
+    public function it_can_have_many_approved_observations(): void
     {
         $taxon = Taxon::factory()->create();
 
@@ -47,7 +47,7 @@ class TaxonTest extends TestCase
     }
 
     #[Test]
-    public function it_can_have_many_unapproved_observations()
+    public function it_can_have_many_unapproved_observations(): void
     {
         $taxon = Taxon::factory()->create();
 
@@ -68,7 +68,7 @@ class TaxonTest extends TestCase
     }
 
     #[Test]
-    public function it_can_list_unique_mgrs_fields_of_approved_observations()
+    public function it_can_list_unique_mgrs_fields_of_approved_observations(): void
     {
         $taxon = Taxon::factory()->create();
 
@@ -93,7 +93,7 @@ class TaxonTest extends TestCase
     }
 
     #[Test]
-    public function it_can_be_root_taxon()
+    public function it_can_be_root_taxon(): void
     {
         $taxon = Taxon::factory()->create([
             'parent_id' => null,
@@ -103,7 +103,7 @@ class TaxonTest extends TestCase
     }
 
     #[Test]
-    public function it_can_be_child_of_another_taxon()
+    public function it_can_be_child_of_another_taxon(): void
     {
         $parent = Taxon::factory()->create();
         $taxon = Taxon::factory()->create([
@@ -116,7 +116,7 @@ class TaxonTest extends TestCase
     }
 
     #[Test]
-    public function it_can_be_parent_of_another_taxon()
+    public function it_can_be_parent_of_another_taxon(): void
     {
         $parent = Taxon::factory()->create();
         $taxon = Taxon::factory()->create([
@@ -128,7 +128,7 @@ class TaxonTest extends TestCase
     }
 
     #[Test]
-    public function the_parent_is_ancestor_as_well()
+    public function the_parent_is_ancestor_as_well(): void
     {
         $parent = Taxon::factory()->create(['parent_id' => null]);
         $taxon = Taxon::factory()->create(['parent_id' => $parent->id]);
@@ -137,7 +137,7 @@ class TaxonTest extends TestCase
     }
 
     #[Test]
-    public function it_can_have_many_ancestors_which_it_inherits_from_parent()
+    public function it_can_have_many_ancestors_which_it_inherits_from_parent(): void
     {
         $root = Taxon::factory()->create(['parent_id' => null]);
         $parent = Taxon::factory()->create(['parent_id' => $root->id]);
@@ -148,7 +148,7 @@ class TaxonTest extends TestCase
     }
 
     #[Test]
-    public function it_can_have_many_children_taxa()
+    public function it_can_have_many_children_taxa(): void
     {
         $taxon = Taxon::factory()->create();
         $children = Taxon::factory(3)->create(['parent_id' => $taxon->id]);
@@ -160,7 +160,7 @@ class TaxonTest extends TestCase
     }
 
     #[Test]
-    public function it_can_many_descendants()
+    public function it_can_many_descendants(): void
     {
         $root = Taxon::factory()->create(['parent_id' => null]);
         $parent = Taxon::factory()->create(['parent_id' => $root->id]);
@@ -173,7 +173,7 @@ class TaxonTest extends TestCase
     }
 
     #[Test]
-    public function ancestors_are_linked_upon_creation()
+    public function ancestors_are_linked_upon_creation(): void
     {
         $root = Taxon::factory()->create(['parent_id' => null]);
         $parent = Taxon::factory()->create(['parent_id' => $root->id]);
@@ -184,7 +184,7 @@ class TaxonTest extends TestCase
     }
 
     #[Test]
-    public function ancestry_for_descendants_is_relinked_when_taxon_parent_changes()
+    public function ancestry_for_descendants_is_relinked_when_taxon_parent_changes(): void
     {
         $root1 = Taxon::factory()->create(['parent_id' => null, 'rank' => 'class']);
         $root2 = Taxon::factory()->create(['parent_id' => null, 'rank' => 'class']);

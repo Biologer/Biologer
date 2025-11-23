@@ -9,7 +9,7 @@ use Tests\TestCase;
 class ViewTaxonDetailsTest extends TestCase
 {
     #[Test]
-    public function can_see_basic_taxon_information()
+    public function can_see_basic_taxon_information(): void
     {
         $taxon = Taxon::factory()->create([
             'name' => 'Cerambyx cerdo',

@@ -17,7 +17,7 @@ class UsersAutocompleteTest extends TestCase
     }
 
     #[Test]
-    public function can_fetch_basic_users_list_for_autocomplete()
+    public function can_fetch_basic_users_list_for_autocomplete(): void
     {
         $user = User::factory()->create([
             'first_name' => 'X',
@@ -55,7 +55,7 @@ class UsersAutocompleteTest extends TestCase
     }
 
     #[Test]
-    public function user_list_is_paginated()
+    public function user_list_is_paginated(): void
     {
         $user = User::factory()->create();
         $user->assignRoles('admin');
@@ -70,7 +70,7 @@ class UsersAutocompleteTest extends TestCase
     }
 
     #[Test]
-    public function filtering_users_by_name()
+    public function filtering_users_by_name(): void
     {
         $user = User::factory()->create([
             'first_name' => 'Test',

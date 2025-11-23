@@ -39,7 +39,7 @@ class ImportingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function guests_are_not_allowed_to_import_observations()
+    public function guests_are_not_allowed_to_import_observations(): void
     {
         $this->postJson('/api/field-observation-imports', [
             'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon'],
@@ -48,7 +48,7 @@ class ImportingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function authenticated_user_can_submit_csv_file_to_import_fied_observations()
+    public function authenticated_user_can_submit_csv_file_to_import_fied_observations(): void
     {
         Passport::actingAs(User::factory()->create());
 
@@ -63,7 +63,7 @@ class ImportingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function file_is_required_when_submitting()
+    public function file_is_required_when_submitting(): void
     {
         Passport::actingAs(User::factory()->make());
 
@@ -76,7 +76,7 @@ class ImportingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function file_must_be_an_actual_file()
+    public function file_must_be_an_actual_file(): void
     {
         Passport::actingAs(User::factory()->make());
 
@@ -89,7 +89,7 @@ class ImportingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function submitted_file_must_be_csv()
+    public function submitted_file_must_be_csv(): void
     {
         Passport::actingAs(User::factory()->make());
 
@@ -100,7 +100,7 @@ class ImportingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function submitted_file_must_have_at_least_one_row_of_data()
+    public function submitted_file_must_have_at_least_one_row_of_data(): void
     {
         Passport::actingAs(User::factory()->make());
 
@@ -111,7 +111,7 @@ class ImportingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function declaring_columns_of_appropriate_order_is_required()
+    public function declaring_columns_of_appropriate_order_is_required(): void
     {
         Passport::actingAs(User::factory()->make());
 
@@ -122,7 +122,7 @@ class ImportingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function columns_field_must_be_array_of_columns()
+    public function columns_field_must_be_array_of_columns(): void
     {
         Passport::actingAs(User::factory()->make());
 
@@ -133,7 +133,7 @@ class ImportingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function required_columns_must_be_declared_as_provided_in_the_file()
+    public function required_columns_must_be_declared_as_provided_in_the_file(): void
     {
         Passport::actingAs(User::factory()->make());
 
@@ -144,7 +144,7 @@ class ImportingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function processing_is_queued_upon_successful_submition()
+    public function processing_is_queued_upon_successful_submition(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -162,7 +162,7 @@ class ImportingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function user_can_check_the_status_to_see_if_processing_started()
+    public function user_can_check_the_status_to_see_if_processing_started(): void
     {
         Passport::actingAs($user = User::factory()->create());
 
@@ -177,7 +177,7 @@ class ImportingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function user_cannot_access_someone_elses_import()
+    public function user_cannot_access_someone_elses_import(): void
     {
         Passport::actingAs(User::factory()->create());
 
@@ -195,7 +195,7 @@ class ImportingFieldObservationsTest extends TestCase
      */
     #[Test]
     #[DataProvider('roles')]
-    public function admins_and_curators_can_submit_data_to_be_imported_for_someone_else($role)
+    public function admins_and_curators_can_submit_data_to_be_imported_for_someone_else($role): void
     {
         Queue::fake();
         $this->seed('RolesTableSeeder');
@@ -218,7 +218,7 @@ class ImportingFieldObservationsTest extends TestCase
         });
     }
 
-    public static function roles()
+    public static function roles(): array
     {
         return [
             ['admin'],
@@ -227,7 +227,7 @@ class ImportingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function user_that_should_be_owner_must_exist()
+    public function user_that_should_be_owner_must_exist(): void
     {
         Queue::fake();
 
@@ -241,7 +241,7 @@ class ImportingFieldObservationsTest extends TestCase
     }
 
     #[Test]
-    public function contributor_cannot_sumbit_import_for_someone_else()
+    public function contributor_cannot_sumbit_import_for_someone_else(): void
     {
         Queue::fake();
 

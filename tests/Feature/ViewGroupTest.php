@@ -14,7 +14,7 @@ class ViewGroupTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
-    public function get_first_species_in_group()
+    public function get_first_species_in_group(): void
     {
         $rootGroup = ViewGroup::factory()->create();
         $group = ViewGroup::factory()->create(['parent_id' => $rootGroup->id]);
@@ -28,7 +28,7 @@ class ViewGroupTest extends TestCase
     }
 
     #[Test]
-    public function get_first_species_in_group_that_shows_only_observed_species()
+    public function get_first_species_in_group_that_shows_only_observed_species(): void
     {
         $group = ViewGroup::factory()->create([
             'parent_id' => ViewGroup::factory()->create()->id,

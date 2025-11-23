@@ -11,7 +11,7 @@ use Tests\TestCase;
 class CleaningOldUploads extends TestCase
 {
     #[Test]
-    public function can_remove_old_uploaded_files()
+    public function can_remove_old_uploaded_files(): void
     {
         Storage::fake('public');
         $path = Storage::disk('public')->put('uploads', File::image('test.jpg'));

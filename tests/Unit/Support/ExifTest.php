@@ -12,7 +12,7 @@ class ExifTest extends TestCase
     use CustomAssertArraySubset;
 
     #[Test]
-    public function can_extract_date_time_data()
+    public function can_extract_date_time_data(): void
     {
         $exif = new Exif([
             'DateTimeOriginal' => '2018:01:01 10:00:00',
@@ -27,7 +27,7 @@ class ExifTest extends TestCase
     }
 
     #[Test]
-    public function can_extract_gps_data()
+    public function can_extract_gps_data(): void
     {
         $exif = new Exif([
             'GPSLatitude' => ['46/1', '5403/100', '0/1'],
@@ -47,7 +47,7 @@ class ExifTest extends TestCase
     }
 
     #[Test]
-    public function handles_devision_by_zero_in_decimal_number_definitions()
+    public function handles_devision_by_zero_in_decimal_number_definitions(): void
     {
         $exif = new Exif([
             'GPSLatitude' => ['46/1', '5403/0', '0/1'], // Minutes devided

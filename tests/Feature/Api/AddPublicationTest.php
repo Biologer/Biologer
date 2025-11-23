@@ -12,7 +12,7 @@ use Tests\TestCase;
 class AddPublicationTest extends TestCase
 {
     #[Test]
-    public function guest_cannot_add_publication()
+    public function guest_cannot_add_publication(): void
     {
         $count = Publication::count();
         $response = $this->postJson('/api/publications', $this->validBookChapter());
@@ -22,7 +22,7 @@ class AddPublicationTest extends TestCase
     }
 
     #[Test]
-    public function unauthorized_user_cannot_add_publication()
+    public function unauthorized_user_cannot_add_publication(): void
     {
         $count = Publication::count();
         Passport::actingAs(User::factory()->create());
@@ -33,7 +33,7 @@ class AddPublicationTest extends TestCase
     }
 
     #[Test]
-    public function authorized_user_can_add_new_book()
+    public function authorized_user_can_add_new_book(): void
     {
         $this->seed('RolesTableSeeder');
         Passport::actingAs($user = User::factory()->create()->assignRoles('admin'));
@@ -75,7 +75,7 @@ class AddPublicationTest extends TestCase
     }
 
     #[Test]
-    public function citation_can_be_determined_dinamically_based_on_available_data_if_left_empty()
+    public function citation_can_be_determined_dinamically_based_on_available_data_if_left_empty(): void
     {
         $this->handleValidationExceptions();
         $this->seed('RolesTableSeeder');
@@ -91,7 +91,7 @@ class AddPublicationTest extends TestCase
     }
 
     #[Test]
-    public function generating_citation_is_properly_using_multibyte_strings()
+    public function generating_citation_is_properly_using_multibyte_strings(): void
     {
         $this->handleValidationExceptions();
         $this->seed('RolesTableSeeder');

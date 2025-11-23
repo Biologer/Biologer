@@ -15,7 +15,7 @@ class GetObservationTypesTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
-    public function get_observations_types()
+    public function get_observations_types(): void
     {
         Passport::actingAs(User::factory()->create());
 
@@ -39,7 +39,7 @@ class GetObservationTypesTest extends TestCase
     }
 
     #[Test]
-    public function can_be_filtered_to_get_only_those_updated_after_given_timestamp()
+    public function can_be_filtered_to_get_only_those_updated_after_given_timestamp(): void
     {
         $this->withoutExceptionHandling();
         Passport::actingAs(User::factory()->create());

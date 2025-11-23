@@ -40,7 +40,7 @@ class ProcessImportTest extends TestCase
     }
 
     #[Test]
-    public function it_can_perform_processing_of_field_observation_import()
+    public function it_can_perform_processing_of_field_observation_import(): void
     {
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = User::factory()->create();

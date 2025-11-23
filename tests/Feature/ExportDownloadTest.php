@@ -14,7 +14,7 @@ use Tests\TestCase;
 class ExportDownloadTest extends TestCase
 {
     #[Test]
-    public function authenticated_user_can_download_their_export()
+    public function authenticated_user_can_download_their_export(): void
     {
         $this->actingAs($user = User::factory()->create());
         $export = $this->performExportFor($user);
@@ -32,7 +32,7 @@ class ExportDownloadTest extends TestCase
     }
 
     #[Test]
-    public function guest_gets_unauthorized_response()
+    public function guest_gets_unauthorized_response(): void
     {
         $this->actingAs($user = User::factory()->create());
         $export = $this->performExportFor($user);
@@ -44,7 +44,7 @@ class ExportDownloadTest extends TestCase
     }
 
     #[Test]
-    public function authenticated_user_cannot_download_other_users_export()
+    public function authenticated_user_cannot_download_other_users_export(): void
     {
         $this->actingAs($user = User::factory()->create());
         $export = $this->performExportFor($user);

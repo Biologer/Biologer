@@ -15,7 +15,7 @@ use Tests\TestCase;
 class LiteratureObservationDiffTest extends TestCase
 {
     #[Test]
-    public function logs_changes_to_general_data()
+    public function logs_changes_to_general_data(): void
     {
         foreach ($this->generalDataProvider() as $index => $data) {
             list($attribute, $oldValue, $newValue, $expected) = $data;
@@ -38,7 +38,7 @@ class LiteratureObservationDiffTest extends TestCase
     }
 
     #[Test]
-    public function logs_changes_to_specific_data()
+    public function logs_changes_to_specific_data(): void
     {
         foreach ($this->specificDataProvider() as $data) {
             list($attribute, $oldValue, $newValue, $expected) = $data;
