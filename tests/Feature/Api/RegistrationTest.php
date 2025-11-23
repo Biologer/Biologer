@@ -12,7 +12,7 @@ use Laravel\Passport\ClientRepository;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class RegistrationTest extends TestCase
+final class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 

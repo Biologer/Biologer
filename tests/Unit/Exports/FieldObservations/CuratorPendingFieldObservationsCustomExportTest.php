@@ -15,7 +15,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class CuratorPendingFieldObservationsCustomExportTest extends TestCase
+final class CuratorPendingFieldObservationsCustomExportTest extends TestCase
 {
     #[Test]
     public function curated_pending_field_observations_are_exported_to_a_csv_file(): void

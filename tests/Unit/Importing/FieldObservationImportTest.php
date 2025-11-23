@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class FieldObservationImportTest extends TestCase
+final class FieldObservationImportTest extends TestCase
 {
     protected function setUp(): void
     {

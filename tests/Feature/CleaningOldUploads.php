@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class CleaningOldUploads extends TestCase
+final class CleaningOldUploads extends TestCase
 {
     #[Test]
     public function can_remove_old_uploaded_files(): void

@@ -6,7 +6,7 @@ use App\Taxon;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class RebuildAncestryTest extends TestCase
+final class RebuildAncestryTest extends TestCase
 {
     #[Test]
     public function rebuilding_ancestry(): void

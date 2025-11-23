@@ -9,7 +9,7 @@ use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class SearchTaxaInGroupTest extends TestCase
+final class SearchTaxaInGroupTest extends TestCase
 {
     #[Test]
     public function can_find_taxa_in_group_by_name_with_id_of_first_species(): void

@@ -9,7 +9,7 @@ use Laravel\Passport\Token;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class PassportTokenTest extends TestCase
+final class PassportTokenTest extends TestCase
 {
     use RefreshDatabase;
 

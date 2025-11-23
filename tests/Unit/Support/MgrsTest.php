@@ -6,7 +6,7 @@ use App\Support\Mgrs;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class MgrsTest extends TestCase
+final class MgrsTest extends TestCase
 {
     #[Test]
     public function it_can_calculate_mgrs_10k_square_identifier(): void

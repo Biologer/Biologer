@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class ImportTaxaTest extends TestCase
+final class ImportTaxaTest extends TestCase
 {
     #[Test]
     public function can_import_taxa_from_a_csv_file(): void

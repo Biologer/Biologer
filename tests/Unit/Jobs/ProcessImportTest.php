@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class ProcessImportTest extends TestCase
+final class ProcessImportTest extends TestCase
 {
     protected function setUp(): void
     {

@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class ImportingFieldObservationsTest extends TestCase
+final class ImportingFieldObservationsTest extends TestCase
 {
     protected function setUp(): void
     {

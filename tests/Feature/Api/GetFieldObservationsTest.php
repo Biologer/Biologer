@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class GetFieldObservationsTest extends TestCase
+final class GetFieldObservationsTest extends TestCase
 {
     #[Test]
     public function authenticated_user_can_get_their_field_observations(): void

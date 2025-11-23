@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Runalyze\DEM\Interpolation\InterpolationInterface;
 use Runalyze\DEM\Provider\ProviderInterface;
 
-class RunalyzeReaderTest extends TestCase
+final class RunalyzeReaderTest extends TestCase
 {
     #[Test]
     public function it_uses_provider_to_get_elevation_for_latitude_and_longitude(): void

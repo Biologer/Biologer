@@ -16,7 +16,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class CuratorUnidentifiableFieldObservationsDarwinCoreExportTest extends TestCase
+final class CuratorUnidentifiableFieldObservationsDarwinCoreExportTest extends TestCase
 {
     #[Test]
     public function curated_unidentifiable_field_observations_are_exported_in_darwin_core_to_a_csv_file(): void

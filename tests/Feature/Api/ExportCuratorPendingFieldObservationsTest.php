@@ -11,7 +11,7 @@ use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class ExportCuratorPendingFieldObservationsTest extends TestCase
+final class ExportCuratorPendingFieldObservationsTest extends TestCase
 {
     #[Test]
     public function curator_can_export_pending_field_observations_they_curate(): void

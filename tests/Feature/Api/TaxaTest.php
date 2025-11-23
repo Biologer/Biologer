@@ -10,7 +10,7 @@ use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class TaxaTest extends TestCase
+final class TaxaTest extends TestCase
 {
     #[Test]
     public function can_fetch_list_of_taxa(): void

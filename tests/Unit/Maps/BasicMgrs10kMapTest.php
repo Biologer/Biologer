@@ -6,7 +6,7 @@ use App\Maps\BasicMgrs10kMap;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class BasicMgrs10kMapTest extends TestCase
+final class BasicMgrs10kMapTest extends TestCase
 {
     #[Test]
     public function it_can_render_map_of_serbia_as_svg_using_provided_data_to_mark_mgrs_fields(): void

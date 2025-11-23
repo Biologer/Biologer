@@ -17,7 +17,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class DarwinCoreFieldObservationsExportTest extends TestCase
+final class DarwinCoreFieldObservationsExportTest extends TestCase
 {
     #[Test]
     public function all_field_observations_are_exported_in_darwin_core_to_a_csv_file(): void

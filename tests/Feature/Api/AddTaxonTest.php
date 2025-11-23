@@ -12,7 +12,7 @@ use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class AddTaxonTest extends TestCase
+final class AddTaxonTest extends TestCase
 {
     protected function setUp(): void
     {

@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class JsonCollectionStreamWriterTest extends TestCase
+final class JsonCollectionStreamWriterTest extends TestCase
 {
     /**
      * Path of the written file.

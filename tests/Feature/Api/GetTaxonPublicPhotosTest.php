@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class GetTaxonPublicPhotosTest extends TestCase
+final class GetTaxonPublicPhotosTest extends TestCase
 {
     use RefreshDatabase;
 

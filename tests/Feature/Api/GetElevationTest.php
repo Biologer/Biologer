@@ -8,7 +8,7 @@ use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class GetElevationTest extends TestCase
+final class GetElevationTest extends TestCase
 {
     #[Test]
     public function can_calculate_elevations_based_on_latitude_and_longitude(): void

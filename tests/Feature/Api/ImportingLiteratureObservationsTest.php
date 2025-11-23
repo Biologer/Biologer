@@ -14,7 +14,7 @@ use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class ImportingLiteratureObservationsTest extends TestCase
+final class ImportingLiteratureObservationsTest extends TestCase
 {
     protected function setUp(): void
     {

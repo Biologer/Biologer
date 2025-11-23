@@ -11,7 +11,7 @@ use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class ExportContributorFieldObservationsTest extends TestCase
+final class ExportContributorFieldObservationsTest extends TestCase
 {
     #[Test]
     public function contributors_can_export_their_observations(): void

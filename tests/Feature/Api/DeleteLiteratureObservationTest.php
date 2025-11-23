@@ -9,7 +9,7 @@ use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class DeleteLiteratureObservationTest extends TestCase
+final class DeleteLiteratureObservationTest extends TestCase
 {
     #[Test]
     public function guest_cannot_delete_observation(): void

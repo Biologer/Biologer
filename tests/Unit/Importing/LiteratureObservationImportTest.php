@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class LiteratureObservationImportTest extends TestCase
+final class LiteratureObservationImportTest extends TestCase
 {
     protected function setUp(): void
     {

@@ -9,7 +9,7 @@ use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class UpdatePublicationTest extends TestCase
+final class UpdatePublicationTest extends TestCase
 {
     #[Test]
     public function guest_cannot_update_publication(): void

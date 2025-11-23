@@ -10,7 +10,7 @@ use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class GetObservationTypesTest extends TestCase
+final class GetObservationTypesTest extends TestCase
 {
     use RefreshDatabase;
 

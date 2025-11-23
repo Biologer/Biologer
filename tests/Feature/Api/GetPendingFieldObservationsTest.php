@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class GetPendingFieldObservationsTest extends TestCase
+final class GetPendingFieldObservationsTest extends TestCase
 {
     #[Test]
     public function curator_can_get_pending_field_observations_of_taxa_they_curate(): void

@@ -10,7 +10,7 @@ use Nikazooz\LaravelCaptcha\Facades\Captcha;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class UserRegistrationTest extends TestCase
+final class UserRegistrationTest extends TestCase
 {
     protected function validParams($overrides = [])
     {

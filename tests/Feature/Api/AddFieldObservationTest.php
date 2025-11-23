@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class AddFieldObservationTest extends TestCase
+final class AddFieldObservationTest extends TestCase
 {
     protected function setUp(): void
     {

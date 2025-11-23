@@ -6,7 +6,7 @@ use App\User;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class LoginTest extends TestCase
+final class LoginTest extends TestCase
 {
     #[Test]
     public function user_can_login(): void

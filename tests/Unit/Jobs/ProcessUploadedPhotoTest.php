@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class ProcessUploadedPhotoTest extends TestCase
+final class ProcessUploadedPhotoTest extends TestCase
 {
     protected function setUp(): void
     {

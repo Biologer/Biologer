@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class ExportDownloadTest extends TestCase
+final class ExportDownloadTest extends TestCase
 {
     #[Test]
     public function authenticated_user_can_download_their_export(): void

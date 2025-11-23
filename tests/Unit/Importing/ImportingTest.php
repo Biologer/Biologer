@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\FakeImporter;
 use Tests\TestCase;
 
-class ImportingTest extends TestCase
+final class ImportingTest extends TestCase
 {
     protected function setUp(): void
     {

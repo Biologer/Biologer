@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class BatchApprovingFieldObservationsTest extends TestCase
+final class BatchApprovingFieldObservationsTest extends TestCase
 {
     protected function setUp(): void
     {
