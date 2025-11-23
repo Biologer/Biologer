@@ -14,7 +14,7 @@ use Tests\TestCase;
 
 class MoveFieldObservationsToPendingTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
