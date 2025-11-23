@@ -1,0 +1,1 @@
+{"version":2,"defects":{"Tests\\Feature\\AnnouncementTest::guests_can_view_public_announcements":7},"times":{"Tests\\Feature\\AnnouncementTest::guest_cannot_publish_announcements":0.022,"Tests\\Feature\\AnnouncementTest::admin_can_publish_an_announcement":0.09,"Tests\\Feature\\AnnouncementTest::guests_can_view_public_announcements":0.039}}

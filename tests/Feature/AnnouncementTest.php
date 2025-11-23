@@ -9,7 +9,6 @@ use Tests\TestCase;
 
 class AnnouncementTest extends TestCase
 {
-
     private function validParams($overrides = [])
     {
         return array_merge([
@@ -53,7 +52,7 @@ class AnnouncementTest extends TestCase
         $announcement = Announcement::factory()->create(['private' => false]);
 
         $response = $this->get("announcements/{$announcement->id}");
-        dd($response);
+
         $response->assertViewHas('announcement', function ($viewAnnouncement) use ($announcement) {
             return $viewAnnouncement->is($announcement);
         });
