@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\ConservationDocument;
 use App\ConservationLegislation;
 use App\RedList;
@@ -11,7 +12,7 @@ use App\User;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class UpdateTaxonTest extends TestCase
+final class UpdateTaxonTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -47,8 +48,8 @@ class UpdateTaxonTest extends TestCase
         ], $overrides);
     }
 
-    /** @test */
-    public function guest_cannot_update_taxon()
+    #[Test]
+    public function guest_cannot_update_taxon(): void
     {
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
 
@@ -61,8 +62,8 @@ class UpdateTaxonTest extends TestCase
         $this->assertEquals('Cerambyx cerdo', $taxon->fresh()->name);
     }
 
-    /** @test */
-    public function unauthorized_user_cannot_update_taxon()
+    #[Test]
+    public function unauthorized_user_cannot_update_taxon(): void
     {
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         Passport::actingAs(User::factory()->create());
@@ -76,8 +77,8 @@ class UpdateTaxonTest extends TestCase
         $this->assertEquals('Cerambyx cerdo', $taxon->fresh()->name);
     }
 
-    /** @test */
-    public function user_with_the_role_of_admin_can_update_taxon()
+    #[Test]
+    public function user_with_the_role_of_admin_can_update_taxon(): void
     {
         $taxon = Taxon::factory()->create([
             'name' => 'Cerambyx cerdo',
@@ -125,8 +126,8 @@ class UpdateTaxonTest extends TestCase
         $taxon->redLists->assertEquals($redLists);
     }
 
-    /** @test */
-    public function curator_can_update_taxon_that_they_curate()
+    #[Test]
+    public function curator_can_update_taxon_that_they_curate(): void
     {
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = User::factory()->create()->assignRoles('curator');
@@ -142,8 +143,8 @@ class UpdateTaxonTest extends TestCase
         $this->assertEquals('Cerambyx scopolii', $taxon->fresh()->name);
     }
 
-    /** @test */
-    public function curator_cannot_update_taxon_that_is_not_curated_by_them()
+    #[Test]
+    public function curator_cannot_update_taxon_that_is_not_curated_by_them(): void
     {
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = User::factory()->create()->assignRoles('curator');
@@ -156,8 +157,8 @@ class UpdateTaxonTest extends TestCase
         $response->assertForbidden();
     }
 
-    /** @test */
-    public function activity_log_entry_is_added_when_field_observation_is_updated()
+    #[Test]
+    public function activity_log_entry_is_added_when_field_observation_is_updated(): void
     {
         $this->artisan('db:seed', ['--class' => 'StagesTableSeeder']);
         $taxon = Taxon::factory()->create([
@@ -202,8 +203,8 @@ class UpdateTaxonTest extends TestCase
         });
     }
 
-    /** @test */
-    public function name_must_be_unique_among_roots()
+    #[Test]
+    public function name_must_be_unique_among_roots(): void
     {
         Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
         $taxon = Taxon::factory()->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
@@ -237,8 +238,8 @@ class UpdateTaxonTest extends TestCase
         $response->assertJsonValidationErrors('name');
     }
 
-    /** @test */
-    public function checking_unique_name_is_case_insensitive()
+    #[Test]
+    public function checking_unique_name_is_case_insensitive(): void
     {
         Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
         $taxon = Taxon::factory()->create(['name' => 'Plantae', 'parent_id' => null, 'rank' => 'kingdom']);
@@ -255,8 +256,8 @@ class UpdateTaxonTest extends TestCase
         $response->assertJsonValidationErrors('name');
     }
 
-    /** @test */
-    public function name_must_be_unique_within_a_tree()
+    #[Test]
+    public function name_must_be_unique_within_a_tree(): void
     {
         $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
         Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
@@ -275,8 +276,8 @@ class UpdateTaxonTest extends TestCase
         $response->assertJsonValidationErrors('name');
     }
 
-    /** @test */
-    public function same_name_can_be_used_in_different_trees()
+    #[Test]
+    public function same_name_can_be_used_in_different_trees(): void
     {
         $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
         Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
@@ -297,8 +298,8 @@ class UpdateTaxonTest extends TestCase
         $response->assertSuccessful();
     }
 
-    /** @test */
-    public function unique_name_validation_is_ignored_if_using_the_same_name()
+    #[Test]
+    public function unique_name_validation_is_ignored_if_using_the_same_name(): void
     {
         $taxon = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
 
@@ -315,8 +316,8 @@ class UpdateTaxonTest extends TestCase
         $response->assertSuccessful();
     }
 
-    /** @test */
-    public function changing_parent_rebuilds_ancestry_for_descendants()
+    #[Test]
+    public function changing_parent_rebuilds_ancestry_for_descendants(): void
     {
         $oldParent = Taxon::factory()->create(['rank' => 'order', 'name' => 'Wrong']);
         $newParent = Taxon::factory()->create(['rank' => 'order', 'name' => 'Coleoptera']);

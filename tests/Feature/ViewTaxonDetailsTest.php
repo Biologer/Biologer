@@ -2,13 +2,14 @@
 
 namespace Tests\Feature;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Taxon;
 use Tests\TestCase;
 
-class ViewTaxonDetailsTest extends TestCase
+final class ViewTaxonDetailsTest extends TestCase
 {
-    /** @test */
-    public function can_see_basic_taxon_information()
+    #[Test]
+    public function can_see_basic_taxon_information(): void
     {
         $taxon = Taxon::factory()->create([
             'name' => 'Cerambyx cerdo',

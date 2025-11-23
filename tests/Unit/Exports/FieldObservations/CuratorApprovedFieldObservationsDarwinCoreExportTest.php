@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Exports\FieldObservations;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Exports\FieldObservations\CuratorApprovedFieldObservationsDarwinCoreExport;
 use App\Jobs\PerformExport;
 use App\License;
@@ -15,10 +16,10 @@ use Illuminate\Support\Facades\Storage;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class CuratorApprovedFieldObservationsDarwinCoreExportTest extends TestCase
+final class CuratorApprovedFieldObservationsDarwinCoreExportTest extends TestCase
 {
-    /** @test */
-    public function curated_approved_field_observations_are_exported_in_darwin_core_to_a_csv_file()
+    #[Test]
+    public function curated_approved_field_observations_are_exported_in_darwin_core_to_a_csv_file(): void
     {
         Carbon::setTestNow(Carbon::now());
         Storage::fake('local');

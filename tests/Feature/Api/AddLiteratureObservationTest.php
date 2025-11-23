@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\LiteratureObservation;
 use App\LiteratureObservationIdentificationValidity;
 use App\Publication;
@@ -10,7 +11,7 @@ use App\User;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class AddLiteratureObservationTest extends TestCase
+final class AddLiteratureObservationTest extends TestCase
 {
     private function validParams($overrides = [])
     {
@@ -45,16 +46,16 @@ class AddLiteratureObservationTest extends TestCase
         ], $overrides));
     }
 
-    /** @test */
-    public function quest_cannot_submit_literature_observations()
+    #[Test]
+    public function quest_cannot_submit_literature_observations(): void
     {
         $response = $this->postJson('/api/literature-observations', $this->validParams());
 
         $response->assertUnauthorized();
     }
 
-    /** @test */
-    public function regular_authenticated_users_cannot_submit_literature_observations()
+    #[Test]
+    public function regular_authenticated_users_cannot_submit_literature_observations(): void
     {
         Passport::actingAs(User::factory()->create());
 
@@ -63,8 +64,8 @@ class AddLiteratureObservationTest extends TestCase
         $response->assertForbidden();
     }
 
-    /** @test */
-    public function admin_can_submit_literature_observations()
+    #[Test]
+    public function admin_can_submit_literature_observations(): void
     {
         $this->seed('RolesTableSeeder');
         $count = LiteratureObservation::count();

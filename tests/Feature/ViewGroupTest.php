@@ -2,18 +2,19 @@
 
 namespace Tests\Feature;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Taxon;
 use App\ViewGroup;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class ViewGroupTest extends TestCase
+final class ViewGroupTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function get_first_species_in_group()
+    #[Test]
+    public function get_first_species_in_group(): void
     {
         $rootGroup = ViewGroup::factory()->create();
         $group = ViewGroup::factory()->create(['parent_id' => $rootGroup->id]);
@@ -26,8 +27,8 @@ class ViewGroupTest extends TestCase
         $this->assertTrue($groupWithSpecies->firstSpecies->is($species));
     }
 
-    /** @test */
-    public function get_first_species_in_group_that_shows_only_observed_species()
+    #[Test]
+    public function get_first_species_in_group_that_shows_only_observed_species(): void
     {
         $group = ViewGroup::factory()->create([
             'parent_id' => ViewGroup::factory()->create()->id,

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\LiteratureObservation;
 use App\LiteratureObservationIdentificationValidity;
 use App\Observation;
@@ -12,10 +13,10 @@ use App\User;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class UpdateLiteratureObservationTest extends TestCase
+final class UpdateLiteratureObservationTest extends TestCase
 {
-    /** @test */
-    public function guest_cannot_update_observation()
+    #[Test]
+    public function guest_cannot_update_observation(): void
     {
         $literatureObservation = $this->createLiteratureObservation();
 
@@ -24,8 +25,8 @@ class UpdateLiteratureObservationTest extends TestCase
         $response->assertUnauthorized();
     }
 
-    /** @test */
-    public function unauthorized_user_cannot_update_observation()
+    #[Test]
+    public function unauthorized_user_cannot_update_observation(): void
     {
         $literatureObservation = $this->createLiteratureObservation();
 
@@ -35,8 +36,8 @@ class UpdateLiteratureObservationTest extends TestCase
         $response->assertForbidden();
     }
 
-    /** @test */
-    public function admin_can_update_literature_observations()
+    #[Test]
+    public function admin_can_update_literature_observations(): void
     {
         $this->seed('RolesTableSeeder');
         $literatureObservation = $this->createLiteratureObservation();

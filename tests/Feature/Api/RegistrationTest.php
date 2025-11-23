@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\ImageLicense;
 use App\License;
 use App\User;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Passport\ClientRepository;
 use Tests\TestCase;
 
-class RegistrationTest extends TestCase
+final class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -28,8 +29,8 @@ class RegistrationTest extends TestCase
         );
     }
 
-    /** @test */
-    public function can_register_user_through_api()
+    #[Test]
+    public function can_register_user_through_api(): void
     {
         Event::fake();
 
@@ -60,8 +61,8 @@ class RegistrationTest extends TestCase
         });
     }
 
-    /** @test */
-    public function needs_valid_client_secret()
+    #[Test]
+    public function needs_valid_client_secret(): void
     {
         $this->postJson('/api/register', [
             'client_id' => $this->passwordClient->id,
@@ -77,8 +78,8 @@ class RegistrationTest extends TestCase
         $this->assertFalse(User::where('email', 'test@example.com')->exists());
     }
 
-    /** @test */
-    public function signature_is_not_checked_if_client_is_not_valid()
+    #[Test]
+    public function signature_is_not_checked_if_client_is_not_valid(): void
     {
         $this->postJson('/api/register', [
             'client_id' => 'invalid',
@@ -94,8 +95,8 @@ class RegistrationTest extends TestCase
         $this->assertFalse(User::where('email', 'test@example.com')->exists());
     }
 
-    /** @test */
-    public function cannot_use_client_that_is_not_password_client()
+    #[Test]
+    public function cannot_use_client_that_is_not_password_client(): void
     {
         $client = app(ClientRepository::class)->create(
             null,

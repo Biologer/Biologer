@@ -2,13 +2,14 @@
 
 namespace Tests\Unit\Importing;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Import;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Tests\FakeImporter;
 use Tests\TestCase;
 
-class ImportingTest extends TestCase
+final class ImportingTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -45,8 +46,8 @@ class ImportingTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_can_parse_csv_file_and_map_the_columns()
+    #[Test]
+    public function it_can_parse_csv_file_and_map_the_columns(): void
     {
         $import = $this->createImport(FakeImporter::class, ['a', 'b', 'c']);
 
@@ -70,8 +71,8 @@ class ImportingTest extends TestCase
         ], json_decode($contents, true));
     }
 
-    /** @test */
-    public function it_can_validate_processed_import_and_pass_if_there_are_not_errors()
+    #[Test]
+    public function it_can_validate_processed_import_and_pass_if_there_are_not_errors(): void
     {
         $import = $this->createImport(FakeImporter::class, ['a', 'b', 'c']);
 
@@ -80,8 +81,8 @@ class ImportingTest extends TestCase
         $this->assertTrue($import->status()->validationPassed());
     }
 
-    /** @test */
-    public function it_can_validate_processed_import_and_fail_if_there_are_errors()
+    #[Test]
+    public function it_can_validate_processed_import_and_fail_if_there_are_errors(): void
     {
         $content = "1,Cerambix cerdo,Note\n2,,Other note\n1,,LastNote";
         $import = $this->createImport(FakeImporter::class, ['a', 'b', 'c'], $content);

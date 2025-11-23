@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Import;
 use App\Importing\ImportStatus;
 use App\Jobs\ProcessImport;
@@ -12,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class ImportingFieldObservationsTest extends TestCase
+final class ImportingFieldObservationsTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -36,8 +38,8 @@ class ImportingFieldObservationsTest extends TestCase
         return $file;
     }
 
-    /** @test */
-    public function guests_are_not_allowed_to_import_observations()
+    #[Test]
+    public function guests_are_not_allowed_to_import_observations(): void
     {
         $this->postJson('/api/field-observation-imports', [
             'columns' => ['latitude', 'longitude', 'elevation', 'year', 'month', 'day', 'taxon'],
@@ -45,8 +47,8 @@ class ImportingFieldObservationsTest extends TestCase
         ])->assertUnauthorized();
     }
 
-    /** @test */
-    public function authenticated_user_can_submit_csv_file_to_import_fied_observations()
+    #[Test]
+    public function authenticated_user_can_submit_csv_file_to_import_fied_observations(): void
     {
         Passport::actingAs(User::factory()->create());
 
@@ -60,8 +62,8 @@ class ImportingFieldObservationsTest extends TestCase
         $this->assertArrayHasKey('id', $response->json());
     }
 
-    /** @test */
-    public function file_is_required_when_submitting()
+    #[Test]
+    public function file_is_required_when_submitting(): void
     {
         Passport::actingAs(User::factory()->make());
 
@@ -73,8 +75,8 @@ class ImportingFieldObservationsTest extends TestCase
         $response->assertJsonValidationErrors(['file']);
     }
 
-    /** @test */
-    public function file_must_be_an_actual_file()
+    #[Test]
+    public function file_must_be_an_actual_file(): void
     {
         Passport::actingAs(User::factory()->make());
 
@@ -86,8 +88,8 @@ class ImportingFieldObservationsTest extends TestCase
         $response->assertJsonValidationErrors(['file']);
     }
 
-    /** @test */
-    public function submitted_file_must_be_csv()
+    #[Test]
+    public function submitted_file_must_be_csv(): void
     {
         Passport::actingAs(User::factory()->make());
 
@@ -97,8 +99,8 @@ class ImportingFieldObservationsTest extends TestCase
         ])->assertJsonValidationErrors(['file']);
     }
 
-    /** @test */
-    public function submitted_file_must_have_at_least_one_row_of_data()
+    #[Test]
+    public function submitted_file_must_have_at_least_one_row_of_data(): void
     {
         Passport::actingAs(User::factory()->make());
 
@@ -108,8 +110,8 @@ class ImportingFieldObservationsTest extends TestCase
         ])->assertJsonValidationErrors(['file']);
     }
 
-    /** @test */
-    public function declaring_columns_of_appropriate_order_is_required()
+    #[Test]
+    public function declaring_columns_of_appropriate_order_is_required(): void
     {
         Passport::actingAs(User::factory()->make());
 
@@ -119,8 +121,8 @@ class ImportingFieldObservationsTest extends TestCase
         ])->assertJsonValidationErrors(['columns']);
     }
 
-    /** @test */
-    public function columns_field_must_be_array_of_columns()
+    #[Test]
+    public function columns_field_must_be_array_of_columns(): void
     {
         Passport::actingAs(User::factory()->make());
 
@@ -130,8 +132,8 @@ class ImportingFieldObservationsTest extends TestCase
         ])->assertJsonValidationErrors(['columns']);
     }
 
-    /** @test */
-    public function required_columns_must_be_declared_as_provided_in_the_file()
+    #[Test]
+    public function required_columns_must_be_declared_as_provided_in_the_file(): void
     {
         Passport::actingAs(User::factory()->make());
 
@@ -141,8 +143,8 @@ class ImportingFieldObservationsTest extends TestCase
         ])->assertJsonValidationErrors(['columns']);
     }
 
-    /** @test */
-    public function processing_is_queued_upon_successful_submition()
+    #[Test]
+    public function processing_is_queued_upon_successful_submition(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -159,8 +161,8 @@ class ImportingFieldObservationsTest extends TestCase
         });
     }
 
-    /** @test */
-    public function user_can_check_the_status_to_see_if_processing_started()
+    #[Test]
+    public function user_can_check_the_status_to_see_if_processing_started(): void
     {
         Passport::actingAs($user = User::factory()->create());
 
@@ -174,8 +176,8 @@ class ImportingFieldObservationsTest extends TestCase
             ->assertJson(['status' => ImportStatus::PROCESSING_QUEUED]);
     }
 
-    /** @test */
-    public function user_cannot_access_someone_elses_import()
+    #[Test]
+    public function user_cannot_access_someone_elses_import(): void
     {
         Passport::actingAs(User::factory()->create());
 
@@ -190,10 +192,10 @@ class ImportingFieldObservationsTest extends TestCase
 
     /**
      * @param  string  $role
-     * @test
-     * @dataProvider roles
      */
-    public function admins_and_curators_can_submit_data_to_be_imported_for_someone_else($role)
+    #[Test]
+    #[DataProvider('roles')]
+    public function admins_and_curators_can_submit_data_to_be_imported_for_someone_else($role): void
     {
         Queue::fake();
         $this->seed('RolesTableSeeder');
@@ -216,7 +218,7 @@ class ImportingFieldObservationsTest extends TestCase
         });
     }
 
-    public function roles()
+    public static function roles(): array
     {
         return [
             ['admin'],
@@ -224,8 +226,8 @@ class ImportingFieldObservationsTest extends TestCase
         ];
     }
 
-    /** @test */
-    public function user_that_should_be_owner_must_exist()
+    #[Test]
+    public function user_that_should_be_owner_must_exist(): void
     {
         Queue::fake();
 
@@ -238,8 +240,8 @@ class ImportingFieldObservationsTest extends TestCase
         ])->assertJsonValidationErrors('user_id');
     }
 
-    /** @test */
-    public function contributor_cannot_sumbit_import_for_someone_else()
+    #[Test]
+    public function contributor_cannot_sumbit_import_for_someone_else(): void
     {
         Queue::fake();
 

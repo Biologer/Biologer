@@ -2,13 +2,14 @@
 
 namespace Tests\Feature;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\User;
 use Tests\TestCase;
 
-class ChangePreferencesTest extends TestCase
+final class ChangePreferencesTest extends TestCase
 {
-    /** @test */
-    public function can_change_license_preferences()
+    #[Test]
+    public function can_change_license_preferences(): void
     {
         $user = User::factory()->create([
             'settings' => [
@@ -34,8 +35,8 @@ class ChangePreferencesTest extends TestCase
         ], $newSettings);
     }
 
-    /** @test */
-    public function can_see_license_preferences_page()
+    #[Test]
+    public function can_see_license_preferences_page(): void
     {
         $this->withoutExceptionHandling();
         $user = User::factory()->create();

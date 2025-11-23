@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Console\Commands;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\ConservationLegislation;
 use App\RedList;
 use App\Taxon;
@@ -10,10 +11,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class ImportTaxaTest extends TestCase
+final class ImportTaxaTest extends TestCase
 {
-    /** @test */
-    public function can_import_taxa_from_a_csv_file()
+    #[Test]
+    public function can_import_taxa_from_a_csv_file(): void
     {
         $redList = RedList::factory()->create();
         $conservationLegislation = ConservationLegislation::factory()->create();
@@ -50,8 +51,8 @@ class ImportTaxaTest extends TestCase
         $this->assertTrue($taxonConservationLegislations->contains($conservationLegislation));
     }
 
-    /** @test */
-    public function can_handle_duplicate_names_in_same_tree()
+    #[Test]
+    public function can_handle_duplicate_names_in_same_tree(): void
     {
         $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
         Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
@@ -78,8 +79,8 @@ class ImportTaxaTest extends TestCase
         $this->assertEquals('Cerambyx cerdo', $taxon->name);
     }
 
-    /** @test */
-    public function can_handle_duplicate_names_in_different_trees()
+    #[Test]
+    public function can_handle_duplicate_names_in_different_trees(): void
     {
         $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
         $animalSpecies = Taxon::factory()->create([
@@ -125,8 +126,8 @@ class ImportTaxaTest extends TestCase
         $this->assertNull($plantSpecies->translateOrNew('en')->native_name);
     }
 
-    /** @test */
-    public function can_compose_name_from_fragments()
+    #[Test]
+    public function can_compose_name_from_fragments(): void
     {
         $path = $this->createTempFile("genus,species,subspecies\nCerambyx,cerdo,cerdo");
 
@@ -140,8 +141,8 @@ class ImportTaxaTest extends TestCase
         $this->assertDatabaseHas('taxa', ['name' => 'Cerambyx cerdo cerdo', 'rank' => 'subspecies']);
     }
 
-    /** @test */
-    public function can_chunk_reading_lines_from_csv_file()
+    #[Test]
+    public function can_chunk_reading_lines_from_csv_file(): void
     {
         $path = $this->createTempFile("genus,species,subspecies\nCerambyx,cerdo,cerdo\nCerambyx,scopolii,");
 
@@ -158,8 +159,8 @@ class ImportTaxaTest extends TestCase
         $this->assertDatabaseHas('taxa', ['name' => 'Cerambyx scopolii', 'rank' => 'species']);
     }
 
-    /** @test */
-    public function user_can_be_attributed_as_creator_of_the_tree()
+    #[Test]
+    public function user_can_be_attributed_as_creator_of_the_tree(): void
     {
         $user = User::factory()->create(['first_name' => 'John', 'last_name' => 'Doe']);
         $path = $this->createTempFile("species\nCerambyx cerdo");

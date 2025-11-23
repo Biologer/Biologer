@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Exports\FieldObservations;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Exports\FieldObservations\ContributorFieldObservationsCustomExport;
 use App\Jobs\PerformExport;
 use App\License;
@@ -14,10 +15,10 @@ use Illuminate\Support\Facades\Storage;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class ContributorFieldObservationsCustomExportTest extends TestCase
+final class ContributorFieldObservationsCustomExportTest extends TestCase
 {
-    /** @test */
-    public function contributors_field_observations_are_exported_to_a_csv_file()
+    #[Test]
+    public function contributors_field_observations_are_exported_to_a_csv_file(): void
     {
         Carbon::setTestNow(Carbon::now());
         Storage::fake('local');

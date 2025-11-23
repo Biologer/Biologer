@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Importing;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\DEM\Reader as DEMReader;
 use App\Import;
 use App\Importing\LiteratureObservationImport;
@@ -14,7 +15,7 @@ use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class LiteratureObservationImportTest extends TestCase
+final class LiteratureObservationImportTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -24,8 +25,8 @@ class LiteratureObservationImportTest extends TestCase
         $this->seed('StagesTableSeeder');
     }
 
-    /** @test */
-    public function it_can_store_processed_and_validated_import()
+    #[Test]
+    public function it_can_store_processed_and_validated_import(): void
     {
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = User::factory()->create();
@@ -80,8 +81,8 @@ class LiteratureObservationImportTest extends TestCase
     }
 
 
-    /** @test */
-    public function if_elevation_is_missing_try_using_dem_reader_to_get_elevation()
+    #[Test]
+    public function if_elevation_is_missing_try_using_dem_reader_to_get_elevation(): void
     {
         Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = User::factory()->create();
@@ -241,8 +242,8 @@ class LiteratureObservationImportTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function georeferenced_date_is_normalized_before_storing_it()
+    #[Test]
+    public function georeferenced_date_is_normalized_before_storing_it(): void
     {
         Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = User::factory()->create();
@@ -261,8 +262,8 @@ class LiteratureObservationImportTest extends TestCase
         $this->assertEquals('2010-06-12', $literatureObservation->georeferenced_date->toDateString());
     }
 
-    /** @test */
-    public function observations_owner_can_be_selected()
+    #[Test]
+    public function observations_owner_can_be_selected(): void
     {
         Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = User::factory()->create();

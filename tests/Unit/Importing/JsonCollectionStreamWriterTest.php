@@ -2,11 +2,12 @@
 
 namespace Tests\Unit\Importing;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Importing\JsonCollectionStreamWriter;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\TestCase;
 
-class JsonCollectionStreamWriterTest extends TestCase
+final class JsonCollectionStreamWriterTest extends TestCase
 {
     /**
      * Path of the written file.
@@ -35,8 +36,8 @@ class JsonCollectionStreamWriterTest extends TestCase
         parent::tearDown();
     }
 
-    /** @test */
-    public function it_can_write_json_collections_to_given_path()
+    #[Test]
+    public function it_can_write_json_collections_to_given_path(): void
     {
         $writer = new JsonCollectionStreamWriter($this->path);
 
@@ -56,8 +57,8 @@ class JsonCollectionStreamWriterTest extends TestCase
         $this->assertEquals('[{"id":1},{"id":2},{"id":3}]', file_get_contents($this->path));
     }
 
-    /** @test */
-    public function it_closes_unclosed_collection_when_destructing()
+    #[Test]
+    public function it_closes_unclosed_collection_when_destructing(): void
     {
         $writer = new JsonCollectionStreamWriter($this->path);
 

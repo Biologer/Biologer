@@ -2,18 +2,17 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Publication;
 use App\PublicationType;
 use App\User;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class AddPublicationTest extends TestCase
+final class AddPublicationTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function guest_cannot_add_publication()
+    #[Test]
+    public function guest_cannot_add_publication(): void
     {
         $count = Publication::count();
         $response = $this->postJson('/api/publications', $this->validBookChapter());
@@ -22,10 +21,8 @@ class AddPublicationTest extends TestCase
         Publication::assertCount($count);
     }
 
-    /**
-     * @test
-     */
-    public function unauthorized_user_cannot_add_publication()
+    #[Test]
+    public function unauthorized_user_cannot_add_publication(): void
     {
         $count = Publication::count();
         Passport::actingAs(User::factory()->create());
@@ -35,10 +32,8 @@ class AddPublicationTest extends TestCase
         Publication::assertCount($count);
     }
 
-    /**
-     * @test
-     */
-    public function authorized_user_can_add_new_book()
+    #[Test]
+    public function authorized_user_can_add_new_book(): void
     {
         $this->seed('RolesTableSeeder');
         Passport::actingAs($user = User::factory()->create()->assignRoles('admin'));
@@ -79,10 +74,8 @@ class AddPublicationTest extends TestCase
         $this->assertTrue($publication->createdBy->is($user));
     }
 
-    /**
-     * @test
-     */
-    public function citation_can_be_determined_dinamically_based_on_available_data_if_left_empty()
+    #[Test]
+    public function citation_can_be_determined_dinamically_based_on_available_data_if_left_empty(): void
     {
         $this->handleValidationExceptions();
         $this->seed('RolesTableSeeder');
@@ -97,10 +90,8 @@ class AddPublicationTest extends TestCase
         $this->assertEquals('Author M. (2019). Title of Paper. In Editor J. (Ed.). Some Book (2ed, 30-140p). Kragujevac: University of Kragujevac. 1234567', $publication->citation);
     }
 
-    /**
-     * @test
-     */
-    public function generating_citation_is_properly_using_multibyte_strings()
+    #[Test]
+    public function generating_citation_is_properly_using_multibyte_strings(): void
     {
         $this->handleValidationExceptions();
         $this->seed('RolesTableSeeder');

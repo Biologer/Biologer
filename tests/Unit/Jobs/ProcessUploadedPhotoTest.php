@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Jobs;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Jobs\ProcessUploadedPhoto;
 use App\Photo;
 use Illuminate\Http\Testing\File;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class ProcessUploadedPhotoTest extends TestCase
+final class ProcessUploadedPhotoTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -20,8 +21,8 @@ class ProcessUploadedPhotoTest extends TestCase
         Storage::fake(config('biologer.photos_disk'));
     }
 
-    /** @test */
-    public function it_resizes_landscape_image_by_width_while_keeping_aspect_ratio()
+    #[Test]
+    public function it_resizes_landscape_image_by_width_while_keeping_aspect_ratio(): void
     {
         $path = File::image(Str::random().'.jpg', 1600, 1200)->store('photos', [
             'disk' => config('biologer.photos_disk'),
@@ -35,8 +36,8 @@ class ProcessUploadedPhotoTest extends TestCase
         $this->assertEquals(600, $height);
     }
 
-    /** @test */
-    public function it_resizes_portrait_image_by_height_while_keeping_aspect_ratio()
+    #[Test]
+    public function it_resizes_portrait_image_by_height_while_keeping_aspect_ratio(): void
     {
         $path = File::image('test-image.jpg', 1200, 1600)->store('photos', [
             'disk' => config('biologer.photos_disk'),
@@ -50,8 +51,8 @@ class ProcessUploadedPhotoTest extends TestCase
         $this->assertEquals(800, $height);
     }
 
-    /** @test */
-    public function it_does_not_resize_the_image_if_there_is_no_need_to_do_so()
+    #[Test]
+    public function it_does_not_resize_the_image_if_there_is_no_need_to_do_so(): void
     {
         $path = File::image('test-image.jpg', 500, 400)->store('photos', [
             'disk' => config('biologer.photos_disk'),
@@ -65,8 +66,8 @@ class ProcessUploadedPhotoTest extends TestCase
         $this->assertEquals(400, $height);
     }
 
-    /** @test */
-    public function it_crops_image_if_cropping_information_is_provided()
+    #[Test]
+    public function it_crops_image_if_cropping_information_is_provided(): void
     {
         $path = File::image('test-image.jpg', 500, 400)->store('photos', [
             'disk' => config('biologer.photos_disk'),

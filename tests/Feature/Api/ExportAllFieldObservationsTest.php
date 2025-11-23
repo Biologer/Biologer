@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Exports\FieldObservations\CustomFieldObservationsExport;
 use App\Exports\FieldObservations\DarwinCoreFieldObservationsExport;
 use App\Jobs\PerformExport;
@@ -10,10 +11,10 @@ use Illuminate\Support\Facades\Queue;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class ExportAllFieldObservationsTest extends TestCase
+final class ExportAllFieldObservationsTest extends TestCase
 {
-    /** @test */
-    public function admin_can_export_all_observations()
+    #[Test]
+    public function admin_can_export_all_observations(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -34,8 +35,8 @@ class ExportAllFieldObservationsTest extends TestCase
         });
     }
 
-    /** @test */
-    public function admin_can_export_all_observations_in_darwin_core_format()
+    #[Test]
+    public function admin_can_export_all_observations_in_darwin_core_format(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -54,8 +55,8 @@ class ExportAllFieldObservationsTest extends TestCase
         });
     }
 
-    /** @test */
-    public function type_is_required()
+    #[Test]
+    public function type_is_required(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -66,8 +67,8 @@ class ExportAllFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    /** @test */
-    public function type_must_be_valid()
+    #[Test]
+    public function type_must_be_valid(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -80,8 +81,8 @@ class ExportAllFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    /** @test */
-    public function columns_are_required_to_perform_custom_export()
+    #[Test]
+    public function columns_are_required_to_perform_custom_export(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -94,8 +95,8 @@ class ExportAllFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    /** @test */
-    public function columns_parameter_must_be_an_array()
+    #[Test]
+    public function columns_parameter_must_be_an_array(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -109,8 +110,8 @@ class ExportAllFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    /** @test */
-    public function columns_parameter_contain_at_least_one_column()
+    #[Test]
+    public function columns_parameter_contain_at_least_one_column(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -124,8 +125,8 @@ class ExportAllFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    /** @test */
-    public function columns_are_supported()
+    #[Test]
+    public function columns_are_supported(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());

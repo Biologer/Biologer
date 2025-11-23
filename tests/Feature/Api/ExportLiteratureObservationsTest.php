@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Exports\LiteratureObservations\CustomLiteratureObservationsExport;
 use App\Jobs\PerformExport;
 use App\User;
@@ -9,10 +10,10 @@ use Illuminate\Support\Facades\Queue;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class ExportLiteratureObservationsTest extends TestCase
+final class ExportLiteratureObservationsTest extends TestCase
 {
-    /** @test */
-    public function admin_can_export_all_observations()
+    #[Test]
+    public function admin_can_export_all_observations(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -33,8 +34,8 @@ class ExportLiteratureObservationsTest extends TestCase
         });
     }
 
-    /** @test */
-    public function type_is_required()
+    #[Test]
+    public function type_is_required(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -45,8 +46,8 @@ class ExportLiteratureObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    /** @test */
-    public function type_must_be_valid()
+    #[Test]
+    public function type_must_be_valid(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -59,8 +60,8 @@ class ExportLiteratureObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    /** @test */
-    public function columns_are_required_to_perform_custom_export()
+    #[Test]
+    public function columns_are_required_to_perform_custom_export(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -73,8 +74,8 @@ class ExportLiteratureObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    /** @test */
-    public function columns_parameter_must_be_an_array()
+    #[Test]
+    public function columns_parameter_must_be_an_array(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -88,8 +89,8 @@ class ExportLiteratureObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    /** @test */
-    public function columns_parameter_contain_at_least_one_column()
+    #[Test]
+    public function columns_parameter_contain_at_least_one_column(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());
@@ -103,8 +104,8 @@ class ExportLiteratureObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    /** @test */
-    public function columns_are_supported()
+    #[Test]
+    public function columns_are_supported(): void
     {
         Queue::fake();
         Passport::actingAs($user = User::factory()->create());

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Exports\FieldObservations\ContributorFieldObservationsCustomExport;
 use App\Taxon;
 use App\User;
@@ -10,10 +11,10 @@ use Illuminate\Support\Facades\Storage;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class ExportDownloadTest extends TestCase
+final class ExportDownloadTest extends TestCase
 {
-    /** @test */
-    public function authenticated_user_can_download_their_export()
+    #[Test]
+    public function authenticated_user_can_download_their_export(): void
     {
         $this->actingAs($user = User::factory()->create());
         $export = $this->performExportFor($user);
@@ -30,8 +31,8 @@ class ExportDownloadTest extends TestCase
         );
     }
 
-    /** @test */
-    public function guest_gets_unauthorized_response()
+    #[Test]
+    public function guest_gets_unauthorized_response(): void
     {
         $this->actingAs($user = User::factory()->create());
         $export = $this->performExportFor($user);
@@ -42,8 +43,8 @@ class ExportDownloadTest extends TestCase
         $response->assertRedirect('/login');
     }
 
-    /** @test */
-    public function authenticated_user_cannot_download_other_users_export()
+    #[Test]
+    public function authenticated_user_cannot_download_other_users_export(): void
     {
         $this->actingAs($user = User::factory()->create());
         $export = $this->performExportFor($user);

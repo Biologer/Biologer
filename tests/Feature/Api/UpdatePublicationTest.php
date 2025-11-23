@@ -2,18 +2,17 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Publication;
 use App\PublicationType;
 use App\User;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class UpdatePublicationTest extends TestCase
+final class UpdatePublicationTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function guest_cannot_update_publication()
+    #[Test]
+    public function guest_cannot_update_publication(): void
     {
         $publication = Publication::factory()->create();
         $response = $this->putJson("/api/publications/{$publication->id}", $this->validPaper());
@@ -21,10 +20,8 @@ class UpdatePublicationTest extends TestCase
         $response->assertUnauthorized();
     }
 
-    /**
-     * @test
-     */
-    public function unauthorized_user_cannot_update_publication()
+    #[Test]
+    public function unauthorized_user_cannot_update_publication(): void
     {
         $publication = Publication::factory()->create();
         Passport::actingAs(User::factory()->create());
@@ -33,10 +30,8 @@ class UpdatePublicationTest extends TestCase
         $response->assertForbidden();
     }
 
-    /**
-     * @test
-     */
-    public function authorized_user_can_update_publication()
+    #[Test]
+    public function authorized_user_can_update_publication(): void
     {
         $publication = Publication::factory()->create();
         $this->seed('RolesTableSeeder');
@@ -61,10 +56,8 @@ class UpdatePublicationTest extends TestCase
         $this->assertEquals('Custom Citation', $publication->citation);
     }
 
-    /**
-     * @test
-     */
-    public function citation_can_be_determined_dinamically_based_on_available_data_if_left_empty()
+    #[Test]
+    public function citation_can_be_determined_dinamically_based_on_available_data_if_left_empty(): void
     {
         $publication = Publication::factory()->create();
         $this->seed('RolesTableSeeder');

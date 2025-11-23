@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Jobs;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\FieldObservation;
 use App\Import;
 use App\Importing\FieldObservationImport;
@@ -12,7 +13,7 @@ use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class ProcessImportTest extends TestCase
+final class ProcessImportTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -38,8 +39,8 @@ class ProcessImportTest extends TestCase
         return $file;
     }
 
-    /** @test */
-    public function it_can_perform_processing_of_field_observation_import()
+    #[Test]
+    public function it_can_perform_processing_of_field_observation_import(): void
     {
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = User::factory()->create();

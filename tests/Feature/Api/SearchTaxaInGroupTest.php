@@ -2,16 +2,17 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Taxon;
 use App\User;
 use App\ViewGroup;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class SearchTaxaInGroupTest extends TestCase
+final class SearchTaxaInGroupTest extends TestCase
 {
-    /** @test */
-    public function can_find_taxa_in_group_by_name_with_id_of_first_species()
+    #[Test]
+    public function can_find_taxa_in_group_by_name_with_id_of_first_species(): void
     {
         $group = ViewGroup::factory()->create([
             'parent_id' => ViewGroup::factory(),

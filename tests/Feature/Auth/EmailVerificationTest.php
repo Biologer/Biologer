@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Config;
@@ -10,23 +11,23 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
-class EmailVerificationTest extends TestCase
+final class EmailVerificationTest extends TestCase
 {
     protected function setUp(): void
     {
         parent::setUp();
     }
 
-    /** @test */
-    public function show_page_to_request_email_verification_link()
+    #[Test]
+    public function show_page_to_request_email_verification_link(): void
     {
         $this->actingAs(
             User::factory()->unverified()->create()
         )->get('/email/verify')->assertSee(__('Verify Your Email Address'));
     }
 
-    /** @test */
-    public function can_resend_verification_email()
+    #[Test]
+    public function can_resend_verification_email(): void
     {
         Notification::fake();
 
@@ -42,8 +43,8 @@ class EmailVerificationTest extends TestCase
         Notification::assertSentToTimes($user, VerifyEmail::class, 1);
     }
 
-    /** @test */
-    public function verify_email_of_user_that_is_logged_in()
+    #[Test]
+    public function verify_email_of_user_that_is_logged_in(): void
     {
         $user = User::factory()->unverified()->create();
 
@@ -55,8 +56,8 @@ class EmailVerificationTest extends TestCase
             ->assertSessionHas('verified', true);
     }
 
-    /** @test */
-    public function verify_email_of_user_that_is_not_logged_in()
+    #[Test]
+    public function verify_email_of_user_that_is_not_logged_in(): void
     {
         $user = User::factory()->unverified()->create();
 
@@ -67,8 +68,8 @@ class EmailVerificationTest extends TestCase
             ->assertSessionHas('verified', true);
     }
 
-    /** @test */
-    public function cannot_verify_email_using_some_elses_link_when_logged_in()
+    #[Test]
+    public function cannot_verify_email_using_some_elses_link_when_logged_in(): void
     {
         $user = User::factory()->unverified()->create();
 

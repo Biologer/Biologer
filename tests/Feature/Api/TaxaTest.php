@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Taxon;
 use App\User;
 use App\ViewGroup;
@@ -9,10 +10,10 @@ use Illuminate\Support\Carbon;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class TaxaTest extends TestCase
+final class TaxaTest extends TestCase
 {
-    /** @test */
-    public function can_fetch_list_of_taxa()
+    #[Test]
+    public function can_fetch_list_of_taxa(): void
     {
         $taxa = Taxon::factory(5)->create();
         Passport::actingAs(User::factory()->make());
@@ -31,8 +32,8 @@ class TaxaTest extends TestCase
         });
     }
 
-    /** @test */
-    public function can_fetch_paginated_list_of_taxa()
+    #[Test]
+    public function can_fetch_paginated_list_of_taxa(): void
     {
         Taxon::factory(5)->create();
         Passport::actingAs(User::factory()->make());
@@ -47,8 +48,8 @@ class TaxaTest extends TestCase
         $this->assertCount(2, $response->json('data'));
     }
 
-    /** @test */
-    public function can_exclude_taxa_with_provided_ids()
+    #[Test]
+    public function can_exclude_taxa_with_provided_ids(): void
     {
         $taxa = Taxon::factory(5)->create();
         Passport::actingAs(User::factory()->make());
@@ -62,8 +63,8 @@ class TaxaTest extends TestCase
         $this->assertCount(Taxon::count() - 2, $response->json('data'));
     }
 
-    /** @test */
-    public function can_get_only_taxa_updated_after_given_timestamp()
+    #[Test]
+    public function can_get_only_taxa_updated_after_given_timestamp(): void
     {
         Carbon::setTestNow($yesterday = Carbon::yesterday());
         $taxa = Taxon::factory(5)->create();
@@ -86,8 +87,8 @@ class TaxaTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function filtering_by_rank()
+    #[Test]
+    public function filtering_by_rank(): void
     {
         $genus = Taxon::factory()->create(['name' => 'Cerambyx', 'rank' => 'genus']);
         $species = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species', 'parent_id' => $genus->id]);
@@ -108,8 +109,8 @@ class TaxaTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function filtering_by_name_and_id()
+    #[Test]
+    public function filtering_by_name_and_id(): void
     {
         $cerdo = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
         $scopolii = Taxon::factory()->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
@@ -135,8 +136,8 @@ class TaxaTest extends TestCase
         $response->assertJsonMissing(['id' => $scopolii->id]);
     }
 
-    /** @test */
-    public function filtering_by_groups()
+    #[Test]
+    public function filtering_by_groups(): void
     {
         $cerdo = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
         $scopolii = Taxon::factory()->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
@@ -162,8 +163,8 @@ class TaxaTest extends TestCase
         $response->assertJsonMissing(['id' => $scopolii->id]);
     }
 
-    /** @test */
-    public function filtering_by_not_being_in_any_group()
+    #[Test]
+    public function filtering_by_not_being_in_any_group(): void
     {
         $cerdo = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
         $scopolii = Taxon::factory()->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
@@ -187,8 +188,8 @@ class TaxaTest extends TestCase
         $response->assertJsonMissing(['id' => $cerdo->id]);
     }
 
-    /** @test */
-    public function filtering_both_in_group_and_ungrouped()
+    #[Test]
+    public function filtering_both_in_group_and_ungrouped(): void
     {
         $cerdo = Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'rank' => 'species']);
         $scopolii = Taxon::factory()->create(['name' => 'Cerambyx scopolii', 'rank' => 'species']);
@@ -213,8 +214,8 @@ class TaxaTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function include_groups_ids()
+    #[Test]
+    public function include_groups_ids(): void
     {
         $cerambyx = Taxon::factory()->create(['name' => 'Cerambyx', 'rank' => 'genus']);
         $cerambyxScopolii = Taxon::factory()->create(['name' => 'Cerambyx scopolii', 'rank' => 'species', 'parent_id' => $cerambyx->id]);

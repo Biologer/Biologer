@@ -2,15 +2,16 @@
 
 namespace Tests\Feature;
 
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class CleaningOldUploads extends TestCase
+final class CleaningOldUploads extends TestCase
 {
-    /** @test */
-    public function can_remove_old_uploaded_files()
+    #[Test]
+    public function can_remove_old_uploaded_files(): void
     {
         Storage::fake('public');
         $path = Storage::disk('public')->put('uploads', File::image('test.jpg'));

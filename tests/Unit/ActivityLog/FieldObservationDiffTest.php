@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\ActivityLog;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\ActivityLog\FieldObservationDiff;
 use App\FieldObservation;
 use App\License;
@@ -10,12 +11,10 @@ use App\Stage;
 use App\Taxon;
 use Tests\TestCase;
 
-class FieldObservationDiffTest extends TestCase
+final class FieldObservationDiffTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function logs_changes_to_general_data()
+    #[Test]
+    public function logs_changes_to_general_data(): void
     {
         foreach ($this->generalDataProvider() as $index => $data) {
             list($attribute, $oldValue, $newValue, $expected) = $data;
@@ -42,10 +41,8 @@ class FieldObservationDiffTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
-    public function logs_changes_to_specific_data()
+    #[Test]
+    public function logs_changes_to_specific_data(): void
     {
         foreach ($this->specificDataProvider() as $data) {
             list($attribute, $oldValue, $newValue, $expected) = $data;

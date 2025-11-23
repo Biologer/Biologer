@@ -2,16 +2,17 @@
 
 namespace Tests\Unit\Support;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Support\Exif;
 use PHPUnit\Framework\TestCase;
 use Tests\CustomAssertArraySubset;
 
-class ExifTest extends TestCase
+final class ExifTest extends TestCase
 {
     use CustomAssertArraySubset;
 
-    /** @test */
-    public function can_extract_date_time_data()
+    #[Test]
+    public function can_extract_date_time_data(): void
     {
         $exif = new Exif([
             'DateTimeOriginal' => '2018:01:01 10:00:00',
@@ -25,8 +26,8 @@ class ExifTest extends TestCase
         ], $exif->format());
     }
 
-    /** @test */
-    public function can_extract_gps_data()
+    #[Test]
+    public function can_extract_gps_data(): void
     {
         $exif = new Exif([
             'GPSLatitude' => ['46/1', '5403/100', '0/1'],
@@ -45,8 +46,8 @@ class ExifTest extends TestCase
         ], $exif->format());
     }
 
-    /** @test */
-    public function handles_devision_by_zero_in_decimal_number_definitions()
+    #[Test]
+    public function handles_devision_by_zero_in_decimal_number_definitions(): void
     {
         $exif = new Exif([
             'GPSLatitude' => ['46/1', '5403/0', '0/1'], // Minutes devided

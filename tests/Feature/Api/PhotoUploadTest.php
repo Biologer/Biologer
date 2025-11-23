@@ -2,16 +2,17 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class PhotoUploadTest extends TestCase
+final class PhotoUploadTest extends TestCase
 {
-    /** @test */
-    public function authenticated_user_can_upload_photo()
+    #[Test]
+    public function authenticated_user_can_upload_photo(): void
     {
         Storage::fake('public');
         Passport::actingAs($user = User::factory()->create());
@@ -25,24 +26,24 @@ class PhotoUploadTest extends TestCase
         Storage::disk('public')->assertExists("uploads/{$user->id}/{$response->json('file')}");
     }
 
-    /** @test */
-    public function unauthenticated_user_cannot_upload_photo()
+    #[Test]
+    public function unauthenticated_user_cannot_upload_photo(): void
     {
         $this->postJson('/api/uploads/photos', [
             'file' => File::image('test-image.jpg', 800, 600)->size(200),
         ])->assertUnauthorized();
     }
 
-    /** @test */
-    public function file_is_required()
+    #[Test]
+    public function file_is_required(): void
     {
         Passport::actingAs(User::factory()->make());
 
         $this->postJson('/api/uploads/photos', [])->assertJsonValidationErrors('file');
     }
 
-    /** @test */
-    public function uploaded_file_must_be_image()
+    #[Test]
+    public function uploaded_file_must_be_image(): void
     {
         Passport::actingAs(User::factory()->make());
 
@@ -51,8 +52,8 @@ class PhotoUploadTest extends TestCase
         ])->assertJsonValidationErrors('file');
     }
 
-    /** @test */
-    public function image_cannot_be_larger_than_max_configured_size()
+    #[Test]
+    public function image_cannot_be_larger_than_max_configured_size(): void
     {
         config(['biologer.max_upload_size' => 2048]);
 
@@ -63,8 +64,8 @@ class PhotoUploadTest extends TestCase
         ])->assertJsonValidationErrors('file');
     }
 
-    /** @test */
-    public function authenticated_user_can_remove_own_photos()
+    #[Test]
+    public function authenticated_user_can_remove_own_photos(): void
     {
         Storage::fake('public');
         Passport::actingAs($user = User::factory()->make());
@@ -81,8 +82,8 @@ class PhotoUploadTest extends TestCase
         Storage::disk('public')->assertMissing("uploads/{$user->id}/test-image.jpg");
     }
 
-    /** @test */
-    public function user_cannot_remove_photos_uploaded_by_others()
+    #[Test]
+    public function user_cannot_remove_photos_uploaded_by_others(): void
     {
         Storage::fake('public');
         Passport::actingAs(User::factory()->create());

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Importing;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\DEM\Reader as DEMReader;
 use App\FieldObservation;
 use App\Import;
@@ -13,7 +14,7 @@ use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class FieldObservationImportTest extends TestCase
+final class FieldObservationImportTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -23,8 +24,8 @@ class FieldObservationImportTest extends TestCase
         $this->seed('StagesTableSeeder');
     }
 
-    /** @test */
-    public function it_can_store_processed_and_validated_import()
+    #[Test]
+    public function it_can_store_processed_and_validated_import(): void
     {
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = User::factory()->create();
@@ -68,8 +69,8 @@ class FieldObservationImportTest extends TestCase
         $this->assertTrue($fieldObservation->identifiedBy->is($user));
     }
 
-    /** @test */
-    public function it_can_store_processed_and_validated_import_including_given_observer_and_identifier_when_admin_is_importing()
+    #[Test]
+    public function it_can_store_processed_and_validated_import_including_given_observer_and_identifier_when_admin_is_importing(): void
     {
         $this->seed('RolesTableSeeder');
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
@@ -115,8 +116,8 @@ class FieldObservationImportTest extends TestCase
         $this->assertEquals(License::CLOSED, $fieldObservation->license);
     }
 
-    /** @test */
-    public function if_original_identification_is_not_given_use_the_taxon_name()
+    #[Test]
+    public function if_original_identification_is_not_given_use_the_taxon_name(): void
     {
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = User::factory()->create();
@@ -133,8 +134,8 @@ class FieldObservationImportTest extends TestCase
         $this->assertEquals('Cerambyx cerdo', $fieldObservation->observation->original_identification);
     }
 
-    /** @test */
-    public function if_elevation_is_missing_try_using_dem_reader_to_get_elevation()
+    #[Test]
+    public function if_elevation_is_missing_try_using_dem_reader_to_get_elevation(): void
     {
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = User::factory()->create();
@@ -158,8 +159,8 @@ class FieldObservationImportTest extends TestCase
         $this->assertEquals(300, $fieldObservation->observation->elevation);
     }
 
-    /** @test */
-    public function if_submitted_by_curator_observations_of_taxa_they_curate_can_be_approved()
+    #[Test]
+    public function if_submitted_by_curator_observations_of_taxa_they_curate_can_be_approved(): void
     {
         $this->seed('RolesTableSeeder');
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
@@ -181,8 +182,8 @@ class FieldObservationImportTest extends TestCase
         $this->assertTrue($fieldObservation->activity->first()->causer->is($user));
     }
 
-    /** @test */
-    public function if_submitted_by_curator_observations_of_taxa_they_dont_curate_cannot_be_approved()
+    #[Test]
+    public function if_submitted_by_curator_observations_of_taxa_they_dont_curate_cannot_be_approved(): void
     {
         $this->seed('RolesTableSeeder');
         Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
@@ -202,8 +203,8 @@ class FieldObservationImportTest extends TestCase
         $this->assertEquals('created', $fieldObservation->activity->first()->description);
     }
 
-    /** @test */
-    public function cannot_be_approved_if_submitted_by_non_curators()
+    #[Test]
+    public function cannot_be_approved_if_submitted_by_non_curators(): void
     {
         Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
         $user = User::factory()->create();

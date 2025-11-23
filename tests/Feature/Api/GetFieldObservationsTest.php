@@ -2,16 +2,17 @@
 
 namespace Tests\Feature\Api;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Taxon;
 use App\User;
 use Laravel\Passport\Passport;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class GetFieldObservationsTest extends TestCase
+final class GetFieldObservationsTest extends TestCase
 {
-    /** @test */
-    public function authenticated_user_can_get_their_field_observations()
+    #[Test]
+    public function authenticated_user_can_get_their_field_observations(): void
     {
         Passport::actingAs($user = User::factory()->create());
 
@@ -32,8 +33,8 @@ class GetFieldObservationsTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_name()
+    #[Test]
+    public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_name(): void
     {
         Passport::actingAs($user = User::factory()->create());
 
@@ -60,8 +61,8 @@ class GetFieldObservationsTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_id()
+    #[Test]
+    public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_id(): void
     {
         Passport::actingAs($user = User::factory()->create());
 
@@ -88,8 +89,8 @@ class GetFieldObservationsTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_id_including_descendants()
+    #[Test]
+    public function authenticated_user_can_get_their_field_observations_filtered_by_taxon_id_including_descendants(): void
     {
         Passport::actingAs($user = User::factory()->create());
 
@@ -129,8 +130,8 @@ class GetFieldObservationsTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function authenticated_user_can_get_their_field_observations_sorted_by_taxon_name()
+    #[Test]
+    public function authenticated_user_can_get_their_field_observations_sorted_by_taxon_name(): void
     {
         Passport::actingAs($user = User::factory()->create());
 
