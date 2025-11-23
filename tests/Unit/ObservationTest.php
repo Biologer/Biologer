@@ -5,13 +5,12 @@ namespace Tests\Unit;
 use App\Observation;
 use App\Photo;
 use Illuminate\Support\Facades\Storage;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
 class ObservationTest extends TestCase
 {
-    #[Test]
+    /** @test */
     public function can_check_if_full_date_is_present()
     {
         list(
@@ -34,7 +33,7 @@ class ObservationTest extends TestCase
         $this->assertFalse($observation4->isDateComplete());
     }
 
-    #[Test]
+    /** @test */
     public function can_be_unnaproved()
     {
         $observation = ObservationFactory::createFieldObservation()->observation;
@@ -46,7 +45,7 @@ class ObservationTest extends TestCase
         $this->assertFalse($observation->isApproved());
     }
 
-    #[Test]
+    /** @test */
     public function updating_observer_updates_author_of_related_photos()
     {
         Storage::fake('public');

@@ -13,12 +13,11 @@ use App\User;
 use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CustomLiteratureObservationsExportTest extends TestCase
 {
-    #[Test]
+    /** @test */
     public function all_literature_observations_are_exported_to_a_csv_file()
     {
         Carbon::setTestNow(Carbon::now());

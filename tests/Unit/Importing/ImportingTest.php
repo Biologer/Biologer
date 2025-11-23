@@ -5,7 +5,6 @@ namespace Tests\Unit\Importing;
 use App\Import;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\FakeImporter;
 use Tests\TestCase;
 
@@ -46,7 +45,7 @@ class ImportingTest extends TestCase
         ]);
     }
 
-    #[Test]
+    /** @test */
     public function it_can_parse_csv_file_and_map_the_columns()
     {
         $import = $this->createImport(FakeImporter::class, ['a', 'b', 'c']);
@@ -71,7 +70,7 @@ class ImportingTest extends TestCase
         ], json_decode($contents, true));
     }
 
-    #[Test]
+    /** @test */
     public function it_can_validate_processed_import_and_pass_if_there_are_not_errors()
     {
         $import = $this->createImport(FakeImporter::class, ['a', 'b', 'c']);
@@ -81,7 +80,7 @@ class ImportingTest extends TestCase
         $this->assertTrue($import->status()->validationPassed());
     }
 
-    #[Test]
+    /** @test */
     public function it_can_validate_processed_import_and_fail_if_there_are_errors()
     {
         $content = "1,Cerambix cerdo,Note\n2,,Other note\n1,,LastNote";

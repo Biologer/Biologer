@@ -5,12 +5,11 @@ namespace Tests\Feature;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CleaningOldUploads extends TestCase
 {
-    #[Test]
+    /** @test */
     public function can_remove_old_uploaded_files()
     {
         Storage::fake('public');

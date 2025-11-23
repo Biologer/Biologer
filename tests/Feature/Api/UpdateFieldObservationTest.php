@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Passport\Passport;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
@@ -56,7 +55,7 @@ class UpdateFieldObservationTest extends TestCase
         ], $overrides);
     }
 
-    #[Test]
+    /** @test */
     public function field_observation_can_be_updated_but_will_return_to_pending_status()
     {
         $this->handleValidationExceptions();
@@ -97,7 +96,7 @@ class UpdateFieldObservationTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function activity_log_entry_is_added_when_field_observation_is_updated()
     {
         Storage::fake('public');
@@ -178,7 +177,7 @@ class UpdateFieldObservationTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function time_is_not_logged_if_not_changed()
     {
         $user = User::factory()->create();
@@ -211,7 +210,7 @@ class UpdateFieldObservationTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function time_is_logged_if_changed()
     {
         $user = User::factory()->create();
@@ -240,7 +239,7 @@ class UpdateFieldObservationTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function field_observation_cannot_be_updated_by_other_regular_user()
     {
         Passport::actingAs(User::factory()->create());
@@ -266,7 +265,7 @@ class UpdateFieldObservationTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function field_observation_can_be_updated_by_admin()
     {
         $admin = User::factory()->create()->assignRoles('admin');
@@ -307,7 +306,7 @@ class UpdateFieldObservationTest extends TestCase
         );
     }
 
-    #[Test]
+    /** @test */
     public function updating_photos()
     {
         Storage::fake('public');
@@ -349,7 +348,7 @@ class UpdateFieldObservationTest extends TestCase
         $this->assertTrue($fieldObservation->photos->contains($existingPhoto));
     }
 
-    #[Test]
+    /** @test */
     public function updating_photo_license()
     {
         Storage::fake('public');
@@ -387,7 +386,7 @@ class UpdateFieldObservationTest extends TestCase
         $this->assertEquals(License::CLOSED, $fieldObservation->photos->first()->license);
     }
 
-    #[Test]
+    /** @test */
     public function either_id_or_path_must_be_given_when_updating_photos()
     {
         Storage::fake('public');
@@ -420,7 +419,7 @@ class UpdateFieldObservationTest extends TestCase
         $response->assertJsonValidationErrors(['photos.0.id', 'photos.0.path']);
     }
 
-    #[Test]
+    /** @test */
     public function admin_can_submit_observer_by_users_id()
     {
         $this->seed('RolesTableSeeder');
@@ -445,7 +444,7 @@ class UpdateFieldObservationTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function admin_can_submit_identifier_by_users_id()
     {
         $this->seed('RolesTableSeeder');

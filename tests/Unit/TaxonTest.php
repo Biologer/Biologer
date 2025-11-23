@@ -4,13 +4,12 @@ namespace Tests\Unit;
 
 use App\Observation;
 use App\Taxon;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
 class TaxonTest extends TestCase
 {
-    #[Test]
+    /** @test */
     public function it_can_have_many_observations()
     {
         $taxon = Taxon::factory()->create();
@@ -25,7 +24,7 @@ class TaxonTest extends TestCase
         $taxon->observations->assertEquals(Observation::all());
     }
 
-    #[Test]
+    /** @test */
     public function it_can_have_many_approved_observations()
     {
         $taxon = Taxon::factory()->create();
@@ -46,7 +45,7 @@ class TaxonTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function it_can_have_many_unapproved_observations()
     {
         $taxon = Taxon::factory()->create();
@@ -67,7 +66,7 @@ class TaxonTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function it_can_list_unique_mgrs_fields_of_approved_observations()
     {
         $taxon = Taxon::factory()->create();
@@ -92,7 +91,7 @@ class TaxonTest extends TestCase
         );
     }
 
-    #[Test]
+    /** @test */
     public function it_can_be_root_taxon()
     {
         $taxon = Taxon::factory()->create([
@@ -102,7 +101,7 @@ class TaxonTest extends TestCase
         $this->assertTrue($taxon->isRoot());
     }
 
-    #[Test]
+    /** @test */
     public function it_can_be_child_of_another_taxon()
     {
         $parent = Taxon::factory()->create();
@@ -115,7 +114,7 @@ class TaxonTest extends TestCase
         $this->assertFalse($parent->isChildOf($taxon));
     }
 
-    #[Test]
+    /** @test */
     public function it_can_be_parent_of_another_taxon()
     {
         $parent = Taxon::factory()->create();
@@ -127,7 +126,7 @@ class TaxonTest extends TestCase
         $this->assertFalse($taxon->isParentOf($parent));
     }
 
-    #[Test]
+    /** @test */
     public function the_parent_is_ancestor_as_well()
     {
         $parent = Taxon::factory()->create(['parent_id' => null]);
@@ -136,7 +135,7 @@ class TaxonTest extends TestCase
         $taxon->ancestors->assertContains($parent);
     }
 
-    #[Test]
+    /** @test */
     public function it_can_have_many_ancestors_which_it_inherits_from_parent()
     {
         $root = Taxon::factory()->create(['parent_id' => null]);
@@ -147,7 +146,7 @@ class TaxonTest extends TestCase
         $taxon->ancestors->assertContains($root);
     }
 
-    #[Test]
+    /** @test */
     public function it_can_have_many_children_taxa()
     {
         $taxon = Taxon::factory()->create();
@@ -159,7 +158,7 @@ class TaxonTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function it_can_many_descendants()
     {
         $root = Taxon::factory()->create(['parent_id' => null]);
@@ -172,7 +171,7 @@ class TaxonTest extends TestCase
         $parent->descendants->assertDoesntContain($root);
     }
 
-    #[Test]
+    /** @test */
     public function ancestors_are_linked_upon_creation()
     {
         $root = Taxon::factory()->create(['parent_id' => null]);
@@ -183,7 +182,7 @@ class TaxonTest extends TestCase
         $taxon->ancestors->assertContains($parent);
     }
 
-    #[Test]
+    /** @test */
     public function ancestry_for_descendants_is_relinked_when_taxon_parent_changes()
     {
         $root1 = Taxon::factory()->create(['parent_id' => null, 'rank' => 'class']);

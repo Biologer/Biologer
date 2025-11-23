@@ -6,12 +6,13 @@ use App\Publication;
 use App\PublicationType;
 use App\User;
 use Laravel\Passport\Passport;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class AddPublicationTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function guest_cannot_add_publication()
     {
         $count = Publication::count();
@@ -21,7 +22,9 @@ class AddPublicationTest extends TestCase
         Publication::assertCount($count);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function unauthorized_user_cannot_add_publication()
     {
         $count = Publication::count();
@@ -32,7 +35,9 @@ class AddPublicationTest extends TestCase
         Publication::assertCount($count);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function authorized_user_can_add_new_book()
     {
         $this->seed('RolesTableSeeder');
@@ -74,7 +79,9 @@ class AddPublicationTest extends TestCase
         $this->assertTrue($publication->createdBy->is($user));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function citation_can_be_determined_dinamically_based_on_available_data_if_left_empty()
     {
         $this->handleValidationExceptions();
@@ -90,7 +97,9 @@ class AddPublicationTest extends TestCase
         $this->assertEquals('Author M. (2019). Title of Paper. In Editor J. (Ed.). Some Book (2ed, 30-140p). Kragujevac: University of Kragujevac. 1234567', $publication->citation);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function generating_citation_is_properly_using_multibyte_strings()
     {
         $this->handleValidationExceptions();

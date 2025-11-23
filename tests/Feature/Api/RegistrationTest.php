@@ -9,7 +9,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Laravel\Passport\ClientRepository;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
@@ -29,7 +28,7 @@ class RegistrationTest extends TestCase
         );
     }
 
-    #[Test]
+    /** @test */
     public function can_register_user_through_api()
     {
         Event::fake();
@@ -61,7 +60,7 @@ class RegistrationTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function needs_valid_client_secret()
     {
         $this->postJson('/api/register', [
@@ -78,7 +77,7 @@ class RegistrationTest extends TestCase
         $this->assertFalse(User::where('email', 'test@example.com')->exists());
     }
 
-    #[Test]
+    /** @test */
     public function signature_is_not_checked_if_client_is_not_valid()
     {
         $this->postJson('/api/register', [
@@ -95,7 +94,7 @@ class RegistrationTest extends TestCase
         $this->assertFalse(User::where('email', 'test@example.com')->exists());
     }
 
-    #[Test]
+    /** @test */
     public function cannot_use_client_that_is_not_password_client()
     {
         $client = app(ClientRepository::class)->create(

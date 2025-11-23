@@ -6,12 +6,13 @@ use App\Publication;
 use App\PublicationType;
 use App\User;
 use Laravel\Passport\Passport;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class UpdatePublicationTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function guest_cannot_update_publication()
     {
         $publication = Publication::factory()->create();
@@ -20,7 +21,9 @@ class UpdatePublicationTest extends TestCase
         $response->assertUnauthorized();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function unauthorized_user_cannot_update_publication()
     {
         $publication = Publication::factory()->create();
@@ -30,7 +33,9 @@ class UpdatePublicationTest extends TestCase
         $response->assertForbidden();
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function authorized_user_can_update_publication()
     {
         $publication = Publication::factory()->create();
@@ -56,7 +61,9 @@ class UpdatePublicationTest extends TestCase
         $this->assertEquals('Custom Citation', $publication->citation);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function citation_can_be_determined_dinamically_based_on_available_data_if_left_empty()
     {
         $publication = Publication::factory()->create();

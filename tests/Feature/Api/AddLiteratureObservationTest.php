@@ -8,7 +8,6 @@ use App\Publication;
 use App\Taxon;
 use App\User;
 use Laravel\Passport\Passport;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class AddLiteratureObservationTest extends TestCase
@@ -46,7 +45,7 @@ class AddLiteratureObservationTest extends TestCase
         ], $overrides));
     }
 
-    #[Test]
+    /** @test */
     public function quest_cannot_submit_literature_observations()
     {
         $response = $this->postJson('/api/literature-observations', $this->validParams());
@@ -54,7 +53,7 @@ class AddLiteratureObservationTest extends TestCase
         $response->assertUnauthorized();
     }
 
-    #[Test]
+    /** @test */
     public function regular_authenticated_users_cannot_submit_literature_observations()
     {
         Passport::actingAs(User::factory()->create());
@@ -64,7 +63,7 @@ class AddLiteratureObservationTest extends TestCase
         $response->assertForbidden();
     }
 
-    #[Test]
+    /** @test */
     public function admin_can_submit_literature_observations()
     {
         $this->seed('RolesTableSeeder');

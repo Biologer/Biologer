@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Taxon;
 use App\User;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
@@ -17,7 +16,7 @@ class PendingFieldObservationsEditTest extends TestCase
         $this->seed('RolesTableSeeder');
     }
 
-    #[Test]
+    /** @test */
     public function guests_cannot_visit_curator_page_to_edit_pending_observation()
     {
         $taxon = Taxon::factory()->create();
@@ -30,7 +29,7 @@ class PendingFieldObservationsEditTest extends TestCase
         $response->assertRedirect('/login');
     }
 
-    #[Test]
+    /** @test */
     public function curator_can_open_page_to_edit_pending_field_observation()
     {
         $curator = User::factory()->create()->assignRoles('curator');
@@ -48,7 +47,7 @@ class PendingFieldObservationsEditTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function curator_cannot_open_page_to_edit_pending_field_observation_for_taxon_they_dont_curate()
     {
         $curator = User::factory()->create()->assignRoles('curator');

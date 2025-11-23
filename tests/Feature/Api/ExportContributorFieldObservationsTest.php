@@ -8,12 +8,11 @@ use App\Jobs\PerformExport;
 use App\User;
 use Illuminate\Support\Facades\Queue;
 use Laravel\Passport\Passport;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ExportContributorFieldObservationsTest extends TestCase
 {
-    #[Test]
+    /** @test */
     public function contributors_can_export_their_observations()
     {
         Queue::fake();
@@ -35,7 +34,7 @@ class ExportContributorFieldObservationsTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function type_is_required()
     {
         Queue::fake();
@@ -47,7 +46,7 @@ class ExportContributorFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    #[Test]
+    /** @test */
     public function type_must_be_valid()
     {
         Queue::fake();
@@ -61,7 +60,7 @@ class ExportContributorFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    #[Test]
+    /** @test */
     public function columns_are_required_to_perform_the_export()
     {
         Queue::fake();
@@ -75,7 +74,7 @@ class ExportContributorFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    #[Test]
+    /** @test */
     public function columns_parameter_must_be_an_array()
     {
         Queue::fake();
@@ -90,7 +89,7 @@ class ExportContributorFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    #[Test]
+    /** @test */
     public function columns_parameter_contain_at_least_one_column()
     {
         Queue::fake();
@@ -105,7 +104,7 @@ class ExportContributorFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    #[Test]
+    /** @test */
     public function columns_are_supported()
     {
         Queue::fake();
@@ -120,7 +119,7 @@ class ExportContributorFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    #[Test]
+    /** @test */
     public function contributors_can_export_their_observations_using_darwin_core_standard()
     {
         Queue::fake();

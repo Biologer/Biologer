@@ -7,7 +7,6 @@ use App\Taxon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
@@ -15,7 +14,9 @@ class GetTaxonPublicPhotosTest extends TestCase
 {
     use RefreshDatabase;
 
-    #[Test]
+    /**
+     * @test
+     */
     public function can_get_public_photos_for_taxon()
     {
         Storage::fake(config('biologer.photos_disk'));

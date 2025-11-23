@@ -13,13 +13,12 @@ use App\User;
 use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
 class DarwinCoreFieldObservationsExportTest extends TestCase
 {
-    #[Test]
+    /** @test */
     public function all_field_observations_are_exported_in_darwin_core_to_a_csv_file()
     {
         Carbon::setTestNow(Carbon::now());
@@ -78,7 +77,7 @@ class DarwinCoreFieldObservationsExportTest extends TestCase
         );
     }
 
-    #[Test]
+    /** @test */
     public function field_observations_can_be_without_identification()
     {
         Carbon::setTestNow(Carbon::now());
@@ -153,7 +152,7 @@ class DarwinCoreFieldObservationsExportTest extends TestCase
         );
     }
 
-    #[Test]
+    /** @test */
     public function species_identified_with_identification_history()
     {
         Carbon::setTestNow(Carbon::now());

@@ -3,18 +3,17 @@
 namespace Tests\Unit\Support;
 
 use App\Support\Mgrs;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class MgrsTest extends TestCase
 {
-    #[Test]
+    /** @test */
     public function it_can_calculate_mgrs_10k_square_identifier()
     {
         $this->assertSame('34TDR01', Mgrs::makeFromLatLong(45.247177, 19.813558)->to10k());
     }
 
-    #[Test]
+    /** @test */
     public function it_can_calculate_point_with_coordinates_of_mgrs_10k_square_center()
     {
         $mgrs = Mgrs::makeFromLatLong(45.247177, 19.813558);

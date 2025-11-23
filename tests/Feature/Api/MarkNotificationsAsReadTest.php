@@ -5,13 +5,12 @@ namespace Tests\Feature\Api;
 use App\Notifications\FieldObservationApproved;
 use App\User;
 use Laravel\Passport\Passport;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
 class MarkNotificationsAsReadTest extends TestCase
 {
-    #[Test]
+    /** @test */
     public function guests_cannot_mark_notifications_as_read()
     {
         $user = User::factory()->create();
@@ -29,7 +28,7 @@ class MarkNotificationsAsReadTest extends TestCase
         $user->readNotifications()->assertCount(0);
     }
 
-    #[Test]
+    /** @test */
     public function authenticated_user_can_mark_their_notifications_as_read()
     {
         $user = User::factory()->create();

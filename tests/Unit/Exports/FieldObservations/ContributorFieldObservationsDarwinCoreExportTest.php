@@ -12,13 +12,12 @@ use App\User;
 use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
 class ContributorFieldObservationsDarwinCoreExportTest extends TestCase
 {
-    #[Test]
+    /** @test */
     public function contributors_field_observations_are_exported_in_darwin_core_to_a_csv_file()
     {
         Carbon::setTestNow(Carbon::now());

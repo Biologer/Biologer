@@ -3,7 +3,6 @@
 namespace Tests\Unit\Support;
 
 use App\Support\Exif;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Tests\CustomAssertArraySubset;
 
@@ -11,7 +10,7 @@ class ExifTest extends TestCase
 {
     use CustomAssertArraySubset;
 
-    #[Test]
+    /** @test */
     public function can_extract_date_time_data()
     {
         $exif = new Exif([
@@ -26,7 +25,7 @@ class ExifTest extends TestCase
         ], $exif->format());
     }
 
-    #[Test]
+    /** @test */
     public function can_extract_gps_data()
     {
         $exif = new Exif([
@@ -46,7 +45,7 @@ class ExifTest extends TestCase
         ], $exif->format());
     }
 
-    #[Test]
+    /** @test */
     public function handles_devision_by_zero_in_decimal_number_definitions()
     {
         $exif = new Exif([

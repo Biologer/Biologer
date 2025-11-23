@@ -8,12 +8,11 @@ use App\Jobs\PerformExport;
 use App\User;
 use Illuminate\Support\Facades\Queue;
 use Laravel\Passport\Passport;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ExportAllFieldObservationsTest extends TestCase
 {
-    #[Test]
+    /** @test */
     public function admin_can_export_all_observations()
     {
         Queue::fake();
@@ -35,7 +34,7 @@ class ExportAllFieldObservationsTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function admin_can_export_all_observations_in_darwin_core_format()
     {
         Queue::fake();
@@ -55,7 +54,7 @@ class ExportAllFieldObservationsTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function type_is_required()
     {
         Queue::fake();
@@ -67,7 +66,7 @@ class ExportAllFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    #[Test]
+    /** @test */
     public function type_must_be_valid()
     {
         Queue::fake();
@@ -81,7 +80,7 @@ class ExportAllFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    #[Test]
+    /** @test */
     public function columns_are_required_to_perform_custom_export()
     {
         Queue::fake();
@@ -95,7 +94,7 @@ class ExportAllFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    #[Test]
+    /** @test */
     public function columns_parameter_must_be_an_array()
     {
         Queue::fake();
@@ -110,7 +109,7 @@ class ExportAllFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    #[Test]
+    /** @test */
     public function columns_parameter_contain_at_least_one_column()
     {
         Queue::fake();
@@ -125,7 +124,7 @@ class ExportAllFieldObservationsTest extends TestCase
         Queue::assertNotPushed(PerformExport::class);
     }
 
-    #[Test]
+    /** @test */
     public function columns_are_supported()
     {
         Queue::fake();

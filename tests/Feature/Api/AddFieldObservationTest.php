@@ -16,8 +16,6 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class AddFieldObservationTest extends TestCase
@@ -82,7 +80,7 @@ class AddFieldObservationTest extends TestCase
         return $this->setTestClientMock(Passport::actingAs(User::factory()->make($data)));
     }
 
-    #[Test]
+    /** @test */
     public function guests_cannot_add_new_field_observations()
     {
         $fieldObservationsCount = FieldObservation::count();
@@ -96,7 +94,7 @@ class AddFieldObservationTest extends TestCase
         Observation::assertCount($observationsCount);
     }
 
-    #[Test]
+    /** @test */
     public function authenticated_user_can_add_field_observation()
     {
         $this->handleValidationExceptions();
@@ -142,7 +140,7 @@ class AddFieldObservationTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function activity_log_entry_is_added_when_field_observation_is_added()
     {
         $user = $this->createAuthenticatedUser();
@@ -162,7 +160,7 @@ class AddFieldObservationTest extends TestCase
         $this->assertTrue($activity->causer->is($user));
     }
 
-    #[Test]
+    /** @test */
     public function users_full_name_as_source_when_source_is_not_provided()
     {
         $this->createAuthenticatedUser([
@@ -177,8 +175,12 @@ class AddFieldObservationTest extends TestCase
         $this->assertEquals('Jane Doe', FieldObservation::latest()->first()->observation->observer);
     }
 
-    #[Test]
-    #[DataProvider('invalidYearData')]
+    /**
+     * @test
+     * @dataProvider invalidYearData
+     *
+     * @param mixed $year
+     */
     public function year_is_validated($year)
     {
         $this->makeAuthenticatedUser();
@@ -201,8 +203,12 @@ class AddFieldObservationTest extends TestCase
         ];
     }
 
-    #[Test]
-    #[DataProvider('invalidMonthData')]
+    /**
+     * @test
+     * @dataProvider invalidMonthData
+     *
+     * @param mixed $month
+     */
     public function month_is_validated($month)
     {
         $this->makeAuthenticatedUser();
@@ -224,8 +230,12 @@ class AddFieldObservationTest extends TestCase
         ];
     }
 
-    #[Test]
-    #[DataProvider('invalidDayData')]
+    /**
+     * @test
+     * @dataProvider invalidDayData
+     *
+     * @param mixed $day
+     */
     public function day_is_validated($day)
     {
         $this->makeAuthenticatedUser();
@@ -249,8 +259,12 @@ class AddFieldObservationTest extends TestCase
         ];
     }
 
-    #[Test]
-    #[DataProvider('invalidLatitudeData')]
+    /**
+     * @test
+     * @dataProvider invalidLatitudeData
+     *
+     * @param mixed $latitude
+     */
     public function latitude_is_validated($latitude)
     {
         $this->makeAuthenticatedUser();
@@ -274,8 +288,12 @@ class AddFieldObservationTest extends TestCase
         ];
     }
 
-    #[Test]
-    #[DataProvider('invalidLongitudeData')]
+    /**
+     * @test
+     * @dataProvider invalidLongitudeData
+     *
+     * @param mixed $longitude
+     */
     public function longitude_is_validated($longitude)
     {
         $this->makeAuthenticatedUser();
@@ -298,8 +316,12 @@ class AddFieldObservationTest extends TestCase
         ];
     }
 
-    #[Test]
-    #[DataProvider('invalidElevationData')]
+    /**
+     * @test
+     * @dataProvider invalidElevationData
+     *
+     * @param mixed $elevation
+     */
     public function elevation_is_validated($elevation)
     {
         $this->makeAuthenticatedUser();
@@ -321,7 +343,7 @@ class AddFieldObservationTest extends TestCase
         ];
     }
 
-    #[Test]
+    /** @test */
     public function accuracy_is_optional_when_adding_field_observation()
     {
         $this->createAuthenticatedUser();
@@ -334,7 +356,7 @@ class AddFieldObservationTest extends TestCase
         FieldObservation::assertCount($fieldObservationsCount + 1);
     }
 
-    #[Test]
+    /** @test */
     public function accuracy_must_be_number()
     {
         $this->makeAuthenticatedUser();
@@ -347,7 +369,7 @@ class AddFieldObservationTest extends TestCase
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
-    #[Test]
+    /** @test */
     public function taxon_is_optional()
     {
         $this->createAuthenticatedUser();
@@ -360,7 +382,7 @@ class AddFieldObservationTest extends TestCase
         FieldObservation::assertCount($fieldObservationsCount + 1);
     }
 
-    #[Test]
+    /** @test */
     public function fails_if_taxon_does_not_exist()
     {
         $this->makeAuthenticatedUser();
@@ -373,7 +395,7 @@ class AddFieldObservationTest extends TestCase
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
-    #[Test]
+    /** @test */
     public function observation_is_stored_with_correct_taxon()
     {
         $this->createAuthenticatedUser();
@@ -388,7 +410,7 @@ class AddFieldObservationTest extends TestCase
         $this->assertEquals($taxon->id, Observation::first()->taxon_id);
     }
 
-    #[Test]
+    /** @test */
     public function taxon_suggestion_is_stored()
     {
         $this->createAuthenticatedUser();
@@ -402,7 +424,7 @@ class AddFieldObservationTest extends TestCase
         $this->assertEquals('Cerambyx cerdo', FieldObservation::latest()->first()->taxon_suggestion);
     }
 
-    #[Test]
+    /** @test */
     public function mgrs_field_is_calculated_automaticaly()
     {
         $this->createAuthenticatedUser();
@@ -417,7 +439,7 @@ class AddFieldObservationTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function mgrs_field_cannot_be_calculated_in_polar_region()
     {
         $this->createAuthenticatedUser();
@@ -432,7 +454,7 @@ class AddFieldObservationTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function photo_can_be_saved_with_observation()
     {
         config(['biologer.photos_per_observation' => 3]);
@@ -468,7 +490,7 @@ class AddFieldObservationTest extends TestCase
         $this->assertEquals('John Doe', $photo->author);
     }
 
-    #[Test]
+    /** @test */
     public function photos_are_queued_to_be_processed_if_needed()
     {
         config(['biologer.photo_resize_dimension' => 800]);
@@ -499,7 +521,7 @@ class AddFieldObservationTest extends TestCase
         });
     }
 
-    #[Test]
+    /** @test */
     public function maximum_number_of_photos_that_can_be_saved_with_observation_can_be_set()
     {
         config(['biologer.photos_per_observation' => 3]);
@@ -532,7 +554,7 @@ class AddFieldObservationTest extends TestCase
         Photo::assertCount($photosCount);
     }
 
-    #[Test]
+    /** @test */
     public function photos_can_be_null()
     {
         $this->createAuthenticatedUser();
@@ -542,7 +564,7 @@ class AddFieldObservationTest extends TestCase
         ]))->assertCreated();
     }
 
-    #[Test]
+    /** @test */
     public function sex_is_optional()
     {
         $this->createAuthenticatedUser();
@@ -552,7 +574,7 @@ class AddFieldObservationTest extends TestCase
         ]))->assertCreated();
     }
 
-    #[Test]
+    /** @test */
     public function sex_can_only_be_one_of_available_values()
     {
         $this->makeAuthenticatedUser();
@@ -565,7 +587,7 @@ class AddFieldObservationTest extends TestCase
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
-    #[Test]
+    /** @test */
     public function time_is_optional()
     {
         $this->createAuthenticatedUser();
@@ -575,7 +597,7 @@ class AddFieldObservationTest extends TestCase
         ]))->assertCreated();
     }
 
-    #[Test]
+    /** @test */
     public function time_must_be_in_correct_format()
     {
         $this->makeAuthenticatedUser();
@@ -588,7 +610,7 @@ class AddFieldObservationTest extends TestCase
         FieldObservation::assertCount($fieldObservationsCount);
     }
 
-    #[Test]
+    /** @test */
     public function admin_can_submit_observer_by_users_id()
     {
         $this->seed('RolesTableSeeder');
@@ -606,7 +628,7 @@ class AddFieldObservationTest extends TestCase
         $this->assertEquals($fieldObservation->observer, 'Jane Doe');
     }
 
-    #[Test]
+    /** @test */
     public function admin_can_submit_observer_without_existing_user()
     {
         $this->seed('RolesTableSeeder');
@@ -624,7 +646,7 @@ class AddFieldObservationTest extends TestCase
         $this->assertEquals($fieldObservation->observer, 'Jane Doe');
     }
 
-    #[Test]
+    /** @test */
     public function admin_can_submit_identifier_by_users_id_if_there_is_identification()
     {
         $this->seed('RolesTableSeeder');
@@ -646,7 +668,7 @@ class AddFieldObservationTest extends TestCase
         $this->assertEquals($fieldObservation->observation->identifier, 'Jane Doe');
     }
 
-    #[Test]
+    /** @test */
     public function unless_identifier_is_provided_user_will_be_assigned_as_identifier_if_the_observation_has_some_identification()
     {
         $user = $this->createAuthenticatedUser();
@@ -665,7 +687,7 @@ class AddFieldObservationTest extends TestCase
         $this->assertEquals($fieldObservation->identifier, $user->full_name);
     }
 
-    // #[Test]
+    // /** @test */
     // public function curators_are_notified_of_new_field_observation()
     // {
     //     $this->seed('RolesTableSeeder');

@@ -7,7 +7,6 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Nikazooz\LaravelCaptcha\Facades\Captcha;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class UserRegistrationTest extends TestCase
@@ -28,7 +27,7 @@ class UserRegistrationTest extends TestCase
         ], $overrides);
     }
 
-    #[Test]
+    /** @test */
     public function user_can_register_by_providing_required_information()
     {
         Notification::fake();
@@ -53,7 +52,7 @@ class UserRegistrationTest extends TestCase
         Notification::assertSentTo($user, VerifyEmail::class);
     }
 
-    #[Test]
+    /** @test */
     public function first_name_is_required()
     {
         Notification::fake();
@@ -70,7 +69,7 @@ class UserRegistrationTest extends TestCase
         Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
-    #[Test]
+    /** @test */
     public function last_name_is_required()
     {
         Notification::fake();
@@ -87,7 +86,7 @@ class UserRegistrationTest extends TestCase
         Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
-    #[Test]
+    /** @test */
     public function password_name_is_required()
     {
         Notification::fake();
@@ -104,7 +103,7 @@ class UserRegistrationTest extends TestCase
         Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
-    #[Test]
+    /** @test */
     public function password_must_be_at_least_6_characters_long()
     {
         Notification::fake();
@@ -121,7 +120,7 @@ class UserRegistrationTest extends TestCase
         Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
-    #[Test]
+    /** @test */
     public function password_confirmation_is_required()
     {
         Notification::fake();
@@ -139,7 +138,7 @@ class UserRegistrationTest extends TestCase
         Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
-    #[Test]
+    /** @test */
     public function password_confirmation_must_match_password()
     {
         Notification::fake();
@@ -157,7 +156,7 @@ class UserRegistrationTest extends TestCase
         Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
-    #[Test]
+    /** @test */
     public function captcha_verification_code_is_required()
     {
         Notification::fake();
@@ -174,7 +173,7 @@ class UserRegistrationTest extends TestCase
         Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
-    #[Test]
+    /** @test */
     public function captcha_verification_code_must_be_valid()
     {
         Notification::fake();
@@ -191,7 +190,7 @@ class UserRegistrationTest extends TestCase
         Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
-    #[Test]
+    /** @test */
     public function data_license_is_required()
     {
         Notification::fake();
@@ -208,7 +207,7 @@ class UserRegistrationTest extends TestCase
         Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
-    #[Test]
+    /** @test */
     public function data_license_can_only_be_one_of_supported()
     {
         Notification::fake();
@@ -225,7 +224,7 @@ class UserRegistrationTest extends TestCase
         Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
-    #[Test]
+    /** @test */
     public function image_license_is_required()
     {
         Notification::fake();
@@ -242,7 +241,7 @@ class UserRegistrationTest extends TestCase
         Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
-    #[Test]
+    /** @test */
     public function image_license_can_only_be_one_of_supported()
     {
         Notification::fake();
@@ -259,7 +258,7 @@ class UserRegistrationTest extends TestCase
         Notification::assertTimesSent(0, VerifyEmail::class);
     }
 
-    #[Test]
+    /** @test */
     public function user_is_required_to_accept_terms_of_service_and_privacy_policy()
     {
         Notification::fake();

@@ -11,13 +11,12 @@ use App\User;
 use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
 class CustomFieldObservationsExportTest extends TestCase
 {
-    #[Test]
+    /** @test */
     public function all_field_observations_are_exported_to_a_csv_file()
     {
         Carbon::setTestNow(Carbon::now());
@@ -76,7 +75,7 @@ class CustomFieldObservationsExportTest extends TestCase
         );
     }
 
-    #[Test]
+    /** @test */
     public function all_columns_are_available_for_export_to_curators_and_admins()
     {
         $this->seed('RolesTableSeeder');

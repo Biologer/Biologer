@@ -5,12 +5,13 @@ namespace Tests\Feature\Api;
 use App\DEM\Reader;
 use App\User;
 use Laravel\Passport\Passport;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class GetElevationTest extends TestCase
 {
-    #[Test]
+    /**
+     * @test
+     */
     public function can_calculate_elevations_based_on_latitude_and_longitude()
     {
         $fakeReader = new class implements Reader {

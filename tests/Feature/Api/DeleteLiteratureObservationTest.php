@@ -6,12 +6,11 @@ use App\LiteratureObservation;
 use App\Observation;
 use App\User;
 use Laravel\Passport\Passport;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class DeleteLiteratureObservationTest extends TestCase
 {
-    #[Test]
+    /** @test */
     public function guest_cannot_delete_observation()
     {
         $literatureObservation = LiteratureObservation::factory()->create();
@@ -23,7 +22,7 @@ class DeleteLiteratureObservationTest extends TestCase
         LiteratureObservation::assertCount($count);
     }
 
-    #[Test]
+    /** @test */
     public function unauthorized_user_cannot_delete_observation()
     {
         $literatureObservation = LiteratureObservation::factory()->create();
@@ -36,7 +35,7 @@ class DeleteLiteratureObservationTest extends TestCase
         LiteratureObservation::assertCount($count);
     }
 
-    #[Test]
+    /** @test */
     public function admin_can_delete_literature_observations()
     {
         $this->seed('RolesTableSeeder');

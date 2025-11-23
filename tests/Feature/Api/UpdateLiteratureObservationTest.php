@@ -10,12 +10,11 @@ use App\Stage;
 use App\Taxon;
 use App\User;
 use Laravel\Passport\Passport;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class UpdateLiteratureObservationTest extends TestCase
 {
-    #[Test]
+    /** @test */
     public function guest_cannot_update_observation()
     {
         $literatureObservation = $this->createLiteratureObservation();
@@ -25,7 +24,7 @@ class UpdateLiteratureObservationTest extends TestCase
         $response->assertUnauthorized();
     }
 
-    #[Test]
+    /** @test */
     public function unauthorized_user_cannot_update_observation()
     {
         $literatureObservation = $this->createLiteratureObservation();
@@ -36,7 +35,7 @@ class UpdateLiteratureObservationTest extends TestCase
         $response->assertForbidden();
     }
 
-    #[Test]
+    /** @test */
     public function admin_can_update_literature_observations()
     {
         $this->seed('RolesTableSeeder');

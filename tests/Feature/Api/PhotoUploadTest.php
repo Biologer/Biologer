@@ -6,12 +6,11 @@ use App\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class PhotoUploadTest extends TestCase
 {
-    #[Test]
+    /** @test */
     public function authenticated_user_can_upload_photo()
     {
         Storage::fake('public');
@@ -26,7 +25,7 @@ class PhotoUploadTest extends TestCase
         Storage::disk('public')->assertExists("uploads/{$user->id}/{$response->json('file')}");
     }
 
-    #[Test]
+    /** @test */
     public function unauthenticated_user_cannot_upload_photo()
     {
         $this->postJson('/api/uploads/photos', [
@@ -34,7 +33,7 @@ class PhotoUploadTest extends TestCase
         ])->assertUnauthorized();
     }
 
-    #[Test]
+    /** @test */
     public function file_is_required()
     {
         Passport::actingAs(User::factory()->make());
@@ -42,7 +41,7 @@ class PhotoUploadTest extends TestCase
         $this->postJson('/api/uploads/photos', [])->assertJsonValidationErrors('file');
     }
 
-    #[Test]
+    /** @test */
     public function uploaded_file_must_be_image()
     {
         Passport::actingAs(User::factory()->make());
@@ -52,7 +51,7 @@ class PhotoUploadTest extends TestCase
         ])->assertJsonValidationErrors('file');
     }
 
-    #[Test]
+    /** @test */
     public function image_cannot_be_larger_than_max_configured_size()
     {
         config(['biologer.max_upload_size' => 2048]);
@@ -64,7 +63,7 @@ class PhotoUploadTest extends TestCase
         ])->assertJsonValidationErrors('file');
     }
 
-    #[Test]
+    /** @test */
     public function authenticated_user_can_remove_own_photos()
     {
         Storage::fake('public');
@@ -82,7 +81,7 @@ class PhotoUploadTest extends TestCase
         Storage::disk('public')->assertMissing("uploads/{$user->id}/test-image.jpg");
     }
 
-    #[Test]
+    /** @test */
     public function user_cannot_remove_photos_uploaded_by_others()
     {
         Storage::fake('public');

@@ -3,12 +3,11 @@
 namespace Tests\Feature;
 
 use App\Taxon;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ViewTaxonDetailsTest extends TestCase
 {
-    #[Test]
+    /** @test */
     public function can_see_basic_taxon_information()
     {
         $taxon = Taxon::factory()->create([
