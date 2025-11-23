@@ -12,17 +12,17 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Announcement' => 'App\Policies\AnnouncementPolicy',
-        'App\ConservationLegislation' => 'App\Policies\ConservationLegislationPolicy',
-        'App\FieldObservation' => 'App\Policies\FieldObservationPolicy',
-        'App\LiteratureObservation' => 'App\Policies\LiteratureObservationPolicy',
-        'App\Publication' => 'App\Policies\PublicationPolicy',
-        'App\PublicationAttachment' => 'App\Policies\PublicationAttachmentPolicy',
-        'App\RedList' => 'App\Policies\RedListPolicy',
-        'App\Taxon' => 'App\Policies\TaxonPolicy',
-        'App\User' => 'App\Policies\UserPolicy',
-        'App\ViewGroup' => 'App\Policies\ViewGroupPolicy',
-        'App\TimedCountObservation' => 'App\Policies\TimedCountObservationPolicy',
+        \App\Announcement::class => \App\Policies\AnnouncementPolicy::class,
+        \App\ConservationLegislation::class => \App\Policies\ConservationLegislationPolicy::class,
+        \App\FieldObservation::class => \App\Policies\FieldObservationPolicy::class,
+        \App\LiteratureObservation::class => \App\Policies\LiteratureObservationPolicy::class,
+        \App\Publication::class => \App\Policies\PublicationPolicy::class,
+        \App\PublicationAttachment::class => \App\Policies\PublicationAttachmentPolicy::class,
+        \App\RedList::class => \App\Policies\RedListPolicy::class,
+        \App\Taxon::class => \App\Policies\TaxonPolicy::class,
+        \App\User::class => \App\Policies\UserPolicy::class,
+        \App\ViewGroup::class => \App\Policies\ViewGroupPolicy::class,
+        \App\TimedCountObservation::class => \App\Policies\TimedCountObservationPolicy::class,
     ];
 
     /**
