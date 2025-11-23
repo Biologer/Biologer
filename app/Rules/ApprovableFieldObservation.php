@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Arr;
 

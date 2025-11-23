@@ -2,9 +2,9 @@
 
 namespace App\Notifications;
 
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use App\Notifications\Channels\FcmChannel;
-use App\User;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -16,20 +16,20 @@ class FieldObservationMarkedUnidentifiable extends Notification implements Shoul
     use Queueable;
 
     /**
-     * @var \App\User
+     * @var \App\Models\User
      */
     public $curator;
 
     /**
-     * @var \App\FieldObservation
+     * @var \App\Models\FieldObservation
      */
     public $fieldObservation;
 
     /**
      * Create a new notification instance.
      *
-     * @param  \App\FieldObservation  $fieldObservation
-     * @param  \App\User  $curator
+     * @param  \App\Models\FieldObservation  $fieldObservation
+     * @param  \App\Models\User  $curator
      * @return void
      */
     public function __construct(FieldObservation $fieldObservation, User $curator)

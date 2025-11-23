@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Stage;
+use App\Models\Stage;
 use Illuminate\Database\Seeder;
 
 class StagesTableSeeder extends Seeder

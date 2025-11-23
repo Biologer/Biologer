@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\ConservationDocument;
-use App\ConservationLegislation;
+use App\Models\ConservationDocument;
+use App\Models\ConservationLegislation;
 use App\Exports\Taxa\AdminTaxaExport;
 use App\Exports\Taxa\CustomTaxaExport;
-use App\RedList;
-use App\Stage;
+use App\Models\RedList;
+use App\Models\Stage;
 use App\Support\Taxonomy;
-use App\Taxon;
+use App\Models\Taxon;
 
 class TaxaController
 {
@@ -50,7 +50,7 @@ class TaxaController
     /**
      * Show page to edit taxon.
      *
-     * @param  \App\Taxon  $taxon
+     * @param  \App\Models\Taxon  $taxon
      * @return \Illuminate\View\View
      */
     public function edit(Taxon $taxon)

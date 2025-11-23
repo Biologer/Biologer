@@ -3,13 +3,13 @@
 namespace Tests\Unit\Importing;
 
 use App\DEM\Reader as DEMReader;
-use App\Import;
+use App\Models\Import;
 use App\Importing\LiteratureObservationImport;
-use App\LiteratureObservation;
+use App\Models\LiteratureObservation;
 use App\LiteratureObservationIdentificationValidity;
-use App\Publication;
-use App\Taxon;
-use App\User;
+use App\Models\Publication;
+use App\Models\Taxon;
+use App\Models\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;
@@ -222,8 +222,8 @@ class LiteratureObservationImportTest extends TestCase
      * @param  string  $type
      * @param  array  $columns  [description]
      * @param  string $contents [description]
-     * @param  \App\User|null  $user
-     * @return \App\Import
+     * @param  \App\Models\User|null  $user
+     * @return \App\Models\Import
      */
     protected function createImport($type, array $columns = [], $contents = null, $user = null, $owner = null)
     {

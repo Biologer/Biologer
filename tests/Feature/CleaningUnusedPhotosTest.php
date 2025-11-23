@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Photo;
+use App\Models\Photo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;

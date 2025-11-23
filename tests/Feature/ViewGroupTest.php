@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Taxon;
-use App\ViewGroup;
+use App\Models\Taxon;
+use App\Models\ViewGroup;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;

@@ -2,7 +2,7 @@
 
 namespace Auth;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Laravel\Passport\Token;

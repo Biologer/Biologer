@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\ConservationLegislation;
+use App\Models\ConservationLegislation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ConservationLegislationFactory extends Factory

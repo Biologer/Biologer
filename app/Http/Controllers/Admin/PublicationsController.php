@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Publication;
+use App\Models\Publication;
 use App\PublicationType;
 
 class PublicationsController
@@ -32,7 +32,7 @@ class PublicationsController
     /**
      * Show publication edit page.
      *
-     * @param  \App\Publication  $publication
+     * @param  \App\Models\Publication  $publication
      * @return \Illuminate\View\View
      */
     public function edit(Publication $publication)

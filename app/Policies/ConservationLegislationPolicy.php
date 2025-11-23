@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\ConservationLegislation;
-use App\User;
+use App\Models\ConservationLegislation;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ConservationLegislationPolicy
@@ -13,8 +13,8 @@ class ConservationLegislationPolicy
     /**
      * Determine whether the user can view the conservation list.
      *
-     * @param  \App\User  $user
-     * @param  \App\ConservationLegislation  $conservationLegislation
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\ConservationLegislation  $conservationLegislation
      * @return mixed
      */
     public function view(User $user, ConservationLegislation $conservationLegislation)
@@ -25,7 +25,7 @@ class ConservationLegislationPolicy
     /**
      * Determine whether the user can create conservation lists.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -36,8 +36,8 @@ class ConservationLegislationPolicy
     /**
      * Determine whether the user can update the conservation list.
      *
-     * @param  \App\User  $user
-     * @param  \App\ConservationLegislation  $conservationLegislation
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\ConservationLegislation  $conservationLegislation
      * @return mixed
      */
     public function update(User $user, ConservationLegislation $conservationLegislation)
@@ -48,8 +48,8 @@ class ConservationLegislationPolicy
     /**
      * Determine whether the user can delete the conservation list.
      *
-     * @param  \App\User  $user
-     * @param  \App\ConservationLegislation  $conservationLegislation
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\ConservationLegislation  $conservationLegislation
      * @return mixed
      */
     public function delete(User $user, ConservationLegislation $conservationLegislation)

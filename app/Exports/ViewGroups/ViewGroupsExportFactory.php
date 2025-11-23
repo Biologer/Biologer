@@ -2,7 +2,7 @@
 
 namespace App\Exports\ViewGroups;
 
-use App\Taxon;
+use App\Models\Taxon;
 use Illuminate\Http\Request;
 
 class ViewGroupsExportFactory
@@ -21,7 +21,7 @@ class ViewGroupsExportFactory
      * Create export instance.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Export
+     * @return \App\Models\Export
      */
     public function createFromRequest(Request $request)
     {

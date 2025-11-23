@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\ViewGroup;
+use App\Models\ViewGroup;
 use Illuminate\Support\Facades\Cache;
 
 class BustViewGroupsCache

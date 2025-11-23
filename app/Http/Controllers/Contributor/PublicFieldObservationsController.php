@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Contributor;
 
 use App\Exports\FieldObservations\CustomFieldObservationsExport;
-use App\FieldObservation;
+use App\Models\FieldObservation;
 
 class PublicFieldObservationsController
 {
@@ -22,7 +22,7 @@ class PublicFieldObservationsController
     /**
      * Show field observation details.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return \Illuminate\View\View
      */
     public function show(FieldObservation $fieldObservation)

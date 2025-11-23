@@ -2,7 +2,7 @@
 
 namespace App\Importing;
 
-use App\Import;
+use App\Models\Import;
 use App\Jobs\ProcessImport;
 use Box\Spout\Common\Type;
 use Box\Spout\Reader\ReaderFactory;
@@ -19,14 +19,14 @@ abstract class BaseImport
     /**
      * Import model instance.
      *
-     * @var \App\Import
+     * @var \App\Models\Import
      */
     private $import;
 
     /**
      * Construct importer.
      *
-     * @param  \App\Import  $import
+     * @param  \App\Models\Import  $import
      */
     public function __construct(Import $import)
     {
@@ -36,7 +36,7 @@ abstract class BaseImport
     /**
      * Get import model instance.
      *
-     * @return \App\Import
+     * @return \App\Models\Import
      */
     public function model()
     {
@@ -77,7 +77,7 @@ abstract class BaseImport
      * Queue import processing.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Import
+     * @return \App\Models\Import
      */
     public static function fromRequest($request)
     {
@@ -90,7 +90,7 @@ abstract class BaseImport
      * Create new import using data from request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Import
+     * @return \App\Models\Import
      */
     protected static function createFromRequest($request)
     {

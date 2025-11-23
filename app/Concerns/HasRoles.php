@@ -2,7 +2,7 @@
 
 namespace App\Concerns;
 
-use App\Role;
+use App\Models\Role;
 
 trait HasRoles
 {

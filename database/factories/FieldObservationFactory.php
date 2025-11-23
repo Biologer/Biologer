@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use App\License;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

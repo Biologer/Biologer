@@ -3,17 +3,17 @@
 namespace App\Importing;
 
 use App\DEM\Reader as DEMReader;
-use App\Import;
-use App\LiteratureObservation;
+use App\Models\Import;
+use App\Models\LiteratureObservation;
 use App\LiteratureObservationIdentificationValidity;
-use App\Observation;
+use App\Models\Observation;
 use App\Rules\Day;
 use App\Rules\Decimal;
 use App\Rules\Month;
 use App\Sex;
-use App\Stage;
+use App\Models\Stage;
 use App\Support\Dataset;
-use App\Taxon;
+use App\Models\Taxon;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
@@ -34,7 +34,7 @@ class LiteratureObservationImport extends BaseImport
     /**
      * Create new importer instance.
      *
-     * @param  \App\Import  $import
+     * @param  \App\Models\Import  $import
      * @param  \App\DEM\Reader  $demReader
      * @return void
      */
@@ -482,7 +482,7 @@ class LiteratureObservationImport extends BaseImport
      * Get ID of taxon using it's name.
      *
      * @param  array  $data
-     * @return \App\Taxon|null
+     * @return \App\Models\Taxon|null
      */
     protected function getTaxon(array $data)
     {
@@ -604,7 +604,7 @@ class LiteratureObservationImport extends BaseImport
      * Create new import using data from request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Import
+     * @return \App\Models\Import
      */
     protected static function createFromRequest($request)
     {

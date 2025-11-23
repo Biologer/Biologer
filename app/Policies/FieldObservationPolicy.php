@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\FieldObservation;
-use App\User;
+use App\Models\FieldObservation;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class FieldObservationPolicy
@@ -13,8 +13,8 @@ class FieldObservationPolicy
     /**
      * Determine whether the user can view the fieldObservation.
      *
-     * @param  \App\User  $user
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return mixed
      */
     public function view(User $user, FieldObservation $fieldObservation)
@@ -26,7 +26,7 @@ class FieldObservationPolicy
     /**
      * Determine whether the user can list the field observation.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function list(User $user)
@@ -37,7 +37,7 @@ class FieldObservationPolicy
     /**
      * Determine whether the user can create field observation.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -48,8 +48,8 @@ class FieldObservationPolicy
     /**
      * Determine whether the user can update the field observation.
      *
-     * @param  \App\User  $user
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return mixed
      */
     public function update(User $user, FieldObservation $fieldObservation)
@@ -62,8 +62,8 @@ class FieldObservationPolicy
     /**
      * Determine whether the user can delete the field observation.
      *
-     * @param  \App\User  $user
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return mixed
      */
     public function delete(User $user, FieldObservation $fieldObservation)
@@ -74,8 +74,8 @@ class FieldObservationPolicy
     /**
      * Determinte whether the user can approve the field observation.
      *
-     * @param  \App\User  $user
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return bool
      */
     public function approve(User $user, FieldObservation $fieldObservation)
@@ -86,8 +86,8 @@ class FieldObservationPolicy
     /**
      * Determinte whether the user can approve the field observation.
      *
-     * @param  \App\User  $user
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return bool
      */
     public function markAsUnidentifiable(User $user, FieldObservation $fieldObservation)
@@ -98,8 +98,8 @@ class FieldObservationPolicy
     /**
      * Determinte whether the user can move the field observation to pending.
      *
-     * @param  \App\User  $user
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return bool
      */
     public function moveToPending(User $user, FieldObservation $fieldObservation)
@@ -110,8 +110,8 @@ class FieldObservationPolicy
     /**
      * Check if the user is curator for the observed taxon.
      *
-     * @param  \App\User  $user
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return bool
      */
     protected function isCurator(User $user, FieldObservation $fieldObservation)

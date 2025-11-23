@@ -2,10 +2,10 @@
 
 namespace App\Jobs;
 
-use App\Export;
-use App\FieldObservation;
-use App\Import;
-use App\User;
+use App\Models\Export;
+use App\Models\FieldObservation;
+use App\Models\Import;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -17,7 +17,7 @@ class DeleteUserData implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var \App\User
+     * @var \App\Models\User
      */
     protected $user;
 
@@ -29,7 +29,7 @@ class DeleteUserData implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  bool  $deleteObservations
      * @return void
      */

@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Import;
+use App\Models\Import;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -13,14 +13,14 @@ class ImportStatusUpdated
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var \App\Import
+     * @var \App\Models\Import
      */
     public $import;
 
     /**
      * Create a new event instance.
      *
-     * @param  \App\Import  $import
+     * @param  \App\Models\Import  $import
      * @return void
      */
     public function __construct(Import $import)

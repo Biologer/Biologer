@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Observation;
-use App\Photo;
+use App\Models\Observation;
+use App\Models\Photo;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;

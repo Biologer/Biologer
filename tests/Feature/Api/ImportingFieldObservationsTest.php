@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Api;
 
-use App\Import;
+use App\Models\Import;
 use App\Importing\ImportStatus;
 use App\Jobs\ProcessImport;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;

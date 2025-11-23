@@ -2,8 +2,8 @@
 
 namespace Tests;
 
-use App\FieldObservation;
-use App\Observation;
+use App\Models\FieldObservation;
+use App\Models\Observation;
 use Illuminate\Database\Eloquent\Collection;
 
 class ObservationFactory

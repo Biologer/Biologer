@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\Import;
+use App\Models\Import;
 use Illuminate\Contracts\Validation\Rule;
 
 class NoImportsInProgress implements Rule

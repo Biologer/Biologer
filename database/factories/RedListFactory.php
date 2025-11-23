@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\RedList;
+use App\Models\RedList;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class RedListFactory extends Factory

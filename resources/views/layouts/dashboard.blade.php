@@ -57,7 +57,7 @@
                                 @include('components.icon', ['icon' => 'dashboard'])
                             </a>
 
-                            @can ('create', 'App\Announcement')
+                            @can ('create', 'App\Models\Announcement')
                                 <a href="{{ route('admin.announcements.index') }}" class="navbar-item" title="{{ __('navigation.announcements') }}">
                                     @include('components.icon', ['icon' => 'bullhorn'])
                                 </a>

@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\Taxon;
+use App\Models\Taxon;
 
 use Illuminate\Contracts\Validation\Rule;
 
@@ -65,7 +65,7 @@ class UniqueTaxonName implements Rule
     /**
      * In case it has parent, we check get the root and check uniqueness in that tree.
      *
-     * @param  \App\Taxon  $parent
+     * @param  \App\Models\Taxon  $parent
      * @param  string  $value
      * @return bool
      */

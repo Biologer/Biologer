@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Api;
 
-use App\LiteratureObservation;
+use App\Models\LiteratureObservation;
 use App\LiteratureObservationIdentificationValidity;
-use App\Observation;
-use App\Publication;
-use App\Stage;
-use App\Taxon;
-use App\User;
+use App\Models\Observation;
+use App\Models\Publication;
+use App\Models\Stage;
+use App\Models\Taxon;
+use App\Models\User;
 use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;

@@ -4,16 +4,16 @@ namespace App\Importing;
 
 use App\AtlasCode;
 use App\DEM\Reader as DEMReader;
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use App\License;
-use App\Observation;
+use App\Models\Observation;
 use App\Rules\Day;
 use App\Rules\Decimal;
 use App\Rules\Month;
 use App\Sex;
-use App\Stage;
+use App\Models\Stage;
 use App\Support\Dataset;
-use App\Taxon;
+use App\Models\Taxon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -26,14 +26,14 @@ class FieldObservationImport extends BaseImport
     protected $demReader;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Collection|\App\Stage[]|null
+     * @var \Illuminate\Database\Eloquent\Collection|\App\Models\Stage[]|null
      */
     protected $stages;
 
     /**
      * Create new importer instance.
      *
-     * @param  \App\Import  $import
+     * @param  \App\Models\Import  $import
      * @param  \App\DEM\Reader  $demReader
      * @return void
      */
@@ -408,7 +408,7 @@ class FieldObservationImport extends BaseImport
      * Get ID of taxon using it's name.
      *
      * @param  array  $data
-     * @return \App\Taxon|null
+     * @return \App\Models\Taxon|null
      */
     protected function getTaxon(array $data)
     {
@@ -613,7 +613,7 @@ class FieldObservationImport extends BaseImport
     /**
      * Get `approved_at` attribute for the observation.
      *
-     * @param \App\Taxon|null $taxon
+     * @param \App\Models\Taxon|null $taxon
      * @return \Carbon\Carbon|null
      */
     protected function getApprovedAt($taxon)
@@ -624,7 +624,7 @@ class FieldObservationImport extends BaseImport
     /**
      * Check if we should automatically approve observation of given taxon.
      *
-     * @param \App\Taxon|null $taxon
+     * @param \App\Models\Taxon|null $taxon
      * @return bool
      */
     protected function shouldApprove($taxon)

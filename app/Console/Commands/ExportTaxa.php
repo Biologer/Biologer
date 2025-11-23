@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\ConservationDocument;
-use App\ConservationLegislation;
-use App\RedList;
-use App\Stage;
-use App\Taxon;
+use App\Models\ConservationDocument;
+use App\Models\ConservationLegislation;
+use App\Models\RedList;
+use App\Models\Stage;
+use App\Models\Taxon;
 use Box\Spout\Common\Type;
 use Box\Spout\Writer\WriterFactory;
 use Illuminate\Console\Command;

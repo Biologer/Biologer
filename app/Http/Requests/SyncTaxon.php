@@ -4,8 +4,8 @@ namespace App\Http\Requests;
 
 use App\Http\Controllers\Admin\TaxonomyController;
 use App\Support\Localization;
-use App\Synonym;
-use App\Taxon;
+use App\Models\Synonym;
+use App\Models\Taxon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -247,7 +247,7 @@ class SyncTaxon extends FormRequest
     {
         $stage_ids = [];
         foreach ($data['stages'] as $stage) {
-            if (\App\Stage::where('id', $stage['id'])->exists()) {
+            if (\App\Models\Stage::where('id', $stage['id'])->exists()) {
                 $stage_ids[] = $stage['id'];
             }
         }
@@ -267,7 +267,7 @@ class SyncTaxon extends FormRequest
             if (! Arr::exists($legs, $conservation_legislation['id'])) {
                 continue;
             }
-            if (\App\ConservationLegislation::where('id', $legs[$conservation_legislation['id']])->exists()) {
+            if (\App\Models\ConservationLegislation::where('id', $legs[$conservation_legislation['id']])->exists()) {
                 $conservation_legislation_ids[] = $legs[$conservation_legislation['id']];
             }
         }
@@ -287,7 +287,7 @@ class SyncTaxon extends FormRequest
             if (! Arr::exists($docs, $conservation_document['id'])) {
                 continue;
             }
-            if (\App\ConservationDocument::where('id', $docs[$conservation_document['id']])->exists()) {
+            if (\App\Models\ConservationDocument::where('id', $docs[$conservation_document['id']])->exists()) {
                 $conservation_document_ids[] = $docs[$conservation_document['id']];
             }
         }
@@ -307,7 +307,7 @@ class SyncTaxon extends FormRequest
             if (! Arr::exists($redLists, $red_list['id'])) {
                 continue;
             }
-            if (\App\RedList::where('id', $redLists[$red_list['id']])->exists()) {
+            if (\App\Models\RedList::where('id', $redLists[$red_list['id']])->exists()) {
                 $red_list_map[$redLists[$red_list['id']]] = ['category' => $red_list['pivot']['category']];
             }
         }

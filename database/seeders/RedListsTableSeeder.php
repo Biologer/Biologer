@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\RedList;
+use App\Models\RedList;
 use Illuminate\Database\Seeder;
 
 class RedListsTableSeeder extends Seeder

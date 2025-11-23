@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Api;
 
-use App\ConservationDocument;
-use App\ConservationLegislation;
-use App\RedList;
-use App\Stage;
-use App\Taxon;
-use App\User;
+use App\Models\ConservationDocument;
+use App\Models\ConservationLegislation;
+use App\Models\RedList;
+use App\Models\Stage;
+use App\Models\Taxon;
+use App\Models\User;
 use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;

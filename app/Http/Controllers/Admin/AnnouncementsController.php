@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Announcement;
+use App\Models\Announcement;
 
 class AnnouncementsController
 {
@@ -29,7 +29,7 @@ class AnnouncementsController
     /**
      * Show announcement edit page.
      *
-     * @param  \App\Announcement  $announcement
+     * @param  \App\Models\Announcement  $announcement
      * @return \Illuminate\View\View
      */
     public function edit(Announcement $announcement)

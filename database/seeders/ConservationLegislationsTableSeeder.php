@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\ConservationLegislation;
+use App\Models\ConservationLegislation;
 use Illuminate\Database\Seeder;
 
 class ConservationLegislationsTableSeeder extends Seeder

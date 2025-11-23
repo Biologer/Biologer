@@ -6,7 +6,7 @@ use App\Http\Requests\StoreTaxon;
 use App\Http\Requests\UpdateTaxon;
 use App\Http\Resources\TaxonCollectionResource;
 use App\Http\Resources\TaxonResource;
-use App\Taxon;
+use App\Models\Taxon;
 use Illuminate\Http\Request;
 
 class TaxaController
@@ -44,7 +44,7 @@ class TaxaController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Taxon  $taxon
+     * @param  \App\Models\Taxon  $taxon
      * @return \App\Http\Resources\TaxonResource
      */
     public function show(Taxon $taxon)
@@ -68,7 +68,7 @@ class TaxaController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Taxon  $taxon
+     * @param  \App\Models\Taxon  $taxon
      * @param  \App\Http\Requests\UpdateTaxon  $form
      * @return \App\Http\Resources\TaxonResource
      */
@@ -80,7 +80,7 @@ class TaxaController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Taxon  $taxon
+     * @param  \App\Models\Taxon  $taxon
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Taxon $taxon)

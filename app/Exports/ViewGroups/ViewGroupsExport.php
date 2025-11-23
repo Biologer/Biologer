@@ -2,9 +2,9 @@
 
 namespace App\Exports\ViewGroups;
 
-use App\Export;
+use App\Models\Export;
 use App\Exports\BaseExport;
-use App\ViewGroup;
+use App\Models\ViewGroup;
 use Illuminate\Support\Str;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -46,7 +46,7 @@ class ViewGroupsExport extends BaseExport
     /**
      * Database query to get the data for export.
      *
-     * @param  \App\Export  $export
+     * @param  \App\Models\Export  $export
      * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function query(Export $export)

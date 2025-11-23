@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Api;
 
-use App\Taxon;
-use App\User;
+use App\Models\Taxon;
+use App\Models\User;
 use Database\Seeders\RolesTableSeeder;
 use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;

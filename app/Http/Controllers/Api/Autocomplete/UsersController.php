@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Autocomplete;
 
 use App\Http\Resources\ObscuredUserResource;
-use App\User;
+use App\Models\User;
 
 class UsersController
 {

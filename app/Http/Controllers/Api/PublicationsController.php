@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\SavePublication;
 use App\Http\Resources\PublicationResource;
-use App\LiteratureObservation;
-use App\Publication;
+use App\Models\LiteratureObservation;
+use App\Models\Publication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

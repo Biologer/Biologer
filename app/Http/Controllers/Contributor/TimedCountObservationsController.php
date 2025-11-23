@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Contributor;
 
-use App\TimedCountObservation;
+use App\Models\TimedCountObservation;
 use Illuminate\Http\Request;
 
 class TimedCountObservationsController
@@ -20,7 +20,7 @@ class TimedCountObservationsController
     /**
      * Show field observation details.
      *
-     * @param \App\TimedCountObservation $timedCountObservation
+     * @param \App\Models\TimedCountObservation $timedCountObservation
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\View\View
      */
@@ -38,7 +38,7 @@ class TimedCountObservationsController
     /**
      * Show form to edit timed count observation.
      *
-     * @param \App\TimedCountObservation $timedCountObservation
+     * @param \App\Models\TimedCountObservation $timedCountObservation
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\View\View
      */

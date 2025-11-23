@@ -2,7 +2,7 @@
 
 namespace App\Http\ViewComposers;
 
-use App\Announcement;
+use App\Models\Announcement;
 use Illuminate\View\View;
 
 class DashboardComposer

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\SyncTaxon;
 use App\Support\Taxonomy;
-use App\Taxon;
+use App\Models\Taxon;
 use Illuminate\Http\Request;
 
 class TaxonomyController

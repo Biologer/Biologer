@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Taxon;
+use App\Models\Taxon;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class TaxonCollectionResource extends ResourceCollection

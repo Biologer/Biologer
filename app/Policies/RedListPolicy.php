@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\RedList;
-use App\User;
+use App\Models\RedList;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class RedListPolicy
@@ -13,8 +13,8 @@ class RedListPolicy
     /**
      * Determine whether the user can view the redList.
      *
-     * @param  \App\User  $user
-     * @param  \App\RedList  $redList
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\RedList  $redList
      * @return mixed
      */
     public function view(User $user, RedList $redList)
@@ -25,7 +25,7 @@ class RedListPolicy
     /**
      * Determine whether the user can create redLists.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -36,8 +36,8 @@ class RedListPolicy
     /**
      * Determine whether the user can update the redList.
      *
-     * @param  \App\User  $user
-     * @param  \App\RedList  $redList
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\RedList  $redList
      * @return mixed
      */
     public function update(User $user, RedList $redList)
@@ -48,8 +48,8 @@ class RedListPolicy
     /**
      * Determine whether the user can delete the redList.
      *
-     * @param  \App\User  $user
-     * @param  \App\RedList  $redList
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\RedList  $redList
      * @return mixed
      */
     public function delete(User $user, RedList $redList)

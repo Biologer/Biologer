@@ -3,13 +3,13 @@
 namespace Tests\Feature\Api;
 
 use App\AtlasCode;
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use App\Jobs\ProcessUploadedPhoto;
 use App\Notifications\FieldObservationForApproval;
-use App\Observation;
-use App\Photo;
-use App\Taxon;
-use App\User;
+use App\Models\Observation;
+use App\Models\Photo;
+use App\Models\Taxon;
+use App\Models\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;

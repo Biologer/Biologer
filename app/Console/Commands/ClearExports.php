@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Export;
+use App\Models\Export;
 use Illuminate\Console\Command;
 
 class ClearExports extends Command

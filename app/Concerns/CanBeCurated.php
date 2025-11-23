@@ -2,8 +2,8 @@
 
 namespace App\Concerns;
 
-use App\TaxonUser;
-use App\User;
+use App\Models\TaxonUser;
+use App\Models\User;
 
 trait CanBeCurated
 {
@@ -30,7 +30,7 @@ trait CanBeCurated
     /**
      * Get only taxa that can be curated by the given user.
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeCuratedBy($query, User $user)
@@ -49,7 +49,7 @@ trait CanBeCurated
     /**
      * Check if given user is curator for the taxon.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return bool
      */
     public function isCuratedBy(User $user)
@@ -62,7 +62,7 @@ trait CanBeCurated
     /**
      * Check if given user is direct curator for the taxon.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return bool
      */
     public function isDirectlyCuratedBy(User $user)
@@ -73,7 +73,7 @@ trait CanBeCurated
     /**
      * Check if given user is curator for taxon's ancestor.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return bool
      */
     public function ancestorIsCuratedBy(User $user)
@@ -86,7 +86,7 @@ trait CanBeCurated
     /**
      * Check if given user is curator for taxon's ancestor.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return bool
      */
     public function descendantIsCuratedBy(User $user)
@@ -99,7 +99,7 @@ trait CanBeCurated
     /**
      * Add curator for this taxon.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return self
      */
     public function addCurator(User $user)
@@ -112,7 +112,7 @@ trait CanBeCurated
     /**
      * Check if taxon can be approved by given user.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return bool
      */
     public function canBeApprovedBy(User $user)

@@ -2,7 +2,7 @@
 
 namespace App\Notifications\Channels;
 
-use App\PendingNotification;
+use App\Models\PendingNotification;
 use Illuminate\Notifications\Notification;
 
 class UnreadSummaryMailChannel

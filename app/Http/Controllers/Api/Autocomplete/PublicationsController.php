@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Autocomplete;
 
 use App\Http\Resources\PublicationResource;
-use App\Publication;
+use App\Models\Publication;
 use Illuminate\Http\Request;
 
 class PublicationsController

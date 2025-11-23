@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Import;
+use App\Models\Import;
 use App\Importing\ImportStatus;
 use App\Importing\LiteratureObservationImport;
 use Illuminate\Http\Request;

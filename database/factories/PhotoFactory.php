@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\ImageLicense;
-use App\Photo;
+use App\Models\Photo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Str;

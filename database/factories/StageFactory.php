@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Stage;
+use App\Models\Stage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class StageFactory extends Factory

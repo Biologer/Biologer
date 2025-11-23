@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Api;
 
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use App\Notifications\FieldObservationMarkedUnidentifiable;
-use App\Taxon;
-use App\User;
+use App\Models\Taxon;
+use App\Models\User;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;

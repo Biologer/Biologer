@@ -8,7 +8,7 @@
                             class="view-group-card__image {{ $group->image_url ? '' : 'view-group-card__image--default' }}"
                             title="{{ $group->name_with_fallback }}"
                         >
-                            <img src="{{ $group->image_url ?? \App\ViewGroup::defaultImage() }}">
+                            <img src="{{ $group->image_url ?? \App\Models\ViewGroup::defaultImage() }}">
                         </div>
 
                         <div class="view-group-card__content">

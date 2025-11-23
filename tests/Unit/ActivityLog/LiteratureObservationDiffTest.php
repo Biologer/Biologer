@@ -3,12 +3,12 @@
 namespace Tests\Unit\ActivityLog;
 
 use App\ActivityLog\LiteratureObservationDiff;
-use App\LiteratureObservation;
+use App\Models\LiteratureObservation;
 use App\LiteratureObservationIdentificationValidity;
-use App\Observation;
-use App\Publication;
-use App\Stage;
-use App\Taxon;
+use App\Models\Observation;
+use App\Models\Publication;
+use App\Models\Stage;
+use App\Models\Taxon;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 

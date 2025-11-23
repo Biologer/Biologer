@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\ConservationDocument;
-use App\ConservationLegislation;
+use App\Models\ConservationDocument;
+use App\Models\ConservationLegislation;
 use App\Http\Requests\SyncTaxon;
-use App\RedList;
+use App\Models\RedList;
 use App\Support\Taxonomy;
-use App\Taxon;
+use App\Models\Taxon;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;

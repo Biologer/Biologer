@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Export;
+use App\Models\Export;
 
 class ExportDownloadController
 {
     /**
      * Download exported file.
      *
-     * @param  \App\Export  $export
+     * @param  \App\Models\Export  $export
      * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
     public function __invoke(Export $export)

@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\ConservationLegislation;
-use App\RedList;
+use App\Models\ConservationLegislation;
+use App\Models\RedList;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 

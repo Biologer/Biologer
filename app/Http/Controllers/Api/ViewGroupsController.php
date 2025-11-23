@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\SaveViewGroup;
 use App\Http\Resources\ViewGroupResource;
-use App\ViewGroup;
+use App\Models\ViewGroup;
 
 class ViewGroupsController
 {
@@ -38,7 +38,7 @@ class ViewGroupsController
     /**
      * Display the specified resource.
      *
-     * @param  \App\ViewGroup  $group
+     * @param  \App\Models\ViewGroup  $group
      * @return \App\Http\Resources\ViewGroupResource
      */
     public function show(ViewGroup $group)
@@ -49,7 +49,7 @@ class ViewGroupsController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\ViewGroup  $group
+     * @param  \App\Models\ViewGroup  $group
      * @param  \App\Http\Requests\SaveViewGroup  $request
      * @return \App\Http\Resources\ViewGroupResource
      */
@@ -61,7 +61,7 @@ class ViewGroupsController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ViewGroup  $group
+     * @param  \App\Models\ViewGroup  $group
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(ViewGroup $group)

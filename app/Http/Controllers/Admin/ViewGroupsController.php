@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\ViewGroups\ViewGroupsExport;
-use App\ViewGroup;
+use App\Models\ViewGroup;
 
 class ViewGroupsController
 {
@@ -34,7 +34,7 @@ class ViewGroupsController
     /**
      * Show page to edit view group.
      *
-     * @param  \App\ViewGroup  $group
+     * @param  \App\Models\ViewGroup  $group
      * @return \Illuminate\View\View
      */
     public function edit(ViewGroup $group)

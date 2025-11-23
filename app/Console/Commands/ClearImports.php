@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Import;
+use App\Models\Import;
 use Illuminate\Console\Command;
 
 class ClearImports extends Command

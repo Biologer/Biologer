@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\LiteratureObservation;
+use App\Models\LiteratureObservation;
 use App\LiteratureObservationIdentificationValidity;
-use App\Publication;
+use App\Models\Publication;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class LiteratureObservationFactory extends Factory

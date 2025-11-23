@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Observation;
-use App\User;
+use App\Models\Observation;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Date;
 

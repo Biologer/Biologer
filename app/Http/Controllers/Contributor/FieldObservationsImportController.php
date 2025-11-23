@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Contributor;
 
-use App\Import;
+use App\Models\Import;
 use App\Importing\FieldObservationImport;
 use App\Importing\ImportStatus;
 use Illuminate\Http\Request;

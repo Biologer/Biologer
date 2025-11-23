@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\ObservationTypeTranslation;
+use App\Models\ObservationTypeTranslation;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ObservationTypeResource extends JsonResource

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\ConservationDocument;
+use App\Models\ConservationDocument;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ConservationDocumentFactory extends Factory

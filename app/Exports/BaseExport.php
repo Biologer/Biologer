@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Export;
+use App\Models\Export;
 use Box\Spout\Common\Type;
 use Box\Spout\Writer\WriterFactory;
 use Box\Spout\Writer\WriterInterface;
@@ -22,7 +22,7 @@ abstract class BaseExport
      * @param  array  $columns
      * @param  array  $filter
      * @param  bool  $withHeader
-     * @return \App\Export
+     * @return \App\Models\Export
      */
     public static function create(array $columns, array $filter, $withHeader = false)
     {
@@ -83,7 +83,7 @@ abstract class BaseExport
     /**
      * Perform the export.
      *
-     * @param  \App\Export  $export
+     * @param  \App\Models\Export  $export
      * @return void
      */
     public function export(Export $export)
@@ -132,7 +132,7 @@ abstract class BaseExport
     /**
      * Export data to temp file.
      *
-     * @param  \App\Export  $export
+     * @param  \App\Models\Export  $export
      * @return string temp file path
      */
     private function exportToTempFile(Export $export)
@@ -151,7 +151,7 @@ abstract class BaseExport
     /**
      * Write the export header.
      *
-     * @param  \App\Export  $export
+     * @param  \App\Models\Export  $export
      * @param  \Box\Spout\Writer\WriterInterface  $writer
      * @return void
      */
@@ -182,7 +182,7 @@ abstract class BaseExport
     /**
      * Write the contents of the exported file.
      *
-     * @param  \App\Export  $export
+     * @param  \App\Models\Export  $export
      * @param  \Box\Spout\Writer\WriterInterface  $writer
      * @return void
      */
@@ -201,7 +201,7 @@ abstract class BaseExport
     /**
      * Database query to get the data for export.
      *
-     * @param  \App\Export  $export
+     * @param  \App\Models\Export  $export
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder
      */
     abstract protected function query(Export $export);

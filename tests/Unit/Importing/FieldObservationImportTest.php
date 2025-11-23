@@ -3,12 +3,12 @@
 namespace Tests\Unit\Importing;
 
 use App\DEM\Reader as DEMReader;
-use App\FieldObservation;
-use App\Import;
+use App\Models\FieldObservation;
+use App\Models\Import;
 use App\Importing\FieldObservationImport;
 use App\License;
-use App\Taxon;
-use App\User;
+use App\Models\Taxon;
+use App\Models\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;
@@ -313,8 +313,8 @@ class FieldObservationImportTest extends TestCase
      * @param  string  $type
      * @param  array  $columns  [description]
      * @param  string $contents [description]
-     * @param  \App\User|null  $user
-     * @return \App\Import
+     * @param  \App\Models\User|null  $user
+     * @return \App\Models\Import
      */
     protected function createImport($type, array $columns = [], $contents = null, $user = null)
     {

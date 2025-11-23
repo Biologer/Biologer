@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Import;
+use App\Models\Import;
 use App\Importing\ImportStatus;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -13,7 +13,7 @@ class CancelledImportsController
      * Cancel import.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Import
+     * @return \App\Models\Import
      */
     public function store(Request $request)
     {

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\UserResource;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -39,7 +39,7 @@ class UsersController
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return \App\Http\Resources\UserResource
      */
     public function show(User $user)
@@ -50,7 +50,7 @@ class UsersController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return \App\Http\Resources\UserResource
      */
     public function update(User $user)
@@ -118,7 +118,7 @@ class UsersController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(User $user)
@@ -141,7 +141,7 @@ class UsersController
     /**
      * Generate user access token.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\JsonResponse
      */
     public function generateToken(User $user)
@@ -154,7 +154,7 @@ class UsersController
     /**
      * Remove all user access tokens.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\JsonResponse
      */
     public function revokeToken(User $user)

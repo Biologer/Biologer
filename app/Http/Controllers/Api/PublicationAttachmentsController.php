@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\PublicationAttachmentResource;
-use App\PublicationAttachment;
+use App\Models\PublicationAttachment;
 use Illuminate\Http\Request;
 
 class PublicationAttachmentsController

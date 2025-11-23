@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Announcement;
+use App\Models\Announcement;
 use App\Http\Resources\AnnouncementResource;
 use Illuminate\Validation\Rule;
 

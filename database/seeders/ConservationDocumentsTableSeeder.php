@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\ConservationDocument;
+use App\Models\ConservationDocument;
 use Illuminate\Database\Seeder;
 
 class ConservationDocumentsTableSeeder extends Seeder

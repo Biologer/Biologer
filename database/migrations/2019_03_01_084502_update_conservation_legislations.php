@@ -1,6 +1,6 @@
 <?php
 
-use App\ConservationLegislation;
+use App\Models\ConservationLegislation;
 use Illuminate\Database\Migrations\Migration;
 
 class UpdateConservationLegislations extends Migration

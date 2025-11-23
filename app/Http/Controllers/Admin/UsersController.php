@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Role;
-use App\User;
+use App\Models\Role;
+use App\Models\User;
 
 class UsersController
 {
@@ -20,7 +20,7 @@ class UsersController
     /**
      * Show page to edit user.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\View\View
      */
     public function edit(User $user)

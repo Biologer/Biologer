@@ -4,13 +4,13 @@ namespace App\Http\Requests;
 
 use App\ActivityLog\LiteratureObservationDiff;
 use App\License;
-use App\LiteratureObservation;
+use App\Models\LiteratureObservation;
 use App\LiteratureObservationIdentificationValidity;
 use App\Rules\Day;
 use App\Rules\Decimal;
 use App\Rules\Month;
 use App\Sex;
-use App\Stage;
+use App\Models\Stage;
 use App\Support\Dataset;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
@@ -178,8 +178,8 @@ class UpdateLiteratureObservation extends FormRequest
     /**
      * Log update activity for literature observation.
      *
-     * @param  \App\LiteratureObservation  $updatedObservation
-     * @param  \App\LiteratureObservation  $oldObservation
+     * @param  \App\Models\LiteratureObservation  $updatedObservation
+     * @param  \App\Models\LiteratureObservation  $oldObservation
      * @return void
      */
     protected function logActivity(LiteratureObservation $updatedObservation, LiteratureObservation $oldObservation)

@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\ImageLicense;
-use App\Photo;
+use App\Models\Photo;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;

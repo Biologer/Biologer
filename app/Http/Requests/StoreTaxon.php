@@ -2,14 +2,14 @@
 
 namespace App\Http\Requests;
 
-use App\ConservationDocument;
-use App\ConservationLegislation;
-use App\RedList;
+use App\Models\ConservationDocument;
+use App\Models\ConservationLegislation;
+use App\Models\RedList;
 use App\Rules\UniqueTaxonName;
-use App\Stage;
+use App\Models\Stage;
 use App\Support\Localization;
-use App\Synonym;
-use App\Taxon;
+use App\Models\Synonym;
+use App\Models\Taxon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -84,7 +84,7 @@ class StoreTaxon extends FormRequest
     /**
      * Create taxon using request data.
      *
-     * @return \App\Taxon
+     * @return \App\Models\Taxon
      */
     protected function createTaxon()
     {
@@ -111,7 +111,7 @@ class StoreTaxon extends FormRequest
     /**
      * Sync taxon relations.
      *
-     * @param  \App\Taxon  $taxon
+     * @param  \App\Models\Taxon  $taxon
      * @return void
      */
     protected function syncRelations(Taxon $taxon)
@@ -127,7 +127,7 @@ class StoreTaxon extends FormRequest
     /**
      * Store the information.
      *
-     * @return \App\Taxon
+     * @return \App\Models\Taxon
      */
     public function save()
     {
@@ -143,7 +143,7 @@ class StoreTaxon extends FormRequest
     /**
      * Log taxon created activity.
      *
-     * @param  \App\Taxon  $taxon
+     * @param  \App\Models\Taxon  $taxon
      * @return void
      */
     protected function logCreatedActivity(Taxon $taxon)

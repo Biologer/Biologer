@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Taxon;
+use App\Models\Taxon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;

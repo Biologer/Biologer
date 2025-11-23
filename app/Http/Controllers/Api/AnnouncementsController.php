@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Announcement;
+use App\Models\Announcement;
 use App\Http\Requests\SaveAnnouncement;
 use App\Http\Resources\AnnouncementResource;
 use Illuminate\Http\Request;
@@ -42,7 +42,7 @@ class AnnouncementsController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Announcement  $announcement
+     * @param  \App\Models\Announcement  $announcement
      * @return \Illuminate\Http\Response
      */
     public function show(Announcement $announcement)
@@ -54,7 +54,7 @@ class AnnouncementsController
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\SaveAnnouncement  $request
-     * @param  \App\Announcement  $announcement
+     * @param  \App\Models\Announcement  $announcement
      * @return \Illuminate\Http\Response
      */
     public function update(SaveAnnouncement $request, Announcement $announcement)
@@ -65,7 +65,7 @@ class AnnouncementsController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Announcement  $announcement
+     * @param  \App\Models\Announcement  $announcement
      * @return \Illuminate\Http\Response
      */
     public function destroy(Announcement $announcement)

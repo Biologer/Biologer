@@ -3,11 +3,11 @@
 namespace Tests\Unit\ActivityLog;
 
 use App\ActivityLog\FieldObservationDiff;
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use App\License;
-use App\Observation;
-use App\Stage;
-use App\Taxon;
+use App\Models\Observation;
+use App\Models\Stage;
+use App\Models\Taxon;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 

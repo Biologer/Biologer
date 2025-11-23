@@ -2,10 +2,10 @@
 
 namespace App\Repositories;
 
-use App\FieldObservation;
-use App\Observation;
-use App\User;
-use App\ViewGroup;
+use App\Models\FieldObservation;
+use App\Models\Observation;
+use App\Models\User;
+use App\Models\ViewGroup;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;

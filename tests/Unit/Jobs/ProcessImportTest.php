@@ -2,12 +2,12 @@
 
 namespace Tests\Unit\Jobs;
 
-use App\FieldObservation;
-use App\Import;
+use App\Models\FieldObservation;
+use App\Models\Import;
 use App\Importing\FieldObservationImport;
 use App\Jobs\ProcessImport;
-use App\Taxon;
-use App\User;
+use App\Models\Taxon;
+use App\Models\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Curator;
 
 use App\Exports\FieldObservations\CuratorPendingFieldObservationsCustomExport;
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PendingObservationsController
@@ -25,7 +25,7 @@ class PendingObservationsController
     /**
      * Show pending field observation details.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return \Illuminate\View\View
      */
     public function show(FieldObservation $fieldObservation)
@@ -42,7 +42,7 @@ class PendingObservationsController
     /**
      * Display form to edit pending observations.
      *
-     * @param  \App\FieldObservation $fieldObservation
+     * @param  \App\Models\FieldObservation $fieldObservation
      * @return \Illuminate\View\View
      */
     public function edit(FieldObservation $fieldObservation)
@@ -57,8 +57,8 @@ class PendingObservationsController
 
         return view('curator.pending-observations.edit', [
             'fieldObservation' => $fieldObservation,
-            'stages' => \App\Stage::all(),
-            'observationTypes' => \App\ObservationType::all(),
+            'stages' => \App\Models\Stage::all(),
+            'observationTypes' => \App\Models\ObservationType::all(),
         ]);
     }
 }

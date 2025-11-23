@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Taxon;
+use App\Models\Taxon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TaxonFactory extends Factory

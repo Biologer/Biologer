@@ -2,7 +2,7 @@
 
 namespace App\Exports\LiteratureObservations;
 
-use App\LiteratureObservation;
+use App\Models\LiteratureObservation;
 use Illuminate\Http\Request;
 
 class LiteratureObservationsExportFactory
@@ -31,7 +31,7 @@ class LiteratureObservationsExportFactory
      * Create export instance.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Export
+     * @return \App\Models\Export
      */
     public function createFromRequest(Request $request)
     {

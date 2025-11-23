@@ -1,16 +1,20 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\Concerns\HasTranslatableAttributes;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ConservationLegislation extends Model
+class RedList extends Model
 {
-    use HasFactory, Translatable, HasTranslatableAttributes;
+    use HasFactory, Translatable;
 
-    protected $translationForeignKey = 'leg_id';
+    /**
+     * Red List categories.
+     *
+     * @var array
+     */
+    const CATEGORIES = ['EX', 'EW', 'CR', 'CR (PE)', 'CR (PEW)', 'RE', 'EN', 'VU', 'NT', 'LC', 'DD', 'NE'];
 
     /**
      * The relations to eager load on every query.
@@ -24,27 +28,27 @@ class ConservationLegislation extends Model
      *
      * @var array
      */
-    protected $appends = ['name', 'description'];
+    protected $appends = ['name'];
 
-    public $translatedAttributes = ['name', 'description'];
+    public $translatedAttributes = ['name'];
 
     /**
-     * Taxa that is listed.
+     * Taxa on the list.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function taxa()
     {
-        return $this->belongsToMany(Taxon::class);
+        return $this->belongsToMany(Taxon::class)->withPivot('category');
     }
 
+    /**
+     * Get translated name.
+     *
+     * @return string|null
+     */
     public function getNameAttribute()
     {
         return $this->translateOrNew($this->locale())->name;
-    }
-
-    public function getDescriptionAttribute()
-    {
-        return $this->translateOrNew($this->locale())->description;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Importing;
 
-use App\Import;
+use App\Models\Import;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;

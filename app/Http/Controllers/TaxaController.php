@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Taxon;
+use App\Models\Taxon;
 use Illuminate\Support\Str;
 
 class TaxaController
@@ -10,7 +10,7 @@ class TaxaController
     /**
      * Display taxon details.
      *
-     * @param  \App\Taxon  $taxon
+     * @param  \App\Models\Taxon  $taxon
      * @return \Illuminate\View\View
      */
     public function show(Taxon $taxon)

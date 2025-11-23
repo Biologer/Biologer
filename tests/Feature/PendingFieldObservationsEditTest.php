@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Taxon;
-use App\User;
+use App\Models\Taxon;
+use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;

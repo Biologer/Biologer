@@ -1,7 +1,7 @@
 <?php
 
-use App\LiteratureObservation;
-use App\Observation;
+use App\Models\LiteratureObservation;
+use App\Models\Observation;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Publication;
+use App\Models\Publication;
 use App\PublicationType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -88,8 +88,8 @@ class SavePublication extends FormRequest
     /**
      * Save the publication using validated request data.
      *
-     * @param  \App\Publication  $publication
-     * @return \App\Publication
+     * @param  \App\Models\Publication  $publication
+     * @return \App\Models\Publication
      */
     public function save(Publication $publication)
     {

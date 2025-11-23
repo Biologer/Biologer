@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 

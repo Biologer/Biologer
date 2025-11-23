@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Taxon;
+use App\Models\Taxon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 

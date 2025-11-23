@@ -2,8 +2,8 @@
 
 namespace App\Notifications;
 
-use App\TimedCountObservation;
-use App\User;
+use App\Models\TimedCountObservation;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -14,20 +14,20 @@ class TimedCountObservationEdited extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * @var \App\User
+     * @var \App\Models\User
      */
     public $causer;
 
     /**
-     * @var \App\TimedCountObservation
+     * @var \App\Models\TimedCountObservation
      */
     public $timedCountObservation;
 
     /**
      * Create a new notification instance.
      *
-     * @param  \App\TimedCountObservation  $timedCountObservation
-     * @param  \App\User  $causer
+     * @param  \App\Models\TimedCountObservation  $timedCountObservation
+     * @param  \App\Models\User  $causer
      * @return void
      */
     public function __construct(TimedCountObservation $timedCountObservation, User $causer)

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Taxon;
+use App\Models\Taxon;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 

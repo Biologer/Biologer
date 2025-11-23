@@ -2,14 +2,14 @@
 
 namespace App\Http\Requests;
 
-use App\ConservationDocument;
-use App\ConservationLegislation;
-use App\RedList;
+use App\Models\ConservationDocument;
+use App\Models\ConservationLegislation;
+use App\Models\RedList;
 use App\Rules\UniqueTaxonName;
-use App\Stage;
+use App\Models\Stage;
 use App\Support\Localization;
-use App\Synonym;
-use App\Taxon;
+use App\Models\Synonym;
+use App\Models\Taxon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -87,8 +87,8 @@ class UpdateTaxon extends FormRequest
     /**
      * Update taxon using request data.
      *
-     * @param  \App\Taxon  $taxon
-     * @return \App\Taxon
+     * @param  \App\Models\Taxon  $taxon
+     * @return \App\Models\Taxon
      */
     public function save(Taxon $taxon)
     {
@@ -131,7 +131,7 @@ class UpdateTaxon extends FormRequest
     /**
      * Sync taxon relations.
      *
-     * @param  \App\Taxon  $taxon
+     * @param  \App\Models\Taxon  $taxon
      * @return void
      */
     protected function syncRelations(Taxon $taxon)

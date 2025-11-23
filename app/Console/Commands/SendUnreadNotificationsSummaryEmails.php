@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\PendingNotification;
+use App\Models\PendingNotification;
 use Illuminate\Console\Command;
 
 class SendUnreadNotificationsSummaryEmails extends Command

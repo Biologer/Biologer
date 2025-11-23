@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Import;
+use App\Models\Import;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -21,14 +21,14 @@ class ProcessImport implements ShouldQueue
     public $timeout = 600;
 
     /**
-     * @var \App\Import
+     * @var \App\Models\Import
      */
     public $import;
 
     /**
      * Create a new job instance.
      *
-     * @param  \App\Import  $import
+     * @param  \App\Models\Import  $import
      * @return void
      */
     public function __construct(Import $import)

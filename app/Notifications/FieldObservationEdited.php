@@ -2,9 +2,9 @@
 
 namespace App\Notifications;
 
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use App\Notifications\Channels\FcmChannel;
-use App\User;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -15,20 +15,20 @@ class FieldObservationEdited extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * @var \App\User
+     * @var \App\Models\User
      */
     public $causer;
 
     /**
-     * @var \App\FieldObservation
+     * @var \App\Models\FieldObservation
      */
     public $fieldObservation;
 
     /**
      * Create a new notification instance.
      *
-     * @param  \App\FieldObservation  $fieldObservation
-     * @param  \App\User  $causer
+     * @param  \App\Models\FieldObservation  $fieldObservation
+     * @param  \App\Models\User  $causer
      * @return void
      */
     public function __construct(FieldObservation $fieldObservation, User $causer)

@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Api;
 
-use App\ObservationType;
-use App\User;
+use App\Models\ObservationType;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Date;
 use Laravel\Passport\Passport;

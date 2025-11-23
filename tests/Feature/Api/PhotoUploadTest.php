@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Api;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;

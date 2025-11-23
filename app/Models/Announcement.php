@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Events\NewAnnouncement;
 use Astrotomic\Translatable\Translatable;

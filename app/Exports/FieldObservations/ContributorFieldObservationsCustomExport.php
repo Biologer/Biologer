@@ -2,14 +2,14 @@
 
 namespace App\Exports\FieldObservations;
 
-use App\Export;
+use App\Models\Export;
 
 class ContributorFieldObservationsCustomExport extends CustomFieldObservationsExport
 {
     /**
      * Database query to get the data for export.
      *
-     * @param  \App\Export  $export
+     * @param  \App\Models\Export  $export
      * @return \Illuminate\Database\Query\Builder
      */
     protected function query(Export $export)

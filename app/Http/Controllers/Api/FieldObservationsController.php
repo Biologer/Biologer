@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use App\Http\Requests\StoreFieldObservation;
 use App\Http\Requests\UpdateFieldObservation;
 use App\Http\Resources\FieldObservationResource;
@@ -40,7 +40,7 @@ class FieldObservationsController
     /**
      * Display the specified resource.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return \App\Http\Resources\FieldObservationResource
      */
     public function show(FieldObservation $fieldObservation)
@@ -51,7 +51,7 @@ class FieldObservationsController
     /**
      * Update field observation.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @param  \App\Http\Requests\UpdateFieldObservation  $form
      * @return \App\Http\Resources\FieldObservationResource
      */
@@ -63,7 +63,7 @@ class FieldObservationsController
     /**
      * Delete field observation.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(FieldObservation $fieldObservation)

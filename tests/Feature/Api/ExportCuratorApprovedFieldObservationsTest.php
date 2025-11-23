@@ -5,7 +5,7 @@ namespace Tests\Feature\Api;
 use App\Exports\FieldObservations\CuratorApprovedFieldObservationsCustomExport;
 use App\Exports\FieldObservations\CuratorApprovedFieldObservationsDarwinCoreExport;
 use App\Jobs\PerformExport;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Queue;
 use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;

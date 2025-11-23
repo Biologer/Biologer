@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Announcement;
+use App\Models\Announcement;
 use App\Support\Localization;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -53,7 +53,7 @@ class SaveAnnouncement extends FormRequest
     /**
      * Store new Announcement.
      *
-     * @return \App\Announcement
+     * @return \App\Models\Announcement
      */
     public function store()
     {
@@ -63,8 +63,8 @@ class SaveAnnouncement extends FormRequest
     /**
      * Update the Announcement.
      *
-     * @param  \App\Announcement  $announcement
-     * @return \App\Announcement
+     * @param  \App\Models\Announcement  $announcement
+     * @return \App\Models\Announcement
      */
     public function update(Announcement $announcement)
     {

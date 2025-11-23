@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Announcement;
-use App\FieldObservation;
-use App\User;
+use App\Models\Announcement;
+use App\Models\FieldObservation;
+use App\Models\User;
 
 class HomeController
 {

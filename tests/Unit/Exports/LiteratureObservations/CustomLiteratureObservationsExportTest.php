@@ -4,12 +4,12 @@ namespace Tests\Unit\Exports\LiteratureObservations;
 
 use App\Exports\LiteratureObservations\CustomLiteratureObservationsExport;
 use App\Jobs\PerformExport;
-use App\LiteratureObservation;
+use App\Models\LiteratureObservation;
 use App\LiteratureObservationIdentificationValidity;
-use App\Observation;
-use App\Publication;
-use App\Taxon;
-use App\User;
+use App\Models\Observation;
+use App\Models\Publication;
+use App\Models\Taxon;
+use App\Models\User;
 use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;

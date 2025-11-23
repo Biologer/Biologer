@@ -2,7 +2,7 @@
 
 namespace App\Exports\FieldObservations;
 
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use Illuminate\Http\Request;
 
 class FieldObservationsExportFactory
@@ -31,7 +31,7 @@ class FieldObservationsExportFactory
      * Create export instance.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Export
+     * @return \App\Models\Export
      */
     public function createFromRequest(Request $request)
     {

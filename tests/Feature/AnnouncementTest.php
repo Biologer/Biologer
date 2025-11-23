@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Announcement;
-use App\User;
+use App\Models\Announcement;
+use App\Models\User;
 use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;

@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ObservationTypeTranslation extends Model
+class ConservationLegislationTranslation extends Model
 {
     /**
      * Indicates if the model should be timestamped.

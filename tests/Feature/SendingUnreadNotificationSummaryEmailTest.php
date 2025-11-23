@@ -4,8 +4,8 @@ namespace Tests\Feature;
 
 use App\Notifications\FieldObservationApproved;
 use App\Notifications\UnreadNotificationsSummary;
-use App\PendingNotification;
-use App\User;
+use App\Models\PendingNotification;
+use App\Models\User;
 use Illuminate\Support\Facades\Notification;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;

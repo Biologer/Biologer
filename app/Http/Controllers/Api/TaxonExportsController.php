@@ -31,7 +31,7 @@ class TaxonExportsController
      * Start export of field observations.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Export
+     * @return \App\Models\Export
      */
     public function store(Request $request)
     {
@@ -81,7 +81,7 @@ class TaxonExportsController
      * Create export instance.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Export
+     * @return \App\Models\Export
      */
     private function createExport(Request $request)
     {

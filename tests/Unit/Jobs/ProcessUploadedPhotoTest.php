@@ -3,7 +3,7 @@
 namespace Tests\Unit\Jobs;
 
 use App\Jobs\ProcessUploadedPhoto;
-use App\Photo;
+use App\Models\Photo;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;

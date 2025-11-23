@@ -2,10 +2,10 @@
 
 namespace App\Exports\LiteratureObservations;
 
-use App\Export;
+use App\Models\Export;
 use App\Exports\BaseExport;
-use App\LiteratureObservation;
-use App\Taxon;
+use App\Models\LiteratureObservation;
+use App\Models\Taxon;
 use Illuminate\Support\Carbon;
 
 class DarwinCoreLiteratureObservationsExport extends BaseExport
@@ -104,7 +104,7 @@ class DarwinCoreLiteratureObservationsExport extends BaseExport
     /**
      * Database query to get the data for export.
      *
-     * @param  \App\Export  $export
+     * @param  \App\Models\Export  $export
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder
      */
     protected function query(Export $export)
@@ -118,7 +118,7 @@ class DarwinCoreLiteratureObservationsExport extends BaseExport
     /**
      * Extract needed data from item.
      *
-     * @param  \App\LiteratureObservation  $item
+     * @param  \App\Models\LiteratureObservation  $item
      * @return array
      */
     protected function transformItem($item)
@@ -207,7 +207,7 @@ class DarwinCoreLiteratureObservationsExport extends BaseExport
     /**
      * Get name of anacestor of given rank.
      *
-     * @param  \App\Taxon|null  $taxon
+     * @param  \App\Models\Taxon|null  $taxon
      * @param  string  $rank
      * @return string
      */
@@ -229,7 +229,7 @@ class DarwinCoreLiteratureObservationsExport extends BaseExport
     /**
      * Extract infraspecies epithet.
      *
-     * @param  \App\Taxon|null  $taxon
+     * @param  \App\Models\Taxon|null  $taxon
      * @return string
      */
     private function extractInfraspeciesEpithet($taxon)
@@ -248,7 +248,7 @@ class DarwinCoreLiteratureObservationsExport extends BaseExport
     /**
      * Extract species epithet.
      *
-     * @param  \App\Taxon|null  $taxon
+     * @param  \App\Models\Taxon|null  $taxon
      * @return string
      */
     private function extractSpeciesEpithet($taxon)
@@ -265,7 +265,7 @@ class DarwinCoreLiteratureObservationsExport extends BaseExport
     /**
      * Get name of the first identification.
      *
-     * @param  \App\LiteratureObservation  $literatureObservation
+     * @param  \App\Models\LiteratureObservation  $literatureObservation
      * @return string
      */
     private function firstIdentification($literatureObservation)

@@ -2,10 +2,10 @@
 
 namespace App\Exports\FieldObservations;
 
-use App\Export;
+use App\Models\Export;
 use App\Exports\BaseExport;
-use App\FieldObservation;
-use App\Taxon;
+use App\Models\FieldObservation;
+use App\Models\Taxon;
 
 class DarwinCoreFieldObservationsExport extends BaseExport
 {
@@ -103,7 +103,7 @@ class DarwinCoreFieldObservationsExport extends BaseExport
     /**
      * Database query to get the data for export.
      *
-     * @param  \App\Export  $export
+     * @param  \App\Models\Export  $export
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder
      */
     protected function query(Export $export)
@@ -118,7 +118,7 @@ class DarwinCoreFieldObservationsExport extends BaseExport
     /**
      * Extract needed data from item.
      *
-     * @param  \App\FieldObservation  $item
+     * @param  \App\Models\FieldObservation  $item
      * @return array
      */
     protected function transformItem($item)
@@ -204,7 +204,7 @@ class DarwinCoreFieldObservationsExport extends BaseExport
     /**
      * Get name of anacestor of given rank.
      *
-     * @param  \App\Taxon|null  $taxon
+     * @param  \App\Models\Taxon|null  $taxon
      * @param  string  $rank
      * @return string
      */
@@ -226,7 +226,7 @@ class DarwinCoreFieldObservationsExport extends BaseExport
     /**
      * Extract infraspecies epithet.
      *
-     * @param  \App\Taxon|null  $taxon
+     * @param  \App\Models\Taxon|null  $taxon
      * @return string
      */
     private function extractInfraspeciesEpithet($taxon)
@@ -245,7 +245,7 @@ class DarwinCoreFieldObservationsExport extends BaseExport
     /**
      * Extract species epithet.
      *
-     * @param  \App\Taxon|null  $taxon
+     * @param  \App\Models\Taxon|null  $taxon
      * @return string
      */
     private function extractSpeciesEpithet($taxon)
@@ -262,7 +262,7 @@ class DarwinCoreFieldObservationsExport extends BaseExport
     /**
      * Get name of the first identification.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return string
      */
     private function firstIdentification($fieldObservation)

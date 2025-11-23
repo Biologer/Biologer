@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Console\Commands;
 
-use App\ConservationLegislation;
-use App\RedList;
-use App\Taxon;
-use App\User;
+use App\Models\ConservationLegislation;
+use App\Models\RedList;
+use App\Models\Taxon;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Test;

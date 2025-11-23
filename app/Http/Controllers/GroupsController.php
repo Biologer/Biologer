@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\ViewGroup;
+use App\Models\ViewGroup;
 use Illuminate\Support\Facades\Cache;
 
 class GroupsController

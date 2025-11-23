@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Api;
 
-use App\Taxon;
-use App\User;
-use App\ViewGroup;
+use App\Models\Taxon;
+use App\Models\User;
+use App\Models\ViewGroup;
 use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;

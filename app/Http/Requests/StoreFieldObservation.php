@@ -3,19 +3,19 @@
 namespace App\Http\Requests;
 
 use App\AtlasCode;
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use App\ImageLicense;
 use App\License;
 use App\Notifications\FieldObservationForApproval;
-use App\ObservationType;
+use App\Models\ObservationType;
 use App\Rules\Day;
 use App\Rules\Decimal;
 use App\Rules\Month;
 use App\Sex;
-use App\Stage;
+use App\Models\Stage;
 use App\Support\Dataset;
-use App\Taxon;
-use App\User;
+use App\Models\Taxon;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -87,7 +87,7 @@ class StoreFieldObservation extends FormRequest
     /**
      * Store observation and related data.
      *
-     * @return \App\Observation
+     * @return \App\Models\Observation
      */
     public function store()
     {
@@ -110,7 +110,7 @@ class StoreFieldObservation extends FormRequest
     /**
      * Create observation.
      *
-     * @return \App\FieldObservation
+     * @return \App\Models\FieldObservation
      */
     protected function createObservation()
     {
@@ -277,7 +277,7 @@ class StoreFieldObservation extends FormRequest
     /**
      * Sync field observation relations.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return void
      */
     protected function syncRelations(FieldObservation $fieldObservation)
@@ -288,7 +288,7 @@ class StoreFieldObservation extends FormRequest
     /**
      * Log created activity for field observation.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return void
      */
     protected function logActivity(FieldObservation $fieldObservation)
@@ -301,7 +301,7 @@ class StoreFieldObservation extends FormRequest
     /**
      * Notify curators of new field observation.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return void
      */
     private function notifyCurators(FieldObservation $fieldObservation)

@@ -2,7 +2,7 @@
 
 namespace App\Exports\Taxa;
 
-use App\Taxon;
+use App\Models\Taxon;
 use Illuminate\Http\Request;
 
 class TaxaExportFactory
@@ -21,7 +21,7 @@ class TaxaExportFactory
      * Create export instance.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Export
+     * @return \App\Models\Export
      */
     public function createFromRequest(Request $request)
     {

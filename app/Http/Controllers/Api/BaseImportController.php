@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Import;
+use App\Models\Import;
 use App\Rules\ImportFile;
 use App\Rules\NoImportsInProgress;
 use Illuminate\Http\Request;
@@ -13,9 +13,9 @@ abstract class BaseImportController
     /**
      * Get import status details.
      *
-     * @param  \App\Import  $import
+     * @param  \App\Models\Import  $import
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Import
+     * @return \App\Models\Import
      */
     public function show(Import $import, Request $request)
     {
@@ -27,9 +27,9 @@ abstract class BaseImportController
     /**
      * Check if user can see import details.
      *
-     * @param  \App\Import  $import
+     * @param  \App\Models\Import  $import
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Import
+     * @return \App\Models\Import
      */
     protected function canSeeDetails(Import $import, Request $request)
     {
@@ -41,7 +41,7 @@ abstract class BaseImportController
      * Handle validation of submit request and starting processing the import.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Import
+     * @return \App\Models\Import
      */
     public function store(Request $request)
     {
@@ -78,7 +78,7 @@ abstract class BaseImportController
     /**
      * Get import errors.
      *
-     * @param  \App\Import  $import
+     * @param  \App\Models\Import  $import
      * @param  \Illuminate\Http\Request  $request
      * @return
      */
@@ -92,9 +92,9 @@ abstract class BaseImportController
     /**
      * Check if user can see import errors.
      *
-     * @param  \App\Import  $import
+     * @param  \App\Models\Import  $import
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Import
+     * @return \App\Models\Import
      */
     protected function canSeeErrors(Import $import, Request $request)
     {

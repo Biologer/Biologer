@@ -172,7 +172,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
         Route::prefix('curator')->name('curator.')->group(function () {
             Route::get('pending-observations', [PendingObservationsController::class, 'index'])
                 ->middleware('role:curator,admin')
-                ->middleware('can:list,App\FieldObservation')
+                ->middleware('can:list,App\Models\FieldObservation')
                 ->name('pending-observations.index');
 
             Route::get('pending-observations/{fieldObservation}/edit', [PendingObservationsController::class, 'edit'])
@@ -185,7 +185,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
             Route::get('approved-observations', [ApprovedObservationsController::class, 'index'])
                 ->middleware('role:curator,admin')
-                ->middleware('can:list,App\FieldObservation')
+                ->middleware('can:list,App\Models\FieldObservation')
                 ->name('approved-observations.index');
 
             Route::get('approved-observations/{approvedObservation}/edit', [ApprovedObservationsController::class, 'edit'])
@@ -198,7 +198,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
             Route::get('unidentifiable-observations', [UnidentifiableObservationsController::class, 'index'])
                 ->middleware('role:curator,admin')
-                ->middleware('can:list,App\FieldObservation')
+                ->middleware('can:list,App\Models\FieldObservation')
                 ->name('unidentifiable-observations.index');
 
             Route::get('unidentifiable-observations/{unidentifiableObservation}/edit', [UnidentifiableObservationsController::class, 'edit'])
@@ -236,7 +236,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
                 ->name('taxa.create');
 
             Route::get('users', [UsersController::class, 'index'])
-                ->middleware('can:list,App\User')
+                ->middleware('can:list,App\Models\User')
                 ->name('users.index');
 
             Route::get('users/{user}/edit', [UsersController::class, 'edit'])
@@ -252,7 +252,7 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
                 ->name('view-groups.index');
 
             Route::get('view-groups/new', [ViewGroupsController::class, 'create'])
-                ->middleware('can:create,App\ViewGroup')
+                ->middleware('can:create,App\Models\ViewGroup')
                 ->name('view-groups.create');
 
             Route::get('view-groups/{group}/edit', [ViewGroupsController::class, 'edit'])
@@ -260,11 +260,11 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
                 ->name('view-groups.edit');
 
             Route::get('announcements', [AdminAnnouncementsController::class, 'index'])
-                ->middleware('can:list,App\Announcement')
+                ->middleware('can:list,App\Models\Announcement')
                 ->name('announcements.index');
 
             Route::get('announcements/new', [AdminAnnouncementsController::class, 'create'])
-                ->middleware('can:create,App\Announcement')
+                ->middleware('can:create,App\Models\Announcement')
                 ->name('announcements.create');
 
             Route::get('announcements/{announcement}/edit', [AdminAnnouncementsController::class, 'edit'])
@@ -287,11 +287,11 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
                 ->name('literature-observations.show');
 
             Route::get('publications', [PublicationsController::class, 'index'])
-                ->middleware('can:list,App\Publication')
+                ->middleware('can:list,App\Models\Publication')
                 ->name('publications.index');
 
             Route::get('publications/new', [PublicationsController::class, 'create'])
-                ->middleware('can:create,App\Publication')
+                ->middleware('can:create,App\Models\Publication')
                 ->name('publications.create');
 
             Route::get('publications/{publication}/edit', [PublicationsController::class, 'edit'])

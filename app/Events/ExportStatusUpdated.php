@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Export;
+use App\Models\Export;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -13,14 +13,14 @@ class ExportStatusUpdated
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var \App\Export
+     * @var \App\Models\Export
      */
     public $export;
 
     /**
      * Create a new event instance.
      *
-     * @param  \App\Export  $export
+     * @param  \App\Models\Export  $export
      * @return void
      */
     public function __construct(Export $export)

@@ -2,7 +2,7 @@
 
 namespace App\Filters\FieldObservation;
 
-use App\FieldObservation;
+use App\Models\FieldObservation;
 
 class Status
 {

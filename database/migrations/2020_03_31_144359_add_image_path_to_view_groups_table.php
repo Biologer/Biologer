@@ -1,6 +1,6 @@
 <?php
 
-use App\ViewGroup;
+use App\Models\ViewGroup;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

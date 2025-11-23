@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;

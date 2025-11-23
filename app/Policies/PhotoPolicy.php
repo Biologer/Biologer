@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Photo;
-use App\User;
+use App\Models\Photo;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PhotoPolicy
@@ -13,8 +13,8 @@ class PhotoPolicy
     /**
      * Determine whether the user can view the photo.
      *
-     * @param  \App\User  $user
-     * @param  \App\Photo  $photo
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Photo  $photo
      * @return mixed
      */
     public function view(User $user, Photo $photo)
@@ -25,7 +25,7 @@ class PhotoPolicy
     /**
      * Determine whether the user can create photos.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -36,8 +36,8 @@ class PhotoPolicy
     /**
      * Determine whether the user can update the photo.
      *
-     * @param  \App\User  $user
-     * @param  \App\Photo  $photo
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Photo  $photo
      * @return mixed
      */
     public function update(User $user, Photo $photo)
@@ -48,8 +48,8 @@ class PhotoPolicy
     /**
      * Determine whether the user can delete the photo.
      *
-     * @param  \App\User  $user
-     * @param  \App\Photo  $photo
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Photo  $photo
      * @return mixed
      */
     public function delete(User $user, Photo $photo)
@@ -60,8 +60,8 @@ class PhotoPolicy
     /**
      * Owner or curator in charge of taxon in the photo.
      *
-     * @param  \App\User  $user
-     * @param  \App\Photo  $photo
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Photo  $photo
      * @return bool
      */
     public function viewOriginal(User $user, Photo $photo)

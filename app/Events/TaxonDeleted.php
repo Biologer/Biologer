@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Taxon;
+use App\Models\Taxon;
 use Illuminate\Queue\SerializesModels;
 
 class TaxonDeleted
@@ -10,7 +10,7 @@ class TaxonDeleted
     use SerializesModels;
 
     /**
-     * @var \App\Taxon
+     * @var \App\Models\Taxon
      */
     public $taxon;
 

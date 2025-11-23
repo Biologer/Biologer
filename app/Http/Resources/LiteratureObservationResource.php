@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\LiteratureObservation;
+use App\Models\LiteratureObservation;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LiteratureObservationResource extends JsonResource

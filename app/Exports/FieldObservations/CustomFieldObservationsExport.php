@@ -2,9 +2,9 @@
 
 namespace App\Exports\FieldObservations;
 
-use App\Export;
+use App\Models\Export;
 use App\Exports\BaseExport;
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use Illuminate\Support\Collection;
 
 class CustomFieldObservationsExport extends BaseExport
@@ -151,7 +151,7 @@ class CustomFieldObservationsExport extends BaseExport
     /**
      * Database query to get the data for export.
      *
-     * @param  \App\Export  $export
+     * @param  \App\Models\Export  $export
      * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function query(Export $export)
@@ -165,7 +165,7 @@ class CustomFieldObservationsExport extends BaseExport
     /**
      * Extract needed data from item.
      *
-     * @param  \App\FieldObservation  $item
+     * @param  \App\Models\FieldObservation  $item
      * @return array
      */
     protected function transformItem($item)

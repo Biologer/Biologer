@@ -112,7 +112,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     // Field observations
     Route::get('field-observations', [FieldObservationsController::class, 'index'])
-        ->middleware('can:list,App\FieldObservation')
+        ->middleware('can:list,App\Models\FieldObservation')
         ->name('api.field-observations.index');
 
     Route::post('field-observations', [FieldObservationsController::class, 'store'])
@@ -169,7 +169,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     // Timed count observations
     Route::get('timed-count-observations', [TimedCountObservationsController::class, 'index'])
-        ->middleware('can:list,App\TimedCountObservation')
+        ->middleware('can:list,App\Models\TimedCountObservation')
         ->name('api.timed-count-observations.index');
 
     Route::post('timed-count-observations', [TimedCountObservationsController::class, 'store'])
@@ -193,7 +193,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     // Users
     Route::get('users', [UsersController::class, 'index'])
-        ->middleware('can:list,App\User')
+        ->middleware('can:list,App\Models\User')
         ->name('api.users.index');
 
     Route::get('users/{user}', [UsersController::class, 'show'])
@@ -217,7 +217,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->name('api.view-groups.index');
 
     Route::post('view-groups', [ViewGroupsController::class, 'store'])
-        ->middleware('can:create,App\ViewGroup')
+        ->middleware('can:create,App\Models\ViewGroup')
         ->name('api.view-groups.store');
 
     Route::get('view-groups/{group}', [ViewGroupsController::class, 'show'])
@@ -256,7 +256,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->name('api.announcements.show');
 
     Route::post('announcements', [AnnouncementsController::class, 'store'])
-        ->middleware('can:create,App\Announcement')
+        ->middleware('can:create,App\Models\Announcement')
         ->name('api.announcements.store');
 
     Route::put('announcements/{announcement}', [AnnouncementsController::class, 'update'])
@@ -273,11 +273,11 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     // Publication
     Route::get('publications', [PublicationsController::class, 'index'])
-        ->middleware('can:list,App\Publication')
+        ->middleware('can:list,App\Models\Publication')
         ->name('api.publications.index');
 
     Route::post('publications', [PublicationsController::class, 'store'])
-        ->middleware('can:create,App\Publication')
+        ->middleware('can:create,App\Models\Publication')
         ->name('api.publications.store');
 
     Route::put('publications/{publication}', [PublicationsController::class, 'update'])
@@ -289,7 +289,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->name('api.publications.destroy');
 
     Route::post('publication-attachments', [PublicationAttachmentsController::class, 'store'])
-        ->middleware('can:create,App\PublicationAttachment')
+        ->middleware('can:create,App\Models\PublicationAttachment')
         ->name('api.publication-attachments.store');
 
     Route::delete('publication-attachments/{publicationAttachment}', [PublicationAttachmentsController::class, 'destroy'])
@@ -298,11 +298,11 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     // Literature observations
     Route::get('literature-observations', [LiteratureObservationsController::class, 'index'])
-        ->middleware('can:list,App\LiteratureObservation')
+        ->middleware('can:list,App\Models\LiteratureObservation')
         ->name('api.literature-observations.index');
 
     Route::post('literature-observations', [LiteratureObservationsController::class, 'store'])
-        ->middleware('can:create,App\LiteratureObservation')
+        ->middleware('can:create,App\Models\LiteratureObservation')
         ->name('api.literature-observations.store');
 
     Route::get('literature-observations/{literatureObservation}', [LiteratureObservationsController::class, 'show'])
@@ -357,21 +357,21 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     Route::prefix('curator')->group(function () {
         Route::get('pending-observations', [PendingObservationsController::class, 'index'])
-            ->middleware('can:list,App\FieldObservation')
+            ->middleware('can:list,App\Models\FieldObservation')
             ->name('api.curator.pending-observations.index');
 
         Route::post('pending-observations/export', [PendingObservationExportsController::class, 'store'])
             ->name('api.curator.pending-observation-exports.store');
 
         Route::get('approved-observations', [ApprovedObservationsController::class, 'index'])
-            ->middleware('can:list,App\FieldObservation')
+            ->middleware('can:list,App\Models\FieldObservation')
             ->name('api.curator.approved-observations.index');
 
         Route::post('approved-observations/export', [ApprovedObservationExportsController::class, 'store'])
             ->name('api.curator.approved-observation-exports.store');
 
         Route::get('unidentifiable-observations', [UnidentifiableObservationsController::class, 'index'])
-            ->middleware('can:list,App\FieldObservation')
+            ->middleware('can:list,App\Models\FieldObservation')
             ->name('api.curator.unidentifiable-observations.index');
 
         Route::post('unidentifiable-observations/export', [UnidentifiableObservationExportsController::class, 'store'])

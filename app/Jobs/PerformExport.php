@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Export;
+use App\Models\Export;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -22,14 +22,14 @@ class PerformExport implements ShouldQueue
     public $timeout = 600;
 
     /**
-     * @var \App\Export
+     * @var \App\Models\Export
      */
     public $export;
 
     /**
      * Create a new job instance.
      *
-     * @param  \App\Export  $export
+     * @param  \App\Models\Export  $export
      * @return void
      */
     public function __construct(Export $export)

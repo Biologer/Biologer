@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Api;
 
-use App\Photo;
-use App\Taxon;
+use App\Models\Photo;
+use App\Models\Taxon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;

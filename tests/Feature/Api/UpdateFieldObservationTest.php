@@ -4,10 +4,10 @@ namespace Tests\Feature\Api;
 
 use App\License;
 use App\Notifications\FieldObservationEdited;
-use App\Photo;
-use App\Stage;
-use App\Taxon;
-use App\User;
+use App\Models\Photo;
+use App\Models\Stage;
+use App\Models\Taxon;
+use App\Models\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;

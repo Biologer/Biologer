@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Observation;
-use App\Taxon;
+use App\Models\Observation;
+use App\Models\Taxon;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;

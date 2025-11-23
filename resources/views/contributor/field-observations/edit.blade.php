@@ -10,7 +10,7 @@
             :data-licenses="{{ json_encode(\App\License::getOptions()) }}"
             :image-licenses="{{ json_encode(\App\ImageLicense::getOptions()) }}"
             :sexes="{{ \App\Sex::options() }}"
-            :observation-types="{{ App\ObservationType::all() }}"
+            :observation-types="{{ App\Models\ObservationType::all() }}"
             :atlas-codes="{{ \App\AtlasCode::all() }}"
             :observation="{{ $fieldObservation }}"
             should-confirm-submit

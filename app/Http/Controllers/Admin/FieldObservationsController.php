@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\FieldObservations\CustomFieldObservationsExport;
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class FieldObservationsController
@@ -25,7 +25,7 @@ class FieldObservationsController
     /**
      * Show field observation details.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return \Illuminate\View\View
      */
     public function show(FieldObservation $fieldObservation)
@@ -42,7 +42,7 @@ class FieldObservationsController
     /**
      * Display form to edit pending observations.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return \Illuminate\View\View
      */
     public function edit(FieldObservation $fieldObservation)
@@ -54,8 +54,8 @@ class FieldObservationsController
                 'observation.taxon.curators', 'observation.taxon.stages',
                 'observedBy', 'identifiedBy',
             ]),
-            'stages' => \App\Stage::all(),
-            'observationTypes' => \App\ObservationType::all(),
+            'stages' => \App\Models\Stage::all(),
+            'observationTypes' => \App\Models\ObservationType::all(),
         ]);
     }
 }

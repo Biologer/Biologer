@@ -6,8 +6,8 @@ use App\ActivityLog\TimedCountObservationDiff;
 use App\Notifications\TimedCountObservationEdited;
 use App\Rules\Day;
 use App\Rules\Month;
-use App\TimedCountObservation;
-use App\User;
+use App\Models\TimedCountObservation;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -56,8 +56,8 @@ class UpdateTimedCountObservation extends FormRequest
     /**
      * Store timed count observation and related data.
      *
-     * @param  \App\TimedCountObservation  $timedCountObservation
-     * @return \App\TimedCountObservation
+     * @param  \App\Models\TimedCountObservation  $timedCountObservation
+     * @return \App\Models\TimedCountObservation
      */
     public function save(TimedCountObservation $timedCountObservation)
     {
@@ -115,7 +115,7 @@ class UpdateTimedCountObservation extends FormRequest
     /**
      * Log update activity for timed count observation.
      *
-     * @param  \App\TimedCountObservation  $timedCountObservation
+     * @param  \App\Models\TimedCountObservation  $timedCountObservation
      * @param  array  $beforeChange
      * @return void
      */
@@ -145,7 +145,7 @@ class UpdateTimedCountObservation extends FormRequest
     /**
      * Send notification to creator of observation that it has been updated.
      *
-     * @param  \App\TimedCountObservation  $timedCountObservation
+     * @param  \App\Models\TimedCountObservation  $timedCountObservation
      * @return void
      */
     private function notifyCreator(TimedCountObservation $timedCountObservation)

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Contributor;
 
-use App\FieldObservation;
+use App\Models\FieldObservation;
 
 class DashboardController
 {

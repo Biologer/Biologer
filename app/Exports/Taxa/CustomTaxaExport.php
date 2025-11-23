@@ -2,9 +2,9 @@
 
 namespace App\Exports\Taxa;
 
-use App\Export;
+use App\Models\Export;
 use App\Exports\BaseExport;
-use App\Taxon;
+use App\Models\Taxon;
 use Illuminate\Support\Str;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -95,7 +95,7 @@ class CustomTaxaExport extends BaseExport
     /**
      * Database query to get the data for export.
      *
-     * @param  \App\Export  $export
+     * @param  \App\Models\Export  $export
      * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function query(Export $export)
@@ -107,7 +107,7 @@ class CustomTaxaExport extends BaseExport
      * Extract needed data from item.
      * All separators must be semicolon with space afterwards ('; ').
      *
-     * @param  \App\Taxon  $item
+     * @param  \App\Models\Taxon  $item
      * @return array
      */
     protected function transformItem($item)

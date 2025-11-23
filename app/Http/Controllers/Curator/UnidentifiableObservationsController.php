@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Curator;
 
 use App\Exports\FieldObservations\CuratorUnidentifiableFieldObservationsCustomExport;
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class UnidentifiableObservationsController
@@ -25,7 +25,7 @@ class UnidentifiableObservationsController
     /**
      * Show unidentifiable field observation details.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return \Illuminate\View\View
      */
     public function show(FieldObservation $fieldObservation)
@@ -56,8 +56,8 @@ class UnidentifiableObservationsController
 
         return view('curator.unidentifiable-observations.edit', [
             'fieldObservation' => $fieldObservation,
-            'stages' => \App\Stage::all(),
-            'observationTypes' => \App\ObservationType::all(),
+            'stages' => \App\Models\Stage::all(),
+            'observationTypes' => \App\Models\ObservationType::all(),
         ]);
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\LiteratureObservations\CustomLiteratureObservationsExport;
-use App\LiteratureObservation;
+use App\Models\LiteratureObservation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class LiteratureObservationsController
@@ -25,7 +25,7 @@ class LiteratureObservationsController
     /**
      * Show literature observation details.
      *
-     * @param  \App\LiteratureObservation  $literatureObservation
+     * @param  \App\Models\LiteratureObservation  $literatureObservation
      * @return \Illuminate\View\View
      */
     public function show(LiteratureObservation $literatureObservation)
@@ -51,7 +51,7 @@ class LiteratureObservationsController
     /**
      * Show literature observation edit form.
      *
-     * @param  \App\LiteratureObservation  $literatureObservation
+     * @param  \App\Models\LiteratureObservation  $literatureObservation
      * @return \Illuminate\View\View
      */
     public function edit(LiteratureObservation $literatureObservation)

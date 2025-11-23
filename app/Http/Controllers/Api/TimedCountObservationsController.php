@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use App\Http\Requests\StoreTimedCountObservation;
 use App\Http\Requests\UpdateTimedCountObservation;
 use App\Http\Resources\FieldObservationResource;
 use App\Http\Resources\TimedCountObservationResource;
-use App\TimedCountObservation;
+use App\Models\TimedCountObservation;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;

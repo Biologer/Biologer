@@ -1,6 +1,6 @@
 <?php
 
-use App\Import;
+use App\Models\Import;
 use Illuminate\Support\Facades\Broadcast;
 
 /*

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use App\Http\Resources\FieldObservationResource;
 use App\Notifications\FieldObservationMarkedUnidentifiable;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -54,7 +54,7 @@ class UnidentifiableFieldObservationsBatchController
     /**
      * Log marked unidentified activity for field observation.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return void
      */
     protected function logActivity(FieldObservation $fieldObservation)
@@ -68,7 +68,7 @@ class UnidentifiableFieldObservationsBatchController
     /**
      * Notify the creator that the observation is marked as unidentifiable.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return void
      */
     private function notifyCreator(FieldObservation $fieldObservation)

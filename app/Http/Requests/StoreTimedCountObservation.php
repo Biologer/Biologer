@@ -4,8 +4,8 @@ namespace App\Http\Requests;
 
 use App\Rules\Day;
 use App\Rules\Month;
-use App\TimedCountObservation;
-use App\User;
+use App\Models\TimedCountObservation;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -54,7 +54,7 @@ class StoreTimedCountObservation extends FormRequest
     /**
      * Store timed count observation and related data.
      *
-     * @return \App\TimedCountObservation
+     * @return \App\Models\TimedCountObservation
      */
     public function store()
     {
@@ -68,7 +68,7 @@ class StoreTimedCountObservation extends FormRequest
     /**
      * Create timed count observation.
      *
-     * @return \App\TimedCountObservation
+     * @return \App\Models\TimedCountObservation
      */
     protected function createTimedCountObservation()
     {
@@ -146,7 +146,7 @@ class StoreTimedCountObservation extends FormRequest
     /**
      * Log created activity for timed count observation.
      *
-     * @param  \App\TimedCountObservation  $timedCountObservation
+     * @param  \App\Models\TimedCountObservation  $timedCountObservation
      * @return void
      */
     protected function logActivity(TimedCountObservation $timedCountObservation)

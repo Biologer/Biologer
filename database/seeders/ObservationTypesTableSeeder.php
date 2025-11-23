@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\ObservationType;
+use App\Models\ObservationType;
 use Illuminate\Database\Seeder;
 
 class ObservationTypesTableSeeder extends Seeder

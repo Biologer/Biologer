@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Contributor;
 
 use App\Exports\LiteratureObservations\CustomLiteratureObservationsExport;
-use App\LiteratureObservation;
+use App\Models\LiteratureObservation;
 
 class PublicLiteratureObservationsController
 {
@@ -22,7 +22,7 @@ class PublicLiteratureObservationsController
     /**
      * Show field observation details.
      *
-     * @param  \App\LiteratureObservation  $literatureObservation
+     * @param  \App\Models\LiteratureObservation  $literatureObservation
      * @return \Illuminate\View\View
      */
     public function show(LiteratureObservation $literatureObservation)

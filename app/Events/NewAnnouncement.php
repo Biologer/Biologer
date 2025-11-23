@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Announcement;
+use App\Models\Announcement;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -13,14 +13,14 @@ class NewAnnouncement
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var \App\Announcement
+     * @var \App\Models\Announcement
      */
     public $announcement;
 
     /**
      * Create a new event instance.
      *
-     * @param  \App\Announcement  $announcement
+     * @param  \App\Models\Announcement  $announcement
      * @return void
      */
     public function __construct(Announcement $announcement)

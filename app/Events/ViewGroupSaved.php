@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\ViewGroup;
+use App\Models\ViewGroup;
 use Illuminate\Queue\SerializesModels;
 
 class ViewGroupSaved
@@ -10,7 +10,7 @@ class ViewGroupSaved
     use SerializesModels;
 
     /**
-     * @var \App\ViewGroup
+     * @var \App\Models\ViewGroup
      */
     public $viewGroup;
 

@@ -68,15 +68,15 @@ class ViewServiceProvider extends ServiceProvider
                         ->prepend('<p class="menu-label">'.trans('navigation.curator').'</p>')
                         ->addClass('menu-list')
                         ->routeIfCan(
-                            ['list', \App\FieldObservation::class],
+                            ['list', \App\Models\FieldObservation::class],
                             'curator.pending-observations.index',
                             trans('navigation.pending_observations')
                         )->routeIfCan(
-                            ['list', \App\FieldObservation::class],
+                            ['list', \App\Models\FieldObservation::class],
                             'curator.approved-observations.index',
                             trans('navigation.approved_observations')
                         )->routeIfCan(
-                            ['list', \App\FieldObservation::class],
+                            ['list', \App\Models\FieldObservation::class],
                             'curator.unidentifiable-observations.index',
                             trans('navigation.unidentifiable_observations')
                         )->setActiveClass('is-active')
@@ -95,11 +95,11 @@ class ViewServiceProvider extends ServiceProvider
                             'admin.literature-observations.index',
                             trans('navigation.literature_observations')
                         )->routeIfCan(
-                            ['list', \App\Taxon::class],
+                            ['list', \App\Models\Taxon::class],
                             'admin.taxa.index',
                             trans('navigation.taxa')
                         )->routeIfCan(
-                            ['list', \App\User::class],
+                            ['list', \App\Models\User::class],
                             'admin.users.index',
                             trans('navigation.users')
                         )->routeIf(
@@ -107,7 +107,7 @@ class ViewServiceProvider extends ServiceProvider
                             'admin.view-groups.index',
                             trans('navigation.view_groups')
                         )->routeIfCan(
-                            ['list', \App\Publication::class],
+                            ['list', \App\Models\Publication::class],
                             'admin.publications.index',
                             trans('navigation.publications')
                         )->route(

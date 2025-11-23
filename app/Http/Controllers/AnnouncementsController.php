@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Announcement;
+use App\Models\Announcement;
 
 class AnnouncementsController
 {
@@ -27,7 +27,7 @@ class AnnouncementsController
     /**
      * View the announcement.
      *
-     * @param  \App\Announcement  $announcement
+     * @param  \App\Models\Announcement  $announcement
      * @return \Illuminate\View\View
      */
     public function show(Announcement $announcement)

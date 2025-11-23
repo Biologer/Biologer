@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Export;
+use App\Models\Export;
 
 class ExportsController
 {
     /**
      * Retrieve export details.
      *
-     * @param  \App\Export  $export
-     * @return \App\Export
+     * @param  \App\Models\Export  $export
+     * @return \App\Models\Export
      */
     public function show(Export $export)
     {

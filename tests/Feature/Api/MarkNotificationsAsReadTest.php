@@ -3,7 +3,7 @@
 namespace Tests\Feature\Api;
 
 use App\Notifications\FieldObservationApproved;
-use App\User;
+use App\Models\User;
 use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;

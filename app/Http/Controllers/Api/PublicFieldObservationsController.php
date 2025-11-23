@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use App\Http\Resources\PublicFieldObservationResource;
 use Illuminate\Http\Request;
 

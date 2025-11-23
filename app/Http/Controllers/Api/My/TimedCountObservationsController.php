@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\My;
 
 use App\Http\Resources\TimedCountObservationResource;
-use App\TimedCountObservation;
+use App\Models\TimedCountObservation;
 use Illuminate\Http\Request;
 
 class TimedCountObservationsController

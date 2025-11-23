@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ImageLicense;
-use App\Photo;
+use App\Models\Photo;
 
 class PhotosController extends Controller
 {

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\ViewGroup;
+use App\Models\ViewGroup;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ViewGroupFactory extends Factory

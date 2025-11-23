@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use App\Http\Resources\PublicPhotoResource;
-use App\Photo;
-use App\Taxon;
+use App\Models\Photo;
+use App\Models\Taxon;
 use Illuminate\Http\Request;
 
 class TaxonPublicPhotosController

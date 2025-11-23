@@ -4,19 +4,19 @@ namespace App\Http\Requests;
 
 use App\ActivityLog\FieldObservationDiff;
 use App\AtlasCode;
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use App\ImageLicense;
 use App\License;
 use App\Notifications\FieldObservationEdited;
-use App\ObservationType;
+use App\Models\ObservationType;
 use App\Rules\Day;
 use App\Rules\Decimal;
 use App\Rules\Month;
 use App\Sex;
-use App\Stage;
+use App\Models\Stage;
 use App\Support\Dataset;
-use App\Taxon;
-use App\User;
+use App\Models\Taxon;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -87,8 +87,8 @@ class UpdateFieldObservation extends FormRequest
     /**
      * Store observation and related data.
      *
-     * @param  \App\FieldObservation  $fieldObservation
-     * @return \App\FieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
+     * @return \App\Models\FieldObservation
      */
     public function save(FieldObservation $fieldObservation)
     {
@@ -192,7 +192,7 @@ class UpdateFieldObservation extends FormRequest
     /**
      * Log update activity for field observation.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @param  array  $beforeChange
      * @return void
      */
@@ -208,7 +208,7 @@ class UpdateFieldObservation extends FormRequest
     /**
      * Sync field observation relations.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return void
      */
     protected function syncRelations(FieldObservation $fieldObservation)
@@ -248,7 +248,7 @@ class UpdateFieldObservation extends FormRequest
     /**
      * Send notification to creator of observation that it has been updated.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @return void
      */
     private function notifyCreator(FieldObservation $fieldObservation)

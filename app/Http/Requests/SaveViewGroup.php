@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Support\Localization;
-use App\Taxon;
+use App\Models\Taxon;
 use App\UploadedPhoto;
-use App\ViewGroup;
+use App\Models\ViewGroup;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -39,8 +39,8 @@ class SaveViewGroup extends FormRequest
     /**
      * Save given group with data from the request.
      *
-     * @param  \App\ViewGroup  $group
-     * @return \App\ViewGroup
+     * @param  \App\Models\ViewGroup  $group
+     * @return \App\Models\ViewGroup
      */
     public function save(ViewGroup $group)
     {
@@ -71,7 +71,7 @@ class SaveViewGroup extends FormRequest
     /**
      * Save uploaded image for the ViewGroup.
      *
-     * @param  \App\ViewGroup  $group
+     * @param  \App\Models\ViewGroup  $group
      * @return string|null  URL of the image
      */
     private function saveImage(ViewGroup $group)

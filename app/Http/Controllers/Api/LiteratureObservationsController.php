@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\StoreLiteratureObservation;
 use App\Http\Requests\UpdateLiteratureObservation;
 use App\Http\Resources\LiteratureObservationResource;
-use App\LiteratureObservation;
+use App\Models\LiteratureObservation;
 use Illuminate\Http\Request;
 
 class LiteratureObservationsController
@@ -30,7 +30,7 @@ class LiteratureObservationsController
     /**
      * Display the specified resource.
      *
-     * @param  \App\LiteratureObservation  $literatureObservation
+     * @param  \App\Models\LiteratureObservation  $literatureObservation
      * @return \App\Http\Resources\LiteratureObservationResource
      */
     public function show(LiteratureObservation $literatureObservation)
@@ -52,7 +52,7 @@ class LiteratureObservationsController
     /**
      * Update literature observation.
      *
-     * @param  \App\LiteratureObservation  $literatureObservation
+     * @param  \App\Models\LiteratureObservation  $literatureObservation
      * @param  \App\Http\Requests\UpdateLiteratureObservation  $request
      * @return \App\Http\Resources\LiteratureObservationResource
      */
@@ -64,7 +64,7 @@ class LiteratureObservationsController
     /**
      * Delete literature observation.
      *
-     * @param  \App\LiteratureObservation  $literatureObservation
+     * @param  \App\Models\LiteratureObservation  $literatureObservation
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(LiteratureObservation $literatureObservation)

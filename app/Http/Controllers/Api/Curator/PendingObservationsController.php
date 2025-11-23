@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\Curator;
 
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use App\Http\Resources\FieldObservationResource;
 use Illuminate\Http\Request;
 

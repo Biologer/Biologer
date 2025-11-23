@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Contributor;
 
 use App\Exports\FieldObservations\ContributorFieldObservationsCustomExport;
-use App\FieldObservation;
-use App\Stage;
+use App\Models\FieldObservation;
+use App\Models\Stage;
 use Illuminate\Http\Request;
 
 class FieldObservationsController
@@ -24,7 +24,7 @@ class FieldObservationsController
     /**
      * Show field observation details.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\View\View
      */
@@ -58,7 +58,7 @@ class FieldObservationsController
     /**
      * Show form to edit field observation.
      *
-     * @param  \App\FieldObservation  $fieldObservation
+     * @param  \App\Models\FieldObservation  $fieldObservation
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\View\View
      */

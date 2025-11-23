@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Api;
 
-use App\Publication;
+use App\Models\Publication;
 use App\PublicationType;
-use App\User;
+use App\Models\User;
 use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;

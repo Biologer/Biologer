@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use App\Exports\FieldObservations\ContributorFieldObservationsCustomExport;
-use App\Taxon;
-use App\User;
+use App\Models\Taxon;
+use App\Models\User;
 use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;

@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Photo;
+use App\Models\Photo;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -16,7 +16,7 @@ class ProcessUploadedPhoto implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var \App\Photo
+     * @var \App\Models\Photo
      */
     public $photo;
 
@@ -33,7 +33,7 @@ class ProcessUploadedPhoto implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param  \App\Photo  $photo
+     * @param  \App\Models\Photo  $photo
      * @param  array  $crop
      * @return void
      */

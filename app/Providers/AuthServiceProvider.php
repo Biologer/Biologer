@@ -12,17 +12,17 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        \App\Announcement::class => \App\Policies\AnnouncementPolicy::class,
-        \App\ConservationLegislation::class => \App\Policies\ConservationLegislationPolicy::class,
-        \App\FieldObservation::class => \App\Policies\FieldObservationPolicy::class,
-        \App\LiteratureObservation::class => \App\Policies\LiteratureObservationPolicy::class,
-        \App\Publication::class => \App\Policies\PublicationPolicy::class,
-        \App\PublicationAttachment::class => \App\Policies\PublicationAttachmentPolicy::class,
-        \App\RedList::class => \App\Policies\RedListPolicy::class,
-        \App\Taxon::class => \App\Policies\TaxonPolicy::class,
-        \App\User::class => \App\Policies\UserPolicy::class,
-        \App\ViewGroup::class => \App\Policies\ViewGroupPolicy::class,
-        \App\TimedCountObservation::class => \App\Policies\TimedCountObservationPolicy::class,
+        \App\Models\Announcement::class => \App\Policies\AnnouncementPolicy::class,
+        \App\Models\ConservationLegislation::class => \App\Policies\ConservationLegislationPolicy::class,
+        \App\Models\FieldObservation::class => \App\Policies\FieldObservationPolicy::class,
+        \App\Models\LiteratureObservation::class => \App\Policies\LiteratureObservationPolicy::class,
+        \App\Models\Publication::class => \App\Policies\PublicationPolicy::class,
+        \App\Models\PublicationAttachment::class => \App\Policies\PublicationAttachmentPolicy::class,
+        \App\Models\RedList::class => \App\Policies\RedListPolicy::class,
+        \App\Models\Taxon::class => \App\Policies\TaxonPolicy::class,
+        \App\Models\User::class => \App\Policies\UserPolicy::class,
+        \App\Models\ViewGroup::class => \App\Policies\ViewGroupPolicy::class,
+        \App\Models\TimedCountObservation::class => \App\Policies\TimedCountObservationPolicy::class,
     ];
 
     /**

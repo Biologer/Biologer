@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Import;
+use App\Models\Import;
 use App\Importing\FieldObservationImport;
 use App\Importing\ImportStatus;
 use App\Importing\LiteratureObservationImport;

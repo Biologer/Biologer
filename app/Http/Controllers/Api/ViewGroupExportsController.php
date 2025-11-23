@@ -31,7 +31,7 @@ class ViewGroupExportsController
      * Start export of view groups.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Export
+     * @return \App\Models\Export
      */
     public function store(Request $request)
     {
@@ -81,7 +81,7 @@ class ViewGroupExportsController
      * Create export instance.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Export
+     * @return \App\Models\Export
      */
     private function createExport(Request $request)
     {

@@ -1,6 +1,6 @@
 <?php
 
-use App\FieldObservation;
+use App\Models\FieldObservation;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

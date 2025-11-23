@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\ObservationTypeResource;
-use App\ObservationType;
+use App\Models\ObservationType;
 use Illuminate\Http\Request;
 
 class ObservationTypesController

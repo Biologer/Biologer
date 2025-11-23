@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands;
 
-use App\ConservationDocument;
-use App\ConservationLegislation;
-use App\RedList;
-use App\Stage;
-use App\Taxon;
-use App\User;
+use App\Models\ConservationDocument;
+use App\Models\ConservationLegislation;
+use App\Models\RedList;
+use App\Models\Stage;
+use App\Models\Taxon;
+use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +37,7 @@ class ImportTaxa extends Command
     /**
      * User that we should attribute the taxon tree to.
      *
-     * @var \App\User|null
+     * @var \App\Models\User|null
      */
     private $user;
 
@@ -255,7 +255,7 @@ class ImportTaxa extends Command
     /**
      * Check if it's the same taxon as existing one.
      *
-     * @param  \App\Taxon  $existingTaxon
+     * @param  \App\Models\Taxon  $existingTaxon
      * @param  array  $taxon
      * @return bool
      */
@@ -479,7 +479,7 @@ class ImportTaxa extends Command
     /**
      * Connect the lowest taxon in the row with some of it's relations.
      *
-     * @param  \App\Taxon  $taxon
+     * @param  \App\Models\Taxon  $taxon
      * @param  array  $data
      * @return void
      */
