@@ -694,21 +694,26 @@ final class AddFieldObservationTest extends TestCase
         $curator = User::factory()->create();
         $curator->assignRoles('curator');
         $curator->refresh();
+
         $taxon->curators()->attach($curator);
+        $taxon->refresh();
 
         $submitter = User::factory()->create();
         $submitter->roles()->detach();
         Passport::actingAs($submitter);
 
-        $this->postJson('/api/field-observations', $this->validParams([
+        $response = $this->postJson('/api/field-observations', $this->validParams([
              'taxon_id' => $taxon->id,
          ]))->assertCreated();
+
+        $fieldObservationId = $response->json('data.id');
+        $fieldObservation = FieldObservation::find($fieldObservationId);
 
         Notification::assertSentTo(
             $curator,
             FieldObservationForApproval::class,
-            function ($notification) {
-                return $notification->fieldObservation->is(FieldObservation::latest()->first());
+            function ($notification) use ($fieldObservation) {
+                return $notification->fieldObservation->is($fieldObservation);
             }
         );
     }
