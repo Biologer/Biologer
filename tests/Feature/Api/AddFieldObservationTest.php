@@ -5,6 +5,7 @@ namespace Tests\Feature\Api;
 use App\AtlasCode;
 use App\FieldObservation;
 use App\Jobs\ProcessUploadedPhoto;
+use App\Notifications\FieldObservationForApproval;
 use App\Observation;
 use App\Photo;
 use App\Taxon;
@@ -682,4 +683,40 @@ final class AddFieldObservationTest extends TestCase
         $this->assertTrue($fieldObservation->identifiedBy->is($user));
         $this->assertEquals($fieldObservation->identifier, $user->full_name);
     }
+
+    /*
+    #[Test]
+    public function curators_are_notified_of_new_field_observation()
+    {
+        $this->seed('RolesTableSeeder');
+
+        $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
+
+        $curator = User::factory()->create();
+        $curator->assignRoles('curator');
+        $curator->refresh();
+
+        $taxon->curators()->attach($curator);
+        $taxon->refresh();
+
+        $submitter = User::factory()->create();
+        $submitter->roles()->detach();
+        Passport::actingAs($submitter);
+
+        $response = $this->postJson('/api/field-observations', $this->validParams([
+             'taxon_id' => $taxon->id,
+         ]))->assertCreated();
+
+        $fieldObservationId = $response->json('data.id');
+        $fieldObservation = FieldObservation::find($fieldObservationId);
+
+        Notification::assertSentTo(
+            $curator,
+            FieldObservationForApproval::class,
+            function ($notification) use ($fieldObservation) {
+                return $notification->fieldObservation->is($fieldObservation);
+            }
+        );
+    }
+    */
 }
