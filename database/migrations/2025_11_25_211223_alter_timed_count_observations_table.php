@@ -15,8 +15,8 @@ class AlterTimedCountObservationsTable extends Migration
     {
         Schema::table('timed_count_observations', function (Blueprint $table) {
             $table->text('geometry')->nullable()->after('route_length');
-            $table->double('latitude', 15, 12)->nullable()->after('geometry');
-            $table->double('longitude', 15, 12)->nullable()->after('latitude');
+            $table->double('latitude')->nullable()->after('geometry');
+            $table->double('longitude')->nullable()->after('latitude');
         });
     }
 
