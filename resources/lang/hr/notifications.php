@@ -28,7 +28,7 @@ return [
         'edited_message' => 'Jedan od Vaših terenskih nalaza je izmjenjen.',
         'edited_message_with_taxon' => 'Vaših terenski nalaz svojte :taxonName je izmjenjen.',
         'edited' => ':causerName je izmenio/la Vaš nalaz.',
-        'edited' => ':causerName je izmenio/la Vaš nalaz svojte :taxonName.',
+        'edited_with_taxon' => ':causerName je izmenio/la Vaš nalaz svojte :taxonName.',
         'for_approval' => ':contributorName je uneo/la nov nalaz.',
         'for_approval_with_taxon' => ':contributorName je uneo/la nov nalaz svojte :taxonName.',
         'marked_as_unidentifiable_subject' => 'Nalaz se ne može identifikovati',

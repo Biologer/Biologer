@@ -43,5 +43,4 @@ return [
         'moved_to_pending_with_taxon' => ':curatorName has moved your field observation of :taxonName to pending.',
         'action' => 'View Observation',
     ],
-
 ];
