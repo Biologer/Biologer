@@ -17,6 +17,18 @@ abstract class TestCase extends BaseTestCase
         refreshTestDatabase as traitRefreshTestDatabase;
     }
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutMiddleware([
+            \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
+            \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
+            \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
+            \Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect::class,
+        ]);
+    }
+
     protected function setUpTraits()
     {
         $traits = parent::setUpTraits();
