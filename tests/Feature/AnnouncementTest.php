@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 final class AnnouncementTest extends TestCase
 {
-
     private function validParams($overrides = [])
     {
         return array_merge([
