@@ -13,6 +13,21 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication, CustomAssertArraySubset, RefreshDatabase;
 
+    use RefreshDatabase {
+        refreshTestDatabase as traitRefreshTestDatabase;
+    }
+
+    protected function setUpTraits()
+    {
+        $traits = parent::setUpTraits();
+
+        if (isset($traits[RefreshDatabase::class])) {
+            $this->refreshTestDatabase();
+        }
+
+        return $traits;
+    }
+
     /**
      * Refresh a conventional test database.
      *
@@ -24,7 +39,8 @@ abstract class TestCase extends BaseTestCase
             return $this->refreshMySQLTestDatabase();
         }
 
-        return parent::refreshTestDatabase();
+        //return parent::refreshTestDatabase();
+        return $this->traitRefreshTestDatabase();
     }
 
     private function refreshMySQLTestDatabase()
@@ -36,7 +52,7 @@ abstract class TestCase extends BaseTestCase
                 DB::unprepared(file_get_contents(database_path('migrations_2025_11_23.sql')));
             }
 
-            $this->artisan('migrate:fresh');
+            $this->artisan('migrate');
 
             $this->app[Kernel::class]->setArtisan(null);
 

@@ -72,10 +72,10 @@ final class TaxaTest extends TestCase
         Carbon::setTestNow();
         $taxa->first()->touch();
 
-        Passport::actingAs(User::factory()->make());
+        Passport::actingAs(User::factory()->create());
 
         $response = $this->getJson('/api/taxa?'.http_build_query([
-            'updated_after' => Carbon::now()->timestamp,
+            'updated_after' => Carbon::now()->subSecond()->timestamp,
         ]));
 
         $response->assertStatus(200);

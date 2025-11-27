@@ -28,6 +28,7 @@ final class AddFieldObservationTest extends TestCase
         parent::setUp();
 
         Notification::fake();
+        Queue::fake();
     }
 
     /**
@@ -689,16 +690,26 @@ final class AddFieldObservationTest extends TestCase
         $this->seed('RolesTableSeeder');
 
         $taxon = Taxon::factory()->create(['name' => 'Cerambyx cerdo']);
-        $curator = User::factory()->create()->assignRoles('curator');
+
+        $curator = User::factory()->create();
+        $curator->assignRoles('curator');
+        $curator->refresh();
         $taxon->curators()->attach($curator);
 
-        Passport::actingAs(User::factory()->create());
+        $submitter = User::factory()->create();
+        $submitter->roles()->detach();
+        Passport::actingAs($submitter);
+
         $this->postJson('/api/field-observations', $this->validParams([
              'taxon_id' => $taxon->id,
          ]))->assertCreated();
 
-        Notification::assertSentTo($curator, FieldObservationForApproval::class, function ($notification) {
-            return $notification->fieldObservation->is(FieldObservation::latest()->first());
-        });
+        Notification::assertSentTo(
+            $curator,
+            FieldObservationForApproval::class,
+            function ($notification) {
+                return $notification->fieldObservation->is(FieldObservation::latest()->first());
+            }
+        );
     }
 }
