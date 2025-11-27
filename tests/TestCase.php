@@ -32,11 +32,11 @@ abstract class TestCase extends BaseTestCase
         if (! RefreshDatabaseState::$migrated) {
             // If there is users table that means we have probably ran the migrations
             // before and can proceed with running the rest instead of importing snapshot.
-            #if (! Schema::hasTable('users')) {
-            #    DB::unprepared(file_get_contents(database_path('migrations_2025_11_23.sql')));
-            #}
+            if (! Schema::hasTable('users')) {
+                DB::unprepared(file_get_contents(database_path('migrations_2025_11_23.sql')));
+            }
 
-            $this->artisan('migrate');
+            $this->artisan('migrate:fresh');
 
             $this->app[Kernel::class]->setArtisan(null);
 

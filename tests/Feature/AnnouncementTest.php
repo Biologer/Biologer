@@ -10,6 +10,11 @@ use Tests\TestCase;
 
 final class AnnouncementTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        $this->refreshTestDatabase();
+    }
+
     private function validParams($overrides = [])
     {
         return array_merge([
