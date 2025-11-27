@@ -5,7 +5,6 @@ namespace Tests\Feature\Api;
 use App\AtlasCode;
 use App\FieldObservation;
 use App\Jobs\ProcessUploadedPhoto;
-use App\Notifications\FieldObservationForApproval;
 use App\Observation;
 use App\Photo;
 use App\Taxon;
