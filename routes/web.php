@@ -61,12 +61,17 @@ Route::get('photos/{photo}/public', [PhotosController::class, 'public'])
     ->middleware('signed')
     ->name('photos.public');
 
-Route::prefix(LaravelLocalization::setLocale())->middleware([
-    'localeCookieRedirect',
-    'localizationRedirect',
-    'localeViewPath',
-    'localizationPreferenceUpdate',
-])->group(function () {
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => [
+        'localize',
+        'localizationRedirect',
+        'localeSessionRedirect',
+        'localeCookieRedirect',
+        'localeViewPath',
+        'localizationPreferenceUpdate',
+    ],
+], function () {
     Route::auth(['verify' => false, 'confirm' => false]);
     Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
     Route::post('email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
