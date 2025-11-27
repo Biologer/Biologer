@@ -52,7 +52,7 @@ abstract class TestCase extends BaseTestCase
                 DB::unprepared(file_get_contents(database_path('migrations_2025_11_23.sql')));
             }
 
-            $this->artisan('migrate:fresh');
+            $this->artisan('migrate:fresh --seed');
 
             $this->app[Kernel::class]->setArtisan(null);
 
