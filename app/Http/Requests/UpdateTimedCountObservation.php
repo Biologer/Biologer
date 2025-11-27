@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\ActivityLog\TimedCountObservationDiff;
 use App\Notifications\TimedCountObservationEdited;
 use App\Rules\Day;
+use App\Rules\Decimal;
 use App\Rules\Month;
 use App\TimedCountObservation;
 use App\User;
@@ -47,6 +48,9 @@ class UpdateTimedCountObservation extends FormRequest
             'habitat' => ['nullable', 'string'],
             'area' => ['nullable', 'integer', 'min:0'],
             'route_length' => ['nullable', 'integer', 'min:0'],
+            'geometry' => ['nullable', 'string'],
+            'latitude' => ['required', new Decimal(['min' => -90, 'max' => 90])],
+            'longitude' => ['required', new Decimal(['min' => -180, 'max' => 180])],
             'observer' => ['nullable', 'string'],
             'observed_by_id' => ['nullable', 'exists:users,id'],
             'view_groups_id' => ['required', 'exists:view_groups,id'],
@@ -83,6 +87,9 @@ class UpdateTimedCountObservation extends FormRequest
      */
     protected function getTimedCountObservationData()
     {
+        $latitude = (float) str_replace(',', '.', $this->input('latitude'));
+        $longitude = (float) str_replace(',', '.', $this->input('longitude'));
+
         $data = [
             'year' => $this->input('year'),
             'month' => $this->input('month') ? (int) $this->input('month') : null,
@@ -100,6 +107,9 @@ class UpdateTimedCountObservation extends FormRequest
             'comments' => $this->input('comments'),
             'area' => $this->input('area'),
             'route_length' => $this->input('route_length'),
+            'geometry' => $this->input('geometry'),
+            'latitude' => $latitude,
+            'longitude' => $longitude,
             'observer' => $this->getObserver(),
 
             'view_groups_id' => $this->input('view_groups_id'),

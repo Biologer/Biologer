@@ -17,6 +17,7 @@
       :default-sort="[sortField, sortOrder]"
       @sort="onSort"
 
+      detailed
       mobile-cards
     >
       <template #top-left>
@@ -133,6 +134,28 @@
             <p>{{ empty }}</p>
           </div>
         </section>
+      </template>
+
+      <template #detail="{ row }">
+        <article class="media">
+          <figure class="media-left">
+            <p class="image is-64x64" v-for="(photo, index) in row.photos" :key="photo.id">
+              <img class="is-clickable" :src="photo.url" @click="openImageModal(row.photos, index)">
+            </p>
+          </figure>
+
+          <div class="media-content">
+            <div class="content">
+              <template v-if="row.latitude && row.longitude">
+                <small>Centroid: {{ row.latitude }}, {{ row.longitude }}</small><br>
+              </template>
+
+              <template v-if="row.geometry">
+                <small>Geometry: {{ row.geometry.replace(/^LINESTRING\(/, '').replace(/\)$/, '').replace(/,/g, ', ') }}</small><br>
+              </template>
+            </div>
+          </div>
+        </article>
       </template>
     </b-table>
   </div>

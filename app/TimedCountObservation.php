@@ -37,6 +37,9 @@ class TimedCountObservation extends Model implements FlatArrayable
         'comments',
         'area',
         'route_length',
+        'geometry',
+        'latitude',
+        'longitude',
         'observer',
         'observed_by_id',
         'created_by_id',
@@ -63,6 +66,9 @@ class TimedCountObservation extends Model implements FlatArrayable
         'comments' => 'string',
         'area' => 'float',
         'route_length' => 'float',
+        'latitude' => 'float',
+        'longitude' => 'float',
+        'geometry' => 'string',
     ];
 
     /**
@@ -190,6 +196,9 @@ class TimedCountObservation extends Model implements FlatArrayable
             'comments' => $this->comments,
             'area' => $this->area,
             'route_length' => $this->route_length,
+            'geometry' => $this->geometry,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
             'activity' => $this->activity,
         ];
     }
@@ -219,6 +228,9 @@ class TimedCountObservation extends Model implements FlatArrayable
             'comments' => $this->comments,
             'area' => $this->area,
             'route_length' => $this->route_length,
+            'geometry' => $this->geometry,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
             'activity' => $this->activity,
         ];
     }

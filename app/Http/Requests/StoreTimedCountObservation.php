@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\Day;
+use App\Rules\Decimal;
 use App\Rules\Month;
 use App\TimedCountObservation;
 use App\User;
@@ -45,6 +46,9 @@ class StoreTimedCountObservation extends FormRequest
             'habitat' => ['nullable', 'string'],
             'area' => ['nullable', 'integer', 'min:0'],
             'route_length' => ['nullable', 'integer', 'min:0'],
+            'geometry' => ['nullable', 'string'],
+            'latitude' => ['required', new Decimal(['min' => -90, 'max' => 90])],
+            'longitude' => ['required', new Decimal(['min' => -180, 'max' => 180])],
             'observer' => ['nullable', 'string'],
             'observed_by_id' => ['nullable', 'exists:users,id'],
             'view_groups_id' => ['required', 'exists:view_groups,id'],
@@ -84,6 +88,9 @@ class StoreTimedCountObservation extends FormRequest
      */
     protected function getTimedCountData()
     {
+        $latitude = (float) str_replace(',', '.', $this->input('latitude'));
+        $longitude = (float) str_replace(',', '.', $this->input('longitude'));
+
         return [
             'year' => $this->input('year'),
             'month' => $this->input('month') ? (int) $this->input('month') : null,
@@ -101,6 +108,9 @@ class StoreTimedCountObservation extends FormRequest
             'comments' => $this->input('comments'),
             'area' => $this->input('area'),
             'route_length' => $this->input('route_length'),
+            'geometry' => $this->input('geometry'),
+            'latitude' => $latitude,
+            'longitude' => $longitude,
             'observer' => $this->getObserver(),
 
             'observed_by_id' => $this->getObservedBy(),

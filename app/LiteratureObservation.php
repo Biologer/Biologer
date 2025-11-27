@@ -41,6 +41,7 @@ class LiteratureObservation extends Model implements FlatArrayable
             'sort_by' => \App\Filters\SortBy::class,
             'project' => \App\Filters\LiteratureObservation\ObservationAttributeLikeFilter::class,
             'publication_id' => \App\Filters\LiteratureObservation\PublicationFilter::class,
+            'updated_after' => \App\Filters\UpdatedAfter::class,
         ];
     }
 
