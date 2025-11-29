@@ -28,8 +28,9 @@ class PublicFieldObservationResource extends JsonResource
         }
 
         $resource['photos'] = PublicPhotoResource::collection($this->photos->filter->public_url);
-        $fieldObservation['observed_by'] = ObscuredUserResource::make($this->observedBy);
-        $fieldObservation['identified_by'] = ObscuredUserResource::make($this->identifiedBy);
+        $resource['observed_by'] = ObscuredUserResource::make($this->observedBy);
+        $resource['identified_by'] = ObscuredUserResource::make($this->identifiedBy);
+        $resource['activity'] = ActivityResource::collection($this->activity);
 
         return $resource;
     }
