@@ -220,7 +220,7 @@ class License implements Arrayable
      */
     public function name()
     {
-        return trans('licenses.data.'.$this->id);
+        return trans('licenses.data.' . $this->id);
     }
 
     /**
@@ -263,9 +263,28 @@ class License implements Arrayable
      */
     public static function applyConstraintsToFieldObservations($query)
     {
-        return $query->where(function ($query) {
+        // Get the logged-in user
+        $user = auth('api')->user();
+
+        // No constrains for Admin
+        if ($user && $user->hasRole('admin')) {
+            return $query;
+        }
+
+        return $query->where(function ($query) use ($user) {
             foreach (static::all() as $license) {
-                $query->isFieldObservation()->orWhere($license->fieldObservationConstraint);
+                $query->orWhere(function ($q) use ($license, $user) {
+                    // Apply the base license constraint
+                    ($license->fieldObservationConstraint)($q);
+
+                    // Only owners and curators should see see Closed data
+                    if ($user) {
+                        $q->orWhere('observed_by_id', $user->id)
+                            ->orWhere(function ($curatorQuery) use ($user) {
+                                $curatorQuery->curatedBy($user);
+                            });
+                    }
+                });
             }
         });
     }
