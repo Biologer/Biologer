@@ -7,7 +7,14 @@ use Illuminate\Notifications\Notification;
 
 class FcmChannel
 {
-    public function send(FirebaseV1 $notifiable, Notification $notification)
+    /**
+     * Send the given notification.
+     *
+     * @param  mixed  $notifiable
+     * @param  \Illuminate\Notifications\Notification  $notification
+     * @return void
+     */
+    public function send($notifiable, Notification $notification)
     {
         // Expect notifications to implement a toFcm() method
         if (! method_exists($notification, 'toFcm')) {
