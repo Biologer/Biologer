@@ -22,9 +22,9 @@ class CreateTransectSectionsTable extends Migration
             $table->string('secondary_habitat')->nullable();
             $table->string('land_tenure')->nullable();
             $table->string('land_management')->nullable();
-            $table->unsignedBigInteger('transect_id');
+            $table->unsignedBigInteger('transect_count_id');
             $table->timestamps();
-            $table->foreign('transect_id')->references('id')->on('transects');
+            $table->foreign('transect_count_id')->references('id')->on('transect_count_observations');
         });
     }
 

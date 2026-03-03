@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTransectsTable extends Migration
+class CreateTransectCountObservationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTransectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('transects', function (Blueprint $table) {
+        Schema::create('transect_count_observations', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned();
             $table->string('name');
             $table->string('description')->nullable();
@@ -31,6 +31,6 @@ class CreateTransectsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transects');
+        Schema::dropIfExists('transect_count_observations');
     }
 }
