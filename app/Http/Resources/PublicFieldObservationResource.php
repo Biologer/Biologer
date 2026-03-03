@@ -24,7 +24,7 @@ class PublicFieldObservationResource extends JsonResource
         $isPrivileged = $isOwner || $isAdmin || $isCurator;
 
         // Limit access if the user has no full access rights
-        if (!$isPrivileged) {
+        if (! $isPrivileged) {
             if ($this->shouldHideRealCoordinates()) {
                 $resource['latitude'] = (float) number_format($this->observation->latitude, 1);
                 $resource['longitude'] = (float) number_format($this->observation->longitude, 1);

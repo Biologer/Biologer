@@ -220,7 +220,7 @@ class License implements Arrayable
      */
     public function name()
     {
-        return trans('licenses.data.' . $this->id);
+        return trans('licenses.data.'.$this->id);
     }
 
     /**
