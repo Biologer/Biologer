@@ -166,6 +166,16 @@ class FieldObservation extends Model implements FlatArrayable
     }
 
     /**
+     * Transect visit this observation belongs to (if any).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function transectVisit()
+    {
+        return $this->belongsTo(TransectVisit::class);
+    }
+
+    /**
      * Scope the query to get identifiable observations.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
