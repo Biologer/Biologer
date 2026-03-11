@@ -6,14 +6,13 @@ use App\Concerns\CanMemoize;
 use App\Concerns\MappedSorting;
 use App\Contracts\FlatArrayable;
 use App\Filters\Filterable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\Models\Activity;
 
 class TimedCountObservation extends Model implements FlatArrayable
 {
-    use HasFactory, CanMemoize, Filterable, MappedSorting;
+    use CanMemoize, Filterable, MappedSorting;
 
     /**
      * The attributes that are mass assignable.
