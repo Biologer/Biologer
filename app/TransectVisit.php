@@ -2,12 +2,46 @@
 
 namespace App;
 
+use App\Contracts\FlatArrayable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\Models\Activity;
 
-class TransectVisit extends Model
+class TransectVisit extends Model implements FlatArrayable
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'start_time',
+        'end_time',
+        'cloud_cover',
+        'atmospheric_pressure',
+        'humidity',
+        'temperature',
+        'wind_direction',
+        'wind_speed',
+        'comments',
+        'transect_section_id',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'cloud_cover' => 'integer',
+        'atmospheric_pressure' => 'float',
+        'humidity' => 'integer',
+        'temperature' => 'float',
+        'wind_direction' => 'string',
+        'comments' => 'string',
+        'transect_section_id' => 'integer',
+    ];
+
     /**
      * Transect section this observation belongs to (if any).
      *
@@ -79,6 +113,54 @@ class TransectVisit extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by_id');
+    }
+
+    /**
+     * Convert the model instance to an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'start_time' => $this->start_time,
+            'end_time' => $this->end_time,
+            'cloud_cover' => $this->cloud_cover,
+            'atmospheric_pressure' => $this->atmospheric_pressure,
+            'humidity' => $this->humidity,
+            'temperature' => $this->temperature,
+            'wind_direction' => $this->wind_direction,
+            'wind_speed' => $this->wind_speed,
+            'comments' => $this->comments,
+            'activity' => $this->activity,
+            'transect_section_id' => $this->transect_section_id,
+            'transect_count_observation_id' => $this->transectSection->transect_count_observation_id,
+        ];
+    }
+
+    /**
+     * Convert the model instance to a flat array.
+     *
+     * @return array
+     */
+    public function toFlatArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'start_time' => $this->start_time,
+            'end_time' => $this->end_time,
+            'cloud_cover' => $this->cloud_cover,
+            'atmospheric_pressure' => $this->atmospheric_pressure,
+            'humidity' => $this->humidity,
+            'temperature' => $this->temperature,
+            'wind_direction' => $this->wind_direction,
+            'wind_speed' => $this->wind_speed,
+            'comments' => $this->comments,
+            'activity' => $this->activity,
+            'transect_section_id' => $this->transect_section_id,
+            'transect_count_observation_id' => $this->transectSection->transect_count_observation_id,
+        ];
     }
 
     /**

@@ -2,12 +2,35 @@
 
 namespace App;
 
+use App\Contracts\FlatArrayable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\Models\Activity;
 
-class TransectCountObservation extends Model
+class TransectCountObservation extends Model implements FlatArrayable
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'description',
+        'primary_habitat',
+        'location',
+        'length',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'transect_count_observation_id' => 'integer',
+    ];
+
     /**
      * Transect sections that belong to the transect count.
      *
@@ -15,7 +38,7 @@ class TransectCountObservation extends Model
      */
     public function transectSections()
     {
-        return $this->hasMany(TransectSection::class, 'transect_count_id');
+        return $this->hasMany(TransectSection::class, 'transect_count_observation_id');
     }
 
     /**
@@ -59,6 +82,40 @@ class TransectCountObservation extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by_id');
+    }
+
+    /**
+     * Convert the model instance to an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->section_name,
+            'description' => $this->section_description,
+            'location' => $this->location,
+            'length' => $this->length,
+            'primary_habitat' => $this->primary_habitat,
+        ];
+    }
+
+    /**
+     * Convert the model instance to a flat array.
+     *
+     * @return array
+     */
+    public function toFlatArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->section_name,
+            'description' => $this->section_description,
+            'location' => $this->location,
+            'length' => $this->length,
+            'primary_habitat' => $this->primary_habitat,
+        ];
     }
 
     /**

@@ -81,6 +81,7 @@ class StoreFieldObservation extends FormRequest
             'dataset' => ['nullable', 'string', 'max:255'],
             'atlas_code' => ['nullable', 'integer', Rule::in(AtlasCode::CODES)],
             'timed_count_id' => ['nullable', 'integer', 'exists:timed_count_observations,id'],
+            'transect_visit_id' => ['nullable', 'integer', 'exists:transect_visits,id'],
         ];
     }
 
@@ -138,6 +139,7 @@ class StoreFieldObservation extends FormRequest
             'identified_by_id' => $this->getIdentifedBy(),
             'atlas_code' => $this->input('atlas_code'),
             'timed_count_id' => $this->input('timed_count_id'),
+            'transect_visit_id' => $this->input('transect_visit_id'),
         ];
     }
 

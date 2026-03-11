@@ -2,12 +2,37 @@
 
 namespace App;
 
+use App\Contracts\FlatArrayable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\Models\Activity;
 
-class TransectSection extends Model
+class TransectSection extends Model implements FlatArrayable
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'description',
+        'length',
+        'primary_habitat',
+        'secondary_habitat',
+        'land_tenure',
+        'land_management',
+        'transect_count_observation_id',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'transect_count_observation_id' => 'integer',
+    ];
 
     /**
      * Transect count this observation belongs to (if any).
@@ -70,6 +95,46 @@ class TransectSection extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by_id');
+    }
+
+    /**
+     * Convert the model instance to an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'length' => $this->length,
+            'primary_habitat' => $this->primary_habitat,
+            'secondary_habitat' => $this->secondary_habitat,
+            'land_tenure' => $this->land_tenure,
+            'land_management' => $this->land_management,
+            'transect_count_observation_id' => $this->transect_count_observation_id,
+        ];
+    }
+
+    /**
+     * Convert the model instance to a flat array.
+     *
+     * @return array
+     */
+    public function toFlatArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'length' => $this->length,
+            'primary_habitat' => $this->primary_habitat,
+            'secondary_habitat' => $this->secondary_habitat,
+            'land_tenure' => $this->land_tenure,
+            'land_management' => $this->land_management,
+            'transect_count_observation_id' => $this->transect_count_observation_id,
+        ];
     }
 
     /**
