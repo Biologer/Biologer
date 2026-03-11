@@ -26,6 +26,9 @@ use App\Http\Controllers\Api\My\FieldObservationsController as MyFieldObservatio
 use App\Http\Controllers\Api\My\ProfileController;
 use App\Http\Controllers\Api\My\ReadNotificationsBatchController;
 use App\Http\Controllers\Api\My\TimedCountObservationsController as MyTimedCountObservationsController;
+use App\Http\Controllers\Api\My\TransectCountObservationController as MyTransectCountObservationsController;
+use App\Http\Controllers\Api\My\TransectSectionController as MyTransectSectionsController;
+use App\Http\Controllers\Api\My\TransectVisitsController as MyTransectVisitsController;
 use App\Http\Controllers\Api\My\UnreadNotificationsController;
 use App\Http\Controllers\Api\ObservationTypesController;
 use App\Http\Controllers\Api\PendingFieldObservationsBatchController;
@@ -406,6 +409,15 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
         Route::get('timed-count-observations', [MyTimedCountObservationsController::class, 'index'])
             ->name('api.my.timed-count-observations.index');
+
+        Route::get('transect-count-observations', [MyTransectCountObservationsController::class, 'index'])
+            ->name('api.my.transect-count-observations.index');
+
+        Route::get('transect-sections', [MyTransectSectionsController::class, 'index'])
+            ->name('api.my.transect-sections.index');
+
+        Route::get('transect-visits', [MyTransectVisitsController::class, 'index'])
+            ->name('api.my.transect-visits.index');
 
         Route::get('profile', [ProfileController::class, 'show'])
             ->withoutMiddleware('verified')
