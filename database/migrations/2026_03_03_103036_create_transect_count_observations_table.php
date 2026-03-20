@@ -20,7 +20,10 @@ class CreateTransectCountObservationsTable extends Migration
             $table->string('location')->nullable();
             $table->string('length')->nullable();   # should be calculatable from maps, so maybe not in string?
             $table->string('primary_habitat')->nullable();
+            $table->unsignedInteger('created_by_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('created_by_id')->references('id')->on('users');
         });
     }
 

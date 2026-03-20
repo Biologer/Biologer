@@ -25,11 +25,12 @@ class CreateTransectVisitsTable extends Migration
             $table->enum('wind_direction', ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'])->nullable();
             $table->unsignedSmallInteger('wind_speed')->nullable();
             $table->text('comments')->nullable();
+            $table->unsignedInteger('created_by_id')->nullable();
             $table->unsignedInteger('view_groups_id');
             $table->unsignedBigInteger('transect_section_id');
-
             $table->timestamps();
 
+            $table->foreign('created_by_id')->references('id')->on('users');
             $table->foreign('view_groups_id')->references('id')->on('view_groups');
             $table->foreign('transect_section_id')->references('id')->on('transect_sections');
         });
