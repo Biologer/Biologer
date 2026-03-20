@@ -2,13 +2,18 @@
 
 namespace App;
 
+use App\Concerns\CanMemoize;
+use App\Concerns\MappedSorting;
 use App\Contracts\FlatArrayable;
+use App\Filters\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\Models\Activity;
 
 class TransectCountObservation extends Model implements FlatArrayable
 {
+    use CanMemoize, Filterable, MappedSorting;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -17,9 +22,9 @@ class TransectCountObservation extends Model implements FlatArrayable
     protected $fillable = [
         'name',
         'description',
-        'primary_habitat',
         'location',
         'length',
+        'primary_habitat',
     ];
 
     /**
@@ -28,7 +33,7 @@ class TransectCountObservation extends Model implements FlatArrayable
      * @var array
      */
     protected $casts = [
-        'transect_count_observation_id' => 'integer',
+        'created_by_id' => 'integer',
     ];
 
     /**
@@ -52,7 +57,7 @@ class TransectCountObservation extends Model implements FlatArrayable
     }
 
     /**
-     * Get transect count observations created by given user.
+     * Get timed count observations created by given user.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  \App\User  $user
@@ -64,7 +69,7 @@ class TransectCountObservation extends Model implements FlatArrayable
     }
 
     /**
-     * Check if transect count observation is created by given user.
+     * Check if timed count observation is created by given user.
      *
      * @param  \App\User  $user
      * @return bool
@@ -75,13 +80,37 @@ class TransectCountObservation extends Model implements FlatArrayable
     }
 
     /**
-     * User that has submitted this transect count observation.
+     * User that has submitted this timed count observation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by_id');
+    }
+
+    /**
+     * List of fields that field observations can be sorted by.
+     *
+     * @return array
+     */
+    public static function sortableFields()
+    {
+        return [
+            'id', 'name', 'description', 'location', 'length', 'primary_habitat',
+        ];
+    }
+
+    /**
+     * Filter definitions.
+     *
+     * @return array
+     */
+    public function filters()
+    {
+        return [
+            'sort_by' => \App\Filters\SortBy::class,
+        ];
     }
 
     /**
@@ -93,8 +122,8 @@ class TransectCountObservation extends Model implements FlatArrayable
     {
         return [
             'id' => $this->id,
-            'name' => $this->section_name,
-            'description' => $this->section_description,
+            'name' => $this->name,
+            'description' => $this->description,
             'location' => $this->location,
             'length' => $this->length,
             'primary_habitat' => $this->primary_habitat,
@@ -110,8 +139,8 @@ class TransectCountObservation extends Model implements FlatArrayable
     {
         return [
             'id' => $this->id,
-            'name' => $this->section_name,
-            'description' => $this->section_description,
+            'name' => $this->name,
+            'description' => $this->description,
             'location' => $this->location,
             'length' => $this->length,
             'primary_habitat' => $this->primary_habitat,

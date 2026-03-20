@@ -2,13 +2,18 @@
 
 namespace App;
 
+use App\Concerns\CanMemoize;
+use App\Concerns\MappedSorting;
 use App\Contracts\FlatArrayable;
+use App\Filters\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\Models\Activity;
 
 class TransectVisit extends Model implements FlatArrayable
 {
+    use CanMemoize, Filterable, MappedSorting;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -40,6 +45,7 @@ class TransectVisit extends Model implements FlatArrayable
         'wind_direction' => 'string',
         'comments' => 'string',
         'transect_section_id' => 'integer',
+        'created_by_id' => 'integer',
     ];
 
     /**
@@ -113,6 +119,30 @@ class TransectVisit extends Model implements FlatArrayable
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by_id');
+    }
+
+    /**
+     * List of fields that field observations can be sorted by.
+     *
+     * @return array
+     */
+    public static function sortableFields()
+    {
+        return [
+            'id', 'primary_habitat',
+        ];
+    }
+
+    /**
+     * Filter definitions.
+     *
+     * @return array
+     */
+    public function filters()
+    {
+        return [
+            'sort_by' => \App\Filters\SortBy::class,
+        ];
     }
 
     /**
