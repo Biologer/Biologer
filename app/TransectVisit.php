@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\Models\Activity;
 
-class TimedCountObservation extends Model implements FlatArrayable
+class TransectVisit extends Model implements FlatArrayable
 {
     use CanMemoize, Filterable, MappedSorting;
 
@@ -20,29 +20,16 @@ class TimedCountObservation extends Model implements FlatArrayable
      * @var array
      */
     protected $fillable = [
-        'year',
-        'month',
-        'day',
         'start_time',
         'end_time',
-        'count_duration',
         'cloud_cover',
         'atmospheric_pressure',
         'humidity',
         'temperature',
         'wind_direction',
         'wind_speed',
-        'habitat',
         'comments',
-        'area',
-        'route_length',
-        'geometry',
-        'latitude',
-        'longitude',
-        'observer',
-        'observed_by_id',
-        'created_by_id',
-        'view_groups_id',
+        'transect_section_id',
     ];
 
     /**
@@ -51,33 +38,34 @@ class TimedCountObservation extends Model implements FlatArrayable
      * @var array
      */
     protected $casts = [
-        'year' => 'integer',
-        'month' => 'integer',
-        'day' => 'integer',
-        'count_duration' => 'integer',
         'cloud_cover' => 'integer',
         'atmospheric_pressure' => 'float',
         'humidity' => 'integer',
         'temperature' => 'float',
         'wind_direction' => 'string',
-        'wind_speed' => 'float',
-        'habitat' => 'string',
         'comments' => 'string',
-        'area' => 'float',
-        'route_length' => 'float',
-        'latitude' => 'float',
-        'longitude' => 'float',
-        'geometry' => 'string',
+        'transect_section_id' => 'integer',
+        'created_by_id' => 'integer',
     ];
 
     /**
-     * Field observations that belong to the timed count.
+     * Transect section this observation belongs to (if any).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function transectSection()
+    {
+        return $this->belongsTo(TransectSection::class);
+    }
+
+    /**
+     * Field observation that belong to the transect visit.
      *
      * @return HasMany
      */
-    public function fieldObservations()
+    public function fieldObsevations()
     {
-        return $this->hasMany(FieldObservation::class, 'timed_count_id');
+        return $this->hasMany(FieldObservation::class, 'transect_visit_id');
     }
 
     /**
@@ -91,16 +79,6 @@ class TimedCountObservation extends Model implements FlatArrayable
     }
 
     /**
-     * User that made the observation.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function observedBy()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    /**
      * Activity recorded on the model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
@@ -111,7 +89,7 @@ class TimedCountObservation extends Model implements FlatArrayable
     }
 
     /**
-     * Get timed count observations created by given user.
+     * Get transect visits created by given user.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  \App\User  $user
@@ -123,7 +101,7 @@ class TimedCountObservation extends Model implements FlatArrayable
     }
 
     /**
-     * Check if timed count observation is created by given user.
+     * Check if transect visit is created by given user.
      *
      * @param  \App\User  $user
      * @return bool
@@ -134,7 +112,7 @@ class TimedCountObservation extends Model implements FlatArrayable
     }
 
     /**
-     * User that has submitted this timed count observation.
+     * User that has submitted this transect visit.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -151,7 +129,7 @@ class TimedCountObservation extends Model implements FlatArrayable
     public static function sortableFields()
     {
         return [
-            'id', 'year', 'month', 'day',
+            'id', 'primary_habitat',
         ];
     }
 
@@ -164,9 +142,6 @@ class TimedCountObservation extends Model implements FlatArrayable
     {
         return [
             'sort_by' => \App\Filters\SortBy::class,
-            'year' => \App\Filters\FieldObservation\ObservationAttribute::class,
-            'month' => \App\Filters\FieldObservation\ObservationAttribute::class,
-            'day' => \App\Filters\FieldObservation\ObservationAttribute::class,
         ];
     }
 
@@ -179,26 +154,18 @@ class TimedCountObservation extends Model implements FlatArrayable
     {
         return [
             'id' => $this->id,
-            'year' => $this->year,
-            'month' => $this->month,
-            'day' => $this->day,
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
-            'count_duration' => $this->count_duration,
             'cloud_cover' => $this->cloud_cover,
             'atmospheric_pressure' => $this->atmospheric_pressure,
             'humidity' => $this->humidity,
             'temperature' => $this->temperature,
             'wind_direction' => $this->wind_direction,
             'wind_speed' => $this->wind_speed,
-            'habitat' => $this->habitat,
             'comments' => $this->comments,
-            'area' => $this->area,
-            'route_length' => $this->route_length,
-            'geometry' => $this->geometry,
-            'latitude' => $this->latitude,
-            'longitude' => $this->longitude,
             'activity' => $this->activity,
+            'transect_section_id' => $this->transect_section_id,
+            'transect_count_observation_id' => $this->transectSection->transect_count_observation_id,
         ];
     }
 
@@ -207,30 +174,22 @@ class TimedCountObservation extends Model implements FlatArrayable
      *
      * @return array
      */
-    public function toFlatArray()
+    public function toFlatArray(): array
     {
         return [
             'id' => $this->id,
-            'year' => $this->year,
-            'month' => $this->month,
-            'day' => $this->day,
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
-            'count_duration' => $this->count_duration,
             'cloud_cover' => $this->cloud_cover,
             'atmospheric_pressure' => $this->atmospheric_pressure,
             'humidity' => $this->humidity,
             'temperature' => $this->temperature,
             'wind_direction' => $this->wind_direction,
             'wind_speed' => $this->wind_speed,
-            'habitat' => $this->habitat,
             'comments' => $this->comments,
-            'area' => $this->area,
-            'route_length' => $this->route_length,
-            'geometry' => $this->geometry,
-            'latitude' => $this->latitude,
-            'longitude' => $this->longitude,
             'activity' => $this->activity,
+            'transect_section_id' => $this->transect_section_id,
+            'transect_count_observation_id' => $this->transectSection->transect_count_observation_id,
         ];
     }
 
