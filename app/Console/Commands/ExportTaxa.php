@@ -7,10 +7,10 @@ use App\ConservationLegislation;
 use App\RedList;
 use App\Stage;
 use App\Taxon;
-use Box\Spout\Common\Type;
-use Box\Spout\Writer\WriterFactory;
 use Illuminate\Console\Command;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\CSV\Writer as WriterCSV;
 
 class ExportTaxa extends Command
 {
@@ -73,10 +73,10 @@ class ExportTaxa extends Command
         $this->fetchRelated();
 
         $columns = $this->columns();
-        $writer = WriterFactory::create(Type::CSV);
+        $writer = new WriterCSV();
 
         $writer->openToFile($path);
-        $writer->addRow($columns);
+        $writer->addRow(Row::fromValues($columns));
 
         $bar = $this->output->createProgressBar($this->query($rootId)->count());
         $bar->setFormat('[%bar%] %percent:3s%%');

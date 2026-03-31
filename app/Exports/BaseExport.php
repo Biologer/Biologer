@@ -3,14 +3,16 @@
 namespace App\Exports;
 
 use App\Export;
-use Box\Spout\Common\Type;
-use Box\Spout\Writer\WriterFactory;
-use Box\Spout\Writer\WriterInterface;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Localizable;
+use OpenSpout\Common\Exception\IOException;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\CSV\Writer as WriterCSV;
+use OpenSpout\Writer\WriterInterface;
+
 
 abstract class BaseExport
 {
@@ -106,12 +108,16 @@ abstract class BaseExport
     /**
      * Get CSV writer instance.
      *
-     * @param  string  $path
-     * @return \Box\Spout\Writer\WriterInterface
+     * @param  string $path
+     * @return WriterInterface
+     * @throws IOException
      */
     private function makeWriter($path)
     {
-        return WriterFactory::create(Type::CSV)->openToFile($path);
+        $writer = new WriterCSV();
+        $writer->openToFile($path);
+
+        return $writer;
     }
 
     /**
@@ -152,13 +158,15 @@ abstract class BaseExport
      * Write the export header.
      *
      * @param  \App\Export  $export
-     * @param  \Box\Spout\Writer\WriterInterface  $writer
+     * @param  WriterInterface  $writer
      * @return void
      */
     private function writeHeader(Export $export, WriterInterface $writer)
     {
         if ($export->with_header) {
-            $writer->addRow($this->getHeaderForColumns($export->columns));
+            $headerData = $this->getHeaderForColumns($export->columns);
+            $headerRow = Row::fromValues($headerData);
+            $writer->addRow($headerRow);
         }
     }
 
@@ -183,17 +191,17 @@ abstract class BaseExport
      * Write the contents of the exported file.
      *
      * @param  \App\Export  $export
-     * @param  \Box\Spout\Writer\WriterInterface  $writer
+     * @param  WriterInterface  $writer
      * @return void
      */
     private function writeContents(Export $export, WriterInterface $writer)
     {
         $this->query($export)->chunk(300, function ($items) use ($export, $writer) {
             $items->each(function ($item) use ($export, $writer) {
-                $writer->addRow($this->takeColumns(
+                $writer->addRow(Row::fromValues($this->takeColumns(
                     $this->transformItem($item),
                     $export->columns
-                ));
+                )));
             });
         });
     }
