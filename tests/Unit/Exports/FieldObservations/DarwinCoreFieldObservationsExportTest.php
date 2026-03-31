@@ -68,7 +68,6 @@ final class DarwinCoreFieldObservationsExportTest extends TestCase
         Storage::disk('local')->assertExists($export->path());
 
         $expectedKeyValuePairs = collect($this->csvContent($observation));
-        define('BOM_UTF8', "\xEF\xBB\xBF");
 
         $this->assertEquals(
             BOM_UTF8.
@@ -145,8 +144,6 @@ final class DarwinCoreFieldObservationsExportTest extends TestCase
             'dateIdentified' => '',
         ]));
 
-        define('BOM_UTF8', "\xEF\xBB\xBF");
-
         $this->assertEquals(
             BOM_UTF8.
             $expectedKeyValuePairs->keys()->implode(',')."\n".
@@ -217,8 +214,6 @@ final class DarwinCoreFieldObservationsExportTest extends TestCase
             'identifiedBy' => '"Test identifier"',
             'dateIdentified' => $fieldObservation->load('activity')->activity->first()->created_at->toIso8601String(),
         ]));
-
-        define('BOM_UTF8', "\xEF\xBB\xBF");
 
         $this->assertEquals(
             BOM_UTF8.
