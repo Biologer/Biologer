@@ -272,10 +272,6 @@ Route::group([
                 ->middleware('can:update,user')
                 ->name('users.edit');
 
-            Route::put('users/{user}', [UsersController::class, 'update'])
-                ->middleware('can:update,user')
-                ->name('users.update');
-
             Route::get('view-groups', [ViewGroupsController::class, 'index'])
                 ->middleware('role:admin')
                 ->name('view-groups.index');
