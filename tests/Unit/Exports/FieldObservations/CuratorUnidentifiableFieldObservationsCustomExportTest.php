@@ -10,7 +10,7 @@ use App\Taxon;
 use App\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use Openpout\Common\Helper\EncodingHelper;
+use OpenSpout\Common\Helper\EncodingHelper;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;

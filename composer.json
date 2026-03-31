@@ -15,7 +15,7 @@
     "require": {
         "php": "^8.3",
         "astrotomic/laravel-translatable": "^v11.16.1",
-        "box/spout": "^2.7.3",
+        "openspout/openspout": "^v4.32.0",
         "google/auth": "^v1.49.0",
         "guzzlehttp/guzzle": "^7.10.0",
         "intervention/image": "^2.7.2",
@@ -57,6 +57,9 @@
         "optimize-autoloader": true,
         "platform": {
             "php": "8.3"
+        },
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
         }
     },
     "extra": {
