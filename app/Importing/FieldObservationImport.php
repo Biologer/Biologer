@@ -233,6 +233,7 @@ class FieldObservationImport extends BaseImport
     protected function makeValidator(array $data)
     {
         $valid_licences = License::all()->map(fn ($l) => $l->name())->toArray();
+
         return Validator::make($data, [
             'id' => [
                 'nullable',

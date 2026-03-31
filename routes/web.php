@@ -67,7 +67,9 @@ Route::get('photos/{photo}/public', [PhotosController::class, 'public'])
 Route::group([
     'prefix' => LaravelLocalization::setLocale(),
     'middleware' => [
+        \App\Http\Middleware\ClearLocaleOnDefault::class,
         'localizationRedirect',
+        'localeSessionRedirect',
         'localeCookieRedirect',
         'localeViewPath',
         'localizationPreferenceUpdate',
