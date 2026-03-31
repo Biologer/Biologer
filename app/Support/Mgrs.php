@@ -244,9 +244,11 @@ class Mgrs
         $startX = $this->utmEasting() - ($this->utmEasting() % static::METERS_IN_10K);
         $startY = $this->utmNorthing() - ($this->utmNorthing() % static::METERS_IN_10K);
 
+        $half = intdiv(static::METERS_IN_10K, 2); // 5000
+
         // Center point of 10k square
-        $centerX = (int) round($startX + static::METERS_IN_10K / 2);
-        $centerY = (int) round($startY + static::METERS_IN_10K / 2);
+        $centerX = (int) $startX + $half;
+        $centerY = (int) $startY + $half;
 
         return $this->cloneUtm($centerX, $centerY)->asGeographicPoint();
     }
