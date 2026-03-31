@@ -70,8 +70,10 @@ final class CuratorPendingFieldObservationsDarwinCoreExportTest extends TestCase
 
         $expectedKeyValuePairs = collect($this->csvContent($observation));
 
+        define('BOM_UTF8', "\xEF\xBB\xBF");
+
         $this->assertEquals(
-            EncodingHelper::BOM_UTF8.
+            BOM_UTF8.
             $expectedKeyValuePairs->keys()->implode(',')."\n".
             $expectedKeyValuePairs->implode(',')."\n",
             Storage::disk('local')->get($export->path())

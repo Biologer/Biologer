@@ -44,8 +44,10 @@ final class CustomLiteratureObservationsExportTest extends TestCase
 
         Storage::disk('local')->assertExists($export->path());
 
+        define('BOM_UTF8', "\xEF\xBB\xBF");
+
         $this->assertEquals(
-            EncodingHelper::BOM_UTF8
+            BOM_UTF8
             .'ID,Taxon,Year,Month,Day,"Elevation (m)","Minimum Elevation (m)",'
             .'"Maximum Elevation (m)",Latitude,Longitude,"MGRS 10k",Location,"Accuracy (m)",'
             .'"Georeferenced By","Georeferenced on Date",Observer,Identifier,Note,Sex,'

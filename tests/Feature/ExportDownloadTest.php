@@ -23,8 +23,10 @@ final class ExportDownloadTest extends TestCase
 
         $response->assertSuccessful();
 
+        define('BOM_UTF8', "\xEF\xBB\xBF");
+
         $this->assertEquals(
-            EncodingHelper::BOM_UTF8
+            BOM_UTF8
             ."Taxon\n"
             .'"Test taxon"'."\n",
             $response->streamedContent()

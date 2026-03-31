@@ -65,8 +65,10 @@ final class ContributorFieldObservationsCustomExportTest extends TestCase
 
         Storage::disk('local')->assertExists($export->path());
 
+        define('BOM_UTF8', "\xEF\xBB\xBF");
+
         $this->assertEquals(
-            EncodingHelper::BOM_UTF8
+            BOM_UTF8
             .'ID,Taxon,Identifier,Observer,Sex,Year,Month,Day,Latitude,Longitude,'
             .'Location,Accuracy,Elevation,Stage,Number,Note,Project,Habitat,"Found On",Status'."\n"
             .$observation->id.',"Test taxon","Test identifier","Test observer",'
