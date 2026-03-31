@@ -16,7 +16,7 @@ The installation and deployment process is typical for a Laravel application, an
 
 Following requirements must be installed on the server for the application to work:
 
-- PHP >= 8.2
+- PHP >= 8.3
 - OpenSSL PHP Extension
 - PDO PHP Extension
 - Mbstring PHP Extension
