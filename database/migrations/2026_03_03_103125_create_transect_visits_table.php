@@ -19,7 +19,7 @@ class CreateTransectVisitsTable extends Migration
             $table->time('start_time')->nullable();
             $table->time('end_time')->nullable();
             $table->unsignedSmallInteger('cloud_cover')->nullable();
-            $table->unsignedDouble('atmospheric_pressure')->nullable();
+            $table->double('atmospheric_pressure')->nullable();
             $table->unsignedInteger('humidity')->nullable();
             $table->double('temperature')->nullable();
             $table->enum('wind_direction', ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'])->nullable();
