@@ -236,7 +236,7 @@ class Mgrs
     /**
      * Get LatLng instance with coordinates of 10k square center.
      *
-     * @return \PHPCoord\GeographicPoin
+     * @return GeographicPoin
      */
     public function centerOf10kLatLng()
     {
@@ -245,8 +245,8 @@ class Mgrs
         $startY = $this->utmNorthing() - ($this->utmNorthing() % static::METERS_IN_10K);
 
         // Center point of 10k square
-        $centerX = $startX + static::METERS_IN_10K / 2;
-        $centerY = $startY + static::METERS_IN_10K / 2;
+        $centerX = (int) round($startX + static::METERS_IN_10K / 2);
+        $centerY = (int) round($startY + static::METERS_IN_10K / 2);
 
         return $this->cloneUtm($centerX, $centerY)->asGeographicPoint();
     }
