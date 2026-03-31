@@ -240,15 +240,19 @@ class Mgrs
      */
     public function centerOf10kLatLng()
     {
+        $easting = (int) round($this->utmEasting());
+        $northing = (int) round($this->utmNorthing());
+
         // Starting point of 10k square
-        $startX = $this->utmEasting() - ($this->utmEasting() % static::METERS_IN_10K);
-        $startY = $this->utmNorthing() - ($this->utmNorthing() % static::METERS_IN_10K);
+        $startX = $easting - ($easting % static::METERS_IN_10K);
+        $startY = $northing - ($northing % static::METERS_IN_10K);
+
 
         $half = intdiv(static::METERS_IN_10K, 2); // 5000
 
         // Center point of 10k square
-        $centerX = (int) $startX + $half;
-        $centerY = (int) $startY + $half;
+        $centerX = $startX + $half;
+        $centerY = $startY + $half;
 
         return $this->cloneUtm($centerX, $centerY)->asGeographicPoint();
     }
