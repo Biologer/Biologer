@@ -22,7 +22,7 @@ class FieldObservationsController
      */
     public function index(Request $request)
     {
-        $result = FieldObservation::createdBy($request->user())
+        $query = FieldObservation::createdBy($request->user())
             ->isFieldObservation()
             ->with([
                 'observation.taxon',
@@ -32,11 +32,20 @@ class FieldObservationsController
                 'observedBy',
                 'identifiedBy',
             ])
-            ->filter($request)
-            ->orderBy(
-                $request->get('order_by', 'id'),
-                $request->get('direction', 'desc')
-            )
+            ->filter($request);
+
+        if ($request->has('before_id')) {
+            $query->where('id', '<', $request->get('before_id'));
+        }
+
+        if ($request->has('after_id')) {
+            $query->where('id', '>', $request->get('after_id'));
+        }
+
+        $result = $query->orderBy(
+            $request->get('order_by', 'id'),
+            $request->get('direction', 'desc')
+        )
             ->paginate($request->get('per_page', 15));
 
         return FieldObservationResource::collection($result);
