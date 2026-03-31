@@ -30,6 +30,7 @@
     <server name="QUEUE_CONNECTION" value="sync"/>
     <server name="SESSION_DRIVER" value="array"/>
       <ini name="error_reporting" value="E_ALL"/>
+      <const name="BOM_UTF8" value="&#xFEFF;"/>
   </php>
   <source>
     <include>

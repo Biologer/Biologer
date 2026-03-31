@@ -70,8 +70,6 @@ final class CuratorUnidentifiableFieldObservationsDarwinCoreExportTest extends T
 
         $expectedKeyValuePairs = collect($this->csvContent($observation));
 
-        define('BOM_UTF8', "\xEF\xBB\xBF");
-
         $this->assertEquals(
             BOM_UTF8.
             $expectedKeyValuePairs->keys()->implode(',')."\n".
