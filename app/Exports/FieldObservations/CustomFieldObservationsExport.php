@@ -38,6 +38,10 @@ class CustomFieldObservationsExport extends BaseExport
                 'value' => 'day',
             ],
             [
+                'label' => trans('labels.field_observations.time'),
+                'value' => 'time',
+            ],
+            [
                 'label' => trans('labels.field_observations.latitude'),
                 'value' => 'latitude',
             ],
@@ -46,33 +50,24 @@ class CustomFieldObservationsExport extends BaseExport
                 'value' => 'longitude',
             ],
             [
-                'label' => trans('labels.field_observations.elevation'),
-                'value' => 'elevation',
+                'label' => trans('labels.field_observations.location'),
+                'value' => 'location',
+            ],
+            [
+                'label' => trans('labels.field_observations.mgrs10k'),
+                'value' => 'mgrs10k',
             ],
             [
                 'label' => trans('labels.field_observations.accuracy'),
                 'value' => 'accuracy',
             ],
             [
-                'label' => trans('labels.field_observations.location'),
-                'value' => 'location',
-            ],
-
-            [
-                'label' => trans('labels.field_observations.time'),
-                'value' => 'time',
+                'label' => trans('labels.field_observations.elevation'),
+                'value' => 'elevation',
             ],
             [
-                'label' => trans('labels.field_observations.note'),
-                'value' => 'note',
-            ],
-            [
-                'label' => trans('labels.field_observations.found_dead'),
-                'value' => 'found_dead',
-            ],
-            [
-                'label' => trans('labels.field_observations.found_dead_note'),
-                'value' => 'found_dead_note',
+                'label' => trans('labels.field_observations.sex'),
+                'value' => 'sex',
             ],
             [
                 'label' => trans('labels.field_observations.observer'),
@@ -83,12 +78,20 @@ class CustomFieldObservationsExport extends BaseExport
                 'value' => 'identifier',
             ],
             [
-                'label' => trans('labels.field_observations.sex'),
-                'value' => 'sex',
+                'label' => trans('labels.field_observations.stage'),
+                'value' => 'stage',
+            ],
+            [
+                'label' => trans('labels.field_observations.data_license'),
+                'value' => 'license',
             ],
             [
                 'label' => trans('labels.field_observations.number'),
                 'value' => 'number',
+            ],
+            [
+                'label' => trans('labels.field_observations.note'),
+                'value' => 'note',
             ],
             [
                 'label' => trans('labels.field_observations.project'),
@@ -103,28 +106,12 @@ class CustomFieldObservationsExport extends BaseExport
                 'value' => 'found_on',
             ],
             [
-                'label' => trans('labels.field_observations.stage'),
-                'value' => 'stage',
+                'label' => trans('labels.field_observations.found_dead'),
+                'value' => 'found_dead',
             ],
             [
-                'label' => trans('labels.field_observations.original_identification'),
-                'value' => 'original_identification',
-            ],
-            [
-                'label' => trans('labels.field_observations.dataset'),
-                'value' => 'dataset',
-            ],
-            [
-                'label' => trans('labels.field_observations.data_license'),
-                'value' => 'license',
-            ],
-            [
-                'label' => trans('labels.field_observations.atlas_code'),
-                'value' => 'atlas_code',
-            ],
-            [
-                'label' => trans('labels.field_observations.mgrs10k'),
-                'value' => 'mgrs10k',
+                'label' => trans('labels.field_observations.found_dead_note'),
+                'value' => 'found_dead_note',
             ],
             [
                 'label' => trans('labels.field_observations.status'),
@@ -133,6 +120,10 @@ class CustomFieldObservationsExport extends BaseExport
             [
                 'label' => trans('labels.field_observations.types'),
                 'value' => 'types',
+            ],
+            [
+                'label' => trans('labels.field_observations.atlas_code'),
+                'value' => 'atlas_code',
             ],
         ]);
     }
@@ -209,8 +200,6 @@ class CustomFieldObservationsExport extends BaseExport
             'status' => $item->status_translation,
             'types' => $item->observation->types->pluck('name')->implode(', '),
             'atlas_code' => $taxon->uses_atlas_codes ? $item->atlas_code : null,
-            'original_identification' => $item->observation->original_identification,
-            'dataset' => $item->observation->dataset,
         ];
     }
 }
