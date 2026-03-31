@@ -11,7 +11,6 @@ use App\Taxon;
 use App\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use OpenSpout\Common\Helper\EncodingHelper;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
