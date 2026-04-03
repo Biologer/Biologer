@@ -13,7 +13,7 @@ class FieldObservationsController
      *
      * Available query parameters:
      * @param Request $request
-     * @return FieldObservationResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)
     {
@@ -30,15 +30,17 @@ class FieldObservationsController
             ->filter($request);
 
         if ($request->has('before_id')) {
-            $result->where('id', '<', $request->query('before_id'));
+            $result->where('id', '<', $request->integer('before_id'));
         }
 
         if ($request->has('after_id')) {
-            $result->where('id', '>', $request->query('after_id'));
+            $result->where('id', '>', $request->integer('after_id'));
         }
 
         $result->orderBy('id');
 
-        return FieldObservationResource::collection($result);
+        return FieldObservationResource::collection(
+            $result->paginate(min($request->integer('per_page', 15), 250))
+        );
     }
 }
