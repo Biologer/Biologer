@@ -44,15 +44,8 @@ class FieldObservationsController
 
         $direction = $request->query('direction') === 'asc' ? 'asc' : 'desc';
 
-        $result->orderBy($orderBy, $direction)
-            ->orderBy('id', $direction);
+        $result->orderBy($orderBy, $direction)->orderBy('id', $direction);
 
-        $perPage = min($request->integer('per_page', 15), 100);
-
-        $result->filter($request);
-
-        return FieldObservationResource::collection(
-            $result->paginate($perPage)
-        );
+        return FieldObservationResource::collection($result);
     }
 }
