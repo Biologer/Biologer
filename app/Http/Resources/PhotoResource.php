@@ -15,6 +15,7 @@ class PhotoResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'author' => $this->author,
             'license' => $this->license()->toArray(),
             'metadata' => $this->metadata,
