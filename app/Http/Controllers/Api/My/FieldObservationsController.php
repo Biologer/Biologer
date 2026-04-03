@@ -11,16 +11,42 @@ class FieldObservationsController
     /**
      * Get field observations made by the user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \App\Http\Resources\FieldObservationResource
+     * Available query parameters:
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)
     {
-        $result = FieldObservation::createdBy($request->user())->isFieldObservation()->with([
-            'observation.taxon', 'observation.photos', 'activity.causer',
-            'observation.types.translations', 'observedBy', 'identifiedBy',
-        ])->filter($request)->isFieldObservation()->orderBy('id')->paginate($request->get('per_page', 15));
+        $result = FieldObservation::createdBy($request->user())
+            ->isFieldObservation()
+            ->with([
+                'observation.taxon',
+                'observation.photos',
+                'activity.causer',
+                'observation.types.translations',
+                'observedBy',
+                'identifiedBy',
+            ])
+            ->filter($request);
 
-        return FieldObservationResource::collection($result);
+        if ($request->has('before_id') && $request->has('after_id')) {
+            abort(422, 'Cannot use both before_id and after_id.');
+        }
+
+        if ($request->has('before_id')) {
+            $result->where('id', '<', $request->input('before_id'));
+        }
+
+        if ($request->has('after_id')) {
+            $result->where('id', '>', $request->input('after_id'));
+        }
+
+        $direction = $request->query('direction') === 'desc' ? 'desc' : 'asc';
+
+        $result->orderBy('id', $direction);
+
+        return FieldObservationResource::collection(
+            $result->paginate(min($request->input('per_page', 15), 250))
+        );
     }
 }
