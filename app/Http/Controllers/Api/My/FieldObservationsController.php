@@ -37,14 +37,7 @@ class FieldObservationsController
             $result->where('id', '>', $request->query('after_id'));
         }
 
-        $allowedOrderBy = ['id', 'created_at'];
-        $orderBy = in_array($request->query('order_by'), $allowedOrderBy)
-            ? $request->query('order_by')
-            : 'id';
-
-        $direction = $request->query('direction') === 'asc' ? 'asc' : 'desc';
-
-        $result->orderBy($orderBy, $direction)->orderBy('id', $direction);
+        $result->orderBy('id');
 
         return FieldObservationResource::collection($result);
     }
