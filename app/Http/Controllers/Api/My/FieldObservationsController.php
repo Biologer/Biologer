@@ -29,6 +29,10 @@ class FieldObservationsController
             ])
             ->filter($request);
 
+        if ($request->has('before_id') && $request->has('after_id')) {
+            abort(422, 'Cannot use both before_id and after_id.');
+        }
+
         if ($request->has('before_id')) {
             $result->where('id', '<', $request->input('before_id'));
         }

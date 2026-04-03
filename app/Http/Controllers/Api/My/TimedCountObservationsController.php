@@ -23,6 +23,10 @@ class TimedCountObservationsController
             ])
             ->filter($request);
 
+        if ($request->has('before_id') && $request->has('after_id')) {
+            abort(422, 'Cannot use both before_id and after_id.');
+        }
+
         if ($request->has('before_id')) {
             $result->where('timed_count_observations.id', '<', $request->query('before_id'));
         }
@@ -31,11 +35,12 @@ class TimedCountObservationsController
             $result->where('timed_count_observations.id', '>', $request->query('after_id'));
         }
 
-        $result = $result->orderBy(
-            $request->query('order_by', 'timed_count_observations.id'),
-            $request->query('direction', 'desc')
-        )->paginate($request->query('per_page', 15));
+        $direction = $request->query('direction') === 'desc' ? 'desc' : 'asc';
 
-        return TimedCountObservationResource::collection($result);
+        $result->orderBy('id', $direction);
+
+        return TimedCountObservationResource::collection(
+            $result->paginate(min($request->input('per_page', 15), 250))
+        );
     }
 }
