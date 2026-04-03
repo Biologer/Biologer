@@ -13,7 +13,7 @@ class FieldObservationsController
      *
      * Available query parameters:
      * @param Request $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return FieldObservationResource
      */
     public function index(Request $request)
     {
