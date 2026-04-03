@@ -58,6 +58,14 @@ class ViewServiceProvider extends ServiceProvider
                         ->prepend('<p class="menu-label">'.trans('navigation.my').'</p>')
                         ->addClass('menu-list')
                         ->route('contributor.field-observations.index', trans('navigation.field_observations'))
+                        ->setActiveClass('is-active')
+                        ->setActiveClassOnLink()
+                        ->setActiveFromRequest()
+                )->addif(
+                    optional(auth()->user()->hasRole('admin')),
+                    Menu::new()
+                        ->prepend('<p class="menu-label">'.trans('navigation.admin').' Test</p>')
+                        ->addClass('menu-list')
                         ->route('contributor.timed-count-observations.index', trans('navigation.timed_count_observations'))
                         ->setActiveClass('is-active')
                         ->setActiveClassOnLink()
