@@ -30,17 +30,17 @@ class FieldObservationsController
             ->filter($request);
 
         if ($request->has('before_id')) {
-            $result->where('id', '<', $request->integer('before_id'));
+            $result->where('id', '<', $request->input('before_id'));
         }
 
         if ($request->has('after_id')) {
-            $result->where('id', '>', $request->integer('after_id'));
+            $result->where('id', '>', $request->input('after_id'));
         }
 
         $result->orderBy('id');
 
         return FieldObservationResource::collection(
-            $result->paginate(min($request->integer('per_page', 15), 250))
+            $result->paginate(min($request->input('per_page', 15), 250))
         );
     }
 }
