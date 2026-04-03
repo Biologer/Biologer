@@ -15,8 +15,8 @@ class FieldObservationsController
      * @param string $order_by (Default: 'id')
      * @param string $direction (Default: 'desc')
      * @param int $per_page (Default: 15)
-     * @param string $updated_after (UNIX timestamp in secounds) 
-     * 
+     * @param string $updated_after (UNIX timestamp in secounds)
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \App\Http\Resources\FieldObservationResource
      */
