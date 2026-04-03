@@ -1,3 +1,4 @@
+/.phpunit.cache/
 /node_modules
 /public/hot
 /public/storage
@@ -13,7 +14,6 @@ yarn-error.log
 .env
 .env.testing
 .php-cs-fixer.cache
-.phpunit.cache/
 .phpunit.result.cache
 queue.pid
 clearcache.sh
