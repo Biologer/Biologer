@@ -20,7 +20,7 @@ class TimedCountObservationsController
         $query = TimedCountObservation::createdBy($request->user())
             ->with([
                 'activity',
-                'fieldObservations'
+                'fieldObservations',
             ])
             ->filter($request);
 
