@@ -62,7 +62,7 @@ class ViewServiceProvider extends ServiceProvider
                         ->setActiveClassOnLink()
                         ->setActiveFromRequest()
                 )->addif(
-                    optional(auth()->user()->hasRole('admin')),
+                    optional(auth()->user())->hasRole('admin'),
                     Menu::new()
                         ->prepend('<p class="menu-label">'.trans('navigation.admin').' Test</p>')
                         ->addClass('menu-list')
