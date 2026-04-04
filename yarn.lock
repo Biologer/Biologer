@@ -5473,10 +5473,10 @@ toidentifier@1.0.1, toidentifier@~1.0.1:
   resolved "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.1.tgz"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
 
-trix@2.1.15:
-  version "2.1.15"
-  resolved "https://registry.npmjs.org/trix/-/trix-2.1.15.tgz"
-  integrity sha512-LoaXWczdTUV8+3Box92B9b1iaDVbxD14dYemZRxi3PwY+AuDm97BUJV2aHLBUFPuDABhxp0wzcbf0CxHCVmXiw==
+trix@2.1.18:
+  version "2.1.18"
+  resolved "https://registry.yarnpkg.com/trix/-/trix-2.1.18.tgz#d87a5be64c10ecdab64f5af47f941b5318c08225"
+  integrity sha512-DWOdTsz3n9PO3YBc1R6pGh9MG1cXys/2+rouc/qsISncjc2MBew2UOW8nXh3NjUOjobKsXCIPR6LB02abg2EYg==
   dependencies:
     dompurify "^3.2.5"
 
