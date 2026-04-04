@@ -245,7 +245,7 @@
     "@babel/helper-plugin-utils" "^7.28.6"
     "@babel/traverse" "^7.28.6"
 
-"@babel/plugin-proposal-object-rest-spread@^7.12.13", "@babel/plugin-proposal-object-rest-spread@^7.15.6":
+"@babel/plugin-proposal-object-rest-spread@^7.15.6", "@babel/plugin-proposal-object-rest-spread@^7.20.7":
   version "7.20.7"
   resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-object-rest-spread/-/plugin-proposal-object-rest-spread-7.20.7.tgz#aa662940ef425779c75534a5c41e9d936edc390a"
   integrity sha512-d2S98yCiLxDVmBmE8UjGcfPvNEUbA1U5q5WxaWFUGRzJSVAZqm5W6MbPct0jxnegUZ0niLeNX+IOzEs7wYg9Dg==
@@ -993,7 +993,7 @@
     "@parcel/watcher-win32-ia32" "2.5.6"
     "@parcel/watcher-win32-x64" "2.5.6"
 
-"@shopify/draggable@^1.0.0-beta.12":
+"@shopify/draggable@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@shopify/draggable/-/draggable-1.2.1.tgz#b0d4bfaabeb1d53881b6c62e0f7743eb61c910cd"
   integrity sha512-hYKhd99nl1mkO4ybA8i3rxvZgYS2A4Imcxpq7BoUu7h4LmFt997YxHLy8Mm5J7ST+G4DTQXqBsTx9mDid6piZg==
@@ -1640,7 +1640,7 @@ available-typed-arrays@^1.0.7:
     form-data "^4.0.4"
     proxy-from-env "^1.1.0"
 
-axios@^1.13.2:
+axios@^1.14.0:
   version "1.14.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.14.0.tgz#7c29f4cf2ea91ef05018d5aa5399bf23ed3120eb"
   integrity sha512-3Y8yrqLSwjuzpXuZ0oIYZ/XGgLwUIBU3uLvbcpb0pidD9ctpShJd43KSlEEkVQg6DS0G9NKyzOvBfUtDKEyHvQ==
@@ -1739,7 +1739,7 @@ bluebird@^3.1.1:
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
 
-blueimp-load-image@^5.14.0:
+blueimp-load-image@^5.16.0:
   version "5.16.0"
   resolved "https://registry.yarnpkg.com/blueimp-load-image/-/blueimp-load-image-5.16.0.tgz#16b763f57e6725f8865517bca8eb7c3dc7d41e09"
   integrity sha512-3DUSVdOtlfNRk7moRZuTwDmA3NnG8KIJuLcq3c0J7/BIr6X3Vb/EpX3kUH1joxUhmoVF4uCpDfz7wHkz8pQajA==
@@ -1885,7 +1885,7 @@ browserslist@^4.0.0, browserslist@^4.21.4, browserslist@^4.24.0, browserslist@^4
     node-releases "^2.0.36"
     update-browserslist-db "^1.2.3"
 
-buefy@^0.9.23:
+buefy@^0.9.29:
   version "0.9.29"
   resolved "https://registry.yarnpkg.com/buefy/-/buefy-0.9.29.tgz#1d1fe57a407ef7cd6e9295679371eee63d21bd0f"
   integrity sha512-iJutB/ezTQcxqcKvKz129DzomMjNRGdy23lJBtoFQBG//2NveTcPkN/VRUF70z2WH3JB/5nmVeoxr8QOPcs42w==
@@ -2487,7 +2487,7 @@ d@1, d@^1.0.1, d@^1.0.2:
     es5-ext "^0.10.64"
     type "^2.7.2"
 
-dayjs@^1.10.4:
+dayjs@^1.11.20:
   version "1.11.20"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.20.tgz#88d919fd639dc991415da5f4cb6f1b6650811938"
   integrity sha512-YbwwqR/uYpeoP4pu043q+LTDLFBLApUP6VxRihdfNTqu4ubqMlGDLd6ErXhEgsyvY0K6nCs7nggYumAN+9uEuQ==
@@ -3690,7 +3690,7 @@ klona@^2.0.4, klona@^2.0.5:
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.6.tgz#85bffbf819c03b2f53270412420a4555ef882e22"
   integrity sha512-dhG34DXATL5hSxJbIexCft8FChFXtmskoZYnoPWjXQuebWYCNkVeV3KkGegCK9CP1oswI/vQibS2GY7Em/sJJA==
 
-laravel-mix@^6.0:
+laravel-mix@^6.0.49:
   version "6.0.49"
   resolved "https://registry.yarnpkg.com/laravel-mix/-/laravel-mix-6.0.49.tgz#d718414858045df9d7467245e13fd4b45bc52c15"
   integrity sha512-bBMFpFjp26XfijPvY5y9zGKud7VqlyOE0OWUcPo3vTBY5asw8LTjafAbee1dhfLz6PWNqDziz69CP78ELSpfKw==
@@ -4644,7 +4644,7 @@ postcss@^7.0.36:
     picocolors "^0.2.1"
     source-map "^0.6.1"
 
-postcss@^8.2, postcss@^8.2.15, postcss@^8.4.14:
+postcss@^8.2.15, postcss@^8.4.14, postcss@^8.5.8:
   version "8.5.8"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.5.8.tgz#6230ecc8fb02e7a0f6982e53990937857e13f399"
   integrity sha512-OW/rX8O/jXnm82Ey1k44pObPtdblfiuWnrd8X7GJ7emImCOstunGbXUpp7HdBrFQX6rJzn3sPT397Wp5aCwCHg==
@@ -4991,7 +4991,7 @@ safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-sass-loader@^11.0.1:
+sass-loader@^11.1.1:
   version "11.1.1"
   resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-11.1.1.tgz#0db441bbbe197b2af96125bebb7f4be6476b13a7"
   integrity sha512-fOCp/zLmj1V1WHDZbUbPgrZhA7HKXHEqkslzB+05U5K9SbSbcmH91C7QLW31AsXikxUMaxXRhhcqWZAxUMLDyA==
@@ -4999,7 +4999,7 @@ sass-loader@^11.0.1:
     klona "^2.0.4"
     neo-async "^2.6.2"
 
-sass@^1.32.7:
+sass@^1.99.0:
   version "1.99.0"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.99.0.tgz#ff9d1594da4886249dfaafabbeea2dea2dc74b26"
   integrity sha512-kgW13M54DUB7IsIRM5LvJkNlpH+WhMpooUcaWGFARkF1Tc82v9mIWkCbCYf+MBvpIUBSeSOTilpZjEPr2VYE6Q==
@@ -5636,7 +5636,7 @@ uuid@^8.3.0, uuid@^8.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
-v-tooltip@^2.1.2:
+v-tooltip@^2.1.3:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/v-tooltip/-/v-tooltip-2.1.3.tgz#281c2015d1e73787f13c8956aa295b8c3a73f261"
   integrity sha512-xXngyxLQTOx/yUEy50thb8te7Qo4XU6h4LZB6cvEfVd9mnysUxLEoYwGWDdqR+l69liKsy3IPkdYff3J1gAJ5w==
@@ -5661,12 +5661,12 @@ vue-hot-reload-api@^2.3.0:
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
   integrity sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==
 
-vue-lazyload@^1.3.3:
+vue-lazyload@^1.3.5:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/vue-lazyload/-/vue-lazyload-1.3.5.tgz#eb36d299a519167d987fdf0ebfdc9c6dd1bf1ef0"
   integrity sha512-SCO/LWgCCbjaregHO4wg2buzITBdPBZRlIS104vERGpT88uxXsK26veuzZpgGAXMR8WpkaR+JDqz80OedpaLiA==
 
-vue-loader@^15.9.5:
+vue-loader@^15.11.1:
   version "15.11.1"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-15.11.1.tgz#dee91169211276ed43c5715caef88a56b1f497b0"
   integrity sha512-0iw4VchYLePqJfJu9s62ACWUXeSqM30SQqlIftbYWM3C+jpPcEHKSPUZBLjSF9au4HTHQ/naF6OGnO3Q/qGR3Q==
