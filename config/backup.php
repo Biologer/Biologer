@@ -3,7 +3,6 @@
 return [
 
     'backup' => [
-
         /*
          * The name of this application. You can use this name to monitor
          * the backups.
@@ -11,14 +10,12 @@ return [
         'name' => env('APP_NAME', 'laravel-backup'),
 
         'source' => [
-
             'files' => [
-
                 /*
                  * The list of directories and files that will be included in the backup.
                  */
                 'include' => [
-                    storage_path('app/public/photos'),
+                    base_path(),
                 ],
 
                 /*
@@ -59,11 +56,22 @@ return [
              * 'mysql' => [
              *       ...
              *      'dump' => [
-             *           'excludeTables' => [
+             *           'exclude_tables' => [
              *                'table_to_exclude_from_backup',
              *                'another_table_to_exclude'
              *            ]
-             *       ]
+             *       ],
+             * ],
+             *
+             * If you are using only InnoDB tables on a MySQL server, you can
+             * also supply the useSingleTransaction option to avoid table locking.
+             *
+             * E.g.
+             * 'mysql' => [
+             *       ...
+             *      'dump' => [
+             *           'useSingleTransaction' => true,
+             *       ],
              * ],
              *
              * For a complete list of available customization options, see https://github.com/spatie/db-dumper
@@ -74,7 +82,7 @@ return [
         ],
 
         /*
-         * The database dump can be compressed to decrease diskspace usage.
+         * The database dump can be compressed to decrease disk space usage.
          *
          * Out of the box Laravel-backup supplies
          * Spatie\DbDumper\Compressors\GzipCompressor::class.
@@ -84,7 +92,7 @@ return [
          *
          * If you do not want any compressor at all, set it to null.
          */
-        'database_dump_compressor' => \Spatie\DbDumper\Compressors\GzipCompressor::class,
+        'database_dump_compressor' => Spatie\DbDumper\Compressors\GzipCompressor::class,
 
         /*
          * If specified, the database dumped file name will contain a timestamp (e.g.: 'Y-m-d-H-i-s').
@@ -147,47 +155,51 @@ return [
             ],
 
             /*
-             * The directory where the temporary files will be stored.
+             * Determines whether to allow backups to continue when some targets fail instead of failing completely.
              */
-            'temporary_directory' => storage_path('app/backup-temp'),
-
-            /*
-             * The password to be used for archive encryption.
-             * Set to `null` to disable encryption.
-             */
-            'password' => env('BACKUP_ARCHIVE_PASSWORD'),
-
-            /*
-             * The encryption algorithm to be used for archive encryption.
-             * You can set it to `null` or `false` to disable encryption.
-             *
-             * When set to 'default', we'll use ZipArchive::EM_AES_256 if it is
-             * available on your system.
-             */
-            'encryption' => 'default',
-
-            /*
-             * The number of attempts, in case the backup command encounters an exception
-             */
-            'tries' => 1,
-
-            /*
-             * The number of seconds to wait before attempting a new backup if the previous try failed
-             * Set to `0` for none
-             */
-            'retry_delay' => 0,
+            'continue_on_failure' => false,
         ],
+
+        /*
+         * The directory where the temporary files will be stored.
+         */
+        'temporary_directory' => storage_path('app/backup-temp'),
+
+        /*
+         * The password to be used for archive encryption.
+         * Set to `null` to disable encryption.
+         */
+        'password' => env('BACKUP_ARCHIVE_PASSWORD'),
+
+        /*
+         * The encryption algorithm to be used for archive encryption.
+         * You can set it to `null` or `false` to disable encryption.
+         *
+         * When set to 'default', we'll use ZipArchive::EM_AES_256 if it is
+         * available on your system.
+         */
+        'encryption' => 'default',
+
+        /*
+         * The number of attempts, in case the backup command encounters an exception
+         */
+        'tries' => 1,
+
+        /*
+         * The number of seconds to wait before attempting a new backup if the previous try failed
+         * Set to `0` for none
+         */
+        'retry_delay' => 0,
     ],
 
     /*
      * You can get notified when specific events occur. Out of the box you can use 'mail' and 'slack'.
-     * For Slack you need to install guzzlehttp/guzzle and laravel/slack-notification-channel.
+     * For Slack you need to install laravel/slack-notification-channel.
      *
      * You can also use your own notification classes, just make sure the class is named after one of
-     * the `Spatie\Backup\Events` classes.
+     * the `Spatie\Backup\Notifications\Notifications` classes.
      */
     'notifications' => [
-
         'notifications' => [
             \Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification::class => ['mail'],
             \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification::class => ['mail'],
@@ -245,7 +257,7 @@ return [
      * If a backup does not meet the specified requirements the
      * UnHealthyBackupWasFound event will be fired.
      */
-   'monitor_backups' => [
+    'monitor_backups' => [
         [
             'name' => env('APP_NAME', 'laravel-backup'),
             'disks' => ['local'],
@@ -256,15 +268,15 @@ return [
         ],
 
         /*
-         [
-             'name' => 'name of the second app',
-             'disks' => ['local', 's3'],
-             'health_checks' => [
-                 \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
-                 \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => 5000,
-             ],
-         ],
-         */
+        [
+            'name' => 'name of the second app',
+            'disks' => ['local', 's3'],
+            'health_checks' => [
+                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
+                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => 5000,
+            ],
+        ],
+        */
     ],
 
     'cleanup' => [
@@ -280,35 +292,41 @@ return [
         'strategy' => \Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy::class,
 
         'default_strategy' => [
-
             /*
              * The number of days for which backups must be kept.
              */
             'keep_all_backups_for_days' => 7,
 
             /*
-             * The number of days for which daily backups must be kept.
+             * After the "keep_all_backups_for_days" period is over, the most recent backup
+             * of that day will be kept. Older backups within the same day will be removed.
+             * If you create backups only once a day, no backups will be removed yet.
              */
             'keep_daily_backups_for_days' => 16,
 
             /*
-             * The number of weeks for which one weekly backup must be kept.
+             * After the "keep_daily_backups_for_days" period is over, the most recent backup
+             * of that week will be kept. Older backups within the same week will be removed.
+             * If you create backups only once a week, no backups will be removed yet.
              */
             'keep_weekly_backups_for_weeks' => 8,
 
             /*
-             * The number of months for which one monthly backup must be kept.
+             * After the "keep_weekly_backups_for_weeks" period is over, the most recent backup
+             * of that month will be kept. Older backups within the same month will be removed.
              */
             'keep_monthly_backups_for_months' => 4,
 
             /*
-             * The number of years for which one yearly backup must be kept.
+             * After the "keep_monthly_backups_for_months" period is over, the most recent backup
+             * of that year will be kept. Older backups within the same year will be removed.
              */
             'keep_yearly_backups_for_years' => 2,
 
             /*
              * After cleaning up the backups remove the oldest backup until
              * this amount of megabytes has been reached.
+             * Set null for unlimited size.
              */
             'delete_oldest_backups_when_using_more_megabytes_than' => 1500,
         ],
@@ -324,4 +342,5 @@ return [
          */
         'retry_delay' => 0,
     ],
+
 ];
