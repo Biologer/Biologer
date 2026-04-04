@@ -19,6 +19,9 @@ use App\Http\Controllers\Contributor\FieldObservationsImportController;
 use App\Http\Controllers\Contributor\PublicFieldObservationsController;
 use App\Http\Controllers\Contributor\PublicLiteratureObservationsController;
 use App\Http\Controllers\Contributor\TimedCountObservationsController;
+use App\Http\Controllers\Contributor\TransectCountObservationsController;
+use App\Http\Controllers\Contributor\TransectSectionsController;
+use App\Http\Controllers\Contributor\TransectVisitsController;
 use App\Http\Controllers\Curator\ApprovedObservationsController;
 use App\Http\Controllers\Curator\PendingObservationsController;
 use App\Http\Controllers\Curator\UnidentifiableObservationsController;
@@ -61,12 +64,17 @@ Route::get('photos/{photo}/public', [PhotosController::class, 'public'])
     ->middleware('signed')
     ->name('photos.public');
 
-Route::prefix(LaravelLocalization::setLocale())->middleware([
-    'localeCookieRedirect',
-    'localizationRedirect',
-    'localeViewPath',
-    'localizationPreferenceUpdate',
-])->group(function () {
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => [
+        \App\Http\Middleware\ClearLocaleOnDefault::class,
+        'localizationRedirect',
+        'localeSessionRedirect',
+        'localeCookieRedirect',
+        'localeViewPath',
+        'localizationPreferenceUpdate',
+    ],
+], function () {
     Route::auth(['verify' => false, 'confirm' => false]);
     Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
     Route::post('email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
@@ -167,6 +175,27 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
             Route::get('timed-count-observations/{timedCountObservation}', [TimedCountObservationsController::class, 'show'])
                 ->name('timed-count-observations.show');
+
+            // Transect count observations
+
+            Route::get('transect-count-observations', [TransectCountObservationsController::class, 'index'])
+                ->name('transect-count-observations.index');
+
+            Route::get('transect-count-observations/{transectCountObservation}', [TransectCountObservationsController::class, 'show'])
+                ->name('transect-count-observations.show');
+
+            Route::get('transect-sections', [TransectSectionsController::class, 'index'])
+                ->name('transect-sections.index');
+
+            Route::get('transect-sections/{transectSection}', [TransectSectionsController::class, 'show'])
+                ->name('transect-sections.show');
+
+            Route::get('transect-visits', [TransectVisitsController::class, 'index'])
+                ->name('transect-visits.index');
+
+            Route::get('transect-visits/{transectVisit}', [TransectVisitsController::class, 'show'])
+                ->name('transect-visits.show');
+
         });
 
         Route::prefix('curator')->name('curator.')->group(function () {
@@ -242,10 +271,6 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::get('users/{user}/edit', [UsersController::class, 'edit'])
                 ->middleware('can:update,user')
                 ->name('users.edit');
-
-            Route::put('users/{user}', [UsersController::class, 'update'])
-                ->middleware('can:update,user')
-                ->name('users.update');
 
             Route::get('view-groups', [ViewGroupsController::class, 'index'])
                 ->middleware('role:admin')

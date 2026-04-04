@@ -24,7 +24,7 @@ class CreateTimedCountObservationsTable extends Migration
             $table->time('end_time')->nullable();
             $table->unsignedInteger('count_duration')->nullable();
             $table->unsignedSmallInteger('cloud_cover')->nullable();
-            $table->unsignedDouble('atmospheric_pressure')->nullable();
+            $table->double('atmospheric_pressure')->unsigned()->nullable();
             $table->unsignedInteger('humidity')->nullable();
             $table->double('temperature')->nullable();
             $table->enum('wind_direction', ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'])->nullable();

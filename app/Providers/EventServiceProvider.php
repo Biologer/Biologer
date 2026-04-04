@@ -8,7 +8,6 @@ use App\Events\UserProfileUpdated;
 use App\Events\ViewGroupDeleted;
 use App\Events\ViewGroupSaved;
 use App\Listeners\BustViewGroupsCache;
-use App\Listeners\SyncObservationsWithUserChanges;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;

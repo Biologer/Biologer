@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Translation\MessageSelector;
+use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -62,6 +63,9 @@ class AppServiceProvider extends ServiceProvider
                 return new FcmChannel();
             });
         });
+
+        Passport::enablePasswordGrant();
+
     }
 
     /**

@@ -43,8 +43,6 @@
         @yield('body')
     </div>
 
-    @include('cookieConsent::index')
-
     @stack('beforeScripts')
     <script src="{{ mix('js/app.js') }}"></script>
     @stack('afterScripts')

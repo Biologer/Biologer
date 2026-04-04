@@ -4,13 +4,12 @@ namespace App\Importing;
 
 use App\Import;
 use App\Jobs\ProcessImport;
-use Box\Spout\Common\Type;
-use Box\Spout\Reader\ReaderFactory;
-use Box\Spout\Reader\ReaderInterface;
-use Box\Spout\Reader\SheetInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Traits\Localizable;
+use OpenSpout\Reader\CSV\Reader as ReaderCSV;
+use OpenSpout\Reader\ReaderInterface;
+use OpenSpout\Reader\SheetInterface;
 
 abstract class BaseImport
 {
@@ -55,7 +54,7 @@ abstract class BaseImport
      * List of all columns.
      *
      * @param  \App\User|null  $user
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     public static function availableColumns($user = null)
     {
@@ -203,11 +202,11 @@ abstract class BaseImport
     /**
      * Make reader instance for imported spreadsheet file.
      *
-     * @return \Box\Spout\Reader\ReaderInterface
+     * @return \OpenSpout\Reader\ReaderInterface
      */
     private function makeImportReader()
     {
-        $reader = ReaderFactory::create(Type::CSV);
+        $reader = new ReaderCSV();
 
         $reader->open($this->import->absolutePath());
 
@@ -227,7 +226,7 @@ abstract class BaseImport
     /**
      * Read rows from import file.
      *
-     * @param  \Box\Spout\Reader\ReaderInterface  $reader
+     * @param  \OpenSpout\Reader\ReaderInterface  $reader
      * @param  \App\Importing\ColumnMapper  $mapper
      * @param  callable  $callback
      * @return void
@@ -245,7 +244,7 @@ abstract class BaseImport
     /**
      * Read single sheed from import file.
      *
-     * @param  \Box\Spout\Reader\SheetInterface  $sheet
+     * @param  \OpenSpout\Reader\SheetInterface  $sheet
      * @param  \App\Importing\ColumnMapper  $mapper
      * @param  callable  $callback
      * @return void
@@ -261,7 +260,7 @@ abstract class BaseImport
                 continue;
             }
 
-            $callback($mapper->map($row));
+            $callback($mapper->map($row->toArray()));
         }
     }
 
@@ -386,7 +385,7 @@ abstract class BaseImport
     /**
      * Store import in DB.
      *
-     * @return void
+     * @return Import
      */
     public function store()
     {

@@ -48,6 +48,7 @@ class FieldObservation extends Model implements FlatArrayable
         'approved_at' => 'datetime',
         'atlas_code' => 'integer',
         'timed_count_id' => 'integer',
+        'transect_visit_id' => 'integer',
     ];
 
     public function filters()
@@ -166,6 +167,16 @@ class FieldObservation extends Model implements FlatArrayable
     }
 
     /**
+     * Transect visit this observation belongs to (if any).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function transectVisit()
+    {
+        return $this->belongsTo(TransectVisit::class);
+    }
+
+    /**
      * Scope the query to get identifiable observations.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -202,11 +213,11 @@ class FieldObservation extends Model implements FlatArrayable
     }
 
     /**
-     * Check if observation is a field observation (not part of timed count).
+     * Check if observation is a field observation (not part of timed count AND transect visit).
      */
     public function scopeIsFieldObservation($query)
     {
-        return $query->whereNull('timed_count_id');
+        return $query->whereNull('timed_count_id')->WhereNull('transect_visit_id');
     }
 
     /**
@@ -277,9 +288,28 @@ class FieldObservation extends Model implements FlatArrayable
         });
     }
 
+    /**
+     * Get only timed count observations.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \App\TimedCountObservation $timedCountObservation
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeIsTimedCount($query, TimedCountObservation $timedCountObservation)
     {
         return $query->where('timed_count_id', $timedCountObservation->id);
+    }
+
+    /**
+     * Get only transect count observations.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \App\TransectVisit $transectVisit
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsTransectVisit($query, TransectVisit $transectVisit)
+    {
+        return $query->where('transect_visit_id', $transectVisit->id);
     }
 
     /**
@@ -651,6 +681,7 @@ class FieldObservation extends Model implements FlatArrayable
             'dataset' => $this->observation->dataset,
             'atlas_code' => $this->atlas_code,
             'timed_count_id' => $this->timed_count_id,
+            'transect_visit_id' => $this->transect_visit_id,
         ];
     }
 
@@ -700,6 +731,7 @@ class FieldObservation extends Model implements FlatArrayable
             'dataset' => $this->observation->dataset,
             'atlas_code' => $this->atlas_code,
             'timed_count_id' => $this->timed_count_id,
+            'transect_visit_id' => $this->transect_visit_id,
         ];
     }
 

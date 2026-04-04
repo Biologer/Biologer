@@ -8,16 +8,16 @@ use App\License;
 use App\Stage;
 use App\Taxon;
 use App\User;
-use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class CustomFieldObservationsExportTest extends TestCase
+final class CustomFieldObservationsExportTest extends TestCase
 {
-    /** @test */
-    public function all_field_observations_are_exported_to_a_csv_file()
+    #[Test]
+    public function all_field_observations_are_exported_to_a_csv_file(): void
     {
         Carbon::setTestNow(Carbon::now());
         Storage::fake('local');
@@ -65,7 +65,7 @@ class CustomFieldObservationsExportTest extends TestCase
         Storage::disk('local')->assertExists($export->path());
 
         $this->assertEquals(
-            EncodingHelper::BOM_UTF8
+            BOM_UTF8
             .'ID,Taxon,Identifier,Observer,Sex,Year,Month,Day,Latitude,Longitude,'
             .'Location,Accuracy,Elevation,Stage,Number,Note,Project,Habitat,"Found On",Status'."\n"
             .$observation->id.',"Test taxon","Test identifier","Test observer",'
@@ -75,8 +75,8 @@ class CustomFieldObservationsExportTest extends TestCase
         );
     }
 
-    /** @test */
-    public function all_columns_are_available_for_export_to_curators_and_admins()
+    #[Test]
+    public function all_columns_are_available_for_export_to_curators_and_admins(): void
     {
         $this->seed('RolesTableSeeder');
         $user = User::factory()->create()->assignRoles('admin');
