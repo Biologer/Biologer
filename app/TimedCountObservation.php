@@ -68,6 +68,8 @@ class TimedCountObservation extends Model implements FlatArrayable
         'latitude' => 'float',
         'longitude' => 'float',
         'geometry' => 'string',
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
 
     /**

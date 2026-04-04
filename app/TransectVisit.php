@@ -46,6 +46,8 @@ class TransectVisit extends Model implements FlatArrayable
         'comments' => 'string',
         'transect_section_id' => 'integer',
         'created_by_id' => 'integer',
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
 
     /**
