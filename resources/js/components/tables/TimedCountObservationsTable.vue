@@ -80,7 +80,7 @@
 
       <b-table-column field="start_time" :label="trans('labels.timed_count_observations.start_time')" numeric sortable>
         <template #default="{ row }">
-          {{ row.start_time }}
+          {{ formatTime(row.start_time) }}
         </template>
         <template #header="{ column }">
           <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
@@ -89,7 +89,7 @@
 
       <b-table-column field="end_time" :label="trans('labels.timed_count_observations.end_time')" numeric sortable>
         <template #default="{ row }">
-          {{ row.end_time }}
+          {{ formatTime(row.end_time) }}
         </template>
         <template #header="{ column }">
           <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
@@ -326,12 +326,16 @@ export default {
       this.loadAsyncData()
     },
 
+    formatTime(time_arg) {
+      return time_arg.slice(11, 16);
+    },
+
     formatDuration(start, end) {
       if (!start || !end) return '-'
 
       // add dummy date so JS can parse time
-      const startTime = new Date(`1970-01-01T${start}`)
-      const endTime   = new Date(`1970-01-01T${end}`)
+      const startTime = new Date(start)
+      const endTime   = new Date(end)
 
       if (isNaN(startTime) || isNaN(endTime)) return '-'
 
