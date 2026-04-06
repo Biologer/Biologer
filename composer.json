@@ -37,7 +37,8 @@
         "spatie/laravel-cookie-consent": "^3.3.3",
         "spatie/laravel-menu": "^4.2.1",
         "stevebauman/purify": "^v6.3.1",
-        "tightenco/ziggy": "^0.9.4"
+        "tightenco/ziggy": "^0.9.4",
+        "ext-imagick": "*"
     },
     "require-dev": {
         "brianium/paratest": "^v7.20.0",
