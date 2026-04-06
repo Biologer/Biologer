@@ -54,7 +54,7 @@ class ProcessUploadedPhoto implements ShouldQueue
     public function handle()
     {
         $manager = new ImageManager(new Driver());
-        $image = $manager::decode($path = $this->workingPath());
+        $image = $manager::decodePath($path = $this->workingPath());
 
         $shouldResize = $this->shouldResize($image);
         $shouldOrientate = $image->exif('Orientation') > 1;
