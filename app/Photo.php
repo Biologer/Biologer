@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Interfaces\ImageInterface as Image;
 
 class Photo extends Model
 {
@@ -167,22 +169,20 @@ class Photo extends Model
      */
     public function crop($width, $height, $x, $y)
     {
-        $this->putContent(
-            (string) Image::make($this->getContent())
-                ->crop($width, $height, $x, $y)
-                ->encode()
-        );
-
+        $manager = new ImageManager(new Driver());
+        $image = $manager->decode($this->getContent());
+        $image->crop($width, $height, $x, $y);
+        $this->putContent((string) $image->encode());
         $this->touch();
     }
 
     /**
      * Watermark the photo.
      *
-     * @param  \Intervention\Image\Image|null  $image
+     * @param  Image|null  $image
      * @return bool
      */
-    public function watermark($image = null)
+    public function watermark(Image $image = null)
     {
         return app(Watermark::class)->applyTo($this, $image);
     }
@@ -232,7 +232,7 @@ class Photo extends Model
      * Put the content into the image file.
      *
      * @param  string  $content
-     * @return void
+     * @return bool
      */
     public function putContent($content)
     {

@@ -18,8 +18,8 @@
         "openspout/openspout": "^v4.32.0",
         "google/auth": "^v1.50.1",
         "guzzlehttp/guzzle": "^7.10.0",
-        "intervention/image": "^2.7.2",
-        "kreait/firebase-php": "^6.9.6",
+        "intervention/image": "^4.0.0",
+        "kreait/firebase-php": "^8.2.0",
         "laravel/framework": "^v12.56.0",
         "laravel/passport": "^v12.4.3",
         "laravel/tinker": "^v2.10.2",
@@ -37,7 +37,8 @@
         "spatie/laravel-cookie-consent": "^3.3.3",
         "spatie/laravel-menu": "^4.2.1",
         "stevebauman/purify": "^v6.3.1",
-        "tightenco/ziggy": "^0.9.4"
+        "tightenco/ziggy": "^0.9.4",
+        "ext-imagick": "*"
     },
     "require-dev": {
         "brianium/paratest": "^v7.20.0",
