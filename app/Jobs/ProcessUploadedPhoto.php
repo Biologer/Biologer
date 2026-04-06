@@ -9,7 +9,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Interfaces\ImageInterface as Image;
 
 class ProcessUploadedPhoto implements ShouldQueue
 {
@@ -51,12 +53,13 @@ class ProcessUploadedPhoto implements ShouldQueue
      */
     public function handle()
     {
-        $image = Image::make($path = $this->workingPath());
+        $manager = new ImageManager(new Driver());
+        $image = $manager::decode($path = $this->workingPath());
 
         $shouldResize = $this->shouldResize($image);
         $shouldOrientate = $image->exif('Orientation') > 1;
 
-        $image = $image->orientate();
+        $image = $image->orient();
 
         if ($this->crop) {
             $image = $image->crop(
@@ -72,7 +75,7 @@ class ProcessUploadedPhoto implements ShouldQueue
         }
 
         if ($this->crop || $shouldResize || $shouldOrientate) {
-            $this->photo->putContent($image->encode()->getEncoded());
+            $this->photo->putContent((string) $image->encode());
         }
 
         if ($this->photo->needsToBeWatermarked()) {
@@ -80,7 +83,6 @@ class ProcessUploadedPhoto implements ShouldQueue
         }
 
         // Cleanup. We don't need leftover files.
-        $image->destroy();
         unset($image);
         @unlink($path);
     }
@@ -123,10 +125,10 @@ class ProcessUploadedPhoto implements ShouldQueue
     /**
      * Check if image should be resized.
      *
-     * @param  \Intervention\Image\Image  $image
+     * @param  Image  $image
      * @return bool
      */
-    protected function shouldResize($image)
+    protected function shouldResize(Image $image)
     {
         return $this->isLandscape($image)
             ? $image->width() > $this->size()
@@ -136,10 +138,10 @@ class ProcessUploadedPhoto implements ShouldQueue
     /**
      * Check if image is landscape oriented.
      *
-     * @param  \Intervention\Image\Image  $image
+     * @param  Image  $image
      * @return bool
      */
-    protected function isLandscape($image)
+    protected function isLandscape(Image $image)
     {
         return $image->width() > $image->height();
     }
@@ -157,28 +159,23 @@ class ProcessUploadedPhoto implements ShouldQueue
     /**
      * Check if image should be resized.
      *
-     * @param  \Intervention\Image\Image  $image
-     * @return bool
+     * @param  Image  $image
+     * @return Image
      */
-    protected function resize($image)
+    protected function resize(Image $image)
     {
-        list($width, $height) = $this->getResizeDimensions($image);
+        [$width, $height] = $this->getResizeDimensions($image);
 
-        $image->resize($width, $height, function ($constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        });
-
-        return $image;
+        return $image->scaleDown($width, $height);
     }
 
     /**
      * Get dimensions to which the image should be resized to.
      *
-     * @param  \Intervention\Image\Image  $image
+     * @param  Image  $image
      * @return array
      */
-    protected function getResizeDimensions($image)
+    protected function getResizeDimensions(Image $image)
     {
         $width = $height = null;
 

@@ -18,7 +18,7 @@
         "openspout/openspout": "^v4.32.0",
         "google/auth": "^v1.50.1",
         "guzzlehttp/guzzle": "^7.10.0",
-        "intervention/image": "^2.7.2",
+        "intervention/image": "^4.0.0",
         "kreait/firebase-php": "^6.9.6",
         "laravel/framework": "^v12.56.0",
         "laravel/passport": "^v12.4.3",
