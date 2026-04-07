@@ -149,14 +149,14 @@ class TaxonomyController
             $returned_taxa = $response['taxa'];
             $country_ref = $response['country_ref'];
             foreach ($returned_taxa as $id => $rt) {
-                if ($data['response'] == '') {
+                if ($rt['response'] == '') {
                     continue;
                 }
                 $synced += 1;
                 $taxon = Taxon::find($id);
 
                 # Update current taxon with Taxonomy data
-                (new SyncTaxon)->updateTaxon($data['response'], $taxon, $country_ref);
+                (new SyncTaxon)->updateTaxon($rt['response'], $taxon, $country_ref);
             }
         }
 
