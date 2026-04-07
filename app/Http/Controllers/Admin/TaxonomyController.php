@@ -148,7 +148,7 @@ class TaxonomyController
 
             $returned_taxa = $response['taxa'];
             $country_ref = $response['country_ref'];
-            foreach ($returned_taxa as $id => $data) {
+            foreach ($returned_taxa as $id => $rt) {
                 if ($data['response'] == '') {
                     continue;
                 }

@@ -11,7 +11,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class SyncTaxon extends FormRequest
+class SyncTaxon
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -36,10 +36,11 @@ class SyncTaxon extends FormRequest
     }
 
     /**
-     * @param  array $updated_data
-     * @param  Taxon $taxon
-     * @param  array $country_ref
+     * @param array $updated_data
+     * @param Taxon $taxon
+     * @param array $country_ref
      * @return Taxon
+     * @throws \Throwable
      */
     public function updateTaxon(array $updated_data, Taxon $taxon, array $country_ref): Taxon
     {
@@ -109,9 +110,10 @@ class SyncTaxon extends FormRequest
     }
 
     /**
-     * @param  array $new_taxon
-     * @param  array $country_ref
+     * @param array $new_taxon
+     * @param array $country_ref
      * @return Taxon
+     * @throws \Throwable
      */
     public function createTaxon(array $new_taxon, array $country_ref): Taxon
     {
@@ -421,7 +423,7 @@ class SyncTaxon extends FormRequest
         $taxon->load('conservationDocuments');
 
         return $oldValue->count() !== $taxon->conservationDocuments->count()
-            || ($oldValue->isNotEmpty() && ! $taxon->conservationDocuments->isNotEmpty()
+            || ($oldValue->isNotEmpty() && $taxon->conservationDocuments->isNotEmpty()
                 && $oldValue->pluck('id')->diff($taxon->conservationDocuments->pluck('id'))->isNotEmpty());
     }
 

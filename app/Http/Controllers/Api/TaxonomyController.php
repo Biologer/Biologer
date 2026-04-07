@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 
 class TaxonomyController
 {
+    /**
+     * @throws \Throwable
+     */
     public function sync(Request $request)
     {
         if (! Taxonomy::checkOrFailUsingTaxonomy()) {
