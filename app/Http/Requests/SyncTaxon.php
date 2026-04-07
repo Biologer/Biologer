@@ -218,7 +218,7 @@ class SyncTaxon extends FormRequest
      */
     protected function syncRelations($data, Taxon $taxon, array $country_ref)
     {
-        dd($country_ref);
+        return $country_ref;
         $taxon->stages()->sync($this->getStageIds(Arr::only($data, ['stages'])));
         $taxon->conservationLegislations()->sync($this->getConservationLegislationIds(Arr::only($data, ['conservation_legislations']), $country_ref['legs']));
         $taxon->conservationDocuments()->sync($this->getConservationDocumentIds(Arr::only($data, ['conservation_documents']), $country_ref['docs']));
