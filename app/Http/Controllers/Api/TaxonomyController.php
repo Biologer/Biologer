@@ -6,6 +6,7 @@ use App\Http\Requests\SyncTaxon;
 use App\Support\Taxonomy;
 use App\Taxon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TaxonomyController
 {
@@ -14,7 +15,7 @@ class TaxonomyController
      */
     public function sync(Request $request)
     {
-        if (! Taxonomy::checkOrFailUsingTaxonomy()) {
+        if (Taxonomy::checkOrFailUsingTaxonomy() == '') {
             return response('Error! Local site is not using connection to Taxonomy database.', 400);
         }
 
@@ -25,15 +26,17 @@ class TaxonomyController
         $taxon = Taxon::where('taxonomy_id', $request['taxon']['id'])->first();
 
         if ($taxon) {
+            Log::info('Updating taxon...', $request['taxon']);
             return response((new SyncTaxon)->updateTaxon($request['taxon'], $taxon, $request['country_ref']), 200);
         }
 
+        Log::info('Creating taxon...', $request['taxon']);
         return response((new SyncTaxon)->createTaxon($request['taxon'], $request['country_ref']), 200);
     }
 
     public function remove(Request $request)
     {
-        if (! Taxonomy::checkOrFailUsingTaxonomy()) {
+        if (Taxonomy::checkOrFailUsingTaxonomy() == '') {
             return response('Error! Local site is not using connection to Taxonomy database.', 400);
         }
 
@@ -48,7 +51,7 @@ class TaxonomyController
 
     public function deselect(Request $request)
     {
-        if (! Taxonomy::checkOrFailUsingTaxonomy()) {
+        if (Taxonomy::checkOrFailUsingTaxonomy() == '') {
             return response('Error! Local site is not using connection to Taxonomy database.', 400);
         }
 

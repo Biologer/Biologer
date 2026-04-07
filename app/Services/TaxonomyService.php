@@ -5,7 +5,6 @@ namespace App\Services;
 use App\ConservationDocument;
 use App\ConservationLegislation;
 use App\RedList;
-use App\Support\Taxonomy;
 use App\Taxon;
 use Exception;
 use Illuminate\Support\Arr;
@@ -13,12 +12,11 @@ use Illuminate\Support\Facades\Http;
 
 class TaxonomyService
 {
-    /**
-     * Resolve and return the Taxonomy server link, or null if not configured.
-     */
-    private function getLink(): ?string
+    protected string $url;
+
+    public function __construct()
     {
-        return Taxonomy::checkOrFailUsingTaxonomy() ?: null;
+        $this->url = config('biologer.taxonomy_link', false);
     }
 
     /**
@@ -26,13 +24,12 @@ class TaxonomyService
      */
     public function check(): string
     {
-        $link = $this->getLink();
-        if (! $link) {
+        if (! $this->url) {
             return 'Failed to connect! Check .env file on server!';
         }
 
         try {
-            $response = Http::post($link.'/api/taxonomy/check', [
+            $response = Http::post($this->url.'/api/taxonomy/check', [
                 'key' => config('biologer.taxonomy_api_key'),
             ]);
         } catch (Exception $e) {
@@ -40,7 +37,7 @@ class TaxonomyService
         }
 
         if ($response->status() == 200) {
-            return "Check for $link is identified as {$response->body()}";
+            return "Check for $this->url is identified as {$response->body()}";
         }
 
         return 'Unauthorized';
@@ -51,8 +48,7 @@ class TaxonomyService
      */
     public function connect(): string
     {
-        $link = $this->getLink();
-        if (! $link) {
+        if (! $this->url) {
             return 'Failed to connect! Check .env file on server!';
         }
 
@@ -64,7 +60,7 @@ class TaxonomyService
         ];
 
         try {
-            $response = Http::post($link.'/api/taxonomy/connect', $data);
+            $response = Http::post($this->url.'/api/taxonomy/connect', $data);
         } catch (Exception $e) {
             return 'Failed to connect! No connection to server.';
         }
@@ -77,13 +73,12 @@ class TaxonomyService
      */
     public function disconnect(): string
     {
-        $link = $this->getLink();
-        if (! $link) {
+        if (! $this->url) {
             return 'Failed to connect! Check .env file on server!';
         }
 
         try {
-            $response = Http::post($link.'/api/taxonomy/disconnect', [
+            $response = Http::post($this->url.'/api/taxonomy/disconnect', [
                 'key' => config('biologer.taxonomy_api_key'),
             ]);
         } catch (Exception $e) {
@@ -107,8 +102,7 @@ class TaxonomyService
      */
     public function syncAll(): string
     {
-        $link = $this->getLink();
-        if (! $link) {
+        if (! $this->url) {
             return 'Error! Local site is not using connection to Taxonomy database.';
         }
 
@@ -116,7 +110,7 @@ class TaxonomyService
         $all_taxa = Taxon::where('taxonomy_id', null)->get();
 
         foreach ($all_taxa->chunk(1000) as $chunk) {
-            $result = $this->syncChunk($link, $chunk);
+            $result = $this->syncChunk($this->url, $chunk);
 
             if (is_string($result)) {
                 return $result; // propagate error message
@@ -133,18 +127,18 @@ class TaxonomyService
 
     /**
      * Sync a single parent taxon that was just created locally, to retrieve its taxonomy_id.
+     * @throws \Throwable
      */
     public function syncParent(Taxon $parent): void
     {
-        $link = $this->getLink();
-        if (! $link) {
+        if (! $this->url) {
             return;
         }
 
         $payload = $this->buildTaxonPayload([$parent]);
 
         try {
-            $response = Http::post($link.'/api/taxonomy/sync', $payload);
+            $response = Http::post($this->url.'/api/taxonomy/sync', $payload);
         } catch (Exception $e) {
             return;
         }
@@ -195,15 +189,16 @@ class TaxonomyService
      * Send a chunk of taxa to the Taxonomy server and apply responses locally.
      * Returns the number of synced taxa, or an error string.
      *
-     * @param  \Illuminate\Support\Collection<Taxon>  $taxa
+     * @param \Illuminate\Support\Collection<Taxon> $taxa
      * @return int|string
+     * @throws \Throwable
      */
-    private function syncChunk(string $link, $taxa)
+    private function syncChunk($taxa)
     {
         $payload = $this->buildTaxonPayload($taxa);
 
         try {
-            $response = Http::post($link.'/api/taxonomy/sync', $payload);
+            $response = Http::post($this->url.'/api/taxonomy/sync', $payload);
         } catch (Exception $e) {
             return 'Failed to connect! No connection to server.';
         }
@@ -218,6 +213,7 @@ class TaxonomyService
     /**
      * Apply Taxonomy server responses to local taxa.
      * Returns the count of taxa that were updated.
+     * @throws \Throwable
      */
     private function applyResponseToTaxa(array $returnedTaxa, array $countryRef): int
     {

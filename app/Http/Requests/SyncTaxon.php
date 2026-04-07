@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Controllers\Admin\TaxonomyController;
+use App\Services\TaxonomyService;
 use App\Support\Localization;
 use App\Synonym;
 use App\Taxon;
@@ -103,6 +103,7 @@ class SyncTaxon
 
             // We are currently not logging any changes in local database.
             // $this->logUpdatedActivity($taxon, $oldData, $new_data['reason']);
+            Log::info('Updated taxon...', $updated_data);
 
             return $taxon;
         });
@@ -182,14 +183,17 @@ class SyncTaxon
 
             $taxon->rebuildAncestryOnDescendants();
 
+            Log::info('Created taxon...', $new_taxon);
+
             return $taxon;
         });
     }
 
     /**
-     * @param  array $new_data
-     * @param  array $country_ref
+     * @param array $new_data
+     * @param array $country_ref
      * @return Taxon
+     * @throws \Throwable
      */
     private function createAndGetParent(array $new_data, array $country_ref): Taxon
     {
@@ -205,7 +209,7 @@ class SyncTaxon
             ));
         });
 
-        (new TaxonomyController())->syncParent($parent);
+        app(TaxonomyService::class)->syncParent($parent);
 
         $parent->rebuildAncestryOnDescendants();
 

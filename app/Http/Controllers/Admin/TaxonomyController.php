@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Services\TaxonomyService;
+use App\Support\Taxonomy;
 use App\Taxon;
 
 class TaxonomyController
 {
-    public function __construct(private TaxonomyService $taxonomy)
+    public function __construct(private readonly TaxonomyService $taxonomy)
     {
     }
 
@@ -40,10 +41,5 @@ class TaxonomyController
     public function syncTaxon(): string
     {
         return $this->taxonomy->syncAll();
-    }
-
-    public function syncParent(Taxon $parent)
-    {
-        $this->taxonomy->syncParent($parent);
     }
 }
