@@ -221,7 +221,7 @@ class SyncTaxon
      */
     protected function syncRelations($data, Taxon $taxon, array $country_ref)
     {
-        Log::info($country_ref['legs']);
+        Log::info('Country ref: ', $country_ref);
 
         $taxon->stages()->sync($this->getStageIds(Arr::only($data, ['stages'])));
         $taxon->conservationLegislations()->sync($this->getConservationLegislationIds(Arr::only($data, ['conservation_legislations']), $country_ref['legs']));
