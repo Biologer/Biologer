@@ -6,7 +6,6 @@ use App\Http\Controllers\Admin\TaxonomyController;
 use App\Support\Localization;
 use App\Synonym;
 use App\Taxon;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -194,23 +193,24 @@ class SyncTaxon
      */
     private function createAndGetParent(array $new_data, array $country_ref): Taxon
     {
-        return DB::transaction(function () use ($new_data, $country_ref) {
-            $parent = Taxon::create(array_merge(
+        $parent = DB::transaction(function () use ($new_data, $country_ref) {
+            return Taxon::create(array_merge(
                 array_map('trim', Arr::only($new_data, (['name', 'rank']))),
                 Arr::only($new_data, ([
-                    'fe_id', 'author', 'fe_old_id', 'restricted', 'allochthonous', 'invasive', 'uses_atlas_codes',
+                   'fe_id', 'author', 'fe_old_id', 'restricted', 'allochthonous', 'invasive', 'uses_atlas_codes',
                 ])),
                 Localization::transformTranslations(Arr::only($new_data, ([
-                    'description', 'native_name',
+                   'description', 'native_name',
                 ])))
             ));
-
-            (new TaxonomyController())->syncParent($parent);
-
-            $parent->rebuildAncestryOnDescendants();
-
-            return $parent;
         });
+
+        (new TaxonomyController())->syncParent($parent);
+
+        $parent->rebuildAncestryOnDescendants();
+
+        return $parent;
+
     }
 
     /**
@@ -221,7 +221,8 @@ class SyncTaxon
      */
     protected function syncRelations($data, Taxon $taxon, array $country_ref)
     {
-        Log::info('Country ref: ', $country_ref);
+        Log::info('Data: ', $data);
+        Log::info('\nCountry ref: ', $country_ref);
 
         $taxon->stages()->sync($this->getStageIds(Arr::only($data, ['stages'])));
         $taxon->conservationLegislations()->sync($this->getConservationLegislationIds(Arr::only($data, ['conservation_legislations']), $country_ref['legs']));

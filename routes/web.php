@@ -326,16 +326,16 @@ Route::group([
             Route::get('taxonomy', [TaxonomyController::class, 'index'])
                 ->name('taxonomy.index');
 
-            Route::get('taxonomy/check', [TaxonomyController::class, 'check'])
+            Route::post('taxonomy/check', [TaxonomyController::class, 'check'])
                 ->name('taxonomy.check');
 
-            Route::get('taxonomy/connect', [TaxonomyController::class, 'connect'])
+            Route::post('taxonomy/connect', [TaxonomyController::class, 'connect'])
                 ->name('taxonomy.connect');
 
-            Route::get('taxonomy/disconnect', [TaxonomyController::class, 'disconnect'])
+            Route::post('taxonomy/disconnect', [TaxonomyController::class, 'disconnect'])
                 ->name('taxonomy.disconnect');
 
-            Route::get('taxonomy/sync', [TaxonomyController::class, 'syncTaxon'])
+            Route::post('taxonomy/sync', [TaxonomyController::class, 'syncTaxon'])
                 ->name('taxonomy.sync');
         });
     });
