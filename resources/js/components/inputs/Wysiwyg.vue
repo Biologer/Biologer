@@ -111,7 +111,9 @@ export default {
   mounted() {
     this.$refs.trix.addEventListener("trix-change", this.onInput)
 
-    this.toggleEditor(this.disabled);
+    this.$nextTick(() => {
+      this.toggleEditor(this.disabled);
+    });
   },
 
   beforeDestroy() {
@@ -121,6 +123,8 @@ export default {
   methods: {
     toggleEditor(isDisabled) {
       const editor = this.$refs.trix;
+      if (!editor) return;
+
       if (isDisabled) {
         editor.removeAttribute("contenteditable");
       } else {
