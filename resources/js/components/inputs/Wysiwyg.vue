@@ -1,5 +1,5 @@
 <template>
-  <div class="wysiwyg" :class="{ 'is-disabled': disabled }">
+  <div class="wysiwyg">
 
     <input
       :id="inputId"
@@ -64,6 +64,7 @@
       ref="trix"
       :input="inputId"
       :toolbar="toolbarId"
+      v-bind:disabled="disabled"
     ></trix-editor>
   </div>
 </template>
