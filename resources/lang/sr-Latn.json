@@ -80,5 +80,6 @@
     "Revoking API token": "Opozivanje API tokena",
     "Revoke API Token": "Opozovi API token",
     "Token copied to clipboard!": "Token je kopiran u klipbord!",
-    "Failed to copy token": "Kopiranje tokena nije uspelo"
+    "Failed to copy token": "Kopiranje tokena nije uspelo",
+    "Taxonomic database is connected to": "Taksonomska baza je povezana na:"
 }

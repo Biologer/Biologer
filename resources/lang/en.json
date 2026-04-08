@@ -80,6 +80,7 @@
     "Revoking API token": "Revoking API token",
     "Revoke API Token": "Revoke API Token",
     "Token copied to clipboard!": "Token copied to clipboard!",
-    "Failed to copy token": "Failed to copy token"
+    "Failed to copy token": "Failed to copy token",
+    "Taxonomic database is connected to": "Taxonomic database is connected to:"
 
 }
