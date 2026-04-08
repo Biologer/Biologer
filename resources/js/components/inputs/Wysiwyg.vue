@@ -9,8 +9,8 @@
       ref="input"
     >
 
-    <trix-toolbar :id="toolbarId">
-      <div class="trix-button-row" v-if="disabled">
+    <trix-toolbar v-if="!disabled" :id="toolbarId">
+      <div class="trix-button-row">
 
         <span class="trix-button-group trix-button-group--text-tools" data-trix-button-group="text-tools">
           <button type="button" class="trix-button trix-button--icon trix-button--icon-bold"
@@ -42,7 +42,7 @@
 
       </div>
 
-      <div class="trix-dialogs" data-trix-dialogs v-if="disabled">
+      <div class="trix-dialogs" data-trix-dialogs>
         <div class="trix-dialog trix-dialog--link" data-trix-dialog="href" data-trix-dialog-attribute="href">
           <div class="trix-dialog__link-fields">
             <input type="url" name="href" class="trix-input trix-input--dialog"
