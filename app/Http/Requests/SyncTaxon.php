@@ -8,7 +8,6 @@ use App\Synonym;
 use App\Taxon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class SyncTaxon
 {
@@ -103,8 +102,6 @@ class SyncTaxon
 
             // We are currently not logging any changes in local database.
             // $this->logUpdatedActivity($taxon, $oldData, $new_data['reason']);
-            Log::info('Updated taxon...', $updated_data);
-
             return $taxon;
         });
     }
@@ -183,8 +180,6 @@ class SyncTaxon
 
             $taxon->rebuildAncestryOnDescendants();
 
-            Log::info('Created taxon...', $new_taxon);
-
             return $taxon;
         });
     }
@@ -225,9 +220,6 @@ class SyncTaxon
      */
     protected function syncRelations($data, Taxon $taxon, array $country_ref)
     {
-        Log::info('Data: ', $data);
-        Log::info('\nCountry ref: ', $country_ref);
-
         $taxon->stages()->sync($this->getStageIds(Arr::only($data, ['stages'])));
         $taxon->conservationLegislations()->sync($this->getConservationLegislationIds(Arr::only($data, ['conservation_legislations']), $country_ref['legs']));
         $taxon->conservationDocuments()->sync($this->getConservationDocumentIds(Arr::only($data, ['conservation_documents']), $country_ref['docs']));

@@ -7,7 +7,6 @@ use App\Synonym;
 use App\Taxon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class SyncTaxonService
 {
@@ -185,8 +184,6 @@ class SyncTaxonService
      */
     protected function syncRelations(array $data, Taxon $taxon, array $countryRef): void
     {
-        Log::info($countryRef['legs'] ?? []);
-
         $taxon->stages()->sync(
             $this->getStageIds(Arr::only($data, ['stages']))
         );

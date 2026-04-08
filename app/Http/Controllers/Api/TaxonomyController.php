@@ -6,7 +6,6 @@ use App\Http\Requests\SyncTaxon;
 use App\Support\Taxonomy;
 use App\Taxon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class TaxonomyController
 {
@@ -26,11 +25,9 @@ class TaxonomyController
         $taxon = Taxon::where('taxonomy_id', $request['taxon']['id'])->first();
 
         if ($taxon) {
-            Log::info('Updating taxon...', $request['taxon']);
             return response((new SyncTaxon)->updateTaxon($request['taxon'], $taxon, $request['country_ref']), 200);
         }
 
-        Log::info('Creating taxon...', $request['taxon']);
         return response((new SyncTaxon)->createTaxon($request['taxon'], $request['country_ref']), 200);
     }
 
