@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Services\TaxonomyService;
-use App\Support\Taxonomy;
 use App\Taxon;
 
-class TaxonomyController
+readonly class TaxonomyController
 {
-    public function __construct(private readonly TaxonomyService $taxonomy)
+    public function __construct(private TaxonomyService $taxonomy)
     {
     }
 
