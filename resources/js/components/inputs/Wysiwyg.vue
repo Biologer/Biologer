@@ -1,5 +1,5 @@
 <template>
-  <div class="wysiwyg">
+  <div class="wysiwyg" :class="{ 'is-disabled': disabled }">
 
     <input
       :id="inputId"
@@ -89,7 +89,8 @@ export default {
 
   props: {
     name: String,
-    value: String
+    value: String,
+    disabled: Boolean
   },
 
   data() {
@@ -100,8 +101,16 @@ export default {
     }
   },
 
+  watch: {
+    disabled(val) {
+      this.toggleEditor(val);
+    }
+  },
+
   mounted() {
     this.$refs.trix.addEventListener("trix-change", this.onInput)
+
+    this.toggleEditor(this.disabled);
   },
 
   beforeDestroy() {
@@ -109,6 +118,15 @@ export default {
   },
 
   methods: {
+    toggleEditor(isDisabled) {
+      const editor = this.$refs.trix;
+      if (isDisabled) {
+        editor.removeAttribute("contenteditable");
+      } else {
+        editor.setAttribute("contenteditable", "");
+      }
+    },
+
     onInput(e) {
       this.$emit("input", e.target.innerHTML)
     },

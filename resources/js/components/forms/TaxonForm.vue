@@ -67,7 +67,7 @@
     <b-field :label="trans('labels.taxa.description')">
       <b-tabs size="is-small" class="block" @change="(index) => focusOnTranslation(index, 'description')">
         <b-tab-item :label="trans('languages.' + data.name)" v-for="(data, locale) in supportedLocales" :key="locale">
-          <nz-wysiwyg v-model="form.description[locale]" :ref="`description-${locale}`" v-bind:aria-disabled="taxonomy"/>
+          <nz-wysiwyg v-model="form.description[locale]" :ref="`description-${locale}`" :disabled="taxonomy"/>
         </b-tab-item>
       </b-tabs>
     </b-field>
