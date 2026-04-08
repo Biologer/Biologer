@@ -9,7 +9,7 @@
       ref="input"
     >
 
-    <trix-toolbar :id="toolbarId">
+    <trix-toolbar v-show="!disabled" :id="toolbarId">
       <div class="trix-button-row">
 
         <span class="trix-button-group trix-button-group--text-tools" data-trix-button-group="text-tools">
@@ -64,6 +64,7 @@
       ref="trix"
       :input="inputId"
       :toolbar="toolbarId"
+      v-bind:disabled="disabled"
     ></trix-editor>
   </div>
 </template>
@@ -89,7 +90,8 @@ export default {
 
   props: {
     name: String,
-    value: String
+    value: String,
+    disabled: Boolean
   },
 
   data() {
@@ -100,8 +102,18 @@ export default {
     }
   },
 
+  watch: {
+    disabled(val) {
+      this.toggleEditor(val);
+    }
+  },
+
   mounted() {
     this.$refs.trix.addEventListener("trix-change", this.onInput)
+
+    this.$nextTick(() => {
+      this.toggleEditor(this.disabled);
+    });
   },
 
   beforeDestroy() {
@@ -109,6 +121,17 @@ export default {
   },
 
   methods: {
+    toggleEditor(isDisabled) {
+      const editor = this.$refs.trix;
+      if (!editor) return;
+
+      if (isDisabled) {
+        editor.removeAttribute("contenteditable");
+      } else {
+        editor.setAttribute("contenteditable", "");
+      }
+    },
+
     onInput(e) {
       this.$emit("input", e.target.innerHTML)
     },

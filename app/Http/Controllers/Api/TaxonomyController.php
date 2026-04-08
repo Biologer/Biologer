@@ -9,9 +9,12 @@ use Illuminate\Http\Request;
 
 class TaxonomyController
 {
+    /**
+     * @throws \Throwable
+     */
     public function sync(Request $request)
     {
-        if (! Taxonomy::checkOrFailUsingTaxonomy()) {
+        if (Taxonomy::checkOrFailUsingTaxonomy() == '') {
             return response('Error! Local site is not using connection to Taxonomy database.', 400);
         }
 
@@ -30,7 +33,7 @@ class TaxonomyController
 
     public function remove(Request $request)
     {
-        if (! Taxonomy::checkOrFailUsingTaxonomy()) {
+        if (Taxonomy::checkOrFailUsingTaxonomy() == '') {
             return response('Error! Local site is not using connection to Taxonomy database.', 400);
         }
 
@@ -45,7 +48,7 @@ class TaxonomyController
 
     public function deselect(Request $request)
     {
-        if (! Taxonomy::checkOrFailUsingTaxonomy()) {
+        if (Taxonomy::checkOrFailUsingTaxonomy() == '') {
             return response('Error! Local site is not using connection to Taxonomy database.', 400);
         }
 

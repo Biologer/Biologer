@@ -11,13 +11,13 @@ class Taxonomy
             or config('biologer.taxonomy_link', '') == ''
             or config('biologer.taxonomy_api_key', '') == ''
         ) {
-            return false;
+            return '';
         }
 
         return config('biologer.taxonomy_link', '');
     }
 
-    public static function isUsingTaxonomy()
+    public static function isUsingTaxonomy(): string
     {
         if (
             ! config('biologer.taxonomy_status', false)
@@ -30,8 +30,9 @@ class Taxonomy
         return 'true';
     }
 
-    public static function getLink()
+    public static function getLink(): ?string
     {
         return config('biologer.taxonomy_link', '');
     }
+
 }

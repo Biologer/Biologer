@@ -56,14 +56,14 @@ export default {
   methods: {
     checkConnection () {
       return axios
-        .get(route(this.checkRoute))
+        .post(route(this.checkRoute))
         .then(response => (this.check = response.data))
         .catch(error => console.log(error));
     },
 
     connectTaxonomy () {
       return axios
-        .get(route(this.connectRoute))
+        .post(route(this.connectRoute))
         .then(response => (this.connect = response.data))
         .catch(error => console.log(error));
     },
@@ -71,7 +71,7 @@ export default {
     disconnectTaxonomy () {
       if(confirm("Do you really want to disconnect?")) {
         return axios
-          .get(route(this.disconnectRoute))
+          .post(route(this.disconnectRoute))
           .then(response => (this.disconnect = response.data))
           .catch(error => console.log(error));
       }
@@ -80,8 +80,12 @@ export default {
     syncTaxonomy () {
       this.sync = "Syncing... This will take a while, and will *fail* a lot, almost every ~3000 taxa... No progress bar yet."
       return axios
-        .get(route(this.syncRoute))
-        .then(response => (this.sync = response.data))
+        .post(route(this.syncRoute))
+        .then(response => {
+          this.sync = response.data;
+          // nudge user since counts are now stale
+          this.sync += ' — Refresh the page to see updated counts.';
+        })
         .catch(error => console.log(error));
     },
   },
