@@ -9,7 +9,7 @@
       ref="input"
     >
 
-    <trix-toolbar v-if="!disabled" :id="toolbarId">
+    <trix-toolbar v-show="!disabled" :id="toolbarId">
       <div class="trix-button-row">
 
         <span class="trix-button-group trix-button-group--text-tools" data-trix-button-group="text-tools">
