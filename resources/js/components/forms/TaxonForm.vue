@@ -180,8 +180,8 @@
           <span v-text="getRedListName(addedRedList.red_list_id)"></span>
         </div>
 
-        <b-select v-model="addedRedList.category">
-          <option v-for="category in redListCategories" :value="category" :key="category" v-text="category" v-bind:disabled="taxonomy">
+        <b-select v-model="addedRedList.category" v-bind:disabled="taxonomy">
+          <option v-for="category in redListCategories" :value="category" :key="category" v-text="category">
           </option>
         </b-select>
 
