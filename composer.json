@@ -21,7 +21,7 @@
         "intervention/image": "^4.0.0",
         "kreait/firebase-php": "^8.2.0",
         "laravel/framework": "^v12.56.0",
-        "laravel/passport": "^v12.4.3",
+        "laravel/passport": "^v13.7.1",
         "laravel/tinker": "^v2.11.1",
         "laravel/ui": "^v4.6.3",
         "league/flysystem-aws-s3-v3": "^3.32.0",
