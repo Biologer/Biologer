@@ -13,6 +13,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Passport\Client;
 use Laravel\Passport\Passport;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -225,12 +226,11 @@ class AddObservationFromCollectionTest extends TestCase
 
     private function setTestClientMock($user)
     {
-        $user->token()
-            ->shouldReceive('getAttribute')
-            ->with('client')
-            ->andReturn(new class {
-                public $name = 'Test Client App';
-            });
+        $user->token()->client = Client::factory()->create([
+            'name' => 'Test Client App',
+            'secret' => 'test-secret',
+            'redirect' => 'http://localhost',
+        ]);
 
         return $user;
     }
