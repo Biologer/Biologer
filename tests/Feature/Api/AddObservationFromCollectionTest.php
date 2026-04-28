@@ -185,12 +185,14 @@ class AddObservationFromCollectionTest extends TestCase
         config(['biologer.photo_resize_dimension' => null]);
 
         Queue::fake();
-        Storage::fake('public');
+        $storage = Storage::fake(config('biologer.photos_disk'));
 
         $user = $this->createAuthenticatedUser([
             'first_name' => 'John',
             'last_name' => 'Doe',
         ]);
+        $user->assignRoles('curator');
+
         File::image('test-image.jpg')->storeAs("uploads/{$user->id}", 'test-image.jpg', 'public');
 
         $photosCount = Photo::count();
@@ -210,7 +212,7 @@ class AddObservationFromCollectionTest extends TestCase
         $photo = Photo::latest()->first();
         $this->assertEquals("photos/{$photo->id}/test-image.jpg", $photo->path);
         $this->assertNotEmpty($photo->url);
-        $this->assertTrue(Storage::disk('public')->exists($photo->path));
+        $this->assertTrue($storage->exists($photo->path));
         $this->assertEquals('John Doe', $photo->author);
     }
 
