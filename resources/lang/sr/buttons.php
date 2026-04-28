@@ -25,5 +25,9 @@ return [
     'leave_page' => 'Напусти страницу',
     'confirm' => 'Потврди',
     'export' => 'Извези',
+    'admin_export' => 'Извоз за апликацију',
     'download' => 'Преузми',
+    'generate_token' => 'Генериши API токен',
+    'revoke_token' => 'Опозови API токен',
+    'copy_token' => 'Копирај API токен',
 ];

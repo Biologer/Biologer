@@ -6,8 +6,10 @@ use App\Jobs\ProcessUploadedPhoto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
-use League\Flysystem\Adapter\Local as LocalAdapter;
+use Illuminate\Support\Facades\URL;
+use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Interfaces\ImageInterface as Image;
 
 class Photo extends Model
 {
@@ -115,26 +117,10 @@ class Photo extends Model
             return;
         }
 
-        if (ImageLicense::PARTIALLY_OPEN === $this->license) {
-            return $this->watermarkedUrl();
-        }
-
-        return $this->makeUrl($this->path);
-    }
-
-    /**
-     * Make a URL for the path.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    protected function makeUrl($path)
-    {
-        if ($this->filesystem()->getDriver()->getAdapter() instanceof LocalAdapter) {
-            return $this->filesystem()->url($path);
-        }
-
-        return $this->filesystem()->temporaryUrl($path, now()->addMinutes(30));
+        return URL::signedRoute('photos.public', [
+            'photo' => $this,
+            'v' => $this->updated_at->timestamp,
+        ]);
     }
 
     /**
@@ -145,22 +131,6 @@ class Photo extends Model
     public function isVisibleToPublic()
     {
         return ImageLicense::CLOSED !== $this->license;
-    }
-
-    /**
-     * URL of watermarked photo.
-     *
-     * @return string|null
-     */
-    protected function watermarkedUrl()
-    {
-        $path = $this->watermarkedPath();
-
-        if (! $this->filesystem()->exists($path)) {
-            return;
-        }
-
-        return $this->makeUrl($path);
     }
 
     /**
@@ -199,22 +169,20 @@ class Photo extends Model
      */
     public function crop($width, $height, $x, $y)
     {
-        $this->putContent(
-            (string) Image::make($this->getContent())
-                ->crop($width, $height, $x, $y)
-                ->encode()
-        );
-
+        $manager = new ImageManager(new Driver());
+        $image = $manager->decode($this->getContent());
+        $image->crop($width, $height, $x, $y);
+        $this->putContent((string) $image->encode());
         $this->touch();
     }
 
     /**
      * Watermark the photo.
      *
-     * @param  \Intervention\Image\Image|null  $image
+     * @param  Image|null  $image
      * @return bool
      */
-    public function watermark($image = null)
+    public function watermark(Image $image = null)
     {
         return app(Watermark::class)->applyTo($this, $image);
     }
@@ -226,7 +194,7 @@ class Photo extends Model
      */
     public function alreadyWatermarked()
     {
-        return $this->filesystem()->exists($this->watermarkedPath());
+        return self::filesystem()->exists($this->watermarkedPath());
     }
 
     /**
@@ -237,7 +205,7 @@ class Photo extends Model
      */
     public function putWatermarkedContent($content)
     {
-        return $this->filesystem()->put($this->watermarkedPath(), $content);
+        return self::filesystem()->put($this->watermarkedPath(), $content);
     }
 
     /**
@@ -247,7 +215,7 @@ class Photo extends Model
      */
     public function getContent()
     {
-        return $this->filesystem()->get($this->path);
+        return self::filesystem()->get($this->path);
     }
 
     /**
@@ -257,18 +225,18 @@ class Photo extends Model
      */
     public function getReadStream()
     {
-        return $this->filesystem()->readStream($this->path);
+        return self::filesystem()->readStream($this->path);
     }
 
     /**
      * Put the content into the image file.
      *
      * @param  string  $content
-     * @return void
+     * @return bool
      */
     public function putContent($content)
     {
-        return $this->filesystem()->put($this->path, $content);
+        return self::filesystem()->put($this->path, $content);
     }
 
     /**
@@ -278,7 +246,7 @@ class Photo extends Model
      */
     public function moveToFinalPath($keepUpload = false)
     {
-        $this->filesystem()->put(
+        self::filesystem()->put(
             $path = $this->finalPath(),
             Storage::disk('public')->readStream($this->path)
         );
@@ -298,7 +266,7 @@ class Photo extends Model
      * @param  string|null  $filename
      * @return string
      */
-    protected function finalPath($filename = null)
+    public function finalPath($filename = null)
     {
         return 'photos/'.$this->id.'/'.($filename ?? $this->filename());
     }
@@ -343,7 +311,7 @@ class Photo extends Model
      */
     public function absolutePath()
     {
-        return $this->filesystem()->path($this->path);
+        return self::filesystem()->path($this->path);
     }
 
     /**
@@ -353,8 +321,8 @@ class Photo extends Model
      */
     public function removeFiles()
     {
-        $this->filesystem()->delete($this->path);
-        $this->filesystem()->delete($this->watermarkedPath());
+        self::filesystem()->delete($this->path);
+        self::filesystem()->delete($this->watermarkedPath());
     }
 
     /**
@@ -362,14 +330,9 @@ class Photo extends Model
      *
      * @return \Illuminate\Contracts\Filesystem\Filesystem
      */
-    protected function filesystem()
+    public static function filesystem()
     {
         return Storage::disk(config('biologer.photos_disk'));
-    }
-
-    public function streamResponse(): \Symfony\Component\HttpFoundation\Response
-    {
-        return $this->filesystem()->response($this->finalPath());
     }
 
     /**

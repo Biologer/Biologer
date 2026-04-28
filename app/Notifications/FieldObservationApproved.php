@@ -3,6 +3,8 @@
 namespace App\Notifications;
 
 use App\FieldObservation;
+use App\Notifications\Channels\FcmChannel;
+use App\Support\Localization;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -52,6 +54,10 @@ class FieldObservationApproved extends Notification implements ShouldQueue
 
         if ($notifiable->settings()->get('notifications.field_observation_approved.mail')) {
             $channels = array_merge($channels, [Channels\UnreadSummaryMailChannel::class]);
+        }
+
+        if ($notifiable->routeNotificationFor('fcm')) {
+            $channels[] = FcmChannel::class;
         }
 
         return $channels;
@@ -107,6 +113,39 @@ class FieldObservationApproved extends Notification implements ShouldQueue
                 : trans('notifications.field_observations.approved_message'),
             'actionText' => trans('notifications.field_observations.action'),
             'actionUrl' => route('contributor.field-observations.show', $this->fieldObservation),
+        ];
+    }
+
+    /**
+     * Build the FCM (mobile push) representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toFcm($notifiable)
+    {
+        $taxon = optional($this->fieldObservation->observation->taxon)->name;
+
+        $messageKey = $taxon
+            ? 'notifications.field_observations.approved_message_with_taxon'
+            : 'notifications.field_observations.approved_message';
+
+        $translations = Localization::getTranslationsForKeys([
+            'title' => 'notifications.field_observations.approved_subject',
+            'message' => $messageKey,
+        ], ['taxonName' => $taxon]);
+
+        return [
+            'title' => $translations['en']['title'] ?? 'Approved Field Observation',
+            'body' => $translations['en']['message'] ?? 'Your field observation has been approved.',
+            'data' => [
+                'type' => 'notification_created',
+                'notification_id' => (string) $this->id,
+                'field_observation_id' => (string) $this->fieldObservation->id,
+                'curator_name' => $this->curator->full_name,
+                'taxon_name' => (string) $taxon,
+                'translations' => $translations,
+            ],
         ];
     }
 }

@@ -31,6 +31,7 @@ return [
         'last_name' => 'Prezime',
         'institution' => 'Institucija',
         'email' => 'E-pošta',
+        'email_confirmation' => 'Ponovite e-poštu',
         'password' => 'Lozinka',
         'password_confirmation' => 'Ponovite lozinku',
         'verification_code' => 'Verifikacijski kod',
@@ -50,6 +51,7 @@ return [
     'users' => [
         'first_name' => 'Ime',
         'last_name' => 'Prezime',
+        'full_name' => 'Ime i prezime',
         'institution' => 'Institucija',
         'roles' => 'Uloge',
         'curated_taxa' => 'Svojte koje uređuje',
@@ -66,6 +68,7 @@ return [
         'description' => 'Opis',
         'fe_old_id' => '(stara) FaunaEuropea ID',
         'fe_id' => 'FaunaEuropea ID',
+        'ancestors_names' => 'Nazivi predaka',
         'restricted' => 'Svojta sa ograničenim podacima',
         'allochthonous' => 'Svojta je alohtona',
         'invasive' => 'Svojta je invazivna',
@@ -82,6 +85,11 @@ return [
 
         'atlas_codes' => 'Atlas kodovi',
         'uses_atlas_codes' => 'Koristi Atlas kodove',
+
+        'synonyms' => 'Sinonimi',
+        'add_synonym' => 'Dodaj sinonim',
+        'synonym_name' => 'Unesi naziv sinonima',
+        'synonym_author' => 'Unesi autora sinonima',
     ],
 
     'field_observations' => [
@@ -146,6 +154,12 @@ return [
         'submitted_using' => 'Poslato preko',
     ],
 
+    'timed_count_observations' => [
+        'start_time' => 'Početno vreme',
+        'end_time' => 'Završno vreme',
+        'duration' => 'Trajanje',
+    ],
+
     'view_groups' => [
         'name' => 'Naziv',
         'parent' => 'Viša grupa',
@@ -167,6 +181,10 @@ return [
             'custom' => 'Prolagođeno',
             'darwin_core' => 'Darwin Core',
         ],
+        'group_name' => 'Naziv grupe',
+        'group_ids' => 'ID Grupa',
+        'stage_names' => 'Životni stadij',
+        'stage_ids' => 'ID Životni stadij',
     ],
 
     'imports' => [

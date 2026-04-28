@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,18 +12,19 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Announcement' => 'App\Policies\AnnouncementPolicy',
-        'App\ConservationLegislation' => 'App\Policies\ConservationLegislationPolicy',
-        'App\FieldObservation' => 'App\Policies\FieldObservationPolicy',
-        'App\LiteratureObservation' => 'App\Policies\LiteratureObservationPolicy',
-        'App\CollectionObservation' => 'App\Policies\CollectionObservationPolicy',
-        'App\SpecimenCollection' => 'App\Policies\SpecimenCollectionPolicy',
-        'App\Publication' => 'App\Policies\PublicationPolicy',
-        'App\PublicationAttachment' => 'App\Policies\PublicationAttachmentPolicy',
-        'App\RedList' => 'App\Policies\RedListPolicy',
-        'App\Taxon' => 'App\Policies\TaxonPolicy',
-        'App\User' => 'App\Policies\UserPolicy',
-        'App\ViewGroup' => 'App\Policies\ViewGroupPolicy',
+        \App\Announcement::class => \App\Policies\AnnouncementPolicy::class,
+        \App\ConservationLegislation::class => \App\Policies\ConservationLegislationPolicy::class,
+        \App\FieldObservation::class => \App\Policies\FieldObservationPolicy::class,
+        \App\LiteratureObservation::class => \App\Policies\LiteratureObservationPolicy::class,
+        \App\CollectionObservation::class => \App\Policies\CollectionObservationPolicy::class,
+        \App\SpecimenCollection::class => \App\Policies\SpecimenCollectionPolicy::class,
+        \App\Publication::class => \App\Policies\PublicationPolicy::class,
+        \App\PublicationAttachment::class => \App\Policies\PublicationAttachmentPolicy::class,
+        \App\RedList::class => \App\Policies\RedListPolicy::class,
+        \App\Taxon::class => \App\Policies\TaxonPolicy::class,
+        \App\User::class => \App\Policies\UserPolicy::class,
+        \App\ViewGroup::class => \App\Policies\ViewGroupPolicy::class,
+        \App\TimedCountObservation::class => \App\Policies\TimedCountObservationPolicy::class,
     ];
 
     /**
@@ -34,8 +34,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
 
-        Passport::routes();
     }
 }

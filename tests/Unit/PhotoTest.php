@@ -6,13 +6,17 @@ use App\ImageLicense;
 use App\Photo;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class PhotoTest extends TestCase
+final class PhotoTest extends TestCase
 {
-    /** @test */
-    public function files_are_removed_when_photo_is_deleted()
+    #[Test]
+    public function files_are_removed_when_photo_is_deleted(): void
     {
+        $photosDisk = config('biologer.photos_disk');
+        Storage::fake($photosDisk);
+
         Storage::fake('public');
         $file = File::image('example.jpg')->storeAs('uploads', 'example.jpg', [
             'disk' => 'public',
@@ -23,10 +27,10 @@ class PhotoTest extends TestCase
             'license' => ImageLicense::firstId(),
         ]);
 
-        Storage::disk('public')->assertExists($photo->path);
+        Storage::disk($photosDisk)->assertExists($photo->path);
 
         $photo->delete();
 
-        Storage::disk('public')->assertMissing($photo->path);
+        Storage::disk($photosDisk)->assertMissing($photo->path);
     }
 }

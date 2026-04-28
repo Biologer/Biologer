@@ -7,7 +7,11 @@
             edit-route="admin.view-groups.edit"
             delete-route="api.view-groups.destroy"
             empty="{{ __('No data...') }}"
-        />
+            export-url="{{ route('api.group-exports.store') }}"
+            :export-columns="{{ $exportColumns }}"
+        >
+
+        </nz-view-groups-table>
     </div>
 @endsection
 

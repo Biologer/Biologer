@@ -31,6 +31,7 @@ return [
         'last_name' => 'Презиме',
         'institution' => 'Институција',
         'email' => 'Е-пошта',
+        'email_confirmation' => 'Поновите e-пошту',
         'password' => 'Лозинка',
         'password_confirmation' => 'Поновите лозинку',
         'verification_code' => 'Верификациони код',
@@ -50,6 +51,7 @@ return [
     'users' => [
         'first_name' => 'Име',
         'last_name' => 'Презиме',
+        'full_name' => 'Име и презиме',
         'institution' => 'Институција',
         'roles' => 'Улоге',
         'curated_taxa' => 'Таксони које уређује',
@@ -66,6 +68,7 @@ return [
         'description' => 'Опис',
         'fe_old_id' => '(стара) FaunaEuropea ID',
         'fe_id' => 'FaunaEuropea ID',
+        'ancestors_names' => 'Називи предака',
         'restricted' => 'Tаксон са органиченим подацима',
         'allochthonous' => 'Таксон је алохтон',
         'invasive' => 'Таксон је инвазиван',
@@ -75,12 +78,18 @@ return [
         'red_lists' => 'Црвене листе',
         'add_red_list' => 'Додај црвену листу',
         'search_for_taxon' => 'Тражи таксон...',
+        'yes' => 'Да',
+        'no' => 'Не',
 
         'include_lower_taxa' => 'Укључујући ниже таксоне',
 
-
         'atlas_codes' => 'Атлас кодови',
         'uses_atlas_codes' => 'Користи Атлас кодове',
+
+        'synonyms' => 'Синоними',
+        'add_synonym' => 'Додај синоним',
+        'synonym_name' => 'Унеси назив синонима',
+        'synonym_author' => 'Унеси аутора синонима',
     ],
 
     'field_observations' => [
@@ -145,6 +154,12 @@ return [
         'submitted_using' => 'Послато преко',
     ],
 
+    'timed_count_observations' => [
+        'start_time' => 'Почетно време',
+        'end_time' => 'Завршно време',
+        'duration' => 'Трајање',
+    ],
+
     'view_groups' => [
         'name' => 'Назив',
         'parent' => 'Виша група',
@@ -166,6 +181,10 @@ return [
             'custom' => 'Прилагођено',
             'darwin_core' => 'Darwin Core',
         ],
+        'group_name' => 'Назив групе',
+        'group_ids' => 'ИД Група',
+        'stage_names' => 'Стадијуми',
+        'stage_ids' => 'ИД Стадијума',
     ],
 
     'imports' => [
@@ -390,7 +409,7 @@ return [
         ],
 
         'notifications' => [
-            'notification' => 'Нотификација',
+            'notification' => 'Обавештење',
             'inapp' => 'На сајту',
             'mail' => 'Е-поштом',
 

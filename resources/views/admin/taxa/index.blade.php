@@ -7,11 +7,15 @@
             edit-route="admin.taxa.edit"
             delete-route="api.taxa.destroy"
             export-url="{{ route('api.taxon-exports.store') }}"
+            admin-export-url="{{ route('api.admin-taxon-exports.store') }}"
             :export-columns="{{ $exportColumns }}"
+            :admin-export-columns="{{ $adminExportColumns }}"
             :ranks="{{ $ranks }}"
+            :taxonomy="{{ $taxonomy }}"
+            :taxonomy-link="'{{ $taxonomyLink }}'"
             empty="{{ __('No data...') }}"
-            show-activity-log
-        />
+            show-activity-log>
+        </nz-taxa-table>
     </div>
 @endsection
 
@@ -25,8 +29,10 @@
 @endsection
 
 @section('navigationActions')
+    @if ($taxonomy != 'true')
     <a href="{{ route('admin.taxa.create') }}" class="button is-secondary is-outlined">
         @include('components.icon', ['icon' => 'plus'])
         <span>{{ __('navigation.add') }}</span>
     </a>
+    @endif
 @endsection

@@ -7,9 +7,10 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Nikazooz\LaravelCaptcha\Facades\Captcha;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class UserRegistrationTest extends TestCase
+final class UserRegistrationTest extends TestCase
 {
     protected function validParams($overrides = [])
     {
@@ -27,8 +28,8 @@ class UserRegistrationTest extends TestCase
         ], $overrides);
     }
 
-    /** @test */
-    public function user_can_register_by_providing_required_information()
+    #[Test]
+    public function user_can_register_by_providing_required_information(): void
     {
         Notification::fake();
         User::assertCount(0);
@@ -52,8 +53,8 @@ class UserRegistrationTest extends TestCase
         Notification::assertSentTo($user, VerifyEmail::class);
     }
 
-    /** @test */
-    public function first_name_is_required()
+    #[Test]
+    public function first_name_is_required(): void
     {
         Notification::fake();
         User::assertCount(0);
@@ -66,11 +67,12 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['first_name']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+
+        Notification::assertNothingSent();
     }
 
-    /** @test */
-    public function last_name_is_required()
+    #[Test]
+    public function last_name_is_required(): void
     {
         Notification::fake();
         User::assertCount(0);
@@ -83,11 +85,11 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['last_name']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
-    /** @test */
-    public function password_name_is_required()
+    #[Test]
+    public function password_name_is_required(): void
     {
         Notification::fake();
         User::assertCount(0);
@@ -100,11 +102,11 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['password']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
-    /** @test */
-    public function password_must_be_at_least_6_characters_long()
+    #[Test]
+    public function password_must_be_at_least_6_characters_long(): void
     {
         Notification::fake();
         User::assertCount(0);
@@ -117,11 +119,11 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['password']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
-    /** @test */
-    public function password_confirmation_is_required()
+    #[Test]
+    public function password_confirmation_is_required(): void
     {
         Notification::fake();
         User::assertCount(0);
@@ -135,11 +137,11 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['password']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
-    /** @test */
-    public function password_confirmation_must_match_password()
+    #[Test]
+    public function password_confirmation_must_match_password(): void
     {
         Notification::fake();
         User::assertCount(0);
@@ -153,11 +155,11 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['password']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
-    /** @test */
-    public function captcha_verification_code_is_required()
+    #[Test]
+    public function captcha_verification_code_is_required(): void
     {
         Notification::fake();
         User::assertCount(0);
@@ -170,11 +172,11 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['captcha_verification_code']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
-    /** @test */
-    public function captcha_verification_code_must_be_valid()
+    #[Test]
+    public function captcha_verification_code_must_be_valid(): void
     {
         Notification::fake();
         User::assertCount(0);
@@ -187,11 +189,11 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['captcha_verification_code']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
-    /** @test */
-    public function data_license_is_required()
+    #[Test]
+    public function data_license_is_required(): void
     {
         Notification::fake();
         User::assertCount(0);
@@ -204,11 +206,11 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['data_license']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
-    /** @test */
-    public function data_license_can_only_be_one_of_supported()
+    #[Test]
+    public function data_license_can_only_be_one_of_supported(): void
     {
         Notification::fake();
         User::assertCount(0);
@@ -221,11 +223,11 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['data_license']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
-    /** @test */
-    public function image_license_is_required()
+    #[Test]
+    public function image_license_is_required(): void
     {
         Notification::fake();
         User::assertCount(0);
@@ -238,11 +240,11 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['image_license']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
-    /** @test */
-    public function image_license_can_only_be_one_of_supported()
+    #[Test]
+    public function image_license_can_only_be_one_of_supported(): void
     {
         Notification::fake();
         User::assertCount(0);
@@ -255,11 +257,11 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['image_license']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 
-    /** @test */
-    public function user_is_required_to_accept_terms_of_service_and_privacy_policy()
+    #[Test]
+    public function user_is_required_to_accept_terms_of_service_and_privacy_policy(): void
     {
         Notification::fake();
         User::assertCount(0);
@@ -272,6 +274,6 @@ class UserRegistrationTest extends TestCase
         $response->assertSessionHasErrors(['accept']);
 
         User::assertCount(0);
-        Notification::assertTimesSent(0, VerifyEmail::class);
+        Notification::assertNothingSent();
     }
 }

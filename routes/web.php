@@ -9,15 +9,21 @@ use App\Http\Controllers\Admin\LiteratureObservationsImportController;
 use App\Http\Controllers\Admin\PublicationsController;
 use App\Http\Controllers\Admin\SpecimenCollectionsController;
 use App\Http\Controllers\Admin\TaxaController as AdminTaxaController;
+use App\Http\Controllers\Admin\TaxonomyController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ViewGroupsController;
 use App\Http\Controllers\AnnouncementsController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\CitationController;
 use App\Http\Controllers\Contributor\DashboardController;
 use App\Http\Controllers\Contributor\FieldObservationsController;
 use App\Http\Controllers\Contributor\FieldObservationsImportController;
 use App\Http\Controllers\Contributor\PublicFieldObservationsController;
 use App\Http\Controllers\Contributor\PublicLiteratureObservationsController;
+use App\Http\Controllers\Contributor\TimedCountObservationsController;
+use App\Http\Controllers\Contributor\TransectCountObservationsController;
+use App\Http\Controllers\Contributor\TransectSectionsController;
+use App\Http\Controllers\Contributor\TransectVisitsController;
 use App\Http\Controllers\Curator\ApprovedObservationsController;
 use App\Http\Controllers\Curator\PendingObservationsController;
 use App\Http\Controllers\Curator\UnidentifiableObservationsController;
@@ -31,6 +37,7 @@ use App\Http\Controllers\Preferences\DataEntryPreferencesController;
 use App\Http\Controllers\Preferences\GeneralPreferencesController;
 use App\Http\Controllers\Preferences\LicensePreferencesController;
 use App\Http\Controllers\Preferences\NotificationsPreferencesController;
+use App\Http\Controllers\Preferences\TokenPreferencesController;
 use App\Http\Controllers\TaxaController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -52,11 +59,24 @@ Route::get('exports/{export}/download', ExportDownloadController::class)
     ->middleware(['auth', 'verified'])
     ->name('export-download');
 
-Route::get('photos/{photo}/file', [PhotosController::class, 'file'])->name('photos.file');
+Route::get('photos/{photo}/file', [PhotosController::class, 'file'])
+    ->middleware('auth:web,api')
+    ->name('photos.file');
+Route::get('photos/{photo}/public', [PhotosController::class, 'public'])
+    ->middleware('signed')
+    ->name('photos.public');
 
-Route::prefix(LaravelLocalization::setLocale())->middleware([
-    'localeCookieRedirect', 'localizationRedirect', 'localeViewPath', 'localizationPreferenceUpdate',
-])->group(function () {
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => [
+        \App\Http\Middleware\ClearLocaleOnDefault::class,
+        'localizationRedirect',
+        'localeSessionRedirect',
+        'localeCookieRedirect',
+        'localeViewPath',
+        'localizationPreferenceUpdate',
+    ],
+], function () {
     Route::auth(['verify' => false, 'confirm' => false]);
     Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
     Route::post('email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
@@ -69,15 +89,15 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
     // About pages
     Route::view('pages/about/about-project', 'pages.about.about-project')->name('pages.about.about-project');
-    Route::view('pages/about/project-team', 'pages.about.project-team')->name('pages.about.project-team');
-    Route::view('pages/about/organisations', 'pages.about.organisations')->name('pages.about.organisations');
     Route::get('pages/about/local-community', [AboutPagesController::class, 'localCommunity'])->name('pages.about.local-community');
-    Route::view('pages/about/biodiversity-data', 'pages.about.biodiversity-data')->name('pages.about.biodiversity-data');
-    Route::view('pages/about/development-supporters', 'pages.about.development-supporters')->name('pages.about.development-supporters');
     Route::get('pages/about/stats', [AboutPagesController::class, 'stats'])->name('pages.about.stats');
+    Route::get('pages/about/citation', [CitationController::class, 'index'])->name('pages.about.citation');
+
+    // Taxa for citations
+    Route::get('taxa/{taxon}/descendants-curators', [TaxaController::class, 'descendantsCurators'])->name('taxa.descendants.curators');
 
     // Legal
-    Route::view('pages/privacy-policy', 'pages.privacy-policy')->name('pages.privacy-policy');
+    Route::get('pages/privacy-policy', [AboutPagesController::class, 'privacyPolicy'])->name('pages.privacy-policy');
 
     // Licenses
     Route::view('licenses', 'licenses.index')->name('licenses.index');
@@ -99,7 +119,9 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
             Route::get('account', [AccountPreferencesController::class, 'index'])->name('account');
             Route::patch('account/password', [AccountPreferencesController::class, 'changePassword'])->name('account.password');
-            Route::delete('account', [AccountPreferencesController::class, 'destroy'])->name('account.delete');
+            Route::patch('account/email', [AccountPreferencesController::class, 'changeEmail'])->name('account.email');
+            Route::delete('account', [AccountPreferencesController::class, 'destroy'])
+                ->name('account.delete');
 
             Route::get('license', [LicensePreferencesController::class, 'index'])->name('license');
             Route::patch('license', [LicensePreferencesController::class, 'update'])->name('license.update');
@@ -108,6 +130,10 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::patch('notifications', [NotificationsPreferencesController::class, 'update'])->name('notifications.update');
 
             Route::patch('data-entry', [DataEntryPreferencesController::class, 'update'])->name('data-entry.update');
+
+            Route::get('token', [TokenPreferencesController::class, 'index'])->name('token');
+            Route::post('token/generate', [TokenPreferencesController::class, 'generate'])->name('token.generate');
+            Route::post('token/revoke', [TokenPreferencesController::class, 'revoke'])->name('token.revoke');
         });
 
         Route::prefix('contributor')->name('contributor.')->group(function () {
@@ -145,6 +171,33 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
 
             Route::get('public-literature-observations/{literatureObservation}', [PublicLiteratureObservationsController::class, 'show'])
                 ->name('public-literature-observations.show');
+
+            Route::get('timed-count-observations', [TimedCountObservationsController::class, 'index'])
+                ->name('timed-count-observations.index');
+
+            Route::get('timed-count-observations/{timedCountObservation}', [TimedCountObservationsController::class, 'show'])
+                ->name('timed-count-observations.show');
+
+            // Transect count observations
+
+            Route::get('transect-count-observations', [TransectCountObservationsController::class, 'index'])
+                ->name('transect-count-observations.index');
+
+            Route::get('transect-count-observations/{transectCountObservation}', [TransectCountObservationsController::class, 'show'])
+                ->name('transect-count-observations.show');
+
+            Route::get('transect-sections', [TransectSectionsController::class, 'index'])
+                ->name('transect-sections.index');
+
+            Route::get('transect-sections/{transectSection}', [TransectSectionsController::class, 'show'])
+                ->name('transect-sections.show');
+
+            Route::get('transect-visits', [TransectVisitsController::class, 'index'])
+                ->name('transect-visits.index');
+
+            Route::get('transect-visits/{transectVisit}', [TransectVisitsController::class, 'show'])
+                ->name('transect-visits.show');
+
         });
 
         Route::prefix('curator')->name('curator.')->group(function () {
@@ -221,10 +274,6 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
                 ->middleware('can:update,user')
                 ->name('users.edit');
 
-            Route::put('users/{user}', [UsersController::class, 'update'])
-                ->middleware('can:update,user')
-                ->name('users.update');
-
             Route::get('view-groups', [ViewGroupsController::class, 'index'])
                 ->middleware('role:admin')
                 ->name('view-groups.index');
@@ -275,6 +324,21 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::get('publications/{publication}/edit', [PublicationsController::class, 'edit'])
                 ->middleware('can:update,publication')
                 ->name('publications.edit');
+
+            Route::get('taxonomy', [TaxonomyController::class, 'index'])
+                ->name('taxonomy.index');
+
+            Route::post('taxonomy/check', [TaxonomyController::class, 'check'])
+                ->name('taxonomy.check');
+
+            Route::post('taxonomy/connect', [TaxonomyController::class, 'connect'])
+                ->name('taxonomy.connect');
+
+            Route::post('taxonomy/disconnect', [TaxonomyController::class, 'disconnect'])
+                ->name('taxonomy.disconnect');
+
+            Route::post('taxonomy/sync', [TaxonomyController::class, 'syncTaxon'])
+                ->name('taxonomy.sync');
 
             Route::get('collection-observations', [CollectionObservationsController::class, 'index'])
                 ->name('collection-observations.index');

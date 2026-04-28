@@ -30,6 +30,7 @@ const Buefy = {
         Vue.component('b-tooltip', () => import(/* webpackChunkName: "buefy" */ 'buefy/src/components/tooltip/Tooltip'))
         Vue.component('b-upload', () => import(/* webpackChunkName: "buefy" */ 'buefy/src/components/upload/Upload'))
         Vue.component('b-pagination', () => import(/* webpackChunkName: "buefy" */ 'buefy/src/components/pagination/Pagination'))
+        Vue.component('b-message', () => import(/* webpackChunkName: "buefy" */ 'buefy/src/components/message/Message'))
 
         Vue.use(Dialog)
         Vue.use(Modal)

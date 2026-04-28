@@ -68,7 +68,7 @@ class PendingFieldObservationsBatchController
         $user = auth()->user();
 
         if (! $user->is($fieldObservation->observation->creator)) {
-            $fieldObservation->observation->creator->notify(
+            optional($fieldObservation->observation->creator)->notify(
                 new FieldObservationMovedToPending($fieldObservation, $user)
             );
         }

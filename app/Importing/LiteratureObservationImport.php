@@ -5,6 +5,7 @@ namespace App\Importing;
 use App\DEM\Reader as DEMReader;
 use App\Import;
 use App\LiteratureObservation;
+use App\LiteratureObservationIdentificationValidity;
 use App\Observation;
 use App\ObservationIdentificationValidity;
 use App\Rules\Day;
@@ -294,6 +295,10 @@ class LiteratureObservationImport extends BaseImport
      */
     protected function makeValidator(array $data)
     {
+        $data['year'] = trim(Arr::get($data, 'year', ''));
+        $data['month'] = trim(Arr::get($data, 'month', ''));
+        $data['day'] = trim(Arr::get($data, 'day', ''));
+
         return Validator::make($data, [
             'taxon' => ['required', Rule::exists('taxa', 'name')],
             'year' => ['bail', 'nullable', 'date_format:Y', 'before_or_equal:now'],
@@ -313,23 +318,23 @@ class LiteratureObservationImport extends BaseImport
             'found_on' => ['nullable', 'string', 'max:191'],
             'habitat' => ['nullable', 'string', 'max:191'],
             'note' => ['nullable', 'string'],
-            'dataset' => ['nullable', 'string', 'max:255'],
+            'dataset' => ['nullable', 'string', 'max:191'],
             'minimum_elevation' => ['nullable', 'integer', 'max:10000', 'lte:maximum_elevation', 'lte:elevation'],
             'maximum_elevation' => ['nullable', 'integer', 'max:10000', 'gte:minimum_elevation', 'gte:elevation'],
-            'original_date' => ['nullable', 'string', 'max:255'],
-            'original_locality' => ['nullable', 'string', 'max:255'],
-            'original_elevation' => ['nullable', 'string', 'max:255'],
-            'original_coordinates' => ['nullable', 'string', 'max:255'],
-            'original_identification' => ['required', 'string', 'max:255'],
-            'original_identification_validity' => ['required', Rule::in(ObservationIdentificationValidity::options()->values())],
+            'original_date' => ['nullable', 'string', 'max:191'],
+            'original_locality' => ['nullable', 'string', 'max:191'],
+            'original_elevation' => ['nullable', 'string', 'max:191'],
+            'original_coordinates' => ['nullable', 'string', 'max:191'],
+            'original_identification' => ['required', 'string', 'max:191'],
+            'original_identification_validity' => ['required', Rule::in(LiteratureObservationIdentificationValidity::options()->values())],
             'other_original_data' => ['nullable', 'string'],
             'collecting_start_year' => ['nullable', 'integer'],
             'collecting_start_month' => ['nullable', 'integer', 'min:1', 'max:12'],
             'collecting_end_year' => ['nullable', 'integer'],
             'collecting_end_month' => ['nullable', 'integer', 'min:1', 'max:12'],
-            'georeferenced_by' => ['nullable', 'string', 'max:255'],
-            'georeferenced_date' => ['nullable', 'date', 'max:255'],
-            'place_where_referenced_in_publication' => ['nullable', 'string', 'max:255'],
+            'georeferenced_by' => ['nullable', 'string', 'max:191'],
+            'georeferenced_date' => ['nullable', 'date', 'max:191'],
+            'place_where_referenced_in_publication' => ['nullable', 'string', 'max:191'],
         ], [
             'year.date_format' => __('validation.year'),
             'original_identification_validity.in' => __('validation.in_extended', [

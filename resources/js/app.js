@@ -38,6 +38,8 @@ Vue.component('NzAnnouncement', () => import(/* webpackChunkName: "dashboard" */
 Vue.component('NzSlider', () => import(/* webpackChunkName: "public" */ './components/Slider'))
 Vue.component('NzGroupTaxaSearchButton', () => import(/* webpackChunkName: "public" */ './components/GroupTaxaSearchButton'))
 
+Vue.component('NzTokenPreference', () => import('./components/preferences/TokenPreference.vue'))
+
 Vue.component('NzTaxaTable', () => import('./components/tables/TaxaTable'))
 Vue.component('NzUsersTable', () => import('./components/tables/UsersTable'))
 Vue.component('NzAnnouncementsTable', () => import('./components/tables/AnnouncementsTable'))
@@ -47,6 +49,9 @@ Vue.component('NzLiteratureObservationsTable', () => import('./components/tables
 Vue.component('NzPublicationsTable', () => import('./components/tables/PublicationsTable'))
 Vue.component('NzCollectionObservationsTable', () => import('./components/tables/CollectionObservationsTable'))
 Vue.component('NzSpecimenCollectionsTable', () => import('./components/tables/SpecimenCollectionsTable'))
+Vue.component('NzTaxonomyTable', () => import('./components/tables/TaxonomyTable'))
+Vue.component('NzTimedCountObservationsTable', () => import('./components/tables/TimedCountObservationsTable'))
+Vue.component('NzTimedCountFieldObservationsTable', () => import('./components/tables/TimedCountFieldObservationsTable'))
 
 Vue.component('NzRegistrationForm', () => import('./components/forms/RegistrationForm'))
 Vue.component('NzUserForm', () => import('./components/forms/UserForm'))
@@ -62,6 +67,7 @@ Vue.component('NzSpecimenCollectionForm', () => import('./components/forms/Speci
 Vue.component('NzFieldObservationActivityLog', () => import('./components/activity/FieldObservationActivityLog'))
 Vue.component('NzLiteratureObservationActivityLog', () => import('./components/activity/LiteratureObservationActivityLog'))
 Vue.component('NzTaxonActivityLog', () => import('./components/activity/TaxonActivityLog'))
+Vue.component('NzTimedCountObservationActivityLog', () => import('./components/activity/TimedCountObservationActivityLog'))
 
 Vue.component('NzFieldObservationsImport', () => import('./components/imports/FieldObservationsImport'))
 Vue.component('NzLiteratureObservationsImport', () => import('./components/imports/LiteratureObservationsImport'))
@@ -73,6 +79,9 @@ Vue.component('NzOccurrenceChart', () => import(/* webpackChunkName: "public" */
 Vue.component('NzCaptcha', () => import(/* webpackChunkName: "public" */ './components/Captcha'))
 
 Vue.component('NzDeleteAccountButton', () => import(/* webpackChunkName: "dashboard" */ './components/DeleteAccountButton'))
+
+Vue.component('NzCitation', () => import('./components/about/Citation'))
+
 
 Vue.prototype.trans = window.trans = (string, args = {}, defaultString = '') => {
     let value = window.App.i18n[string] || defaultString || string

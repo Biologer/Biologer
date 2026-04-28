@@ -5,15 +5,17 @@ namespace Tests\Feature;
 use App\Photo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class CleaningUnusedPhotosTest extends TestCase
+final class CleaningUnusedPhotosTest extends TestCase
 {
-    /** @test */
-    public function photos_that_are_not_attached_to_any_observation_are_removed()
+    #[Test]
+    public function photos_that_are_not_attached_to_any_observation_are_removed(): void
     {
-        Storage::fake('public');
+        $photosDisk = config('biologer.photos_disk');
+        Storage::fake($photosDisk);
 
         $fieldObservation = ObservationFactory::createFieldObservation();
         $usedPhoto = $fieldObservation->photos()->save(Photo::factory()->make());
@@ -30,8 +32,8 @@ class CleaningUnusedPhotosTest extends TestCase
         $this->assertNotNull($unusedNewPhoto->fresh());
         $this->assertNull($unusedOldPhoto->fresh());
 
-        Storage::disk('public')->assertExists($usedPhoto->path);
-        Storage::disk('public')->assertExists($unusedNewPhoto->path);
-        Storage::disk('public')->assertMissing($unusedOldPhoto->path);
+        Storage::disk($photosDisk)->assertExists($usedPhoto->path);
+        Storage::disk($photosDisk)->assertExists($unusedNewPhoto->path);
+        Storage::disk($photosDisk)->assertMissing($unusedOldPhoto->path);
     }
 }

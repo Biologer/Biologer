@@ -2,8 +2,10 @@
 
 namespace App;
 
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Alignment;
+use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Interfaces\ImageInterface as Image;
 
 class Watermark
 {
@@ -23,30 +25,30 @@ class Watermark
      * Apply watermark to the photo.
      *
      * @param  \App\Photo  $photo
-     * @param  \Intervention\Image\Image|null  $image
+     * @param  Image|null  $image
      * @return bool
      */
-    public function applyTo(Photo $photo, $image = null)
+    public function applyTo(Photo $photo, Image $image = null)
     {
         if (! file_exists($this->watermark)) {
             return false;
         }
 
         try {
-            $image = $image ?: Image::make($photo->getContent());
+            $manager = new ImageManager(new Driver());
+            $image = $image ?: $manager->decodePath($photo->getContent());
 
             $watermark = $this->getWatermarkFor($image);
 
-            $image->insert($watermark, 'top-center', null, $this->verticalOffset($image, $watermark));
+            $image->insert($watermark, 0, $this->verticalOffset($image, $watermark), Alignment::TOP, 0.5);
 
-            $watermarkedImageContent = $image->encode()->getEncoded();
+            $watermarkedImageContent = (string) $image->encode();
 
             // Clean up.
-            $image->destroy();
-            $watermark->destroy();
+            unset($watermark);
 
             return $photo->putWatermarkedContent($watermarkedImageContent);
-        } catch (FileNotFoundException $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -54,7 +56,7 @@ class Watermark
     /**
      * Calculate the width for watermark.
      *
-     * @param  \Intervention\Image\Image  $image
+     * @param  Image  $image
      * @return int
      */
     protected function calculateWatermarkWidth($image)
@@ -65,10 +67,11 @@ class Watermark
     /**
      * Get vertical offset for the watermark.
      *
-     * @param  \Intervention\Image\Image  $image
-     * @param  \Intervention\Image\Image  $watermark
+     * @param Image $image
+     * @param Image $watermark
+     * @return int
      */
-    protected function verticalOffset($image, $watermark)
+    protected function verticalOffset(Image $image, $watermark)
     {
         $heightDiff = $image->height() - $watermark->height();
 
@@ -78,14 +81,16 @@ class Watermark
     /**
      * Prepare watermark.
      *
-     * @param  \Intervention\Image\Image  $image
-     * @return \Intervention\Image\Image
+     * @param  Image  $image
+     * @return Image
      */
-    protected function getWatermarkFor($image)
+    protected function getWatermarkFor(Image $image)
     {
-        return Image::make($this->watermark)->opacity(50)
-            ->resize($this->calculateWatermarkWidth($image), null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
+        $manager = new ImageManager(new Driver());
+        $watermark = $manager->decodePath($this->watermark);
+
+        $watermark->scale(width: $this->calculateWatermarkWidth($image));
+
+        return $watermark;
     }
 }

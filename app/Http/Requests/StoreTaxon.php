@@ -8,6 +8,7 @@ use App\RedList;
 use App\Rules\UniqueTaxonName;
 use App\Stage;
 use App\Support\Localization;
+use App\Synonym;
 use App\Taxon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
@@ -64,6 +65,7 @@ class StoreTaxon extends FormRequest
             'native_name' => ['required', 'array'],
             'description' => ['required', 'array'],
             'uses_atlas_codes' => ['boolean'],
+            'synonyms' => ['array'],
         ];
     }
 
@@ -132,6 +134,7 @@ class StoreTaxon extends FormRequest
         return DB::transaction(function () {
             return tap($this->createTaxon(), function ($taxon) {
                 $this->syncRelations($taxon);
+                $this->createSynonyms($taxon);
                 $this->logCreatedActivity($taxon);
             });
         });
@@ -148,5 +151,20 @@ class StoreTaxon extends FormRequest
         activity()->performedOn($taxon)
             ->causedBy($this->user())
             ->log('created');
+    }
+
+    protected function createSynonyms(Taxon $taxon)
+    {
+        if (! $this->input('synonyms')) {
+            return;
+        }
+        foreach ($this->input('synonyms') as $synonym) {
+            $s = Synonym::create([
+                'name' => $synonym['name'],
+                'author' => $synonym['author'],
+                'taxon_id' => $taxon->id,
+            ]);
+            $s->save();
+        }
     }
 }

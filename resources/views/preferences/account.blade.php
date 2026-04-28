@@ -15,7 +15,6 @@
 <div class="box">
     <section>
         <h2 class="is-size-4">{{ __('navigation.preferences.change_password') }}</h2>
-
         <hr>
 
         <form action="{{ route('preferences.account.password') }}" method="POST">
@@ -64,7 +63,58 @@
         </form>
     </section>
 
+    <section>
+        <hr>
+        <h2 class="is-size-4">{{ __('navigation.preferences.change_email') }}</h2>
+        <hr>
+        <form action="{{ route('preferences.account.email') }}" method="POST">
+            {{ csrf_field() }}
+            {{ method_field('PATCH') }}
+
+            <div class="columns">
+                <div class="column">
+                    <div class="field is-required">
+                        <label class="label" for="email">{{ __('labels.register.email') }}</label>
+
+                        <div class="control">
+                            <input
+                                id="email"
+                                type="email"
+                                name="email"
+                                class="input{{ $errors->has('email') ? ' is-danger' : ''}}"
+                                placeholder="{{ __('labels.register.email') }}"
+                            />
+                        </div>
+
+                        <p class="help{{ $errors->has('email') ? ' is-danger' : '' }}">{{ $errors->first('email') }}</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field is-required">
+                        <label class="label" for="email_confirmation">{{ __('labels.register.email_confirmation') }}</label>
+
+                        <div class="control">
+                            <input
+                                id="email_confirmation"
+                                type="email"
+                                name="email_confirmation"
+                                class="input{{ $errors->has('email_confirmation') ? ' is-danger' : '' }}"
+                                placeholder="{{ __('labels.register.email') }}">
+                        </div>
+
+                        <p class="help{{ $errors->has('email_confirmation') ? ' is-danger' : '' }}">{{ $errors->first('email_confirmation') }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <button type="submit" class="button is-primary">{{ __('buttons.save') }}</button>
+            </div>
+        </form>
+    </section>
+
     <section class="mt-8">
+        <hr>
         <h2 class="is-size-4 has-text-danger">{{ __('navigation.preferences.delete_account') }}</h2>
 
         <hr>

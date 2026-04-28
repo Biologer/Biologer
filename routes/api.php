@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AdminTaxonExportsController;
 use App\Http\Controllers\Api\AnnouncementsController;
 use App\Http\Controllers\Api\ApprovedFieldObservationsBatchController;
 use App\Http\Controllers\Api\Autocomplete\PublicationsController as AutocompletePublicationsController;
@@ -26,6 +27,10 @@ use App\Http\Controllers\Api\My\FieldObservationExportsController as MyFieldObse
 use App\Http\Controllers\Api\My\FieldObservationsController as MyFieldObservationsController;
 use App\Http\Controllers\Api\My\ProfileController;
 use App\Http\Controllers\Api\My\ReadNotificationsBatchController;
+use App\Http\Controllers\Api\My\TimedCountObservationsController as MyTimedCountObservationsController;
+use App\Http\Controllers\Api\My\TransectCountObservationController as MyTransectCountObservationsController;
+use App\Http\Controllers\Api\My\TransectSectionController as MyTransectSectionsController;
+use App\Http\Controllers\Api\My\TransectVisitsController as MyTransectVisitsController;
 use App\Http\Controllers\Api\My\UnreadNotificationsController;
 use App\Http\Controllers\Api\ObservationTypesController;
 use App\Http\Controllers\Api\PendingFieldObservationsBatchController;
@@ -39,9 +44,15 @@ use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\SpecimenCollectionsController;
 use App\Http\Controllers\Api\TaxaController;
 use App\Http\Controllers\Api\TaxonExportsController;
+use App\Http\Controllers\Api\TaxonomyController;
 use App\Http\Controllers\Api\TaxonPublicPhotosController;
+use App\Http\Controllers\Api\TimedCountObservationsController;
+use App\Http\Controllers\Api\TransectCountObservationsController;
+use App\Http\Controllers\Api\TransectSectionsController;
+use App\Http\Controllers\Api\TransectVisitsController;
 use App\Http\Controllers\Api\UnidentifiableFieldObservationsBatchController;
 use App\Http\Controllers\Api\UsersController;
+use App\Http\Controllers\Api\ViewGroupExportsController;
 use App\Http\Controllers\Api\ViewGroupsController;
 use Illuminate\Support\Facades\Route;
 
@@ -63,6 +74,16 @@ Route::get('groups/{group}/taxa', [GroupTaxaController::class, 'index'])
 
 Route::get('taxa/{taxon}/public-photos', [TaxonPublicPhotosController::class, 'index'])
     ->name('api.taxa.public-photos.index');
+
+Route::post('taxonomy/sync', [TaxonomyController::class, 'sync'])
+    ->middleware('throttle:10000,1')
+    ->name('api.taxonomy.sync');
+
+Route::post('taxonomy/remove', [TaxonomyController::class, 'remove'])
+    ->name('api.taxonomy.remove');
+
+Route::post('taxonomy/deselect', [TaxonomyController::class, 'deselect'])
+    ->name('api.taxonomy.deselect');
 
 Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('elevation', ElevationController::class);
@@ -155,6 +176,92 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('pending-field-observations/batch', [PendingFieldObservationsBatchController::class, 'store'])
         ->name('api.pending-field-observations-batch.store');
 
+    // Timed count observations
+    Route::get('timed-count-observations', [TimedCountObservationsController::class, 'index'])
+        ->middleware('can:list,App\TimedCountObservation')
+        ->name('api.timed-count-observations.index');
+
+    Route::post('timed-count-observations', [TimedCountObservationsController::class, 'store'])
+        ->name('api.timed-count-observations.store');
+
+    Route::get('timed-count-observations/{timedCountObservation}', [TimedCountObservationsController::class, 'show'])
+        ->middleware('can:view,timedCountObservation')
+        ->name('api.timed-count-observations.show');
+
+    Route::put('timed-count-observations/{timedCountObservation}', [TimedCountObservationsController::class, 'update'])
+        ->middleware('can:update,timedCountObservation')
+        ->name('api.timed-count-observations.update');
+
+    Route::delete('timed-count-observations/{timedCountObservation}', [TimedCountObservationsController::class, 'destroy'])
+        ->middleware('can:delete,timedCountObservation')
+        ->name('api.timed-count-observations.destroy');
+
+    Route::get('timed-counts/{timedCountObservation}/field-observations', [TimedCountObservationsController::class, 'fieldObservations'])
+        ->middleware('can:list,timedCountObservation,field-observations')
+        ->name('api.timed-counts.field-observations');
+
+    // Transect count observations
+    Route::get('transect-count-observations', [TransectCountObservationsController::class, 'index'])
+        ->middleware('can:list,App\TransectCountObservation')
+        ->name('api.transect-count-observations.index');
+
+    Route::post('transect-count-observations', [TransectCountObservationsController::class, 'store'])
+        ->name('api.transect-count-observations.store');
+
+    Route::get('transect-count-observations/{transectCountObservation}', [TransectCountObservationsController::class, 'show'])
+        ->middleware('can:view,transectCountObservation')
+        ->name('api.transect-count-observations.show');
+
+    Route::put('transect-count-observations/{transectCountObservation}', [TransectCountObservationsController::class, 'update'])
+        ->middleware('can:update,transectCountObservation')
+        ->name('api.transect-count-observations.update');
+
+    Route::delete('transect-count-observations/{transectCountObservation}', [TransectCountObservationsController::class, 'destroy'])
+        ->middleware('can:delete,transectCountObservation')
+        ->name('api.transect-count-observations.destroy');
+
+    // Transect sectors
+    Route::get('transect-sections', [TransectSectionsController::class, 'index'])
+        ->middleware('can:list,App\TransectSection')
+        ->name('api.transect-sections.index');
+
+    Route::post('transect-sections', [TransectSectionsController::class, 'store'])
+        ->middleware('can:create,App\TransectSection')
+        ->name('api.transect-sections.store');
+
+    Route::get('transect-sections/{transectSection}', [TransectSectionsController::class, 'show'])
+        ->middleware('can:view,transectSection')
+        ->name('api.transect-sections.show');
+
+    Route::put('transect-sections/{transectSection}', [TransectSectionsController::class, 'update'])
+        ->middleware('can:update,transectSection')
+        ->name('api.transect-sections.update');
+
+    Route::delete('transect-sections/{transectSection}', [TransectSectionsController::class, 'destroy'])
+        ->middleware('can:delete,transectSection')
+        ->name('api.transect-sections.destroy');
+
+    // Transect visits
+    Route::get('transect-visits', [TransectVisitsController::class, 'index'])
+        ->middleware('can:list,App\TransectVisit')
+        ->name('api.transect-visits.index');
+
+    Route::post('transect-visits', [TransectVisitsController::class, 'store'])
+        ->middleware('can:create,App\TransectVisit')
+        ->name('api.transect-visits.store');
+
+    Route::get('transect-visits/{transectVisit}', [TransectVisitsController::class, 'show'])
+        ->middleware('can:view,transectVisit')
+        ->name('api.transect-visits.show');
+
+    Route::put('transect-visits/{transectVisit}', [TransectVisitsController::class, 'update'])
+        ->middleware('can:update,transectVisit')
+        ->name('api.transect-visits.update');
+
+    Route::delete('transect-visits/{transectVisit}', [TransectVisitsController::class, 'destroy'])
+        ->middleware('can:delete,transectVisit')
+        ->name('api.transect-visits.destroy');
+
     // Users
     Route::get('users', [UsersController::class, 'index'])
         ->middleware('can:list,App\User')
@@ -172,7 +279,10 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->middleware('can:delete,user')
         ->name('api.users.destroy');
 
-    // Taxa
+    Route::post('user/fcm-token', [UsersController::class, 'updateFcmToken'])
+        ->name('api.user.fcmtoken');
+
+    // View groups
     Route::get('view-groups', [ViewGroupsController::class, 'index'])
         ->withoutMiddleware('verified')
         ->name('api.view-groups.index');
@@ -193,9 +303,16 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         ->middleware('can:delete,group')
         ->name('api.view-groups.destroy');
 
+    // View groups export
+    Route::post('group-exports', [ViewGroupExportsController::class, 'store'])
+        ->name('api.group-exports.store');
+
     // Taxa export
     Route::post('taxon-exports', [TaxonExportsController::class, 'store'])
         ->name('api.taxon-exports.store');
+
+    Route::post('admin-taxon-exports', [AdminTaxonExportsController::class, 'store'])
+        ->name('api.admin-taxon-exports.store');
 
     Route::get('exports/{export}', [ExportsController::class, 'show'])
         ->name('api.exports.show');
@@ -331,6 +448,18 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
         Route::post('field-observations/export', [MyFieldObservationExportsController::class, 'store'])
             ->name('api.my.field-observation-exports.store');
+
+        Route::get('timed-count-observations', [MyTimedCountObservationsController::class, 'index'])
+            ->name('api.my.timed-count-observations.index');
+
+        Route::get('transect-count-observations', [MyTransectCountObservationsController::class, 'index'])
+            ->name('api.my.transect-count-observations.index');
+
+        Route::get('transect-sections', [MyTransectSectionsController::class, 'index'])
+            ->name('api.my.transect-sections.index');
+
+        Route::get('transect-visits', [MyTransectVisitsController::class, 'index'])
+            ->name('api.my.transect-visits.index');
 
         Route::get('profile', [ProfileController::class, 'show'])
             ->withoutMiddleware('verified')

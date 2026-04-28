@@ -31,6 +31,7 @@ return [
         'last_name' => 'Last Name',
         'institution' => 'Institution',
         'email' => 'Email',
+        'email_confirmation' => 'Repeat Email',
         'password' => 'Password',
         'password_confirmation' => 'Repeat Password',
         'verification_code' => 'Verification Code',
@@ -50,6 +51,7 @@ return [
     'users' => [
         'first_name' => 'First Name',
         'last_name' => 'Last Name',
+        'full_name' => 'Full name',
         'institution' => 'Institution',
         'roles' => 'Roles',
         'curated_taxa' => 'Curated Taxa',
@@ -66,8 +68,9 @@ return [
         'description' => 'Description',
         'fe_old_id' => '(old) FaunaEuropea ID',
         'fe_id' => 'FaunaEuropea ID',
+        'ancestors_names' => 'Ancestors Names',
         'restricted' => 'Taxon data is restricted',
-        'allochthonous' => 'Taxin is allochthonous',
+        'allochthonous' => 'Taxon is allochthonous',
         'invasive' => 'Taxon is invasive',
         'stages' => 'Stages',
         'conservation_legislations' => 'Conservation Legislations',
@@ -82,6 +85,11 @@ return [
 
         'atlas_codes' => 'Atlas Codes',
         'uses_atlas_codes' => 'Uses Atlas Codes',
+
+        'synonyms' => 'Synonyms',
+        'add_synonym' => 'Add synonym',
+        'synonym_name' => 'Insert synonyms name',
+        'synonym_author' => 'Insert synonyms author',
     ],
 
     'field_observations' => [
@@ -146,6 +154,12 @@ return [
         'submitted_using' => 'Submitted Using',
     ],
 
+    'timed_count_observations' => [
+        'start_time' => 'Start Time',
+        'end_time' => 'End Time',
+        'duration' => 'Duration',
+    ],
+
     'view_groups' => [
         'name' => 'Name',
         'parent' => 'Parent',
@@ -167,6 +181,10 @@ return [
             'custom' => 'Custom',
             'darwin_core' => 'Darwin Core',
         ],
+        'group_name' => 'Group name',
+        'group_ids' => 'Group IDs',
+        'stage_names' => 'Stage names',
+        'stage_ids' => 'Stage IDs',
     ],
 
     'imports' => [

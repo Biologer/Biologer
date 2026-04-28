@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\FieldObservation;
+use App\Notifications\Channels\FcmChannel;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -52,6 +53,10 @@ class FieldObservationEdited extends Notification implements ShouldQueue
 
         if ($notifiable->settings()->get('notifications.field_observation_edited.mail')) {
             $channels = array_merge($channels, [Channels\UnreadSummaryMailChannel::class]);
+        }
+
+        if ($notifiable->routeNotificationFor('fcm')) {
+            $channels[] = FcmChannel::class;
         }
 
         return $channels;
@@ -107,6 +112,42 @@ class FieldObservationEdited extends Notification implements ShouldQueue
                 : trans('notifications.field_observations.edited_message'),
             'actionText' => trans('notifications.field_observations.action'),
             'actionUrl' => route('contributor.field-observations.show', $this->fieldObservation),
+        ];
+    }
+
+    /**
+     * Build the localized FCM payload.
+     */
+    public function toFcm($notifiable)
+    {
+        $taxon = optional($this->fieldObservation->observation->taxon)->name;
+
+        // Build translations for all supported locales
+        $translations = [];
+        foreach (app(\Mcamara\LaravelLocalization\LaravelLocalization::class)->getSupportedLanguagesKeys() as $locale) {
+            $translations[$locale] = [
+                'title' => trans('notifications.field_observations.edited_subject', [], $locale),
+                'message' => $taxon
+                    ? trans('notifications.field_observations.edited_message_with_taxon', ['taxonName' => $taxon], $locale)
+                    : trans('notifications.field_observations.edited_message', [], $locale),
+            ];
+        }
+
+        return [
+            'title' => trans('notifications.field_observations.edited_subject'),
+            'body' => $taxon
+                ? trans('notifications.field_observations.edited_message_with_taxon', ['taxonName' => $taxon])
+                : trans('notifications.field_observations.edited_message'),
+
+            'data' => [
+                'type' => 'notification_created',
+                'notification_subtype' => 'field_observation_edited',
+                'notification_id' => (string) $this->id,
+                'field_observation_id' => (string) $this->fieldObservation->id,
+                'causer_name' => $this->causer->full_name,
+                'taxon_name' => (string) $taxon,
+                'translations' => $translations,
+            ],
         ];
     }
 }

@@ -25,5 +25,9 @@ return [
     'leave_page' => 'Leave page',
     'confirm' => 'Confirm',
     'export' => 'Export',
+    'admin_export' => 'Export for app',
     'download' => 'Download',
+    'generate_token' => 'Generate token',
+    'revoke_token' => 'Revoke token',
+    'copy_token' => 'Copy token',
 ];

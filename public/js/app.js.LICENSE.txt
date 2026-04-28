@@ -1,21 +1,25 @@
 /*!
- * Vue-Lazyload.js v1.3.4
- * (c) 2021 Awe <hilongjw@gmail.com>
- * Released under the MIT License.
- */
-
-/*!
- * Vue.js v2.7.14
- * (c) 2014-2022 Evan You
- * Released under the MIT License.
- */
-
-/*!
- * is-primitive <https://github.com/jonschlinkert/is-primitive>
+ * The buffer module from node.js, for the browser.
  *
- * Copyright (c) 2014-2015, Jon Schlinkert.
- * Licensed under the MIT License.
+ * @author   Feross Aboukhadijeh <http://feross.org>
+ * @license  MIT
  */
+
+/*!
+ * Vue-Lazyload.js v1.3.5
+ * (c) 2023 Awe <hilongjw@gmail.com>
+ * Released under the MIT License.
+ */
+
+/*!
+ * Vue.js v2.7.16
+ * (c) 2014-2023 Evan You
+ * Released under the MIT License.
+ */
+
+/*! Axios v1.15.0 Copyright (c) 2026 Matt Zabriskie and contributors */
+
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
 /**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.

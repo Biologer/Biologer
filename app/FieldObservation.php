@@ -47,6 +47,8 @@ class FieldObservation extends Model implements FlatArrayable
         'unidentifiable' => 'boolean',
         'approved_at' => 'datetime',
         'atlas_code' => 'integer',
+        'timed_count_id' => 'integer',
+        'transect_visit_id' => 'integer',
     ];
 
     public function filters()
@@ -64,6 +66,7 @@ class FieldObservation extends Model implements FlatArrayable
             'observer' => \App\Filters\FieldObservation\ObservationAttributeLike::class,
             'sort_by' => \App\Filters\SortBy::class,
             'project' => \App\Filters\FieldObservation\ObservationAttributeLike::class,
+            'updated_after' => \App\Filters\UpdatedAfter::class,
         ];
     }
 
@@ -154,6 +157,26 @@ class FieldObservation extends Model implements FlatArrayable
     }
 
     /**
+     * Timed count this observation belongs to (if any).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function timedCountObservation()
+    {
+        return $this->belongsTo(TimedCountObservation::class);
+    }
+
+    /**
+     * Transect visit this observation belongs to (if any).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function transectVisit()
+    {
+        return $this->belongsTo(TransectVisit::class);
+    }
+
+    /**
      * Scope the query to get identifiable observations.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -190,6 +213,14 @@ class FieldObservation extends Model implements FlatArrayable
     }
 
     /**
+     * Check if observation is a field observation (not part of timed count AND transect visit).
+     */
+    public function scopeIsFieldObservation($query)
+    {
+        return $query->whereNull('timed_count_id')->WhereNull('transect_visit_id');
+    }
+
+    /**
      * Get approved observations.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -197,9 +228,11 @@ class FieldObservation extends Model implements FlatArrayable
      */
     public function scopeApproved($query)
     {
-        return $query->whereHas('observation', function ($q) {
-            return $q->approved();
-        });
+        return $query
+            ->isFieldObservation()
+            ->whereHas('observation', function ($q) {
+                return $q->approved();
+            });
     }
 
     /**
@@ -235,7 +268,7 @@ class FieldObservation extends Model implements FlatArrayable
     public function scopeApprovable($query)
     {
         return $query->whereHas('observation', function ($query) {
-            return $query->unapproved()->whereHas('taxon', function ($query) {
+            return $query->unapproved()->isFieldObservation()->whereHas('taxon', function ($query) {
                 return $query->speciesOrLower();
             });
         });
@@ -253,6 +286,30 @@ class FieldObservation extends Model implements FlatArrayable
         return $query->whereHas('observation', function ($observation) use ($user) {
             return $observation->taxonCuratedBy($user);
         });
+    }
+
+    /**
+     * Get only timed count observations.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \App\TimedCountObservation $timedCountObservation
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsTimedCount($query, TimedCountObservation $timedCountObservation)
+    {
+        return $query->where('timed_count_id', $timedCountObservation->id);
+    }
+
+    /**
+     * Get only transect count observations.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \App\TransectVisit $transectVisit
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsTransectVisit($query, TransectVisit $transectVisit)
+    {
+        return $query->where('transect_visit_id', $transectVisit->id);
     }
 
     /**
@@ -370,7 +427,7 @@ class FieldObservation extends Model implements FlatArrayable
     }
 
     /**
-     * Remove unused photos and and add new ones.
+     * Remove unused photos and add new ones.
      *
      * @param  \Illuminate\Support\Collection|array  $photos
      * @param  int  $defaultLicense
@@ -623,6 +680,8 @@ class FieldObservation extends Model implements FlatArrayable
             'identified_by' => $this->identifiedBy,
             'dataset' => $this->observation->dataset,
             'atlas_code' => $this->atlas_code,
+            'timed_count_id' => $this->timed_count_id,
+            'transect_visit_id' => $this->transect_visit_id,
         ];
     }
 
@@ -671,6 +730,8 @@ class FieldObservation extends Model implements FlatArrayable
             'identified_by' => $this->identifiedBy,
             'dataset' => $this->observation->dataset,
             'atlas_code' => $this->atlas_code,
+            'timed_count_id' => $this->timed_count_id,
+            'transect_visit_id' => $this->transect_visit_id,
         ];
     }
 

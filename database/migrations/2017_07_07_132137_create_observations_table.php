@@ -20,8 +20,8 @@ class CreateObservationsTable extends Migration
             $table->unsignedTinyInteger('month')->nullable();
             $table->unsignedTinyInteger('day')->nullable();
             $table->string('location')->nullable();
-            $table->double('latitude', 15, 12);
-            $table->double('longitude', 15, 12);
+            $table->double('latitude');
+            $table->double('longitude');
             $table->unsignedInteger('accuracy')->nullable();
             $table->string('mgrs10k')->nullable();
             $table->smallInteger('elevation')->default(0);

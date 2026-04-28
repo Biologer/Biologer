@@ -18,6 +18,7 @@
         :icon="icon"
         :placeholder="placeholder"
         expanded
+        :disabled="disabled"
         :autofocus="autofocus"
         @keydown.native.enter="enterPressed"
         :class="[selected ? 'has-icon-success' : '']"
@@ -79,7 +80,8 @@ export default {
       default: null,
     },
     except: {},
-    autofocus: Boolean
+    autofocus: Boolean,
+    disabled: Boolean
   },
 
   data() {

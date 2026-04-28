@@ -5,15 +5,15 @@ namespace Tests\Feature;
 use App\Exports\FieldObservations\ContributorFieldObservationsCustomExport;
 use App\Taxon;
 use App\User;
-use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class ExportDownloadTest extends TestCase
+final class ExportDownloadTest extends TestCase
 {
-    /** @test */
-    public function authenticated_user_can_download_their_export()
+    #[Test]
+    public function authenticated_user_can_download_their_export(): void
     {
         $this->actingAs($user = User::factory()->create());
         $export = $this->performExportFor($user);
@@ -23,15 +23,15 @@ class ExportDownloadTest extends TestCase
         $response->assertSuccessful();
 
         $this->assertEquals(
-            EncodingHelper::BOM_UTF8
+            BOM_UTF8
             ."Taxon\n"
             .'"Test taxon"'."\n",
             $response->streamedContent()
         );
     }
 
-    /** @test */
-    public function guest_gets_unauthorized_response()
+    #[Test]
+    public function guest_gets_unauthorized_response(): void
     {
         $this->actingAs($user = User::factory()->create());
         $export = $this->performExportFor($user);
@@ -42,8 +42,8 @@ class ExportDownloadTest extends TestCase
         $response->assertRedirect('/login');
     }
 
-    /** @test */
-    public function authenticated_user_cannot_download_other_users_export()
+    #[Test]
+    public function authenticated_user_cannot_download_other_users_export(): void
     {
         $this->actingAs($user = User::factory()->create());
         $export = $this->performExportFor($user);

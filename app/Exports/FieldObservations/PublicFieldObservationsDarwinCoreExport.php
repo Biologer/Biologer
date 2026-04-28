@@ -28,8 +28,8 @@ class PublicFieldObservationsDarwinCoreExport extends DarwinCoreFieldObservation
         $transformed = parent::transformItem($item);
 
         if ($item->shouldHideRealCoordinates()) {
-            $transformed['latitude'] = number_format($item->observation->latitude, 1);
-            $transformed['longitude'] = number_format($item->observation->longitude, 1);
+            $transformed['decimalLatitude'] = number_format($item->observation->latitude, 1);
+            $transformed['decimalLongitude'] = number_format($item->observation->longitude, 1);
             $transformed['coordinateUncertaintyInMeters'] = 5000;
         }
 

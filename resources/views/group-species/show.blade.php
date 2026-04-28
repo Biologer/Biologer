@@ -4,17 +4,18 @@
     <div class="container pb-8 px-4 desktop:px-0">
         <nav class="pagination is-species mb-8 mt-4" role="navigation" aria-label="pagination">
             <div>
-                <h1 class="is-size-3 pagination-title">
-                    <i>{{ $species->name }}</i>&nbsp;
-                    {{ $species->author }}
+                <h1 class="is-size-3">
+                    <i>{{ $species->name }}</i>
                 </h1>
+                <h2 class="is-size-4">
+                    {{ $species->author }}
+                </h2>
 
                 @if($species->native_name)
-                    <div>
-                        <small class="is-size-6">{{ $species->native_name }}</small>
-                    </div>
-                @endif
 
+                    <h3 class="is-size-6">{{ $species->native_name }}</h3>
+
+                @endif
             </div>
 
             <div class="pagination-search">
@@ -75,6 +76,15 @@
             <div class="columns">
                 <div class="column flex-center">
                     <div class="mb-8">
+                        <h3 class="subtitle is-size-7 is-italic has-text-grey">
+                            @foreach($species->synonyms as $synonym)
+                                {{ $synonym->name }} {{$synonym->author}}
+                                @if(!$loop->last)
+                                    {{";"}}
+                                @endif
+                            @endforeach
+                        </h3>
+
                         @foreach($species->ancestors as $ancestor)
                             {{ __('taxonomy.'.$ancestor->rank) }}: <b>
                                 @if($ancestor->isGenusOrLower())

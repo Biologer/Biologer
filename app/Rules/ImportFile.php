@@ -2,9 +2,8 @@
 
 namespace App\Rules;
 
-use Box\Spout\Common\Type;
-use Box\Spout\Reader\ReaderFactory;
 use Illuminate\Contracts\Validation\Rule;
+use OpenSpout\Reader\CSV\Reader as ReaderCSV;
 
 class ImportFile implements Rule
 {
@@ -42,11 +41,11 @@ class ImportFile implements Rule
      * Make file reader.
      *
      * @param  mixed  $value
-     * @return \Box\Spout\Reader\ReaderInterface
+     * @return \OpenSpout\Reader\ReaderInterface
      */
     private function makeReader($value)
     {
-        $reader = ReaderFactory::create(Type::CSV); // for CSV files
+        $reader = new ReaderCSV(); // for CSV files
 
         $reader->open($value->getPathname());
 
@@ -56,7 +55,7 @@ class ImportFile implements Rule
     /**
      * Check if there is at least one row with data, excluding header row if expected.
      *
-     * @param  \Box\Spout\Reader\ReaderInterface  $reader
+     * @param  \OpenSpout\Reader\ReaderInterface  $reader
      * @return bool
      */
     private function checkForOneRow($reader)

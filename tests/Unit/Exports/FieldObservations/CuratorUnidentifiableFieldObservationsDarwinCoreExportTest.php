@@ -9,16 +9,16 @@ use App\ObservationType;
 use App\Stage;
 use App\Taxon;
 use App\User;
-use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class CuratorUnidentifiableFieldObservationsDarwinCoreExportTest extends TestCase
+final class CuratorUnidentifiableFieldObservationsDarwinCoreExportTest extends TestCase
 {
-    /** @test */
-    public function curated_unidentifiable_field_observations_are_exported_in_darwin_core_to_a_csv_file()
+    #[Test]
+    public function curated_unidentifiable_field_observations_are_exported_in_darwin_core_to_a_csv_file(): void
     {
         Carbon::setTestNow(Carbon::now());
         Storage::fake('local');
@@ -71,7 +71,7 @@ class CuratorUnidentifiableFieldObservationsDarwinCoreExportTest extends TestCas
         $expectedKeyValuePairs = collect($this->csvContent($observation));
 
         $this->assertEquals(
-            EncodingHelper::BOM_UTF8.
+            BOM_UTF8.
             $expectedKeyValuePairs->keys()->implode(',')."\n".
             $expectedKeyValuePairs->implode(',')."\n",
             Storage::disk('local')->get($export->path())

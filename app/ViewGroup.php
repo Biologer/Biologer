@@ -4,6 +4,7 @@ namespace App;
 
 use App\Concerns\CanMemoize;
 use App\Concerns\HasTranslatableAttributes;
+use App\Filters\Filterable;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Storage;
@@ -11,7 +12,7 @@ use Illuminate\Support\Str;
 
 class ViewGroup extends Model
 {
-    use HasFactory, CanMemoize, HasTranslatableAttributes, Translatable;
+    use HasFactory, CanMemoize, HasTranslatableAttributes, Translatable, Filterable;
 
     const CACHE_GROUPS_WITH_FIRST_SPECIES = 'groups_with_first_species';
 
@@ -65,6 +66,20 @@ class ViewGroup extends Model
         'saved' => \App\Events\ViewGroupSaved::class,
         'deleted' => \App\Events\ViewGroupDeleted::class,
     ];
+
+    /**
+     * Filters that can be used on queries.
+     *
+     * @var array
+     */
+    public function filters()
+    {
+        return [
+            'id' => \App\Filters\Ids::class,
+            'sort_by' => \App\Filters\SortBy::class,
+            'except' => \App\Filters\ExceptIds::class,
+        ];
+    }
 
     /**
      * Query only main groups. We'll use these for tabs.

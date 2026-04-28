@@ -43,6 +43,17 @@ class Observation extends Model
     }
 
     /**
+     * Check if observation is a field observation (not part of timed count).
+     */
+    public function scopeIsFieldObservation($query)
+    {
+        return $query->where('details_type', FieldObservation::class)
+            ->whereHasMorph('details', [FieldObservation::class], function ($q) {
+                $q->whereNull('timed_count_id');
+            });
+    }
+
+    /**
      * Get only approved observations.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query

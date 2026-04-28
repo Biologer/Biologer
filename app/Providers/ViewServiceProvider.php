@@ -58,6 +58,7 @@ class ViewServiceProvider extends ServiceProvider
                         ->prepend('<p class="menu-label">'.trans('navigation.my').'</p>')
                         ->addClass('menu-list')
                         ->route('contributor.field-observations.index', trans('navigation.field_observations'))
+                        ->route('contributor.timed-count-observations.index', trans('navigation.timed_count_observations'))
                         ->setActiveClass('is-active')
                         ->setActiveClassOnLink()
                         ->setActiveFromRequest()
@@ -116,6 +117,13 @@ class ViewServiceProvider extends ServiceProvider
                             auth()->user()->hasRole('admin'),
                             'admin.view-groups.index',
                             trans('navigation.view_groups')
+                        )->routeIfCan(
+                            ['list', \App\Publication::class],
+                            'admin.publications.index',
+                            trans('navigation.publications')
+                        )->route(
+                            'admin.taxonomy.index',
+                            trans('navigation.taxonomy')
                         )->setActiveClass('is-active')
                         ->setActiveClassOnLink()
                         ->setActiveFromRequest()
@@ -137,6 +145,7 @@ class ViewServiceProvider extends ServiceProvider
                         ->route('preferences.license', trans('navigation.preferences.license'))
                         ->route('preferences.notifications', trans('navigation.preferences.notifications'))
                         ->route('preferences.account', trans('navigation.preferences.account'))
+                        ->route('preferences.token', trans('navigation.preferences.token'))
                         ->setActiveClass('is-active')
                         ->setActiveClassOnLink()
                         ->setActiveFromRequest()

@@ -9,14 +9,13 @@ use App\ObservationIdentificationValidity;
 use App\Publication;
 use App\Stage;
 use App\Taxon;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class LiteratureObservationDiffTest extends TestCase
+final class LiteratureObservationDiffTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function logs_changes_to_general_data()
+    #[Test]
+    public function logs_changes_to_general_data(): void
     {
         foreach ($this->generalDataProvider() as $index => $data) {
             list($attribute, $oldValue, $newValue, $expected) = $data;
@@ -38,10 +37,8 @@ class LiteratureObservationDiffTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
-    public function logs_changes_to_specific_data()
+    #[Test]
+    public function logs_changes_to_specific_data(): void
     {
         foreach ($this->specificDataProvider() as $data) {
             list($attribute, $oldValue, $newValue, $expected) = $data;

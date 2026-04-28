@@ -21,7 +21,7 @@ class ApprovedObservationsController
             'observation.types.translations', 'observedBy', 'identifiedBy',
         ])->whereHas('observation', function ($query) use ($request) {
             return $query->approved()->taxonCuratedBy($request->user());
-        })->filter($request)->paginate($request->get('per_page', 15));
+        })->filter($request)->isFieldObservation()->paginate($request->get('per_page', 15));
 
         return FieldObservationResource::collection($result);
     }

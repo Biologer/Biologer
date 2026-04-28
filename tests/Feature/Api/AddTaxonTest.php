@@ -9,9 +9,10 @@ use App\Stage;
 use App\Taxon;
 use App\User;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class AddTaxonTest extends TestCase
+final class AddTaxonTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -40,11 +41,13 @@ class AddTaxonTest extends TestCase
             'description' => [
                 app()->getLocale() => 'test description',
             ],
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ], $overrides);
     }
 
-    /** @test */
-    public function guest_cannot_create_taxon()
+    #[Test]
+    public function guest_cannot_create_taxon(): void
     {
         $response = $this->postJson('/api/taxa', $this->validParams([
             'name' => 'Cerambyx cerdo',
@@ -55,8 +58,8 @@ class AddTaxonTest extends TestCase
         $this->assertNull(Taxon::findByName('Cerambyx cerdo'));
     }
 
-    /** @test */
-    public function unauthorized_user_cannot_create_taxon()
+    #[Test]
+    public function unauthorized_user_cannot_create_taxon(): void
     {
         Passport::actingAs(User::factory()->create());
 
@@ -69,8 +72,8 @@ class AddTaxonTest extends TestCase
         $this->assertNull(Taxon::findByName('Cerambyx cerdo'));
     }
 
-    /** @test */
-    public function user_with_the_role_of_admin_can_create_taxon()
+    #[Test]
+    public function user_with_the_role_of_admin_can_create_taxon(): void
     {
         Passport::actingAs(User::factory()->create()->assignRoles('admin'));
         $parentTaxon = Taxon::factory()->create(['rank' => 'genus', 'name' => 'Cerambyx']);
@@ -91,6 +94,8 @@ class AddTaxonTest extends TestCase
             'red_lists_data' => $redLists->map(function ($redList) {
                 return ['red_list_id' => $redList->id, 'category' => 'EN'];
             })->all(),
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertCreated();
@@ -114,8 +119,8 @@ class AddTaxonTest extends TestCase
         $this->assertEquals('Cerambyx', $taxon->ancestors_names);
     }
 
-    /** @test */
-    public function curator_can_create_taxon_that_is_child_of_taxon_they_curate()
+    #[Test]
+    public function curator_can_create_taxon_that_is_child_of_taxon_they_curate(): void
     {
         $user = User::factory()->create()->assignRoles('curator');
         $parentTaxon = Taxon::factory()->create();
@@ -125,13 +130,15 @@ class AddTaxonTest extends TestCase
         $response = $this->postJson('/api/taxa', $this->validParams([
             'parent_id' => $parentTaxon->id,
             'name' => 'Cerambyx cerdo',
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertCreated();
     }
 
-    /** @test */
-    public function curator_cannot_create_taxon_if_parent_taxon_is_not_curated_by_them()
+    #[Test]
+    public function curator_cannot_create_taxon_if_parent_taxon_is_not_curated_by_them(): void
     {
         $user = User::factory()->create()->assignRoles('curator');
         $parentTaxon = Taxon::factory()->create();
@@ -140,13 +147,15 @@ class AddTaxonTest extends TestCase
         $response = $this->postJson('/api/taxa', $this->validParams([
             'parent_id' => $parentTaxon->id,
             'name' => 'Cerambyx cerdo',
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertForbidden();
     }
 
-    /** @test */
-    public function name_must_be_unique_among_roots()
+    #[Test]
+    public function name_must_be_unique_among_roots(): void
     {
         Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
         Passport::actingAs(User::factory()->create()->assignRoles('admin'));
@@ -154,13 +163,15 @@ class AddTaxonTest extends TestCase
         $response = $this->postJson('/api/taxa', $this->validParams([
             'name' => 'Animalia',
             'parent_id' => null,
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertJsonValidationErrors('name');
     }
 
-    /** @test */
-    public function trimmed_version_of_value_is_check()
+    #[Test]
+    public function trimmed_version_of_value_is_check(): void
     {
         Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
 
@@ -169,13 +180,15 @@ class AddTaxonTest extends TestCase
         $response = $this->postJson('/api/taxa', $this->validParams([
             'name' => 'Animalia ',
             'parent_id' => null,
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertJsonValidationErrors('name');
     }
 
-    /** @test */
-    public function checking_unique_name_is_case_insensitive()
+    #[Test]
+    public function checking_unique_name_is_case_insensitive(): void
     {
         Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
 
@@ -184,13 +197,15 @@ class AddTaxonTest extends TestCase
         $response = $this->postJson('/api/taxa', $this->validParams([
             'name' => 'AnimaliA',
             'parent_id' => null,
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertJsonValidationErrors('name');
     }
 
-    /** @test */
-    public function name_must_be_unique_within_a_tree()
+    #[Test]
+    public function name_must_be_unique_within_a_tree(): void
     {
         $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
         Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
@@ -201,13 +216,15 @@ class AddTaxonTest extends TestCase
             'name' => 'Cerambyx cerdo',
             'parent_id' => $root->id,
             'rank' => 'species',
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertJsonValidationErrors('name');
     }
 
-    /** @test */
-    public function same_name_can_be_used_in_different_trees()
+    #[Test]
+    public function same_name_can_be_used_in_different_trees(): void
     {
         $root = Taxon::factory()->create(['name' => 'Animalia', 'parent_id' => null, 'rank' => 'kingdom']);
         Taxon::factory()->create(['name' => 'Cerambyx cerdo', 'parent_id' => $root->id, 'rank' => 'species']);
@@ -219,6 +236,8 @@ class AddTaxonTest extends TestCase
             'name' => 'Cerambyx cerdo',
             'parent_id' => $otherRoot->id,
             'rank' => 'species',
+            'synonyms' => [],
+            'removed_synonyms' => [],
         ]));
 
         $response->assertCreated();

@@ -36,6 +36,15 @@
 
               <span>{{ trans('buttons.export') }}</span>
             </b-dropdown-item>
+
+            <b-dropdown-item
+              @click="openAdminExportModal"
+              v-if="adminExportable"
+            >
+              <b-icon icon="download" class="has-text-grey" />
+
+              <span>{{ trans('buttons.admin_export') }}</span>
+            </b-dropdown-item>
           </b-dropdown>
         </div>
       </div>
@@ -73,6 +82,13 @@
         <button type="button" class="button" @click="clearFilter">{{ trans('buttons.clear') }}</button>
       </form>
     </b-collapse>
+
+    <div v-if="taxonomy">
+      <hr>
+      <b-message type="is-success" class="has-text-centered">
+        {{ trans('Taxonomic database is connected to') }} <a v-bind:href="taxonomyLink" target="_blank">{{ taxonomyLink }}</a>
+      </b-message>
+    </div>
 
     <hr>
 
@@ -131,7 +147,10 @@
 
       <b-table-column field="name" :label="trans('labels.taxa.name')" sortable>
         <template #default="{ row }">
-          {{ row.name + (row.native_name ? ` (${row.native_name})` : '') }}
+          <span v-html="changeSpaceIntoDot(row.name) + (row.native_name ? ` (${changeSpaceIntoDot(row.native_name)})` : '')"></span>
+          <b-tooltip :label="getSynonyms(row.synonyms)" multilined dashed v-if="row.synonyms.length > 0">
+            <b-icon icon="comment"></b-icon>
+          </b-tooltip>
         </template>
         <template #header="{ column }">
           <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
@@ -147,12 +166,18 @@
         </template>
       </b-table-column>
 
-      <b-table-column width="150" numeric v-slot="{ row }">
+      <b-table-column width="150" numeric v-slot="{ row }" v-if="! taxonomy">
         <a @click="openActivityLogModal(row)" v-if="showActivityLog && row.activity && row.activity.length > 0" :title="trans('Activity Log')"><b-icon icon="history" /></a>
 
         <a :href="editLink(row)" v-if="row.can_edit"><b-icon icon="edit"></b-icon></a>
 
         <a @click="confirmRemove(row)" v-if="row.can_delete"><b-icon icon="trash"></b-icon></a>
+      </b-table-column>
+
+      <b-table-column width="150" numeric v-slot="{ row }" v-if="taxonomy">
+        <a :href="editLink(row)" v-if="row.can_edit"><b-icon icon="eye"></b-icon></a>
+
+        <a @click="confirmRemove(row)" v-if="row.can_delete && ! row.taxonomy_id"><b-icon icon="trash"></b-icon></a>
       </b-table-column>
 
       <template #empty>
@@ -188,8 +213,27 @@
         @done="onExportDone"
       />
     </b-modal>
+
+    <b-modal :active="showAdminExportModal" @close="showAdminExportModal = false" has-modal-card :can-cancel="[]">
+      <nz-export-modal
+        :checked="checkedIds"
+        :filter="filter"
+        :columns="adminExportColumns"
+        :url="adminExportUrl"
+        :types="['custom']"
+        :sort="sortBy"
+        @cancel="showAdminExportModal = false"
+        @done="onAdminExportDone"
+      />
+    </b-modal>
   </div>
 </template>
+
+<style>
+.middot {
+  color: #d6d6d6;
+}
+</style>
 
 <script>
 import FilterableTableMixin from '@/mixins/FilterableTableMixin'
@@ -228,7 +272,11 @@ export default {
     ranks: Array,
     showActivityLog: Boolean,
     exportColumns: Array,
-    exportUrl: String
+    adminExportColumns: Array,
+    exportUrl: String,
+    adminExportUrl: String,
+    taxonomy: Boolean,
+    taxonomyLink: String,
   },
 
   data() {
@@ -242,7 +290,8 @@ export default {
       perPage: this.perPageOptions[0],
       checkedRows: [],
       activityLog: [],
-      showExportModal: false
+      showExportModal: false,
+      showAdminExportModal: false
     }
   },
 
@@ -253,6 +302,10 @@ export default {
 
     exportable() {
       return !!(this.exportUrl && this.exportColumns.length)
+    },
+
+    adminExportable() {
+      return !!(this.adminExportUrl && this.adminExportColumns.length)
     },
 
     checkedIds() {
@@ -275,7 +328,7 @@ export default {
           from,
           to
       }) : '';
-    }
+    },
   },
 
   created() {
@@ -311,6 +364,10 @@ export default {
         this.total = 0
         this.loading = false
       })
+    },
+
+    getSynonyms(synonyms) {
+      return synonyms.map((synonym) => synonym.name).join(", ");
     },
 
     /*
@@ -382,12 +439,16 @@ export default {
         taxonId: null,
         includeChildTaxa: null,
         selectedTaxon: null,
-        id: null
+        id: null,
       }
     },
 
     openExportModal() {
       this.showExportModal = true
+    },
+
+    openAdminExportModal() {
+      this.showAdminExportModal = true
     },
 
     onExportDone(finishedExport) {
@@ -412,6 +473,28 @@ export default {
       }
     },
 
+    onAdminExportDone(finishedExport) {
+      this.showAdminExportModal = false
+
+      if (finishedExport.url) {
+        this.$buefy.modal.open({
+          parent: this,
+          component: ExportDownloadModal,
+          canCancel: [],
+          hasModalCard: true,
+          props: {
+            url: finishedExport.url,
+          }
+        })
+      } else {
+        this.$buefy.toast.open({
+          duration: 0,
+          message: `Something's not good, also I'm on bottom`,
+          type: 'is-danger'
+        })
+      }
+    },
+
     onTaxonSelect(taxon) {
       this.newFilter.taxonId = taxon ? taxon.id : null
       this.newFilter.selectedTaxon = taxon
@@ -429,7 +512,11 @@ export default {
       this.perPage = this.perPage || this.perPageOptions[0]
       this.sortField = this.sortField || 'id'
       this.sortOrder = this.sortOrder || 'desc'
+    },
+
+    changeSpaceIntoDot(text) {
+      return text.replace(/\s/g, '<span class="middot">&middot;</span>');
     }
-  }
+  },
 }
 </script>
