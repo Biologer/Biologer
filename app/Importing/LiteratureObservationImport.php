@@ -5,7 +5,6 @@ namespace App\Importing;
 use App\DEM\Reader as DEMReader;
 use App\Import;
 use App\LiteratureObservation;
-use App\LiteratureObservationIdentificationValidity;
 use App\Observation;
 use App\ObservationIdentificationValidity;
 use App\Rules\Day;
@@ -326,7 +325,7 @@ class LiteratureObservationImport extends BaseImport
             'original_elevation' => ['nullable', 'string', 'max:191'],
             'original_coordinates' => ['nullable', 'string', 'max:191'],
             'original_identification' => ['required', 'string', 'max:191'],
-            'original_identification_validity' => ['required', Rule::in(LiteratureObservationIdentificationValidity::options()->values())],
+            'original_identification_validity' => ['required', Rule::in(ObservationIdentificationValidity::options()->values())],
             'other_original_data' => ['nullable', 'string'],
             'collecting_start_year' => ['nullable', 'integer'],
             'collecting_start_month' => ['nullable', 'integer', 'min:1', 'max:12'],
