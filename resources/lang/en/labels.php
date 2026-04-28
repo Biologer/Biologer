@@ -331,6 +331,8 @@ return [
         'year' => 'Year',
         'month' => 'Month',
         'day' => 'Day',
+        'photos' => 'Photos',
+        'upload' => 'Upload',
         'elevation_m' => 'Elevation (m)',
         'elevation' => 'Elevation',
         'latitude' => 'Latitude',
