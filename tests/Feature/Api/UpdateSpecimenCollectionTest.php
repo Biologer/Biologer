@@ -5,13 +5,12 @@ namespace Tests\Feature\Api;
 use App\SpecimenCollection;
 use App\User;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class UpdateSpecimenCollectionTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_cannot_update_specimen_collection()
     {
         $specimenCollection = SpecimenCollection::factory()->create();
@@ -21,9 +20,7 @@ class UpdateSpecimenCollectionTest extends TestCase
         $response->assertUnauthorized();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unauthorized_user_cannot_update_specimen_collection()
     {
         $specimenCollection = SpecimenCollection::factory()->create();
@@ -34,9 +31,7 @@ class UpdateSpecimenCollectionTest extends TestCase
         $response->assertForbidden();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function authorized_user_can_update_specimen_collection()
     {
         $specimenCollection = SpecimenCollection::factory()->create();

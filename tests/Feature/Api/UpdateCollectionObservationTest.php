@@ -14,12 +14,13 @@ use App\User;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
 class UpdateCollectionObservationTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function guest_cannot_update_observation()
     {
         $collectionObservation = $this->createCollectionObservation();
@@ -29,7 +30,7 @@ class UpdateCollectionObservationTest extends TestCase
         $response->assertUnauthorized();
     }
 
-    /** @test */
+    #[Test]
     public function unauthorized_user_cannot_update_observation()
     {
         $collectionObservation = $this->createCollectionObservation();
@@ -40,7 +41,7 @@ class UpdateCollectionObservationTest extends TestCase
         $response->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function curator_can_update_collection_observations()
     {
         $this->seed('RolesTableSeeder');
@@ -162,7 +163,7 @@ class UpdateCollectionObservationTest extends TestCase
         return $collectionObservation;
     }
 
-    /** @test */
+    #[Test]
     public function updating_photos()
     {
         Storage::fake('public');
@@ -204,7 +205,7 @@ class UpdateCollectionObservationTest extends TestCase
         $this->assertTrue($fieldObservation->photos->contains($existingPhoto));
     }
 
-    /** @test */
+    #[Test]
     public function updating_photo_license()
     {
         Storage::fake('public');
@@ -242,7 +243,7 @@ class UpdateCollectionObservationTest extends TestCase
         $this->assertEquals(License::CLOSED, $fieldObservation->photos->first()->license);
     }
 
-    /** @test */
+    #[Test]
     public function either_id_or_path_must_be_given_when_updating_photos()
     {
         Storage::fake('public');

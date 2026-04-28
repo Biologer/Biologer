@@ -5,6 +5,7 @@ namespace Tests\Feature\Api;
 use App\SpecimenCollection;
 use App\User;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class AddSpecimenCollectionTest extends TestCase
@@ -19,9 +20,7 @@ class AddSpecimenCollectionTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_cannot_add_specimen_collection()
     {
         $count = SpecimenCollection::count();
@@ -32,9 +31,7 @@ class AddSpecimenCollectionTest extends TestCase
         SpecimenCollection::assertCount($count);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unauthorized_user_cannot_add_specimen_collections()
     {
         $count = SpecimenCollection::count();
@@ -46,9 +43,7 @@ class AddSpecimenCollectionTest extends TestCase
         SpecimenCollection::assertCount($count);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function authorized_user_can_add_new_specimen_collection()
     {
         $this->seed('RolesTableSeeder');

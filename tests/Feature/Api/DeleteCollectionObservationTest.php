@@ -6,11 +6,12 @@ use App\CollectionObservation;
 use App\Observation;
 use App\User;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class DeleteCollectionObservationTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function guest_cannot_delete_observation()
     {
         $collectionObservation = CollectionObservation::factory()->create();
@@ -22,7 +23,7 @@ class DeleteCollectionObservationTest extends TestCase
         CollectionObservation::assertCount($count);
     }
 
-    /** @test */
+    #[Test]
     public function unauthorized_user_cannot_delete_observation()
     {
         $collectionObservation = CollectionObservation::factory()->create();
@@ -35,7 +36,7 @@ class DeleteCollectionObservationTest extends TestCase
         CollectionObservation::assertCount($count);
     }
 
-    /** @test */
+    #[Test]
     public function curator_or_admin_can_delete_collection_observations()
     {
         $this->seed('RolesTableSeeder');

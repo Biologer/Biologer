@@ -9,11 +9,12 @@ use App\SpecimenCollection;
 use App\Taxon;
 use App\User;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class GetCollectionObservationsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function can_view_collection_observation_details()
     {
         $collectionObservation = $this->createCollectionObservation();
@@ -49,7 +50,7 @@ class GetCollectionObservationsTest extends TestCase
         ], $response->json('data'));
     }
 
-    /** @test */
+    #[Test]
     public function can_list_collection_observations()
     {
         $this->createCollectionObservation();

@@ -14,6 +14,7 @@ use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class AddObservationFromCollectionTest extends TestCase
@@ -71,14 +72,14 @@ class AddObservationFromCollectionTest extends TestCase
         ], $overrides));
     }
 
-    /** @test */
+    #[Test]
     public function guests_cannot_add_observation_from_collection()
     {
         $this->postJson('/api/collection-observations', $this->validParams())
             ->assertUnauthorized();
     }
 
-    /** @test */
+    #[Test]
     public function curator_can_add_observations_from_collections()
     {
         Passport::actingAs($user = User::factory()->create()->assignRoles('curator'));
@@ -176,7 +177,7 @@ class AddObservationFromCollectionTest extends TestCase
         yield 'Collection with given ID must exist' => ['invalid'];
     }
 
-    /** @test */
+    #[Test]
     public function photo_can_be_saved_with_observation()
     {
         config(['biologer.photos_per_observation' => 3]);
