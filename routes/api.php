@@ -4,8 +4,10 @@ use App\Http\Controllers\Api\AdminTaxonExportsController;
 use App\Http\Controllers\Api\AnnouncementsController;
 use App\Http\Controllers\Api\ApprovedFieldObservationsBatchController;
 use App\Http\Controllers\Api\Autocomplete\PublicationsController as AutocompletePublicationsController;
+use App\Http\Controllers\Api\Autocomplete\SpecimenCollectionsController as AutocompleteSpecimenCollectionsController;
 use App\Http\Controllers\Api\Autocomplete\UsersController as AutocompleteUsersController;
 use App\Http\Controllers\Api\CancelledImportsController;
+use App\Http\Controllers\Api\CollectionObservationsController;
 use App\Http\Controllers\Api\Curator\ApprovedObservationExportsController;
 use App\Http\Controllers\Api\Curator\ApprovedObservationsController;
 use App\Http\Controllers\Api\Curator\PendingObservationExportsController;
@@ -39,6 +41,7 @@ use App\Http\Controllers\Api\PublicFieldObservationExportsController;
 use App\Http\Controllers\Api\PublicFieldObservationsController;
 use App\Http\Controllers\Api\ReadAnnouncementsController;
 use App\Http\Controllers\Api\RegisterController;
+use App\Http\Controllers\Api\SpecimenCollectionsController;
 use App\Http\Controllers\Api\TaxaController;
 use App\Http\Controllers\Api\TaxonExportsController;
 use App\Http\Controllers\Api\TaxonomyController;
@@ -399,6 +402,45 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::get('literature-observation-imports/{import}/errors', [LiteratureObservationImportsController::class, 'errors'])
         ->name('api.literature-observation-imports.errors');
 
+    // Specimen Collections
+    Route::get('specimen-collections', [SpecimenCollectionsController::class, 'index'])
+        ->middleware('can:list,App\SpecimenCollection')
+        ->name('api.specimen-collections.index');
+
+    Route::post('specimen-collections', [SpecimenCollectionsController::class, 'store'])
+        ->middleware('can:create,App\SpecimenCollection')
+        ->name('api.specimen-collections.store');
+
+    Route::put('specimen-collections/{specimenCollection}', [SpecimenCollectionsController::class, 'update'])
+        ->middleware('can:update,specimenCollection')
+        ->name('api.specimen-collections.update');
+
+    Route::delete('specimen-collections/{specimenCollection}', [SpecimenCollectionsController::class, 'destroy'])
+        ->middleware('can:delete,specimenCollection')
+        ->name('api.specimen-collections.destroy');
+
+    // Collection Observations
+
+    Route::get('collection-observations', [CollectionObservationsController::class, 'index'])
+        ->middleware('can:list,App\CollectionObservation')
+        ->name('api.collection-observations.index');
+
+    Route::post('collection-observations', [CollectionObservationsController::class, 'store'])
+        ->middleware('can:create,App\CollectionObservation')
+        ->name('api.collection-observations.store');
+
+    Route::get('collection-observations/{collectionObservation}', [CollectionObservationsController::class, 'show'])
+        ->middleware('can:view,collectionObservation')
+        ->name('api.collection-observations.show');
+
+    Route::put('collection-observations/{collectionObservation}', [CollectionObservationsController::class, 'update'])
+        ->middleware('can:update,collectionObservation')
+        ->name('api.collection-observations.update');
+
+    Route::delete('collection-observations/{collectionObservation}', [CollectionObservationsController::class, 'destroy'])
+        ->middleware('can:delete,collectionObservation')
+        ->name('api.collection-observations.destroy');
+
     // My
     Route::prefix('my')->group(function () {
         Route::get('field-observations', [MyFieldObservationsController::class, 'index'])
@@ -463,5 +505,9 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
         Route::get('publications', [AutocompletePublicationsController::class, 'index'])
             ->middleware('role:admin,curator')
             ->name('api.autocomplete.publications.index');
+
+        Route::get('specimen-collections', [AutocompleteSpecimenCollectionsController::class, 'index'])
+            ->middleware('role:admin,curator')
+            ->name('api.autocomplete.specimen-collections.index');
     });
 });

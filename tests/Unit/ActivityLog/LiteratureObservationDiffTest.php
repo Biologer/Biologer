@@ -4,8 +4,8 @@ namespace Tests\Unit\ActivityLog;
 
 use App\ActivityLog\LiteratureObservationDiff;
 use App\LiteratureObservation;
-use App\LiteratureObservationIdentificationValidity;
 use App\Observation;
+use App\ObservationIdentificationValidity;
 use App\Publication;
 use App\Stage;
 use App\Taxon;
@@ -516,11 +516,11 @@ final class LiteratureObservationDiffTest extends TestCase
 
         yield 'Original Identification Validity' => [
             'original_identification_validity',
-            LiteratureObservationIdentificationValidity::INVALID,
-            LiteratureObservationIdentificationValidity::VALID,
+            ObservationIdentificationValidity::INVALID,
+            ObservationIdentificationValidity::VALID,
             [
                 'original_identification_validity' => [
-                    'value' => LiteratureObservationIdentificationValidity::INVALID,
+                    'value' => ObservationIdentificationValidity::INVALID,
                     'label' => 'labels.literature_observations.validity.invalid',
                 ],
             ],

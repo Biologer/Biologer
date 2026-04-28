@@ -3,7 +3,7 @@
 namespace Tests\Feature\Api;
 
 use App\LiteratureObservation;
-use App\LiteratureObservationIdentificationValidity;
+use App\ObservationIdentificationValidity;
 use App\Publication;
 use App\Taxon;
 use App\User;
@@ -21,7 +21,7 @@ final class AddLiteratureObservationTest extends TestCase
             'original_elevation' => '300-500m',
             'original_coordinates' => '20°22\'44",43°21\'35"',
             'original_identification' => 'Testudo hermanii',
-            'original_identification_validity' => LiteratureObservationIdentificationValidity::VALID,
+            'original_identification_validity' => ObservationIdentificationValidity::VALID,
             'other_original_data' => 'Some more information',
             'collecting_start_year' => 1990,
             'collecting_start_month' => 3,
@@ -87,7 +87,7 @@ final class AddLiteratureObservationTest extends TestCase
         $this->assertEquals('300-500m', $literatureObservation->original_elevation);
         $this->assertEquals('20°22\'44",43°21\'35"', $literatureObservation->original_coordinates);
         $this->assertEquals('Testudo hermanii', $literatureObservation->observation->original_identification);
-        $this->assertEquals(LiteratureObservationIdentificationValidity::VALID, $literatureObservation->original_identification_validity);
+        $this->assertEquals(ObservationIdentificationValidity::VALID, $literatureObservation->original_identification_validity);
         $this->assertEquals($taxon->id, $literatureObservation->observation->taxon_id);
         $this->assertEquals(1990, $literatureObservation->observation->year);
         $this->assertEquals(5, $literatureObservation->observation->month);
