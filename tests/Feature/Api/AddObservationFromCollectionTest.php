@@ -195,7 +195,7 @@ class AddObservationFromCollectionTest extends TestCase
 
         $photosCount = Photo::count();
 
-        $response = $this->postJson('/api/field-observations', $this->validParams([
+        $response = $this->postJson('/api/collection-observations', $this->validParams([
             'observer' => 'John Doe',
             'photos' => [
                 [
