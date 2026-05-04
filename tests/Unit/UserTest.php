@@ -3,12 +3,13 @@
 namespace Tests\Unit;
 
 use App\User;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class UserTest extends TestCase
+final class UserTest extends TestCase
 {
-    /** @test */
-    public function full_name_is_concatenation_of_first_and_last_names()
+    #[Test]
+    public function full_name_is_concatenation_of_first_and_last_names(): void
     {
         $user = User::factory()->make([
             'first_name' => 'John',

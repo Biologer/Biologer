@@ -9,12 +9,13 @@ use App\Publication;
 use App\Taxon;
 use App\User;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class GetLiteratureObservationsTest extends TestCase
+final class GetLiteratureObservationsTest extends TestCase
 {
-    /** @test */
-    public function can_view_literature_observation_details()
+    #[Test]
+    public function can_view_literature_observation_details(): void
     {
         $literatureObservation = $this->createLiteratureObservation();
 
@@ -51,8 +52,8 @@ class GetLiteratureObservationsTest extends TestCase
         ], $response->json('data'));
     }
 
-    /** @test */
-    public function can_list_literature_observations()
+    #[Test]
+    public function can_list_literature_observations(): void
     {
         $literatureObservation = $this->createLiteratureObservation();
 

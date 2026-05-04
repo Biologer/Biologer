@@ -227,7 +227,13 @@ class FieldObservationImport extends BaseImport
      */
     protected function makeValidator(array $data)
     {
+        $valid_licences = License::all()->map(fn ($l) => $l->name())->toArray();
+
         return Validator::make($data, [
+            'id' => [
+                'nullable',
+                'numeric',
+            ],
             'taxon' => [
                 'required',
                 Rule::exists('taxa', 'name'),
@@ -263,7 +269,8 @@ class FieldObservationImport extends BaseImport
             'note' => ['nullable', 'string'],
             'original_identification' => ['nullable', 'string'],
             'dataset' => ['nullable', 'string'],
-            'license' => ['nullable', 'string', Rule::in(License::all()->pluck('name'))],
+            #'license' => ['nullable', 'string', Rule::in(License::all()->pluck('name'))],
+            'license' => ['nullable', 'string', Rule::in($valid_licences)],
             'atlas_code' => ['nullable', 'integer', Rule::in(AtlasCode::CODES)],
         ], [
             'year.date_format' => trans('validation.year'),
@@ -606,7 +613,7 @@ class FieldObservationImport extends BaseImport
     protected function getLicense(array $data)
     {
         return ($license = Arr::get($data, 'license'))
-            ? License::findByName($license)->id
+            ? License::findByTranslatedName($license)->id
             : $this->model()->user->settings()->get('data_license');
     }
 

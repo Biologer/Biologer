@@ -2,15 +2,14 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Controllers\Admin\TaxonomyController;
+use App\Services\TaxonomyService;
 use App\Support\Localization;
 use App\Synonym;
 use App\Taxon;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
-class SyncTaxon extends FormRequest
+class SyncTaxon
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -35,10 +34,11 @@ class SyncTaxon extends FormRequest
     }
 
     /**
-     * @param  array $updated_data
-     * @param  Taxon $taxon
-     * @param  array $country_ref
+     * @param array $updated_data
+     * @param Taxon $taxon
+     * @param array $country_ref
      * @return Taxon
+     * @throws \Throwable
      */
     public function updateTaxon(array $updated_data, Taxon $taxon, array $country_ref): Taxon
     {
@@ -102,15 +102,15 @@ class SyncTaxon extends FormRequest
 
             // We are currently not logging any changes in local database.
             // $this->logUpdatedActivity($taxon, $oldData, $new_data['reason']);
-
             return $taxon;
         });
     }
 
     /**
-     * @param  array $new_taxon
-     * @param  array $country_ref
+     * @param array $new_taxon
+     * @param array $country_ref
      * @return Taxon
+     * @throws \Throwable
      */
     public function createTaxon(array $new_taxon, array $country_ref): Taxon
     {
@@ -185,29 +185,31 @@ class SyncTaxon extends FormRequest
     }
 
     /**
-     * @param  array $new_data
-     * @param  array $country_ref
+     * @param array $new_data
+     * @param array $country_ref
      * @return Taxon
+     * @throws \Throwable
      */
     private function createAndGetParent(array $new_data, array $country_ref): Taxon
     {
-        return DB::transaction(function () use ($new_data, $country_ref) {
-            $parent = Taxon::create(array_merge(
+        $parent = DB::transaction(function () use ($new_data, $country_ref) {
+            return Taxon::create(array_merge(
                 array_map('trim', Arr::only($new_data, (['name', 'rank']))),
                 Arr::only($new_data, ([
-                    'fe_id', 'author', 'fe_old_id', 'restricted', 'allochthonous', 'invasive', 'uses_atlas_codes',
+                   'fe_id', 'author', 'fe_old_id', 'restricted', 'allochthonous', 'invasive', 'uses_atlas_codes',
                 ])),
                 Localization::transformTranslations(Arr::only($new_data, ([
-                    'description', 'native_name',
+                   'description', 'native_name',
                 ])))
             ));
-
-            (new TaxonomyController())->syncParent($parent);
-
-            $parent->rebuildAncestryOnDescendants();
-
-            return $parent;
         });
+
+        app(TaxonomyService::class)->syncParent($parent);
+
+        $parent->rebuildAncestryOnDescendants();
+
+        return $parent;
+
     }
 
     /**
@@ -418,7 +420,7 @@ class SyncTaxon extends FormRequest
         $taxon->load('conservationDocuments');
 
         return $oldValue->count() !== $taxon->conservationDocuments->count()
-            || ($oldValue->isNotEmpty() && ! $taxon->conservationDocuments->isNotEmpty()
+            || ($oldValue->isNotEmpty() && $taxon->conservationDocuments->isNotEmpty()
                 && $oldValue->pluck('id')->diff($taxon->conservationDocuments->pluck('id'))->isNotEmpty());
     }
 

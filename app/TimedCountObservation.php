@@ -68,6 +68,8 @@ class TimedCountObservation extends Model implements FlatArrayable
         'latitude' => 'float',
         'longitude' => 'float',
         'geometry' => 'string',
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
 
     /**
@@ -167,6 +169,7 @@ class TimedCountObservation extends Model implements FlatArrayable
             'year' => \App\Filters\FieldObservation\ObservationAttribute::class,
             'month' => \App\Filters\FieldObservation\ObservationAttribute::class,
             'day' => \App\Filters\FieldObservation\ObservationAttribute::class,
+            'updated_after' => \App\Filters\UpdatedAfter::class,
         ];
     }
 

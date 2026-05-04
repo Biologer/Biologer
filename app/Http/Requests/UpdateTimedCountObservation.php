@@ -72,6 +72,9 @@ class UpdateTimedCountObservation extends FormRequest
 
             $changed = TimedCountObservationDiff::changes($timedCountObservation, $oldTimedCountObservation);
 
+            if (! empty($changed)) {
+                $timedCountObservation->touch();
+            }
             $this->logActivity($timedCountObservation, $changed);
 
             $this->notifyCreator($timedCountObservation);

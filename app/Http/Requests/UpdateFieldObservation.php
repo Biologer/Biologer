@@ -114,7 +114,7 @@ class UpdateFieldObservation extends FormRequest
             // updating photo license occurred.
             if (! empty($changed)) {
                 $this->logActivity($fieldObservation, $changed);
-
+                $fieldObservation->touch();
                 $fieldObservation->moveToPending();
             }
 

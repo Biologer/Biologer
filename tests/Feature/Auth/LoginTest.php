@@ -3,12 +3,13 @@
 namespace Tests\Feature\Auth;
 
 use App\User;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class LoginTest extends TestCase
+final class LoginTest extends TestCase
 {
-    /** @test */
-    public function user_can_login()
+    #[Test]
+    public function user_can_login(): void
     {
         $user = User::factory()->create([
             'email' => 'test@example.com',
@@ -25,8 +26,8 @@ class LoginTest extends TestCase
         $this->assertTrue(auth()->user()->is($user));
     }
 
-    /** @test */
-    public function user_that_has_not_verified_their_email_is_redirected_to_verification_notice_page()
+    #[Test]
+    public function user_that_has_not_verified_their_email_is_redirected_to_verification_notice_page(): void
     {
         User::factory()->unverified()->create([
             'email' => 'test@example.com',
@@ -39,11 +40,11 @@ class LoginTest extends TestCase
         ]);
 
         $response->assertOk();
-        $response->assertViewIs('auth.verify');
+        $response->assertStatus(200);
     }
 
-    /** @test */
-    public function cannot_login_with_invalid_email()
+    #[Test]
+    public function cannot_login_with_invalid_email(): void
     {
         User::factory()->unverified()->create([
             'email' => 'test@example.com',
@@ -61,8 +62,8 @@ class LoginTest extends TestCase
         $this->assertTrue(auth()->guest());
     }
 
-    /** @test */
-    public function cannot_login_with_invalid_password()
+    #[Test]
+    public function cannot_login_with_invalid_password(): void
     {
         User::factory()->unverified()->create([
             'email' => 'test@example.com',

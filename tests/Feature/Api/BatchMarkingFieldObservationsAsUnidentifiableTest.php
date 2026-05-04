@@ -8,12 +8,13 @@ use App\Taxon;
 use App\User;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
+final class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -22,8 +23,8 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
         Notification::fake();
     }
 
-    /** @test */
-    public function guest_cannot_mark_field_observation_as_unidentifiable()
+    #[Test]
+    public function guest_cannot_mark_field_observation_as_unidentifiable(): void
     {
         $fieldObservation = ObservationFactory::createUnapprovedFieldObservation([
             'taxon_id' => Taxon::factory(),
@@ -37,8 +38,8 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
         $this->assertFalse($fieldObservation->fresh()->isApproved());
     }
 
-    /** @test */
-    public function authenticated_user_that_curates_the_taxa_of_all_the_field_observation_can_mark_them_as_unapprovable()
+    #[Test]
+    public function authenticated_user_that_curates_the_taxa_of_all_the_field_observation_can_mark_them_as_unapprovable(): void
     {
         $user = User::factory()->create()->assignRoles('curator');
         Passport::actingAs($user);
@@ -65,14 +66,15 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
         });
     }
 
-    /** @test */
-    public function creator_is_notified_when_the_observation_is_marked_as_unidentifiable()
+    #[Test]
+    public function creator_is_notified_when_the_observation_is_marked_as_unidentifiable(): void
     {
         $user = User::factory()->create();
         $curator = User::factory()->create()->assignRoles('curator');
 
         $taxon = Taxon::factory()->create();
         $taxon->curators()->attach($curator);
+
         $fieldObservations = ObservationFactory::createManyUnnapprovedFieldObservations(3, [
             'taxon_id' => $taxon->id,
             'created_by_id' => $user->id,
@@ -84,7 +86,10 @@ class BatchMarkingFieldObservationsAsUnidentifiableTest extends TestCase
             'reason' => 'Testing',
         ])->assertSuccessful();
 
-        Notification::assertTimesSent(3, FieldObservationMarkedUnidentifiable::class);
+        $this->assertCount(
+            3,
+            Notification::sent($user, FieldObservationMarkedUnidentifiable::class)
+        );
 
         $fieldObservations->each(function ($observation) use ($user, $curator) {
             Notification::assertSentTo(

@@ -10,16 +10,16 @@ use App\ObservationType;
 use App\Stage;
 use App\Taxon;
 use App\User;
-use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class DarwinCoreFieldObservationsExportTest extends TestCase
+final class DarwinCoreFieldObservationsExportTest extends TestCase
 {
-    /** @test */
-    public function all_field_observations_are_exported_in_darwin_core_to_a_csv_file()
+    #[Test]
+    public function all_field_observations_are_exported_in_darwin_core_to_a_csv_file(): void
     {
         Carbon::setTestNow(Carbon::now());
         Storage::fake('local');
@@ -70,15 +70,15 @@ class DarwinCoreFieldObservationsExportTest extends TestCase
         $expectedKeyValuePairs = collect($this->csvContent($observation));
 
         $this->assertEquals(
-            EncodingHelper::BOM_UTF8.
+            BOM_UTF8.
             $expectedKeyValuePairs->keys()->implode(',')."\n".
             $expectedKeyValuePairs->implode(',')."\n",
             Storage::disk('local')->get($export->path())
         );
     }
 
-    /** @test */
-    public function field_observations_can_be_without_identification()
+    #[Test]
+    public function field_observations_can_be_without_identification(): void
     {
         Carbon::setTestNow(Carbon::now());
         Storage::fake('local');
@@ -145,15 +145,15 @@ class DarwinCoreFieldObservationsExportTest extends TestCase
         ]));
 
         $this->assertEquals(
-            EncodingHelper::BOM_UTF8.
+            BOM_UTF8.
             $expectedKeyValuePairs->keys()->implode(',')."\n".
             $expectedKeyValuePairs->implode(',')."\n",
             Storage::disk('local')->get($export->path())
         );
     }
 
-    /** @test */
-    public function species_identified_with_identification_history()
+    #[Test]
+    public function species_identified_with_identification_history(): void
     {
         Carbon::setTestNow(Carbon::now());
         Storage::fake('local');
@@ -216,7 +216,7 @@ class DarwinCoreFieldObservationsExportTest extends TestCase
         ]));
 
         $this->assertEquals(
-            EncodingHelper::BOM_UTF8.
+            BOM_UTF8.
             $expectedKeyValuePairs->keys()->implode(',')."\n".
             $expectedKeyValuePairs->implode(',')."\n",
             Storage::disk('local')->get($export->path())

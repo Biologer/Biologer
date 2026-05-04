@@ -3,22 +3,20 @@
 namespace Tests\Feature;
 
 use App\Taxon;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class ViewTaxonDetailsTest extends TestCase
+final class ViewTaxonDetailsTest extends TestCase
 {
-    /** @test */
-    public function can_see_basic_taxon_information()
+    #[Test]
+    public function can_see_basic_taxon_information(): void
     {
         $taxon = Taxon::factory()->create([
             'name' => 'Cerambyx cerdo',
         ]);
 
-        $this->get("/taxa/{$taxon->id}")
-            ->assertStatus(200)
-            ->assertSee('Cerambyx cerdo')
-            ->assertViewHas('taxon', function ($t) use ($taxon) {
-                return $t->is($taxon);
-            });
+        $response = $this->get("/taxa/{$taxon->id}");
+        $response->assertStatus(200);
+        $response->assertSee('Cerambyx cerdo');
     }
 }

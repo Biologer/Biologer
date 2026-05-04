@@ -10,15 +10,15 @@ use App\Observation;
 use App\Publication;
 use App\Taxon;
 use App\User;
-use Box\Spout\Common\Helper\EncodingHelper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class CustomLiteratureObservationsExportTest extends TestCase
+final class CustomLiteratureObservationsExportTest extends TestCase
 {
-    /** @test */
-    public function all_literature_observations_are_exported_to_a_csv_file()
+    #[Test]
+    public function all_literature_observations_are_exported_to_a_csv_file(): void
     {
         Carbon::setTestNow(Carbon::now());
         Storage::fake('local');
@@ -44,7 +44,7 @@ class CustomLiteratureObservationsExportTest extends TestCase
         Storage::disk('local')->assertExists($export->path());
 
         $this->assertEquals(
-            EncodingHelper::BOM_UTF8
+            BOM_UTF8
             .'ID,Taxon,Year,Month,Day,"Elevation (m)","Minimum Elevation (m)",'
             .'"Maximum Elevation (m)",Latitude,Longitude,"MGRS 10k",Location,"Accuracy (m)",'
             .'"Georeferenced By","Georeferenced on Date",Observer,Identifier,Note,Sex,'

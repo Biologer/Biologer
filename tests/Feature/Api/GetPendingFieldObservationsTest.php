@@ -6,13 +6,14 @@ use App\Taxon;
 use App\User;
 use Database\Seeders\RolesTableSeeder;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\ObservationFactory;
 use Tests\TestCase;
 
-class GetPendingFieldObservationsTest extends TestCase
+final class GetPendingFieldObservationsTest extends TestCase
 {
-    /** @test */
-    public function curator_can_get_pending_field_observations_of_taxa_they_curate()
+    #[Test]
+    public function curator_can_get_pending_field_observations_of_taxa_they_curate(): void
     {
         $this->seed(RolesTableSeeder::class);
         $animalia = Taxon::factory()->create(['name' => 'Animalia', 'rank' => 'kingdom']);
@@ -37,8 +38,8 @@ class GetPendingFieldObservationsTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function curator_can_get_pending_field_observations_of_ancestors_of_taxa_they_curate()
+    #[Test]
+    public function curator_can_get_pending_field_observations_of_ancestors_of_taxa_they_curate(): void
     {
         $this->seed(RolesTableSeeder::class);
         $animalia = Taxon::factory()->create(['name' => 'Animalia', 'rank' => 'kingdom']);
@@ -63,8 +64,8 @@ class GetPendingFieldObservationsTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function curator_can_get_pending_field_observations_of_taxa_they_dont_curate()
+    #[Test]
+    public function curator_can_get_pending_field_observations_of_taxa_they_dont_curate(): void
     {
         $this->seed(RolesTableSeeder::class);
         $animalia = Taxon::factory()->create(['name' => 'Animalia', 'rank' => 'kingdom']);

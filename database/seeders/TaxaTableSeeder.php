@@ -6,7 +6,6 @@ use App\Taxon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 
 class TaxaTableSeeder extends Seeder
 {
@@ -17,7 +16,7 @@ class TaxaTableSeeder extends Seeder
      */
     public function run()
     {
-        $file = __DIR__.'/data/'.Str::snake(config('biologer.territory')).'_taxa.sql';
+        $file = __DIR__.'/data/base_taxa.sql';
 
         if (Taxon::count() === 0 && File::exists($file)) {
             $taxa = File::get($file);

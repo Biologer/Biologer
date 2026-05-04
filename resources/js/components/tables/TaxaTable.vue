@@ -86,7 +86,7 @@
     <div v-if="taxonomy">
       <hr>
       <b-message type="is-success" class="has-text-centered">
-        This taxonomic database is connected to <a v-bind:href="taxonomyLink" target="_blank">{{ taxonomyLink }}</a>
+        {{ trans('Taxonomic database is connected to') }} <a v-bind:href="taxonomyLink" target="_blank">{{ taxonomyLink }}</a>
       </b-message>
     </div>
 

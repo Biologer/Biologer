@@ -64,12 +64,17 @@ Route::get('photos/{photo}/public', [PhotosController::class, 'public'])
     ->middleware('signed')
     ->name('photos.public');
 
-Route::prefix(LaravelLocalization::setLocale())->middleware([
-    'localeCookieRedirect',
-    'localizationRedirect',
-    'localeViewPath',
-    'localizationPreferenceUpdate',
-])->group(function () {
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => [
+        \App\Http\Middleware\ClearLocaleOnDefault::class,
+        'localizationRedirect',
+        'localeSessionRedirect',
+        'localeCookieRedirect',
+        'localeViewPath',
+        'localizationPreferenceUpdate',
+    ],
+], function () {
     Route::auth(['verify' => false, 'confirm' => false]);
     Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
     Route::post('email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
@@ -267,10 +272,6 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
                 ->middleware('can:update,user')
                 ->name('users.edit');
 
-            Route::put('users/{user}', [UsersController::class, 'update'])
-                ->middleware('can:update,user')
-                ->name('users.update');
-
             Route::get('view-groups', [ViewGroupsController::class, 'index'])
                 ->middleware('role:admin')
                 ->name('view-groups.index');
@@ -325,16 +326,16 @@ Route::prefix(LaravelLocalization::setLocale())->middleware([
             Route::get('taxonomy', [TaxonomyController::class, 'index'])
                 ->name('taxonomy.index');
 
-            Route::get('taxonomy/check', [TaxonomyController::class, 'check'])
+            Route::post('taxonomy/check', [TaxonomyController::class, 'check'])
                 ->name('taxonomy.check');
 
-            Route::get('taxonomy/connect', [TaxonomyController::class, 'connect'])
+            Route::post('taxonomy/connect', [TaxonomyController::class, 'connect'])
                 ->name('taxonomy.connect');
 
-            Route::get('taxonomy/disconnect', [TaxonomyController::class, 'disconnect'])
+            Route::post('taxonomy/disconnect', [TaxonomyController::class, 'disconnect'])
                 ->name('taxonomy.disconnect');
 
-            Route::get('taxonomy/sync', [TaxonomyController::class, 'syncTaxon'])
+            Route::post('taxonomy/sync', [TaxonomyController::class, 'syncTaxon'])
                 ->name('taxonomy.sync');
         });
     });

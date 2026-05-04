@@ -8,9 +8,10 @@ use App\Publication;
 use App\Taxon;
 use App\User;
 use Laravel\Passport\Passport;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class AddLiteratureObservationTest extends TestCase
+final class AddLiteratureObservationTest extends TestCase
 {
     private function validParams($overrides = [])
     {
@@ -45,16 +46,16 @@ class AddLiteratureObservationTest extends TestCase
         ], $overrides));
     }
 
-    /** @test */
-    public function quest_cannot_submit_literature_observations()
+    #[Test]
+    public function quest_cannot_submit_literature_observations(): void
     {
         $response = $this->postJson('/api/literature-observations', $this->validParams());
 
         $response->assertUnauthorized();
     }
 
-    /** @test */
-    public function regular_authenticated_users_cannot_submit_literature_observations()
+    #[Test]
+    public function regular_authenticated_users_cannot_submit_literature_observations(): void
     {
         Passport::actingAs(User::factory()->create());
 
@@ -63,8 +64,8 @@ class AddLiteratureObservationTest extends TestCase
         $response->assertForbidden();
     }
 
-    /** @test */
-    public function admin_can_submit_literature_observations()
+    #[Test]
+    public function admin_can_submit_literature_observations(): void
     {
         $this->seed('RolesTableSeeder');
         $count = LiteratureObservation::count();
@@ -100,7 +101,6 @@ class AddLiteratureObservationTest extends TestCase
         $this->assertEquals(10, $literatureObservation->observation->accuracy);
         $this->assertEquals(370, $literatureObservation->observation->elevation);
         $this->assertEquals(350, $literatureObservation->minimum_elevation);
-        $this->assertEquals(400, $literatureObservation->maximum_elevation);
         $this->assertEquals(400, $literatureObservation->maximum_elevation);
         $this->assertEquals('Pera Detlić', $literatureObservation->georeferenced_by);
         $this->assertEquals(now()->toDateString(), $literatureObservation->georeferenced_date->toDateString());

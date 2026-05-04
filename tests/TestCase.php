@@ -13,6 +13,33 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication, CustomAssertArraySubset, RefreshDatabase;
 
+    use RefreshDatabase {
+        refreshTestDatabase as traitRefreshTestDatabase;
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutMiddleware([
+            \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
+            \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
+            \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
+            \Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect::class,
+        ]);
+    }
+
+    protected function setUpTraits()
+    {
+        $traits = parent::setUpTraits();
+
+        if (isset($traits[RefreshDatabase::class])) {
+            $this->refreshTestDatabase();
+        }
+
+        return $traits;
+    }
+
     /**
      * Refresh a conventional test database.
      *
@@ -24,7 +51,8 @@ abstract class TestCase extends BaseTestCase
             return $this->refreshMySQLTestDatabase();
         }
 
-        return parent::refreshTestDatabase();
+        //return parent::refreshTestDatabase();
+        return $this->traitRefreshTestDatabase();
     }
 
     private function refreshMySQLTestDatabase()
@@ -33,10 +61,10 @@ abstract class TestCase extends BaseTestCase
             // If there is users table that means we have probably ran the migrations
             // before and can proceed with running the rest instead of importing snapshot.
             if (! Schema::hasTable('users')) {
-                DB::unprepared(file_get_contents(database_path('migrations_2019_08_03.sql')));
+                DB::unprepared(file_get_contents(database_path('migrations_2025_11_23.sql')));
             }
 
-            $this->artisan('migrate');
+            $this->artisan('migrate:fresh');
 
             $this->app[Kernel::class]->setArtisan(null);
 
