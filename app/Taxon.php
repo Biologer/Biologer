@@ -343,6 +343,17 @@ class Taxon extends Model
     }
 
     /**
+     * Scope the query to get only subspecies or taxa of higher ranks.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSubspeciesOrHigher($query)
+    {
+        return $query->where('rank_level', '>=', static::RANKS['subspecies']);
+    }
+
+    /**
      * Scope the query to get only taxa with scientific or native name like the one given.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -483,7 +494,17 @@ class Taxon extends Model
     }
 
     /**
-     * Check if taxon is a species.
+     * Check if taxon is a subspecies.
+     *
+     * @return bool
+     */
+    public function isSubspecies()
+    {
+        return $this->rank === 'subspecies';
+    }
+
+    /**
+     * Check if taxon is like a species.
      *
      * @return bool
      */
