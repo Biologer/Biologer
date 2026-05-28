@@ -8,7 +8,7 @@
             redirect-url="{{ route('admin.literature-observations.index') }}"
             cancel-url="{{ route('admin.literature-observations.index') }}"
             :sexes="{{ \App\Sex::options() }}"
-            :validity-options="{{ \App\LiteratureObservationIdentificationValidity::options() }}"
+            :validity-options="{{ \App\ObservationIdentificationValidity::options() }}"
             should-confirm-cancel
             submit-more
             submit-more-with-same-taxon

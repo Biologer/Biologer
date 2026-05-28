@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\LiteratureObservation;
-use App\LiteratureObservationIdentificationValidity;
+use App\ObservationIdentificationValidity;
 use App\Publication;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -29,7 +29,7 @@ class LiteratureObservationFactory extends Factory
             'original_elevation' => '300-500m',
             'original_coordinates' => '21.123123123,43.12312312',
             'original_identification_validity' => $this->faker->randomElement(
-                LiteratureObservationIdentificationValidity::toArray()
+                ObservationIdentificationValidity::toArray()
             ),
             'georeferenced_by' => $this->faker->name(),
             'georeferenced_date' => $this->faker->date('Y-m-d'),
