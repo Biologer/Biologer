@@ -16,6 +16,8 @@ class AuthServiceProvider extends ServiceProvider
         \App\ConservationLegislation::class => \App\Policies\ConservationLegislationPolicy::class,
         \App\FieldObservation::class => \App\Policies\FieldObservationPolicy::class,
         \App\LiteratureObservation::class => \App\Policies\LiteratureObservationPolicy::class,
+        \App\CollectionObservation::class => \App\Policies\CollectionObservationPolicy::class,
+        \App\SpecimenCollection::class => \App\Policies\SpecimenCollectionPolicy::class,
         \App\Publication::class => \App\Policies\PublicationPolicy::class,
         \App\PublicationAttachment::class => \App\Policies\PublicationAttachmentPolicy::class,
         \App\RedList::class => \App\Policies\RedListPolicy::class,

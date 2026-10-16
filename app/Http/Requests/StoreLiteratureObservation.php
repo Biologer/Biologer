@@ -4,8 +4,7 @@ namespace App\Http\Requests;
 
 use App\License;
 use App\LiteratureObservation;
-use App\LiteratureObservationIdentificationValidity;
-use App\Observation;
+use App\ObservationIdentificationValidity;
 use App\Rules\Day;
 use App\Rules\Decimal;
 use App\Rules\Month;
@@ -36,7 +35,7 @@ class StoreLiteratureObservation extends FormRequest
     public function rules()
     {
         return [
-            'taxon_id' => ['required', 'exists:taxa,id'],
+            'taxon_id' => ['required', Rule::exists('taxa', 'id')],
             'year' => ['bail', 'nullable', 'date_format:Y', 'before_or_equal:now'],
             'month' => [
                 'bail', 'nullable', 'numeric', new Month($this->input('year')),
@@ -53,7 +52,6 @@ class StoreLiteratureObservation extends FormRequest
             'stage_id' => ['nullable', Rule::in(Stage::pluck('id'))],
             'sex' => ['nullable', Rule::in(Sex::options()->keys())],
             'number' => ['nullable', 'integer', 'min:1'],
-            'photos' => ['nullable', 'array', 'max:'.config('biologer.photos_per_observation')],
             'time' => ['nullable', 'date_format:H:i'],
             'project' => ['nullable', 'string', 'max:191'],
             'found_on' => ['nullable', 'string', 'max:191'],
@@ -69,17 +67,17 @@ class StoreLiteratureObservation extends FormRequest
             'maximum_elevation' => [
                 'nullable', 'integer', 'max:10000', 'gte:minimum_elevation', 'gte:elevation',
             ],
-            'publication_id' => ['required', 'exists:publications,id'],
+            'publication_id' => ['required', Rule::exists('publications', 'id')],
             'is_original_data' => ['required', 'bool'],
             'cited_publication_id' => [
-                'required_if:is_original_data,false', 'nullable', 'exists:publications,id',
+                'required_if:is_original_data,false', 'nullable', Rule::exists('publications', 'id'),
             ],
             'original_date' => ['nullable', 'string', 'max:255'],
             'original_locality' => ['nullable', 'string', 'max:255'],
             'original_elevation' => ['nullable', 'string', 'max:255'],
             'original_coordinates' => ['nullable', 'string', 'max:255'],
             'original_identification' => ['required', 'string', 'max:255'],
-            'original_identification_validity' => ['required', Rule::in(LiteratureObservationIdentificationValidity::values())],
+            'original_identification_validity' => ['required', Rule::in(ObservationIdentificationValidity::values())],
             'other_original_data' => ['nullable', 'string'],
             'collecting_start_year' => ['nullable', 'integer'],
             'collecting_start_month' => ['nullable', 'integer', 'min:1', 'max:12'],

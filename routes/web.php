@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\AboutPagesController;
 use App\Http\Controllers\Admin\AnnouncementsController as AdminAnnouncementsController;
+use App\Http\Controllers\Admin\CollectionObservationsController;
 use App\Http\Controllers\Admin\FieldObservationsController as AdminFieldObservationsController;
 use App\Http\Controllers\Admin\LiteratureObservationsController;
 use App\Http\Controllers\Admin\LiteratureObservationsImportController;
 use App\Http\Controllers\Admin\PublicationsController;
+use App\Http\Controllers\Admin\SpecimenCollectionsController;
 use App\Http\Controllers\Admin\TaxaController as AdminTaxaController;
 use App\Http\Controllers\Admin\TaxonomyController;
 use App\Http\Controllers\Admin\UsersController;
@@ -337,6 +339,30 @@ Route::group([
 
             Route::post('taxonomy/sync', [TaxonomyController::class, 'syncTaxon'])
                 ->name('taxonomy.sync');
+
+            Route::get('collection-observations', [CollectionObservationsController::class, 'index'])
+                ->name('collection-observations.index');
+
+            Route::get('collection-observations/new', [CollectionObservationsController::class, 'create'])
+                ->name('collection-observations.create');
+
+            Route::get('collection-observations/{collectionObservation}/edit', [CollectionObservationsController::class, 'edit'])
+                ->name('collection-observations.edit');
+
+            Route::get('collection-observations/{collectionObservation}', [CollectionObservationsController::class, 'show'])
+                ->name('collection-observations.show');
+
+            Route::get('specimen-collections', [SpecimenCollectionsController::class, 'index'])
+                ->middleware('can:list,App\SpecimenCollection')
+                ->name('specimen-collections.index');
+
+            Route::get('specimen-collections/new', [SpecimenCollectionsController::class, 'create'])
+                ->middleware('can:create,App\SpecimenCollection')
+                ->name('specimen-collections.create');
+
+            Route::get('specimen-collections/{specimenCollection}/edit', [SpecimenCollectionsController::class, 'edit'])
+                ->middleware('can:update,specimenCollection')
+                ->name('specimen-collections.edit');
         });
     });
 });

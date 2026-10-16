@@ -17,3 +17,4 @@ yarn-error.log
 .phpunit.result.cache
 queue.pid
 clearcache.sh
+/build/logs/
