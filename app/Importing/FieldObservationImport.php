@@ -67,11 +67,6 @@ class FieldObservationImport extends BaseImport
     {
         return collect([
             [
-                'label' => trans('labels.field_observations.id'),
-                'value' => 'id',
-                'required' => false,
-            ],
-            [
                 'label' => trans('labels.field_observations.taxon'),
                 'value' => 'taxon',
                 'required' => true,
@@ -618,7 +613,7 @@ class FieldObservationImport extends BaseImport
     protected function getLicense(array $data)
     {
         return ($license = Arr::get($data, 'license'))
-            ? License::findByName($license)->id
+            ? License::findByTranslatedName($license)->id
             : $this->model()->user->settings()->get('data_license');
     }
 

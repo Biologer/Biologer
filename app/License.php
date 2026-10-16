@@ -214,6 +214,17 @@ class License implements Arrayable
     }
 
     /**
+     * Find license by its translated name.
+     *
+     * @param  string  $name
+     * @return self|null
+     */
+    public static function findByTranslatedName($name)
+    {
+        return self::all()->first(fn ($license) => $license->name() === $name);
+    }
+
+    /**
      * Get name translation.
      *
      * @return string
