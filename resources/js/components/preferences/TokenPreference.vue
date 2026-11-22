@@ -3,6 +3,8 @@
     {{ trans("User API Tokens allow you to authenticate API requests. You can generate a token to use with your applications or scripts.") }}
     <hr>
 
+    {{tokens}}
+
 
 
     <div v-if="isRevoked" class="block">
@@ -55,12 +57,13 @@ export default {
       token: '',
       token_id: '',
       reason: '',
+      localTokens: [...this.tokens],
     };
   },
 
   computed: {
     isRevoked() {
-      return !this.token_id || this.token_id === '';
+      return !this.lastValidToken;
     },
 
     existingToken() {
@@ -68,30 +71,57 @@ export default {
     },
 
     lastValidToken() {
-      const validTokens = this.tokens.filter(token => !token.revoked);
-      return validTokens.length ? validTokens[validTokens.length - 1] : null;
+      const now = new Date();
+
+      const validTokens = this.localTokens.filter(token =>
+        !token.revoked &&
+        new Date(token.expires_at).getTime() > now
+      );
+
+      return validTokens.length
+        ? validTokens[validTokens.length - 1]
+        : null;
     }
   },
 
   watch: {
-    lastValidToken(newToken) {
-      this.token = newToken ? newToken.token : '';
-      this.token_id = newToken ? newToken.id : '';
+    tokens: {
+      immediate: true,
+      handler(newTokens) {
+        this.localTokens = [...newTokens];
+      }
+    },
+
+    lastValidToken: {
+      immediate: true,
+      handler(newToken) {
+        this.token = newToken ? newToken.token || '' : '';
+        this.token_id = newToken ? newToken.id : '';
+      }
     }
   },
 
   methods: {
     async generateToken() {
       try {
-        const response = await axios.post(route(this.generateRoute), { name: this.reason });
-        if (response.data.message) {
-          this.$buefy.toast.open(response.data.message);
-        } else {
-          this.token = response.data.token;
-          this.token_id = response.data.id;
-          this.$emit('last-valid-token', [...this.tokens, response.data.token]);
-          this.$buefy.toast.open(this.trans(`API token generated!`));
-        }
+        const response = await axios.post(
+          route(this.generateRoute),
+          { name: this.reason }
+        );
+
+        const newToken = {
+          id: response.data.id,
+          token: response.data.token,
+          revoked: false,
+          expires_at: response.data.expires_at,
+        };
+
+        this.localTokens = [...this.localTokens, newToken];
+
+        this.$emit('last-valid-token', this.localTokens);
+
+        this.$buefy.toast.open(this.trans('API token generated!'));
+
       } catch (error) {
         console.error(this.trans("Error generating token:", error));
       }
@@ -99,11 +129,21 @@ export default {
 
     async revokeToken() {
       try {
-        await axios.post(route(this.revokeRoute), { token_id: this.token_id });
-        this.$emit('last-valid-token', this.tokens.filter(t => t.id !== this.token_id));
+        await axios.post(route(this.revokeRoute), {
+          token_id: this.token_id
+        });
+
+        this.localTokens = this.localTokens.filter(
+          token => token.id !== this.token_id
+        );
+
         this.token = '';
         this.token_id = '';
-        this.$buefy.toast.open(this.trans(`API Token revoked!`));
+
+        this.$emit('last-valid-token', this.localTokens);
+
+        this.$buefy.toast.open(this.trans('API Token revoked!'));
+
       } catch (error) {
         console.error(this.trans("Error revoking token:"), error);
       }

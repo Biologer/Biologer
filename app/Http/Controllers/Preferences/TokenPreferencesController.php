@@ -31,21 +31,30 @@ class TokenPreferencesController
     {
         $user = $request->user();
 
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|min:10|max:255',
         ]);
 
-        $existingToken = $user->tokens()->where('revoked', false)->whereNotNull('name')->first();
+
+        $existingToken = $user->tokens()
+            ->where('revoked', false)
+            ->whereNotNull('name')
+            ->where('expires_at', '>', now())
+            ->first();
 
         if ($existingToken) {
-            return response()->json(['message' => 'You already have a valid token.'], 400);
+            return response()->json([
+                'message' => 'You already have a valid token.',
+            ], 400);
         }
 
-        $token = $user->createToken($request->input('name'))->accessToken;
+        $tokenResult = $user->createToken($validated['name']);
 
-        $tokenId = $user->tokens()->where('revoked', false)->latest()->first()->id;
-
-        return response()->json(['token' => $token, 'id' => $tokenId]);
+        return response()->json([
+            'token' => $tokenResult->accessToken,
+            'id' => $tokenResult->token->id,
+            'expires_at' => $tokenResult->token->expires_at,
+        ]);
     }
 
     /**

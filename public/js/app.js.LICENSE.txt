@@ -1,11 +1,4 @@
 /*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <http://feross.org>
- * @license  MIT
- */
-
-/*!
  * Vue-Lazyload.js v1.3.5
  * (c) 2023 Awe <hilongjw@gmail.com>
  * Released under the MIT License.
@@ -17,9 +10,7 @@
  * Released under the MIT License.
  */
 
-/*! Axios v1.14.0 Copyright (c) 2026 Matt Zabriskie and contributors */
-
-/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
+/*! Axios v1.21.1 Copyright (c) 2026 Matt Zabriskie and contributors */
 
 /**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
