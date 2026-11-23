@@ -44,6 +44,7 @@ return [
     'timed_count_observations' => 'Vremenska brojanja',
     'observation_details' => 'Detalji nalaza',
     'all_field_observations' => 'Svi terenski nalazi',
+    'all_timed_count_observations' => 'Sva vremenska brojanja',
     'public_field_observations' => 'Javni terenski nalazi',
     'field_observations_import' => 'Uvoz terenskih nalaza',
     'import' => 'Uvoz',

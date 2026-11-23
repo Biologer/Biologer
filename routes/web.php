@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\LiteratureObservationsImportController;
 use App\Http\Controllers\Admin\PublicationsController;
 use App\Http\Controllers\Admin\TaxaController as AdminTaxaController;
 use App\Http\Controllers\Admin\TaxonomyController;
+use App\Http\Controllers\Admin\TimedCountObservationsController as AdminTimedCountObservationsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ViewGroupsController;
 use App\Http\Controllers\AnnouncementsController;
@@ -337,6 +338,18 @@ Route::group([
 
             Route::post('taxonomy/sync', [TaxonomyController::class, 'syncTaxon'])
                 ->name('taxonomy.sync');
+
+            Route::get('timed-count-observations', [AdminTimedCountObservationsController::class, 'index'])
+                ->middleware('role:admin')
+                ->name('timed-count-observations.index');
+
+            Route::get('timed-count-observations/{timedCountObservation}', [AdminTimedCountObservationsController::class, 'show'])
+                ->middleware('role:admin')
+                ->name('timed-count-observations.show');
+
+            Route::get('timed-counts/{timedCountObservation}/field-observations', [AdminTimedCountObservationsController::class, 'fieldObservations'])
+                ->middleware('role:admin')
+                ->name('timed-counts.field-observations');
         });
     });
 });

@@ -170,6 +170,7 @@ class TimedCountObservation extends Model implements FlatArrayable
             'month' => \App\Filters\FieldObservation\ObservationAttribute::class,
             'day' => \App\Filters\FieldObservation\ObservationAttribute::class,
             'updated_after' => \App\Filters\UpdatedAfter::class,
+            'observer' => \App\Filters\FieldObservation\ObservationAttributeLike::class,
         ];
     }
 
@@ -202,6 +203,7 @@ class TimedCountObservation extends Model implements FlatArrayable
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'activity' => $this->activity,
+            'observer' => $this->observer,
         ];
     }
 
@@ -234,6 +236,7 @@ class TimedCountObservation extends Model implements FlatArrayable
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'activity' => $this->activity,
+            'observer' => $this->observer,
         ];
     }
 

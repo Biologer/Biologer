@@ -91,6 +91,10 @@ class ViewServiceProvider extends ServiceProvider
                             auth()->user()->hasRole('admin'),
                             'admin.field-observations.index',
                             trans('navigation.all_field_observations')
+                        )->routeIf(
+                            auth()->user()->hasRole('admin'),
+                            'admin.timed-count-observations.index',
+                            trans('navigation.all_timed_count_observations')
                         )->route(
                             'admin.literature-observations.index',
                             trans('navigation.literature_observations')

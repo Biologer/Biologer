@@ -14,16 +14,15 @@ class TimedCountObservationPolicy
      * Determine whether the user can view the fieldObservation.
      *
      * @param  \App\User  $user
-     * @param  \App\TimedCountObservation  $timedCountObservation
      * @return mixed
      */
-    public function view(User $user, TimedCountObservation $timedCountObservation)
+    public function view(User $user)
     {
         return $user->hasAnyRole(['admin', 'curator']);
     }
 
     /**
-     * Determine whether the user can list the field observation.
+     * Determine whether the user can list the timed count observation.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -34,7 +33,7 @@ class TimedCountObservationPolicy
     }
 
     /**
-     * Determine whether the user can create field observation.
+     * Determine whether the user can create timed count observation.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -45,7 +44,7 @@ class TimedCountObservationPolicy
     }
 
     /**
-     * Determine whether the user can update the field observation.
+     * Determine whether the user can update the timed count observation.
      *
      * @param  \App\User  $user
      * @param  \App\TimedCountObservation  $timedCountObservation
@@ -59,7 +58,7 @@ class TimedCountObservationPolicy
     }
 
     /**
-     * Determine whether the user can delete the field observation.
+     * Determine whether the user can delete the timed count observation.
      *
      * @param  \App\User  $user
      * @param  \App\TimedCountObservation  $timedCountObservation
@@ -68,6 +67,18 @@ class TimedCountObservationPolicy
     public function delete(User $user, TimedCountObservation $timedCountObservation)
     {
         return $timedCountObservation->isCreatedBy($user) || $user->hasRole('admin');
+    }
+
+    /**
+     * Check if the user is curator for the observed timed count.
+     *
+     * @param  \App\User  $user
+     * @param  \App\TimedCountObservation  $timedCountObservation
+     * @return bool
+     */
+    protected function isCurator(User $user, TimedCountObservation $timedCountObservation)
+    {
+        return $user->hasRole('curator') && $timedCountObservation->isCreatedBy($user);
     }
 
 }
