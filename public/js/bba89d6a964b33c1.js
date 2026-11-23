@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[801],{1801:(e,n,s)=>{s.r(n),s.d(n,{default:()=>l});const t={name:"nzTokenExpired"};const l=(0,s(1900).Z)(t,function(){var e=this,n=e._self._c;return n("div",{staticClass:"block"},[n("h2",[n("strong",[e._v(e._s(e.trans("Your Token has expired. Please generate a new one.")))])])])},[],!1,null,null,null).exports}}]);
+//# sourceMappingURL=bba89d6a964b33c1.js.map

@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[305],{4501:(e,n,s)=>{s.r(n),s.d(n,{default:()=>o});const t={name:"nzTokenRevoked"};const o=(0,s(1900).Z)(t,function(){var e=this,n=e._self._c;return n("div",{staticClass:"block"},[n("h2",[n("strong",[e._v(e._s(e.trans("Your token has been revoked. Generate a new one to continue.")))])])])},[],!1,null,null,null).exports}}]);
+//# sourceMappingURL=16d534b832e273a4.js.map

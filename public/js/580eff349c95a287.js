@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[5],{8005:(n,s,e)=>{e.r(s),e.d(s,{default:()=>l});const t={name:"nzTokenNone"};const l=(0,e(1900).Z)(t,function(){var n=this,s=n._self._c;return s("div",{staticClass:"block"},[s("h2",[s("strong",[n._v(n._s(n.trans("Generate Access Token")))])])])},[],!1,null,null,null).exports}}]);
+//# sourceMappingURL=580eff349c95a287.js.map
