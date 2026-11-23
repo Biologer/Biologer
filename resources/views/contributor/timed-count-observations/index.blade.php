@@ -9,6 +9,12 @@
             empty="{{ __('No data...') }}"
             show-activity-log
             show-observer
+            markable-as-unidentifiable
+            mark-as-unidentifiable-route="api.unidentifiable-field-observations-batch.store"
+            movable-to-pending
+            move-to-pending-route="api.pending-field-observations-batch.store"
+            approvable
+            approve-route="api.approved-field-observations-batch.store"
         ></nz-timed-count-observations-table>
     </div>
 @endsection

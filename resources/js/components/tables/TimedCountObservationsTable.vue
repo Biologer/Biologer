@@ -51,6 +51,15 @@
         </template>
       </b-table-column>
 
+      <b-table-column field="observer" :label="trans('labels.field_observations.observer')" sortable>
+        <template #default="{ row }">
+          {{ row.observer }}
+        </template>
+        <template #header="{ column }">
+          <nz-sortable-column-header :column="column" :sort="{ field: sortField, order: sortOrder }" />
+        </template>
+      </b-table-column>
+
       <b-table-column field="year" :label="trans('labels.field_observations.year')" numeric sortable>
         <template #default="{ row }">
           {{ row.year }}
