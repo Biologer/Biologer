@@ -16,7 +16,17 @@ class TokenPreferencesController
     {
 
         return view('preferences.token', [
-            'tokens' => $request->user()->tokens()->whereNotNull('name')->get(),
+            'tokens' => $request->user()->tokens()
+                ->whereNotNull('name')
+                ->orderByDesc('created_at')
+                ->get()
+                ->map(fn ($t) => [
+                    'id' => $t->id,
+                    'name' => $t->name,
+                    'revoked' => (bool) $t->revoked,
+                    'expires_at' => optional($t->expires_at)->toIso8601String(),
+                    'created_at' => optional($t->created_at)->toIso8601String(),
+                ]),
         ]);
     }
 

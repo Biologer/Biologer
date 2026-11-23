@@ -39,6 +39,10 @@ Vue.component('NzSlider', () => import(/* webpackChunkName: "public" */ './compo
 Vue.component('NzGroupTaxaSearchButton', () => import(/* webpackChunkName: "public" */ './components/GroupTaxaSearchButton'))
 
 Vue.component('NzTokenPreference', () => import('./components/preferences/TokenPreference.vue'))
+Vue.component('NzTokenActive', () => import('./components/preferences/token/NzTokenActive.vue'))
+Vue.component('NzTokenNone', () => import('./components/preferences/token/NzTokenNone.vue'))
+Vue.component('NzTokenRevoked', () => import('./components/preferences/token/NzTokenRevoked.vue'))
+Vue.component('NzTokenExpired', () => import('./components/preferences/token/NzTokenExpired.vue'))
 
 Vue.component('NzTaxaTable', () => import('./components/tables/TaxaTable'))
 Vue.component('NzUsersTable', () => import('./components/tables/UsersTable'))
