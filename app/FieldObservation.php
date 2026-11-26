@@ -229,7 +229,6 @@ class FieldObservation extends Model implements FlatArrayable
     public function scopeApproved($query)
     {
         return $query
-            ->isFieldObservation()
             ->whereHas('observation', function ($q) {
                 return $q->approved();
             });
